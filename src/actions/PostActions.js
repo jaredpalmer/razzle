@@ -1,12 +1,12 @@
 import {
-  POSTLIST_LOADING,
+  POSTLIST_REQUEST,
   POSTLIST_FAILURE,
   POSTLIST_SUCCESS,
 } from '../constants';
 
-export function postListLoading(isLoading) {
+export function postListRequest(isLoading) {
   return {
-    type: POSTLIST_LOADING,
+    type: POSTLIST_REQUEST,
     isLoading: isLoading,
   };
 }
@@ -28,10 +28,9 @@ export function postListFailure(error) {
 
 export function fetchPostList() {
   return function (dispatch, getState) {
-    dispatch(postListLoading(true));
+    dispatch(postListRequest(true));
     return http.get('/api/v0/posts', { subject, preheader, date, meta, elements })
       .then(function (result) {
-        dispatch(postListLoading(false));
         return result.html;
       })
       .then(function (jsonResult) {

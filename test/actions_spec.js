@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import * as actions from '../src/actions/PostActions';
 import * as types from '../src/constants';
+
 const fakeDB = [
   {
     id: 'abcd190d',
@@ -21,19 +22,20 @@ const fakeDB = [
     content: 'Lorem Khaled Ipsum is a major key to success. The weather is amazing, walk with me through the pathway of more success. Take this journey with me, Lion! We don’t see them, we will never see them. Find peace, life is like a water fall, you’ve gotta flow. Wraith talk. You see the hedges, how I got it shaped up? It’s important to shape up your hedges, it’s like getting a haircut, stay fresh. A major key, never panic. Don’t panic, when it gets crazy and rough, don’t panic, stay calm.',
   },
 ];
+
 describe('ACTIONS', () => {
 
   describe('PostList Actions', () => {
 
-    it('should create an action to say that PostList is loading', () => {
+    it('should create POSTLIST_REQUEST', () => {
       const expectedAction = {
-      type: types.POSTLIST_LOADING,
-      isLoading: true,
-    };
-      expect(actions.postListLoading(true)).to.deep.equal(expectedAction);
+        type: types.POSTLIST_REQUEST,
+        isLoading: true,
+      };
+      expect(actions.postListRequest(true)).to.deep.equal(expectedAction);
     });
 
-    it('should create an action that describes PostList successfully loaded', () => {
+    it('should create POSTLIST_SUCCESS', () => {
       const expectedAction = {
         type: types.POSTLIST_SUCCESS,
         data: fakeDB,
@@ -42,7 +44,7 @@ describe('ACTIONS', () => {
       expect(actions.postListSuccess(fakeDB)).to.deep.equal(expectedAction);
     });
 
-    it('should create an action that describes PostList failed request', () => {
+    it('should create POSTLIST_FAILURE', () => {
       const e = {
         error: 'Invalid Request',
         message: 'Something went wrong',
