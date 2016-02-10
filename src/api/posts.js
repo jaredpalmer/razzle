@@ -22,8 +22,9 @@ const fakeDB = [
   },
 ];
 
-router.get('/', (res, req) => {
-  res.status(200).json(JSON.stringify(fakeDB));
+router.get('/', (req, res) => {
+  res.statusCode = 200;
+  res.json(fakeDB);
 });
 
-export default router;
+module.exports = router;

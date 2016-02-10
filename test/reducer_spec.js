@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as actions from '../src/actions/PostActions';
 import * as types from '../src/constants';
 import update from 'react/lib/update';
+import posts from '../src/reducers';
 
 const fakeDB = [
   {
@@ -23,28 +24,6 @@ const fakeDB = [
     content: 'Lorem Khaled Ipsum is a major key to success. The weather is amazing, walk with me through the pathway of more success. Take this journey with me, Lion! We don’t see them, we will never see them. Find peace, life is like a water fall, you’ve gotta flow. Wraith talk. You see the hedges, how I got it shaped up? It’s important to shape up your hedges, it’s like getting a haircut, stay fresh. A major key, never panic. Don’t panic, when it gets crazy and rough, don’t panic, stay calm.',
   },
 ];
-
-function posts(state = {
-  lastFetched: null,
-  isLoading: false,
-  error: null,
-  data: [],
-}, action) {
-  switch (action.type) {
-    case types.POSTLIST_REQUEST:
-      return update(state, { isLoading: { $set: action.isLoading } });
-    case types.POSTLIST_SUCCESS:
-      return update(state, {
-          data: { $set: action.data },
-          lastFetched: { $set: action.lastFetched },
-          isLoading: { $set: false },
-        });
-    case types.POSTLIST_FAILURE:
-      return update(state, { error: { $set: action.error } });
-    default:
-      return state;
-  }
-}
 
 describe('REDUCERS', () => {
 
