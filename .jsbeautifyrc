@@ -1,0 +1,44 @@
+{
+  "html": {
+    "allowed_file_extensions": [html", "xml", "svg"],
+    "brace_style": "collapse",
+    "end_with_newline": false,
+    "indent_char": " ",
+    "indent_handlebars": false,
+    "indent_inner_html": false,
+    "indent_scripts": "keep",
+    "indent_size": 2,
+    "max_preserve_newlines": 0,
+    "preserve_newlines": true,
+    "wrap_line_length": 0
+  },
+  "css": {
+    "allowed_file_extensions": ["css", "scss", "sass", "less", "styl"],
+    "end_with_newline": false,
+    "indent_char": " ",r
+    "indent_size": 2,
+    "newline_between_rules": true,
+    "selector_separator": " ",
+    "selector_separator_newline": true
+  },
+  "js": {
+    "allowed_file_extensions": ["js", "json"],
+    "brace_style": "collapse",
+    "break_chained_methods": false,
+    "indent_char": " ",
+    "indent_level": 0,
+    "indent_size": 2,
+    "indent_with_tabs": false,
+    "keep_array_indentation": false,
+    "keep_function_indentation": false,
+    "max_preserve_newlines": 0,
+    "preserve_newlines": true,
+    "space_after_anon_function": false,
+    "space_before_conditional": true,
+    "space_in_empty_paren": false,
+    "space_in_paren": false,
+    "unescape_strings": false,
+    "wrap_line_length": 0,
+    "jslint_happy": true
+  }
+}
