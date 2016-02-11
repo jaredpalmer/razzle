@@ -36,6 +36,7 @@ server.use(cookieParser());
 server.use(morgan('dev'));
 
 server.use('/api/v0/posts', require('./api/posts'));
+server.use('/api/v0/post', require('./api/post'));
 
 const redial = (path) => new Promise((resolve, reject) => {
   // Set up Redux (note: this API requires redux@>=3.1.0):
