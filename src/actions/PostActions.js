@@ -6,6 +6,12 @@ import {
 } from '../constants';
 import axios from 'axios';
 
+export function invalidate() {
+  return {
+    type: INVALIDATE_POST,
+  };
+}
+
 function shouldFetchPost(state) {
   if (state.currentPost.isLoading) {
     return false;
@@ -14,11 +20,7 @@ function shouldFetchPost(state) {
   }
 }
 
-export function invalidate() {
-  return {
-    type: INVALIDATE_POST,
-  };
-}
+
 
 export function loadPost(slug) {
   return {

@@ -1,8 +1,10 @@
 import { expect } from 'chai';
-import * as actions from '../src/actions/PostActions';
+import * as PostActions from '../src/actions/PostActions';
+import * as PostListActions from '../src/actions/PostListActions';
 import * as types from '../src/constants';
 import update from 'react/lib/update';
-import posts from '../src/reducers';
+import posts from '../src/reducers/posts';
+import currentPost from '../src/reducers/currentPost';
 
 // Remove this
 import fakeDB from '../src/fakeDB.js';
@@ -17,7 +19,7 @@ describe('REDUCERS', () => {
       expect(nextState).to.deep.equal(initialState);
     });
 
-    it('should handle FETCH_POSTLIST_REQUEST', () => {
+    it('should handle LOAD_POSTS_REQUEST', () => {
       const initialState = {
         lastFetched: null,
         isLoading: false,
