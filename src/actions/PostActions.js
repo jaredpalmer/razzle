@@ -1,45 +1,37 @@
 import {
-  FETCH_POSTLIST_REQUEST,
-  FETCH_POSTLIST_FAILURE,
-  FETCH_POSTLIST_SUCCESS,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
+  INVALIDATE_POST
 } from '../constants';
 import axios from 'axios';
 
-export function postListRequest(isLoading) {
+function shouldFetchPost(state) {
+  if (state.currentPost.isLoading) {
+    return false;
+  } else {
+    return state.currentPost.didInvalidate;
+  }
+}
+
+export function invalidate() {
   return {
-    type: FETCH_POSTLIST_REQUEST,
-    isLoading: isLoading,
+    type: INVALIDATE_POST,
   };
 }
 
-export function postListSuccess(data) {
+export function loadPost(slug) {
   return {
-    type: FETCH_POSTLIST_SUCCESS,
-    lastFetched: new Date(),
-    data,
-  };
-}
+    // Types of actions to emit before and after
+    types: ['LOAD_POST_REQUEST', 'LOAD_POST_SUCCESS', 'LOAD_POST_FAILURE'],
 
-export function postListFailure(error) {
-  return {
-    type: FETCH_POSTLIST_FAILURE,
-    error,
-  };
-}
+    // Check the cache (optional):
+    shouldCallAPI: (state) => shouldFetchPost(state),
 
-export function fetch() {
-  return function (dispatch, getState) {
-    dispatch(postListRequest(true));
-    return axios.get('http://localhost:5000/api/v0/posts')
-      .then(function (result) {
-        console.log(result.data);
-        return result.data;
-      })
-      .then(function (jsonResult) {
-        dispatch(postListSuccess(jsonResult));
-      })
-      .catch(function (err) {
-        dispatch(postListFailure(err));
-      });
+    // Perform the fetching:
+    callAPI: () => axios.get(`http://localhost:5000/api/v0/post/${slug}`),
+
+    // Arguments to inject in begin/end actions
+    payload: { slug },
   };
 }

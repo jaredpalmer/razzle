@@ -18,6 +18,7 @@ import { RoutingContext, match } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import {callAPIMiddleware} from './middleware/callAPIMiddleware';
 
 // Your app's reducer and routes:
 import reducer from './reducers';
@@ -42,7 +43,7 @@ const redial = (path) => new Promise((resolve, reject) => {
   // Set up Redux (note: this API requires redux@>=3.1.0):
   const store = createStore(
     reducer,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk, callAPIMiddleware)
   );
   const { dispatch } = store;
 

@@ -1,13 +1,22 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { invalidate } from '../actions/PostActions';
+import { connect } from 'react-redux';
 
-const Nav = (props) => {
+const Nav = ({ dispatch }) => {
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <Link to="/edit">Edit</Link>
-    </div>
-  );
+      <div>
+        <Link to="/" onClick={(e) => {
+          e.stopPropagation();
+          dispatch(invalidate());
+        }}>Home</Link>
+            <Link to="/edit">Edit</Link>
+      </div>
+    );
 };
 
-export default Nav;
+// Nav.contextTypes ={
+//   history:
+// }
+
+export default connect()(Nav);
