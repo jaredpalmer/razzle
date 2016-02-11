@@ -1,19 +1,20 @@
 import {
-  POSTLIST_REQUEST,
-  POSTLIST_FAILURE,
-  POSTLIST_SUCCESS,
+  FETCH_POSTLIST_REQUEST,
+  FETCH_POSTLIST_FAILURE,
+  FETCH_POSTLIST_SUCCESS,
 } from '../constants';
+import axios from 'axios';
 
 export function postListRequest(isLoading) {
   return {
-    type: POSTLIST_REQUEST,
+    type: FETCH_POSTLIST_REQUEST,
     isLoading: isLoading,
   };
 }
 
 export function postListSuccess(data) {
   return {
-    type: POSTLIST_SUCCESS,
+    type: FETCH_POSTLIST_SUCCESS,
     lastFetched: new Date(),
     data,
   };
@@ -21,17 +22,18 @@ export function postListSuccess(data) {
 
 export function postListFailure(error) {
   return {
-    type: POSTLIST_FAILURE,
+    type: FETCH_POSTLIST_FAILURE,
     error,
   };
 }
 
-export function fetchPostList() {
+export function fetch() {
   return function (dispatch, getState) {
     dispatch(postListRequest(true));
-    return http.get('/api/v0/posts', { subject, preheader, date, meta, elements })
+    return axios.get('http://localhost:5000/api/v0/posts')
       .then(function (result) {
-        return result.html;
+        console.log(result.data);
+        return result.data;
       })
       .then(function (jsonResult) {
         dispatch(postListSuccess(jsonResult));

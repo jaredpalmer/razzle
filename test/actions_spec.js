@@ -27,30 +27,30 @@ describe('ACTIONS', () => {
 
   describe('PostList Actions', () => {
 
-    it('should create POSTLIST_REQUEST', () => {
+    it('should create FETCH_POSTLIST_REQUEST', () => {
       const expectedAction = {
-        type: types.POSTLIST_REQUEST,
+        type: types.FETCH_POSTLIST_REQUEST,
         isLoading: true,
       };
       expect(actions.postListRequest(true)).to.deep.equal(expectedAction);
     });
 
-    it('should create POSTLIST_SUCCESS', () => {
+    it('should create FETCH_POSTLIST_SUCCESS', () => {
       const expectedAction = {
-        type: types.POSTLIST_SUCCESS,
+        type: types.FETCH_POSTLIST_SUCCESS,
         data: fakeDB,
         lastFetched: new Date(),
       };
       expect(actions.postListSuccess(fakeDB)).to.deep.equal(expectedAction);
     });
 
-    it('should create POSTLIST_FAILURE', () => {
+    it('should create FETCH_POSTLIST_FAILURE', () => {
       const e = {
         error: 'Invalid Request',
         message: 'Something went wrong',
       };
       const expectedAction = {
-        type: types.POSTLIST_FAILURE,
+        type: types.FETCH_POSTLIST_FAILURE,
         error: e,
       };
       expect(actions.postListFailure(e)).to.deep.equal(expectedAction);

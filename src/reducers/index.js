@@ -8,17 +8,17 @@ export default function posts(state = {
   data: [],
 }, action) {
   switch (action.type) {
-    case types.POSTLIST_REQUEST:
+    case types.FETCH_POSTLIST_REQUEST:
       return update(state, {
         isLoading: { $set: action.isLoading },
       });
-    case types.POSTLIST_SUCCESS:
+    case types.FETCH_POSTLIST_SUCCESS:
       return update(state, {
         data: { $set: action.data },
         lastFetched: { $set: action.lastFetched },
         isLoading: { $set: false },
       });
-    case types.POSTLIST_FAILURE:
+    case types.FETCH_POSTLIST_FAILURE:
       return update(state, {
         error: { $set: action.error },
       });

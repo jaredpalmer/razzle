@@ -1,7 +1,12 @@
+import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
-// import PostListItem from '../components/PostListItem';
+import { fetch } from '../actions/PostActions';
 
 const PostListPage = (props) =>
   <div>PostListPage</div>;
 
-export default PostListPage;
+const hooks = {
+  fetch: ({ dispatch }) => dispatch(fetch()),
+};
+
+export default provideHooks(hooks)(PostListPage);

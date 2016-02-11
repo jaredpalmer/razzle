@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Nav from '../components/Nav';
 
 const App = ({ children }) => {
   return (
@@ -10,6 +11,7 @@ const App = ({ children }) => {
             }}>
           React Nation
         </h2>
+        <Nav/>
       {children}
     </div>
   );

@@ -35,7 +35,7 @@ describe('REDUCERS', () => {
       expect(nextState).to.deep.equal(initialState);
     });
 
-    it('should handle POSTLIST_REQUEST', () => {
+    it('should handle FETCH_POSTLIST_REQUEST', () => {
       const initialState = {
         lastFetched: null,
         isLoading: false,
@@ -51,7 +51,7 @@ describe('REDUCERS', () => {
       });
     });
 
-    it('should handle POSTLIST_SUCCESS', () => {
+    it('should handle FETCH_POSTLIST_SUCCESS', () => {
       const initialState = {
         lastFetched: null,
         isLoading: false,
@@ -67,7 +67,7 @@ describe('REDUCERS', () => {
       });
     });
 
-    it('should handle POSTLIST_FAILURE', () => {
+    it('should handle FETCH_POSTLIST_FAILURE', () => {
       const initialState = {
         lastFetched: null,
         isLoading: false,
