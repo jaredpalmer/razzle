@@ -2,6 +2,10 @@ import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {loadPost} from '../actions/PostActions';
+import Center from '../components/Center';
+import PrimaryText from '../components/PrimaryText';
+import { StyleSheet, css } from 'aphrodite';
+import { layout } from '../constants';
 
 const hooks = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
@@ -10,8 +14,8 @@ const hooks = {
 const PostPage = ({ title, content }) => {
   return (
     <div>
-      <h1>{ title }</h1>
-      <p>{ content }</p>
+      <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
+      <p className={css(styles.primary)}>{ content }</p>
     </div>
   );
 };
@@ -22,5 +26,14 @@ function mapStateToProps(state) {
     content: state.currentPost.data.content,
   };
 }
+
+const styles = StyleSheet.create({
+  primary: {
+    fontSize: '1rem',
+    lineHeight: '1.5',
+    margin: '1rem 0',
+    fontFamily: layout.serif,
+  },
+});
 
 export default provideHooks(hooks)(connect(mapStateToProps)(PostPage));

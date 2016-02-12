@@ -13,3 +13,15 @@ export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 export const INVALIDATE_POST = 'INVALIDATE_POST';
+
+const sans = '\"Helvetica Neue\", sans-serif';
+const serif = 'Georgia, serif';
+const s = 8;
+const blue = '#0070ff';
+
+export const layout = {
+  sans,
+  serif,
+  s,
+  blue,
+};;
