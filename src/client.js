@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import {callAPIMiddleware} from './middleware/callAPIMiddleware';
+import { StyleSheet } from 'aphrodite';
 
 // Your app's reducer and routes:
 import reducers from './reducers';
@@ -66,13 +67,16 @@ const callProvidedHooks = (location, callback) => {
 history.listen((location) => {
   if (window.INITIAL_STATE) {
     // Delete global data so that subsequent data fetches can occur:
-    callProvidedHooks(location, () => delete window.INITIAL_STATE);
+    callProvidedHooks(location, () => {
+      delete window.INITIAL_STATE;
+      delete window.renderedClassNames;
+    });
   }
 });
 
 // Handle following rendering
 history.listenBefore(callProvidedHooks);
-
+StyleSheet.rehydrate(window.renderedClassNames);
 // Render app with Redux and router context to container element:
 render((
   <Provider store={store}>

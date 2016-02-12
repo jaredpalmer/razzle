@@ -19,6 +19,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import {callAPIMiddleware} from './middleware/callAPIMiddleware';
+import { StyleSheetServer } from 'aphrodite';
 
 // Your app's reducer and routes:
 import reducer from './reducers';
@@ -70,13 +71,14 @@ const redial = (path) => new Promise((resolve, reject) => {
     trigger('fetch', components, locals)
       .then(() => {
         const data = store.getState();
-        const html = renderToString(
+        const { html, css } = StyleSheetServer.renderStatic(
+        () => renderToString(
           <Provider store={store}>
             <RoutingContext {...renderProps} />
           </Provider>
-        );
+        ));
 
-        resolve({ data, html });
+        resolve({ data, html, css });
       })
       .catch(reject);
   });
@@ -115,10 +117,12 @@ server.get('*', (req, res) => {
           <title>React Starter</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="React Email Workflow." />
+          <style data-aphrodite>${result.css.content}</style>
         </head>
         <body>
           <div id="root">${result.html}</div>
-          <script>window.INITIAL_STATE = ${JSON.stringify(result.data)}</script>
+          <script>window.INITIAL_STATE = ${JSON.stringify(result.data)};</script>
+          <script>window.renderedClassNames = ${JSON.stringify(result.css.renderedClassNames)};</script>
           <script src="/static/bundle.js"></script>
         </body>
       </html>
