@@ -3,7 +3,7 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import config from '../webpack.config.dev';
+import config from '../../webpack.config.dev';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
@@ -18,12 +18,13 @@ import { RoutingContext, match } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import {callAPIMiddleware} from './middleware/callAPIMiddleware';
+import {callAPIMiddleware} from '../middleware/callAPIMiddleware';
 import { StyleSheetServer } from 'aphrodite';
+import { configureStore } from '../store';
 
 // Your app's reducer and routes:
-import reducer from './reducers';
-import routes from './routes/root';
+import reducer from '../reducers';
+import createRoutes from '../routes/root';
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 5000 : process.env.PORT;
@@ -42,10 +43,8 @@ server.use('/api/v0/post', require('./api/post'));
 
 const redial = (path) => new Promise((resolve, reject) => {
   // Set up Redux (note: this API requires redux@>=3.1.0):
-  const store = createStore(
-    reducer,
-    applyMiddleware(thunk, callAPIMiddleware)
-  );
+  const store = configureStore();
+  const routes = createRoutes(store);
   const { dispatch } = store;
 
   // Set up history for router:
@@ -106,7 +105,6 @@ if (isDeveloping) {
   server.use('/static', express.static(__dirname + '/dist'));
 }
 
-//
 // server.get('*', (req, res) => {
 //   redial(req.path).then(result => {
 //     res.status(200).send(`
@@ -125,12 +123,13 @@ if (isDeveloping) {
 //           <script>window.INITIAL_STATE = ${JSON.stringify(result.data)};</script>
 //           <script>window.renderedClassNames = ${JSON.stringify(result.css.renderedClassNames)};</script>
 //           <script src="/static/common.js"></script>
-//           <script src="/static/bundle.js"></script>
+//           <script src="/static/app.js"></script>
 //         </body>
 //       </html>
 //       `);
 //   });
 // });
+
 server.get('*', (req, res) => {
   // redial(req.path).then(result => {
   res.status(200).send(`
