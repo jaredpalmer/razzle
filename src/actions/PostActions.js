@@ -20,8 +20,6 @@ function shouldFetchPost(state) {
   }
 }
 
-
-
 export function loadPost(slug) {
   return {
     // Types of actions to emit before and after

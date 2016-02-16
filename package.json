@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jaredpalmer/react-production-starter#readme",
   "dependencies": {
+    "aphrodite": "^0.1.2",
     "axios": "^0.9.1",
     "body-parser": "^1.14.2",
     "compression": "^1.6.1",
