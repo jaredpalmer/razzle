@@ -83,27 +83,28 @@ const redial = (path) => new Promise((resolve, reject) => {
   });
 });
 
-if (isDeveloping) {
-  const compiler = webpack(config);
-  const middleware = webpackMiddleware(compiler, {
-    publicPath: config.output.publicPath,
-    contentBase: 'src',
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: false,
-      modules: false,
-    },
-  });
-  server.use(middleware);
-  server.use(webpackHotMiddleware(compiler, {
-    log: console.log,
-  }));
-} else {
-  server.use('/static', express.static(__dirname + '/static'));
-}
+//
+// if (isDeveloping) {
+//   const compiler = webpack(config);
+//   const middleware = webpackMiddleware(compiler, {
+//     publicPath: config.output.publicPath,
+//     contentBase: 'src',
+//     stats: {
+//       colors: true,
+//       hash: false,
+//       timings: true,
+//       chunks: false,
+//       chunkModules: false,
+//       modules: false,
+//     },
+//   });
+//   server.use(middleware);
+//   server.use(webpackHotMiddleware(compiler, {
+//     log: console.log,
+//   }));
+// } else {
+// }
+server.use('/static', express.static(__dirname + '/static'));
 
 // server.get('*', (req, res) => {
 //   redial(req.path).then(result => {
@@ -145,7 +146,6 @@ server.get('*', (req, res) => {
       </head>
       <body>
         <div id="root"></div>
-        hello
         <script src="/static/main.js"></script>
       </body>
     </html>

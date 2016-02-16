@@ -8,9 +8,9 @@
     "test:watch": "npm test -- --watch",
     "start": "NODE_ENV=development node src/server",
     "start:prod": "NODE_ENV=production node dist/server.js",
-    "clean": "rm -rf dist",
-    "build:client": "npm run clean && webpack -p --colors --display-error-details --config webpack.config.prod.js",
-    "build:server": "webpack --colors --display-error-details --config webpack.server.config.js"
+    "build:client": "npm run clean && webpack --inline --colors --display-error-details --config webpack.config.prod.js",
+    "build:server": "webpack --inline --colors --display-error-details --config webpack.server.config.js",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",

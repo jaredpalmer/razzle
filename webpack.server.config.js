@@ -4,52 +4,37 @@ var fs = require('fs');
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
-.filter(function (x) {
-  return ['.bin'].indexOf(x) === -1;
-})
-.forEach(function (mod) {
-  nodeModules[mod] = 'commonjs ' + mod;
-});
+  .filter(function (x) {
+    return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function (mod) {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
 
 module.exports = {
-
-  entry: path.resolve(__dirname, 'src/server/server.js'),
-
-  output: {
-    filename: 'server.bundle.js',
-    path: './dist',
-  },
-
+  entry: './src/server/server.js',
   target: 'node',
-
-  // keep node_module paths out of the bundle
-  externals: nodeModules,
-
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'server.js',
+  },
   module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
+    loaders: [{
+      test: /\.js$/,
+      loader: 'babel-loader',
+      query: {
+        presets: ["es2015", "react", "stage-0"],
       },
-    ],
+    },
+  ],
   },
-  node: {
-    console: false,
-    global: false,
-    process: false,
-    Buffer: false,
-    __filename: false,
-    __dirname: false,
-  },
-  devtool: 'source-map',
+  externals: nodeModules,
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new webpack.BannerPlugin('require("source-map-support").install();',
-      { raw: true, entryOnly: false }),
+                             { raw: true, entryOnly: false }),
   ],
+  devtool: 'sourcemap',
 };
