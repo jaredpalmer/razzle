@@ -145,6 +145,7 @@ server.get('*', (req, res) => {
       </head>
       <body>
         <div id="root"></div>
+        hello
         <script src="/static/main.js"></script>
       </body>
     </html>

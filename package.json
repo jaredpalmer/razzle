@@ -9,8 +9,8 @@
     "start": "NODE_ENV=development node src/server",
     "start:prod": "NODE_ENV=production node dist/server.js",
     "clean": "rm -rf dist",
-    "build:client": "npm run clean && webpack -p --colors --display-error-details --config webpack.prod.client.js",
-    "build:server": "webpack --colors --display-error-details --config webpack.prod.server.js"
+    "build:client": "npm run clean && webpack -p --colors --display-error-details --config webpack.config.prod.js",
+    "build:server": "webpack --colors --display-error-details --config webpack.server.config.js"
   },
   "repository": {
     "type": "git",
