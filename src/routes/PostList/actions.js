@@ -2,7 +2,7 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE
-} from '../constants';
+} from '../../constants';
 import axios from 'axios';
 
 // Caching logic

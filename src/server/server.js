@@ -26,8 +26,8 @@ import { configureStore } from '../store';
 import reducer from '../reducers';
 import createRoutes from '../routes/root';
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
-const port = isDeveloping ? 5000 : process.env.PORT;
+const isDeveloping = process.env.NODE_ENV != 'production';
+const port = process.env.PORT || 5000;
 const server = global.server = express();
 
 server.disable('x-powered-by');
@@ -45,7 +45,7 @@ const redial = (path) => new Promise((resolve, reject) => {
   // Set up Redux (note: this API requires redux@>=3.1.0):
   const store = configureStore();
   const routes = createRoutes(store);
-  const { dispatch } = store;
+  const { dispatch, getState } = store;
 
   // Set up history for router:
   const history = useQueries(createMemoryHistory)();
@@ -69,7 +69,7 @@ const redial = (path) => new Promise((resolve, reject) => {
     // Wait for async actions to complete, then render:
     trigger('fetch', components, locals)
       .then(() => {
-        const data = store.getState();
+        const data = getState();
         const { html, css } = StyleSheetServer.renderStatic(
         () => renderToString(
           <Provider store={store}>
@@ -102,7 +102,7 @@ if (isDeveloping) {
     log: console.log,
   }));
 } else {
-  server.use('/static', express.static(__dirname + '/dist'));
+  server.use('/static', express.static(__dirname + '/static'));
 }
 
 // server.get('*', (req, res) => {
@@ -130,6 +130,7 @@ if (isDeveloping) {
 //   });
 // });
 
+// UNCOMMENT to DISABLE ISOMORPHISM
 server.get('*', (req, res) => {
   // redial(req.path).then(result => {
   res.status(200).send(`
@@ -144,8 +145,7 @@ server.get('*', (req, res) => {
       </head>
       <body>
         <div id="root"></div>
-        <script src="/static/common.js"></script>
-        <script src="/static/app.js"></script>
+        <script src="/static/main.js"></script>
       </body>
     </html>
     `);
@@ -158,7 +158,9 @@ server.listen(port, '0.0.0.0', function onStart(err) {
     console.log(err);
   }
 
-  console.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+  console.log(isDeveloping);
+  console.info('==> 🌎 Listening on port %s.' +
+    'Open up http://0.0.0.0:%s/ in your browser.', port, port);
 });
 
 module.exports = server;

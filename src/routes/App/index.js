@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Nav from '../components/Nav';
+import Nav from './components/Nav';
 import { StyleSheet, css } from 'aphrodite';
 
 const App = ({ children }) => {

@@ -1,25 +1,8 @@
 // polyfill webpack require.ensure
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require);
-import PostListPage from '../containers/PostListPage';
-import App from '../containers/App';
-import { injectAsyncReducer } from '../store';
 
-function createPostRoute(store) {
-  return {
-    path: 'post/:slug',
-    getComponents(location, cb) {
-      require.ensure([
-          '../containers/PostPage',
-          '../reducers/currentPost',
-        ], (require) => {
-          let PostPage = require('../containers/PostPage').default;
-          let postReducer = require('../reducers/currentPost').default;
-          injectAsyncReducer(store, 'currentPost', postReducer);
-          callback(null, PostPage);
-        });
-    },
-  };
-}
+import PostList from './PostList';
+import App from './App';
 
 export default function createRoutes(store) {
   const root = {
@@ -35,7 +18,7 @@ export default function createRoutes(store) {
     },
 
     indexRoute: {
-      component: PostListPage,
+      component: PostList,
     },
   };
 

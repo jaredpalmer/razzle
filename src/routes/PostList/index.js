@@ -1,8 +1,8 @@
 import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
-import {loadPosts} from '../actions/PostListActions';
+import {loadPosts} from './actions';
 import { connect } from 'react-redux';
-import PostListItem from '../components/PostListItem';
+import PostListItem from './components/PostListItem';
 import { StyleSheet, css } from 'aphrodite';
 
 const PostListPage = ({ posts }) =>

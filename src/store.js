@@ -9,6 +9,7 @@ export function configureStore(initialState) {
       thunk,
       callAPIMiddleware
     ),
+
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ));
   store.asyncReducers = {};

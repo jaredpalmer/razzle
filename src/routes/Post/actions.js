@@ -2,15 +2,8 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
-  INVALIDATE_POST
-} from '../constants';
+} from '../../constants';
 import axios from 'axios';
-
-export function invalidate() {
-  return {
-    type: INVALIDATE_POST,
-  };
-}
 
 function shouldFetchPost(state) {
   if (state.currentPost.isLoading) {
@@ -19,8 +12,6 @@ function shouldFetchPost(state) {
     return state.currentPost.didInvalidate;
   }
 }
-
-
 
 export function loadPost(slug) {
   return {

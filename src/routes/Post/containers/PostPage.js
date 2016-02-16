@@ -1,14 +1,13 @@
 import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {loadPost} from '../actions/PostActions';
-import Center from '../components/Center';
-import PrimaryText from '../components/PrimaryText';
+import {loadPost} from '../actions';
+import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
-import { layout } from '../constants';
+import { layout } from '../../../constants';
 
 const hooks = {
-  fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
+  defer: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
 };
 
 const PostPage = ({ title, content }) => {
