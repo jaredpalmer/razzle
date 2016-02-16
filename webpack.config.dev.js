@@ -3,30 +3,30 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'eval',
-  entry: [
-    'webpack/hot/only-dev-server',
-    'webpack-hot-middleware/client?reload=true',
-    // 'webpack-hot-middleware/client?http://localhost:5000/__webpack_hmr&reload=true',
-    './src/client'
-  ],
+  devtool: 'source-map',
+  entry: {
+    app: ['./src/client.js'],
+    editor: ['./src/routes/Editor'],
+    post: ['./src/routes/Post'],
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-     new webpack.DefinePlugin({
+    new webpack.optimize.CommonsChunkPlugin('common.js', 2),
+    // new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
       include: path.join(__dirname, 'src')
     }]
   }

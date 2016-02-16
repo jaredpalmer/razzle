@@ -23,7 +23,7 @@ import { StyleSheetServer } from 'aphrodite';
 
 // Your app's reducer and routes:
 import reducer from './reducers';
-import routes from './routes';
+import routes from './routes/root';
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 5000 : process.env.PORT;
@@ -106,28 +106,52 @@ if (isDeveloping) {
   server.use('/static', express.static(__dirname + '/dist'));
 }
 
+//
+// server.get('*', (req, res) => {
+//   redial(req.path).then(result => {
+//     res.status(200).send(`
+//       <!DOCTYPE html>
+//       <html lang="en">
+//         <head>
+//           <meta charSet="utf-8" />
+//           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+//           <title>React Starter</title>
+//           <meta name="viewport" content="width=device-width, initial-scale=1" />
+//           <meta name="description" content="React Email Workflow." />
+//           <style data-aphrodite>${result.css.content}</style>
+//         </head>
+//         <body>
+//           <div id="root">${result.html}</div>
+//           <script>window.INITIAL_STATE = ${JSON.stringify(result.data)};</script>
+//           <script>window.renderedClassNames = ${JSON.stringify(result.css.renderedClassNames)};</script>
+//           <script src="/static/common.js"></script>
+//           <script src="/static/bundle.js"></script>
+//         </body>
+//       </html>
+//       `);
+//   });
+// });
 server.get('*', (req, res) => {
-  redial(req.path).then(result => {
-    res.status(200).send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <title>React Starter</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="description" content="React Email Workflow." />
-          <style data-aphrodite>${result.css.content}</style>
-        </head>
-        <body>
-          <div id="root">${result.html}</div>
-          <script>window.INITIAL_STATE = ${JSON.stringify(result.data)};</script>
-          <script>window.renderedClassNames = ${JSON.stringify(result.css.renderedClassNames)};</script>
-          <script src="/static/bundle.js"></script>
-        </body>
-      </html>
-      `);
-  });
+  // redial(req.path).then(result => {
+  res.status(200).send(`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <title>React Starter</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="React Email Workflow." />
+      </head>
+      <body>
+        <div id="root"></div>
+        <script src="/static/common.js"></script>
+        <script src="/static/app.js"></script>
+      </body>
+    </html>
+    `);
+
+  // });
 });
 
 server.listen(port, '0.0.0.0', function onStart(err) {
