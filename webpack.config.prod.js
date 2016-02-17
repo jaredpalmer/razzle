@@ -4,25 +4,33 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: {
-    main: './src/client.js',
+  entry:  {
+    main: ['./src/client.js'],
+    editor: ['./src/routes/Editor'],
+    post: ['./src/routes/Post'],
   },
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'main.js',
+     path: __dirname + '/build/static',
+     filename: '[name].js',
+     chunkFilename: '[id].chunk.js',
+     publicPath: '/build/static/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.CommonsChunkPlugin('common.js', 2),
+    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: true
+        unused: true,
+        dead_code: true,
+        warnings: false,
+        screw_ie8: true,
       }
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      '__DEV__': false
     }),
   ],
   module: {

@@ -24,7 +24,8 @@ import { configureStore } from '../store';
 
 // Your app's reducer and routes:
 import reducer from '../reducers';
-import createRoutes from '../routes/root';
+
+// import createRoutes from '../routes/root';
 
 const isDeveloping = process.env.NODE_ENV != 'production';
 const port = process.env.PORT || 5000;
@@ -93,18 +94,22 @@ const redial = (path) => new Promise((resolve, reject) => {
 //       colors: true,
 //       hash: false,
 //       timings: true,
-//       chunks: false,
-//       chunkModules: false,
+//       chunks: true,
+//       chunkModules: true,
 //       modules: false,
 //     },
 //   });
 //   server.use(middleware);
+//
 //   server.use(webpackHotMiddleware(compiler, {
 //     log: console.log,
 //   }));
 // } else {
+//
 // }
-server.use('/static', express.static(__dirname + '/static'));
+
+// babel-node
+server.use('/build/static', express.static(__dirname + '../../../build/static'));
 
 // server.get('*', (req, res) => {
 //   redial(req.path).then(result => {
@@ -133,7 +138,6 @@ server.use('/static', express.static(__dirname + '/static'));
 
 // UNCOMMENT to DISABLE ISOMORPHISM
 server.get('*', (req, res) => {
-  // redial(req.path).then(result => {
   res.status(200).send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -146,12 +150,11 @@ server.get('*', (req, res) => {
       </head>
       <body>
         <div id="root"></div>
-        <script src="/static/main.js"></script>
+        <script src="/build/static/common.js"></script>
+        <script src="/build/static/main.js"></script>
       </body>
     </html>
     `);
-
-  // });
 });
 
 server.listen(port, '0.0.0.0', function onStart(err) {

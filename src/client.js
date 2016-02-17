@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import { trigger } from 'redial';
 
 import React from 'react';
@@ -33,46 +33,47 @@ const { dispatch } = store;
 const history = useQueries(createBrowserHistory)();
 
 const routes = createRoutes(store);
-const callProvidedHooks = (location, callback) => {
 
-  // Match routes based on location object:
-  match({ routes, location }, (routerError, redirectLocation, renderProps) => {
-    // Get array of route components:
-    const components = renderProps.routes.map(route => route.component);
-
-    // Define locals to be provided to all lifecycle hooks:
-    const locals = {
-       path: renderProps.location.pathname,
-       query: renderProps.location.query,
-       params: renderProps.params,
-
-       // Allow lifecycle hooks to dispatch Redux actions:
-       dispatch,
-     };
-
-    // Don't fetch data for initial route, server has already done the work:
-    const invoke = window.INITIAL_STATE ? Promise.resolve.bind(Promise) : trigger;
-
-    invoke('fetch', components, locals) // Fetch mandatory data dependencies for 2nd route change onwards
-    .then(() => trigger('defer', components, locals)) // Fetch deferred, client-only data dependencies
-    .then(() => trigger('done', components, locals)) // Finally, trigger 'done' lifecycle hooks
-    .then(callback);
-  });
-};
-
-// Handle initial rendering
-history.listen((location) => {
-  if (window.INITIAL_STATE) {
-    // Delete global data so that subsequent data fetches can occur:
-    callProvidedHooks(location, () => {
-      delete window.INITIAL_STATE;
-      delete window.renderedClassNames;
-    });
-  }
-});
-
-// // // Handle following rendering
-history.listenBefore(callProvidedHooks);
+// const callProvidedHooks = (location, callback) => {
+//
+//   // Match routes based on location object:
+//   match({ routes, location }, (routerError, redirectLocation, renderProps) => {
+//     // Get array of route components:
+//     const components = renderProps.routes.map(route => route.component);
+//
+//     // Define locals to be provided to all lifecycle hooks:
+//     const locals = {
+//        path: renderProps.location.pathname,
+//        query: renderProps.location.query,
+//        params: renderProps.params,
+//
+//        // Allow lifecycle hooks to dispatch Redux actions:
+//        dispatch,
+//      };
+//
+//     // Don't fetch data for initial route, server has already done the work:
+//     const invoke = window.INITIAL_STATE ? Promise.resolve.bind(Promise) : trigger;
+//
+//     invoke('fetch', components, locals) // Fetch mandatory data dependencies for 2nd route change onwards
+//     .then(() => trigger('defer', components, locals)) // Fetch deferred, client-only data dependencies
+//     .then(() => trigger('done', components, locals)) // Finally, trigger 'done' lifecycle hooks
+//     .then(callback);
+//   });
+// };
+//
+// // Handle initial rendering
+// history.listen((location) => {
+//   if (window.INITIAL_STATE) {
+//     // Delete global data so that subsequent data fetches can occur:
+//     callProvidedHooks(location, () => {
+//       delete window.INITIAL_STATE;
+//       delete window.renderedClassNames;
+//     });
+//   }
+// });
+//
+// // // // Handle following rendering
+// history.listenBefore(callProvidedHooks);
 StyleSheet.rehydrate(window.renderedClassNames);
 
 // Render app with Redux and router context to container element:
