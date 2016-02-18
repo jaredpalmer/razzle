@@ -10,7 +10,7 @@ export function configureStore(initialState = {}) {
       callAPIMiddleware
     ),
 
-    // window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   ));
   store.asyncReducers = {};
   return store;

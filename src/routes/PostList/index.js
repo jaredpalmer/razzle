@@ -15,7 +15,10 @@ class PostListPage extends React.Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, isLoading } = this.props;
+    if (isLoading) {
+      return <PrimaryText>Loading...</PrimaryText>;
+    }
     return (
       <div>
         <h2 className={css(styles.blue)}>PostListPage</h2>
@@ -28,6 +31,7 @@ class PostListPage extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts.data,
+    isLoading: state.posts.isLoading
   };
 }
 

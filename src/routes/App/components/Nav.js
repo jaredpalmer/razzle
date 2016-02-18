@@ -6,11 +6,8 @@ import { connect } from 'react-redux';
 const Nav = ({ dispatch }) => {
   return (
       <div>
-        <Link to="/" onClick={(e) => {
-          e.stopPropagation();
-          dispatch(invalidate());
-        }}>Home</Link>
-            <Link to="/edit">Edit</Link>
+        <Link to="/">Home</Link>
+        <Link to="/edit">Edit</Link>
       </div>
     );
 };

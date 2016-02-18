@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import { loadPost } from '../actions';
 import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
@@ -16,7 +16,11 @@ class PostPage extends React.Component {
   }
 
   render() {
-    const { title, content } = this.props;
+    const { title, content, isLoading } = this.props;
+    if (isLoading) {
+      return <PrimaryText>Loading...</PrimaryText>;
+    }
+
     return (
       <div>
         <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
@@ -28,6 +32,7 @@ class PostPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    isLoading: state.currentPost.isLoading,
     title: state.currentPost.data.title,
     content: state.currentPost.data.content,
   };

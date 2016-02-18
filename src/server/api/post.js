@@ -13,8 +13,10 @@ router.get('/:slug', (req, res) => {
     });
   }
 
-  res.statusCode = 200;
-  res.json(fakeDB[index]);
+  setTimeout(() => {
+    res.statusCode = 200;
+    res.json(fakeDB[index]);
+  }, 500);
 });
 
 module.exports = router;
