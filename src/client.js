@@ -5,7 +5,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import useQueries from 'history/lib/useQueries';
-import { Router, match } from 'react-router';
+import { Router, match, createRoutes } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -14,7 +14,7 @@ import { StyleSheet } from 'aphrodite';
 
 // Your app's reducer and routes:
 import createReducer from './reducers';
-import createRoutes from './routes/root';
+import genRoutes from './routes/root';
 import { configureStore } from './store';
 
 // Render the app client-side to a given container element:
@@ -32,48 +32,51 @@ const { dispatch } = store;
 // Set up history for router and listen for changes:
 const history = useQueries(createBrowserHistory)();
 
-const routes = createRoutes(store);
+const gen = genRoutes(store);
+const routes = createRoutes(gen);
+console.log('Client: ' + routes);
 
-// const callProvidedHooks = (location, callback) => {
-//
-//   // Match routes based on location object:
-//   match({ routes, location }, (routerError, redirectLocation, renderProps) => {
-//     // Get array of route components:
-//     const components = renderProps.routes.map(route => route.component);
-//
-//     // Define locals to be provided to all lifecycle hooks:
-//     const locals = {
-//        path: renderProps.location.pathname,
-//        query: renderProps.location.query,
-//        params: renderProps.params,
-//
-//        // Allow lifecycle hooks to dispatch Redux actions:
-//        dispatch,
-//      };
-//
-//     // Don't fetch data for initial route, server has already done the work:
-//     const invoke = window.INITIAL_STATE ? Promise.resolve.bind(Promise) : trigger;
-//
-//     invoke('fetch', components, locals) // Fetch mandatory data dependencies for 2nd route change onwards
-//     .then(() => trigger('defer', components, locals)) // Fetch deferred, client-only data dependencies
-//     .then(() => trigger('done', components, locals)) // Finally, trigger 'done' lifecycle hooks
-//     .then(callback);
-//   });
-// };
-//
-// // Handle initial rendering
-// history.listen((location) => {
-//   if (window.INITIAL_STATE) {
-//     // Delete global data so that subsequent data fetches can occur:
-//     callProvidedHooks(location, () => {
-//       delete window.INITIAL_STATE;
-//       delete window.renderedClassNames;
-//     });
-//   }
-// });
+const callProvidedHooks = (location, callback) => {
+
+  // Match routes based on location object:
+  match({ routes, location }, (routerError, redirectLocation, renderProps) => {
+    // Get array of route components:
+    const components = renderProps.routes.map(route => route.component);
+
+    // Define locals to be provided to all lifecycle hooks:
+    const locals = {
+       path: renderProps.location.pathname,
+       query: renderProps.location.query,
+       params: renderProps.params,
+
+       // Allow lifecycle hooks to dispatch Redux actions:
+       dispatch,
+     };
+
+    // Don't fetch data for initial route, server has already done the work:
+    const invoke = window.INITIAL_STATE ? Promise.resolve.bind(Promise) : trigger;
+
+    invoke('fetch', components, locals) // Fetch mandatory data dependencies for 2nd route change onwards
+    .then(() => trigger('defer', components, locals)) // Fetch deferred, client-only data dependencies
+    .then(() => trigger('done', components, locals)) // Finally, trigger 'done' lifecycle hooks
+    .then(callback);
+  });
+};
+
+// Handle initial rendering
+history.listen((location) => {
+  if (window.INITIAL_STATE) {
+    // Delete global data so that subsequent data fetches can occur:
+    callProvidedHooks(location, () => {
+      delete window.INITIAL_STATE;
+      delete window.renderedClassNames;
+    });
+  }
+});
+
 //
 // // // // Handle following rendering
-// history.listenBefore(callProvidedHooks);
+history.listenBefore(callProvidedHooks);
 StyleSheet.rehydrate(window.renderedClassNames);
 
 // Render app with Redux and router context to container element:

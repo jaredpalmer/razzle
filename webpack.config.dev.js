@@ -5,14 +5,14 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    app: ['./src/client.js'],
+    main: ['./src/client.js'],
     editor: ['./src/routes/Editor'],
     post: ['./src/routes/Post'],
   },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: '/static/'
+    publicPath: '/build/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

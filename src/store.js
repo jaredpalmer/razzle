@@ -3,14 +3,14 @@ import thunk from 'redux-thunk';
 import {callAPIMiddleware} from './middleware/callAPIMiddleware';
 import createReducer from './reducers';
 
-export function configureStore(initialState) {
+export function configureStore(initialState = {}) {
   let store = createStore(createReducer(), initialState, compose(
     applyMiddleware(
       thunk,
       callAPIMiddleware
     ),
 
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    // window.devToolsExtension ? window.devToolsExtension() : f => f
   ));
   store.asyncReducers = {};
   return store;

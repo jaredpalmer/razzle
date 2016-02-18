@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
-    "start": "NODE_ENV=development node ./src/server",
+    "start": "NODE_ENV=development nodemon ./src/server",
     "start:prod": "NODE_ENV=production node ./src/server",
     "build:client": "npm run clean && webpack -d --inline --config ./webpack.config.prod.js",
     "clean": "rm -rf build"
@@ -30,6 +30,7 @@
     "body-parser": "^1.14.2",
     "compression": "^1.6.1",
     "cookie-parser": "^1.4.1",
+    "es6-promise": "^3.1.2",
     "express": "^4.13.4",
     "helmet": "^1.1.0",
     "history": "^1.17.0",

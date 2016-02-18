@@ -14,7 +14,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import useQueries from 'history/lib/useQueries';
-import { RoutingContext, match } from 'react-router';
+import { Router, RoutingContext, match, createRoutes } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -24,8 +24,9 @@ import { configureStore } from '../store';
 
 // Your app's reducer and routes:
 import reducer from '../reducers';
+import genRoutes from '../routes/root';
 
-// import createRoutes from '../routes/root';
+// import oldRoutes from '../routes-old';
 
 const isDeveloping = process.env.NODE_ENV != 'production';
 const port = process.env.PORT || 5000;
@@ -45,117 +46,137 @@ server.use('/api/v0/post', require('./api/post'));
 const redial = (path) => new Promise((resolve, reject) => {
   // Set up Redux (note: this API requires redux@>=3.1.0):
   const store = configureStore();
-  const routes = createRoutes(store);
-  const { dispatch, getState } = store;
+
+  // console.log(oldRoutes);
+  const routes = genRoutes(store);
+
+  // console.log(routes);
+
+  const { dispatch } = store;
 
   // Set up history for router:
   const history = useQueries(createMemoryHistory)();
   const location = history.createLocation(path);
 
   // Match routes based on location object:
-  match({ routes, location }, (routerError, redirectLocation, renderProps) => {
+  match({ routes, history, location }, (routerError, redirectLocation, renderProps) => {
     // Get array of route components:
-    const components = renderProps.routes.map(route => route.component);
+    // console.log(routes);
+    // console.log(gen);
+    try {
+      const components = renderProps.routes.map(route => route.component);
+      console.log(renderProps);
 
-    // Define locals to be provided to all fetcher functions:
-    const locals = {
-      path: renderProps.location.pathname,
-      query: renderProps.location.query,
-      params: renderProps.params,
+      // console.log(components);
 
-      // Allow fetcher functions to dispatch Redux actions:
-      dispatch,
-    };
+      // Define locals to be provided to all fetcher functions:
+      const locals = {
+        path: renderProps.location.pathname,
+        query: renderProps.location.query,
+        params: renderProps.params,
 
-    // Wait for async actions to complete, then render:
-    trigger('fetch', components, locals)
-      .then(() => {
-        const data = getState();
-        const { html, css } = StyleSheetServer.renderStatic(
-        () => renderToString(
-          <Provider store={store}>
-            <RoutingContext {...renderProps} />
-          </Provider>
-        ));
+        // Allow fetcher functions to dispatch Redux actions:
+        dispatch,
+      };
 
-        resolve({ data, html, css });
-      })
-      .catch(reject);
+      // Wait for async actions to complete, then render:
+      trigger('fetch', components, locals)
+        .then(() => {
+          const state = store.getState();
+          console.log('STATE:');
+          console.log(state);
+          const html = renderToString(
+            <Provider store={store}>
+              <RoutingContext {...renderProps} />
+            </Provider>
+          );
+
+          console.log('HTML');
+          console.log(html);
+
+          resolve({ state, html });
+        })
+        .catch(e => {
+          console.log(e);
+          reject;
+        });
+    } catch (e) {
+      console.log(e);
+    }
+
   });
 });
 
-//
-// if (isDeveloping) {
-//   const compiler = webpack(config);
-//   const middleware = webpackMiddleware(compiler, {
-//     publicPath: config.output.publicPath,
-//     contentBase: 'src',
-//     stats: {
-//       colors: true,
-//       hash: false,
-//       timings: true,
-//       chunks: true,
-//       chunkModules: true,
-//       modules: false,
-//     },
-//   });
-//   server.use(middleware);
-//
-//   server.use(webpackHotMiddleware(compiler, {
-//     log: console.log,
-//   }));
-// } else {
-//
-// }
+if (isDeveloping) {
+  const compiler = webpack(config);
+  const middleware = webpackMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+    contentBase: 'src',
+    stats: {
+      colors: true,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: true,
+      modules: false,
+    },
 
-// babel-node
-server.use('/build/static', express.static(__dirname + '../../../build/static'));
+  });
+  server.use(middleware);
 
-// server.get('*', (req, res) => {
-//   redial(req.path).then(result => {
-//     res.status(200).send(`
-//       <!DOCTYPE html>
-//       <html lang="en">
-//         <head>
-//           <meta charSet="utf-8" />
-//           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-//           <title>React Starter</title>
-//           <meta name="viewport" content="width=device-width, initial-scale=1" />
-//           <meta name="description" content="React Email Workflow." />
-//           <style data-aphrodite>${result.css.content}</style>
-//         </head>
-//         <body>
-//           <div id="root">${result.html}</div>
-//           <script>window.INITIAL_STATE = ${JSON.stringify(result.data)};</script>
-//           <script>window.renderedClassNames = ${JSON.stringify(result.css.renderedClassNames)};</script>
-//           <script src="/static/common.js"></script>
-//           <script src="/static/app.js"></script>
-//         </body>
-//       </html>
-//       `);
-//   });
-// });
+  server.use(webpackHotMiddleware(compiler, {
+    log: console.log,
+  }));
+} else {
+  server.use('/build/static', express.static(__dirname + '../../../build/static'));
+}
+
+server.get('*', (req, res) => {
+  redial(req.path).then(result => {
+    console.log(result);
+    res.status(200).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charSet="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <title>React Starter</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="description" content="React Email Workflow." />
+
+        </head>
+        <body>
+          <div id="root">${result.html}</div>
+          <script>window.INITIAL_STATE = ${JSON.stringify(result.html)};</script>
+
+          <script src="/build/static/common.js"></script>
+          <script src="/build/static/main.js"></script>
+        </body>
+      </html>
+      `);
+  }).catch(e => console.log(e));
+});
 
 // UNCOMMENT to DISABLE ISOMORPHISM
-server.get('*', (req, res) => {
-  res.status(200).send(`
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <title>React Starter</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="React Email Workflow." />
-      </head>
-      <body>
-        <div id="root"></div>
-        <script src="/build/static/common.js"></script>
-        <script src="/build/static/main.js"></script>
-      </body>
-    </html>
-    `);
-});
+// server.get('/', (req, res) => {
+//   res.status(200).send(`
+//     <!DOCTYPE html>
+//     <html lang="en">
+//       <head>
+//         <meta charSet="utf-8" />
+//         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+//         <title>React Starter</title>
+//         <meta name="viewport" content="width=device-width, initial-scale=1" />
+//         <meta name="description" content="React Email Workflow." />
+//       </head>
+//       <body>
+//         <div id="root"></div>
+//         <script src="/build/static/common.js"></script>
+//         <script src="/build/static/main.js"></script>
+//       </body>
+//     </html>
+//     `);
+// });
 
 server.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {

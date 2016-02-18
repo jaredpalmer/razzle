@@ -4,7 +4,7 @@ if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require);
 import PostList from './PostList';
 import App from './App';
 
-export default function createRoutes(store) {
+export default function genRoutes(store) {
   const root = {
     path: '/',
     component: App,

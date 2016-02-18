@@ -1,9 +1,9 @@
 import React from 'react';
 import { Router, Route, IndexRoute } from 'react-router';
-import App from './containers/App';
-import PostPage from './containers/PostPage';
-import PostListPage from './containers/PostListPage';
-import EditorPage from './containers/EditorPage';
+import App from './routes/App';
+import PostPage from './routes/Post';
+import PostListPage from './routes/PostList';
+import EditorPage from './routes/Editor/components/Editor';
 
 export default (
   <Route path="/" component={App}>
