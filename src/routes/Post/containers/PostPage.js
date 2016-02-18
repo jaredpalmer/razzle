@@ -1,29 +1,40 @@
-import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {loadPost} from '../actions';
+import { bindActionCreators } from 'redux'
+import { loadPost } from '../actions';
 import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
 import { layout } from '../../../constants';
 
-const hooks = {
-  defer: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
-};
+class PostPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-const PostPage = ({ title, content }) => {
-  return (
-    <div>
-      <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
-      <p className={css(styles.primary)}>{ content }</p>
-    </div>
-  );
-};
+  componentDidMount() {
+    this.props.loadPost(this.props.params.slug);
+  }
+
+  render() {
+    const { title, content } = this.props;
+    return (
+      <div>
+        <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
+        <p className={css(styles.primary)}>{ content }</p>
+      </div>
+    );
+  }
+}
 
 function mapStateToProps(state) {
   return {
     title: state.currentPost.data.title,
     content: state.currentPost.data.content,
   };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ loadPost }, dispatch);
 }
 
 const styles = StyleSheet.create({
@@ -35,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default provideHooks(hooks)(connect(mapStateToProps)(PostPage));
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
