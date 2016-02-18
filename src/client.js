@@ -5,7 +5,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import useQueries from 'history/lib/useQueries';
-import { Router, match, createRoutes } from 'react-router';
+import { Router, match } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -14,7 +14,7 @@ import { StyleSheet } from 'aphrodite';
 
 // Your app's reducer and routes:
 import createReducer from './reducers';
-import genRoutes from './routes/root';
+import createRoutes from './routes/root';
 import { configureStore } from './store';
 
 // Render the app client-side to a given container element:
@@ -32,8 +32,8 @@ const { dispatch } = store;
 // Set up history for router and listen for changes:
 const history = useQueries(createBrowserHistory)();
 
-const gen = genRoutes(store);
-const routes = createRoutes(gen);
+// const gen = genRoutes(store);
+const routes = createRoutes(store);
 console.log('Client: ' + routes);
 
 const callProvidedHooks = (location, callback) => {

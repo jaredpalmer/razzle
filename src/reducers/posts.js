@@ -21,7 +21,7 @@ const temp = [
   },
 ];
 export default function posts(state = {
-  data: temp,
+  data: [],
   lastFetched: null,
   isLoading: false,
   error: null,

@@ -14,7 +14,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 import useQueries from 'history/lib/useQueries';
-import { Router, RoutingContext, match, createRoutes } from 'react-router';
+import { Router, RoutingContext, match } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -24,7 +24,7 @@ import { configureStore } from '../store';
 
 // Your app's reducer and routes:
 import reducer from '../reducers';
-import genRoutes from '../routes/root';
+import createRoutes from '../routes/root';
 
 // import oldRoutes from '../routes-old';
 
@@ -48,7 +48,7 @@ const redial = (path) => new Promise((resolve, reject) => {
   const store = configureStore();
 
   // console.log(oldRoutes);
-  const routes = genRoutes(store);
+  const routes = createRoutes(store);
 
   // console.log(routes);
 
@@ -98,7 +98,7 @@ const redial = (path) => new Promise((resolve, reject) => {
         })
         .catch(e => {
           console.log(e);
-          reject;
+          reject(e);
         });
     } catch (e) {
       console.log(e);
@@ -134,27 +134,23 @@ if (isDeveloping) {
 server.get('*', (req, res) => {
   redial(req.path).then(result => {
     console.log(result);
-    res.status(200).send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <title>React Starter</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="description" content="React Email Workflow." />
-
-        </head>
-        <body>
-          <div id="root">${result.html}</div>
-          <script>window.INITIAL_STATE = ${JSON.stringify(result.html)};</script>
-
-          <script src="/build/static/common.js"></script>
-          <script src="/build/static/main.js"></script>
-        </body>
-      </html>
-      `);
   }).catch(e => console.log(e));
+  res.status(200).send(`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <title>React Starter</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="React Email Workflow." />
+      </head>
+      <body>
+        <div id="root"></div>
+        <script src="/build/static/common.js"></script>
+        <script src="/build/static/main.js"></script>
+      </body>
+    </html>`);
 });
 
 // UNCOMMENT to DISABLE ISOMORPHISM
@@ -177,6 +173,27 @@ server.get('*', (req, res) => {
 //     </html>
 //     `);
 // });
+//
+// res.status(200).send(`
+// <!DOCTYPE html>
+// <html lang="en">
+//   <head>
+//     <meta charSet="utf-8" />
+//     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+//     <title>React Starter</title>
+//     <meta name="viewport" content="width=device-width, initial-scale=1" />
+//     <meta name="description" content="React Email Workflow." />
+//
+//   </head>
+//   <body>
+//     <div id="root">${result.html}</div>
+//     <script>window.INITIAL_STATE = ${JSON.stringify(result.html)};</script>
+//
+//     <script src="/build/static/common.js"></script>
+//     <script src="/build/static/main.js"></script>
+//   </body>
+// </html>
+// `);
 
 server.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
