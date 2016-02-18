@@ -14,6 +14,13 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/build/static/'
   },
+  resolve: {
+    root: path.resolve(__dirname, 'dist'),
+    alias: {
+      constants: 'constants',
+    },
+    extensions: ['', '.js', '.jsx']
+  },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
