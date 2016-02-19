@@ -2,7 +2,6 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
-  INVALIDATE_POST
 } from '../../constants';
 import axios from 'axios';
 
@@ -14,19 +13,13 @@ function shouldFetchPost(state) {
   }
 }
 
-export function invalidate() {
-  return {
-    type: INVALIDATE_POST,
-  };
-}
-
 export function loadPost(slug) {
   return {
     // Types of actions to emit before and after
     types: ['LOAD_POST_REQUEST', 'LOAD_POST_SUCCESS', 'LOAD_POST_FAILURE'],
 
     // Check the cache (optional):
-    // shouldCallAPI: (state) => shouldFetchPost(state),
+    shouldCallAPI: (state) => shouldFetchPost(state),
 
     // Perform the fetching:
     callAPI: () => axios.get(`http://localhost:5000/api/v0/post/${slug}`),

@@ -1,55 +1,38 @@
+import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { loadPost, invalidate } from '../actions';
+import {loadPost} from '../actions';
 import PrimaryText from '../../../components/PrimaryText';
-import Helmet from 'react-helmet';
-import Post from '../components/Post';
+import { StyleSheet, css } from 'aphrodite';
+import { layout } from '../../../constants';
 
-class PostPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const hooks = {
+  defer: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
+};
 
-  componentDidMount() {
-    this.props.loadPost(this.props.params.slug);
-  }
-
-  componentWillUnmount() {
-    this.props.invalidate();
-  }
-
-  render() {
-    const { title, body, isLoading } = this.props;
-    const helm = <Helmet
-      title={`${title} | React Production Starter`}
-      meta={[
-          { name: "description", content: "Helmet application" },
-          { property: "og:type", content: "article" },
-      ]}
-    />;
-    return (
-      <div ref='post'>
-        {helm}
-        {isLoading ?
-          null :
-          <Post title={title} body={body} />
-        }
-      </div>
-    );
-  }
-}
+const PostPage = ({ title, content }) => {
+  return (
+    <div>
+      <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
+      <p className={css(styles.primary)}>{ content }</p>
+    </div>
+  );
+};
 
 function mapStateToProps(state) {
   return {
-    isLoading: state.currentPost.isLoading,
     title: state.currentPost.data.title,
-    body: state.currentPost.data.body,
+    content: state.currentPost.data.content,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadPost, invalidate }, dispatch);
-}
+const styles = StyleSheet.create({
+  primary: {
+    fontSize: '1rem',
+    lineHeight: '1.5',
+    margin: '1rem 0',
+    fontFamily: layout.serif,
+  },
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
+export default provideHooks(hooks)(connect(mapStateToProps)(PostPage));
