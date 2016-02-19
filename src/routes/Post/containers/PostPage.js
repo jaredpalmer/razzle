@@ -23,7 +23,7 @@ class PostPage extends React.Component {
 
     return (
       <div>
-        <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
+        <PrimaryText>{ title }</PrimaryText>
         <p className={css(styles.primary)}>{ content }</p>
       </div>
     );

@@ -10,9 +10,18 @@ export function configureStore(initialState = {}) {
       callAPIMiddleware
     ),
 
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+    window.devToolsExtension && __DEV__ ? window.devToolsExtension() : f => f
   ));
   store.asyncReducers = {};
+
+  if (__DEV__) {
+    if (module.hot) {
+      module.hot.accept('./reducers', () =>
+        store.replaceReducer(require('./reducers').default)
+      );
+    }
+  }
+
   return store;
 }
 

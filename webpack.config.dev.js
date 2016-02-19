@@ -14,20 +14,14 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/build/static/'
   },
-  resolve: {
-    root: path.resolve(__dirname, 'dist'),
-    alias: {
-      constants: 'constants',
-    },
-    extensions: ['', '.js', '.jsx']
-  },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.CommonsChunkPlugin('common.js', 2),
-    // new webpack.NoErrorsPlugin(),
+    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
+      '__DEV__': true
     }),
   ],
   module: {

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { loadPosts } from './actions';
 import PostListItem from './components/PostListItem';
 import { StyleSheet, css } from 'aphrodite';
+import PrimaryText from '../../components/PrimaryText';
 
 class PostListPage extends React.Component {
   constructor(props) {
@@ -19,9 +20,10 @@ class PostListPage extends React.Component {
     if (isLoading) {
       return <PrimaryText>Loading...</PrimaryText>;
     }
+
     return (
       <div>
-        <h2 className={css(styles.blue)}>PostListPage</h2>
+        <PrimaryText>PostListPage</PrimaryText>
         {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
       </div>
     );
@@ -31,7 +33,7 @@ class PostListPage extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts.data,
-    isLoading: state.posts.isLoading
+    isLoading: state.posts.isLoading,
   };
 }
 
