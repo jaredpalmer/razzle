@@ -1,0 +1,19 @@
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+import { invalidate } from '../actions';
+import { connect } from 'react-redux';
+
+const Nav = ({ dispatch }) => {
+  return (
+      <div>
+        <Link to="/">Home</Link>
+        <Link to="/edit">Edit</Link>
+      </div>
+    );
+};
+
+export default connect(state => {
+  return {
+    state: state,
+  };
+})(Nav);
