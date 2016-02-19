@@ -1,11 +1,21 @@
 # React Production Starter
 
-While there are tons of react/redux/react-router boilerplates on Github, this one is built to scale: it comes with multiple entry points (a.k.a. codesplitting), asynchronous "lazy" react-router routes, and asynchronous redux reducers. These features allow you to separate your app into as many mini-apps as you'd like to without affecting initial page load.
+This react-redux boilerplate comes with asynchronous react-router routes, async redux reducers, async data fetching, isomorphic rendering, and multiple entry points. With code splitting, you can scale your app infinitely without affecting the initial page load.
 
-Out of the box, the app is client-side only. However, refactoring to a universal (isomorphic) app is relatively straightforward. The only thing you'll have to decide on is which data-resolving logic you want. See `server-iso.js`, `client-iso.js`, `routes-iso.js` for an example that uses Redial (formerly react-fetchr).
+#### Under the Hood
+ - Node.js (duhh)
+ - Express
+ - React
+ - Redux
+ - React Router 2.0
+ - Aphrodite for CSS
+ - React Helmet for Meta Tags
+ - Redial for data fetching (soon to change).
+ - Webpack with multiple entry points and common chunks + React Hot Loader (for client side development)
+ - Mocha, Chai, Nock
+ - Procfile and app.json for Heroku deployment
 
-
-Folder Structure: 
+#### Folder Structure:
 ```bash
 .
 ├── /build/                     # The folder for compiled output
@@ -23,18 +33,16 @@ Folder Structure:
 │   |   |   ├── actions.js      # Post actions (async)
 │   |   |   ├── reducer.js      # Post reducer (async)
 │   |   |   ├── index.js        # Post Route (async)
-│   |   ├── /root.js            # React-router root 
+│   |   ├── /root.js            # React-router root
 │   ├── /client.js              # Client-side entry point
 │   ├── /store.js               # Redux store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
-│   ├── /(routes-iso.js)        # (Synchronous vanilla react-router routes, in case you want to use those)
 │   ├── /server/                # Server
 │   |   ├── /api/               # API endpoints
 │   |   |   ├── /posts.js       # Posts endpoint
 │   |   |   ├── /post.js        # Single Post endpoint
 │   |   ├── /fakeDB.js          # Database Stub
 │   |   ├── /server.js          # Express app
-│   |   ├── /server-iso.js      # Express app with isomorphic rendering (must use routes-iso.js)
 │   |   ├── /index.js           # Server entry point (with babel-register)
 ├── /test/                      # Mocha tests (e.g. xxx_spec.js)
 ├── /coverage/                  # Code coverage data
@@ -44,3 +52,15 @@ Folder Structure:
 │── webpack.config.dev.js       # Webpack Development Configuration File
 └── webpack.config.prod.js      # Webpack Production Configuration File
 ```
+
+### Getting started
+```bash
+git clone https://github.com/jaredpalmer/react-production-starter MyApp
+cd MyApp
+npm install
+npm start
+
+# Open localhost:5000
+```
+
+More docs soon. PRs welcome!

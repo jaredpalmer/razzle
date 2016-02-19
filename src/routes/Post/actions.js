@@ -2,9 +2,8 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
-  INVALIDATE_POST
 } from '../../constants';
-import axios from 'axios';
+import http from '../../utils/HttpClient';
 
 function shouldFetchPost(state) {
   if (state.currentPost.isLoading) {
@@ -12,12 +11,6 @@ function shouldFetchPost(state) {
   } else {
     return state.currentPost.didInvalidate;
   }
-}
-
-export function invalidate() {
-  return {
-    type: INVALIDATE_POST,
-  };
 }
 
 export function loadPost(slug) {
@@ -29,7 +22,7 @@ export function loadPost(slug) {
     // shouldCallAPI: (state) => shouldFetchPost(state),
 
     // Perform the fetching:
-    callAPI: () => axios.get(`http://localhost:5000/api/v0/post/${slug}`),
+    callAPI: () => http.get(`/api/v0/post/${slug}`),
 
     // Arguments to inject in begin/end actions
     payload: { slug },
