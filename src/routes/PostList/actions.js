@@ -25,7 +25,7 @@ export function loadPosts() {
     // shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
 
     // Perform the fetching:
-    callAPI: () => axios.get('http://localhost:5000/api/v0/posts'),
+    callAPI: () => axios.get('/api/v0/posts'),
 
     // Arguments to inject in begin/end actions
     payload: {},

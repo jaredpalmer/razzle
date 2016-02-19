@@ -22,7 +22,7 @@ export function loadPost(slug) {
     // shouldCallAPI: (state) => shouldFetchPost(state),
 
     // Perform the fetching:
-    callAPI: () => axios.get(`http://localhost:5000/api/v0/post/${slug}`),
+    callAPI: () => axios.get(`/api/v0/post/${slug}`),
 
     // Arguments to inject in begin/end actions
     payload: { slug },
