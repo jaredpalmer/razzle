@@ -27,7 +27,7 @@ Folder Structure:
 │   ├── /client.js              # Client-side entry point
 │   ├── /store.js               # Redux store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
-│   ├── /(routes-iso.js)        # (Synchronous vanilla react-router routes, in case you want to use those.)
+│   ├── /(routes-iso.js)        # (Synchronous vanilla react-router routes, in case you want to use those)
 │   ├── /server/                # Server
 │   |   ├── /api/               # API endpoints
 │   |   |   ├── /posts.js       # Posts endpoint
