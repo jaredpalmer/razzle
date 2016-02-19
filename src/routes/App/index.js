@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react';
 import Nav from './components/Nav';
 import { StyleSheet, css } from 'aphrodite';
+import Helmet from 'react-helmet';
 
 const App = ({ children }) => {
   return (
     <div className={css(styles.root)}>
+        <Helmet
+          title="React Production Starter"
+          titleTemplate="%s - React Production Starter"
+        />
         <h2 className={css(styles.title)}>
-          React Nation
+          React Production Starter
         </h2>
         <Nav/>
       {children}

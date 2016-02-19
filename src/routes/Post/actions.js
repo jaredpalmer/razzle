@@ -2,6 +2,7 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
+  INVALIDATE_POST
 } from '../../constants';
 import axios from 'axios';
 
@@ -11,6 +12,12 @@ function shouldFetchPost(state) {
   } else {
     return state.currentPost.didInvalidate;
   }
+}
+
+export function invalidate() {
+  return {
+    type: INVALIDATE_POST,
+  };
 }
 
 export function loadPost(slug) {

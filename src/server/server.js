@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import compression from 'compression';
 
 const isDeveloping = process.env.NODE_ENV != 'production';
 const port = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(cookieParser());
+server.use(compression());
 server.use(morgan('dev'));
 
 server.use('/api/v0/posts', require('./api/posts'));
@@ -79,19 +81,19 @@ server.get('*', (req, res) => {
           }
 
           html {
-          	font-size: 100%;
-          	-ms-overflow-style: scrollbar;
-          	-webkit-tap-highlight-color: rgba(0,0,0,0);
-          	height: 100%;
+            font-size: 100%;
+            -ms-overflow-style: scrollbar;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            height: 100%;
           }
 
           body {
-          	font-size: 1rem;
-          	background-color: #ECEEF1;
-          	color: #565a5c;
-          	-webkit-font-smoothing: antialiased;
+            font-size: 1rem;
+            background-color: #ECEEF1;
+            color: #565a5c;
+            -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-          	font-family: -apple-system, BlinkMacSystemFont,
+            font-family: -apple-system, BlinkMacSystemFont,
             "Helvetica Neue", Helvetica, Arial, sans-serif;
           }
 
@@ -152,7 +154,7 @@ server.get('*', (req, res) => {
           a,
           a:hover,
           a:focus {
-          	text-decoration: none;
+            text-decoration: none;
           }
 
 
@@ -167,7 +169,7 @@ server.get('*', (req, res) => {
           }
 
           img {
-          	vertical-align: middle;
+            vertical-align: middle;
           }
 
           [role="button"] {
@@ -189,8 +191,8 @@ server.get('*', (req, res) => {
           /* Forms */
 
           label {
-          	display: inline-block;
-          	margin-bottom: .5rem;
+            display: inline-block;
+            margin-bottom: .5rem;
           }
 
           button:focus {

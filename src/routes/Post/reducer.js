@@ -22,6 +22,10 @@ export default function currentPost(state = {
       return update(state, {
         error: { $set: action.error },
       });
+    case types.INVALIDATE_POST:
+      return update(state, {
+        data: { $set: {} },
+      });
     default:
       return state;
   }

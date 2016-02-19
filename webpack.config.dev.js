@@ -5,7 +5,11 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    main: ['./src/client.js'],
+    main: [
+      'webpack/hot/only-dev-server',
+      'webpack-hot-middleware/client',
+      './src/client.js'
+    ],
     editor: ['./src/routes/Editor'],
     post: ['./src/routes/Post'],
   },
