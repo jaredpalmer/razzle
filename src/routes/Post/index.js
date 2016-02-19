@@ -1,4 +1,5 @@
 import { injectAsyncReducer } from '../../store';
+if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require);
 
 export default function createRoutes(store) {
   return {

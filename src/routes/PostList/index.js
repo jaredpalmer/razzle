@@ -11,9 +11,7 @@ const PostListPage = ({ posts }) =>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
-const hooks = {
-  fetch: ({ dispatch }) => dispatch(loadPosts()),
-};
+PostListPage.need = [loadPosts];
 
 function mapStateToProps(state) {
   return {
@@ -30,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default provideHooks(hooks)(connect(mapStateToProps)(PostListPage));
+export default connect(mapStateToProps)(PostListPage);

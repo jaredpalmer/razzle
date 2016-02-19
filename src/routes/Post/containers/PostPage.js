@@ -6,10 +6,6 @@ import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
 import { layout } from '../../../constants';
 
-const hooks = {
-  defer: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
-};
-
 const PostPage = ({ title, content }) => {
   return (
     <div>
@@ -17,6 +13,15 @@ const PostPage = ({ title, content }) => {
       <p className={css(styles.primary)}>{ content }</p>
     </div>
   );
+};
+
+PostPage.need = [(params) => {
+  return loadPost.bind(null, params.slug)();
+},
+];
+
+PostPage.contextTypes = {
+  router: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -35,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default provideHooks(hooks)(connect(mapStateToProps)(PostPage));
+export default connect(mapStateToProps)(PostPage);
