@@ -1,6 +1,6 @@
 # React Production Starter
 
-While there are tons of react/redux/react-router boilerplates on Github, this one is built to scale: it comes with multiple entry points (a.k.a. codesplitting), asynchronous "lazy" react-router routes, and most importantly, asynchronous redux reducers. These features allow you to separate your app into as many mini-apps as you'd like to without affecting initial page load.
+While there are tons of react/redux/react-router boilerplates on Github, this one is built to scale: it comes with multiple entry points (a.k.a. codesplitting), asynchronous "lazy" react-router routes, and asynchronous redux reducers. These features allow you to separate your app into as many mini-apps as you'd like to without affecting initial page load.
 
 Out of the box, the app is client-side only. However, refactoring to a universal (isomorphic) app is relatively straightforward. The only thing you'll have to decide on is which data-resolving logic you want. See `server-iso.js`, `client-iso.js`, `routes-iso` for an example that uses Redial (formerly react-fetchr).
 
