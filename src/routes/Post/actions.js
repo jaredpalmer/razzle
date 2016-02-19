@@ -3,8 +3,7 @@ import {
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
 } from '../../constants';
-require('es6-promise');
-import fetch from 'isomorphic-fetch';
+import http from '../../utils/HttpClient';
 
 function shouldFetchPost(state) {
   if (state.currentPost.isLoading) {
@@ -23,7 +22,7 @@ export function loadPost(slug) {
     // shouldCallAPI: (state) => shouldFetchPost(state),
 
     // Perform the fetching:
-    callAPI: () => fetch(`http://127.0.0.1:5000/api/v0/post/${slug}`).then(req => req.json()),
+    callAPI: () => http.get(`/api/v0/post/${slug}`),
 
     // Arguments to inject in begin/end actions
     payload: { slug },

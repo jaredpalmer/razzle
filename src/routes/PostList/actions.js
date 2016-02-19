@@ -4,8 +4,7 @@ import {
   LOAD_POSTS_FAILURE
 } from '../../constants';
 
-require('es6-promise');
-import fetch from 'isomorphic-fetch';
+import http from '../../utils/HttpClient';
 
 // Caching logic
 function shouldFetchPosts(state) {
@@ -27,7 +26,7 @@ export function loadPosts() {
     // shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
 
     // Perform the fetching:
-    callAPI: () => fetch('http://127.0.0.1:5000/api/v0/posts').then(req => req.json()),
+    callAPI: () => http.get('/api/v0/posts'),
 
     // Arguments to inject in begin/end actions
     payload: {},
