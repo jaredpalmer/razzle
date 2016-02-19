@@ -8,7 +8,8 @@ This react-redux boilerplate comes with asynchronous react-router routes, async 
  - React
  - Redux
  - React Router 2.0
- - Aphrodite for CSS*
+ - Aphrodite for CSS
+ - React Helmet
  - Redial for data fetching (soon to change).
  - Webpack with multiple entry points and common chunks + React Hot Loader (for client side development)
  - Mocha, Chai, Nock
