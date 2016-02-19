@@ -19,6 +19,7 @@ import thunk from 'redux-thunk';
 import {callAPIMiddleware} from '../middleware/callAPIMiddleware';
 import { StyleSheetServer } from 'aphrodite';
 import { configureStore } from '../store';
+import Helm from 'react-helmet';
 
 // Your app's reducer and routes:
 import reducer from '../reducers';
@@ -76,16 +77,18 @@ const fetchComponentDataBeforeRender = (dispatch, components, params) => {
 };
 
 const renderFullPage = (data, initialState) => {
+  const head = Helm.rewind();
   return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <title>React Starter</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="React Email Workflow." />
-        <style data-aphrodite>${data.css.content}</style>
+         ${head.title.toString()}
+         <meta name="viewport" content="width=device-width, initial-scale=1" />
+         ${head.meta.toString()}
+         ${head.link.toString()}
+         <style data-aphrodite>${data.css.content}</style>
       </head>
       <body>
         <div id="root">${data.html}</div>
