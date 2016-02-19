@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: '1.5',
     margin: '1rem 0',
+    fontFamily: '"Helvetica Neue"',
   },
 });
 

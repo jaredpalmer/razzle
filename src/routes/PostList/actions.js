@@ -22,7 +22,7 @@ export function loadPosts() {
     types: [LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE],
 
     // Check the cache (optional):
-    shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
+    // shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
 
     // Perform the fetching:
     callAPI: () => axios.get('http://localhost:5000/api/v0/posts'),

@@ -6,12 +6,7 @@ export default function currentPost(state = {
   isLoading: false,
   error: null,
   didInvalidate: true,
-  data: {
-    id: 'abcd190d',
-    title: 'How\'s business? Boomin',
-    slug: 'hows-business-boomin',
-    content: 'Put it this way, it took me twenty five years to get these plants, twenty five years of blood sweat and tears, and I’m never giving up, I’m just getting started. I’m up to something. Fan luv. Lion! The key is to drink coconut, fresh coconut, trust me. Cloth talk. You see the hedges, how I got it shaped up? It’s important to shape up your hedges, it’s like getting a haircut, stay fresh.',
-  },
+  data: null,
 }, action) {
   switch (action.type) {
     case types.LOAD_POST_REQUEST:

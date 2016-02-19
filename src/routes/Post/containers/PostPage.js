@@ -7,7 +7,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { layout } from '../../../constants';
 
 const hooks = {
-  defer: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
+  fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug)),
 };
 
 const PostPage = ({ title, content }) => {
