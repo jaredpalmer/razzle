@@ -102,7 +102,7 @@ server.get('*', (req, res) => {
   const store = configureStore();
   const routes = createRoutes(store);
   const history = createMemoryHistory(req.path);
-
+  const { dispatch } = store;
   match({ routes, history }, (err, redirectLocation, renderProps) => {
     if (err) {
       console.error(err);
@@ -112,17 +112,32 @@ server.get('*', (req, res) => {
     if (!renderProps)
       return res.status(404).send('Not found');
 
-    const InitialView = (
-      <Provider store={store}>
-        <RouterContext {...renderProps} />
-      </Provider>
-    );
+    const { components } = renderProps;
 
-    const data = StyleSheetServer.renderStatic(
-        () => ReactDOM.renderToString(InitialView)
-    );
-    const initialState = store.getState();
-    res.status(200).send(renderFullPage(data, initialState));
+    // Define locals to be provided to all lifecycle hooks:
+    const locals = {
+     path: renderProps.location.pathname,
+     query: renderProps.location.query,
+     params: renderProps.params,
+
+     // Allow lifecycle hooks to dispatch Redux actions:
+     dispatch,
+   };
+
+    trigger('fetch', components, locals)
+      .then(() => {
+        const initialState = store.getState();
+        const InitialView = (
+          <Provider store={store}>
+            <RouterContext {...renderProps} />
+          </Provider>
+        );
+        const data = StyleSheetServer.renderStatic(
+            () => ReactDOM.renderToString(InitialView)
+        );
+        res.status(200).send(renderFullPage(data, initialState));
+      })
+      .catch(e => console.log(e));
   });
 });
 
