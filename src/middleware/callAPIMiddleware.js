@@ -36,7 +36,7 @@ export function callAPIMiddleware({ dispatch, getState }) {
 
     return callAPI().then(
       response => dispatch(Object.assign({}, payload, {
-        data: response.data,
+        data: response,
         lastFetched: new Date(),
         type: successType,
       })),
