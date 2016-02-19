@@ -3,10 +3,9 @@ import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE
 } from '../../constants';
+
 require('es6-promise');
 import fetch from 'isomorphic-fetch';
-
-// import axios from 'axios';
 
 // Caching logic
 function shouldFetchPosts(state) {
