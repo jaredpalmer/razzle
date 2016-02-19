@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
 import { layout } from '../../../constants';
+
 const Post = ({ title, body }) =>
   <div>
     <PrimaryText>{ title }</PrimaryText>
