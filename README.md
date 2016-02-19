@@ -23,7 +23,7 @@ Folder Structure:
 │   |   |   ├── actions.js      # Post actions (async)
 │   |   |   ├── reducer.js      # Post reducer (async)
 │   |   |   ├── index.js        # Post Route (async)
-│   |   ├── /root.js             # React-router root 
+│   |   ├── /root.js            # React-router root 
 │   ├── /client.js              # Client-side entry point
 │   ├── /store.js               # Redux store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
