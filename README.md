@@ -14,7 +14,7 @@ Folder Structure:
 │   ├── /components/            # Global React components
 │   ├── /reducers/              # Synchronous reducers (reducers required for initial page load)
 │   ├── /middleware/            # Redux middleware (comes with callAPIMiddileware)
-│   ├── /routes/                # Utility classes and functions
+│   ├── /routes/                # React-router routes
 │   |   ├── /App/               # Main wrapper component
 │   |   ├── /PostList/          # PostList page
 │   |   ├── /Editor/            # Editor (async stub)
@@ -23,6 +23,7 @@ Folder Structure:
 │   |   |   ├── actions.js      # Post actions (async)
 │   |   |   ├── reducer.js      # Post reducer (async)
 │   |   |   ├── index.js        # Post Route (async)
+│   |   ├── /root.js             # React-router root 
 │   ├── /client.js              # Client-side entry point
 │   ├── /store.js               # Redux store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
