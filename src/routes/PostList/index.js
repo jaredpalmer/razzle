@@ -7,7 +7,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 const PostListPage = ({ posts }) =>
   <div>
-    <h2 className={css(styles.title)}>PostListPage</h2>
+    <h2 className={css(styles.blue)}>PostListPage</h2>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
@@ -22,8 +22,11 @@ function mapStateToProps(state) {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontFamily: '"Helvetica Neue"',
+  blue: {
+    color: "blue",
+    ':hover': {
+      color: 'red',
+    },
   },
 });
 

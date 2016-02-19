@@ -125,8 +125,7 @@ server.get('*', (req, res) => {
    };
 
     trigger('fetch', components, locals)
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         const initialState = store.getState();
         const InitialView = (
           <Provider store={store}>
