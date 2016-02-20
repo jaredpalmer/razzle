@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import {callAPIMiddleware} from './middleware/callAPIMiddleware';
+import { callAPIMiddleware } from './middleware/callAPIMiddleware';
 import createReducer from './reducers';
 
 export function configureStore(initialState = {}) {
@@ -10,8 +10,12 @@ export function configureStore(initialState = {}) {
       callAPIMiddleware
     ),
 
-    // window.devToolsExtension && __DEV__ ? window.devToolsExtension() : f => f
+     (process.env.NODE_ENV == 'development') &&
+      typeof window === 'object' &&
+       typeof window.devToolsExtension !== 'undefined' ?
+        window.devToolsExtension() : f => f
   ));
+
   store.asyncReducers = {};
 
   if (process.env.NODE_ENV == 'development') {

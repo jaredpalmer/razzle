@@ -2,8 +2,15 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
+  INVALIDATE_POST
 } from '../../constants';
 import http from '../../utils/HttpClient';
+
+export function invalidate() {
+  return {
+    type: INVALIDATE_POST,
+  };
+}
 
 function shouldFetchPost(state) {
   if (state.currentPost.isLoading) {

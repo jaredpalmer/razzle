@@ -1,9 +1,17 @@
 import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
-import {loadPosts} from './actions';
+import { loadPosts } from './actions';
 import { connect } from 'react-redux';
 import PostListItem from './components/PostListItem';
 import { StyleSheet, css } from 'aphrodite';
+
+const redial = {
+  fetch: ({ dispatch }) => dispatch(loadPosts()),
+};
+
+const mapStateToProps = (state) => ({
+  posts: state.posts.data,
+});
 
 const PostListPage = ({ posts }) =>
   <div>
@@ -11,15 +19,9 @@ const PostListPage = ({ posts }) =>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
-const hooks = {
-  fetch: ({ dispatch }) => dispatch(loadPosts()),
+PostListPage.PropTypes = {
+  posts: PropTypes.array.isRequired,
 };
-
-function mapStateToProps(state) {
-  return {
-    posts: state.posts.data,
-  };
-}
 
 const styles = StyleSheet.create({
   title: {
@@ -30,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default provideHooks(hooks)(connect(mapStateToProps)(PostListPage));
+export default provideHooks(redial)(connect(mapStateToProps)(PostListPage));
