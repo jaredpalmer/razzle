@@ -1,6 +1,6 @@
-# React Production Starter
+# React Production Example
 
-This react-redux boilerplate comes with asynchronous react-router routes, async redux reducers, async data fetching, isomorphic rendering, and multiple entry points. With code splitting, you can scale your app infinitely without affecting the initial page load.
+This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
 
 #### Under the Hood
  - Node.js
