@@ -17,11 +17,6 @@ const mapStateToProps = state => ({
   isLoading: state.currentPost.isLoading,
 });
 
-PostPage.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string,
-  isLoading: PropTypes.bool,
-};
 
 const PostPage = ({ title, content, isLoading }) => {
   return (
@@ -44,6 +39,13 @@ const PostPage = ({ title, content, isLoading }) => {
     </div>
   );
 };
+
+PostPage.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.string,
+  isLoading: PropTypes.bool,
+};
+
 
 const styles = StyleSheet.create({
   primary: {

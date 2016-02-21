@@ -13,17 +13,15 @@ const mapStateToProps = (state) => ({
   posts: state.posts.data,
 });
 
-PostListPage.PropTypes = {
-  posts: PropTypes.array.isRequired,
-};
-
 const PostListPage = ({ posts }) =>
   <div>
     <h2 className={css(styles.title)}>PostListPage</h2>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
-
+PostListPage.PropTypes = {
+  posts: PropTypes.array.isRequired,
+};
 
 const styles = StyleSheet.create({
   title: {
