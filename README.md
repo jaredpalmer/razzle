@@ -18,7 +18,7 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 
 
 #### Folder Structure:
-```bash
+```
 .
 ├── /build/                     # The folder for compiled output
 ├── /node_modules/              # 3rd-party libraries and utilities
