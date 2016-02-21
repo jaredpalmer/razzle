@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { callAPIMiddleware } from './middleware/callAPIMiddleware';
-import createReducer from './reducers';
+import createReducer from './createReducer';
 
 export function configureStore(initialState = {}) {
   let store = createStore(createReducer(), initialState, compose(
@@ -20,8 +20,8 @@ export function configureStore(initialState = {}) {
 
   if (process.env.NODE_ENV == 'development') {
     if (module.hot) {
-      module.hot.accept('./reducers', () =>
-        store.replaceReducer(require('./reducers').default)
+      module.hot.accept('./createReducer', () =>
+        store.replaceReducer(require('./createReducer').default)
       );
     }
   }

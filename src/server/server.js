@@ -23,7 +23,7 @@ import Helm from 'react-helmet';
 import compression from 'compression';
 
 // Your app's reducer and routes:
-import reducer from '../reducers';
+import reducer from '../createReducer';
 import createRoutes from '../routes/root';
 
 // import oldRoutes from '../routes-old';
