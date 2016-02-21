@@ -1,4 +1,4 @@
-# React Production Example
+# React Production Starter
 
 This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
 
