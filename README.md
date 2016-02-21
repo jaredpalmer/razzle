@@ -3,17 +3,19 @@
 This react-redux boilerplate comes with asynchronous react-router routes, async redux reducers, async data fetching, isomorphic rendering, and multiple entry points. With code splitting, you can scale your app infinitely without affecting the initial page load.
 
 #### Under the Hood
- - Node.js (duhh)
+ - Node.js
  - Express
  - React
  - Redux
  - React Router 2.0
  - Aphrodite for CSS
- - React Helmet for Meta Tags
- - Redial for data fetching (soon to change).
- - Webpack with multiple entry points and common chunks + React Hot Loader (for client side development)
- - Mocha, Chai, Nock
- - Procfile and app.json for Heroku deployment
+ - React Helmet for meta tags
+ - Redial for data fetching
+ - Webpack with multiple entry points and common chunks + React Hot Loader
+
+#### Inspiration
+https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes
+
 
 #### Folder Structure:
 ```bash
