@@ -29,7 +29,7 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   ├── /routes/                # React-router routes
 │   |   ├── /App/               # Main wrapper component
 │   |   ├── /PostList/          # PostList page
-│   |   ├── /Editor/            # Editor (async stub)
+│   |   ├── /Editor/            # Editor
 │   |   ├── /Post/              # Post (async)
 │   |   |   ├── /components/    # Post components (async)
 │   |   |   ├── actions.js      # Post actions (async)
@@ -37,6 +37,7 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   |   |   ├── index.js        # Post Route (async)
 │   |   ├── /root.js            # React-router root
 │   ├── /client.js              # Client-side entry point
+│   ├── /createReducer.js       # Like combineReducers, but async
 │   ├── /store.js               # Redux store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
 │   ├── /server/                # Server
@@ -47,7 +48,6 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   |   ├── /server.js          # Express app
 │   |   ├── /index.js           # Server entry point (with babel-register)
 ├── /test/                      # Mocha tests (e.g. xxx_spec.js)
-├── /coverage/                  # Code coverage data
 │── .env                        # **Server-side configuration variables**
 │── Procfile                    # Heroku startup commands
 │── package.json                # The list of 3rd party libraries and utilities and NPM scripts
