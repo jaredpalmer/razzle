@@ -24,10 +24,8 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 ├── /node_modules/              # 3rd-party libraries and utilities
 ├── /src/                       # The source code of the application
 │   ├── /components/            # Global React components
-│   ├── /reducers/              # Synchronous reducers (reducers required for initial page load)
 │   ├── /middleware/            # Redux middleware (comes with callAPIMiddileware)
 │   ├── /routes/                # React-router routes
-│   |   ├── /App/               # Main wrapper component
 │   |   ├── /PostList/          # PostList page
 │   |   ├── /Editor/            # Editor
 │   |   ├── /Post/              # Post (async)
@@ -37,9 +35,9 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   |   |   ├── index.js        # Post Route (async)
 │   |   ├── /root.js            # React-router root
 │   ├── /client.js              # Client-side entry point
-│   ├── /createReducer.js       # Like combineReducers, but async
-│   ├── /store.js               # Redux store configuration
+│   ├── /store.js               # Async store configuration
 │   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
+│   ├── /createReducer.js       # Like rootReducer, but async
 │   ├── /server/                # Server
 │   |   ├── /api/               # API endpoints
 │   |   |   ├── /posts.js       # Posts endpoint
@@ -48,6 +46,7 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   |   ├── /server.js          # Express app
 │   |   ├── /index.js           # Server entry point (with babel-register)
 ├── /test/                      # Mocha tests (e.g. xxx_spec.js)
+├── /coverage/                  # Code coverage data
 │── .env                        # **Server-side configuration variables**
 │── Procfile                    # Heroku startup commands
 │── package.json                # The list of 3rd party libraries and utilities and NPM scripts
