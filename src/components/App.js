@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import Nav from './Nav';
 import { StyleSheet, css } from 'aphrodite';
 import Helmet from 'react-helmet';
+import Nav from './Nav';
 
 const App = ({ children }) => {
   return (
