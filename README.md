@@ -27,7 +27,7 @@ https://github.com/ryanflorence/example-react-router-server-rendering-lazy-route
 │   ├── /middleware/            # Redux middleware (comes with callAPIMiddileware)
 │   ├── /routes/                # React-router routes
 │   |   ├── /PostList/          # PostList page
-│   |   ├── /Editor/            # Editor
+│   |   ├── /Edit/              # Edit page (stub)
 │   |   ├── /Post/              # Post (async)
 │   |   |   ├── /components/    # Post components (async)
 │   |   |   ├── actions.js      # Post actions (async)
