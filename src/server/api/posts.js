@@ -5,10 +5,6 @@ const router = new Router();
 import fakeDB from '../fakeDB.js';
 
 router.get('/', (req, res) => {
-  // setTimeout(() => {
-  //   res.statusCode = 200;
-  //   res.json(fakeDB);
-  // }, 500);
   res.statusCode = 200;
   res.json(fakeDB);
 });

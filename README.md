@@ -3,18 +3,21 @@
 This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
 
 #### Under the Hood
- - Node.js
- - Express
- - React
- - Redux
- - React Router 2.0
- - Aphrodite for CSS
- - React Helmet for meta tags
- - Redial for data fetching
- - Webpack with multiple entry points and common chunks + React Hot Loader
+ - [Node.js](https://nodejs.org/en/)
+ - [Express](https://github.com/expressjs/express)
+ - [React](https://github.com/facebook/react)
+ - [Redux](https://github.com/reactjs/redux) by @reactjs
+ - [React Router](https://github.com/reactjs/react-router) 2.0
+ - [Aphrodite](https://github.com/Khan/aphrodite) for CSS by @khan
+ - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by @nfl
+ - [Redial](https://github.com/markdalgleish/redial) for data fetching by @markdalgleish
+ - [Babel 6](https://github.com/babel/babel)
+ - [Webpack](https://github.com/webpack/webpack) with multiple entry points and common chunks + [React Hot Loader](https://github.com/gaearon/react-hot-loader)
 
 #### Inspiration
-https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes
+ - [example-react-router-server-rendering-lazy-routes](https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes) by @ryanflorence
+ - [Cake's approach to React Router server rendering w/code splitting and Redux](https://gist.github.com/rgrove/3e612aa366541845161c) by @rgrove
+ - [How to dynamically load reducers for code splitting in a Redux application?](http://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application) by @gaearon
 
 
 #### Folder Structure:
