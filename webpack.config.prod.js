@@ -6,7 +6,7 @@ module.exports = {
   devtool: 'eval',
   entry:  {
     main: ['./src/client.js'],
-    editor: ['./src/routes/Editor'],
+    editor: ['./src/routes/Edit'],
     post: ['./src/routes/Post'],
   },
   output: {

@@ -10,7 +10,7 @@ module.exports = {
       'webpack-hot-middleware/client',
       './src/client.js'
     ],
-    editor: ['./src/routes/Editor'],
+    editor: ['./src/routes/Edit'],
     post: ['./src/routes/Post'],
   },
   output: {

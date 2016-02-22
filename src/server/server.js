@@ -8,25 +8,23 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import compression from 'compression';
 
-import { trigger } from 'redial';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { createMemoryHistory, RouterContext, match } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import {callAPIMiddleware} from '../middleware/callAPIMiddleware';
+import { trigger } from 'redial';
+import { callAPIMiddleware } from '../middleware/callAPIMiddleware';
 import { StyleSheetServer } from 'aphrodite';
 import { configureStore } from '../store';
-import Helm from 'react-helmet';
-import compression from 'compression';
+import Helm from 'react-helmet'; // because we are already using helmet
 
-// Your app's reducer and routes:
 import reducer from '../createReducer';
 import createRoutes from '../routes/root';
 
-// import oldRoutes from '../routes-old';
 
 const isDeveloping = process.env.NODE_ENV != 'production';
 const port = process.env.PORT || 5000;
@@ -69,18 +67,10 @@ if (isDeveloping) {
   server.use('/build/static', express.static(__dirname + '../../../build/static'));
 }
 
-const fetchComponentDataBeforeRender = (dispatch, components, params) => {
-  const needs = components.reduce((prev, current) => {
-    return (current.need || [])
-      .concat((current.WrappedComponent ? current.WrappedComponent.need : []) || [])
-      .concat(prev);
-  }, []);
-  const promises = needs.map(need => dispatch(need()));
-  return Promise.all(promises);
-};
-
 const renderFullPage = (data, initialState) => {
   const head = Helm.rewind();
+
+  // Included are some solid resets. Feel free to add normalize etc.
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -287,6 +277,10 @@ server.get('*', (req, res) => {
             <RouterContext {...renderProps} />
           </Provider>
         );
+
+        // just call html = ReactDOM.renderToString(InitialView)
+        // to if you don't want Aphrodite. Also change renderFullPage
+        // accordingly
         const data = StyleSheetServer.renderStatic(
             () => ReactDOM.renderToString(InitialView)
         );

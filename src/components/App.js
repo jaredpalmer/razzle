@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Nav from './components/Nav';
+import Nav from './Nav';
 import { StyleSheet, css } from 'aphrodite';
 import Helmet from 'react-helmet';
 
