@@ -41,6 +41,7 @@
     "es6-promise": "^3.1.2",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^5.0.0",
+    "eslint-plugin-react": "^4.0.0",
     "express": "^4.13.4",
     "fbjs": "^0.7.2",
     "helmet": "^1.1.0",
