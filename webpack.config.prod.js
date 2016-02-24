@@ -3,7 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: false,
   entry:  {
     main: ['./src/client.js'],
     editor: ['./src/routes/Edit'],
