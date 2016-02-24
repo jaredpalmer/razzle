@@ -4,7 +4,7 @@
   "description": "Isomorphic React Starter with Redux, React Router, Redial, CSS Modules, Express, Webpack.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
     "start": "NODE_ENV=development node ./src/server",
     "start:prod": "npm run build && NODE_ENV=production node ./src/server",
@@ -49,7 +49,6 @@
     "isparta": "^4.0.0",
     "mocha": "^2.4.5",
     "morgan": "^1.6.1",
-    "nock": "^7.0.2",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-helmet": "^2.3.1",

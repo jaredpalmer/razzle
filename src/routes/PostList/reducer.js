@@ -14,7 +14,7 @@ export default function posts(state = {
       });
     case types.LOAD_POSTS_SUCCESS:
       return update(state, {
-        data: { $set: action.data },
+        data: { $set: action.body },
         lastFetched: { $set: action.lastFetched },
         isLoading: { $set: false },
       });

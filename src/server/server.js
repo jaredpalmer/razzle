@@ -25,16 +25,17 @@ import Helm from 'react-helmet'; // because we are already using helmet
 import reducer from '../createReducer';
 import createRoutes from '../routes/root';
 
-
-const isDeveloping = process.env.NODE_ENV != 'production';
+const isDeveloping = process.env.NODE_ENV == 'development';
 const port = process.env.PORT || 5000;
 const server = global.server = express();
 
 server.disable('x-powered-by');
 server.set('port', port);
+
 server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
+
 server.use(cookieParser());
 server.use(compression());
 
@@ -295,7 +296,6 @@ server.listen(port, '0.0.0.0', function onStart(err) {
     console.log(err);
   }
 
-  console.log(isDeveloping);
   console.info('==> 🌎 Listening on port %s.' +
     'Open up http://0.0.0.0:%s/ in your browser.', port, port);
 });
