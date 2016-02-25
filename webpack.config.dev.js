@@ -10,18 +10,25 @@ module.exports = {
       'webpack-hot-middleware/client',
       './src/client.js'
     ],
-    editor: ['./src/routes/Edit'],
-    post: ['./src/routes/Post'],
+    vendor: [
+      'react',
+      'react-dom',
+      'react-router',
+      'redux',
+      'react-redux',
+      'aphrodite'
+    ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
+     chunkFilename: '[id].chunk.js',
     publicPath: '/build/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('common.js', 2),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
