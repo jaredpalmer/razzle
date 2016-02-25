@@ -6,6 +6,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../../webpack.config.dev';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
+import hpp from 'hpp';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import compression from 'compression';
@@ -29,19 +30,35 @@ const isDeveloping = process.env.NODE_ENV == 'development';
 const port = process.env.PORT || 5000;
 const server = global.server = express();
 
+// Security
 server.disable('x-powered-by');
 server.set('port', port);
-
-server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-
+server.use(hpp());
+server.use(helmet.contentSecurityPolicy({
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'"],
+  imgSrc: ["'self'"],
+  connectSrc: ["'self'", 'ws:'],
+  fontSrc: ["'self'"],
+  objectSrc: ["'none'"],
+  mediaSrc: ["'none'"],
+  frameSrc: ["'none'"],
+}));
+server.use(helmet.xssFilter());
+server.use(helmet.frameguard('deny'));
+server.use(helmet.ieNoOpen());
+server.use(helmet.noSniff());
 server.use(cookieParser());
 server.use(compression());
 
+// API
 server.use('/api/v0/posts', require('./api/posts'));
 server.use('/api/v0/post', require('./api/post'));
 
+// Webpack (for development)
 if (isDeveloping) {
   server.use(morgan('dev'));
   const compiler = webpack(config);
@@ -68,6 +85,7 @@ if (isDeveloping) {
   server.use('/build/static', express.static(__dirname + '../../../build/static'));
 }
 
+// Render Document (include global styles)
 const renderFullPage = (data, initialState) => {
   const head = Helm.rewind();
 
@@ -244,6 +262,7 @@ const renderFullPage = (data, initialState) => {
   `;
 };
 
+// SSR Logic
 server.get('*', (req, res) => {
   const store = configureStore();
   const routes = createRoutes(store);
@@ -291,6 +310,7 @@ server.get('*', (req, res) => {
   });
 });
 
+// Listen
 server.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);
