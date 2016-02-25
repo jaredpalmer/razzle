@@ -15,7 +15,6 @@ const mapStateToProps = (state) => ({
 
 const PostListPage = ({ posts }) =>
   <div>
-    <h2 className={css(styles.title)}>PostListPage</h2>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
@@ -24,6 +23,9 @@ PostListPage.PropTypes = {
 };
 
 const styles = StyleSheet.create({
+  root: {
+    maxWidth: 500,
+  },
   title: {
     fontSize: '24px',
     fontWeight: 'bold',
