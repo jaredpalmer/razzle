@@ -22,7 +22,7 @@ import { callAPIMiddleware } from '../middleware/callAPIMiddleware';
 import { StyleSheetServer } from 'aphrodite';
 import { configureStore } from '../store';
 import Helm from 'react-helmet'; // because we are already using helmet
-
+import assets from '../../assets.json';
 import reducer from '../createReducer';
 import createRoutes from '../routes/root';
 
@@ -86,7 +86,7 @@ if (isDeveloping) {
 }
 
 // Render Document (include global styles)
-const renderFullPage = (data, initialState) => {
+const renderFullPage = (data, initialState, assets) => {
   const head = Helm.rewind();
 
   // Included are some solid resets. Feel free to add normalize etc.
@@ -106,8 +106,8 @@ const renderFullPage = (data, initialState) => {
         <div id="root">${data.html}</div>
         <script>window.renderedClassNames = ${JSON.stringify(data.css.renderedClassNames)};</script>
         <script>window.INITIAL_STATE = ${JSON.stringify(initialState)};</script>
-        <script src="/build/static/vendor.js"></script>
-        <script src="/build/static/main.js"></script>
+        <script src="${ isDeveloping ? '/build/static/vendor.js' : assets.vendor.js}"></script>
+        <script src="${ isDeveloping ? '/build/static/main.js' : assets.main.js}"></script>
       </body>
     </html>
   `;
@@ -155,7 +155,7 @@ server.get('*', (req, res) => {
         const data = StyleSheetServer.renderStatic(
             () => ReactDOM.renderToString(InitialView)
         );
-        res.status(200).send(renderFullPage(data, initialState));
+        res.status(200).send(renderFullPage(data, initialState, assets));
       })
       .catch(e => console.log(e));
   });

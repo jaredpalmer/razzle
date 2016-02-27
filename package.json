@@ -25,6 +25,7 @@
   "homepage": "https://github.com/jaredpalmer/react-production-starter#readme",
   "dependencies": {
     "aphrodite": "^0.1.2",
+    "assets-webpack-plugin": "^3.3.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
     "babel-polyfill": "^6.5.0",

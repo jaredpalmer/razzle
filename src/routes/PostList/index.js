@@ -25,13 +25,7 @@ PostListPage.PropTypes = {
 const styles = StyleSheet.create({
   root: {
     maxWidth: 500,
-  },
-  title: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    lineHeight: '1.5',
-    margin: '1rem 0',
-  },
+  }
 });
 
 export default provideHooks(redial)(connect(mapStateToProps)(PostListPage));

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import Helmet from 'react-helmet';
 import Nav from './Nav';
+import { StyleSheet, css } from 'aphrodite';
+import { Type } from '../style';
 
 const App = ({ children }) => {
   return (
@@ -10,11 +11,20 @@ const App = ({ children }) => {
           title="React Production Starter"
           titleTemplate="%s - React Production Starter"
         />
-        <h2 className={css(styles.title)}>
-          React Production Starter
-        </h2>
+        <h1 className={css(styles.title)}>
+          React
+          Production
+          Starter
+        </h1>
         <Nav/>
       {children}
+      <footer className={css(styles.footer)}>
+        Copyright 2016 <a className={css(styles.footerLink)}
+          href="http://twitter.com/jaredpalmer"
+          target="_blank">
+          Jared Palmer
+        </a>
+        </footer>
     </div>
   );
 };
@@ -27,6 +37,22 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#000',
+    maxWidth: 300,
+    fontSize: 56,
+    fontFamily: Type.sans,
+    fontWeight: 'bold',
+    letterSpacing: '-0.03em',
+  },
+  footer: {
+    margin: '4rem auto',
+    textAlign: 'center',
+    fontFamily: Type.sans,
+    color: '#b7b7b7',
+  },
+  footerLink: {
+    display: 'inline-block',
+    color: '#000',
+    textDecoration: 'none',
   },
 });
 
