@@ -6,8 +6,14 @@ module.exports = {
   devtool: false,
   entry:  {
     main: ['./src/client.js'],
-    editor: ['./src/routes/Edit'],
-    post: ['./src/routes/Post'],
+    vendor: [
+      'react',
+      'react-dom',
+      'react-router',
+      'redux',
+      'react-redux',
+      'aphrodite'
+    ]
   },
   output: {
      path: __dirname + '/build/static',
@@ -16,8 +22,8 @@ module.exports = {
      publicPath: '/build/static/'
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('common.js',  2),
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js',  2),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
