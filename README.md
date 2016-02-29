@@ -22,6 +22,10 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [Cake's approach to React Router server rendering w/code splitting and Redux](https://gist.github.com/rgrove/3e612aa366541845161c) by [@rgrove](https://twitter.com/yaypie)
  - [How to dynamically load reducers for code splitting in a Redux application?](http://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application) by [@dan_abramov](https://twitter.com/dan_abramov)
 
+#### Interesting forks
+* [svrcekmichal/react-production-starter](https://github.com/svrcekmichal/react-production-starter) by [@svrcekmichal](https://twitter.com/svrcekmichal)
+  * Showing how to switch [markdalgleish/redial](https://github.com/markdalgleish/redial) with [svrcekmichal/reasync](https://github.com/svrcekmichal/reasync)
+
 #### Folder Structure:
 ```
 .
