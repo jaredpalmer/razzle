@@ -19,7 +19,7 @@ const App = ({ children }) => {
         <Nav/>
       {children}
       <footer className={css(styles.footer)}>
-        Copyright 2016 <a className={css(styles.footerLink)}
+        Copyright © 2016 <a className={css(styles.footerLink)}
           href="http://twitter.com/jaredpalmer"
           target="_blank">
           Jared Palmer
