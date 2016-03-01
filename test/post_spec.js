@@ -49,15 +49,17 @@ describe('Post Reducer', () => {
       content: 'Khaled Ipsum is a major key to success.',
     };
 
+    const currentTime = Date.now();
+
     const action = {
       type: types.LOAD_POST_SUCCESS,
       body: post,
-      lastFetched: Date.now(),
+      lastFetched: currentTime,
     };
 
     const nextState = reducer(initialState, action);
     expect(nextState).to.deep.equal({
-      lastFetched: Date.now(),
+      lastFetched: currentTime,
       isLoading: false,
       error: null,
       data: post,

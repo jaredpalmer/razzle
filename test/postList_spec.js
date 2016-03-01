@@ -42,15 +42,16 @@ describe('PostList Reducer', () => {
       data: [],
     };
 
+    const currentTime = Date.now();
     const action = {
       type: types.LOAD_POSTS_SUCCESS,
       body: fakeDB,
-      lastFetched: Date.now(),
+      lastFetched: currentTime,
     };
 
     const nextState = reducer(initialState, action);
     expect(nextState).to.deep.equal({
-      lastFetched: Date.now(),
+      lastFetched: currentTime,
       isLoading: false,
       error: null,
       data: fakeDB,
