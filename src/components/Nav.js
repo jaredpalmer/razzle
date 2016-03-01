@@ -6,8 +6,16 @@ import { Type } from '../style';
 
 const Nav = () =>
   <div>
-    <IndexLink to="/" className={css(styles.link)}>Home</IndexLink>
-    <Link to="/about" className={css(styles.link)}>About</Link>
+    <IndexLink to="/"
+      className={css(styles.link)}
+      activeClassName={css(styles.link, styles.activeLink)}>
+      Home
+    </IndexLink>
+    <Link to="/about"
+      className={css(styles.link)}
+      activeClassName={css(styles.link, styles.activeLink)}>
+      About
+    </Link>
     <a href="https://github.com/jaredpalmer/react-production-starter" className={css(styles.link)} target="_blank">GitHub</a>
     <a href="https://twitter.com/jaredpalmer" className={css(styles.link)} target="_blank">Twitter</a>
   </div>;
@@ -15,11 +23,8 @@ const Nav = () =>
 const styles = StyleSheet.create({
   link: {
     maxWidth: 700,
-    color: '#000',
-    marginTop: '1rem',
-    marginBottom: '1rem',
-    marginRight: '1rem',
-    fontFamily: Type.sans,
+    color: '#999',
+    margin: '1.5rem 1rem 1.5rem 0',
     display: 'inline-block',
     textDecoration: 'none',
     fontWeight: 'bold',
@@ -27,6 +32,9 @@ const styles = StyleSheet.create({
     ':hover': {
       opacity: .6,
     },
+  },
+  activeLink: {
+    color: '#000',
   },
 });
 
