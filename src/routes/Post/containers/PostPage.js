@@ -2,9 +2,8 @@ import { provideHooks } from 'redial';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadPost } from '../actions';
-import PrimaryText from '../../../components/PrimaryText';
 import { StyleSheet, css } from 'aphrodite';
-import { layout } from '../../../constants';
+import { Type } from '../../../style';
 import Helmet from 'react-helmet';
 
 const redial = {
@@ -25,14 +24,14 @@ const PostPage = ({ title, content, isLoading }) => {
       />
       {isLoading &&
         <div>
-          <PrimaryText className={css(styles.primary)}>Loading....</PrimaryText>
+          <h2 className={css(styles.title)}>Loading....</h2>
           <p className={css(styles.primary)}></p>
         </div>
       }
       {!isLoading &&
         <div>
-          <PrimaryText className={css(styles.primary)}>{ title }</PrimaryText>
-          <p className={css(styles.primary)}>{ content }</p>
+          <h2 className={css(styles.title)}>{ title }</h2>
+          <p className={css(styles.body)}>{ content }</p>
         </div>
       }
     </div>
@@ -46,11 +45,15 @@ PostPage.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  primary: {
-    fontSize: '1rem',
+  body: {
+    fontSize: '1.25rem',
     lineHeight: '1.5',
     margin: '1rem 0',
-    fontFamily: layout.serif,
+  },
+  title: {
+    fontSize: '36px',
+    margin: '1rem 0',
+    color: '#000',
   },
 });
 

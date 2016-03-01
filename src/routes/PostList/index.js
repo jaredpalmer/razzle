@@ -15,7 +15,6 @@ const mapStateToProps = (state) => ({
 
 const PostListPage = ({ posts }) =>
   <div>
-    <h2 className={css(styles.title)}>PostListPage</h2>
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>;
 
@@ -24,12 +23,9 @@ PostListPage.PropTypes = {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    lineHeight: '1.5',
-    margin: '1rem 0',
-  },
+  root: {
+    maxWidth: 500,
+  }
 });
 
 export default provideHooks(redial)(connect(mapStateToProps)(PostListPage));
