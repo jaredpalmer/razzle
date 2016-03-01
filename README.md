@@ -12,7 +12,7 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [Redux](https://github.com/reactjs/redux)
  - [React Router](https://github.com/reactjs/react-router) 2.0
  - [Aphrodite](https://github.com/Khan/aphrodite) for CSS by Khan Academy
- - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by NFL
+ - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
  - [Babel 6](https://github.com/babel/babel)
  - [Webpack](https://github.com/webpack/webpack) with code splitting
