@@ -9,8 +9,7 @@
     "start": "NODE_ENV=development node ./src/server",
     "start:prod": "npm run build && NODE_ENV=production node ./src/server",
     "build": "npm run clean && webpack -p --config ./webpack.config.prod.js",
-    "clean": "rm -rf build",
-    "postinstall": "npm run build"
+    "clean": "rm -rf build"
   },
   "repository": {
     "type": "git",
