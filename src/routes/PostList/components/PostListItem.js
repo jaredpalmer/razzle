@@ -5,21 +5,18 @@ import { Type } from '../../../style';
 
 const PostListItem = ({ post }) =>
   <div className={css(styles.root)}>
-    <Link to={`/post/${post.slug}`} className={css(styles.title)}>{post.title}</Link>
+    <h3><Link to={`/post/${post.slug}`} className={css(styles.title)}>{post.title}</Link></h3>
   </div>;
 
 const styles = StyleSheet.create({
   root: {
-    margin: '1rem auto',
+    margin: '0 auto 1.5rem',
   },
   title: {
     fontSize: '36px',
-    fontWeight: 'bold',
-    fontFamily: Type.sans,
     textDecoration: 'none',
-    lineHeight: '1.2',
-    letterSpacing: '-0.03em',
-    margin: '1rem 0',
+    lineHeight: '1.5',
+    margin: '0 0 1.5rem',
     color: '#000',
     transition: '.3s opacity ease',
     ':hover': {

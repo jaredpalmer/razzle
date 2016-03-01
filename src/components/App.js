@@ -39,14 +39,10 @@ const styles = StyleSheet.create({
     color: '#000',
     maxWidth: 300,
     fontSize: 56,
-    fontFamily: Type.sans,
-    fontWeight: 'bold',
-    letterSpacing: '-0.03em',
   },
   footer: {
     margin: '4rem auto',
     textAlign: 'center',
-    fontFamily: Type.sans,
     color: '#b7b7b7',
   },
   footerLink: {
