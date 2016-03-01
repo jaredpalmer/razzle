@@ -1,6 +1,7 @@
 // jscs:disable
 var path = require('path');
 var webpack = require('webpack');
+var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -22,7 +23,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
-     chunkFilename: '[id].chunk.js',
+    chunkFilename: '[id].chunk.js',
     publicPath: '/build/static/'
   },
   plugins: [

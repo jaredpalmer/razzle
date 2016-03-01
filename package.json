@@ -9,8 +9,7 @@
     "start": "NODE_ENV=development node ./src/server",
     "start:prod": "npm run build && NODE_ENV=production node ./src/server",
     "build": "npm run clean && webpack -p --config ./webpack.config.prod.js",
-    "clean": "rm -rf build",
-    "postinstall": "npm run build"
+    "clean": "rm -rf build"
   },
   "repository": {
     "type": "git",
@@ -25,8 +24,11 @@
   "homepage": "https://github.com/jaredpalmer/react-production-starter#readme",
   "dependencies": {
     "aphrodite": "^0.1.2",
+    "assets-webpack-plugin": "^3.3.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
+    "babel-plugin-transform-react-constant-elements": "^6.5.0",
+    "babel-plugin-transform-react-inline-elements": "^6.5.0",
     "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",

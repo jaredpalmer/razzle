@@ -35,3 +35,4 @@ build
 
 # JetBrains
 .idea
+assets.json

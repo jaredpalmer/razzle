@@ -1,6 +1,8 @@
 # React Production Starter
 
-This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
+[![Build Status](https://travis-ci.org/jaredpalmer/react-production-starter.svg?branch=master)](https://travis-ci.org/jaredpalmer/react-production-starter)
+
+An example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
 
 #### Motivation
 The file size of isomorphic React apps can quickly get out of hand. Many isomorphic starter kits look awesome to begin with but yield a several megabyte javascript file for the client to download. This project aims to demonstrate some possible solutions.
@@ -12,10 +14,11 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [Redux](https://github.com/reactjs/redux)
  - [React Router](https://github.com/reactjs/react-router) 2.0
  - [Aphrodite](https://github.com/Khan/aphrodite) for CSS by Khan Academy
- - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by NFL
+ - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
  - [Babel 6](https://github.com/babel/babel)
- - [Webpack](https://github.com/webpack/webpack) with multiple entry points and common chunks + [React Hot Loader](https://github.com/gaearon/react-hot-loader)
+ - [Webpack](https://github.com/webpack/webpack) with code splitting
+ - [React Hot Loader](https://github.com/gaearon/react-hot-loader)
 
 #### Inspiration
  - [example-react-router-server-rendering-lazy-routes](https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes) by [@ryanflorence](https://twitter.com/ryanflorence)
