@@ -81,8 +81,9 @@ if (isDeveloping) {
     log: console.log,
   }));
 } else {
+  const publicPath =  require('../../webpack.config.prod').output.path;
   server.use(morgan('combined'));
-  server.use('/build/static', express.static(__dirname + '../../../build/static'));
+  server.use('/build/static', express.static(publicPath));
 }
 
 // Render Document (include global styles)
