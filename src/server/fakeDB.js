@@ -8,7 +8,7 @@ const fakeDB = [
   },
   {
     id: 'xys190a',
-    title: 'The Pathway to more success',
+    title: 'The Pathway to More Success',
     slug: 'the-pathway-to-more-success',
     content: 'Find peace, life is like a water fall, you’ve gotta flow. Find peace, life is like a water fall, you’ve gotta flow. Eliptical talk. The key is to drink coconut, fresh coconut, trust me. To be successful you’ve got to work hard, to make history, simple, you’ve got to make it. They don’t want us to eat. The key to more success is to get a massage once a week, very important, major key, cloth talk. They never said winning was easy. Some people can’t handle success, I can. Always remember in the jungle there’s a lot of they in there, after you overcome they, you will make it to paradise.',
   },
