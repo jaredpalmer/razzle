@@ -51,12 +51,12 @@ browserHistory.listen(location => {
 
     // Fetch deferred, client-only data dependencies:
     trigger('defer', components, locals);
+
+    // Render app with Redux and router context to container element:
+    render((
+      <Provider store={store}>
+          <Router history={browserHistory} routes={routes} />
+      </Provider>
+    ), container);
   });
 });
-
-// Render app with Redux and router context to container element:
-render((
-  <Provider store={store}>
-      <Router history={browserHistory} routes={routes} />
-  </Provider>
-), container);
