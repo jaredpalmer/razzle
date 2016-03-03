@@ -24,6 +24,16 @@ const routes = createRoutes(store);
 const container = document.getElementById('root');
 StyleSheet.rehydrate(window.renderedClassNames);
 
+// Pull child routes using match
+match({ routes, location }, () => {
+  // Render app with Redux and router context to container element:
+  render((
+    <Provider store={store}>
+        <Router history={browserHistory} routes={routes} />
+    </Provider>
+  ), container);
+});
+
 browserHistory.listen(location => {
   // Match routes based on location object:
   match({ routes, location }, (error, redirectLocation, renderProps) => {
@@ -51,12 +61,5 @@ browserHistory.listen(location => {
 
     // Fetch deferred, client-only data dependencies:
     trigger('defer', components, locals);
-
-    // Render app with Redux and router context to container element:
-    render((
-      <Provider store={store}>
-          <Router history={browserHistory} routes={routes} />
-      </Provider>
-    ), container);
   });
 });
