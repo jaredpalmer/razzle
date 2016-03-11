@@ -4,10 +4,10 @@
   "description": "Isomorphic React Starter with Redux, React Router, Redial, CSS Modules, Express, Webpack.",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
+    "test": "npm run build && cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
-    "start": "NODE_ENV=development node ./src/server",
-    "start:prod": "npm run build && NODE_ENV=production node ./src/server",
+    "start": "cross-env NODE_ENV=development node ./src/server",
+    "start:prod": "npm run build && cross-env NODE_ENV=production node ./src/server",
     "build": "npm run clean && webpack -p --config ./webpack.config.prod.js",
     "clean": "rm -rf build"
   },
@@ -66,5 +66,8 @@
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
+  },
+  "devDependencies": {
+    "cross-env": "^1.0.7"
   }
 }
