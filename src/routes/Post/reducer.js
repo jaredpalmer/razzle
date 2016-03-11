@@ -11,6 +11,7 @@ export default function currentPost(state = {
     case types.LOAD_POST_REQUEST:
       return update(state, {
         isLoading: { $set: true },
+        error: { $set: null }
       });
     case types.LOAD_POST_SUCCESS:
       return update(state, {
