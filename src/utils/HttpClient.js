@@ -19,11 +19,7 @@ const HttpClient = {
       .accept('application/json')
       .end((err, res) => {
         if (err) {
-          if (err.status === 404) {
-            resolve(null);
-          } else {
-            reject(err);
-          }
+          reject(err);
         } else {
           resolve(res.body);
         }
@@ -35,11 +31,7 @@ const HttpClient = {
       .send(payload)
       .end((err, res) => {
         if (err) {
-          if (err.status === 404) {
-            resolve(null);
-          } else {
-            reject(err);
-          }
+          reject(err);
         } else {
           resolve(res.body);
         }
@@ -51,11 +43,7 @@ const HttpClient = {
       .send(payload)
       .end((err, res) => {
         if (err) {
-          if (err.status === 404) {
-            resolve(null);
-          } else {
-            reject(err);
-          }
+          reject(err);
         } else {
           resolve(res.body);
         }
@@ -66,11 +54,7 @@ const HttpClient = {
       .del(getUrl(path))
       .end((err, res) => {
         if (err) {
-          if (err.status === 404) {
-            resolve(null);
-          } else {
-            reject(err);
-          }
+          reject(err);
         } else {
           resolve(res);
         }
