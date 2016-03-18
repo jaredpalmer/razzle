@@ -10,7 +10,7 @@ export function configureStore(initialState = {}) {
       callAPIMiddleware
     ),
 
-     (process.env.NODE_ENV == 'development') &&
+     (process.env.NODE_ENV === 'development') &&
       typeof window === 'object' &&
        typeof window.devToolsExtension !== 'undefined' ?
         window.devToolsExtension() : f => f
@@ -18,7 +18,7 @@ export function configureStore(initialState = {}) {
 
   store.asyncReducers = {};
 
-  if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV === 'development') {
     if (module.hot) {
       module.hot.accept('./createReducer', () =>
         store.replaceReducer(require('./createReducer').default)
