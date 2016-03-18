@@ -68,8 +68,5 @@
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
-  },
-  "devDependencies": {
-    "cross-env": "^1.0.7"
   }
 }
