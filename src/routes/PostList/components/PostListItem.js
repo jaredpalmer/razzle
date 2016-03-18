@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     margin: '0 auto 1.5rem',
   },
   title: {
-    fontSize: '36px',
+    fontSize: '30px',
     textDecoration: 'none',
-    lineHeight: '1.5',
+    lineHeight: '1',
     margin: '0 0 1.5rem',
     color: '#000',
     transition: '.3s opacity ease',
