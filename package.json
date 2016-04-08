@@ -59,7 +59,6 @@
     "react-helmet": "^2.3.1",
     "react-redux": "^4.4.0",
     "react-router": "^2.0.0",
-    "redbox-react": "^1.2.2",
     "redial": "^0.4.1",
     "redux": "^3.3.1",
     "redux-mock-store": "0.0.6",
