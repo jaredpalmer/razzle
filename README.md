@@ -17,8 +17,7 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
  - [Babel 6](https://github.com/babel/babel)
- - [Webpack](https://github.com/webpack/webpack) with code splitting
- - [React Hot Loader](https://github.com/gaearon/react-hot-loader)
+ - [Webpack](https://github.com/webpack/webpack) with Hot Module Replacement
 
 #### Inspiration
  - [example-react-router-server-rendering-lazy-routes](https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes) by [@ryanflorence](https://twitter.com/ryanflorence)
@@ -33,26 +32,19 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
 ├── /src/                       # The source code of the application
 │   ├── /components/            # Global React components
 │   ├── /middleware/            # Redux middleware (comes with callAPIMiddileware)
-│   ├── /routes/                # React-router routes
-│   |   ├── /PostList/          # PostList page
-│   |   ├── /Edit/              # Edit page (stub)
-│   |   ├── /Post/              # Post (async)
-│   |   |   ├── /components/    # Post components (async)
-│   |   |   ├── actions.js      # Post actions (async)
-│   |   |   ├── reducer.js      # Post reducer (async)
-│   |   |   ├── index.js        # Post Route (async)
-│   |   ├── /root.js            # React-router root
-│   ├── /client.js              # Client-side entry point
-│   ├── /store.js               # Async store configuration
-│   ├── /constants.js           # Global constants (Action types, Aphrodite layout/style vars)
-│   ├── /createReducer.js       # Like rootReducer, but async
+│   ├── /routes/                # **React-router routes (i.e. mini-redux-apps)** (:fire:)
 │   ├── /server/                # Server
 │   |   ├── /api/               # API endpoints
 │   |   |   ├── /posts.js       # Posts endpoint
 │   |   |   ├── /post.js        # Single Post endpoint
 │   |   ├── /fakeDB.js          # Database Stub
 │   |   ├── /server.js          # Express app
-│   |   ├── /index.js           # Server entry point (with babel-register)
+│   |   └── /index.js           # Server entry point (with babel-register)
+│   ├── /client.js              # Client-side entry point
+│   ├── /constants.js           # Global constants (action types)
+│   ├── /createReducer.js       # Like rootReducer, but async
+│   ├── /store.js               # Async store configuration
+│   ├── /style.js               # Global style/layout constants
 ├── /test/                      # Mocha tests (e.g. xxx_spec.js)
 ├── /coverage/                  # Code coverage data
 │── .env                        # **Server-side configuration variables**
