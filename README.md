@@ -17,7 +17,7 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
  - [Babel 6](https://github.com/babel/babel)
- - [Webpack](https://github.com/webpack/webpack) with Hot Module Replacement
+ - [Webpack](https://github.com/webpack/webpack) with vanilla Hot Module Replacement
 
 #### Inspiration
  - [example-react-router-server-rendering-lazy-routes](https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes) by [@ryanflorence](https://twitter.com/ryanflorence)
