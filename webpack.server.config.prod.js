@@ -40,6 +40,11 @@ module.exports = {
         'require("source-map-support").install();',
         { raw: true, entryOnly: false }
     ),
-    new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/)
+    new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
   ]
 };
