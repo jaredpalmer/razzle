@@ -83,10 +83,9 @@ if (isDeveloping) {
     log: console.log,
   }));
 } else {
-  const buildPath = require('../../webpack.config.prod').output.path;
   assets = require('../../assets.json');
   server.use(morgan('combined'));
-  server.use('/build/static', express.static(buildPath));
+  server.use('/build/static', express.static('./build/static'));
 }
 
 // Render Document (include global styles)
