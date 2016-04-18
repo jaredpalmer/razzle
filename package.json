@@ -64,6 +64,7 @@
     "redux": "^3.3.1",
     "redux-mock-store": "0.0.6",
     "redux-thunk": "^1.0.3",
+    "source-map-support": "^0.4.0",
     "superagent": "^1.7.2",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
