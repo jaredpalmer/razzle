@@ -3,7 +3,7 @@ import {
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
 } from '../../constants';
-import http from '../../utils/HttpClient';
+import axios from 'axios';
 
 export function loadPost(slug) {
   return {
@@ -14,7 +14,7 @@ export function loadPost(slug) {
     // shouldCallAPI: (state) => shouldFetchPost(state),
 
     // Perform the fetching:
-    callAPI: () => http.get(`/api/v0/post/${slug}`),
+    callAPI: () => axios.get(`/api/v0/post/${slug}`).then(res => res.data),
 
     // Arguments to inject in begin/end actions
     payload: { slug },
