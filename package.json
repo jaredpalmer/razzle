@@ -1,8 +1,7 @@
 {
   "name": "react-production-starter",
   "version": "1.0.0",
-  "description": "Isomorphic React Starter with Redux, React Router, Redial, CSS Modules, Express, Webpack.",
-  "main": "index.js",
+  "description": "Isomorphic React Starter with Redux, React Router, Redial, Aphrodite, Express, Webpack.",
   "scripts": {
     "test": "npm run clean && npm run build && cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
@@ -16,8 +15,8 @@
     "url": "git+https://github.com/jaredpalmer/react-production-starter.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "jaredpalmer",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jaredpalmer/react-production-starter/issues"
   },
