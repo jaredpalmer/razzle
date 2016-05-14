@@ -3,7 +3,7 @@ import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE
 } from '../../constants';
-import axios from 'axios';
+import http from '../../utils/http';
 
 export function loadPosts() {
   return {
@@ -14,7 +14,7 @@ export function loadPosts() {
     // shouldCallAPI: (state) => state.posts.data.length === 0 && !state.posts.isLoading,
 
     // Perform the fetching:
-    callAPI: () => axios.get('/api/v0/posts').then(res => res.data),
+    callAPI: () => http.get('/api/v0/posts').then(res => res.data).catch(e => console.log(e)),
 
     // Arguments to inject in begin/end actions
     payload: {},
