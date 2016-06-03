@@ -67,6 +67,7 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
     "superagent": "^1.7.2",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
