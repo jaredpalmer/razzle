@@ -42,10 +42,19 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
-      include: path.join(__dirname, 'src')
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
+        include: path.join(__dirname, 'src')
+      },{
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'url-loader?limit=10000'
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url-loader?limit=10000'
+      }
+    ]
   }
 };

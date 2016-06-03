@@ -37,10 +37,22 @@ module.exports = {
     }),
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
+    loaders: [
+      {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'url-loader?limit=1000',
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url-loader?limit=1000',
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.js$/,
+        loaders: ['babel'],
+        include: path.join(__dirname, 'src')
+      },
+    ]
   }
 };

@@ -32,6 +32,14 @@ module.exports = {
       }, {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'url-loader?limit=10000'
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url-loader?limit=10000'
       }
     ]
   },
@@ -40,7 +48,6 @@ module.exports = {
         'require("source-map-support").install();',
         { raw: true, entryOnly: false }
     ),
-    new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
