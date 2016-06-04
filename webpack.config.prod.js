@@ -20,7 +20,7 @@ module.exports = {
      path: __dirname + '/build/static',
      filename: '[name]_[hash].js',
      chunkFilename: '[id].chunk_[hash].js',
-     publicPath: '/build/static/'
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
