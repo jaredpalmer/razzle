@@ -8,6 +8,7 @@ import match from 'react-router/lib/match';
 import browserHistory from 'react-router/lib/browserHistory';
 import { Provider } from 'react-redux';
 import { StyleSheet } from 'aphrodite';
+import { AppContainer } from 'react-hot-loader';
 
 import { configureStore } from './store';
 
@@ -34,9 +35,11 @@ let render = () => {
     // We need to have a random in development because of `match`'s dependency on
     // `routes.` Normally, we would want just one file from which we require `routes` from.
     ReactDOM.render(
-      <Provider store={store}>
+      <AppContainer>
+        <Provider store={store}>
           <Router routes={routes} history={browserHistory} key={Math.random()}/>
-      </Provider>,
+        </Provider>
+      </AppContainer>,
       container
     );
 
