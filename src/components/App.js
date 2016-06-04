@@ -7,16 +7,16 @@ import { Type } from '../style';
 const App = ({ children }) => {
   return (
     <div className={css(styles.root)}>
-        <Helmet
-          title="React Production Starter"
-          titleTemplate="%s - React Production Starter"
-        />
-        <h1 className={css(styles.title)}>
-          React
-          Production
-          Starter
-        </h1>
-        <Nav/>
+      <Helmet
+        title="React Production Starter"
+        titleTemplate="%s - React Production Starter"
+      />
+      <h1 className={css(styles.title)}>
+        React
+        Production
+        Starter
+      </h1>
+      <Nav/>
       {children}
       <footer className={css(styles.footer)}>
         Copyright © 2016 <a className={css(styles.footerLink)}

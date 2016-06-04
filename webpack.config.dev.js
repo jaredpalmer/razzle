@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     main: [
-      'webpack/hot/only-dev-server',
+      'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       './src/client.js'
     ],

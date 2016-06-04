@@ -59,6 +59,7 @@
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-helmet": "^3.1.0",
+    "react-hot-loader": "^3.0.0-beta.1",
     "react-redux": "^4.4.0",
     "react-router": "^2.0.0",
     "redial": "^0.4.1",

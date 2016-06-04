@@ -33,3 +33,4 @@ node_modules
 .node_repl_history
 build
 assets.json
+.DS_Store
