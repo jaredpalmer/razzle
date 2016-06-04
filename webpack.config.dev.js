@@ -3,6 +3,10 @@ var path = require('path');
 var webpack = require('webpack');
 var AssetsPlugin = require('assets-webpack-plugin');
 
+var getPath = function (dir) {
+  return path.join(__dirname, dir);
+};
+
 module.exports = {
   devtool: 'source-map',
   entry: {
@@ -21,7 +25,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: getPath('temp'),
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
     publicPath: '/static/'
@@ -39,19 +43,22 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.js$/,
+        loader: 'babel',
+        query: { presets: ['es2015', 'react', 'stage-0'] },
+        include: getPath('src')
+      },
+      {
         test: /\.(gif|jpe?g|png|ico)$/,
-        loader: 'url-loader?limit=1000',
-        include: path.join(__dirname, 'src')
+        loader: 'file',
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-        loader: 'url-loader?limit=1000',
-        include: path.join(__dirname, 'src')
-      },
-      {
-        test: /\.js$/,
-        loaders: ['babel'],
-        include: path.join(__dirname, 'src')
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       },
     ]
   }

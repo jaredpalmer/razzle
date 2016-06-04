@@ -1,7 +1,11 @@
 // jscs:disable
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+var AssetsPlugin = require('assets-webpack-plugin')
+
+var getPath = function (dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
   devtool: false,
@@ -17,16 +21,16 @@ module.exports = {
     ]
   },
   output: {
-     path: __dirname + '/build/static',
-     filename: '[name]_[hash].js',
-     chunkFilename: '[id].chunk_[hash].js',
+    path: getPath('/build/static'),
+    filename: '[name]_[hash].js',
+    chunkFilename: '[id].chunk_[hash].js',
     publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor_[hash].js',  2),
     new webpack.optimize.DedupePlugin(),
-    new AssetsPlugin({filename: 'assets.json'}),
+    new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         unused: true,
@@ -45,16 +49,28 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
-        include: path.join(__dirname, 'src')
-      },{
+        loader: 'babel',
+        query: {
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: [
+            'transform-react-constant-elements',
+            'transform-react-inline-elements'
+          ]
+        },
+        include: getPath('src')
+      },
+      {
         test: /\.(gif|jpe?g|png|ico)$/,
-        loader: 'url-loader?limit=10000'
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-        loader: 'url-loader?limit=10000'
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       }
     ]
   }
-};
+}
