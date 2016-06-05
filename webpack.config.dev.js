@@ -26,7 +26,7 @@ module.exports = {
   output: {
     path: getPath('temp'),
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
+    chunkFilename: '[id].[name].js',
     publicPath: '/static/'
   },
   plugins: [
@@ -53,13 +53,13 @@ module.exports = {
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'file',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
         include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
         include: getPath('src')
       },
     ]

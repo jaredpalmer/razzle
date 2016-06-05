@@ -20,8 +20,9 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: './src/server/server.js',
   output: {
-    path: path.join(__dirname, '/build/server'),
+    path: getPath('/build/server'),
     filename: 'index.js',
+    chunkFilename: '[id].[name].[chunkhash].js',
     publicPath: '/static/'
   },
   externals: getExternals(),
@@ -44,13 +45,13 @@ module.exports = {
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
         include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
         include: getPath('src')
       }
     ]
