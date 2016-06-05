@@ -40,7 +40,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json',
-        include: getPath('src')
       },
       {
         test: /\.(gif|jpe?g|png|ico)$/,
