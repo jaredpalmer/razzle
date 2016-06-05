@@ -37,7 +37,7 @@ let render = () => {
     ReactDOM.render(
       <AppContainer>
         <Provider store={store}>
-          <Router routes={routes} history={browserHistory} key={Math.random()}/>
+          <Router routes={routes} history={browserHistory} />
         </Provider>
       </AppContainer>,
       container
