@@ -17,7 +17,7 @@ export default function createRoutes(store) {
 
           require('./NotFound').default
         ]);
-      });
+      }, 'root');
     },
 
     indexRoute: {

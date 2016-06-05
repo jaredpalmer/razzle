@@ -1,3 +1,4 @@
+import '../src/server/node-hooks'
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../src/server/server';

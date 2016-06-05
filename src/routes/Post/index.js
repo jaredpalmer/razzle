@@ -13,7 +13,7 @@ export default function createRoutes(store) {
           let postReducer = require('./reducer').default;
           injectAsyncReducer(store, 'currentPost', postReducer);
           cb(null, PostPage);
-        });
+        }, 'post_page');
     },
   };
 }
