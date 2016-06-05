@@ -1,10 +1,14 @@
 // jscs:disable
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+var AssetsPlugin = require('assets-webpack-plugin')
+
+var getPath = function getPath (dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
-  devtool: false,
+  devtool: 'source-map',
   entry:  {
     main: ['./src/client.js'],
     vendor: [
@@ -17,16 +21,16 @@ module.exports = {
     ]
   },
   output: {
-     path: __dirname + '/build/static',
-     filename: '[name]_[hash].js',
-     chunkFilename: '[id].chunk_[hash].js',
-     publicPath: '/build/static/'
+    path: getPath('/build/static'),
+    filename: '[id].[name].[hash].js',
+    chunkFilename: '[id].[name].[chunkhash].js',
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor_[hash].js',  2),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash].js',  2),
     new webpack.optimize.DedupePlugin(),
-    new AssetsPlugin({filename: 'assets.json'}),
+    new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         unused: true,
@@ -42,10 +46,32 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
-      include: path.join(__dirname, 'src')
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: [
+            'transform-runtime',
+            'transform-react-constant-elements',
+            'transform-react-inline-elements'
+          ]
+        },
+        include: getPath('src')
+      },
+      {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        include: getPath('src')
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        include: getPath('src')
+      }
+    ]
   }
-};
+}

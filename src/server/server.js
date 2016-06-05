@@ -85,7 +85,7 @@ if (isDeveloping) {
 } else {
   assets = require('../../assets.json');
   server.use(morgan('combined'));
-  server.use('/build/static', express.static('./build/static'));
+  server.use('/static', express.static('./build/static'));
 }
 
 // Render Document (include global styles)
@@ -301,8 +301,8 @@ const renderFullPage = (data, initialState, assets) => {
         <div id="root">${data.html}</div>
         <script>window.renderedClassNames = ${JSON.stringify(data.css.renderedClassNames)};</script>
         <script>window.INITIAL_STATE = ${JSON.stringify(initialState)};</script>
-        <script src="${ isDeveloping ? '/build/static/vendor.js' : assets.vendor.js}"></script>
-        <script src="${ isDeveloping ? '/build/static/main.js' : assets.main.js}"></script>
+        <script src="${ isDeveloping ? '/static/vendor.js' : assets.vendor.js}"></script>
+        <script src="${ isDeveloping ? '/static/main.js' : assets.main.js}" async></script>
       </body>
     </html>
   `;

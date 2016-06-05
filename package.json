@@ -28,6 +28,7 @@
     "babel-loader": "^6.2.2",
     "babel-plugin-transform-react-constant-elements": "^6.5.0",
     "babel-plugin-transform-react-inline-elements": "^6.5.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
     "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
@@ -48,6 +49,7 @@
     "eslint-plugin-react": "^5.1.1",
     "express": "^4.13.4",
     "fbjs": "^0.8.2",
+    "file-loader": "^0.8.5",
     "helmet": "^2.0.0",
     "history": "^2.1.1",
     "hpp": "^0.2.0",
@@ -68,6 +70,7 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
     "superagent": "^1.7.2",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
