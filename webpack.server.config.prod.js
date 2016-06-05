@@ -3,11 +3,15 @@ var webpack = require('webpack')
 var fs =  require('fs')
 var path = require('path')
 
-function getExternals () {
-  var nodeModules = fs.readdirSync(path.resolve(__dirname, 'node_modules'))
-  return nodeModules.reduce(function (ext, mod) {
-    ext[mod] = 'commonjs ' + mod
-    return ext
+var getPath = function getPath (dir) {
+  return path.join(__dirname, dir)
+}
+
+var getExternals = function getExternals () {
+  var nodeModules = fs.readdirSync(path.resolve(getPath('node_modules')))
+  return nodeModules.reduce(function (mapExternals, mod) {
+    mapExternals[mod] = 'commonjs ' + mod
+    return mapExternals
   }, {})
 }
 
@@ -30,28 +34,31 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: path.join(__dirname, 'src'),
-        query: { presets: ['es2015', 'react', 'stage-0'] }
+        query: { presets: ['es2015', 'react', 'stage-0'] },
+        include: getPath('src'),
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
+        include: getPath('src')
       },
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' }
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[ext]?[hash]' }
+        query: { limit: 10000, name: '[name].[ext]?[hash]' },
+        include: getPath('src')
       }
     ]
   },
   plugins: [
     new webpack.BannerPlugin(
-      'require("source-map-support").install()',
+      'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
     new webpack.optimize.UglifyJsPlugin({

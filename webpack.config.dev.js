@@ -1,14 +1,13 @@
 // jscs:disable
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
 
-var getPath = function (dir) {
-  return path.join(__dirname, dir);
-};
+var getPath = function getPath (dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     main: [
       'webpack/hot/only-dev-server',
@@ -65,4 +64,4 @@ module.exports = {
       },
     ]
   }
-};
+}

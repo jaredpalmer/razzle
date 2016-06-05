@@ -3,7 +3,7 @@ var path = require('path')
 var webpack = require('webpack')
 var AssetsPlugin = require('assets-webpack-plugin')
 
-var getPath = function (dir) {
+var getPath = function getPath (dir) {
   return path.join(__dirname, dir)
 }
 
