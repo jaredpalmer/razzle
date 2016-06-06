@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
     main: [
-      'react-hot-loader/patch',
+      'webpack/hot/only-dev-server',
       'webpack-hot-middleware/client',
       './src/client.js'
     ],
@@ -45,8 +45,8 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          presets: ['es2015', 'react', 'stage-0'],
-          plugins: ['transform-runtime', 'react-hot-loader/babel']
+          presets: ['es2015-loose', 'react', 'stage-0'],
+          plugins: ['transform-runtime']
         },
         include: getPath('src')
       },

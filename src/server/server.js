@@ -333,24 +333,22 @@ server.get('*', (req, res) => {
       dispatch
     }
 
-    trigger('fetch', components, locals)
-      .then(() => {
-        const initialState = store.getState()
-        const InitialView = (
-          <Provider store={store}>
-            <RouterContext {...renderProps} />
-          </Provider>
-        )
+    const triggerServerHooks = trigger('fetch', components, locals)
 
-        // just call html = ReactDOM.renderToString(InitialView)
-        // to if you don't want Aphrodite. Also change renderFullPage
-        // accordingly
-        const data = StyleSheetServer.renderStatic(
-            () => ReactDOM.renderToString(InitialView)
-        )
-        res.status(200).send(renderFullPage(data, initialState, assets))
-      })
-      .catch(e => console.log(e))
+    triggerServerHooks.then(() => {
+      const initialState = store.getState()
+      const renderString = () => ReactDOM.renderToString(
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
+      )
+      const data = StyleSheetServer.renderStatic(renderString)
+      const html = renderFullPage(data, initialState, assets)
+
+      res.status(200).send(html)
+    })
+
+    triggerServerHooks.catch(e => console.log(e))
   })
 })
 

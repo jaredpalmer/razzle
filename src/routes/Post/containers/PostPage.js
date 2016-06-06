@@ -21,9 +21,7 @@ const PostPage = ({ title, content, isLoading, error }) => {
   if (!error) {
     return (
       <div>
-        <Helmet
-          title={title}
-        />
+        <Helmet title={title} />
         {isLoading &&
           <div>
             <h2 className={css(styles.title)}>Loading....</h2>
