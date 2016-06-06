@@ -21,7 +21,7 @@ module.exports = {
   output: {
     path: getPath('/build/server'),
     filename: 'index.js',
-    chunkFilename: '[id].[name].[chunkhash].js',
+    chunkFilename: '[name].[id].[chunkhash:8].js',
     publicPath: '/static/'
   },
   externals: getExternals(),
@@ -34,7 +34,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        query: { presets: ['es2015-loose', 'react', 'stage-0'] },
+        query: { presets: ['es2015', 'react', 'stage-0'] },
         include: getPath('src')
       },
       {
@@ -44,13 +44,13 @@ module.exports = {
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       }
     ]

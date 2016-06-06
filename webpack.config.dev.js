@@ -25,7 +25,7 @@ module.exports = {
   output: {
     path: getPath('temp'),
     filename: '[name].js',
-    chunkFilename: '[id].[name].js',
+    chunkFilename: '[name].[id].js',
     publicPath: '/static/'
   },
   plugins: [
@@ -45,7 +45,7 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          presets: ['es2015-loose', 'react', 'stage-0'],
+          presets: ['es2015', 'react', 'stage-0'],
           plugins: ['transform-runtime']
         },
         include: getPath('src')
@@ -53,13 +53,13 @@ module.exports = {
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'file',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       }
     ]

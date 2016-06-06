@@ -28,7 +28,7 @@ const requireHook = (context, filename) => {
   const content = fs.readFileSync(filename)
 
   // Note: filename template must match url/file loader configuration!
-  const filenameTemplate = '[name].[hash].[ext]'
+  const filenameTemplate = '[name].[hash:8].[ext]'
 
   // Resolve using https://github.com/webpack/loader-utils
   const outputName = interpolateName(

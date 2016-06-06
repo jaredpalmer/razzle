@@ -21,13 +21,13 @@ module.exports = {
   },
   output: {
     path: getPath('/build/static'),
-    filename: '[id].[name].[hash].js',
-    chunkFilename: '[id].[name].[chunkhash].js',
+    filename: '[name].[id].[hash:8].js',
+    chunkFilename: '[name].[id].[chunkhash:8].js',
     publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash].js', 2),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash:8].js', 2),
     new webpack.optimize.DedupePlugin(),
     new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.UglifyJsPlugin({
@@ -50,7 +50,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         query: {
-          presets: ['es2015-loose', 'react', 'stage-0'],
+          presets: ['es2015', 'react', 'stage-0'],
           plugins: [
             'transform-runtime',
             'transform-react-constant-elements',
@@ -62,13 +62,13 @@ module.exports = {
       {
         test: /\.(gif|jpe?g|png|ico)$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       },
       {
         test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
         loader: 'url',
-        query: { limit: 10000, name: '[name].[hash].[ext]' },
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
         include: getPath('src')
       }
     ]
