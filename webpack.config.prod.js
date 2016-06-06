@@ -8,7 +8,7 @@ var getPath = function getPath (dir) {
 
 module.exports = {
   devtool: 'source-map',
-  entry:  {
+  entry: {
     main: ['./src/client.js'],
     vendor: [
       'react',
@@ -27,7 +27,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash].js',  2),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash].js', 2),
     new webpack.optimize.DedupePlugin(),
     new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.UglifyJsPlugin({
@@ -35,13 +35,13 @@ module.exports = {
         unused: true,
         dead_code: true,
         warnings: false,
-        screw_ie8: true,
+        screw_ie8: true
       }
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
-      '__DEV__': false,
+      '__DEV__': false
     })
   ],
   module: {

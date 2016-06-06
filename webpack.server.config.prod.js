@@ -1,4 +1,4 @@
-var fs =  require('fs')
+var fs = require('fs')
 var path = require('path')
 var webpack = require('webpack')
 
@@ -35,11 +35,11 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         query: { presets: ['es2015', 'react', 'stage-0'] },
-        include: getPath('src'),
+        include: getPath('src')
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        loader: 'json'
       },
       {
         test: /\.(gif|jpe?g|png|ico)$/,

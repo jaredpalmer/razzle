@@ -35,8 +35,8 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
-      '__DEV__': true,
-    }),
+      '__DEV__': true
+    })
   ],
   module: {
     loaders: [
@@ -61,7 +61,7 @@ module.exports = {
         loader: 'url',
         query: { limit: 10000, name: '[name].[hash].[ext]' },
         include: getPath('src')
-      },
+      }
     ]
   }
 }
