@@ -35,7 +35,7 @@ let render = () => {
     ReactDOM.render(
       <AppContainer>
         <Provider store={store}>
-          <Router routes={routes} history={browserHistory} />
+          <Router routes={routes} history={browserHistory} key={Math.random()} />
         </Provider>
       </AppContainer>,
       container
@@ -76,9 +76,7 @@ let render = () => {
 }
 
 if (module.hot) {
-  module.hot.accept('./routes/root', () => {
-    setTimeout(render)
-  })
+  module.hot.accept('./routes/root', () => render())
 }
 
 render()
