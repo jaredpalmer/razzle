@@ -9,12 +9,13 @@ import browserHistory from 'react-router/lib/browserHistory';
 import { Provider } from 'react-redux';
 import { StyleSheet } from 'aphrodite';
 
+import axios from 'axios'
+
 import { configureStore } from './store';
 
 const initialState = window.INITIAL_STATE || {};
-
-// Set up Redux (note: this API requires redux@>=3.1.0):
-const store = configureStore(initialState);
+const client = axios.create()
+const store = configureStore(client, initialState);
 const { dispatch } = store;
 const { pathname, search, hash } = window.location;
 const location = `${pathname}${search}${hash}`;

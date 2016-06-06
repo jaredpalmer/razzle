@@ -53,7 +53,7 @@ describe('Post Reducer', () => {
 
     const action = {
       type: types.LOAD_POST_SUCCESS,
-      body: post,
+      payload: post,
       lastFetched: currentTime,
     };
 

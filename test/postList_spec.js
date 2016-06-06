@@ -45,7 +45,7 @@ describe('PostList Reducer', () => {
     const currentTime = Date.now();
     const action = {
       type: types.LOAD_POSTS_SUCCESS,
-      body: fakeDB,
+      payload: fakeDB,
       lastFetched: currentTime,
     };
 
