@@ -1,14 +1,17 @@
-// jscs:disable
-var webpack = require('webpack');
-var fs =  require('fs');
-var path = require('path');
+var fs = require('fs')
+var path = require('path')
+var webpack = require('webpack')
 
-function getExternals() {
-  const nodeModules = fs.readdirSync(path.resolve(__dirname, 'node_modules'));
-  return nodeModules.reduce(function (ext, mod) {
-    ext[mod] = 'commonjs ' + mod;
-    return ext;
-  }, {});
+var getPath = function getPath (dir) {
+  return path.join(__dirname, dir)
+}
+
+var getExternals = function getExternals () {
+  var nodeModules = fs.readdirSync(path.resolve(getPath('node_modules')))
+  return nodeModules.reduce(function (mapExternals, mod) {
+    mapExternals[mod] = 'commonjs ' + mod
+    return mapExternals
+  }, {})
 }
 
 module.exports = {
@@ -16,8 +19,10 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: './src/server/server.js',
   output: {
-    path: __dirname + '/build/server',
-    filename: 'index.js'
+    path: getPath('/build/server'),
+    filename: 'index.js',
+    chunkFilename: '[name].[id].[chunkhash:8].js',
+    publicPath: '/static/'
   },
   externals: getExternals(),
   node: {
@@ -25,26 +30,40 @@ module.exports = {
     __dirname: true
   },
   module: {
-    loaders: [{
+    loaders: [
+      {
         test: /\.js$/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
-        include: path.join(__dirname, 'src')
-      }, {
+        loader: 'babel',
+        query: { presets: ['es2015', 'react', 'stage-0'] },
+        include: getPath('src')
+      },
+      {
         test: /\.json$/,
-        loader: 'json-loader'
+        loader: 'json'
+      },
+      {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
+        include: getPath('src')
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
+        include: getPath('src')
       }
     ]
   },
   plugins: [
     new webpack.BannerPlugin(
-        'require("source-map-support").install();',
-        { raw: true, entryOnly: false }
+      'require("source-map-support").install();',
+      { raw: true, entryOnly: false }
     ),
-    new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
       }
     })
   ]
-};
+}

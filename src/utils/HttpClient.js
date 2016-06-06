@@ -1,14 +1,14 @@
-import request from 'superagent';
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import request from 'superagent'
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
 
-function getUrl(path) {
+function getUrl (path) {
   if (path.startsWith('http') || canUseDOM) {
-    return path;
+    return path
   }
 
-  return process.env.WEBSITE_HOSTNAME ?
-    `http://${process.env.WEBSITE_HOSTNAME}${path}` :
-    `http://127.0.0.1:${global.server.get('port')}${path}`;
+  return process.env.WEBSITE_HOSTNAME
+    ? `http://${process.env.WEBSITE_HOSTNAME}${path}`
+    : `http://127.0.0.1:${global.server.get('port')}${path}`
 }
 
 const HttpClient = {
@@ -19,11 +19,11 @@ const HttpClient = {
       .accept('application/json')
       .end((err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res.body);
+          resolve(res.body)
         }
-      });
+      })
   }),
   put: (path, payload) => new Promise((resolve, reject) => {
     request
@@ -31,11 +31,11 @@ const HttpClient = {
       .send(payload)
       .end((err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res.body);
+          resolve(res.body)
         }
-      });
+      })
   }),
   post: (path, payload) => new Promise((resolve, reject) => {
     request
@@ -43,24 +43,24 @@ const HttpClient = {
       .send(payload)
       .end((err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res.body);
+          resolve(res.body)
         }
-      });
+      })
   }),
   delete: (path) => new Promise((resolve, reject) => {
     request
       .del(getUrl(path))
       .end((err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res);
+          resolve(res)
         }
-      });
-  }),
+      })
+  })
 
-};
+}
 
-export default HttpClient;
+export default HttpClient

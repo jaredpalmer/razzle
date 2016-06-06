@@ -1,10 +1,12 @@
-// jscs:disable
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+
+var getPath = function getPath (dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     main: [
       'webpack/hot/only-dev-server',
@@ -21,10 +23,10 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: getPath('temp'),
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js',
-    publicPath: '/build/static/'
+    chunkFilename: '[name].[id].js',
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -33,14 +35,33 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
-      '__DEV__': true,
-    }),
+      '__DEV__': true
+    })
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: ['transform-runtime']
+        },
+        include: getPath('src')
+      },
+      {
+        test: /\.(gif|jpe?g|png|ico)$/,
+        loader: 'file',
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
+        include: getPath('src')
+      },
+      {
+        test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
+        loader: 'url',
+        query: { limit: 10000, name: '[name].[hash:8].[ext]' },
+        include: getPath('src')
+      }
+    ]
   }
-};
+}
