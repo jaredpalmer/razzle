@@ -1,4 +1,3 @@
-// jscs:disable
 var path = require('path')
 var webpack = require('webpack')
 var AssetsPlugin = require('assets-webpack-plugin')

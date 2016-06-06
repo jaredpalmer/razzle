@@ -1,6 +1,6 @@
-import NotFound from '../../components/NotFound';
+import NotFound from '../../components/NotFound'
 
 export default {
   path: '*',
-  component: NotFound,
-};
+  component: NotFound
+}

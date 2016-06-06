@@ -1,11 +1,11 @@
 import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
-  LOAD_POST_FAILURE,
-} from '../../constants';
-import http from '../../utils/HttpClient';
+  LOAD_POST_FAILURE
+} from '../../constants'
+import http from '../../utils/HttpClient'
 
-export function loadPost(slug) {
+export function loadPost (slug) {
   return {
     // Types of actions to emit before and after
     types: [LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE],
@@ -17,6 +17,6 @@ export function loadPost(slug) {
     callAPI: () => http.get(`/api/v0/post/${slug}`),
 
     // Arguments to inject in begin/end actions
-    payload: { slug },
-  };
+    payload: { slug }
+  }
 }

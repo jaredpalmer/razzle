@@ -12,12 +12,13 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
  - [Express](https://github.com/expressjs/express)
  - [React](https://github.com/facebook/react)
  - [Redux](https://github.com/reactjs/redux)
- - [React Router](https://github.com/reactjs/react-router) 2.0
+ - [React Router](https://github.com/reactjs/react-router) (v3 alpha)
  - [Aphrodite](https://github.com/Khan/aphrodite) for CSS by Khan Academy
  - [React Helmet](https://github.com/nfl/react-helmet) for meta tags by the NFL
  - [Redial](https://github.com/markdalgleish/redial) for data fetching by [@markdalgleish](https://twitter.com/markdalgleish)
  - [Babel 6](https://github.com/babel/babel)
- - [Webpack](https://github.com/webpack/webpack) with vanilla Hot Module Replacement
+ - [Webpack](https://github.com/webpack/webpack)
+ - [React Hot Loader](https://github.com/gaearon/react-hot-loader) (v3 beta)
 
 #### Inspiration
  - [example-react-router-server-rendering-lazy-routes](https://github.com/ryanflorence/example-react-router-server-rendering-lazy-routes) by [@ryanflorence](https://twitter.com/ryanflorence)
@@ -40,6 +41,7 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
 │   |   ├── /fakeDB.js          # Database Stub
 │   |   ├── /server.js          # Express app
 │   |   └── /index.js           # Server entry point (with babel-register)
+│   |   └── /node-hooks.js      # Helper required for server-side rendering images/files
 │   ├── /client.js              # Client-side entry point
 │   ├── /constants.js           # Global constants (action types)
 │   ├── /createReducer.js       # Like rootReducer, but async

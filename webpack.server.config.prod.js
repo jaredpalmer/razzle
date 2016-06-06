@@ -1,7 +1,6 @@
-// jscs:disable
-var webpack = require('webpack')
 var fs =  require('fs')
 var path = require('path')
+var webpack = require('webpack')
 
 var getPath = function getPath (dir) {
   return path.join(__dirname, dir)

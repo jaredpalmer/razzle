@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { interpolateName } from 'loader-utils'
+import { interpolateName } from 'loader-utils'
 import webpackConfig from '../../webpack.config.dev'
 
 // Helper for webpack loaders to properly resolve module
@@ -42,8 +42,9 @@ const requireHook = (context, filename) => {
 }
 
 extensions.forEach(hook => {
-  if (require.extensions[`.${hook}`])
+  if (require.extensions[`.${hook}`]) {
     return null
+  }
 
   require.extensions[`.${hook}`] = requireHook
 })

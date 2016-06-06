@@ -1,35 +1,36 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { callAPIMiddleware } from './middleware/callAPIMiddleware';
-import createReducer from './createReducer';
+import { createStore, applyMiddleware, compose } from 'redux'
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
+import thunk from 'redux-thunk'
+import { callAPIMiddleware } from './middleware/callAPIMiddleware'
+import createReducer from './createReducer'
 
-export function configureStore(initialState = {}) {
-  let store = createStore(createReducer(), initialState, compose(
-    applyMiddleware(
-      thunk,
-      callAPIMiddleware
-    ),
+const devtools = canUseDOM
+  ? window.devToolsExtension
+  : () => noop => noop
 
-     (process.env.NODE_ENV === 'development') &&
-      typeof window === 'object' &&
-       typeof window.devToolsExtension !== 'undefined' ?
-        window.devToolsExtension() : f => f
-  ));
+export function configureStore (initialState = {}) {
+  const reducer = createReducer()
+  const middleware = [ callAPIMiddleware, thunk ]
+  const enhancers = [
+    applyMiddleware(...middleware),
+    devtools()
+  ]
+  const store = createStore(reducer, initialState, compose(...enhancers))
 
-  store.asyncReducers = {};
+  store.asyncReducers = {}
 
   if (process.env.NODE_ENV === 'development') {
     if (module.hot) {
       module.hot.accept('./createReducer', () =>
         store.replaceReducer(require('./createReducer').default)
-      );
+      )
     }
   }
 
-  return store;
+  return store
 }
 
-export function injectAsyncReducer(store, name, asyncReducer) {
-  store.asyncReducers[name] = asyncReducer;
-  store.replaceReducer(createReducer(store.asyncReducers));
+export function injectAsyncReducer (store, name, asyncReducer) {
+  store.asyncReducers[name] = asyncReducer
+  store.replaceReducer(createReducer(store.asyncReducers))
 }

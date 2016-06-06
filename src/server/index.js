@@ -1,3 +1,3 @@
-require('babel-register');
-require('./node-hooks');
-require('./server');
+require('babel-register')
+require('./node-hooks')
+require('./server')
