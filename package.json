@@ -63,13 +63,12 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
     "standard": "^7.1.2",
+    "standard-loader": "^4.0.0",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
-  "devDependencies": {
-    "standard-loader": "^4.0.0"
-  },
+  "devDependencies": {},
   "standard": {
     "parser": "babel-eslint"
   }
