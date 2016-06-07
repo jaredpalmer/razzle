@@ -1,7 +1,7 @@
 // jscs:disable
-var path = require('path');
-var webpack = require('webpack');
-var AssetsPlugin = require('assets-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+var AssetsPlugin = require('assets-webpack-plugin')
 
 module.exports = {
   devtool: 'source-map',
@@ -32,8 +32,8 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
-      '__DEV__': true,
-    }),
+      '__DEV__': true
+    })
   ],
   module: {
     preLoaders: [
@@ -50,7 +50,7 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          presets: ["es2015", "react", "stage-0"],
+          presets: ["es2015", "react", "stage-0"]
         },
         include: path.join(__dirname, 'src')
       }
@@ -60,4 +60,4 @@ module.exports = {
     // config options to be passed through to standard e.g.
     parser: 'babel-eslint'
   }
-};
+}

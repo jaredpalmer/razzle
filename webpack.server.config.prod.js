@@ -1,14 +1,13 @@
-// jscs:disable
-var webpack = require('webpack');
-var fs =  require('fs');
-var path = require('path');
+var webpack = require('webpack')
+var fs =  require('fs')
+var path = require('path')
 
-function getExternals() {
-  const nodeModules = fs.readdirSync(path.resolve(__dirname, 'node_modules'));
+function getExternals () {
+  const nodeModules = fs.readdirSync(path.resolve(__dirname, 'node_modules'))
   return nodeModules.reduce(function (ext, mod) {
-    ext[mod] = 'commonjs ' + mod;
-    return ext;
-  }, {});
+    ext[mod] = 'commonjs ' + mod
+    return ext
+  }, {})
 }
 
 module.exports = {
@@ -25,11 +24,17 @@ module.exports = {
     __dirname: true
   },
   module: {
-    loaders: [{
+    loaders: [
+      {
         test: /\.js$/,
-        loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
+        loader: 'babel-loader',
+        query: {
+          presets: ["es2015", "react", "stage-0"],
+          plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
+        },
         include: path.join(__dirname, 'src')
-      }, {
+      },
+      {
         test: /\.json$/,
         loader: 'json-loader'
       }
@@ -47,4 +52,4 @@ module.exports = {
       }
     })
   ]
-};
+}

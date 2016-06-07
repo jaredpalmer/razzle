@@ -42,10 +42,28 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-0',
-      include: path.join(__dirname, 'src')
-    }]
+    preLoaders: [
+      {
+        // set up standard-loader as a preloader
+        test: /\.js?$/,
+        loader: 'standard',
+        include: path.join(__dirname, 'src')
+      }
+    ],
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        query: {
+          presets: ["es2015", "react", "stage-0"],
+          plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
+        },
+        include: path.join(__dirname, 'src')
+      }
+    ]
+  },
+  standard: {
+    // config options to be passed through to standard e.g.
+    parser: 'babel-eslint'
   }
 };
