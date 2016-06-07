@@ -13,7 +13,6 @@ function getUrl(path) {
 
 function request(options) {
   const realURL = getUrl(options.url)
-  console.log(realURL)
   options.url = realURL
   return axios(options).then(res => res.data)
 }
