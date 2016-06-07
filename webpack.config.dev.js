@@ -7,7 +7,6 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     main: [
-      'webpack/hot/only-dev-server',
       'webpack-hot-middleware/client',
       './src/client.js'
     ],
@@ -37,10 +36,28 @@ module.exports = {
     }),
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
+    preLoaders: [
+      {
+        // set up standard-loader as a preloader
+        test: /\.jsx?$/,
+        loader: 'standard',
+        exclude: /(node_modules|bower_components)/
+      }
+    ],
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: ["es2015", "react", "stage-0"],
+        },
+        include: path.join(__dirname, 'src')
+      }
+    ]
+  },
+  standard: {
+    // config options to be passed through to standard e.g.
+    parser: 'babel-eslint'
   }
 };

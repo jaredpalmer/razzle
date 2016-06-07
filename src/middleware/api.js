@@ -26,7 +26,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  const { types, ...rest  } = callAPI
+  const { types, ...rest } = callAPI
 
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types.')
