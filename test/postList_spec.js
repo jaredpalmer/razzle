@@ -46,7 +46,9 @@ describe('PostList Reducer', () => {
     const action = {
       type: types.LOAD_POSTS_SUCCESS,
       payload: fakeDB,
-      lastFetched: currentTime,
+      meta: {
+        lastFetched: currentTime,
+      }
     };
 
     const nextState = reducer(initialState, action);
@@ -65,15 +67,20 @@ describe('PostList Reducer', () => {
       error: null,
       data: [],
     };
+
+    const error = new Error('Invalid request')
+
     const action = {
       type: types.LOAD_POSTS_FAILURE,
-      error: 'Invalid Request',
+      payload: error,
+      error: true
     };
+
     const nextState = reducer(initialState, action);
     expect(nextState).to.deep.equal({
       lastFetched: null,
       isLoading: false,
-      error: 'Invalid Request',
+      error,
       data: [],
     });
   });

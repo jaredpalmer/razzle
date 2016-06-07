@@ -54,7 +54,9 @@ describe('Post Reducer', () => {
     const action = {
       type: types.LOAD_POST_SUCCESS,
       payload: post,
-      lastFetched: currentTime,
+      meta: {
+        lastFetched: currentTime,
+      }
     };
 
     const nextState = reducer(initialState, action);
@@ -73,15 +75,17 @@ describe('Post Reducer', () => {
       error: null,
       data: {},
     };
+    const error = new Error('Invalid request')
     const action = {
       type: types.LOAD_POST_FAILURE,
-      error: 'Invalid Request',
+      payload: error,
+      error: true
     };
     const nextState = reducer(initialState, action);
     expect(nextState).to.deep.equal({
       lastFetched: null,
       isLoading: false,
-      error: 'Invalid Request',
+      error: error,
       data: {},
     });
   });

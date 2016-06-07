@@ -45,7 +45,6 @@ export default store => next => action => {
     return finalAction
   }
 
-
   next(actionWith({ type: requestType }))
 
   return request(rest)
@@ -53,15 +52,16 @@ export default store => next => action => {
       res => next(actionWith({
         type: successType,
         payload: res,
-        lastFetched: Date.now()
-      })),
-      error => next(actionWith({
-        type: failureType,
-        error: error.message || 'Something bad happened'
+        meta: {
+          lastFetched: Date.now()
+        }
       }))
-    )
-    .catch(error => {
+    ).catch(error => {
       console.log(`Error in reducer that handles ${requestType}: `, error)
-      next({ ...rest, error, type: failureType })
+      next(actionWith({
+        type: failureType,
+        payload: error,
+        error: true
+      }))
     })
   }
