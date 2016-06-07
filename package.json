@@ -70,5 +70,11 @@
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "standard": "^7.1.2",
+    "standard-format": "^2.2.1",
+    "standard-loader": "^4.0.0"
   }
 }
