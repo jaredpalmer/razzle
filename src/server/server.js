@@ -103,13 +103,13 @@ const renderFullPage = (data, initialState, assets) => {
          <style>
 
            html {
-             box-sizing: border-box
+             box-sizing: border-box;
            }
 
            *,
            *::before,
            *::after {
-             box-sizing: border-box
+             box-sizing: border-box;
            }
 
            @at-root {
@@ -121,99 +121,99 @@ const renderFullPage = (data, initialState, assets) => {
            }
 
            html {
-           	font-size: 100%
-           	-ms-overflow-style: scrollbar
-           	-webkit-tap-highlight-color: rgba(0,0,0,0)
-           	height: 100%
+           	font-size: 100%;
+           	-ms-overflow-style: scrollbar;
+           	-webkit-tap-highlight-color: rgba(0,0,0,0);
+           	height: 100%;
            }
 
            body {
-           	font-size: 1rem
-            background-color: #fff
-           	color: #555
-           	-webkit-font-smoothing: antialiased
-             -moz-osx-font-smoothing: grayscale
-           	font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif
+           	font-size: 1rem;
+            background-color: #fff;
+           	color: #555;
+           	-webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+           	font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
            }
 
            [tabindex="-1"]:focus {
-             outline: none !important
+             outline: none !important;
            }
 
            /* Typography */
 
            h1, h2, h3, h4, h5, h6 {
-             margin: 0
-             letter-spacing: -0.03em
-             font-weight: bold
+             margin: 0;
+             letter-spacing: -0.03em;
+             font-weight: bold;
            }
 
            p {
-             margin: 0
+             margin: 0;
            }
 
            abbr[title],
            abbr[data-original-title] {
-             cursor: help
-             border-bottom: 1px dotted #eee
+             cursor: help;
+             border-bottom: 1px dotted #eee;
            }
 
            address {
-             margin-bottom: 1rem
-             font-style: normal
-             line-height: inherit
+             margin-bottom: 1rem;
+             font-style: normal;
+             line-height: inherit;
            }
 
            ol,
            ul,
            dl {
-             margin-top: 0
-             margin-bottom: 1rem
+             margin-top: 0;
+             margin-bottom: 1rem;
            }
 
            ol ol,
            ul ul,
            ol ul,
            ul ol {
-             margin-bottom: 0
+             margin-bottom: 0;
            }
 
            dt {
-             font-weight: bold
+             font-weight: bold;
            }
 
            dd {
-             margin-bottom: .5rem
-             margin-left: 0
+             margin-bottom: .5rem;
+             margin-left: 0;
            }
 
            blockquote {
-             margin: 0 0 1rem
+             margin: 0 0 1rem;
            }
 
            /* Links */
            a,
            a:hover,
            a:focus {
-           	text-decoration: none
+           	text-decoration: none;
            }
 
            /* Code */
            pre {
-             margin: 0
+             margin: 0;
              /*margin-bottom: 1rem;*/
            }
            /* Figures & Images */
            figure {
-             margin: 0 0 1rem
+             margin: 0 0 1rem;
            }
 
            img {
-           	vertical-align: middle
+           	vertical-align: middle;
            }
 
            [role="button"] {
-             cursor: pointer
+             cursor: pointer;
            }
 
            a,
@@ -225,70 +225,69 @@ const renderFullPage = (data, initialState, assets) => {
            select,
            summary,
            textarea {
-             touch-action: manipulation
+             touch-action: manipulation;
            }
 
            /* Forms */
 
            label {
-           	display: inline-block
-           	margin-bottom: .5rem
+           	display: inline-block;
+           	margin-bottom: .5rem;
            }
 
            button:focus {
-             outline: 1px dotted
-             outline: 5px auto -webkit-focus-ring-color
+             outline: 1px dotted;
+             outline: 5px auto -webkit-focus-ring-color;
            }
 
            input,
            button,
            select,
            textarea {
-             margin: 0
-             line-height: inherit
-             border-radius: 0
+             margin: 0;
+             line-height: inherit;
+             border-radius: 0;
            }
 
            textarea {
-             resize: vertical
+             resize: vertical;
            }
 
            fieldset {
-             min-width: 0
-             padding: 0
-             margin: 0
-             border: 0
+             min-width: 0;
+             padding: 0;
+             margin: 0;
+             border: 0;
            }
 
            legend {
-             display: block
-             width: 100%
-             padding: 0
-             margin-bottom: .5rem
-             font-size: 1.5rem
-             line-height: inherit
+             display: block;
+             width: 100%;
+             padding: 0;
+             margin-bottom: .5rem;
+             font-size: 1.5rem;
+             line-height: inherit;
            }
 
            input[type="search"],
            input[type="text"],
            textarea {
-             box-sizing: inherit
-             -webkit-appearance: none
+             box-sizing: inherit;
+             -webkit-appearance: none;
            }
 
            [hidden] {
-             display: none !important
+             display: none !important;
            }
 
-           body,
            button,
            input,
            textarea {
-             font-family: font-family: 'Helvetica Neue', Helvetica, sans-serif
+             font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
            }
 
            a,a:visited {
-             text-decoration: none
+             text-decoration: none;
            }
          </style>
          <style data-aphrodite>${data.css.content}</style>
