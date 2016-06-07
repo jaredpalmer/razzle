@@ -1,6 +1,6 @@
 # React Production Starter
 
-[![Build Status](https://travis-ci.org/jaredpalmer/react-production-starter.svg?branch=master)](https://travis-ci.org/jaredpalmer/react-production-starter)
+[![Build Status](https://travis-ci.org/jaredpalmer/react-production-starter.svg?branch=master)](https://travis-ci.org/jaredpalmer/react-production-starter) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 An example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
 
@@ -32,7 +32,27 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
 ├── /src/                       # The source code of the application
 │   ├── /components/            # Global React components
 │   ├── /middleware/            # Redux middleware (comes with callAPIMiddileware)
-│   ├── /routes/                # **React-router routes (i.e. mini-redux-apps)** (:fire:)
+│   ├── routes                  # Redux middleware (comes with callAPIMiddileware)
+│   │   ├── About
+│   │   │   ├── components
+│   │   │   │   └── About.js
+│   │   │   ├── data.js
+│   │   │   └── index.js
+│   │   ├── NotFound
+│   │   │   └── index.js
+│   │   ├── Post
+│   │   │   ├── actions.js
+│   │   │   ├── containers
+│   │   │   │   └── PostPage.js
+│   │   │   ├── index.js
+│   │   │   └── reducer.js
+│   │   ├── PostList
+│   │   │   ├── actions.js
+│   │   │   ├── components
+│   │   │   │   └── PostListItem.js
+│   │   │   ├── index.js
+│   │   │   └── reducer.js
+│   │   └── root.js
 │   ├── /server/                # Server
 │   |   ├── /api/               # API endpoints
 │   |   |   ├── /posts.js       # Posts endpoint
@@ -46,12 +66,12 @@ The file size of isomorphic React apps can quickly get out of hand. Many isomorp
 │   ├── /store.js               # Async store configuration
 │   ├── /style.js               # Global style/layout constants
 ├── /test/                      # Mocha tests (e.g. xxx_spec.js)
-├── /coverage/                  # Code coverage data
 │── .env                        # **Server-side configuration variables**
 │── Procfile                    # Heroku startup commands
 │── package.json                # The list of 3rd party libraries and utilities and NPM scripts
 │── webpack.config.dev.js       # Webpack Development Configuration File
 └── webpack.config.prod.js      # Webpack Production Configuration File
+└── webpack.server.prod.js      # Webpack Production Configuration File
 ```
 
 ### Getting started
