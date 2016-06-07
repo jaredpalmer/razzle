@@ -1,55 +1,42 @@
-import React, { PropTypes } from 'react';
-import Helmet from 'react-helmet';
-import Nav from './Nav';
-import { StyleSheet, css } from 'aphrodite';
-import { Type } from '../style';
+import React, { PropTypes } from 'react'
+import Helmet from 'react-helmet'
+import Nav from './Nav'
+import { StyleSheet, css } from 'aphrodite'
+import { Type } from '../style'
 
-const App = ({ children }) => {
-  return (
-    <div className={css(styles.root)}>
-        <Helmet
-          title="React Production Starter"
-          titleTemplate="%s - React Production Starter"
-        />
-        <h1 className={css(styles.title)}>
-          React
-          Production
-          Starter
-        </h1>
-        <Nav/>
-      {children}
-      <footer className={css(styles.footer)}>
-        Copyright © 2016 <a className={css(styles.footerLink)}
-          href="http://twitter.com/jaredpalmer"
-          target="_blank">
-          Jared Palmer
-        </a>
-        </footer>
-    </div>
-  );
-};
+const App = ({ children }) => (
+  <div className={css(styles.root)}>
+    <Helmet title="React Production Starter" titleTemplate="%s - React Production Starter" />
+    <h1 className={css(styles.title)}>React Production Starter</h1>
+    <Nav/>
+    {children}
+    <footer className={css(styles.footer)}>
+      Copyright © 2016 <a className={css(styles.footerLink)} href="http://twitter.com/jaredpalmer" target="_blank">Jared Palmer</a>
+    </footer>
+  </div>
+)
 
 const styles = StyleSheet.create({
   root: {
     maxWidth: 700,
     color: '#000',
-    margin: '2rem auto',
+    margin: '2rem auto'
   },
   title: {
     color: '#000',
     maxWidth: 300,
-    fontSize: 56,
+    fontSize: 56
   },
   footer: {
     margin: '4rem auto',
     textAlign: 'center',
-    color: '#b7b7b7',
+    color: '#b7b7b7'
   },
   footerLink: {
     display: 'inline-block',
     color: '#000',
-    textDecoration: 'none',
-  },
-});
+    textDecoration: 'none'
+  }
+})
 
-export default App;
+export default App
