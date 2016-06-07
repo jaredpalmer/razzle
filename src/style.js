@@ -6,7 +6,7 @@ const blue = '#0070ff'
 
 export const Type = {
   sans,
-serif}
+  serif
+}
 
-export const Color = {
-blue}
+export const Color = { blue }

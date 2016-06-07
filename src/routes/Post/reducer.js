@@ -2,11 +2,11 @@ import * as types from '../../constants'
 import update from 'react/lib/update'
 
 export default function currentPost (state = {
-    lastFetched: null,
-    isLoading: false,
-    error: null,
-    data: {}
-  } , action) {
+  lastFetched: null,
+  isLoading: false,
+  error: null,
+  data: {}
+}, action) {
   switch (action.type) {
     case types.LOAD_POST_REQUEST:
       return update(state, {

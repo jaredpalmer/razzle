@@ -39,9 +39,9 @@ module.exports = {
     preLoaders: [
       {
         // set up standard-loader as a preloader
-        test: /\.jsx?$/,
+        test: /\.js?$/,
         loader: 'standard',
-        exclude: /(node_modules|bower_components)/
+        include: path.join(__dirname, 'src')
       }
     ],
     loaders: [

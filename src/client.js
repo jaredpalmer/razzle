@@ -27,7 +27,7 @@ let render = () => {
 
   // Pull child routes using match. Adjust Router for vanilla webpack HMR,
   // in development using a new key every time there is an edit.
-  match({ routes, location}, () => {
+  match({ routes, location }, () => {
     // Render app with Redux and router context to container element.
     // We need to have a random in development because of `match`'s dependency on
     // `routes.` Normally, we would want just one file from which we require `routes` from.
@@ -41,7 +41,8 @@ let render = () => {
 
   browserHistory.listen(location => {
     // Match routes based on location object:
-    match({ routes, location}, (error, redirectLocation, renderProps) => {
+    match({ routes, location }, (error, redirectLocation, renderProps) => {
+      if (error) console.log(error)
       // Get array of route handler components:
       const { components } = renderProps
 
@@ -51,8 +52,9 @@ let render = () => {
         query: renderProps.location.query,
         params: renderProps.params,
 
-      // Allow lifecycle hooks to dispatch Redux actions:
-      dispatch}
+        // Allow lifecycle hooks to dispatch Redux actions:
+        dispatch
+      }
 
       // Don't fetch data for initial route, server has already done the work:
       if (window.INITIAL_STATE) {

@@ -1,18 +1,17 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import IndexLink from 'react-router/lib/IndexLink'
 import Link from 'react-router/lib/Link'
 import { StyleSheet, css } from 'aphrodite'
-import { Type } from '../style'
 
 const Nav = () => (
   <div>
-    <IndexLink to="/" className={css(styles.link)} activeClassName={css(styles.link, styles.activeLink)}>
+    <IndexLink to='/' className={css(styles.link)} activeClassName={css(styles.link, styles.activeLink)}>
       Home
     </IndexLink>
-    <Link to="/about" className={css(styles.link)} activeClassName={css(styles.link, styles.activeLink)}> About
+    <Link to='/about' className={css(styles.link)} activeClassName={css(styles.link, styles.activeLink)}> About
     </Link>
-    <a href="https://github.com/jaredpalmer/react-production-starter" className={css(styles.link)} target="_blank">GitHub</a>
-    <a href="https://twitter.com/jaredpalmer" className={css(styles.link)} target="_blank">Twitter</a>
+    <a href='https://github.com/jaredpalmer/react-production-starter' className={css(styles.link)} target='_blank'>GitHub</a>
+    <a href='https://twitter.com/jaredpalmer' className={css(styles.link)} target='_blank'>Twitter</a>
   </div>
 )
 
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     transition: '.2s opacity ease',
     ':hover': {
-      opacity: .6
+      opacity: 0.6
     }
   },
   activeLink: {

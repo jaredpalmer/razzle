@@ -12,7 +12,8 @@ const data = [
   {
     resource: 'React',
     link: 'https://github.com/facebook/react',
-  description: 'A declarative, efficient, and flexible JavaScript library for building user interfaces.' },
+    description: 'A declarative, efficient, and flexible JavaScript library for building user interfaces.'
+  },
   {
     resource: 'Redux',
     link: 'https://github.com/reactjs/redux',

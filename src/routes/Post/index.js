@@ -4,7 +4,7 @@ import { injectAsyncReducer } from '../../store'
 export default function createRoutes (store) {
   return {
     path: 'post/:slug',
-    getComponents(location, cb) {
+    getComponents (location, cb) {
       require.ensure([
         './containers/PostPage',
         './reducer'

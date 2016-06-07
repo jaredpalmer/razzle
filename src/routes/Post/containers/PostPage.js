@@ -3,7 +3,6 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { loadPost } from '../actions'
 import { StyleSheet, css } from 'aphrodite'
-import { Type } from '../../../style'
 import Helmet from 'react-helmet'
 import NotFound from '../../../components/NotFound'
 
@@ -21,21 +20,19 @@ const mapStateToProps = state => ({
 const PostPage = ({ title, content, isLoading, error }) => {
   if (!error) {
     return (
-    <div>
-      <Helmet title={title} />
-      {isLoading &&
-       <div>
-         <h2 className={css(styles.title)}>Loading....</h2>
-         <p className={css(styles.primary)}></p>
-       </div>}
-      {!isLoading &&
-       <div>
-         <h2 className={css(styles.title)}>{title}</h2>
-         <p className={css(styles.body)}>
-           {content}
-         </p>
-       </div>}
-    </div>
+      <div>
+        <Helmet title={title} />
+        {isLoading &&
+          <div>
+            <h2 className={css(styles.title)}>Loading....</h2>
+            <p className={css(styles.primary)}></p>
+          </div>}
+        {!isLoading &&
+          <div>
+            <h2 className={css(styles.title)}>{title}</h2>
+            <p className={css(styles.body)}>{content}</p>
+          </div>}
+      </div>
     )
   } else {
     // maybe check for different types of errors and display appropriately

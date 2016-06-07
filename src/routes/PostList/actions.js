@@ -1,4 +1,4 @@
-import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE} from '../../constants'
+import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE } from '../../constants'
 import { CALL_API } from '../../middleware/api'
 
 export function loadPosts () {

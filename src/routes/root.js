@@ -8,7 +8,7 @@ export default function createRoutes (store) {
   const root = {
     path: '/',
     component: App,
-    getChildRoutes(location, cb) {
+    getChildRoutes (location, cb) {
       require.ensure([], (require) => {
         cb(null, [
           require('./About').default, // no need to modify store, no reducer

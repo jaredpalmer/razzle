@@ -1,15 +1,13 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Helmet from 'react-helmet'
 import { StyleSheet, css } from 'aphrodite'
-import { Type } from '../../../style'
 import data from '../data'
 
 // This is a static page. It uses an array to hold data about the resources
 // and maintain DRY
-const About = (props) => {
-  return (
+const About = (props) => (
   <div>
-    <Helmet title="About" />
+    <Helmet title='About' />
     <h2 className={css(styles.header)}>About</h2>
     <p className={css(styles.lead)}>
       This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
@@ -22,17 +20,14 @@ const About = (props) => {
     <h2 className={css(styles.header)}>Under the Hood</h2>
     <ul className={css(styles.list)}>
       {data.map((item, i) => (
-         <li>
-           <h3><a className={css(styles.link)} href={item.link} target="_blank">{item.resource}</a></h3>
-           <p className={css(styles.body)}>
-             {item.description}
-           </p>
-         </li>
+        <li>
+          <h3><a className={css(styles.link)} href={item.link} target='_blank'>{item.resource}</a></h3>
+          <p className={css(styles.body)}>{item.description}</p>
+        </li>
        ))}
     </ul>
   </div>
-  )
-}
+)
 
 const styles = StyleSheet.create({
   header: {
@@ -67,7 +62,7 @@ const styles = StyleSheet.create({
     opacity: 1,
     transition: '.2s opacity ease',
     ':hover': {
-      opacity: .5
+      opacity: 0.5
     }
   }
 })

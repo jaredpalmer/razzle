@@ -1,4 +1,0 @@
-{
-  "extends": ["standard"],
-  "parser": "babel-eslint"
-}

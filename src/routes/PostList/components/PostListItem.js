@@ -1,7 +1,6 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { Link } from 'react-router'
 import { StyleSheet, css } from 'aphrodite'
-import { Type } from '../../../style'
 
 const PostListItem = ({ post }) => (
   <div className={css(styles.root)}>
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
     color: '#000',
     transition: '.3s opacity ease',
     ':hover': {
-      opacity: .5
+      opacity: 0.5
     }
   }
 })
