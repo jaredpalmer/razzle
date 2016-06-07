@@ -14,13 +14,13 @@ export default function posts(state = {
       });
     case types.LOAD_POSTS_SUCCESS:
       return update(state, {
-        data: { $set: action.body },
-        lastFetched: { $set: action.lastFetched },
+        data: { $set: action.payload },
+        lastFetched: { $set: action.meta.lastFetched },
         isLoading: { $set: false },
       });
     case types.LOAD_POSTS_FAILURE:
       return update(state, {
-        error: { $set: action.error },
+        error: { $set: action.payload },
       });
     default:
       return state;

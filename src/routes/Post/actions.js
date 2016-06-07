@@ -3,20 +3,16 @@ import {
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
 } from '../../constants';
-import http from '../../utils/HttpClient';
+import { CALL_API } from '../../middleware/api'
 
 export function loadPost(slug) {
   return {
-    // Types of actions to emit before and after
-    types: [LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE],
-
-    // Check the cache (optional):
-    // shouldCallAPI: (state) => shouldFetchPost(state),
-
-    // Perform the fetching:
-    callAPI: () => http.get(`/api/v0/post/${slug}`),
-
-    // Arguments to inject in begin/end actions
-    payload: { slug },
-  };
+    [CALL_API]: {
+      // Types of actions to emit before and after
+      types: [LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE],
+      // Perform the fetching:
+      url: `/api/v0/post/${slug}`,
+      method: 'GET'
+    }
+  }
 }

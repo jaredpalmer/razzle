@@ -24,6 +24,7 @@
   "dependencies": {
     "aphrodite": "^0.3.1",
     "assets-webpack-plugin": "^3.3.0",
+    "axios": "^0.12.0",
     "babel-core": "^6.5.1",
     "babel-loader": "^6.2.2",
     "babel-plugin-transform-react-constant-elements": "^6.5.0",
@@ -47,7 +48,7 @@
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
     "express": "^4.13.4",
-    "fbjs": "^0.8.2",
+    "fbjs": "^0.8.3",
     "helmet": "^2.0.0",
     "history": "^2.1.1",
     "hpp": "^0.2.0",
@@ -56,7 +57,7 @@
     "mocha": "^2.4.5",
     "morgan": "^1.6.1",
     "node-fetch": "^1.3.3",
-    "react": "^15.0.2",
+    "react": "^15.1.0",
     "react-dom": "^15.0.2",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.4.0",
@@ -66,7 +67,6 @@
     "redux-mock-store": "^1.0.2",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
-    "superagent": "^1.7.2",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
