@@ -1,11 +1,7 @@
-import {
-  LOAD_POST_REQUEST,
-  LOAD_POST_SUCCESS,
-  LOAD_POST_FAILURE,
-} from '../../constants';
+import { LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE } from '../../constants'
 import { CALL_API } from '../../middleware/api'
 
-export function loadPost(slug) {
+export function loadPost (slug) {
   return {
     [CALL_API]: {
       // Types of actions to emit before and after

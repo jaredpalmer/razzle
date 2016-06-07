@@ -2,17 +2,17 @@ import axios from 'axios'
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
 import invariant from 'fbjs/lib/invariant'
 
-function getUrl(path) {
+function getUrl (path) {
   if (path.startsWith('http') || canUseDOM) {
-    return path;
+    return path
   }
 
-  return process.env.WEBSITE_HOSTNAME ?
-    `http://${process.env.WEBSITE_HOSTNAME}${path}` :
-    `http://127.0.0.1:${global.server.get('port')}${path}`;
+  return process.env.WEBSITE_HOSTNAME
+  ? `http://${process.env.WEBSITE_HOSTNAME}${path}`
+  : `http://127.0.0.1:${global.server.get('port')}${path}`
 }
 
-function request(options) {
+function request (options) {
   const realURL = getUrl(options.url)
   options.url = realURL
   return axios(options).then(res => res.data)
@@ -27,7 +27,7 @@ export default store => next => action => {
     return next(action)
   }
 
-  const { types, ...rest  } = callAPI
+  const { types, ...rest } = callAPI
 
   invariant(
     Array.isArray(types) || types.length !== 3,
@@ -41,7 +41,7 @@ export default store => next => action => {
 
   const [requestType, successType, failureType] = types
 
-  function actionWith(data) {
+  function actionWith (data) {
     const finalAction = Object.assign({}, action, data)
     delete finalAction[CALL_API]
     return finalAction
@@ -66,4 +66,4 @@ export default store => next => action => {
         error: true
       }))
     })
-  }
+}

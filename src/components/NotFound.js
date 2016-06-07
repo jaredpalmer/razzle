@@ -1,13 +1,11 @@
-import React, { PropTypes } from 'react';
-import Helmet from 'react-helmet';
-import { StyleSheet, css } from 'aphrodite';
-import { Type } from '../style';
+import React from 'react'
+import Helmet from 'react-helmet'
 
-const NotFound = () =>
+const NotFound = () => (
   <div>
-    <Helmet title="Not Found" />
-
+    <Helmet title='Not Found' />
     <h1>Page Not Found!</h1>
-  </div>;
+  </div>
+)
 
-export default NotFound;
+export default NotFound

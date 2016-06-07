@@ -1,37 +1,37 @@
-import path from 'path';
-import express from 'express';
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import config from '../../webpack.config.dev';
-import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-import hpp from 'hpp';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import compression from 'compression';
+import path from 'path'
+import express from 'express'
+import webpack from 'webpack'
+import webpackMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import config from '../../webpack.config.dev'
+import cookieParser from 'cookie-parser'
+import helmet from 'helmet'
+import hpp from 'hpp'
+import bodyParser from 'body-parser'
+import morgan from 'morgan'
+import compression from 'compression'
 
-import React from 'react';
-import ReactDOM from 'react-dom/server';
-import { createMemoryHistory, RouterContext, match } from 'react-router';
-import { Provider } from 'react-redux';
-import { trigger } from 'redial';
-import { StyleSheetServer } from 'aphrodite';
-import { configureStore } from '../store';
-import Helm from 'react-helmet'; // because we are already using helmet
-import reducer from '../createReducer';
-import createRoutes from '../routes/root';
+import React from 'react'
+import ReactDOM from 'react-dom/server'
+import { createMemoryHistory, RouterContext, match } from 'react-router'
+import { Provider } from 'react-redux'
+import { trigger } from 'redial'
+import { StyleSheetServer } from 'aphrodite'
+import { configureStore } from '../store'
+import Helm from 'react-helmet' // because we are already using helmet
+import reducer from '../createReducer'
+import createRoutes from '../routes/root'
 
-const isDeveloping = process.env.NODE_ENV == 'development';
-const port = process.env.PORT || 5000;
-const server = global.server = express();
+const isDeveloping = process.env.NODE_ENV == 'development'
+const port = process.env.PORT || 5000
+const server = global.server = express()
 
 // Security
-server.disable('x-powered-by');
-server.set('port', port);
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
-server.use(hpp());
+server.disable('x-powered-by')
+server.set('port', port)
+server.use(bodyParser.urlencoded({ extended: false }))
+server.use(bodyParser.json())
+server.use(hpp())
 server.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'"],
   scriptSrc: ["'self'"],
@@ -41,26 +41,26 @@ server.use(helmet.contentSecurityPolicy({
   fontSrc: ["'self'"],
   objectSrc: ["'none'"],
   mediaSrc: ["'none'"],
-  frameSrc: ["'none'"],
-}));
-server.use(helmet.xssFilter());
-server.use(helmet.frameguard('deny'));
-server.use(helmet.ieNoOpen());
-server.use(helmet.noSniff());
-server.use(cookieParser());
-server.use(compression());
+  frameSrc: ["'none'"]
+}))
+server.use(helmet.xssFilter())
+server.use(helmet.frameguard('deny'))
+server.use(helmet.ieNoOpen())
+server.use(helmet.noSniff())
+server.use(cookieParser())
+server.use(compression())
 
 // API
-server.use('/api/v0/posts', require('./api/posts'));
-server.use('/api/v0/post', require('./api/post'));
+server.use('/api/v0/posts', require('./api/posts'))
+server.use('/api/v0/post', require('./api/post'))
 
 // Stub for assets, in case running in dev mode.
-let assets;
+let assets
 
 // Webpack (for development)
 if (isDeveloping) {
-  server.use(morgan('dev'));
-  const compiler = webpack(config);
+  server.use(morgan('dev'))
+  const compiler = webpack(config)
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
@@ -70,24 +70,24 @@ if (isDeveloping) {
       timings: true,
       chunks: false,
       chunkModules: true,
-      modules: false,
-    },
+      modules: false
+    }
 
-  });
-  server.use(middleware);
+  })
+  server.use(middleware)
 
   server.use(webpackHotMiddleware(compiler, {
-    log: console.log,
-  }));
+    log: console.log
+  }))
 } else {
-  assets = require('../../assets.json');
-  server.use(morgan('combined'));
-  server.use('/build/static', express.static('./build/static'));
+  assets = require('../../assets.json')
+  server.use(morgan('combined'))
+  server.use('/build/static', express.static('./build/static'))
 }
 
 // Render Document (include global styles)
 const renderFullPage = (data, initialState, assets) => {
-  const head = Helm.rewind();
+  const head = Helm.rewind()
 
   // Included are some solid resets. Feel free to add normalize etc.
   return `
@@ -132,7 +132,7 @@ const renderFullPage = (data, initialState, assets) => {
             background-color: #fff;
            	color: #555;
            	-webkit-font-smoothing: antialiased;
-             -moz-osx-font-smoothing: grayscale;
+            -moz-osx-font-smoothing: grayscale;
            	font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
            }
 
@@ -197,7 +197,6 @@ const renderFullPage = (data, initialState, assets) => {
            a:focus {
            	text-decoration: none;
            }
-
 
            /* Code */
            pre {
@@ -281,11 +280,10 @@ const renderFullPage = (data, initialState, assets) => {
              display: none !important;
            }
 
-           body,
            button,
            input,
            textarea {
-             font-family: font-family: 'Helvetica Neue', Helvetica, sans-serif;;
+             font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
            }
 
            a,a:visited {
@@ -302,65 +300,64 @@ const renderFullPage = (data, initialState, assets) => {
         <script src="${ isDeveloping ? '/build/static/main.js' : assets.main.js}"></script>
       </body>
     </html>
-  `;
-};
+  `
+}
 
 // SSR Logic
 server.get('*', (req, res) => {
-  const store = configureStore();
-  const routes = createRoutes(store);
-  const history = createMemoryHistory(req.path);
-  const { dispatch } = store;
-  match({ routes, history }, (err, redirectLocation, renderProps) => {
+  const store = configureStore()
+  const routes = createRoutes(store)
+  const history = createMemoryHistory(req.path)
+  const { dispatch } = store
+  match({ routes, history}, (err, redirectLocation, renderProps) => {
     if (err) {
-      console.error(err);
-      return res.status(500).send('Internal server error');
+      console.error(err)
+      return res.status(500).send('Internal server error')
     }
 
     if (!renderProps)
-      return res.status(404).send('Not found');
+      return res.status(404).send('Not found')
 
-    const { components } = renderProps;
+    const { components } = renderProps
 
     // Define locals to be provided to all lifecycle hooks:
     const locals = {
-     path: renderProps.location.pathname,
-     query: renderProps.location.query,
-     params: renderProps.params,
+      path: renderProps.location.pathname,
+      query: renderProps.location.query,
+      params: renderProps.params,
 
-     // Allow lifecycle hooks to dispatch Redux actions:
-     dispatch,
-   };
+    // Allow lifecycle hooks to dispatch Redux actions:
+    dispatch}
 
     trigger('fetch', components, locals)
       .then(() => {
-        const initialState = store.getState();
+        const initialState = store.getState()
         const InitialView = (
-          <Provider store={store}>
-            <RouterContext {...renderProps} />
-          </Provider>
-        );
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
+        )
 
         // just call html = ReactDOM.renderToString(InitialView)
         // to if you don't want Aphrodite. Also change renderFullPage
         // accordingly
         const data = StyleSheetServer.renderStatic(
-            () => ReactDOM.renderToString(InitialView)
-        );
-        res.status(200).send(renderFullPage(data, initialState, assets));
+          () => ReactDOM.renderToString(InitialView)
+        )
+        res.status(200).send(renderFullPage(data, initialState, assets))
       })
-      .catch(e => console.log(e));
-  });
-});
+      .catch(e => console.log(e))
+  })
+})
 
 // Listen
-server.listen(port, '0.0.0.0', function onStart(err) {
+server.listen(port, '0.0.0.0', function onStart (err) {
   if (err) {
-    console.log(err);
+    console.log(err)
   }
 
   console.info('==> 🌎 Listening on port %s.' +
-    'Open up http://0.0.0.0:%s/ in your browser.', port, port);
-});
+    'Open up http://0.0.0.0:%s/ in your browser.', port, port)
+})
 
-module.exports = server;
+module.exports = server
