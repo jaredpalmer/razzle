@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
+import invariant from 'fbjs/lib/invariant'
 
 function getUrl(path) {
   if (path.startsWith('http') || canUseDOM) {
@@ -28,13 +29,15 @@ export default store => next => action => {
 
   const { types, ...rest  } = callAPI
 
-  if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected an array of three action types.')
-  }
+  invariant(
+    Array.isArray(types) || types.length !== 3,
+    'middleware/api(...): Expected an array of three action types.'
+  )
 
-  if (!types.every(type => typeof type === 'string')) {
-    throw new Error('Expected action types to be strings.')
-  }
+  invariant(
+    types.every(type => typeof type === 'string'),
+    'middleware/api(...): Expected action types to be strings.'
+  )
 
   const [requestType, successType, failureType] = types
 
