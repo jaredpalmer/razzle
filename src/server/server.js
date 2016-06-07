@@ -14,11 +14,8 @@ import compression from 'compression';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { createMemoryHistory, RouterContext, match } from 'react-router';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import { trigger } from 'redial';
-import { callAPIMiddleware } from '../middleware/callAPIMiddleware';
 import { StyleSheetServer } from 'aphrodite';
 import { configureStore } from '../store';
 import Helm from 'react-helmet'; // because we are already using helmet

@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { callAPIMiddleware } from './middleware/callAPIMiddleware';
+import api from './middleware/api';
 import createReducer from './createReducer';
 
 export function configureStore(initialState = {}) {
   let store = createStore(createReducer(), initialState, compose(
     applyMiddleware(
       thunk,
-      callAPIMiddleware
+      api
     ),
 
      (process.env.NODE_ENV === 'development') &&
