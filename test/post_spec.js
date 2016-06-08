@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+process.env.NODE_ENV='test'
 import { expect } from 'chai'
-import * as types from '../src/constants'
-import reducer from '../src/routes/PostList/reducer'
+import * as types from '../common/constants'
+import reducer from '../common/routes/PostList/reducer'
 
 // Remove this
-import fakeDB from '../src/server/fakeDB.js'
+import fakeDB from '../workers/posts/fakeDB.js'
 
 describe('PostList Reducer', () => {
 

@@ -1,11 +1,13 @@
+/* eslint-env mocha */
+process.env.NODE_ENV='test'
 import { expect } from 'chai'
-import * as types from '../src/constants'
-import reducer from '../src/routes/Post/reducer'
+import * as types from '../common/constants'
+import reducer from '../common/routes/PostList/reducer'
 
 // Remove this
-import fakeDB from '../src/server/fakeDB.js'
+import fakeDB from '../workers/posts/fakeDB.js'
 
-describe('Post Reducer', () => {
+describe('PostList Reducer', () => {
 
   it('should return default state if action is undefined', () => {
     const initialState = []
@@ -22,7 +24,7 @@ describe('Post Reducer', () => {
     }
 
     const action = {
-      type: types.LOAD_POST_REQUEST
+      type: types.LOAD_POSTS_REQUEST
     }
 
     const nextState = reducer(initialState, action)
@@ -42,18 +44,10 @@ describe('Post Reducer', () => {
       data: []
     }
 
-    const post = {
-      id: '128sd043hd',
-      title: 'Cloth Talk Part I',
-      slug: 'cloth-talk-part-i',
-      content: 'Khaled Ipsum is a major key to success.'
-    }
-
     const currentTime = Date.now()
-
     const action = {
-      type: types.LOAD_POST_SUCCESS,
-      payload: post,
+      type: types.LOAD_POSTS_SUCCESS,
+      payload: fakeDB,
       meta: {
         lastFetched: currentTime
       }
@@ -64,29 +58,32 @@ describe('Post Reducer', () => {
       lastFetched: currentTime,
       isLoading: false,
       error: null,
-      data: post
+      data: fakeDB
     })
   })
 
-  it('should handle LOAD_POST_FAILURE', () => {
+  it('should handle LOAD_POSTS_FAILURE', () => {
     const initialState = {
       lastFetched: null,
       isLoading: false,
       error: null,
-      data: {}
+      data: []
     }
+
     const error = new Error('Invalid request')
+
     const action = {
-      type: types.LOAD_POST_FAILURE,
+      type: types.LOAD_POSTS_FAILURE,
       payload: error,
       error: true
     }
+
     const nextState = reducer(initialState, action)
     expect(nextState).to.deep.equal({
       lastFetched: null,
       isLoading: false,
-      error: error,
-      data: {}
+      error,
+      data: []
     })
   })
 })

@@ -3,9 +3,23 @@
   "scripts": {
   },
   "env": {
-
+    "CONCURRENCY": {
+       "description": "The number of processes to run.",
+       "value": "3"
+    }
   },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "posts": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
   "addons": [
-
+    "cloudamqp",
+    "papertrail"
   ]
 }
