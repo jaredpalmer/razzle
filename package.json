@@ -44,7 +44,6 @@
     "cross-env": "1.0.7",
     "eslint-config-standard": "^5.3.1",
     "express": "^4.13.4",
-    "fbjs": "^0.8.3",
     "helmet": "^2.0.0",
     "history": "^2.1.1",
     "hpp": "^0.2.0",

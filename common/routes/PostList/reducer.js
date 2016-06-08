@@ -26,3 +26,8 @@ export default function posts (state = {
       return state
   }
 }
+
+// Posts Selector
+export const selectPosts = (state) => {
+  return state.posts.data
+}

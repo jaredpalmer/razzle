@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import PostListItem from '../components/PostListItem'
 import { StyleSheet, css } from 'aphrodite'
 import Helmet from 'react-helmet'
+import { selectPosts } from '../reducer'
 
 const redial = {
   fetch: ({ dispatch }) => dispatch(loadPosts())
 }
 
 const mapStateToProps = (state) => ({
-  posts: state.posts.data
+  posts: selectPosts(state)
 })
 
 const PostListPage = ({ posts }) => (
