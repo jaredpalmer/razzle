@@ -1,9 +1,12 @@
-var webpack = require('webpack')
-var fs =  require('fs')
-var path = require('path')
+const webpack = require('webpack')
+const fs =  require('fs')
+const path = require('path')
+
+const CONFIG = require('./webpack.base')
+const { SERVER_ENTRY, SERVER_OUTPUT, PUBLIC_PATH }  = CONFIG
 
 function getExternals () {
-  const nodeModules = fs.readdirSync(path.resolve(__dirname, 'node_modules'))
+  const nodeModules = fs.readdirSync(path.join(process.cwd(), 'node_modules'))
   return nodeModules.reduce(function (ext, mod) {
     ext[mod] = 'commonjs ' + mod
     return ext
@@ -13,10 +16,10 @@ function getExternals () {
 module.exports = {
   target: 'node',
   devtool: 'inline-source-map',
-  entry: './src/server/server.js',
+  entry: SERVER_ENTRY,
   output: {
-    path: __dirname + '/build/server',
-    filename: 'index.js'
+    path: SERVER_OUTPUT,
+    filename: 'server.js'
   },
   externals: getExternals(),
   node: {
@@ -26,18 +29,20 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
           presets: ["es2015", "react", "stage-0"],
           plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
         },
-        include: path.join(__dirname, 'src')
+        exclude: /(node_modules)/
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      }
+
+
     ]
   },
   plugins: [

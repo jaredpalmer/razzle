@@ -8,7 +8,8 @@ export function loadPost (slug) {
       types: [LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE],
       // Perform the fetching:
       url: `/api/v0/post/${slug}`,
-      method: 'GET'
+      method: 'GET',
+      withCredentials: true
     }
   }
 }

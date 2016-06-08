@@ -8,7 +8,8 @@ export function loadPosts () {
       types: [LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE],
       // Perform the fetching:
       url: '/api/v0/posts',
-      method: 'GET'
+      method: 'GET',
+      withCredentials: true
     }
   }
 }

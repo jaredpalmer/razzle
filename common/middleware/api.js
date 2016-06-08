@@ -9,7 +9,7 @@ function getUrl (path) {
 
   return process.env.WEBSITE_HOSTNAME
   ? `http://${process.env.WEBSITE_HOSTNAME}${path}`
-  : `http://127.0.0.1:${global.server.get('port')}${path}`
+  : `http://0.0.0.0:${process.env.PORT || 5000}${path}`
 }
 
 function request (options) {

@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
-import server from '../src/server/server'
+import server from '../server/server.js'
 
 chai.use(chaiHttp)
 
-import fakeDB from '../src/server/fakeDB.js'
+import fakeDB from '../server/fakeDB.js'
 
 describe('API', () => {
   it('should list ALL posts on api/v0/posts GET', (done) => {

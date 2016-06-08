@@ -9,7 +9,7 @@ import browserHistory from 'react-router/lib/browserHistory'
 import { Provider } from 'react-redux'
 import { StyleSheet } from 'aphrodite'
 
-import { configureStore } from './store'
+import { configureStore } from '../common/store'
 const initialState = window.INITIAL_STATE || {}
 // Set up Redux (note: this API requires redux@>=3.1.0):
 const store = configureStore(initialState)
@@ -22,7 +22,7 @@ StyleSheet.rehydrate(window.renderedClassNames)
 
 let render = () => {
   // We need to have a root route for HMR to work.
-  const createRoutes = require('./routes/root').default
+  const createRoutes = require('../common/routes/root').default
   const routes = createRoutes(store)
 
   // Pull child routes using match. Adjust Router for vanilla webpack HMR,
@@ -72,7 +72,7 @@ let render = () => {
 }
 
 if (module.hot) {
-  module.hot.accept('./routes/root', () => {
+  module.hot.accept('../common/routes/root', () => {
     setTimeout(render)
   })
 }
