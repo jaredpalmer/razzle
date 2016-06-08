@@ -57,11 +57,15 @@ if (__PROD__ || __TEST__) {
 }
 
 server.use('/api/v0/posts', require('./api/posts'))
-server.use('/api/v0/post', require('./api/post'))
 
 
 server.get('*', (req, res) => {
-  const store = configureStore()
+  const store = configureStore({
+    sourceRequest: {
+      protocol: req.headers['x-forwarded-proto'] || req.protocol,
+      host: req.headers.host
+    }
+  })
   const routes = createRoutes(store)
   const history = createMemoryHistory(req.path)
   const { dispatch } = store
