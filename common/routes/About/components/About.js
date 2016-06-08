@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     textDecoration: 'none',
     ':hover': {
       opacity: 0.5,
-      textDecoration: 'none',
+      textDecoration: 'none'
     }
   }
 })

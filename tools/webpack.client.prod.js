@@ -19,8 +19,8 @@ module.exports = {
     ],
   },
   output: {
-    filename: '[name]_[hash].js',
-    chunkFilename: '[name]_[hash].chunk.js',
+    filename: '[name]_[chunkhash].js',
+    chunkFilename: '[name]_[chunkhash].js',
     publicPath: PUBLIC_PATH,
     path: CLIENT_OUTPUT
   },
@@ -28,10 +28,7 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
-    new AssetsPlugin({
-      // path: path.join(__dirname, '../build'),
-      filename: 'assets.json'
-    }),
+    new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -56,29 +53,8 @@ module.exports = {
           cacheDirectory: true,
           presets: ["es2015", "react", "stage-0"]
         },
-        exclude: /(node_modules|bower_components)/
-      },
-      // {
-      //   test: /\.txt$/,
-      //   loader: 'raw',
-      //   include: CLIENT_ENTRY
-      // },
-      // {
-      //   test: /\.json$/,
-      //   loader: 'json',
-      // },
-      // {
-      //   test: /\.(gif|jpe?g|png|ico)$/,
-      //   loader: 'url',
-      //   query: { limit: 10000, name: '[name].[hash:8].[ext]' },
-      //   include: CLIENT_ENTRY
-      // },
-      // {
-      //   test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-      //   loader: 'url',
-      //   query: { limit: 10000, name: '[name].[hash:8].[ext]' },
-      //   include: CLIENT_ENTRY
-      // }
+        exclude: /(node_modules)/
+      }
     ]
   }
 }

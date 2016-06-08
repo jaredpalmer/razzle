@@ -8,6 +8,7 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
     main: [
+      'webpack/hot/only-dev-server',
       'webpack-hot-middleware/client',
       CLIENT_ENTRY
     ],
@@ -41,41 +42,19 @@ module.exports = {
         // set up standard-loader as a preloader
         test: /\.jsx?$/,
         loader: 'standard',
-        exclude: /(node_modules|bower_components)/
+        exclude: /(node_modules)/
       }
     ],
     loaders: [
       {
         test: /\.js$/,
         loader: 'babel',
-        exclude: /(node_modules|bower_components|server)/,
+        exclude: /(node_modules|server)/,
         query: {
           cacheDirectory: true,
           presets: ["es2015", "react", "stage-0"]
         }
       },
-      // {
-      //   test: /\.txt$/,
-      //   loader: 'raw',
-      //   exclude: /(node_modules|bower_components)/
-      // },
-      // {
-      //   test: /\.json$/,
-      //   loader: 'json',
-      //   exclude: /(node_modules|bower_components)/
-      // },
-      // {
-      //   test: /\.(gif|jpe?g|png|ico)$/,
-      //   loader: 'url',
-      //   query: { limit: 10000, name: '[name].[hash:8].[ext]' },
-      //   include: CLIENT_ENTRY
-      // },
-      // {
-      //   test: /\.(otf|eot|svg|ttf|woff|woff2).*$/,
-      //   loader: 'url',
-      //   query: { limit: 10000, name: '[name].[hash:8].[ext]' },
-      //   include: CLIENT_ENTRY
-      // }
     ]
   },
   standard: {

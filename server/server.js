@@ -25,6 +25,7 @@ server.disable('x-powered-by')
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 let assets
+
 if (__PROD__ || __TEST__) {
   const config = require('../tools/webpack.client.prod')
   assets = require('../assets.json')
@@ -125,7 +126,7 @@ server.get('*', (req, res) => {
               <script>window.renderedClassNames = ${JSON.stringify(data.css.renderedClassNames)};</script>
               <script>window.INITIAL_STATE = ${JSON.stringify(initialState)};</script>
               <script src="${ __PROD__ ? assets.vendor.js : '/vendor.js' }"></script>
-              <script src="${ __PROD__ ? assets.main.js : '/main.js' }"></script>
+              <script async src="${ __PROD__ ? assets.main.js : '/main.js' }" ></script>
             </body>
           </html>
         `)
