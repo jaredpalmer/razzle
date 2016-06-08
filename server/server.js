@@ -166,7 +166,6 @@ server.get('*', (req, res) => {
 
 })
 
-console.log(__PROD__)
 // Listen
 server.listen(port, '0.0.0.0', function onStart (err) {
   if (err) {
