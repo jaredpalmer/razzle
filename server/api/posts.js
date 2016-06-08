@@ -12,6 +12,7 @@ const exchange = rabbit.default()
  */
 router.get('/', (req, res, next) => {
   // Ask the posts service to get all posts
+
   exchange.publish({}, {
     expiration: EXPIRATION, // timeout after 3 sec
     key: 'posts.getAll', // publish topic on exchange
@@ -45,4 +46,4 @@ function getPost (req, res, next) {
   })
 }
 
-export default router
+module.exports = router
