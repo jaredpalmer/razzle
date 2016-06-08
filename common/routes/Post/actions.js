@@ -26,7 +26,7 @@ export function loadPost (slug) {
         })
       })
       .catch(error => {
-          console.error(`Error in reducer that handles ${LOAD_POST_SUCCESS}: `, error)
+        console.error(`Error in reducer that handles ${LOAD_POST_SUCCESS}: `, error)
         dispatch({
           type: LOAD_POST_FAILURE,
           payload: error,
