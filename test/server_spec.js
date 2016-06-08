@@ -1,11 +1,12 @@
 /* eslint-env mocha */
+process.env.NODE_ENV='test'
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
 import server from '../server/server.js'
 
 chai.use(chaiHttp)
 
-import fakeDB from '../server/fakeDB.js'
+import fakeDB from '../workers/posts/fakeDB.js'
 
 describe('API', () => {
   it('should list ALL posts on api/v0/posts GET', (done) => {
@@ -29,7 +30,7 @@ describe('API', () => {
     }
 
     chai.request(server)
-      .get(`/api/v0/post/${post.slug}`)
+      .get(`/api/v0/posts/${post.slug}`)
       .end((err, res) => {
         expect(res.status).to.equal(200)
         expect(res).to.be.json

@@ -1,0 +1,2 @@
+mocha: npm run clean && npm run build && cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive
+posts: NODE_ENV=production node ./workers/posts
