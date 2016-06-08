@@ -48,7 +48,9 @@
     "helmet": "^2.0.0",
     "history": "^2.1.1",
     "hpp": "^0.2.0",
+    "jackrabbit": "^4.3.0",
     "json-loader": "^0.5.4",
+    "logfmt": "^1.2.0",
     "mocha": "^2.4.5",
     "morgan": "^1.6.1",
     "react": "^15.1.0",
@@ -63,6 +65,7 @@
     "source-map-support": "^0.4.0",
     "standard": "^7.1.2",
     "standard-loader": "^4.0.0",
+    "throng": "^4.0.0",
     "webpack": "^1.13.1"
   },
   "devDependencies": {

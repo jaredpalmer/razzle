@@ -57,7 +57,6 @@ if (__PROD__ || __TEST__) {
 }
 
 server.use('/api/v0/posts', require('./api/posts'))
-server.use('/api/v0/post', require('./api/post'))
 
 
 server.get('*', (req, res) => {

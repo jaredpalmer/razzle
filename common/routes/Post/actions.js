@@ -7,7 +7,7 @@ export function loadPost (slug) {
       // Types of actions to emit before and after
       types: [LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE],
       // Perform the fetching:
-      url: `/api/v0/post/${slug}`,
+      url: `/api/v0/posts/${slug}`,
       method: 'GET',
       withCredentials: true
     }

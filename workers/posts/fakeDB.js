@@ -43,4 +43,4 @@ const fakeDB = [
   }
 ]
 
-export default fakeDB
+module.exports = fakeDB
