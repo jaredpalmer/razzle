@@ -20,7 +20,7 @@ describe('API', () => {
       })
   })
 
-  it('should list ONE post on api/v0/post GET', (done) => {
+  it('should list ONE post on api/v0/posts/:slug GET', (done) => {
     const post = {
       id: '128sd043hd',
       title: 'Cloth Talk Part I',
@@ -29,7 +29,7 @@ describe('API', () => {
     }
 
     chai.request(server)
-      .get(`/api/v0/post/${post.slug}`)
+      .get(`/api/v0/posts/${post.slug}`)
       .end((err, res) => {
         expect(res.status).to.equal(200)
         expect(res).to.be.json
