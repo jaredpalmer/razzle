@@ -61,8 +61,10 @@ const styles = StyleSheet.create({
     color: '#08c',
     opacity: 1,
     transition: '.2s opacity ease',
+    textDecoration: 'none',
     ':hover': {
-      opacity: 0.5
+      opacity: 0.5,
+      textDecoration: 'none',
     }
   }
 })
