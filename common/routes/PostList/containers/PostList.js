@@ -4,6 +4,7 @@ import { loadPosts } from '../actions'
 import { connect } from 'react-redux'
 import PostListItem from '../components/PostListItem'
 import { StyleSheet, css } from 'aphrodite'
+import Helmet from 'react-helmet'
 
 const redial = {
   fetch: ({ dispatch }) => dispatch(loadPosts())
@@ -15,6 +16,7 @@ const mapStateToProps = (state) => ({
 
 const PostListPage = ({ posts }) => (
   <div className={css(styles.root)}>
+    <Helmet title='Posts' />
     {posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   </div>
 )

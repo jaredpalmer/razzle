@@ -1,13 +1,13 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+
 import { StyleSheet, css } from 'aphrodite'
 import data from '../data'
 
 // This is a static page. It uses an array to hold data about the resources
 // and maintain DRY
-const About = (props) => (
+const Home = (props) => (
   <div>
-    <Helmet title='About' />
+
     <h2 className={css(styles.header)}>About</h2>
     <p className={css(styles.lead)}>
       This is an example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default About
+export default Home

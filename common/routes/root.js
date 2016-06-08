@@ -2,7 +2,7 @@
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require)
 
 import App from '../components/App'
-import About from './About'
+import Home from './Home'
 
 export default function createRoutes (store) {
   const root = {
@@ -19,7 +19,7 @@ export default function createRoutes (store) {
     },
 
     indexRoute: {
-      component: About
+      component: Home
     }
   }
 
