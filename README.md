@@ -1,5 +1,7 @@
 # React Production Starter
 
+[![Join the chat at https://gitter.im/jaredpalmer/react-production-starter](https://badges.gitter.im/jaredpalmer/react-production-starter.svg)](https://gitter.im/jaredpalmer/react-production-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/jaredpalmer/react-production-starter.svg?branch=master)](https://travis-ci.org/jaredpalmer/react-production-starter) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 An example react application (master-detail feed) with isomorphic rendering, async react-router routes, async redux reducers, async data fetching, and code-splitting.
