@@ -45,10 +45,6 @@ const data = [
     resource: 'Webpack',
     link: 'https://github.com/webpack/webpack',
     description: 'Webpack is a bundler for modules. The main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset.'
-  },
-  { resource: 'React Hot Loader',
-    link: 'https://github.com/gaearon/react-hot-loader',
-    description: 'Tweak React components in real time.'
   }
 ]
 
