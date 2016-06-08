@@ -5,9 +5,9 @@
   "scripts": {
     "test": "npm run clean && npm run build && cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
-    "start": "cross-env NODE_ENV=development node ./src/server",
-    "start:prod": "npm run clean && npm run build && cross-env NODE_ENV=production node ./build/server",
-    "build": "webpack -p --config ./webpack.config.prod.js && webpack -p --config ./webpack.server.config.prod.js",
+    "start": "cross-env NODE_ENV=development node ./server",
+    "start:prod": "npm run clean && npm run build && cross-env NODE_ENV=production node ./build/server.js",
+    "build": "webpack --config ./tools/webpack.client.prod.js && webpack --config ./tools/webpack.server.prod.js",
     "clean": "rm -rf build"
   },
   "repository": {
@@ -63,12 +63,16 @@
     "source-map-support": "^0.4.0",
     "standard": "^7.1.2",
     "standard-loader": "^4.0.0",
-    "webpack": "^1.13.1",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
-  "devDependencies": {},
   "standard": {
     "parser": "babel-eslint"
+  },
+  "engines": {
+    "node": "6.2.1"
   }
 }
