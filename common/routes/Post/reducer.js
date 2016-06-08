@@ -5,7 +5,8 @@ export default function currentPost (state = {
   lastFetched: null,
   isLoading: false,
   error: null,
-  data: {}
+  title: '',
+  content: ''
 }, action) {
   switch (action.type) {
     case types.LOAD_POST_REQUEST:
@@ -15,7 +16,8 @@ export default function currentPost (state = {
       })
     case types.LOAD_POST_SUCCESS:
       return update(state, {
-        data: { $set: action.payload },
+        title: { $set: action.payload.title },
+        content: { $set: action.payload.content },
         lastFetched: { $set: action.meta.lastFetched },
         isLoading: { $set: false }
       })
@@ -27,3 +29,6 @@ export default function currentPost (state = {
       return state
   }
 }
+
+// Example of a co-located selector
+export const selectCurrentPost = state => state.currentPost

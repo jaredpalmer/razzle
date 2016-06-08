@@ -26,3 +26,6 @@ export default function posts (state = {
       return state
   }
 }
+
+// Example of a co-located selector
+export const selectPosts = state => state.posts
