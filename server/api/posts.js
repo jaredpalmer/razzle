@@ -5,22 +5,21 @@ const router = new Router()
 import fakeDB from '../fakeDB.js'
 
 router.get('/', (req, res) => {
-  res.statusCode = 200
-  res.json(fakeDB)
+  setTimeout(() => {
+    res.status(200).json(fakeDB)
+  }, 300)
 })
 
 router.get('/:slug', (req, res) => {
   const index = fakeDB.findIndex(el => el.slug === req.params.slug)
   if (index < 0) {
-    res.statusCode = 500
-    res.json({
+    res.status(404).json({
       error: 'Post does not exist in db'
     })
   }
 
   setTimeout(() => {
-    res.statusCode = 200
-    res.json(fakeDB[index])
+    res.status(200).json(fakeDB[index])
   }, 300)
 })
 

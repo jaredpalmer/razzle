@@ -5,17 +5,13 @@ import { loadPost } from '../actions'
 import { StyleSheet, css } from 'aphrodite'
 import Helmet from 'react-helmet'
 import NotFound from '../../../components/NotFound'
+import { selectCurrentPost } from '../reducer'
 
 const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
 }
 
-const mapStateToProps = state => ({
-  title: state.currentPost.data.title,
-  content: state.currentPost.data.content,
-  isLoading: state.currentPost.isLoading,
-  error: state.currentPost.error
-})
+const mapStateToProps = state => selectCurrentPost(state)
 
 const PostPage = ({ title, content, isLoading, error }) => {
   if (!error) {
@@ -24,13 +20,12 @@ const PostPage = ({ title, content, isLoading, error }) => {
         <Helmet title={title} />
         {isLoading &&
           <div>
-            <h2 className={css(styles.title)}>Loading....</h2>
-            <p className={css(styles.primary)}></p>
+            <h2 className={css(styles.loading)}>Loading....</h2>
           </div>}
         {!isLoading &&
           <div>
             <h2 className={css(styles.title)}>{title}</h2>
-            <p className={css(styles.body)}>{content}</p>
+            <p className={css(styles.content)}>{content}</p>
           </div>}
       </div>
     )
@@ -48,7 +43,7 @@ PostPage.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  body: {
+  content: {
     fontSize: '1rem',
     lineHeight: '1.5',
     margin: '1rem 0',
@@ -58,6 +53,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     margin: '0 auto 1.5rem',
     color: '#000'
+  },
+  loading: {
+    fontSize: 28,
+    margin: '0 auto 1.5rem',
+    color: '#b7b7b7'
   }
 })
 
