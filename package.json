@@ -71,7 +71,7 @@
   },
   "standard": {
     "parser": "babel-eslint"
-  }
+  },
   "engines": {
     "node": "6.2.1"
   }
