@@ -110,16 +110,43 @@ server.get('*', (req, res) => {
             <head>
               <meta charSet="utf-8" />
               <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-               ${head.title.toString()}
-               <meta name="viewport" content="width=device-width, initial-scale=1" />
-               ${head.meta.toString()}
-               ${head.link.toString()}
-               <style>
-                 body {
-                   font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
-                 }
-               </style>
-               <style data-aphrodite>${data.css.content}</style>
+              ${head.title.toString()}
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              ${head.meta.toString()}
+              ${head.link.toString()}
+              <style>
+                html {
+                  box-sizing: border-box
+                }
+
+                *,
+                *::before,
+                *::after {
+                  box-sizing: border-box
+                }
+
+                html {
+                  font-size: 100%;
+                  -ms-overflow-style: scrollbar;
+                  -webkit-tap-highlight-color: rgba(0,0,0,0);
+                  height: 100%;
+                }
+
+                body {
+                  font-size: 1rem;
+                  background-color: #fff;
+                  color: #555;
+                  -webkit-font-smoothing: antialiased;
+                  -moz-osx-font-smoothing: grayscale;
+                  font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+                }
+
+                h1,h2,h3,h4,h5,h6 {
+                  margin: 0;
+                  padding: 0;
+                }
+              </style>
+              <style data-aphrodite>${data.css.content}</style>
             </head>
             <body>
               <div id="root">${data.html}</div>

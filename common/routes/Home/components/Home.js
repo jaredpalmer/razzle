@@ -31,12 +31,12 @@ const Home = (props) => (
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: '36px',
-    lineHeight: '1.5',
+    fontSize: 28,
+    lineHeight: '1.2',
     margin: '0 0 1.5rem'
   },
   lead: {
-    fontSize: '1.25rem',
+    fontSize: 18,
     lineHeight: '1.5',
     margin: '0 0 1.5rem',
     color: '#555'

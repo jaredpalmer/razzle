@@ -49,13 +49,14 @@ PostPage.propTypes = {
 
 const styles = StyleSheet.create({
   body: {
-    fontSize: '1.25rem',
+    fontSize: '1rem',
     lineHeight: '1.5',
-    margin: '1rem 0'
+    margin: '1rem 0',
+    color: '#555'
   },
   title: {
-    fontSize: '36px',
-    margin: '1rem 0',
+    fontSize: 28,
+    margin: '0 auto 1.5rem',
     color: '#000'
   }
 })

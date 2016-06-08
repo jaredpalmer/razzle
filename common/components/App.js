@@ -19,11 +19,13 @@ const styles = StyleSheet.create({
   root: {
     maxWidth: 700,
     color: '#000',
-    margin: '2rem auto'
+    margin: '2rem auto',
+    padding: '0 1rem'
   },
   title: {
     color: '#000',
     maxWidth: 300,
+    fontWeight: 'bold',
     fontSize: 56
   },
   footer: {
