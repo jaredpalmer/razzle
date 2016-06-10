@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite'
 
 const PostListItem = ({ post }) => (
   <div className={css(styles.root)}>
-    <h3><Link to={`/post/${post.slug}`} className={css(styles.title)}> {post.title} </Link></h3>
+    <h3><Link to={`/posts/${post.slug}`} className={css(styles.title)}> {post.title} </Link></h3>
   </div>
 )
 
