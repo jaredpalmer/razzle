@@ -1,6 +1,6 @@
 {
   "name": "react-production-starter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Isomorphic React Starter with Redux, React Router, Redial, Aphrodite, Express, Webpack.",
   "scripts": {
     "test": "npm run clean && npm run build && cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
@@ -38,7 +38,7 @@
     "babel-register": "^6.9.0",
     "body-parser": "^1.14.2",
     "chai": "^3.5.0",
-    "chai-http": "^2.0.1",
+    "chai-http": "^3.0.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
     "cross-env": "1.0.8",
