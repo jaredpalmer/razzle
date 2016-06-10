@@ -4,16 +4,16 @@ import { connect } from 'react-redux'
 import { loadPost } from '../actions'
 import { StyleSheet, css } from 'aphrodite'
 import Helmet from 'react-helmet'
-import NotFound from '../../../components/NotFound'
-import { selectCurrentPost } from '../reducer'
+import NotFound from '../../../../components/NotFound'
+import { getPostBySlug } from '../../reducer'
 
 const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
 }
 
-const mapStateToProps = state => selectCurrentPost(state)
+const mapStateToProps = state => getPostBySlug(state)
 
-const PostPage = ({ title, content, isLoading, error }) => {
+const Post = ({ title, content, isLoading, error }) => {
   if (!error) {
     return (
       <div>
@@ -35,7 +35,7 @@ const PostPage = ({ title, content, isLoading, error }) => {
   }
 }
 
-PostPage.propTypes = {
+Post.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
   isLoading: PropTypes.bool,
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default provideHooks(redial)(connect(mapStateToProps)(PostPage))
+export default provideHooks(redial)(connect(mapStateToProps)(Post))

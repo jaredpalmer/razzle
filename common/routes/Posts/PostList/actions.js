@@ -1,5 +1,8 @@
-import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE } from '../../constants'
+import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE } from '../../../constants'
 import axios from 'axios'
+
+import { normalize } from 'normalizr';
+import * as schema from '../schema';
 
 export function loadPosts () {
   return (dispatch, getState) => {
@@ -9,7 +12,7 @@ export function loadPosts () {
       .then(res => {
         dispatch({
           type: LOAD_POSTS_SUCCESS,
-          payload: res.data,
+          payload: normalize(res.data, schema.arrayOfPosts),
           meta: {
             lastFetched: Date.now()
           }
