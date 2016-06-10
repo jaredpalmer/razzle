@@ -37,8 +37,6 @@
     "babel-preset-stage-0": "6.5.0",
     "babel-register": "^6.9.0",
     "body-parser": "^1.14.2",
-    "chai": "^3.5.0",
-    "chai-http": "^3.0.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
     "cross-env": "1.0.8",
@@ -67,6 +65,9 @@
     "webpack": "^1.13.1"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "chai-immutable": "^1.5.4",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },

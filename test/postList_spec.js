@@ -1,47 +1,44 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiImmutable from 'chai-immutable'
 import * as types from '../common/constants'
 import reducer from '../common/routes/PostList/reducer'
+import Immutable, { List, Map } from 'immutable'
+
+chai.use(chaiImmutable)
 
 // Remove this
 import fakeDB from '../server/fakeDB.js'
 
 describe('PostList Reducer', () => {
+  const initialState = Map({
+    lastFetched: null,
+    isLoading: false,
+    error: null,
+    data: List()
+  })
 
   it('should return default state if action is undefined', () => {
-    const initialState = []
     const nextState = reducer(initialState, 'BLAH')
     expect(nextState).to.deep.equal(initialState)
   })
 
   it('should handle LOAD_POSTS_REQUEST', () => {
-    const initialState = {
-      lastFetched: null,
-      isLoading: false,
-      error: null,
-      data: []
-    }
-
     const action = {
       type: types.LOAD_POSTS_REQUEST
     }
 
-    const nextState = reducer(initialState, action)
-    expect(nextState).to.deep.equal({
+    const expectedNextState = Map({
       lastFetched: null,
       isLoading: true,
       error: null,
-      data: []
+      data: List()
     })
+
+    const nextState = reducer(initialState, action)
+    expect(nextState).to.deep.equal(expectedNextState)
   })
 
   it('should handle LOAD_POSTS_SUCCESS', () => {
-    const initialState = {
-      lastFetched: null,
-      isLoading: false,
-      error: null,
-      data: []
-    }
-
     const currentTime = Date.now()
 
     const action = {
@@ -52,34 +49,32 @@ describe('PostList Reducer', () => {
       }
     }
 
-    const nextState = reducer(initialState, action)
-    expect(nextState).to.deep.equal({
+    const expectedNextState = Map({
       lastFetched: currentTime,
       isLoading: false,
       error: null,
-      data: fakeDB
+      data: Immutable.fromJS(fakeDB)
     })
+
+    const nextState = reducer(initialState, action)
+    expect(nextState).to.deep.equal(expectedNextState)
   })
 
   it('should handle LOAD_POSTS_FAILURE', () => {
-    const initialState = {
-      lastFetched: null,
-      isLoading: false,
-      error: null,
-      data: []
-    }
     const error = new Error('Invalid request')
     const action = {
       type: types.LOAD_POSTS_FAILURE,
       payload: error,
       error: true
     }
-    const nextState = reducer(initialState, action)
-    expect(nextState).to.deep.equal({
+
+    const expectedNextState = Map({
       lastFetched: null,
       isLoading: false,
       error: error,
-      data: []
+      data: List()
     })
+    const nextState = reducer(initialState, action)
+    expect(nextState).to.deep.equal(expectedNextState)
   })
 })
