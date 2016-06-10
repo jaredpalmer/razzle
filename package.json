@@ -48,6 +48,7 @@
     "helmet": "^2.0.0",
     "history": "^3.0.0",
     "hpp": "^0.2.0",
+    "immutable": "^3.8.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
     "morgan": "^1.6.1",
