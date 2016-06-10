@@ -14,13 +14,15 @@ const initialState = window.INITIAL_STATE || {}
 // Set up Redux (note: this API requires redux@>=3.1.0):
 const store = configureStore(initialState)
 const { dispatch } = store
-const { pathname, search, hash } = window.location
-const location = `${pathname}${search}${hash}`
+
 const container = document.getElementById('root')
 
 StyleSheet.rehydrate(window.renderedClassNames)
 
-let render = () => {
+const render = () => {
+  const { pathname, search, hash } = window.location
+  const location = `${pathname}${search}${hash}`
+
   // We need to have a root route for HMR to work.
   const createRoutes = require('../common/routes/root').default
   const routes = createRoutes(store)
@@ -39,7 +41,7 @@ let render = () => {
     )
   })
 
-  browserHistory.listen(location => {
+  return browserHistory.listen(location => {
     // Match routes based on location object:
     match({ routes, location }, (error, redirectLocation, renderProps) => {
       if (error) console.log(error)
@@ -71,10 +73,11 @@ let render = () => {
   })
 }
 
+const unsubscribeHistory = render()
+
 if (module.hot) {
   module.hot.accept('../common/routes/root', () => {
+    unsubscribeHistory()
     setTimeout(render)
   })
 }
-
-render()
