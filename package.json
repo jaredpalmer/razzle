@@ -38,7 +38,7 @@
     "babel-register": "^6.9.0",
     "body-parser": "^1.14.2",
     "chai": "^3.5.0",
-    "chai-http": "^2.0.1",
+    "chai-http": "^3.0.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
     "cross-env": "1.0.8",
