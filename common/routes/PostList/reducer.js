@@ -1,14 +1,28 @@
 import * as types from '../../constants'
 import { combineReducers } from 'redux'
 
-const data = (state = {}, action) => {
-  if (!action.error) {
-    return {
-      ...state,
-      ...action.payload
-    }
+const ids = (state = [], action) => {
+  switch (action.type) {
+    case types.LOAD_POSTS_REQUEST:
+    case types.LOAD_POSTS_FAILURE:
+      return state
+    case types.LOAD_POSTS_SUCCESS:
+      return action.payload.result
+    default:
+      return state
   }
-  return state
+}
+
+const byId = (state = {}, action) => {
+  switch (action.type) {
+    case types.LOAD_POSTS_REQUEST:
+    case types.LOAD_POSTS_FAILURE:
+      return state
+    case types.LOAD_POSTS_SUCCESS:
+      return { ...state, ...action.payload.entities.post }
+    default:
+      return state
+  }
 }
 
 const isFetching = (state = false, action) => {
@@ -35,9 +49,9 @@ const errorMessage = (state = null, action) => {
   }
 }
 
-export const getPostBySlug = (state, slug) => state.posts.data.entities.post[slug]
+export const getPostBySlug = (state, slug) => state.posts.byId[slug]
 export const getPosts = (state) => {
-  return state.posts.data.result.map(id => getPostBySlug(state, id))
+  return state.posts.ids.map(id => getPostBySlug(state, id))
 }
 export const getIsFetching = (state) => state.isFetching
 export const getErrorMessage = (state) => state.errorMessage
@@ -45,7 +59,8 @@ export const getErrorMessage = (state) => state.errorMessage
 const posts = combineReducers({
   isFetching,
   errorMessage,
-  data
+  ids,
+  byId
 })
 
 export default posts
