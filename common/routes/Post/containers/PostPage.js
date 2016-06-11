@@ -1,31 +1,36 @@
 import { provideHooks } from 'redial'
 import React, { PropTypes } from 'react'
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { loadPost } from '../actions'
 import { StyleSheet, css } from 'aphrodite'
 import Helmet from 'react-helmet'
-import NotFound from '../../../../components/NotFound'
-import { getPostBySlug } from '../../reducer'
+import NotFound from '../../../components/NotFound'
+import { getPostBySlug, getIsFetching, getErrorMessage } from '../../PostList/reducer'
 
 const redial = {
   fetch: ({ dispatch, params: { slug } }) => dispatch(loadPost(slug))
 }
 
-const mapStateToProps = state => getPostBySlug(state)
+const mapStateToProps = (state, { params }) => ({
+  post: getPostBySlug(state, params.slug),
+  isFetching: getIsFetching(state),
+  error: getErrorMessage(state)
+})
 
-const Post = ({ title, content, isLoading, error }) => {
+const Post = ({ post, isFetching, error }) => {
   if (!error) {
     return (
       <div>
-        <Helmet title={title} />
-        {isLoading &&
+        <Helmet title={post.title} />
+        {isFetching &&
           <div>
             <h2 className={css(styles.loading)}>Loading....</h2>
           </div>}
-        {!isLoading &&
+        {!isFetching &&
           <div>
-            <h2 className={css(styles.title)}>{title}</h2>
-            <p className={css(styles.content)}>{content}</p>
+            <h2 className={css(styles.title)}>{post.title}</h2>
+            <p className={css(styles.content)}>{post.content}</p>
           </div>}
       </div>
     )
@@ -61,4 +66,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default provideHooks(redial)(connect(mapStateToProps)(Post))
+export default provideHooks(redial)(withRouter(connect(mapStateToProps)(Post)))

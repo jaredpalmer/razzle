@@ -1,28 +1,27 @@
 import * as types from '../../constants'
-import { combineReducers } from 'redux';
-import update from 'react/lib/update'
+import { combineReducers } from 'redux'
 
 const data = (state = {}, action) => {
   if (!action.error) {
     return {
       ...state,
-      ...action.payload,
-    };
+      ...action.payload
+    }
   }
-  return state;
-};
+  return state
+}
 
 const isFetching = (state = false, action) => {
-   switch (action.type) {
-     case types.LOAD_POSTS_REQUEST:
-       return true;
-     case types.LOAD_POSTS_SUCCESS:
-     case types.LOAD_POSTS_FAILURE:
-       return false;
-     default:
-       return state;
-   }
- }
+  switch (action.type) {
+    case types.LOAD_POSTS_REQUEST:
+      return true
+    case types.LOAD_POSTS_SUCCESS:
+    case types.LOAD_POSTS_FAILURE:
+      return false
+    default:
+      return state
+  }
+}
 
 const errorMessage = (state = null, action) => {
   switch (action.type) {
@@ -30,7 +29,7 @@ const errorMessage = (state = null, action) => {
       return action.error.message
     case types.LOAD_POSTS_SUCCESS:
     case types.LOAD_POSTS_REQUEST:
-      return null;
+      return null
     default:
       return state
   }
@@ -48,6 +47,5 @@ const posts = combineReducers({
   errorMessage,
   data
 })
-
 
 export default posts

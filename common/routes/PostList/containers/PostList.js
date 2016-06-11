@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PostListItem from '../components/PostListItem'
 import { StyleSheet, css } from 'aphrodite'
 import Helmet from 'react-helmet'
-import { getPosts, getIsFetching, getErrorMessage } from '../../reducer'
+import { getPosts, getIsFetching, getErrorMessage } from '../reducer'
 
 const redial = {
   fetch: ({ dispatch }) => dispatch(loadPosts())
@@ -20,12 +20,12 @@ const mapStateToProps = state => ({
 const PostListPage = ({ posts, isFetching, errorMessage }) => (
   <div className={css(styles.root)}>
     <Helmet title='Posts' />
-  {isFetching &&
+    {isFetching &&
       <div>
         <h2 className={css(styles.title)}>Loading....</h2>
       </div>}
-  {!isFetching &&
-    posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
+    {!isFetching &&
+      posts.map((post, i) => <PostListItem key={post.id} post={post} />)}
   {errorMessage}
   </div>
 )

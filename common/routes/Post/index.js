@@ -1,5 +1,5 @@
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require)
-import { injectAsyncReducer } from '../../../store'
+import { injectAsyncReducer } from '../../store'
 
 export default function createRoutes (store) {
   return {
@@ -7,10 +7,10 @@ export default function createRoutes (store) {
     getComponents (location, cb) {
       require.ensure([
         './containers/PostPage',
-        '../reducer'
+        '../PostList/reducer'
       ], (require) => {
         const PostPage = require('./containers/PostPage').default
-        const normalizedPostReducer = require('../reducer').default
+        const normalizedPostReducer = require('../PostList/reducer').default
         injectAsyncReducer(store, 'posts', normalizedPostReducer)
         cb(null, PostPage)
       })
