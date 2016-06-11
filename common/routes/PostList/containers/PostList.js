@@ -37,7 +37,6 @@ PostListPage.PropTypes = {
 const styles = StyleSheet.create({
   root: {
     maxWidth: 500,
-    fontFamily: 'monospace'
   },
   title: {
     fontSize: 28,
