@@ -85,7 +85,7 @@ server.get('*', (req, res) => {
     // Define locals to be provided to all lifecycle hooks:
     const locals = {
       path: renderProps.location.pathname,
-      query: renderProps.location.query,
+      query: req.query,
       params: renderProps.params,
 
       // Allow lifecycle hooks to dispatch Redux actions:
