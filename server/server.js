@@ -67,7 +67,7 @@ server.get('*', (req, res) => {
     }
   })
   const routes = createRoutes(store)
-  const history = createMemoryHistory(req.path)
+  const history = createMemoryHistory(req.originalUrl)
   const { dispatch } = store
 
   match({ routes, history}, (err, redirectLocation, renderProps) => {
@@ -85,7 +85,7 @@ server.get('*', (req, res) => {
     // Define locals to be provided to all lifecycle hooks:
     const locals = {
       path: renderProps.location.pathname,
-      query: req.query,
+      query: renderProps.location.query,
       params: renderProps.params,
 
       // Allow lifecycle hooks to dispatch Redux actions:
