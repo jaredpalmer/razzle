@@ -24,7 +24,7 @@
   "dependencies": {
     "aphrodite": "^0.4.0",
     "assets-webpack-plugin": "^3.3.0",
-    "axios": "^0.12.0",
+    "axios": "^0.13.0",
     "babel-cli": "6.10.1",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.1.2",
