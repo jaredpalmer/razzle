@@ -39,7 +39,7 @@
     "body-parser": "^1.14.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.1",
-    "cross-env": "1.0.8",
+    "cross-env": "2.0.0",
     "eslint-config-standard": "^5.3.1",
     "express": "^4.13.4",
     "fbjs": "^0.8.3",
