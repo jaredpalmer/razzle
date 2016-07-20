@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/jaredpalmer/react-production-starter#readme",
   "dependencies": {
-    "aphrodite": "^0.4.0",
+    "aphrodite": "^0.5.0",
     "assets-webpack-plugin": "^3.3.0",
     "axios": "^0.13.0",
     "babel-cli": "6.11.4",
