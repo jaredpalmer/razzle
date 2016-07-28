@@ -57,6 +57,7 @@
     "react-router": "^2.0.0",
     "redial": "^0.4.1",
     "redux": "^3.3.1",
+    "redux-immutable": "^3.0.6",
     "redux-mock-store": "^1.0.2",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",

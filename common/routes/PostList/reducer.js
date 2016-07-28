@@ -1,8 +1,8 @@
 import * as types from '../../constants'
-import Immutable, { List, Map } from 'immutable'
+import { fromJS } from 'immutable'
 
-const initialState = Map({
-  data: List(),
+const initialState = fromJS({
+  data: fromJS([]),
   lastFetched: null,
   isLoading: false,
   error: null
@@ -14,7 +14,7 @@ export default function posts (state = initialState, action) {
       return state.set('isLoading', true)
                   .set('error', null)
     case types.LOAD_POSTS_SUCCESS:
-      return state.set('data', Immutable.fromJS(action.payload))
+      return state.set('data', fromJS(action.payload))
                   .set('lastFetched', action.meta.lastFetched)
                   .set('isLoading', false)
     case types.LOAD_POSTS_FAILURE:
@@ -25,4 +25,4 @@ export default function posts (state = initialState, action) {
 }
 
 // Example of a co-located selector
-export const selectPosts = state => state.posts.toJS()
+export const selectPosts = state => state.get('posts').toJS()
