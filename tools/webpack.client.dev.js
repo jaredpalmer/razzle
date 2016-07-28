@@ -1,11 +1,12 @@
 const path = require('path')
 const webpack = require('webpack')
 const CONFIG = require('./webpack.base')
+const AssetsPlugin = require('assets-webpack-plugin')
 
 const { CLIENT_ENTRY, CLIENT_OUTPUT, PUBLIC_PATH } = CONFIG
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
   entry: {
     main: [
       'webpack/hot/only-dev-server',
@@ -31,6 +32,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
     new webpack.NoErrorsPlugin(),
+    new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
       '__DEV__': true
