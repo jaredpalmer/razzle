@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 const PostListPage = ({ posts }) => (
   <div className={css(styles.root)}>
     <Helmet title='Posts' />
-  {posts.isLoading &&
+    {posts.isLoading &&
       <div>
         <h2 className={css(styles.title)}>Loading....</h2>
       </div>}
