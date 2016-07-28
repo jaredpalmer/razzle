@@ -1,5 +1,4 @@
 import * as types from '../../constants'
-import update from 'react/lib/update'
 import Immutable, { List, Map } from 'immutable'
 
 const initialState = Map({
