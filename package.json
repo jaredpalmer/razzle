@@ -7,7 +7,7 @@
     "test:watch": "npm test -- --watch",
     "start": "cross-env NODE_ENV=development node ./server",
     "start:prod": "npm run clean && npm run build && cross-env NODE_ENV=production node ./build/server.js",
-    "build": "webpack --config ./tools/webpack.client.prod.js && webpack --config ./tools/webpack.server.prod.js",
+    "build": "webpack -p --config ./tools/webpack.client.prod.js && webpack -p --config ./tools/webpack.server.prod.js",
     "clean": "rm -rf build"
   },
   "repository": {
@@ -50,8 +50,8 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
     "morgan": "^1.6.1",
-    "react": "^15.1.0",
-    "react-dom": "^15.0.2",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.4.0",
     "react-router": "^2.0.0",
@@ -68,6 +68,8 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "chai-immutable": "^1.5.4",
+    "chalk": "^1.1.3",
+    "opn": "^4.0.2",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },

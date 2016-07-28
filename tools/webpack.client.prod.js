@@ -25,24 +25,29 @@ module.exports = {
     path: CLIENT_OUTPUT
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+      '__DEV__': false
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
     new AssetsPlugin({ filename: 'assets.json' }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        unused: true,
-        dead_code: true,
-        warnings: false,
+      compressor: {
+        screw_ie8: true,
+        warnings: false
+      },
+      mangle: {
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
         screw_ie8: true
       }
     }),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      '__DEV__': false
-    }),
   ],
   module: {
     loaders: [
@@ -51,7 +56,8 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          presets: ["es2015", "react", "stage-0"]
+          presets: ["es2015", "react", "stage-0"],
+          plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
         },
         exclude: /(node_modules)/
       }

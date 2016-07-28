@@ -15,6 +15,7 @@ import { configureStore } from '../common/store'
 import Helm from 'react-helmet' // because we are already using helmet
 import reducer from '../common/createReducer'
 import createRoutes from '../common/routes/root'
+const assets = require('../assets.json')
 
 const __PROD__ = process.env.NODE_ENV === 'production'
 const __TEST__ = process.env.NODE_ENV === 'test'
@@ -24,11 +25,9 @@ const server = express()
 server.disable('x-powered-by')
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
-let assets
 
 if (__PROD__ || __TEST__) {
   const config = require('../tools/webpack.client.prod')
-  assets = require('../assets.json')
   server.use(morgan('combined'))
   server.use(helmet())
   server.use(compression())
@@ -36,26 +35,16 @@ if (__PROD__ || __TEST__) {
 } else {
   server.use(morgan('dev'))
   const config = require('../tools/webpack.client.dev')
+  const fbDX = require('../tools/fbDX')
   const webpack = require('webpack')
   const webpackDevMiddleware = require('webpack-dev-middleware')
   const webpackHotMiddleware = require('webpack-hot-middleware')
-  const compiler = webpack(config)
-  const middleware = webpackDevMiddleware(compiler, {
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: true,
-      modules: false
-    }
-  })
-  server.use(middleware)
-  server.use(webpackHotMiddleware(compiler, {
-    log: console.log
-  }))
+  const compiler = fbDX.compileDev((webpack(config)))
+  server.use(webpackDevMiddleware(compiler, { quiet: true }))
+  server.use(webpackHotMiddleware(compiler, { log: console.log }))
 }
 
+server.use(express.static('public'))
 server.use('/api/v0/posts', require('./api/posts'))
 
 
@@ -112,10 +101,11 @@ server.get('*', (req, res) => {
           <!DOCTYPE html>
           <html lang="en">
             <head>
-              <meta charSet="utf-8" />
-              <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+              <meta charSet="utf-8">
+              <meta httpEquiv="X-UA-Compatible" content="IE=edge">
               ${head.title.toString()}
-              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="shortcut icon" href="/favicon.ico">
               ${head.meta.toString()}
               ${head.link.toString()}
               <style>
@@ -156,8 +146,8 @@ server.get('*', (req, res) => {
               <div id="root">${data.html}</div>
               <script>window.renderedClassNames = ${JSON.stringify(data.css.renderedClassNames)};</script>
               <script>window.INITIAL_STATE = ${JSON.stringify(initialState)};</script>
-              <script src="${ __PROD__ ? assets.vendor.js : '/vendor.js' }"></script>
-              <script async src="${ __PROD__ ? assets.main.js : '/main.js' }" ></script>
+              <script src="${assets.vendor.js}"></script>
+              <script async src="${assets.main.js}" ></script>
             </body>
           </html>
         `)
@@ -166,15 +156,13 @@ server.get('*', (req, res) => {
 
 })
 
-console.log(__PROD__)
-// Listen
-server.listen(port, '0.0.0.0', function onStart (err) {
-  if (err) {
-    console.log(err)
+server.listen(port, '0.0.0.0', (err) => {
+  if (__PROD__ || __TEST__) {
+    console.log('Starting production application....')
+  } else {
+    require('../tools/fbDX').listen(port, err)
   }
-
-  console.info('==> 🌎 Listening on port %s.' +
-    'Open up http://0.0.0.0:%s/ in your browser.', port, port)
 })
+
 
 module.exports = server

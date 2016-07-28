@@ -20,7 +20,7 @@ const Home = (props) => (
     <h2 className={css(styles.header)}>Under the Hood</h2>
     <ul className={css(styles.list)}>
       {data.map((item, i) => (
-        <li>
+        <li key={i}>
           <h3><a className={css(styles.link)} href={item.link} target='_blank'>{item.resource}</a></h3>
           <p className={css(styles.body)}>{item.description}</p>
         </li>
