@@ -3,6 +3,7 @@
 var chalk = require('chalk')
 var opn = require('opn')
 var execSync = require('child_process').execSync
+var path = require('path')
 
 var port = process.env.PORT || 5000
 var compiler
@@ -123,10 +124,10 @@ function openBrowser (port) {
       execSync('ps cax | grep "Google Chrome"');
       execSync(
         'osascript ' +
-        path.resolve(__dirname, './tools/chrome.applescript') +
+        path.resolve(__dirname, 'chrome.applescript') +
         ' http://localhost:' + port + '/'
-      );
-      return;
+      )
+      return
     } catch (err) {
       // Ignore errors.
     }
