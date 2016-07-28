@@ -126,8 +126,8 @@ function openBrowser (port) {
         'osascript ' +
         path.resolve(__dirname, 'chrome.applescript') +
         ' http://localhost:' + port + '/'
-      );
-      return;
+      )
+      return
     } catch (err) {
       // Ignore errors.
     }
