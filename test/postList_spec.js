@@ -2,7 +2,7 @@ import chai, { expect } from 'chai'
 import chaiImmutable from 'chai-immutable'
 import * as types from '../common/constants'
 import reducer from '../common/routes/PostList/reducer'
-import Immutable, { List, Map } from 'immutable'
+import { Map, List } from 'immutable'
 
 chai.use(chaiImmutable)
 
