@@ -16,7 +16,7 @@ import { configureStore } from '../common/store'
 import Helm from 'react-helmet' // because we are already using helmet
 import reducer from '../common/createReducer'
 import createRoutes from '../common/routes/root'
-const assets = require('../assets.json')
+
 
 const __PROD__ = process.env.NODE_ENV === 'production'
 const __TEST__ = process.env.NODE_ENV === 'test'
@@ -44,7 +44,7 @@ if (__PROD__ || __TEST__) {
   server.use(webpackDevMiddleware(compiler, { quiet: true }))
   server.use(webpackHotMiddleware(compiler, { log: console.log }))
 }
-
+const assets = require('../assets.json')
 server.use(express.static('public'))
 server.use('/api/v0/posts', require('./api/posts'))
 
