@@ -48,7 +48,7 @@
     "hpp": "^0.2.0",
     "immutable": "^3.8.1",
     "json-loader": "^0.5.4",
-    "mocha": "^2.4.5",
+    "mocha": "^3.0.0",
     "morgan": "^1.6.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
