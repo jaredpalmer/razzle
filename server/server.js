@@ -32,7 +32,7 @@ if (__PROD__ || __TEST__) {
   server.use(morgan('combined'))
   server.use(helmet())
   server.use(compression())
-  server.use(config.output.publicPath, express.static(config.output.path))
+  const assets = require('../assets.json')
 } else {
   server.use(morgan('dev'))
   const config = require('../tools/webpack.client.dev')
@@ -44,7 +44,6 @@ if (__PROD__ || __TEST__) {
   server.use(webpackDevMiddleware(compiler, { quiet: true }))
   server.use(webpackHotMiddleware(compiler, { log: console.log }))
 }
-const assets = require('../assets.json')
 server.use(express.static('public'))
 server.use('/api/v0/posts', require('./api/posts'))
 
@@ -147,8 +146,8 @@ server.get('*', (req, res) => {
               <div id="root">${data.html}</div>
               <script>window.renderedClassNames = ${JSON.stringify(data.css.renderedClassNames)};</script>
               <script>window.INITIAL_STATE = ${JSON.stringify(initialState)};</script>
-              <script src="${assets.vendor.js}"></script>
-              <script async src="${assets.main.js}" ></script>
+              <script src="${ __PROD__ ? assets.vendor.js : '/vendor.js' }"></script>
+              <script async src="${ __PROD__ ? assets.main.js : '/main.js' }" ></script>
             </body>
           </html>
         `)
