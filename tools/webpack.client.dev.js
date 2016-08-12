@@ -11,6 +11,7 @@ module.exports = {
     main: [
       'webpack/hot/only-dev-server',
       'webpack-hot-middleware/client',
+      require.resolve('./polyfills'),
       CLIENT_ENTRY
     ],
     vendor: [
@@ -28,16 +29,6 @@ module.exports = {
     publicPath: PUBLIC_PATH,
     path: CLIENT_OUTPUT
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
-    new webpack.NoErrorsPlugin(),
-    new AssetsPlugin({ filename: 'assets.json' }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
-      '__DEV__': true
-    })
-  ],
   module: {
     preLoaders: [
       {
@@ -62,5 +53,14 @@ module.exports = {
   standard: {
     // config options to be passed through to standard e.g.
     parser: 'babel-eslint'
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+      '__DEV__': true
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', 2),
+    new webpack.NoErrorsPlugin()
+  ],
 }
