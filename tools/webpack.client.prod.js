@@ -8,14 +8,15 @@ const { CLIENT_ENTRY, CLIENT_OUTPUT, PUBLIC_PATH } = CONFIG
 module.exports = {
   devtool: false,
   entry: {
-    main: [CLIENT_ENTRY],
+    main: [require.resolve('./polyfills'), CLIENT_ENTRY],
     vendor: [
       'react',
       'react-dom',
       'react-router',
       'redux',
       'react-redux',
-      'aphrodite'
+      'aphrodite',
+      'immutable'
     ],
   },
   output: {

@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import compression from 'compression'
+import hpp from 'hpp'
 
 import React from 'react'
 import ReactDOM from 'react-dom/server'
@@ -31,6 +32,7 @@ if (__PROD__ || __TEST__) {
   const config = require('../tools/webpack.client.prod')
   server.use(morgan('combined'))
   server.use(helmet())
+  server.use(hpp())
   server.use(compression())
   const assets = require('../assets.json')
 } else {

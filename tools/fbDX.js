@@ -8,20 +8,6 @@ var path = require('path')
 var port = process.env.PORT || 5000
 var compiler
 
-// TODO: hide this behind a flag and eliminate dead code on eject.
-// This shouldn't be exposed to the user.
-var handleCompile
-var isSmokeTest = process.argv.some(arg => arg.indexOf('--smoke-test') > -1)
-if (isSmokeTest) {
-  handleCompile = function (err, stats) {
-    if (err || stats.hasErrors() || stats.hasWarnings()) {
-      process.exit(1)
-    } else {
-      process.exit(0)
-    }
-  }
-}
-
 function clearConsole() {
   process.stdout.write('\x1B[2J\x1B[0f')
 }
