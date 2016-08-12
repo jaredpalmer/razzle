@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const CONFIG = require('./webpack.base')
-const AssetsPlugin = require('assets-webpack-plugin')
 
 const { CLIENT_ENTRY, CLIENT_OUTPUT, PUBLIC_PATH } = CONFIG
 
