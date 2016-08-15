@@ -23,7 +23,7 @@ const __PROD__ = process.env.NODE_ENV === 'production'
 const __TEST__ = process.env.NODE_ENV === 'test'
 const port = process.env.PORT || 5000
 const server = express()
-
+let assets
 server.disable('x-powered-by')
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
@@ -34,7 +34,7 @@ if (__PROD__ || __TEST__) {
   server.use(helmet())
   server.use(hpp())
   server.use(compression())
-  const assets = require('../assets.json')
+  assets = require('../assets.json')
 } else {
   server.use(morgan('dev'))
   const config = require('../tools/webpack.client.dev')

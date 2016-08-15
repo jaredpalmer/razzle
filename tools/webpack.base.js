@@ -5,5 +5,5 @@ module.exports = {
   CLIENT_OUTPUT: path.join(process.cwd(), 'public/assets'),
   SERVER_ENTRY:  path.join(process.cwd(), 'server/server.js'),
   SERVER_OUTPUT: path.join(process.cwd(), 'build'),
-  PUBLIC_PATH: '/'
+  PUBLIC_PATH: '/assets/'
 }

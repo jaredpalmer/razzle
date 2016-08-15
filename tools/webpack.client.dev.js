@@ -25,7 +25,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
-    publicPath: PUBLIC_PATH,
+    publicPath: '/',
     path: CLIENT_OUTPUT
   },
   module: {
