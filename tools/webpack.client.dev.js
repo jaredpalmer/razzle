@@ -10,7 +10,6 @@ module.exports = {
     main: [
       'webpack/hot/only-dev-server',
       'webpack-hot-middleware/client',
-      require.resolve('./polyfills'),
       CLIENT_ENTRY
     ],
     vendor: [

@@ -36,8 +36,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ["es2015", "react", "stage-0"],
-          plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
+          presets: ["es2015", "react", "stage-0", "react-optimize"],
         },
         exclude: /(node_modules)/
       },

@@ -34,3 +34,5 @@ node_modules
 build
 assets.json
 public/assets
+.nyc_output
+coverage

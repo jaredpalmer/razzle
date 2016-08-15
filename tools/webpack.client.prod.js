@@ -8,7 +8,7 @@ const { CLIENT_ENTRY, CLIENT_OUTPUT, PUBLIC_PATH } = CONFIG
 module.exports = {
   devtool: false,
   entry: {
-    main: [require.resolve('./polyfills'), CLIENT_ENTRY],
+    main: [CLIENT_ENTRY],
     vendor: [
       'react',
       'react-dom',
@@ -57,8 +57,7 @@ module.exports = {
         loader: 'babel',
         query: {
           cacheDirectory: true,
-          presets: ["es2015", "react", "stage-0"],
-          plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
+          presets: ["es2015", "react", "stage-0", "react-optimize"],
         },
         exclude: /(node_modules)/
       }
