@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- '6.2.1'
+- '6.2.2'
 env:
   - CXX=g++-4.8
 addons:
@@ -13,5 +13,3 @@ addons:
 cache:
   directories:
     - node_modules
-after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
