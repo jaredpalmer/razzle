@@ -8,7 +8,7 @@
     "coverage": "nyc npm test",
     "start": "cross-env NODE_ENV=development node ./server",
     "start:prod": "cross-env NODE_ENV=production node ./build/server.js",
-    "heroku-postbuild": "NODE_ENV=production npm run build",
+    "heroku-postbuild": "npm run build",
     "build": "webpack -p --config ./tools/webpack.client.prod.js && webpack -p --config ./tools/webpack.server.prod.js",
     "clean": "rm -rf build"
   },
