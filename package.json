@@ -59,7 +59,7 @@
     "redux": "^3.3.1",
     "source-map-support": "^0.4.0",
     "standard-loader": "^5.0.0",
-    "standard": "^7.1.2",
+    "standard": "^8.0.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0",
     "webpack": "^1.13.1"
