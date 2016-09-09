@@ -1,10 +1,8 @@
-import { combineReducers } from 'redux-immutable'
-import { fromJS } from 'immutable'
-
-const initialState = fromJS({
+import { combineReducers } from 'redux'
+const initialState = {
   host: '',
   protocol: ''
-})
+}
 
 const sourceRequest = (state = initialState, action) => state
 

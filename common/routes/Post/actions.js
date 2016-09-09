@@ -2,7 +2,7 @@ import { LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE } from '../../c
 
 export function loadPost (slug) {
   return (dispatch, getState, { axios }) => {
-    const { protocol, host } = getState().get('sourceRequest').toJS()
+    const { protocol, host } = getState().sourceRequest
     dispatch({ type: LOAD_POST_REQUEST })
     return axios.get(`${protocol}://${host}/api/v0/posts/${slug}`)
       .then(res => {

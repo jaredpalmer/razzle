@@ -1,21 +1,18 @@
 import chai, { expect } from 'chai'
-import chaiImmutable from 'chai-immutable'
 import * as types from '../common/constants'
 import reducer from '../common/routes/Post/reducer'
-import { Map } from 'immutable'
 
-chai.use(chaiImmutable)
 // Remove this
 import fakeDB from '../server/fakeDB.js'
 
 describe('Post Reducer', () => {
-  const initialState = Map({
+  const initialState = {
     lastFetched: null,
     isLoading: false,
     error: null,
     title: '',
     content: ''
-  })
+  }
 
   it('should return default state if action is undefined', () => {
     const nextState = reducer(initialState, 'BLAH')
@@ -27,13 +24,13 @@ describe('Post Reducer', () => {
       type: types.LOAD_POST_REQUEST
     }
 
-    const expectedNextState = Map({
+    const expectedNextState = {
       lastFetched: null,
       isLoading: true,
       error: null,
       title: '',
       content: ''
-    })
+    }
 
     const nextState = reducer(initialState, action)
     expect(nextState).to.deep.equal(expectedNextState)
@@ -55,13 +52,13 @@ describe('Post Reducer', () => {
       }
     }
 
-    const expectedNextState = Map({
+    const expectedNextState = {
       lastFetched: currentTime,
       isLoading: false,
       error: null,
       title: 'Cloth Talk Part I',
       content: 'Khaled Ipsum is a major key to success.'
-    })
+    }
 
     const nextState = reducer(initialState, action)
     expect(nextState).to.deep.equal(expectedNextState)
@@ -75,13 +72,13 @@ describe('Post Reducer', () => {
       error: true
     }
 
-    const expectedNextState = Map({
+    const expectedNextState = {
       lastFetched: null,
       isLoading: false,
       error: error,
       title: '',
       content: ''
-    })
+    }
 
     const nextState = reducer(initialState, action)
     expect(nextState).to.deep.equal(expectedNextState)

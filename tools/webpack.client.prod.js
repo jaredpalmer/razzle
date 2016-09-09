@@ -15,8 +15,7 @@ module.exports = {
       'react-router',
       'redux',
       'react-redux',
-      'aphrodite',
-      'immutable'
+      'aphrodite'
     ],
   },
   output: {
