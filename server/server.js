@@ -12,7 +12,6 @@ import { createMemoryHistory, RouterContext, match } from 'react-router'
 import { Provider } from 'react-redux'
 import { trigger } from 'redial'
 import { StyleSheetServer } from 'aphrodite'
-import { fromJS } from 'immutable'
 import { configureStore } from '../common/store'
 import Helm from 'react-helmet' // because we are already using helmet
 import reducer from '../common/createReducer'
@@ -51,12 +50,12 @@ server.use('/api/v0/posts', require('./api/posts'))
 
 
 server.get('*', (req, res) => {
-  const store = configureStore(fromJS({
+  const store = configureStore({
     sourceRequest: {
       protocol: req.headers['x-forwarded-proto'] || req.protocol,
       host: req.headers.host
     }
-  }))
+  })
   const routes = createRoutes(store)
   const history = createMemoryHistory(req.originalUrl)
   const { dispatch } = store
