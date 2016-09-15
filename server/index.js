@@ -14,7 +14,6 @@ import { createMemoryHistory, RouterContext, match } from 'react-router'
 import { Provider } from 'react-redux'
 import { trigger } from 'redial'
 import { StyleSheetServer } from 'aphrodite'
-import { fromJS } from 'immutable'
 import Helm from 'react-helmet' // because we are already using helmet
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
@@ -22,7 +21,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 
 import DefaultServerConfig from './config'
 import webpackConfig from '../tools/webpack.client.dev'
-import fbdx from '../tools/fbdx'
+import { compileDev, startDev } from '../tools/fbdx'
 import { configureStore } from '../common/store'
 import reducer from '../common/createReducer'
 import createRoutes from '../common/routes/root'
@@ -45,7 +44,7 @@ export const createServer = (config) => {
     assets = require('../assets.json')
   } else {
     app.use(morgan('dev'))
-    const compiler = fbdx.compileDev((webpack(webpackConfig)), config.port)
+    const compiler = compileDev((webpack(webpackConfig)), config.port)
     app.use(webpackDevMiddleware(compiler, {
       quiet: true,
       watchOptions: {
@@ -60,12 +59,12 @@ export const createServer = (config) => {
 
 
   app.get('*', (req, res) => {
-    const store = configureStore(fromJS({
+    const store = configureStore({
       sourceRequest: {
         protocol: req.headers['x-forwarded-proto'] || req.protocol,
         host: req.headers.host
       }
-    }))
+    })
     const routes = createRoutes(store)
     const history = createMemoryHistory(req.originalUrl)
     const { dispatch } = store
@@ -201,7 +200,7 @@ export const startServer = (serverConfig) => {
       if (err) console.log(err)
       console.log(`server ${config.id} listening on port ${config.port}`)
     } else {
-      fbdx.listen(config.port, err)
+      startDev(config.port, err)
     }
   })
 }

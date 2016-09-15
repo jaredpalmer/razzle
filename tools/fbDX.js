@@ -1,23 +1,23 @@
 // Shamelessly ripped from FB's create-react-app
 
-var chalk = require('chalk')
-var opn = require('opn')
-var execSync = require('child_process').execSync
-var path = require('path')
+import chalk from 'chalk'
+import opn from 'opn'
+import {execSync} from 'child_process'
+import path from 'path'
 
-function clearConsole() {
+function clearConsole () {
   process.stdout.write('\x1B[2J\x1B[0f')
 }
 
-var friendlySyntaxErrorLabel = 'Syntax error:'
+const friendlySyntaxErrorLabel = 'Syntax error:'
 
-function isLikelyASyntaxError(message) {
+function isLikelyASyntaxError (message) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1
 }
 
 // This is a little hacky.
 // It would be easier if webpack provided a rich error object.
-function formatMessage(message) {
+function formatMessage (message) {
   return message
     // Make some common errors shorter:
     .replace(
@@ -36,7 +36,7 @@ function formatMessage(message) {
     .replace('./~/css-loader!./~/postcss-loader!', '')
 }
 
-exports.compileDev = function (compiler, port)  {
+export const compileDev = (compiler, port) => {
   compiler.plugin('invalid', function() {
     clearConsole()
     console.log(chalk.yellow('Compiling...'))
@@ -44,8 +44,8 @@ exports.compileDev = function (compiler, port)  {
   })
   compiler.plugin('done', function(stats) {
     clearConsole()
-    var hasErrors = stats.hasErrors()
-    var hasWarnings = stats.hasWarnings()
+    const hasErrors = stats.hasErrors()
+    const hasWarnings = stats.hasWarnings()
     if (!hasErrors && !hasWarnings) {
       console.log(chalk.green('Compiled successfully!'))
       console.log()
@@ -62,11 +62,11 @@ exports.compileDev = function (compiler, port)  {
     // them in a readable focused way.
     // We use stats.toJson({}, true) to make output more compact and readable:
     // https://github.com/facebookincubator/create-react-app/issues/401#issuecomment-238291901
-    var json = stats.toJson({}, true)
-    var formattedErrors = json.errors.map(message =>
+    const json = stats.toJson({}, true)
+    let formattedErrors = json.errors.map(message =>
       'Error in ' + formatMessage(message)
     )
-    var formattedWarnings = json.warnings.map(message =>
+    const formattedWarnings = json.warnings.map(message =>
       'Warning in ' + formatMessage(message)
     )
     if (hasErrors) {
@@ -125,9 +125,11 @@ function openBrowser (port) {
   opn('http://localhost:' + port + '/')
 }
 
-exports.listen = function (port, err) {
+export const startDev = (port, err) => {
   clearConsole()
-  if (err) console.log(chalk.red(err))
+  if (err) {
+    console.log(chalk.red(err))
+  }
   console.log(chalk.cyan('Starting development server...'))
   console.log()
   openBrowser(port)

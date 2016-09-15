@@ -8,7 +8,7 @@ chai.use(chaiHttp)
 import fakeDB from '../server/fakeDB.js'
 
 const server = createServer({
-  nodeEnv: process.env.NODE_ENV,
+  nodeEnv: 'test',
   webConcurrency: process.env.WEB_CONCURRENCY || 1,
   port: process.env.PORT || 5000,
   timeout: 29000
