@@ -1,11 +1,18 @@
 /* eslint-env mocha */
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
-import server from '../server/server.js'
+import { createServer } from '../server'
 
 chai.use(chaiHttp)
 
 import fakeDB from '../server/fakeDB.js'
+
+const server = createServer({
+  nodeEnv: 'test',
+  webConcurrency: process.env.WEB_CONCURRENCY || 1,
+  port: process.env.PORT || 5000,
+  timeout: 29000
+})
 
 describe('API', () => {
   it('should list ALL posts on api/v0/posts GET', (done) => {
