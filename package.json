@@ -42,7 +42,7 @@
     "eslint-config-standard": "^6.0.0",
     "express": "^4.13.4",
     "helmet": "^2.0.0",
-    "history": "^4.0.0",
+    "history": "^4.1.0",
     "hpp": "^0.2.0",
     "json-loader": "^0.5.4",
     "morgan": "^1.6.1",
