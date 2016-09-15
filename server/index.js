@@ -41,7 +41,9 @@ export const createServer = (config) => {
     app.use(helmet())
     app.use(hpp())
     app.use(compression())
-    assets = require('../assets.json')
+    if (__PROD__) {
+      assets = require('../assets.json')
+    }
   } else {
     app.use(morgan('dev'))
     const compiler = compileDev((webpack(webpackConfig)), config.port)
