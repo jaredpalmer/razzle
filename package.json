@@ -69,7 +69,7 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "mocha": "^3.0.2",
-    "nyc": "^8.1.0"
+    "nyc": "^10.0.0"
   },
   "standard": {
     "parser": "babel-eslint"
