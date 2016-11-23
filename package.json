@@ -6,7 +6,7 @@
     "test": "cross-env NODE_ENV=test ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm test -- --watch",
     "coverage": "nyc npm test",
-    "start": "cross-env NODE_ENV=development node -r 'babel-register' ./server",
+    "start": "cross-env NODE_ENV=development node -r \"babel-register\" ./server",
     "start:prod": "cross-env NODE_ENV=production node ./build/server.js",
     "heroku-postbuild": "npm run build",
     "build": "webpack -p --config ./tools/webpack.client.prod.js && webpack -p --config ./tools/webpack.server.prod.js",
