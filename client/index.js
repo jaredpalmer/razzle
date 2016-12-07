@@ -9,6 +9,12 @@ import browserHistory from 'react-router/lib/browserHistory'
 import { Provider } from 'react-redux'
 import { StyleSheet } from 'aphrodite'
 
+// Offline support service worker 
+import {install} from 'offline-plugin/runtime';
+if (process.env.NODE_ENV === 'production') {
+  install();
+}
+
 import { configureStore } from '../common/store'
 const initialState = window.INITIAL_STATE || {}
 // Set up Redux (note: this API requires redux@>=3.1.0):
