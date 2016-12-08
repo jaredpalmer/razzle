@@ -38,7 +38,7 @@
     "babel-register": "^6.9.0",
     "body-parser": "^1.14.2",
     "compression": "^1.6.2",
-    "cross-env": "2.0.1",
+    "cross-env": "3.1.1",
     "eslint-config-standard": "^6.0.0",
     "express": "^4.13.4",
     "helmet": "^2.0.0",
