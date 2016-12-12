@@ -56,7 +56,11 @@ module.exports = {
         query: {
           cacheDirectory: true,
           presets: [
-            ["es2015", { "modules": false }],
+            ["env", {
+              "targets": {"browsers": ["last 2 versions"]},
+              "modules": false,
+              "useBuiltIns": true
+            }],
             "react",
             "stage-0",
             "react-optimize"

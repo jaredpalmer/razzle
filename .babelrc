@@ -1,6 +1,9 @@
 {
   "presets": [
-    "es2015",
+    ["env", {
+      "targets": {"node": "current"},
+      "useBuiltIns": true
+    }],
     "react",
     "stage-0"
   ],

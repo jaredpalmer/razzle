@@ -37,7 +37,11 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: [
-            ["es2015", { "modules": false }],
+            ["env", {
+              "targets": {"node": "current"},
+              "modules": false,
+              "useBuiltIns": true
+            }],
             "react",
             "stage-0",
             "react-optimize"

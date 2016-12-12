@@ -42,7 +42,14 @@ module.exports = {
         exclude: /(node_modules|server)/,
         query: {
           cacheDirectory: true,
-          presets: ["es2015", "react", "stage-0"]
+          presets: [
+            ["env", {
+              "targets": {"browsers": ["last 2 versions"]},
+              "useBuiltIns": true
+            }],
+            "react",
+            "stage-0"
+          ]
         }
       },
     ]
