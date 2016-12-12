@@ -15,7 +15,7 @@ function getExternals () {
 
 module.exports = {
   target: 'node',
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-source-map',
   entry: SERVER_ENTRY,
   output: {
     path: SERVER_OUTPUT,
@@ -36,7 +36,12 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ["es2015", "react", "stage-0", "react-optimize"],
+          presets: [
+            ["es2015", { "modules": false }],
+            "react",
+            "stage-0",
+            "react-optimize"
+          ],
         },
         exclude: /(node_modules)/
       },
@@ -45,10 +50,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.BannerPlugin(
-        'require("source-map-support").install();',
-        { raw: true, entryOnly: false }
-    ),
+    new webpack.BannerPlugin({ banner: 'require("source-map-support").install();', raw: true, entryOnly: false }),
     new webpack.IgnorePlugin(/\.(css|less|scss|svg|png|jpe?g|png)$/),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

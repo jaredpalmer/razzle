@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=development node -r \"babel-register\" ./server",
     "start:prod": "cross-env NODE_ENV=production node ./build/server.js",
     "heroku-postbuild": "npm run build",
-    "build": "webpack -p --config ./tools/webpack.client.prod.js && webpack -p --config ./tools/webpack.server.prod.js",
+    "build": "webpack --config ./tools/webpack.client.prod.js && webpack --config ./tools/webpack.server.prod.js",
     "clean": "rm -rf build"
   },
   "repository": {
@@ -60,7 +60,7 @@
     "standard-loader": "^5.0.0",
     "standard": "^8.0.0",
     "throng": "^4.0.0",
-    "webpack": "^1.13.1",
+    "webpack": "2.1.0-beta.27",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
