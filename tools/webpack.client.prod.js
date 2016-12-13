@@ -6,7 +6,7 @@ const CONFIG = require('./webpack.base')
 const { CLIENT_ENTRY, CLIENT_OUTPUT, PUBLIC_PATH } = CONFIG
 
 module.exports = {
-  devtool: false,
+  devtool: 'cheap-module-source-map',
   entry: {
     main: [CLIENT_ENTRY],
     vendor: [
@@ -31,9 +31,8 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor_[hash].js', 2),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor_[hash].js', minChunks: 2 }),
     new AssetsPlugin({ filename: 'assets.json' }),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
@@ -53,10 +52,19 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           cacheDirectory: true,
-          presets: ["es2015", "react", "stage-0", "react-optimize"],
+          presets: [
+            ["env", {
+              "targets": {"browsers": ["last 2 versions"]},
+              "modules": false,
+              "useBuiltIns": true
+            }],
+            "react",
+            "stage-0",
+            "react-optimize"
+          ],
         },
         exclude: /(node_modules)/
       }
