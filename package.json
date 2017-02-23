@@ -51,7 +51,7 @@
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-helmet": "^3.1.0",
-    "react-redux": "^4.4.0",
+    "react-redux": "^5.0.3",
     "react-router": "^2.0.0",
     "redial": "^0.4.1",
     "redux": "^3.3.1",
