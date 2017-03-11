@@ -2,7 +2,8 @@
   "scripts": {
     "start:server": "rm -rf ./build && webpack --config  webpack.config.server.js",
     "start:client": "webpack-dev-server --config webpack.config.client.js",
-    "start": "rm -rf ./.build && NODE_ENV=development npm-run-all --parallel  start:server start:client"
+    "start": "rm -rf ./.build && NODE_ENV=development npm-run-all --parallel  start:server start:client",
+    "start:prod": "NODE_ENV=production node ./build/server.js"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
