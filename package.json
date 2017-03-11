@@ -18,8 +18,14 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
+    "axios": "^0.15.3",
+    "compression": "^1.6.2",
     "express": "^4.15.2",
+    "morgan": "^1.8.1",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-helmet": "^4.0.0",
+    "react-router-dom": "^4.0.0",
+    "source-map-support": "^0.4.11"
   }
 }
