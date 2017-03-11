@@ -1,12 +1,11 @@
 {
-  "presets": ["es2015", "react", "stage-0"],
-  "env": {
-    "test": {
-      "presets": ["react-optimize"],
-      "plugins": ["istanbul"]
-    },
-    "production": {
-      "presets": ["react-optimize"]
-    }
-  }
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react-app"
+  ]
 }

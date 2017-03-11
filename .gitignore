@@ -20,8 +20,6 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
 
 # Dependency directory
 node_modules
@@ -31,8 +29,6 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Build Output
 build
-assets.json
-public/assets
-.nyc_output
-coverage
