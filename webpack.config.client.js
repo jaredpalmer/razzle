@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -27,7 +26,6 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new WatchMissingNodeModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         BUILD_TARGET: JSON.stringify('client'),
@@ -37,11 +35,12 @@ module.exports = {
   devServer: {
     host: 'localhost',
     port: 3001,
+    quiet: true,
     historyApiFallback: true,
     hot: true,
   },
   output: {
-    path: path.join(__dirname, '.build'),
+    path: path.join(__dirname, 'build'),
     publicPath: 'http://localhost:3001/',
     filename: 'client.js',
   },

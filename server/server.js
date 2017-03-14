@@ -1,20 +1,29 @@
 import express from 'express';
 import React from 'react';
+import compression from 'compression';
+import morgan from 'morgan';
+import axios from 'axios';
+import serialize from 'serialize-javascript';
+
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
+import ReactHelmet from 'react-helmet';
+
 import App from '../common/App';
 import routes from '../common/routes';
-import axios from 'axios';
 
 const server = express();
-
+server.disable('x-powered-by');
 server.get('/api', (req, res) => {
   res.send({
     message: 'I am a server route and can also be hot reloaded!',
   });
 });
 
-server.get('*', (req, res) => {
+server.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+server.use(compression());
+
+server.get('/*', (req, res) => {
   const context = {};
   const matches = routes.map(
     // we'd probably want some recursion here so our routes could have
@@ -52,24 +61,28 @@ server.get('*', (req, res) => {
         </StaticRouter>
       );
 
+      const head = ReactHelmet.rewind();
+
       if (context.url) {
         res.redirect(context.url);
       } else {
         res.status(200).send(
           `<!doctype html>
-    <html class="no-js" lang="">
+        <html lang="">
         <head>
-            <meta charset="utf-8">
-            <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <title>HMR all the things!</title>
-            <meta name="description" content="">
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+            <meta charSet='utf-8' />
+            <title>The Bomb</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="viewport" content="width=device-width,  initial-scale=1">
             <script src="http://localhost:3001/client.js" defer></script>
-            
+            ${head.title.toString()}
+            ${head.meta.toString()}
+            ${head.link.toString()}
         </head>
         <body>
             <div id="root">${markup}</div>
-            <script>window.DATA = ${JSON.stringify(data)};</script>
+            <script>window.DATA = ${serialize(data)};</script>
         </body>
     </html>`
         );

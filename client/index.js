@@ -1,28 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
-import App from '../common/App';
-import routes from '../common/routes';
+import Root from './Root';
 
 render(
   <AppContainer>
-    <BrowserRouter>
-      <App routes={routes} initialData={window.DATA} />
-    </BrowserRouter>
+    <Root />
   </AppContainer>,
   document.getElementById('root')
 );
 
 if (module.hot) {
-  module.hot.accept('../common/App', () => {
+  module.hot.accept('./Root', () => {
     render(
       <AppContainer>
-        <BrowserRouter>
-          <App routes={routes} initialData={window.DATA} />
-        </BrowserRouter>
+        <Root />
       </AppContainer>,
-      document.getElementById('../common/App')
+      document.getElementById('root')
     );
   });
 }

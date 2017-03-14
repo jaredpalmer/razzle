@@ -3,12 +3,12 @@ import app from './server';
 
 if (module.hot) {
   module.hot.accept('./server', function() {
-    console.log('🔁  HMR Reloading `./app`...');
+    console.log('🔁  HMR Reloading `./server`...');
   });
 
   console.info('✅  Server-side HMR Enabled!');
 } else {
-  console.info('❌  Server-side HMR Not Supported.');
+  console.info('❌  Server-side HMR Disabled.');
 }
 
 export default express()

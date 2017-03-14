@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
 class PageWithoutSSR extends Component {
+  state = {
+    data: null,
+    error: null,
+  };
+
   render() {
     return (
       <div>
-        This is not rendered on the server
+        Page without SSR
       </div>
     );
   }
