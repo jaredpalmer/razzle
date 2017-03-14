@@ -17,10 +17,10 @@ export default function SSR(Page) {
       if (!this.state.data) {
         this.constructor.fetchData({ match: this.props.match, axios }).then(
           data => {
-            this.setState({ data });
+            this.setState(state => ({ data }));
           },
           error => {
-            this.setState({ data: null, error: error });
+            this.setState(state => ({ data: null, error: error }));
           }
         );
       }
