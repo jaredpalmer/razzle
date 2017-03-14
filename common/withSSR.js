@@ -10,21 +10,19 @@ export default function SSR(Page) {
 
     state = {
       data: this.props.initialData || null,
-      error: null
+      error: null,
     };
 
     componentDidMount() {
       if (!this.state.data) {
-        this.constructor
-          .fetchData({ match: this.props.match, axios })
-          .then(
-            data => {
-              this.setState({ data });
-            },
-            error => {
-              this.setState({ data: null, error: error });
-            }
-          );
+        this.constructor.fetchData({ match: this.props.match, axios }).then(
+          data => {
+            this.setState({ data });
+          },
+          error => {
+            this.setState({ data: null, error: error });
+          }
+        );
       }
     }
 

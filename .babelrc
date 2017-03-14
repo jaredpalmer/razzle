@@ -6,6 +6,10 @@
         "modules": false
       }
     ],
-    "react-app"
+    "react"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-object-rest-spread"
   ]
 }

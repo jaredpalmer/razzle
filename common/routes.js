@@ -6,14 +6,14 @@ const routes = [
     path: '/',
     component: PageWithSSR,
     name: 'PageWithSSR',
-    exact: true
+    exact: true,
   },
   {
     path: '/pagewithoutssr',
     component: PageWithoutSSR,
     name: 'PageWithoutSSR',
-    exact: true
-  }
+    exact: true,
+  },
 ];
 
 export default routes;

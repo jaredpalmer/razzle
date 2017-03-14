@@ -1,27 +1,19 @@
-import 'source-map-support/register';
 import express from 'express';
-import compression from 'compression';
-import morgan from 'morgan';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { matchPath } from 'react-router-dom';
-import StaticRouter from 'react-router-dom/StaticRouter';
-import ReactHelmet from 'react-helmet';
-import axios from 'axios';
-
+import { StaticRouter, matchPath } from 'react-router-dom';
 import App from '../common/App';
 import routes from '../common/routes';
+import axios from 'axios';
 
 const server = express();
 
-// Remove annoying Express header addition.
-server.disable('x-powered-by');
+server.get('/api', (req, res) => {
+  res.send({
+    message: 'I am a server route and can also be hot reloaded!',
+  });
+});
 
-// Compress (gzip) assets in production.
-server.use(compression());
-server.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-
-// Setup server side routing.
 server.get('*', (req, res) => {
   const context = {};
   const matches = routes.map(
@@ -35,11 +27,9 @@ server.get('*', (req, res) => {
         const obj = {
           route,
           match,
-          promise: (
-            route.component.fetchData
-              ? route.component.fetchData({ match, req, res, axios })
-              : Promise.resolve(null)
-          )
+          promise: route.component.fetchData
+            ? route.component.fetchData({ match, req, res, axios })
+            : Promise.resolve(null),
         };
         return obj;
       }
@@ -61,34 +51,34 @@ server.get('*', (req, res) => {
           <App routes={routes} initialData={data} />
         </StaticRouter>
       );
-      const head = ReactHelmet.rewind();
 
       if (context.url) {
         res.redirect(context.url);
       } else {
         res.status(200).send(
-          `
-        <!doctype html>
-        <html lang="en">
+          `<!doctype html>
+    <html class="no-js" lang="">
         <head>
-          <meta charset="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          ${head.title.toString()}
-          <script type="text/javascript" src="http://localhost:3001/client.js" defer></script>
+            <meta charset="utf-8">
+            <meta http-equiv="x-ua-compatible" content="ie=edge">
+            <title>HMR all the things!</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width,  initial-scale=1">
+            <script src="http://localhost:3001/client.js" defer></script>
+            
         </head>
         <body>
-          <div id="root"><div>${markup}</div></div>
-          <script>window.DATA = ${JSON.stringify(data)};</script>
+            <div id="root">${markup}</div>
+            <script>window.DATA = ${JSON.stringify(data)};</script>
         </body>
-      </html>
-      `
+    </html>`
         );
       }
     })
     .catch(
       e =>
         console.log(e) ||
-          res.status(500).json({ error: error.message, stack: error.stack })
+        res.status(500).json({ error: error.message, stack: error.stack })
     );
 });
 

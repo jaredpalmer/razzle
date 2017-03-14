@@ -1,14 +1,23 @@
-import http from 'http';
+import express from 'express';
 import app from './server';
-const server = http.createServer(app);
-
-let currentApp = app;
-server.listen(3000);
 
 if (module.hot) {
-  module.hot.accept('./server', () => {
-    server.removeListener('request', currentApp);
-    server.on('request', app);
-    currentApp = app;
+  module.hot.accept('./server', function() {
+    console.log('🔁  HMR Reloading `./app`...');
   });
+
+  console.info('✅  Server-side HMR Enabled!');
+} else {
+  console.info('❌  Server-side HMR Not Supported.');
 }
+
+export default express()
+  .use((req, res) => app.handle(req, res))
+  .listen(3000, function(err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    console.log('Listening at http://localhost:3000');
+  });

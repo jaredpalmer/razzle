@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -7,7 +8,7 @@ module.exports = {
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3001',
     'webpack/hot/only-dev-server',
-    './client/index'
+    './client/index',
   ],
   target: 'web',
   module: {
@@ -17,30 +18,31 @@ module.exports = {
         use: 'babel-loader',
         include: [
           path.join(__dirname, 'client'),
-          path.join(__dirname, 'common')
-        ]
-      }
-    ]
+          path.join(__dirname, 'common'),
+        ],
+      },
+    ],
   },
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new WatchMissingNodeModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        BUILD_TARGET: JSON.stringify('client')
-      }
-    })
+        BUILD_TARGET: JSON.stringify('client'),
+      },
+    }),
   ],
   devServer: {
     host: 'localhost',
     port: 3001,
     historyApiFallback: true,
-    hot: true
+    hot: true,
   },
   output: {
     path: path.join(__dirname, '.build'),
     publicPath: 'http://localhost:3001/',
-    filename: 'client.js'
-  }
+    filename: 'client.js',
+  },
 };

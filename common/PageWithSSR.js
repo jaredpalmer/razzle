@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SSR from './withSSR';
 
-class Settings extends Component {
+class PageWithSSR extends Component {
   static fetchData({ match, req, res, axios }) {
     // going to want `match` in here for params, etc.
     // return axios.get('http://localhost:8080/v1/tag').then(res => res.data.data);
@@ -11,12 +11,12 @@ class Settings extends Component {
           resolve({
             friends: [
               { id: '12342', name: 'brent' },
-              { id: '124234', name: 'jared' }
+              { id: '124234', name: 'jared' },
             ],
-            currentRoute: match.path
+            currentRoute: match.path,
           });
         },
-        200
+        500
       );
     });
   }
@@ -24,8 +24,9 @@ class Settings extends Component {
   render() {
     return (
       <div>
-        Jared
-        {this.props.data && this.props.data.currentRoute}
+        Current Route:
+        {' '}
+        {this.props.data ? this.props.data.currentRoute : 'loading'}
         {this.props.data === null
           ? <div>
               this is a loading state. It will only show if user navigates to this route from somewhere else.
@@ -43,4 +44,4 @@ class Settings extends Component {
   }
 }
 
-export default SSR(Settings);
+export default SSR(PageWithSSR);

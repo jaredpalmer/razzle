@@ -20,7 +20,7 @@ const App = ({ routes, initialData }) => {
                 exact
                 render={props => React.createElement(route.component, {
                   ...props,
-                  initialData: initialData[index] || null
+                  initialData: initialData[index] || null,
                 })}
               />
             );
