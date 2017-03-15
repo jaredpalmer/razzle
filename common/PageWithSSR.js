@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import SSR from './withSSR';
+import Helmet from 'react-helmet'
 
-class Settings extends Component {
+class PageWithSSR extends Component {
   static fetchData({ match, req, res, axios }) {
     // going to want `match` in here for params, etc.
     // return axios.get('http://localhost:8080/v1/tag').then(res => res.data.data);
@@ -24,7 +25,7 @@ class Settings extends Component {
   render() {
     return (
       <div>
-        Jaredsss
+        <Helmet title="Home" />
         {this.props.data === null
           ? <div>
               this is a loading stsssate. It will only show if user navigates to this route from somewhere else.
@@ -42,4 +43,4 @@ class Settings extends Component {
   }
 }
 
-export default SSR(Settings);
+export default SSR(PageWithSSR);

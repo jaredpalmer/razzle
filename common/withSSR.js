@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export default function SSR(Page) {
   class SSR extends React.Component {
+    // Must return a promise
     static fetchData(ctx) {
       // Need to call the wrapped components getInitialProps if it exists
       return Page.fetchData ? Page.fetchData(ctx) : Promise.resolve(null);

@@ -7,7 +7,7 @@ const App = ({ routes, initialData }) => {
   return routes
     ? <div>
         {routes.map((route, index) => (
-          <Link key={index * 23} to={route.path}>{route.name}</Link>
+          <Link key={`nav-${index}`} to={route.path}>{route.name}</Link>
         ))}
         <Switch>
 

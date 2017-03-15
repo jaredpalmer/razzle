@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet'
 
 class PageWithoutSSR extends Component {
   state = {
@@ -9,7 +10,9 @@ class PageWithoutSSR extends Component {
   render() {
     return (
       <div>
+        <Helmet title="About" />
         Page without SSR
+       
       </div>
     );
   }
