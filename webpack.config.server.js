@@ -9,7 +9,13 @@ module.exports = {
   target: 'node',
   externals: [
     nodeExternals({
-      whitelist: ['webpack/hot/poll?1000'],
+      whitelist: [
+        'webpack/hot/poll?1000',
+        /\.(eot|woff|woff2|ttf|otf)$/,
+        /\.(svg|png|jpg|jpeg|gif|ico)$/,
+        /\.(mp4|mp3|ogg|swf|webp)$/,
+        /\.(css|scss|sass|sss|less)$/,
+      ],
     }),
   ],
   module: {
@@ -18,6 +24,23 @@ module.exports = {
         test: /\.js?$/,
         use: 'babel-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.svg$/,
+        loaders: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            query: {
+              es5: false,
+              jsx: true,
+              svgo: {
+                plugins: [{ removeTitle: false, removeStyleElement: true }],
+                floatPrecision: 2,
+              },
+            },
+          },
+        ],
       },
     ],
   },

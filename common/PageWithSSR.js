@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SSR from './withSSR';
-import Helmet from 'react-helmet'
+import Helmet from 'react-helmet';
+import TwitterIcon from './twitter.svg';
 
 class PageWithSSR extends Component {
   static fetchData({ match, req, res, axios }) {
@@ -26,6 +27,14 @@ class PageWithSSR extends Component {
     return (
       <div>
         <Helmet title="Home" />
+        <a href="https://twitter.com/jaredpalmer" target="_blank">
+          <TwitterIcon
+            fill="#1da1f2"
+            height="30"
+            width="30"
+            style={{ verticalAlign: 'middle' }}
+          />
+        </a>
         {this.props.data === null
           ? <div>
               this is a loading stsssate. It will only show if user navigates to this route from somewhere else.

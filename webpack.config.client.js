@@ -20,6 +20,23 @@ module.exports = {
           path.join(__dirname, 'common'),
         ],
       },
+      {
+        test: /\.svg$/,
+        loaders: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            query: {
+              es5: false,
+              jsx: true,
+              svgo: {
+                plugins: [{ removeTitle: false, removeStyleElement: true }],
+                floatPrecision: 2,
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [

@@ -14,6 +14,7 @@
     "jest-cli": "^19.0.2",
     "npm-run-all": "^4.0.2",
     "react-hot-loader": "3.0.0-beta.6",
+    "react-svg-loader": "^1.1.1",
     "react-test-renderer": "next",
     "start-server-webpack-plugin": "^2.1.2",
     "webpack": "^2.2.1",
