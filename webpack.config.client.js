@@ -13,6 +13,13 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(jpg|jpeg|png|gif|eot|ttf|woff|woff2)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 20000,
+        },
+      },
+      {
         test: /\.js?$/,
         use: 'babel-loader',
         include: [

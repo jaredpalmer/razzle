@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import SSR from './withSSR';
 import Helmet from 'react-helmet';
 import TwitterIcon from './twitter.svg';
+import Hero from './logo_og.png';
+import ReactIcon from './react.svg';
 
 class PageWithSSR extends Component {
   static fetchData({ match, req, res, axios }) {
@@ -27,14 +29,8 @@ class PageWithSSR extends Component {
     return (
       <div>
         <Helmet title="Home" />
-        <a href="https://twitter.com/jaredpalmer" target="_blank">
-          <TwitterIcon
-            fill="#1da1f2"
-            height="30"
-            width="30"
-            style={{ verticalAlign: 'middle' }}
-          />
-        </a>
+        <img src={Hero} alt="Razzle" style={{ width: '100%' }} />
+        <ReactIcon height="30" width="30" />
         {this.props.data === null
           ? <div>
               this is a loading stsssate. It will only show if user navigates to this route from somewhere else.
@@ -47,6 +43,15 @@ class PageWithSSR extends Component {
                   <div key={t.id}>{t.name}</div>
                 ))}
             </div>}
+
+        <a href="https://twitter.com/jaredpalmer" target="_blank">
+          <TwitterIcon
+            fill="#1da1f2"
+            height="30"
+            width="30"
+            style={{ verticalAlign: 'middle' }}
+          />
+        </a>
       </div>
     );
   }
