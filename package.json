@@ -50,7 +50,7 @@
     "chalk": "^1.1.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-helmet": "^3.1.0",
+    "react-helmet": "^5.0.0",
     "react-redux": "^4.4.0",
     "react-router": "^2.0.0",
     "redial": "^0.4.1",
