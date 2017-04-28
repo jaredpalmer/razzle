@@ -4,17 +4,17 @@ A zero-config, razzle-dazzle build system for universal JavaScript applications.
 
 ## Motivation
 
-Universal JavaScript applications are tough to setup. Getting your build system just right can take days or maybe even weeks. Razzle aims to fill this void by giving you a universal build system out of the box and then gets out of hell out of your way. Redux? Mobx? Styled Components? CSS? Flow? Preact? Go knock yourself out. Razzle doesn't care. It will hot reload pretty much anything you can throw at it.
+Universal JavaScript applications are tough to setup. Either you buy into a framework like Next.js or react-server, or you fork a boilerplate. Razzle aims to fill this void by giving you best practices tooling out of the box and then gets out of hell out of your way. In other words, Razzle is agnostic about JS frameworks, routing, and data fetching. This means you can use it with React (the default), Preact, Inferno, Rax, Angular 2, and Vue with ease.
 
 ## Features
 
 - Like Facebook's [create-react-app](https://github.com/facebookincubator/create-react-app), but for universal apps.
 - Uses Webpack Hot Module Replacement on both the client and server. You type, and Razzle will take care of the rest.
-- Comes with your favorite ES6 JavaScript goodies, `babel-preset-razzle`...(hey that rhymes!)
+- Comes with your favorite ES6 JavaScript goodies, `babel-preset-razzle`.
 - Agnostic about data fetching and routing.
-- Agnostic about CSS-in-JS or styling.
-- Works with React, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), [Rax](https://github.com/alibaba/rax), Vue, and Angular 2.
-- Next.js-like customization API via `razzle.config.js`.
+- Agnostic about CSS-in-JS or styling, but ships with the exact same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app).
+- Works with React, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), [Rax](https://github.com/alibaba/rax), Angular, and Vue.
+- Simple customization API via `razzle.config.js`.
 
 ## Quick Start
 
