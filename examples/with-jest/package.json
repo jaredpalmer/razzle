@@ -1,0 +1,31 @@
+{
+  "name": "razzle-examples-jest",
+  "version": "0.4.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "test": "jest",
+    "build": "razzle build",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router-dom": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^19.0.0",
+    "jest-cli": "^19.0.2",
+    "razzle": "^0.4.0",
+    "react-test-renderer": "^15.4.2"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  }
+}

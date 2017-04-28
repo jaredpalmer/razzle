@@ -1,0 +1,24 @@
+{
+  "name": "razzle-examples-rax",
+  "version": "0.4.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "rax": "^0.2.5",
+    "rax-button": "^0.2.5",
+    "rax-image": "^0.2.5",
+    "rax-server-renderer": "^0.2.5",
+    "rax-text": "^0.2.5",
+    "rax-view": "^0.2.5"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-rax": "^0.2.5",
+    "razzle": "^0.4.0"
+  }
+}

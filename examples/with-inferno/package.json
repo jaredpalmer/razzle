@@ -1,0 +1,21 @@
+{
+  "name": "razzle-examples-inferno",
+  "version": "0.4.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "inferno": "^1.4.2",
+    "inferno-component": "^1.4.2",
+    "inferno-server": "^1.4.2"
+  },
+  "devDependencies": {
+    "babel-plugin-inferno": "^2.0.0",
+    "inferno-devtools": "^1.4.2",
+    "razzle": "^0.4.0"
+  }
+}
