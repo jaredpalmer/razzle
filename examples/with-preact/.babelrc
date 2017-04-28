@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "razzle/babel"
+  ],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ]
+}

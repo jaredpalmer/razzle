@@ -1,27 +1,21 @@
+![razzle](https://cloud.githubusercontent.com/assets/4060187/24077825/4ef23636-0c30-11e7-807d-62b91db7aa7e.png)
+
 # Razzle ✨
 
-A zero-config, razzle-dazzle build system for universal JavaScript applications.
-
-## Motivation
-
-Universal JavaScript applications are tough to setup. Getting your build system just right can take days or maybe even weeks. Razzle aims to fill this void by giving you a universal build system out of the box and then gets out of hell out of your way. Redux? Mobx? Styled Components? CSS? Flow? Preact? Go knock yourself out. Razzle doesn't care. It will hot reload pretty much anything you can throw at it.
+A zero-config, razzle-dazzle build system for universal React applications.
 
 ## Features
 
-- Like Facebook's [create-react-app](https://github.com/facebookincubator/create-react-app), but for universal apps.
-- Uses Webpack Hot Module Replacement on both the client and server. You type, and Razzle will take care of the rest.
-- Comes with your favorite ES6 JavaScript goodies, `babel-preset-razzle`...(hey that rhymes!)
-- Agnostic about data fetching and routing.
-- Agnostic about CSS-in-JS or styling.
-- Works with React, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), [Rax](https://github.com/alibaba/rax), Vue, and Angular 2.
-- Next.js-like customization API via `razzle.config.js`.
+ - 🌎 **Universal Hotness** Both the client and server use hot module replacement.
+ - ⚛️ **Babel / Webpack Goodness**
+ - 🚫 **Zero-Config*ness*?**
 
-## Quick Start
+## Quick Overview
 
 ```bash
-$ yarn global add razzle
+yarn add --global razzle
 
-razzle init myApp
+razzle new myApp
 cd myApp
 yarn start
 ```
@@ -54,7 +48,7 @@ You can also extend the underlying webpack config. Create a file called `razzle.
 // razzle.config.js
 
 module.exports = {
-  modify: (config, {target, dev}, webpack) => {
+  modify: (config, {dev}, webpack) => {
     // do something to config
   
     return config
@@ -104,9 +98,7 @@ There are just a few settings you should know about.
 
 module.exports = {
   port: 3000, // Changes default port setting
-  host: '0.0.0.0', // Changes default host, useful for testing on mobile
-  clearConsole: false, // Show verbose output, will not clear console on changes.
-  modify: (config, { target, dev }, webpack) => {
+  modify: (config, { dev }, webpack) => {
     // do something and return config
   
     return config
