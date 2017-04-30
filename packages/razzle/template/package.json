@@ -14,6 +14,6 @@
     "react-router-dom": "^4.0.0"
   },
   "devDependencies": {
-    "razzle": "*"
+    "razzle": "latest"
   }
 }

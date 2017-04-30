@@ -239,7 +239,7 @@ module.exports = (
     ];
 
     if (IS_DEV) {
-      // Setup React Hot Loader, Webpack Dev Server on port 3001 and
+      // Setup Webpack Dev Server on port 3001 and
       // specify our client entry point /client/index.js
       config.entry = {
         client: [

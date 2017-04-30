@@ -1,7 +1,7 @@
+import App from './App';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
 import React from 'react';
 import { render } from 'react-dom';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
-import App from '../App';
 
 render(
   <BrowserRouter>

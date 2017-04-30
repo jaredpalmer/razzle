@@ -1,9 +1,10 @@
+import { StaticRouter, matchPath } from 'react-router-dom';
+
+import App from './App';
+import React from 'react';
 import express from 'express';
 import path from 'path';
-import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter, matchPath } from 'react-router-dom';
-import App from '../App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
