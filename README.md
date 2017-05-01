@@ -91,7 +91,7 @@ my-app/
     index.js             # Server entry point
 ```
 
-Note: While the default application is a universal React application with React Router 4 on an Express server. If don't want this setup, take a look at [any of the examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands. 
+_Note: While the default application is a universal React application with React Router 4 on an Express server, if don't want this setup, have a look at [any of the examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
 
 Once the installation is done, you can run some commands inside the project folder:
 
@@ -111,7 +111,7 @@ Your app is ready to be deployed!
 ### `npm run start:prod` or `yarn start:prod`
 Runs the compiled app in production.
 
-You can view your application at `http://localhost:3000`
+You can again view your application at `http://localhost:3000`
 
 
 ## Customization
@@ -145,7 +145,7 @@ module.exports = {
 }
 ```
 
-A word of advice: `razzle.config.js` is an escape hatch. However, since it's just JavaScript, you can and should publish your modify function to npm to make it reusable across your projects. For example, imagine you added some customizations and published it to npm as `my-razzle-modifictions`. You could then write your `razzle.config.js` like so:
+A word of advice: `razzle.config.js` is an escape hatch. However, since it's just JavaScript, you can and should publish your `modify` function to npm to make it reusable across your projects. For example, imagine you added some custom webpack loaders and published it as a package to npm as `my-razzle-modifictions`. You could then write your `razzle.config.js` like so:
 
 ```
 // razzle.config.js
@@ -156,7 +156,7 @@ module.exports = {
 }
 ```
 
-Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 loc, and three scripts (`build`, `start`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
+Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 3 scripts (`build`, `start`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
 ## Razzle API Reference
 
@@ -197,15 +197,15 @@ module.exports = {
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
 
-## Backstory
+## Some Backstory
 
-I have been building a massive React application for ~10 months. I started it with Next.js, but got frustrated with lack of SCSS support and some bugs related to routing. Additionally, I love the developer experience of Next, but do not like the way it fully blocks render between page transitions. After some research, I moved the application over to the The New York Times' [kyt](https://github.com/nytimes/kyt) project, which is very similar to Razzle (more on that later). This was great for a few months. However, as the application grew `kyt`, started to slow down to a crawl. It would take ~45 seconds just to run `kyt dev`. Being the impatient millenial that I am, I set out to build my own `kyt` but with some DX improvements. 
+I have been building a massive React application for ~10 months. I started it with Next.js, but got frustrated with lack of SCSS support and some initial bugs related to parameterized routing. While I love the developer experience of Next, but I'm not like the way it fully blocks render between page transitions. After some research, I moved the application over to the The New York Times' [kyt](https://github.com/nytimes/kyt) project, which is very similar to Razzle (more on that later). This was great for a few months. However, as the application grew `kyt`, started to slow down to a crawl. It would take ~45 seconds just to run `kyt dev`. Being the impatient millenial that I am, I set out to build a simpler, faster version of `kyt` with some DX improvements and less command-line emoji.
 
 ## How Razzle works (the secret sauce)
 
-**"Double Webpack"**: 2 configs, 2 webpack instances, both watching and hot reloading the same filesystem, in parallel.
+**tl;dr"**: 2 configs, 2 ports, 2 webpack instances, both watching and hot reloading the same filesystem, in parallel during development and a little `webpack.output.publicPath` magic.
 
-In development mode (`razzle start`), Razzle bundles both your client and server code using two different webpack instances running with Hot Module Replacement in parallel. While your server is bundled and run on whatever port your specify in `src/index.js` (`3000` is the default), the client bundle (i.e. entry point at `src/client.js`) is served via `webpack-dev-server` on a different port (`3001`) with its `publicPath` set to `localhost:3001/static/js/client.js`. Then your server's html template just loads the client JS from `localhost:3001/static/js/client.js` and not from `/static/js/client.js`. Since both webpack instances watch the same files, whenever you make a change and press save, they hot reload at _exactly_ the same time. Best of all, because they use the same code, the same webpack loaders, and the same babel transformations, you never run into a React checksum mismatch error.
+In development mode (`razzle start`), Razzle bundles both your client and server code using two different webpack instances running with Hot Module Replacement in parallel. While your server is bundled and run on whatever port your specify in `src/index.js` (`3000` is the default), the client bundle (i.e. entry point at `src/client.js`) is served via `webpack-dev-server` on a different port (`3001` by default) with its `publicPath` explicitly set to `localhost:3001` (and not `/` like many other setups do). Then the server's html template just points to the absolute url of the client JS: `localhost:3001/static/js/client.js`. Since both webpack instances watch the same files, whenever you make edits, they hot reload at _exactly_ the same time. Best of all, because they use the same code, the same webpack loaders, and the same babel transformations, you never run into a React checksum mismatch error.
 
 ## Inspiration
 
