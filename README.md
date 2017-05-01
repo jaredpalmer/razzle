@@ -4,17 +4,17 @@ Create universal [React](https://github.com/facebook/react), [Preact](https://gi
 
 ## Motivation
 
-Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or go set things up yourself. Razzle aims to fill this void by abstracting all the required tooling for your universal JavaScript application into a single dependency, and then leaving the rest of the architectural decisions about frameworks, routing, and data fetching up to you.
+Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Razzle aims to fill this void by abstracting all the required tooling for your universal JavaScript application into a single dependency, and then leaving the rest of the architectural decisions about frameworks, routing, and data fetching up to you.
 
 ## Features
 
 Razzle comes with the "battery-pack included" and is part of a complete JavaScript breakfast:
 
-- Hot reloads the client and server code whenever you make edits
+- Hot reloads client and server code when you make edits. No restarts necessary
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
-- Customization escape hatches through `.babelrc` and `razzle.config.js`
+- Escape hatches for customization via `.babelrc` and `razzle.config.js`
 
 ## Quick Start
 
@@ -22,7 +22,7 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 $ npm i -g razzle
 
 razzle init my-app
-cd my-app/
+cd my-app
 npm start
 ```
 
@@ -31,14 +31,6 @@ Then open http://localhost:3000/ to see your app.
 <img src="https://cloud.githubusercontent.com/assets/4060187/24125880/4ee84780-0da1-11e7-83fe-c74515494c75.gif" width="500px" alt="Razzle Onboarding"/>
 
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
-
-
-## Get Started Immediately
-
-You don’t need to install or configure tools like Webpack or Babel.
-They are preconfigured and hidden so that you can focus on the code.
-
-Just create a project, and you’re good to go.
 
 
 ## Getting Started
@@ -83,15 +75,15 @@ my-app/
   src/
     App.css
     App.js
-    client.js            # Client-side code entry point 
+    client.js            # Client entry point 
     Home.css
     Home.js 
-    server.js .          # Server code (An express application)
+    server.js .          # Main server code (an Express application)
     react.svg
     index.js             # Server entry point
 ```
 
-_Note: While the default application is a universal React application with React Router 4 on an Express server, if don't want this setup, have a look at [any of the examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
+_Note: The default application is a universal React application with React Router 4 on an Express server. If don't want this setup, have a look at some of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
 
 Once the installation is done, you can run some commands inside the project folder:
 
@@ -158,7 +150,7 @@ module.exports = {
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 3 scripts (`build`, `start`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
-## Razzle API Reference
+## `razzle` API Reference
 
 ### `razzle init <project>` 
 This will create a new razzle project (with the global CLI) installed. It will also install dependencies.
@@ -181,7 +173,7 @@ There are just a few settings you should know about.
 module.exports = {
   port: 3000, // Changes default port setting
   host: '0.0.0.0', // Changes default host, useful for testing on mobile
-  clearConsole: false, // Show verbose output, will not clear console on changes.
+  clearConsole: false, // Show verbose output, will not clear console on changes
   modify: (config, { target, dev }, webpack) => {
     // do something and return config
     return config
