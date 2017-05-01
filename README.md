@@ -1,5 +1,4 @@
 # Razzle ✨
----
 
 Create universal React, Preact, Inferno, and Rax applications with no build configuration.
 
