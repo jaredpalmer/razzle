@@ -197,10 +197,6 @@ module.exports = {
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
 
-## Some Backstory
-
-I have been building a massive React application for ~10 months. I started it with Next.js, but got frustrated with lack of SCSS support and some initial bugs related to parameterized routing. While I love the developer experience of Next, but I'm not like the way it fully blocks render between page transitions. After some research, I moved the application over to the The New York Times' [kyt](https://github.com/nytimes/kyt) project, which is very similar to Razzle (more on that later). This was great for a few months. However, as the application grew `kyt`, started to slow down to a crawl. It would take ~45 seconds just to run `kyt dev`. Being the impatient millenial that I am, I set out to build a simpler, faster version of `kyt` with some DX improvements and less command-line emoji.
-
 ## How Razzle works (the secret sauce)
 
 **tl;dr"**: 2 configs, 2 ports, 2 webpack instances, both watching and hot reloading the same filesystem, in parallel during development and a little `webpack.output.publicPath` magic.
