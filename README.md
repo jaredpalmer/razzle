@@ -1,6 +1,6 @@
 # Razzle ✨
 
-Create universal React, Preact, Inferno, and Rax applications with no build configuration.
+Create universal [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) applications with no build configuration.
 
 ## Motivation
 
@@ -13,7 +13,7 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 - Hot reloads the client and server code whenever you make edits
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
-- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing.
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Customization escape hatches through `.babelrc` and `razzle.config.js`
 
 ## Quick Start
