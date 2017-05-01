@@ -8,16 +8,13 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 ## Features
 
-Razzle comes with the "battery-pack included," so to speak:
+Razzle comes with the "battery-pack included" and is part of a complete JavaScript breakfast:
 
-- Hot reloads the client and server code whenever you make edits, no annoying restarts necessary.
-- Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`), but fully extendable using `.babelrc`.
-- Agnostic about data fetching and routing.
-- Agnostic about CSS-in-JS, but also comes with the same vanilla CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) in case you need it.
-- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), [Rax](https://github.com/alibaba/rax), [Angular](https://github.com/angular/angular), [Vue](https://github.com/vuejs/vue), and probably whatever comes out next.
-- Customization escape hatch through `razzle.config.js`
-
-
+- Hot reloads the client and server code whenever you make edits
+- Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
+- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing.
+- Customization escape hatches through `.babelrc` and `razzle.config.js`
 
 ## Quick Start
 
@@ -30,10 +27,10 @@ npm start
 ```
 
 Then open http://localhost:3000/ to see your app.
-When you’re ready to deploy to production, create a minified bundle with npm run build.
-
 
 <img src="https://cloud.githubusercontent.com/assets/4060187/24125880/4ee84780-0da1-11e7-83fe-c74515494c75.gif" width="500px" alt="Razzle Onboarding"/>
+
+When you’re ready to deploy to production, create a minified bundle with `npm run build`.
 
 
 ## Get Started Immediately
