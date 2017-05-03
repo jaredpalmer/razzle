@@ -4,11 +4,11 @@ import React from 'react';
 import qs from 'qs';
 import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
-
-import configureStore from './store';
-import App from './containers/App';
-import { fetchCounter } from './api/counter';
 import { Provider } from 'react-redux';
+
+import configureStore from '../common/store/configureStore';
+import App from '../common/containers/App';
+import { fetchCounter } from '../common/api/counter';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -52,7 +52,7 @@ server
     <body>
         <div id="root">${markup}</div>
         <script>
-          window.__INITIAL_STATE__ = ${serialize(finalState)}
+          window.__PRELOADED_STATE__ = ${serialize(finalState)}
         </script>
     </body>
 </html>`);
