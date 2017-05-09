@@ -261,6 +261,7 @@ module.exports = (
       // http://${host || '0.0.0.0'}:3001
       config.devServer = {
         host: host || '0.0.0.0',
+        disableHostCheck: true,
         port: port + 1 || 3001,
         noInfo: true,
         quiet: true,
