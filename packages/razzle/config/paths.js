@@ -36,7 +36,7 @@ module.exports = {
   appPublic: resolveApp('public'),
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp('src'),
-  appServerIndexJs: resolveApp('src/index.js'),
+  appServerIndexJs: resolveApp('src'),
   appClientIndexJs: resolveApp('src/client'),
   appBabelRc: resolveApp('.babelrc'),
   appRazzleConfig: resolveApp('razzle.config.js'),
