@@ -262,6 +262,9 @@ module.exports = (
       config.devServer = {
         host: host || '0.0.0.0',
         disableHostCheck: true,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
         port: port + 1 || 3001,
         noInfo: true,
         quiet: true,
