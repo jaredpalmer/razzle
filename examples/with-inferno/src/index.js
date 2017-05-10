@@ -8,12 +8,14 @@ if (module.hot) {
   console.info('✅  Server-side HMR Enabled!');
 }
 
+const port = process.env.PORT || 3000;
+
 export default express()
   .use((req, res) => app.handle(req, res))
-  .listen(3000, function(err) {
+  .listen(port, function(err) {
     if (err) {
       console.error(err);
       return;
     }
-    console.log('> Started on http://localhost:3000');
+    console.log(`> Started on port ${port}`);
   });
