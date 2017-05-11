@@ -18,7 +18,7 @@ function getClientEnvironment(target, options) {
     // Most importantly, it switches React into the correct mode.
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT || options.port || 3000,
-    VERBOSE: process.env.VERBOSE !== false,
+    VERBOSE: !!process.env.VERBOSE,
     HOST: process.env.HOST || options.host || '0.0.0.0',
     RAZZLE_ASSETS_MANIFEST: paths.appManifest,
     BUILD_TARGET: target === 'web' ? 'client' : 'server',

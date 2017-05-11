@@ -305,7 +305,7 @@ module.exports = (
       ...config.plugins,
       // Use our own FriendlyErrorsPlugin during development.
       new FriendlyErrorsPlugin({
-        verbose: dotenv.raw.verbose,
+        verbose: dotenv.raw.VERBOSE,
         target,
         onSuccessMessage: `Your application is running at http://${dotenv.raw.HOST}:${dotenv.raw.PORT}`,
         deprecationMessage: !(host === '0.0.0.0' &&
