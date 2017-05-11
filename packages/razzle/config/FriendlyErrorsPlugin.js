@@ -15,8 +15,9 @@ let WEBPACK_DONE = false;
 class WebpackErrorsPlugin {
   constructor(options) {
     options = options || {};
-    this.clearConsole = options.clearConsole;
+    this.verbose = options.verbose;
     this.onSuccessMessage = options.onSuccessMessage;
+    this.deprecationMessage = options.deprecationMessage;
     this.target = options.target === 'web' ? 'CLIENT' : 'SERVER';
   }
 
@@ -28,7 +29,7 @@ class WebpackErrorsPlugin {
 
       if (!messages.errors.length && !messages.warnings.length) {
         if (!WEBPACK_DONE) {
-          if (this.clearConsole) {
+          if (!this.verbose) {
             clearConsole();
           }
           logger.done('Compiled successfully');
@@ -36,6 +37,11 @@ class WebpackErrorsPlugin {
 
           if (this.onSuccessMessage) {
             logger.log(this.onSuccessMessage);
+            logger.log('');
+          }
+
+          if (this.deprecationMessage) {
+            logger.warn(this.deprecationMessage);
             logger.log('');
           }
         }
@@ -62,7 +68,7 @@ class WebpackErrorsPlugin {
     compiler.plugin('compile', params => {
       WEBPACK_DONE = false;
       if (!WEBPACK_COMPILING) {
-        if (this.clearConsole) {
+        if (!this.verbose) {
           clearConsole();
         }
         logger.start('Compiling...');
