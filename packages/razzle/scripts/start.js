@@ -60,13 +60,13 @@ const serverCompiler = compile(serverConfig);
 const clientDevServer = new devServer(clientCompiler, clientConfig.devServer);
 
 // Start Webpack-dev-server
-clientDevServer.listen((razzle && razzle.port + 1) || 3001, err => {
+clientDevServer.listen(process.env.PORT + 1 || 3001, err => {
   if (err) {
     logger.error(err);
   }
 
-  if (razzle.host) {
-    const url = `http://${razzle.host || '0.0.0.0'}:${razzle.port || 3000}`;
+  if (process.env.HOST || razzle.host) {
+    const url = `http://${process.env.HOST || razzle.host || '0.0.0.0'}:${process.env.PORT || razzle.port || 3000}`;
     qrcode.generate(url, qrcode => {
       logger.log();
       logger.log(qrcode);
