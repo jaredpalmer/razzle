@@ -10,6 +10,7 @@ const FriendlyErrorsPlugin = require('./FriendlyErrorsPlugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
+const getEnv = require('./env');
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
@@ -38,7 +39,7 @@ module.exports = (
   const IS_PROD = env === 'prod';
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
+  const dotenv = getEnv(target, { clearConsole, host, port });
   // This is our base webpack config.
   let config = {
     // Set webpack context to the current command's directory
@@ -183,28 +184,13 @@ module.exports = (
       path: paths.appBuild,
       filename: 'server.js',
     };
-
     // Add some plugins...
     config.plugins = [
       // This makes debugging much easier as webpack will add filenames to
       // modules
       new webpack.NamedModulesPlugin(),
       // We define environment variables that can be accessed globally in our
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          BUILD_TARGET: JSON.stringify('server'),
-          // This path points to a file called assets.json, that we will require
-          // in our Node.js app.
-          RAZZLE_ASSETS_MANIFEST: JSON.stringify(paths.appManifest),
-          // The public dir changes between dev and prod, so we use an environment
-          // variable available to users.
-          RAZZLE_PUBLIC_DIR: JSON.stringify(
-            IS_PROD ? paths.appBuildPublic : paths.appPublic
-          ),
-          PORT: port || 3000,
-        },
-      }),
+      new webpack.DefinePlugin(dotenv.stringified),
     ];
 
     config.entry = [paths.appServerIndexJs];
@@ -244,7 +230,7 @@ module.exports = (
       config.entry = {
         client: [
           require.resolve('webpack-dev-server/client') +
-            `?http://${host || '0.0.0.0'}:${port + 1 || '3001'}`,
+            `?http://${dotenv.raw.HOST}:${dotenv.raw.PORT + 1 || '3001'}`,
           require.resolve('webpack/hot/dev-server'),
           paths.appClientIndexJs,
         ],
@@ -253,19 +239,19 @@ module.exports = (
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: `http://${host || '0.0.0.0'}:${port + 1 || '3001'}/`,
+        publicPath: `http://${dotenv.raw.HOST}:${dotenv.raw.PORT + 1 || '3001'}/`,
         pathinfo: true,
         filename: 'static/js/[name].js',
       };
       // Configure webpack-dev-server to serve our client-side bundle from
-      // http://${host || '0.0.0.0'}:3001
+      // http://${dotenv.raw.HOST}:3001
       config.devServer = {
-        host: host || '0.0.0.0',
+        host: dotenv.raw.HOST,
         disableHostCheck: true,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
-        port: port + 1 || 3001,
+        port: dotenv.raw.PORT + 1 || 3001,
         noInfo: true,
         quiet: true,
         historyApiFallback: true,
@@ -276,12 +262,7 @@ module.exports = (
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-          'process.env': {
-            NODE_ENV: JSON.stringify('development'),
-            BUILD_TARGET: JSON.stringify('client'),
-          },
-        }),
+        new webpack.DefinePlugin(dotenv.stringified),
       ];
     } else {
       // Specify production entry point (just /client/index.js)
@@ -302,12 +283,7 @@ module.exports = (
       config.plugins = [
         ...config.plugins,
         // Define production environment vars
-        new webpack.DefinePlugin({
-          'process.env': {
-            NODE_ENV: JSON.stringify('production'),
-            BUILD_TARGET: JSON.stringify('client'),
-          },
-        }),
+        new webpack.DefinePlugin(dotenv.stringified),
         // Uglify/compress and optimize our JS for production, screw ie8 when
         // possible, React only works > ie9 anyway
         new webpack.optimize.UglifyJsPlugin({
@@ -329,9 +305,24 @@ module.exports = (
       ...config.plugins,
       // Use our own FriendlyErrorsPlugin during development.
       new FriendlyErrorsPlugin({
-        clearConsole: clearConsole,
+        verbose: dotenv.raw.verbose,
         target,
-        onSuccessMessage: `Your application is running at http://${host || '0.0.0.0'}:${port || 3000}`,
+        onSuccessMessage: `Your application is running at http://${dotenv.raw.HOST}:${dotenv.raw.PORT}`,
+        deprecationMessage: !(host === '0.0.0.0' &&
+          port === 3000 &&
+          clearConsole === true) &&
+          `Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
+
+Please create a .env file in your project's root with the following to mimic your
+current configuration:
+
+HOST=${host}
+PORT=${port}
+${clearConsole === false ? 'VERBOSE=true' : ''}
+
+Once you've done this, then you can safely remove \`port\`, \`host\`, and/or \`clearConsole\` from 
+your razzle.config.js file and this message will go away.
+        `,
       }),
     ];
   }

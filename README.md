@@ -171,9 +171,6 @@ There are just a few settings you should know about.
 // razzle.config.js
 
 module.exports = {
-  port: 3000, // Changes default port setting
-  host: '0.0.0.0', // Changes default host, useful for testing on mobile
-  clearConsole: false, // Show verbose output, will not clear console on changes
   modify: (config, { target, dev }, webpack) => {
     // do something and return config
     return config
@@ -181,13 +178,22 @@ module.exports = {
 }
 ```
 
-### Webpack Flags (available at runtime)
+### Environment Variables 
+
+**The environment variables are embedded during the build time.** Since Razzle produces a static HTML/CSS/JS bundle and an equivalent static bundle for your server, it cannot possibly read them at runtime. 
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
+- `process.env.VERBOSE: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 - `process.env.PORT`: default is `3000`, unless changed
+- `process.env.HOST`: default is `0.0.0.0`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
+
+You can create your own custom build-time environment variables. They must start
+with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
+
+These environment variables will be defined for you on `process.env`. For example, having an environment variable named `RAZZLE_SECRET_CODE` will be exposed in your JS as `process.env.RAZZLE_SECRET_CODE`.
 
 ## How Razzle works (the secret sauce)
 

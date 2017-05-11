@@ -18,7 +18,9 @@ const paths = require('../config/paths');
 const printErrors = require('../config/printErrors');
 const createConfig = require('../config/create-config');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
-const measureFileSizesBeforeBuild = FileSizeReporter.measureFileSizesBeforeBuild;
+const logger = require('../config/logger');
+const measureFileSizesBeforeBuild =
+  FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 // First, read the current file sizes in build directory.
@@ -41,6 +43,16 @@ function build(previousFileSizes) {
   try {
     razzle = require(paths.appRazzleConfig);
   } catch (e) {}
+
+  if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
+    logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
+Please use a .env file instead.
+
+${razzle.host !== '0.0.0.0' && `HOST=${razzle.host}`}
+${razzle.port !== '3000' && `PORT=${razzle.port}`}
+`);
+  }
+
   // Create our production webpack configurations and pass in razzle options.
   let clientConfig = createConfig('web', 'prod', razzle);
   let serverConfig = createConfig('node', 'prod', razzle);
@@ -79,8 +91,10 @@ function build(previousFileSizes) {
       console.log();
       printFileSizesAfterBuild(clientStats, previousFileSizes);
       console.log();
-      console.log('You can now start your server in production.');
-      console.log(`   ${chalk.cyan('node ./build/server.js')}`);
+      console.log('You can now start your server in production by running:');
+      console.log();
+      console.log(`   ${chalk.blue('node ./build/server.js')}`);
+      console.log();
     });
   });
 }
