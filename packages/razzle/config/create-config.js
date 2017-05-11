@@ -40,6 +40,8 @@ module.exports = (
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
   const dotenv = getEnv(target, { clearConsole, host, port });
+
+  const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
   // This is our base webpack config.
   let config = {
     // Set webpack context to the current command's directory
@@ -230,7 +232,7 @@ module.exports = (
       config.entry = {
         client: [
           require.resolve('webpack-dev-server/client') +
-            `?http://${dotenv.raw.HOST}:${dotenv.raw.PORT + 1 || '3001'}`,
+            `?http://${dotenv.raw.HOST}:${devServerPort}`,
           require.resolve('webpack/hot/dev-server'),
           paths.appClientIndexJs,
         ],
@@ -239,7 +241,7 @@ module.exports = (
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: `http://${dotenv.raw.HOST}:${dotenv.raw.PORT + 1 || '3001'}/`,
+        publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
         filename: 'static/js/[name].js',
       };
@@ -251,7 +253,7 @@ module.exports = (
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
-        port: dotenv.raw.PORT + 1 || 3001,
+        port: devServerPort,
         noInfo: true,
         quiet: true,
         historyApiFallback: true,
