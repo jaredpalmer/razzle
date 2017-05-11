@@ -39,6 +39,7 @@ module.exports = (
   const IS_PROD = env === 'prod';
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
+
   const dotenv = getEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
@@ -250,9 +251,17 @@ module.exports = (
       config.devServer = {
         host: dotenv.raw.HOST,
         disableHostCheck: true,
+        // watchContentBase: true,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
+        // Reportedly, this avoids CPU overload on some systems.
+        // https://github.com/facebookincubator/create-react-app/issues/293
+        watchOptions: {
+          ignored: /node_modules/,
+        },
+        // Enable gzip compression of generated files.
+        compress: true,
         port: devServerPort,
         noInfo: true,
         quiet: true,
