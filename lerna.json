@@ -5,7 +5,7 @@
     "examples/*"
   ],
   "npmClient": "yarn",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "changelog": {
     "repo": "jaredpalmer/razzle",
     "labels": {
