@@ -319,7 +319,7 @@ module.exports = (
         verbose: dotenv.raw.VERBOSE,
         target,
         onSuccessMessage: `Your application is running at http://${dotenv.raw.HOST}:${dotenv.raw.PORT}`,
-        deprecationMessage: !(host === '0.0.0.0' &&
+        deprecationMessage: !(host === 'localhost' &&
           port === 3000 &&
           clearConsole === true) &&
           `Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 

@@ -68,7 +68,7 @@ clientDevServer.listen(
     }
 
     if (process.env.HOST || razzle.host) {
-      const url = `http://${process.env.HOST || razzle.host || '0.0.0.0'}:${process.env.PORT || razzle.port || 3000}`;
+      const url = `http://${process.env.HOST || razzle.host || 'localhost'}:${process.env.PORT || razzle.port || 3000}`;
       qrcode.generate(url, qrcode => {
         logger.log();
         logger.log(qrcode);
