@@ -1,0 +1,19 @@
+/* This is the BuckleScript configuration file. Note that this is a comment;
+  BuckleScript comes with a JSON parser that supports comments and trailing
+  comma. If this screws with your editor highlighting, please tell us by filing
+  an issue! */
+{
+  "name": "razzle-reason",
+  "reason": {
+    "react-jsx": true
+  },
+  "bs-dependencies": [
+    "reason-react",
+    "bs-director"
+  ],
+  "sources": [
+    {
+      "dir": "src"
+    }
+  ]
+}

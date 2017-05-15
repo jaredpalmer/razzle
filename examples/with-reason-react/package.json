@@ -1,0 +1,24 @@
+{
+  "name": "razzle-examples-reason-react",
+  "version": "0.5.2",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm run js-watch | npm run bsb-watch",
+    "js-watch": "razzle start",
+    "bsb-watch": "bsb -make-world -w",
+    "clean": "bsb -clean-world && rm -rf build",
+    "build": "bsb -make-world && razzle build",
+    "start": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "bs-director": "^0.0.1",
+    "express": "^4.15.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "reason-react": "https://github.com/reasonml/reason-react.git"
+  },
+  "devDependencies": {
+    "bs-platform": "^1.7.3",
+    "razzle": "^0.5.2"
+  }
+}
