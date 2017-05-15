@@ -184,7 +184,7 @@ module.exports = {
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
-- `process.env.VERBOSE: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
+- `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 - `process.env.PORT`: default is `3000`, unless changed
 - `process.env.HOST`: default is `0.0.0.0`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
