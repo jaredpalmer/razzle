@@ -17,7 +17,6 @@ class WebpackErrorsPlugin {
     options = options || {};
     this.verbose = options.verbose;
     this.onSuccessMessage = options.onSuccessMessage;
-    this.deprecationMessage = options.deprecationMessage;
     this.target = options.target === 'web' ? 'CLIENT' : 'SERVER';
   }
 
@@ -37,11 +36,6 @@ class WebpackErrorsPlugin {
 
           if (this.onSuccessMessage) {
             logger.log(this.onSuccessMessage);
-            logger.log('');
-          }
-
-          if (this.deprecationMessage) {
-            logger.warn(this.deprecationMessage);
             logger.log('');
           }
         }

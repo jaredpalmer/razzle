@@ -8,7 +8,6 @@ const createConfig = require('../config/create-config');
 const devServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const clearConsole = require('react-dev-utils/clearConsole');
-const qrcode = require('qrcode-terminal');
 const fs = require('fs-extra');
 const logger = require('../config/logger');
 
@@ -65,15 +64,6 @@ clientDevServer.listen(
   err => {
     if (err) {
       logger.error(err);
-    }
-
-    if (process.env.HOST || razzle.host) {
-      const url = `http://${process.env.HOST || razzle.host || 'localhost'}:${process.env.PORT || razzle.port || 3000}`;
-      qrcode.generate(url, qrcode => {
-        logger.log();
-        logger.log(qrcode);
-        logger.log();
-      });
     }
   }
 );
