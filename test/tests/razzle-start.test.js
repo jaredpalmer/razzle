@@ -9,7 +9,7 @@ const fs = require('fs');
 describe('razzle start', () => {
   describe('razzle default template', () => {
     beforeAll(() => {
-      shell.cd(path.join(util.rootDir, 'packages/razzle/template'));
+      shell.cd(path.join(util.rootDir, 'examples/basic'));
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
