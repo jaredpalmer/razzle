@@ -29,6 +29,7 @@ function resolveOwn(relativePath) {
 }
 
 module.exports = {
+  dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
   appBuildPublic: resolveApp('build/public'),

@@ -9,7 +9,6 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
-require('dotenv').config({ silent: true });
 const webpack = require('webpack');
 const fs = require('fs-extra');
 const chalk = require('chalk');
