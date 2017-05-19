@@ -17,12 +17,9 @@ describe('razzle start', () => {
     it('should start a dev server on :3000', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(
-          'VERBOSE=true node_modules/.bin/razzle start',
-          () => {
-            resolve(outputTest);
-          }
-        );
+        const child = shell.exec('node_modules/.bin/razzle start', () => {
+          resolve(outputTest);
+        });
         child.stdout.on('data', data => {
           if (data.includes('> Started on port 3000')) {
             shell.exec('sleep 5');

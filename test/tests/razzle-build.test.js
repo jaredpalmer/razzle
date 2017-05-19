@@ -9,7 +9,7 @@ describe('razzle build', () => {
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
     const output = shell.exec('yarn build');
-    expect(shell.test('-f', 'build/assets.json')).toBe(true);
+    expect(output.code).toBe(0);
     expect(shell.test('-f', 'build/server.js')).toBe(true);
 
     // Should copy static assets from src/public directory
@@ -17,14 +17,6 @@ describe('razzle build', () => {
 
     // Should compile client bundle to js directory
     expect(shell.test('-d', 'build/public/static/js')).toBe(true);
-
-    expect(output.code).toBe(0);
-  });
-
-  it('should respect a custom BABEL_ENV', () => {
-    util.setupStageWithFixture(stageName, 'build-with-custom-babelrc');
-    const output = shell.exec('BABEL_ENV=custom yarn build');
-    expect(output.code).toBe(0);
   });
 
   afterEach(() => {
