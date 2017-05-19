@@ -1,0 +1,5 @@
+{
+  "roots": [
+    "<rootDir>/test/tests"
+  ]
+}
