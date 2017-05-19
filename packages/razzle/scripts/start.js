@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-require('dotenv').config();
+process.env.NODE_ENV = 'development';
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const printErrors = require('../config/printErrors');
