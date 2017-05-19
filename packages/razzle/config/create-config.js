@@ -16,7 +16,7 @@ const getEnv = require('./env');
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = '0.0.0.0', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000 }
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -282,7 +282,7 @@ module.exports = (
       };
 
       // Specify the client output directory and paths. Notice that we have
-      // changed the publiPath to just '/' from http://0.0.0.0:3001. This is because
+      // changed the publiPath to just '/' from http://localhost:3001. This is because
       // we will only be using one port in production.
       config.output = {
         path: paths.appBuildPublic,
