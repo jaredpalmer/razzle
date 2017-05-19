@@ -17,9 +17,12 @@ describe('razzle start', () => {
     it('should start a dev server on :3000', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec('node_modules/.bin/razzle start', () => {
-          resolve(outputTest);
-        });
+        const child = shell.exec(
+          'VERBOSE=true node_modules/.bin/razzle start',
+          () => {
+            resolve(outputTest);
+          }
+        );
         child.stdout.on('data', data => {
           if (data.includes('> Started on port 3000')) {
             shell.exec('sleep 5');
@@ -32,7 +35,7 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBe(true));
     });
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run', () => {
       let outputTest;
