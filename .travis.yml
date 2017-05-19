@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - 6
   - 7
-script: yarn run update && yarn run e2e
+script: yarn run e2e
