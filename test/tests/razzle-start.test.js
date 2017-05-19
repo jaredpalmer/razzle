@@ -7,7 +7,7 @@ const fs = require('fs');
 // shell.config.silent = true;
 
 describe('razzle start', () => {
-  describe('razzle default template', () => {
+  describe('razzle basic example', () => {
     beforeAll(() => {
       shell.cd(path.join(util.rootDir, 'examples/basic'));
     });
@@ -17,11 +17,14 @@ describe('razzle start', () => {
     it('should start a dev server on :3000', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec('node_modules/.bin/razzle start', () => {
-          resolve(outputTest);
-        });
+        const child = shell.exec(
+          'VERBOSE=true node_modules/.bin/razzle start',
+          () => {
+            resolve(outputTest);
+          }
+        );
         child.stdout.on('data', data => {
-          if (data.includes('Compiled successfully')) {
+          if (data.includes('> Started on port 3000')) {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
             outputTest = output.stdout.includes('200');

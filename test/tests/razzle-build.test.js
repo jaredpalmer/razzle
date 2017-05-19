@@ -8,7 +8,7 @@ const stageName = 'stage-build';
 describe('razzle build', () => {
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
-    const output = shell.exec('npm run build');
+    const output = shell.exec('yarn build');
     expect(shell.test('-f', 'build/assets.json')).toBe(true);
     expect(shell.test('-f', 'build/server.js')).toBe(true);
 
@@ -23,7 +23,7 @@ describe('razzle build', () => {
 
   it('should respect a custom BABEL_ENV', () => {
     util.setupStageWithFixture(stageName, 'build-with-custom-babelrc');
-    const output = shell.exec('BABEL_ENV=custom npm run build');
+    const output = shell.exec('BABEL_ENV=custom yarn build');
     expect(output.code).toBe(0);
   });
 
