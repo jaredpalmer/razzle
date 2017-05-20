@@ -4,7 +4,7 @@ const kill = require('../utils/psKill');
 const path = require('path');
 const fs = require('fs');
 
-shell.config.silent = true;
+// shell.config.silent = true;
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
@@ -18,7 +18,7 @@ describe('razzle start', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          'node_modules/razzle/bin/razzle.js start',
+          'VERBOSE=true node_modules/razzle/bin/razzle.js start',
           () => {
             resolve(outputTest);
           }
