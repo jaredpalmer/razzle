@@ -52,7 +52,6 @@ if (razzle.modify) {
 
 // Compile our assets with webpack
 const clientCompiler = compile(clientConfig);
-const serverCompiler = compile(serverConfig);
 
 // Create a new instance of Webpack-dev-server for our client assets.
 // This will actually run on a different port than the users app.
@@ -65,16 +64,17 @@ clientDevServer.listen(
     if (err) {
       logger.error(err);
     }
-  }
-);
+    const serverCompiler = compile(serverConfig);
 
-// Start our server webpack instance in watch mode.
-serverCompiler.watch(
-  {
-    quiet: true,
-    stats: 'none',
-  },
-  stats => {}
+    // Start our server webpack instance in watch mode.
+    serverCompiler.watch(
+      {
+        quiet: true,
+        stats: 'none',
+      },
+      stats => {}
+    );
+  }
 );
 
 // Webpack compile in a try-catch
