@@ -26,10 +26,10 @@ describe('razzle start', () => {
         child.stdout.on('data', data => {
           if (data.includes('Compiled successfully')) {
             shell.exec('sleep 5');
-            const serverOutput = shell.exec('curl -I localhost:3000');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/client.js'
             );
+            const serverOutput = shell.exec('curl -I localhost:3000');
             outputTest =
               serverOutput.stdout.includes('200') &&
               devServerOutput.stdout.includes('React');
