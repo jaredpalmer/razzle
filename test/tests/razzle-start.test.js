@@ -8,35 +8,35 @@ const fs = require('fs');
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
-    beforeEach(() => {
+    beforeAll(() => {
       shell.cd(path.join(util.rootDir, 'examples/basic'));
     });
 
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    // it('should start a dev server on :3000', () => {
-    //   let outputTest;
-    //   const run = new Promise(resolve => {
-    //     const child = shell.exec(
-    //       'VERBOSE=true node_modules/.bin/razzle start',
-    //       () => {
-    //         resolve(outputTest);
-    //       }
-    //     );
-    //     child.stdout.on('data', data => {
-    //       if (data.includes('> Started on port 3000')) {
-    //         shell.exec('sleep 5');
-    //         const serverOutput = shell.exec('curl -I localhost:3000');
-    //         // const devServerOutput = shell.exec(
-    //         //   'curl -sb -o "" localhost:3001/static/js/client.js'
-    //         // );
-    //         outputTest = serverOutput.stdout.includes('200');
-    //         kill(child.pid);
-    //       }
-    //     });
-    //   });
-    //   return run.then(test => expect(test).toBe(true));
-    // });
+    it('should start a webpack-dev-server on :3001', () => {
+      let outputTest;
+      const run = new Promise(resolve => {
+        const child = shell.exec(
+          'VERBOSE=true node_modules/.bin/razzle start',
+          () => {
+            resolve(outputTest);
+          }
+        );
+        child.stdout.on('data', data => {
+          if (data.includes('Compiled successfully')) {
+            shell.exec('sleep 5');
+            // const serverOutput = shell.exec('curl -I localhost:3001');
+            const devServerOutput = shell.exec(
+              'curl -sb -o "" localhost:3001/static/js/client.js'
+            );
+            outputTest = devServerOutput.stdout.includes('React');
+            kill(child.pid);
+          }
+        });
+      });
+      return run.then(test => expect(test).toBe(true));
+    });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
@@ -59,7 +59,7 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBe(true));
     });
 
-    afterEach(() => {
+    afterAll(() => {
       shell.rm('-rf', 'build');
       shell.cd(util.rootDir);
     });
