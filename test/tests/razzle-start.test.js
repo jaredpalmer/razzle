@@ -8,7 +8,7 @@ const fs = require('fs');
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
-    beforeAll(() => {
+    beforeEach(() => {
       shell.cd(path.join(util.rootDir, 'examples/basic'));
     });
 
@@ -24,7 +24,7 @@ describe('razzle start', () => {
           }
         );
         child.stdout.on('data', data => {
-          if (data.includes('> Started on port 3000')) {
+          if (data.includes('✅  Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
             outputTest = output.stdout.includes('200');
@@ -35,7 +35,7 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBe(true));
     });
 
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run', () => {
       let outputTest;
@@ -56,7 +56,7 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBe(true));
     });
 
-    afterAll(() => {
+    afterEach(() => {
       shell.rm('-rf', 'build');
       shell.cd(util.rootDir);
     });

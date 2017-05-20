@@ -54,9 +54,15 @@ module.exports = (
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
-      modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
+      // modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
+      modules: ['node_modules', paths.appNodeModules].concat(
+        // It is guaranteed to exist because we tweak it in `env.js`
+        process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+      ),
       extensions: ['.js', '.json', '.jsx'],
       alias: {
+        // This is required so symlinks work during development.
+        'webpack/hot/poll': require.resolve('webpack/hot/poll'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
