@@ -14,11 +14,11 @@ describe('razzle start', () => {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    it('should start a webpack-dev-server on :3001', () => {
+    it('should start a dev server', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          'VERBOSE=true node_modules/.bin/razzle start',
+          'VERBOSE=true ./node_modules/.bin/razzle start',
           () => {
             resolve(outputTest);
           }
@@ -26,11 +26,13 @@ describe('razzle start', () => {
         child.stdout.on('data', data => {
           if (data.includes('Compiled successfully')) {
             shell.exec('sleep 5');
-            // const serverOutput = shell.exec('curl -I localhost:3001');
+            const serverOutput = shell.exec('curl -I localhost:3000');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/client.js'
             );
-            outputTest = devServerOutput.stdout.includes('React');
+            outputTest =
+              serverOutput.stdout.includes('200') &&
+              devServerOutput.stdout.includes('React');
             kill(child.pid);
           }
         });
@@ -42,7 +44,7 @@ describe('razzle start', () => {
 
     it('should build and run', () => {
       let outputTest;
-      shell.exec('node_modules/.bin/razzle build');
+      shell.exec('./node_modules/.bin/razzle build');
       const run = new Promise(resolve => {
         const child = shell.exec('node build/server.js', () => {
           resolve(outputTest);
