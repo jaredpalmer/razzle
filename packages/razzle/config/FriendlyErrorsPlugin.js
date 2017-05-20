@@ -25,7 +25,6 @@ class WebpackErrorsPlugin {
       const rawMessages = stats.toJson({}, true);
       const messages = formatWebpackMessages(rawMessages);
       WEBPACK_COMPILING = false;
-
       if (!messages.errors.length && !messages.warnings.length) {
         if (!WEBPACK_DONE) {
           if (!this.verbose) {
@@ -42,12 +41,22 @@ class WebpackErrorsPlugin {
       }
 
       if (messages.errors.length) {
+        if (
+          rawMessages.errors &&
+          rawMessages.errors.length > 0 &&
+          (rawMessages.errors[0].includes('assets.json') ||
+            rawMessages.errors[0].includes("Module not found: Can't resolve"))
+        ) {
+          return;
+        }
+
         messages.errors.forEach(e => {
           logger.error(
             `Failed to compile ${this.target} with ${messages.errors.length} errors`,
             e
           );
         });
+
         return;
       }
 
@@ -59,7 +68,7 @@ class WebpackErrorsPlugin {
       }
     });
 
-    compiler.plugin('compile', params => {
+    compiler.plugin('invalid', params => {
       WEBPACK_DONE = false;
       if (!WEBPACK_COMPILING) {
         if (!this.verbose) {
