@@ -18,13 +18,13 @@ describe('razzle start', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          'VERBOSE=true node_modules/.bin/razzle start',
+          'VERBOSE=true node_modules/razzle/bin/razzle.js start',
           () => {
             resolve(outputTest);
           }
         );
         child.stdout.on('data', data => {
-          if (data.includes('✅  Server-side HMR Enabled!')) {
+          if (data.includes('> Started on port 3000')) {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
             outputTest = output.stdout.includes('200');
@@ -39,7 +39,7 @@ describe('razzle start', () => {
 
     it('should build and run', () => {
       let outputTest;
-      shell.exec('node_modules/.bin/razzle build');
+      shell.exec('node_modules/razzle/bin/razzle.js build');
       const run = new Promise(resolve => {
         const child = shell.exec('node build/server.js', () => {
           resolve(outputTest);

@@ -31,7 +31,8 @@
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",
       "<rootDir>/node_modules/",
-      "<rootDir>/examples/"
+      "<rootDir>/examples/",
+      "<rootDir>/test/"
     ],
     "collectCoverageFrom": [
       "**/*.js"

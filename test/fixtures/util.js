@@ -2,7 +2,7 @@ const shell = require('shelljs');
 const path = require('path');
 const rootDir = process.cwd();
 
-shell.config.silent = true;
+// shell.config.silent = true;
 
 module.exports = {
   setupStageWithFixture: (stageName, fixtureName) => {

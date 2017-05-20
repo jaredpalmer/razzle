@@ -8,8 +8,8 @@ const stageName = 'stage-build';
 describe('razzle build', () => {
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
-    const output = shell.exec('yarn build');
-    expect(output.code).toBe(0);
+    const output = shell.exec('npm run build');
+
     expect(shell.test('-f', 'build/server.js')).toBe(true);
 
     // Should copy static assets from src/public directory
@@ -17,6 +17,8 @@ describe('razzle build', () => {
 
     // Should compile client bundle to js directory
     expect(shell.test('-d', 'build/public/static/js')).toBe(true);
+
+    expect(output.code).toBe(0);
   });
 
   afterEach(() => {
