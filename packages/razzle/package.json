@@ -31,7 +31,7 @@
     "minimist": "^1.2.0",
     "ncp": "^2.0.0",
     "postcss-loader": "^2.0.5",
-    "react-dev-utils": "^1.0.1",
+    "react-dev-utils": "^1.0.2",
     "start-server-webpack-plugin": "^2.2.0",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
