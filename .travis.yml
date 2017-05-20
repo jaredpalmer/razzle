@@ -1,4 +1,4 @@
 language: node_js
 node_js:
   - 6
-script: yarn run e2e --runInBand
+script: yarn run e2e -- --runInBand

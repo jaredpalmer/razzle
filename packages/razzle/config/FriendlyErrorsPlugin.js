@@ -40,24 +40,20 @@ class WebpackErrorsPlugin {
         }
       }
 
-      if (messages.errors.length) {
-        if (
-          rawMessages.errors &&
+      if (
+        messages.errors.length &&
+        !(rawMessages.errors &&
           rawMessages.errors.length > 0 &&
           (rawMessages.errors[0].includes('assets.json') ||
-            rawMessages.errors[0].includes("Module not found: Can't resolve"))
-        ) {
-          return;
-        }
-
+            rawMessages.errors[0].includes("Module not found: Can't resolve")))
+      ) {
         messages.errors.forEach(e => {
           logger.error(
             `Failed to compile ${this.target} with ${messages.errors.length} errors`,
             e
           );
         });
-
-        return;
+        // return;
       }
 
       if (messages.warnings.length) {

@@ -255,24 +255,30 @@ module.exports = (
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
       config.devServer = {
-        host: dotenv.raw.HOST,
         disableHostCheck: true,
+        clientLogLevel: 'none',
+        // Enable gzip compression of generated files.
+        compress: true,
         // watchContentBase: true,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
+        historyApiFallback: {
+          // Paths with dots should still use the history fallback.
+          // See https://github.com/facebookincubator/create-react-app/issues/387.
+          disableDotRule: true,
+        },
+        host: dotenv.raw.HOST,
+        hot: true,
+        noInfo: true,
+        overlay: false,
+        port: devServerPort,
+        quiet: true,
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
           ignored: /node_modules/,
         },
-        // Enable gzip compression of generated files.
-        compress: true,
-        port: devServerPort,
-        noInfo: true,
-        quiet: true,
-        historyApiFallback: true,
-        hot: true,
       };
       // Add client-only development plugins
       config.plugins = [
