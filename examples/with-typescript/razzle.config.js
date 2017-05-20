@@ -6,7 +6,6 @@ const {
 } = require('awesome-typescript-loader');
 
 module.exports = {
-  // clearConsole: false,
   modify(config, { target, dev }, webpack) {
     config.resolve.extensions = config.resolve.extensions.concat([
       '.ts',
