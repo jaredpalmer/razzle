@@ -17,19 +17,16 @@ describe('razzle start', () => {
     it('should start a dev server', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(
-          'VERBOSE=true ./node_modules/.bin/razzle start',
-          () => {
-            resolve(outputTest);
-          }
-        );
+        const child = shell.exec('./node_modules/.bin/razzle start', () => {
+          resolve(outputTest);
+        });
         child.stdout.on('data', data => {
           if (data.includes('Compiled successfully')) {
             shell.exec('sleep 5');
-            const serverOutput = shell.exec('curl -I localhost:3000');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/client.js'
             );
+            const serverOutput = shell.exec('curl -I localhost:3000');
             outputTest =
               serverOutput.stdout.includes('200') &&
               devServerOutput.stdout.includes('React');
