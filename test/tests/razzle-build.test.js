@@ -9,7 +9,10 @@ describe('razzle build', () => {
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
     const output = shell.exec('npm run build');
+    // Create asset manifest
+    expect(shell.test('-f', 'build/assets.json')).toBe(true);
 
+    // Create server.js
     expect(shell.test('-f', 'build/server.js')).toBe(true);
 
     // Should copy static assets from src/public directory
