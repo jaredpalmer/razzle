@@ -4,7 +4,7 @@ const kill = require('../utils/psKill');
 const path = require('path');
 const fs = require('fs');
 
-// shell.config.silent = true;
+shell.config.silent = true;
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
@@ -26,10 +26,7 @@ describe('razzle start', () => {
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/client.js'
             );
-            const serverOutput = shell.exec('curl -I localhost:3000');
-            outputTest =
-              serverOutput.stdout.includes('200') &&
-              devServerOutput.stdout.includes('React');
+            outputTest = devServerOutput.stdout.includes('React');
             kill(child.pid);
           }
         });
