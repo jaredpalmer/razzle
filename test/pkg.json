@@ -1,9 +1,0 @@
-{
-  "name": "razzle-test",
-  "version": "1.0.0",
-  "dependencies": {
-    "razzle": "file:../test-packages/razzle"
-  },
-  "author": "",
-  "license": "MIT"
-}

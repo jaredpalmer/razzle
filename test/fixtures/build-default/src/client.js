@@ -1,1 +1,1 @@
-module.exports = { server: true };
+module.exports = { client: true };
