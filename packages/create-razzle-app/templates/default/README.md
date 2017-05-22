@@ -166,9 +166,6 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 
 ## `razzle` API Reference
 
-### `razzle init <project>` 
-This will create a new razzle project (with the global CLI) installed. It will also install dependencies.
-
 ### `razzle start` 
 
 Runs razzle in development mode.   
