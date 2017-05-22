@@ -1,0 +1,11 @@
+{
+  "name": "my-razzle-app",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {}
+}

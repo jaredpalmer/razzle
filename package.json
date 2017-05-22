@@ -27,7 +27,9 @@
       "git add"
     ]
   },
-  "dependencies": {},
+  "dependencies": {
+    "jest-validate": "^20.0.3"
+  },
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",

@@ -72,7 +72,7 @@ packages.forEach(pkg => {
   });
 });
 
-// npm link razzle and babel-preset-razzle
+// npm link packages
 shell.exec('npm link', {
   cwd: path.join(process.cwd(), 'packages', 'razzle'),
 });
@@ -81,5 +81,9 @@ shell.exec('npm link', {
   cwd: path.join(process.cwd(), 'packages', 'babel-preset-razzle'),
 });
 logTask('babel-preset-razzle');
+shell.exec('npm link', {
+  cwd: path.join(process.cwd(), 'packages', 'create-razzle-app'),
+});
+logTask('create-razzle-app');
 
 console.log('\n✅  strapped\n');

@@ -1,0 +1,41 @@
+{
+  "name": "create-razzle-app",
+  "version": "0.0.1",
+  "description": "Create UNIVERSAL React, Preact, and Inferno apps in one command",
+  "main": "index.js",
+  "author": "Jared Palmer <jared@palmer.net> (http://jaredpalmer.com)",
+  "engines": {
+    "node": ">=6"
+  },
+  "repository": "jaredpalmer/razzle",
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "bin": {
+    "create-razzle-app": "./bin/create-razzle-app"
+  },
+  "dependencies": {
+    "ansi-escapes": "^2.0.0",
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "cross-spawn": "^5.1.0",
+    "execa": "^0.6.3",
+    "fs-extra": "^3.0.0",
+    "mkdirp-then": "^1.2.0",
+    "ms": "^1.0.0",
+    "mz": "^2.6.0",
+    "ora": "^1.2.0",
+    "promise": "^7.1.1"
+  },
+  "keywords": [
+    "razzle",
+    "react",
+    "webpack",
+    "preact",
+    "ssr",
+    "universal",
+    "isomorphic",
+    "inferno"
+  ],
+  "license": "MIT"
+}

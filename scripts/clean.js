@@ -48,7 +48,7 @@ console.log('\n🛁 Cleaning...\n');
 // Clean all of the monorepo packages.
 getPackages().forEach(pkg => cleanPackages(pkg.path));
 
-// npm unlink razzle and babel-preset-razzle
+// npm unlink packages
 shell.exec('npm unlink', {
   cwd: path.join(process.cwd(), 'packages', 'babel-preset-razzle'),
 });
@@ -57,6 +57,11 @@ shell.exec('npm unlink', {
   cwd: path.join(process.cwd(), 'packages', 'razzle'),
 });
 logTask('npm-unlinked razzle');
+
+shell.exec('npm unlink', {
+  cwd: path.join(process.cwd(), 'packages', 'create-razzle-app'),
+});
+logTask('npm-unlinked create-razzle-app');
 
 // Done
 console.log('\n✅  cleaned\n');
