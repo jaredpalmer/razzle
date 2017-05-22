@@ -1,8 +1,8 @@
+import App from './App';
+import React from 'react';
 import express from 'express';
 import path from 'path';
-import React from 'react';
 import { renderToString } from 'react-dom/server';
-import App from './App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -15,12 +15,14 @@ server
     const markup = renderToString(<App />);
     res.send(
       `<!doctype html>
-    <html lang="">
-    <head>
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet='utf-8' />
-        <title>Welcome to Razzle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="${process.env.PUBLIC_URL}/manifest.json">
+    <link rel="shortcut icon" href="${process.env.PUBLIC_URL}/favicon.ico">
+       <title>Razzle App</title>
         ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
         <script src="${assets.client.js}" defer></script>
     </head>

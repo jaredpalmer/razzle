@@ -69,6 +69,7 @@ function getClientEnvironment(target, options) {
     HOST: process.env.HOST || options.host || 'localhost',
     RAZZLE_ASSETS_MANIFEST: paths.appManifest,
     BUILD_TARGET: target === 'web' ? 'client' : 'server',
+    PUBLIC_URL: process.env.PUBLIC_URL || '',
     // The public dir changes between dev and prod, so we use an environment
     // variable available to users.
     RAZZLE_PUBLIC_DIR: process.env.NODE_ENV === 'production'
