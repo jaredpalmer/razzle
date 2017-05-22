@@ -1,6 +1,4 @@
-
 # Razzle ✨
-
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master)
 ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle)
@@ -22,31 +20,28 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Razzle ✨](#razzle-%E2%9C%A8)
-  - [Features](#features)
-  - [Quick Start](#quick-start)
-  - [Getting Started](#getting-started)
-    - [Installation](#installation)
-    - [Creating an app](#creating-an-app)
-    - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
-    - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
-    - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
-  - [Customization](#customization)
-    - [Extending Babel Config](#extending-babel-config)
-    - [Extending Webpack](#extending-webpack)
-  - [`razzle` API Reference](#razzle-api-reference)
-    - [`razzle start`](#razzle-start)
-    - [`razzle build`](#razzle-build)
-    - [`razzle.config.js`](#razzleconfigjs)
-    - [Environment Variables](#environment-variables)
-    - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
-      - [Windows (cmd.exe)](#windows-cmdexe)
-      - [Linux, macOS (Bash)](#linux-macos-bash)
-    - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
-      - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
-  - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
-  - [Inspiration](#inspiration)
-      - [Author](#author)
+- [Quick Start](#quick-start)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Creating an app](#creating-an-app)
+  - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+  - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+  - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+- [Customization](#customization)
+  - [Extending Babel Config](#extending-babel-config)
+  - [Extending Webpack](#extending-webpack)
+- [`razzle` API Reference](#razzle-api-reference)
+  - [`razzle start`](#razzle-start)
+  - [`razzle build`](#razzle-build)
+  - [`razzle.config.js`](#razzleconfigjs)
+  - [Environment Variables](#environment-variables)
+  - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+    - [Windows (cmd.exe)](#windows-cmdexe)
+    - [Linux, macOS (Bash)](#linux-macos-bash)
+  - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+    - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+- [Inspiration](#inspiration)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
