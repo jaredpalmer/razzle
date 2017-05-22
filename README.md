@@ -1,4 +1,6 @@
+
 # Razzle ✨
+
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master)
 ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle)
@@ -15,6 +17,38 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), **[Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react)**, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Razzle ✨](#razzle-%E2%9C%A8)
+  - [Features](#features)
+  - [Quick Start](#quick-start)
+  - [Getting Started](#getting-started)
+    - [Installation](#installation)
+    - [Creating an app](#creating-an-app)
+    - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+    - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+    - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+  - [Customization](#customization)
+    - [Extending Babel Config](#extending-babel-config)
+    - [Extending Webpack](#extending-webpack)
+  - [`razzle` API Reference](#razzle-api-reference)
+    - [`razzle start`](#razzle-start)
+    - [`razzle build`](#razzle-build)
+    - [`razzle.config.js`](#razzleconfigjs)
+    - [Environment Variables](#environment-variables)
+    - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+      - [Windows (cmd.exe)](#windows-cmdexe)
+      - [Linux, macOS (Bash)](#linux-macos-bash)
+    - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+      - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+  - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+  - [Inspiration](#inspiration)
+      - [Author](#author)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Quick Start
 
