@@ -1,0 +1,19 @@
+{
+  "name": "razzle-examples-with-custom-webpack-config",
+  "version": "0.6.0-rc1",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "start:prod": "NODE_ENV=production node build/custom.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "react": "16.0.0-alpha.3",
+    "react-dom": "16.0.0-alpha.3",
+    "serialize-javascript": "^1.3.0"
+  },
+  "devDependencies": {
+    "razzle": "^0.6.0-rc1"
+  }
+}
