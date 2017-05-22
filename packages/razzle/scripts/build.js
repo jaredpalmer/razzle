@@ -9,7 +9,6 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
-require('dotenv').config({ silent: true });
 const webpack = require('webpack');
 const fs = require('fs-extra');
 const chalk = require('chalk');
@@ -48,7 +47,7 @@ function build(previousFileSizes) {
     logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
 Please use a .env file instead.
 
-${razzle.host !== '0.0.0.0' && `HOST=${razzle.host}`}
+${razzle.host !== 'localhost' && `HOST=${razzle.host}`}
 ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 `);
   }

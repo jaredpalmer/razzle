@@ -1,7 +1,7 @@
-import express from 'express';
+import App from './App';
 import { createElement } from 'rax';
+import express from 'express';
 import renderer from 'rax-server-renderer';
-import App from '../App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 

@@ -1,8 +1,8 @@
 # Razzle ✨
 
-Create universal [React](https://github.com/facebook/react), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) applications with no build configuration.
-
-## Motivation
+[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master)
+![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle)
+[![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
 
 Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Razzle aims to fill this void by abstracting all the required tooling for your universal JavaScript application into a single dependency, and then leaving the rest of the architectural decisions about frameworks, routing, and data fetching up to you.
 
@@ -10,7 +10,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 Razzle comes with the "battery-pack included" and is part of a complete JavaScript breakfast:
 
-- Hot reloads client and server code when you make edits. No restarts necessary
+- :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), **[Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react)**, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
@@ -19,11 +19,19 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 ## Quick Start
 
 ```bash
-$ npm i -g razzle
+$ npm i -g create-razzle-app
 
-razzle init my-app
+create-razzle-app my-app
 cd my-app
 npm start
+```
+
+or with yarn
+
+```bash
+yarn create razzle-app my-app
+cd my-app 
+yarn start
 ```
 
 Then open http://localhost:3000/ to see your app.
@@ -36,27 +44,33 @@ When you’re ready to deploy to production, create a minified bundle with `npm 
 ## Getting Started
 
 ### Installation
+If you have the latest version of Yarn, you can skip this. Otherwise:
 
 Install Razzle globally:
 
 ```
-npm i -g razzle
+npm i -g create-razzle-app
 ```
-
-or if you have `yarn` installed:
-
-```
-yarn global add razzle
-```
-
 
 ### Creating an app
 
 To create an app, run:
 
+```bash
+create-razzle-app my-app
 ```
-razzle init my-app
-cd my-app
+
+or with `yarn create` (new!):
+
+```bash
+yarn create razzle-app my-app
+```
+
+**You can also boostrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
+by adding  `--example <example-name>` to your command.**
+
+```bash
+create-razzle-app --example with-preact my-app
 ```
 
 It will create a directory called my-app inside the current folder.  
@@ -194,6 +208,53 @@ You can create your own custom build-time environment variables. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable named `RAZZLE_SECRET_CODE` will be exposed in your JS as `process.env.RAZZLE_SECRET_CODE`.
+
+### Adding Temporary Environment Variables In Your Shell
+
+Defining environment variables can vary between OSes. It’s also important to know that this manner is temporary for the
+life of the shell session.
+
+#### Windows (cmd.exe)
+
+```cmd
+set RAZZLE_SECRET_CODE=abcdef&&npm start
+```
+
+(Note: the lack of whitespace is intentional.)
+
+#### Linux, macOS (Bash)
+
+```bash
+RAZZLE_SECRET_CODE=abcdef npm start
+```
+
+### Adding Environment Variables In `.env`
+
+To define permanent environment variables, create a file called .env in the root of your project:
+
+```
+RAZZLE_SECRET_CODE=abcdef
+```
+
+#### What other `.env` files are can be used?
+
+* `.env`: Default.
+* `.env.local`: Local overrides. **This file is loaded for all environments except test.**
+* `.env.development`, `.env.test`, `.env.production`: Environment-specific settings.
+* `.env.development.local`, `.env.test.local`, `.env.production.local`: Local overrides of environment-specific settings.
+
+Files on the left have more priority than files on the right:
+
+* `npm start`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
+* `npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
+* `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
+
+These variables will act as the defaults if the machine does not explicitly set them.<br>
+Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) for more details.
+
+>Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need
+these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
+
 
 ## How Razzle works (the secret sauce)
 

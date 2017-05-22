@@ -16,7 +16,7 @@ const getEnv = require('./env');
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = '0.0.0.0', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000 }
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -54,9 +54,15 @@ module.exports = (
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
-      modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
+      // modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
+      modules: ['node_modules', paths.appNodeModules].concat(
+        // It is guaranteed to exist because we tweak it in `env.js`
+        process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+      ),
       extensions: ['.js', '.json', '.jsx'],
       alias: {
+        // This is required so symlinks work during development.
+        'webpack/hot/poll': require.resolve('webpack/hot/poll'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -249,24 +255,30 @@ module.exports = (
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
       config.devServer = {
-        host: dotenv.raw.HOST,
         disableHostCheck: true,
+        clientLogLevel: 'none',
+        // Enable gzip compression of generated files.
+        compress: true,
         // watchContentBase: true,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
+        historyApiFallback: {
+          // Paths with dots should still use the history fallback.
+          // See https://github.com/facebookincubator/create-react-app/issues/387.
+          disableDotRule: true,
+        },
+        host: dotenv.raw.HOST,
+        hot: true,
+        noInfo: true,
+        overlay: false,
+        port: devServerPort,
+        quiet: true,
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
           ignored: /node_modules/,
         },
-        // Enable gzip compression of generated files.
-        compress: true,
-        port: devServerPort,
-        noInfo: true,
-        quiet: true,
-        historyApiFallback: true,
-        hot: true,
       };
       // Add client-only development plugins
       config.plugins = [
@@ -282,7 +294,7 @@ module.exports = (
       };
 
       // Specify the client output directory and paths. Notice that we have
-      // changed the publiPath to just '/' from http://0.0.0.0:3001. This is because
+      // changed the publiPath to just '/' from http://localhost:3001. This is because
       // we will only be using one port in production.
       config.output = {
         path: paths.appBuildPublic,

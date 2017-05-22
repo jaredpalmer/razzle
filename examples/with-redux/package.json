@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-redux",
-  "version": "0.5.4",
+  "version": "0.6.0-rc2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -19,6 +19,6 @@
     "serialize-javascript": "^1.3.0"
   },
   "devDependencies": {
-    "razzle": "^0.5.4"
+    "razzle": "^0.6.0-rc2"
   }
 }
