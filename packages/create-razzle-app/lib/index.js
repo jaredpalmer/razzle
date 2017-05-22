@@ -27,7 +27,7 @@ module.exports = function createRazzleApp(opts) {
       example: opts.example,
     }).then(installWithMessageFactory(opts, true));
   } else {
-    const templatePath = path.resolve(__dirname, './templates/default');
+    const templatePath = path.resolve(__dirname, '../templates/default');
 
     copyDir({
       templatePath: templatePath,
