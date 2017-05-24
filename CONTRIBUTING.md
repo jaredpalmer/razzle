@@ -6,17 +6,16 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** 
 
-- [Contributing to Razzle](#contributing-to-razzle)
-  - [Project Structure](#project-structure)
-  - [Developing locally](#developing-locally)
-    - [Commands](#commands)
-    - [Updating your fork](#updating-your-fork)
-  - [Adding examples](#adding-examples)
-    - [Use `examples/basic` as template](#use-examplesbasic-as-template)
-    - [Naming examples](#naming-examples)
-    - [How to get your example merged](#how-to-get-your-example-merged)
-  - [Why wasn't my PR merged?](#why-wasnt-my-pr-merged)
-  - [Getting help](#getting-help)
+- [Project Structure](#project-structure)
+- [Developing locally](#developing-locally)
+  - [Commands](#commands)
+  - [Updating your fork](#updating-your-fork)
+- [Adding examples](#adding-examples)
+  - [Use `examples/basic` as template](#use-examplesbasic-as-template)
+  - [Naming examples](#naming-examples)
+  - [How to get your example merged](#how-to-get-your-example-merged)
+- [Why wasn't my PR merged?](#why-wasnt-my-pr-merged)
+- [Getting help](#getting-help)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
