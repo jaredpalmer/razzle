@@ -1,6 +1,6 @@
 ![Razzle Logo](https://cloud.githubusercontent.com/assets/4060187/26326651/1fc65eca-3f0a-11e7-9f45-02c2bf950418.png)
 
-# Razzle ✨
+# Razzle
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master)
 ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle)
