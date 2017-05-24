@@ -75,7 +75,7 @@ All example folders should be named `with-<thing-you-are-demonstrating>`. Each e
 
 - Make sure to comment the important parts of your code and include a **well-written**
 "Idea behind the example" section. This is more important to me than your actual code.
-- Keep your example limited to one idea / library / feature (e.g. don't submit `with-styled-components-and-material-ui`). That being said, there are times when this rule will be relaxed such as if you are showing how to use Apollo and Redux or <Flux Library> + React Router.
+- Keep your example limited to one idea / library / feature (e.g. don't submit `with-styled-components-and-material-ui`). That being said, there are times when this rule will be relaxed such as if you are showing how to use Apollo and Redux or \<Flux Library\> + React Router.
 - Your example **MUST** implement Hot Module Replacement. If it does not update when you make edits, you have broken something. 
 - Your example should be minimalistic and concise, or a direct copy of another prominent example from the original library (like copying an example directly from react-redux).
 
