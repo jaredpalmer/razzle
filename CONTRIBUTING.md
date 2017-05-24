@@ -7,7 +7,7 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
 **Table of Contents** 
 
 - [Contributing to Razzle](#contributing-to-razzle)
-  - [Project Structure](#project-structure)x
+  - [Project Structure](#project-structure)
   - [Developing locally](#developing-locally)
     - [Commands](#commands)
     - [Updating your fork](#updating-your-fork)
