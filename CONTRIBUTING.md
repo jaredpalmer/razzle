@@ -83,8 +83,8 @@ All example folders should be named `with-<thing-you-are-demonstrating>`. Each e
 
 I will do my best to write out my reasoning before closing a PR, but 80% of the time it falls under one of these...
 
-- You did not read the contributing guidess
-- Your code breaks an internal application (I will be transparent about this).
+- You did not read this document
+- Your code breaks an internal application (I will be transparent about this)
 - Your code conflicts with some future plans (I will be transparent about this too)
 - You've said something inappropriate or have broken the Code of Conduct
 
