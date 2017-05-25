@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const FriendlyErrorsPlugin = require('./FriendlyErrorsPlugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -319,6 +320,37 @@ module.exports = (
         new ExtractTextPlugin({
           filename: 'static/css/[name].[contenthash:8].css',
         }),
+        new SWPrecacheWebpackPlugin({
+          // By default, a cache-busting query parameter is appended to requests
+          // used to populate the caches, to ensure the responses are fresh.
+          // If a URL is already hashed by Webpack, then there is no concern
+          // about it being stale, and the cache-busting can be skipped.
+          dontCacheBustUrlsMatching: /\.\w{8}\./,
+          filename: 'service-worker.js',
+          logger(message) {
+            if (message.indexOf('Total precache size is') === 0) {
+              // This message occurs for every build and is a bit too noisy.
+              return;
+            }
+            console.log(message);
+          },
+          minify: true,
+          navigateFallback: dotenv.raw.PUBLIC_URL + '/index.html',
+          staticFileGlobsIgnorePatterns: [
+            /\.map$/,
+            /asset-manifest\.json$/,
+            /assets\.json$/,
+          ],
+          // Work around Windows path issue in SWPrecacheWebpackPlugin:
+          // https://github.com/facebookincubator/create-react-app/issues/2235
+          stripPrefix: paths.appBuild.replace(/\\/g, '/') + '/',
+        }),
+        // Moment.js is an extremely popular library that bundles large locale files
+        // by default due to how Webpack interprets its code. This is a practical
+        // solution that requires the user to opt into importing specific locales.
+        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+        // You can remove this if you don't use Moment.js:
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       ];
     }
   }
