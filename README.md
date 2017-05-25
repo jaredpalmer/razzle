@@ -100,6 +100,14 @@ by adding  `--example <example-name>` to your command.**
 create-razzle-app --example with-preact my-app
 ```
 
+or with `yarn create`
+
+```bash
+yarn create razzle-app my-app -- --example with-preact
+```
+
+_(The `--` is needed for yarn to ignore options meant for `create-razzle-app`)_
+
 It will create a directory called my-app inside the current folder.  
 Inside that directory, it will generate the initial project structure and install the transitive dependencies. 
 
