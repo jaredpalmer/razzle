@@ -34,7 +34,7 @@ Razzle is monorepo made up of a several npm packages powered by Lerna.
 ## Developing locally
 
 First, fork the repo to your GitHub account. Then clone your fork to your local 
-machine and make a new branch for your feature/bug/path etc. It's a good idea to not develop directly on master so you can get updates.
+machine and make a new branch for your feature/bug/patch etc. It's a good idea to not develop directly on master so you can get updates.
 
 ```
 git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
