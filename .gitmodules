@@ -1,0 +1,3 @@
+[submodule "examples/material-ui-styled"]
+	path = examples/material-ui-styled
+	url = https://github.com/kireerik/razzle-material-ui-styled-example
