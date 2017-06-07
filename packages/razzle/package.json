@@ -3,7 +3,7 @@
   "version": "0.6.4",
   "description": "Build isomorphic Javascript applications with ease.",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "author": "jaredpalmer",
+  "author": "Jared Palmer <jared@palmer.net>",
   "license": "MIT",
   "bin": {
     "razzle": "./bin/razzle.js"
@@ -14,6 +14,16 @@
     "scripts",
     "template",
     "babel.js"
+  ],
+  "keywords": [
+    "razzle",
+    "react",
+    "webpack",
+    "preact",
+    "ssr",
+    "universal",
+    "isomorphic",
+    "inferno"
   ],
   "dependencies": {
     "assets-webpack-plugin": "^3.5.1",
