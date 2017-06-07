@@ -1,15 +1,14 @@
 #! /usr/bin/env node
 
 process.env.NODE_ENV = 'development';
+const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
-const printErrors = require('../config/printErrors');
 const createConfig = require('../config/create-config');
 const devServer = require('webpack-dev-server');
-const chalk = require('chalk');
+const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
-const fs = require('fs-extra');
-const logger = require('../config/logger');
+const logger = require('razzle-dev-utils/logger');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 

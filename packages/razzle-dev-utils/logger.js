@@ -41,9 +41,8 @@ const write = (type, text, verbose) => {
 
   const logType = logTypes[type];
 
-  textToLog += chalk[logType.bg].black(logType.msg) +
-    ' ' +
-    chalk[logType.text](text);
+  textToLog +=
+    chalk[logType.bg].black(logType.msg) + ' ' + chalk[logType.text](text);
 
   // Adds optional verbose output
   if (verbose) {

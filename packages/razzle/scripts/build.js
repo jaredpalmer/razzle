@@ -14,10 +14,10 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const path = require('path');
 const paths = require('../config/paths');
-const printErrors = require('../config/printErrors');
 const createConfig = require('../config/create-config');
+const printErrors = require('razzle-dev-utils/printErrors');
+const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
-const logger = require('../config/logger');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
