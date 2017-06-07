@@ -36,6 +36,8 @@
     "ssr",
     "universal",
     "isomorphic",
-    "inferno"
+    "inferno",
+    "reason",
+    "reasonml"
   ]
 }

@@ -23,7 +23,9 @@
     "ssr",
     "universal",
     "isomorphic",
-    "inferno"
+    "inferno",
+    "reason",
+    "reasonml"
   ],
   "dependencies": {
     "assets-webpack-plugin": "^3.5.1",
