@@ -28,6 +28,7 @@ Razzle is monorepo made up of a several npm packages powered by Lerna.
   - `babel-preset-razzle`: Razzle's default Babel preset. 
   - `create-razzle-app`: Razzle's CLI tool responsible for initialization of new projects
   - `razzle`: The core library
+  - `razzle-dev-utils`: Utilities and helpers
 - `scripts`: Utility scripts related to cleaning and bootstrapping the repo
 - `test`: End-to-end tests
 
