@@ -3,7 +3,6 @@
 const chalk = require('chalk');
 const clearConsole = require('react-dev-utils/clearConsole');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const join = require('path').join;
 const logger = require('./logger');
 
 let WEBPACK_COMPILING = false;

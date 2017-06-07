@@ -751,9 +751,9 @@ babel-preset-flow@^6.23.0:
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
 
-babel-preset-razzle@^0.6.0-rc2:
-  version "0.6.0-rc2"
-  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-0.6.0-rc2.tgz#57910ff7277f88956470d3b0435533ce342a80a2"
+babel-preset-razzle@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-0.6.4.tgz#a517ddefe8c036fec4a8e0a2a5ebaa571f416aa5"
   dependencies:
     babel-plugin-dynamic-import-node "1.0.1"
     babel-plugin-syntax-dynamic-import "6.18.0"
@@ -3310,6 +3310,13 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
+razzle-dev-utils@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-0.6.4.tgz#01e0bf46917f982bfb1c1f0466afc595d35f3c4f"
+  dependencies:
+    chalk "1.1.3"
+    react-dev-utils "3.0.0"
+
 rc@^1.1.7:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.1.tgz#2e03e8e42ee450b8cb3dce65be1bf8974e1dfd95"
@@ -3318,6 +3325,28 @@ rc@^1.1.7:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-dev-utils@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.0.0.tgz#3677f37718ba0cae892ba9c01fe54d1622e6ef7c"
+  dependencies:
+    "@timer/detect-port" "1.1.3"
+    address "1.0.1"
+    anser "1.3.0"
+    babel-code-frame "6.22.0"
+    chalk "1.1.3"
+    cross-spawn "4.0.2"
+    escape-string-regexp "1.0.5"
+    filesize "3.3.0"
+    gzip-size "3.0.0"
+    html-entities "1.2.1"
+    inquirer "3.0.6"
+    opn "5.0.0"
+    recursive-readdir "2.2.1"
+    shell-quote "1.6.1"
+    sockjs-client "1.1.4"
+    strip-ansi "3.0.1"
+    text-table "0.2.0"
 
 react-dev-utils@^1.0.2:
   version "1.0.3"
@@ -3447,8 +3476,8 @@ regjsparser@^0.1.4:
     jsesc "~0.5.0"
 
 remove-trailing-separator@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.0.1.tgz#615ebb96af559552d4bf4057c8436d486ab63cc4"
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.0.2.tgz#69b062d978727ad14dc6b56ba4ab772fd8d70511"
 
 repeat-element@^1.1.2:
   version "1.1.2"

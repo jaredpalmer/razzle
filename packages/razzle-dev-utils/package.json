@@ -1,0 +1,17 @@
+{
+  "name": "razzle-dev-utils",
+  "version": "0.6.4",
+  "description": "Utilities and helpers for Razzle",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "license": "MIT",
+  "files": [
+    "logger.js",
+    "printErrors.js",
+    "FriendlyErrorsPlugin.js"
+  ],
+  "dependencies": {
+    "chalk": "1.1.3",
+    "react-dev-utils": "3.0.0"
+  }
+}

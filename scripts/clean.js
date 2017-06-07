@@ -63,5 +63,10 @@ shell.exec('yarn unlink', {
 });
 logTask('npm-unlinked create-razzle-app');
 
+shell.exec('yarn unlink', {
+  cwd: path.join(process.cwd(), 'packages', 'razzle-dev-utils'),
+});
+logTask('npm-unlinked razzle-dev-utils');
+
 // Done
 console.log('\n✅  cleaned\n');

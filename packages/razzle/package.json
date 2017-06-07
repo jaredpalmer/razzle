@@ -43,6 +43,7 @@
     "minimist": "^1.2.0",
     "postcss-flexbugs-fixes": "^3.0.0",
     "postcss-loader": "^2.0.5",
+    "razzle-dev-utils": "^0.6.4",
     "react-dev-utils": "^1.0.2",
     "start-server-webpack-plugin": "^2.2.0",
     "style-loader": "^0.17.0",
