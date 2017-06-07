@@ -78,20 +78,38 @@ module.exports = (
         // Transform ES6 with Babel
         {
           test: /\.js?$/,
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           include: [paths.appSrc],
           options: mainBabelOptions,
         },
-        // Handle files with url-loader. It will inline files into a data-uri
-        // if they are smaller than 20000 bytes.
         {
-          test: /\.(jpg|jpeg|png|gif|eot|svg|ttf|woff|woff2)$/,
-          loader: 'url-loader',
-          exclude: [paths.appNodeModules, paths.appBuild],
+          exclude: [
+            /\.html$/,
+            /\.(js|jsx)$/,
+            /\.css$/,
+            /\.json$/,
+            /\.bmp$/,
+            /\.gif$/,
+            /\.jpe?g$/,
+            /\.png$/,
+          ],
+          loader: require.resolve('file-loader'),
           options: {
-            limit: 20000,
+            name: 'static/media/[name].[hash:8].[ext]',
           },
         },
+        // "url" loader works like "file" loader except that it embeds assets
+        // smaller than specified limit in bytes as data URLs to avoid requests.
+        // A missing `test` is equivalent to a match.
+        {
+          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+          loader: require.resolve('url-loader'),
+          options: {
+            limit: 10000,
+            name: 'static/media/[name].[hash:8].[ext]',
+          },
+        },
+
         // "postcss" loader applies autoprefixer to our CSS.
         // "css" loader resolves paths in CSS and adds assets as dependencies.
         // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -107,7 +125,7 @@ module.exports = (
               // magic. Luckily we just need css-loader.
               [
                 {
-                  loader: 'css-loader',
+                  loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
                   },
@@ -117,16 +135,17 @@ module.exports = (
                 ? [
                     'style-loader',
                     {
-                      loader: 'css-loader',
+                      loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
                       },
                     },
                     {
-                      loader: 'postcss-loader',
+                      loader: require.resolve('postcss-loader'),
                       options: {
                         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
                         plugins: () => [
+                          require('postcss-flexbugs-fixes'),
                           autoprefixer({
                             browsers: [
                               '>1%',
@@ -134,25 +153,27 @@ module.exports = (
                               'Firefox ESR',
                               'not ie < 9', // React doesn't support IE8 anyway
                             ],
+                            flexbox: 'no-2009',
                           }),
                         ],
                       },
                     },
                   ]
                 : ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
+                    fallback: require.resolve('style-loader'),
                     use: [
                       {
-                        loader: 'css-loader',
+                        loader: require.resolve('css-loader'),
                         options: {
                           importLoaders: 1,
                         },
                       },
                       {
-                        loader: 'postcss-loader',
+                        loader: require.resolve('postcss-loader'),
                         options: {
                           ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
                           plugins: () => [
+                            require('postcss-flexbugs-fixes'),
                             autoprefixer({
                               browsers: [
                                 '>1%',
@@ -160,6 +181,7 @@ module.exports = (
                                 'Firefox ESR',
                                 'not ie < 9', // React doesn't support IE8 anyway
                               ],
+                              flexbox: 'no-2009',
                             }),
                           ],
                         },
