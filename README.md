@@ -93,7 +93,7 @@ or with `yarn create` (new!):
 yarn create razzle-app my-app
 ```
 
-**You can also boostrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
+**You can also bootstrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
 by adding  `--example <example-name>` to your command.**
 
 ```bash
