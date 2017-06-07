@@ -49,16 +49,16 @@ console.log('\n🛁 Cleaning...\n');
 getPackages().forEach(pkg => cleanPackages(pkg.path));
 
 // npm unlink packages
-shell.exec('npm unlink', {
+shell.exec('yarn unlink', {
   cwd: path.join(process.cwd(), 'packages', 'babel-preset-razzle'),
 });
 logTask('npm-unlinked babel-preset-razzle\n');
-shell.exec('npm unlink', {
+shell.exec('yarn unlink', {
   cwd: path.join(process.cwd(), 'packages', 'razzle'),
 });
 logTask('npm-unlinked razzle');
 
-shell.exec('npm unlink', {
+shell.exec('yarn unlink', {
   cwd: path.join(process.cwd(), 'packages', 'create-razzle-app'),
 });
 logTask('npm-unlinked create-razzle-app');

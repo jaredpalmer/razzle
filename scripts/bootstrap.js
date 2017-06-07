@@ -73,15 +73,15 @@ packages.forEach(pkg => {
 });
 
 // npm link packages
-shell.exec('npm link', {
+shell.exec('yarn link', {
   cwd: path.join(process.cwd(), 'packages', 'razzle'),
 });
 logTask('razzle\n');
-shell.exec('npm link', {
+shell.exec('yarn link', {
   cwd: path.join(process.cwd(), 'packages', 'babel-preset-razzle'),
 });
 logTask('babel-preset-razzle');
-shell.exec('npm link', {
+shell.exec('yarn link', {
   cwd: path.join(process.cwd(), 'packages', 'create-razzle-app'),
 });
 logTask('create-razzle-app');
