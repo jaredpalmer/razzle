@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-webpack-config",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,6 +14,6 @@
     "serialize-javascript": "^1.3.0"
   },
   "devDependencies": {
-    "razzle": "^0.6.3"
+    "razzle": "^0.6.4"
   }
 }

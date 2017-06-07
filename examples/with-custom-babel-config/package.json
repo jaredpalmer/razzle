@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-babel-config",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "babel-preset-stage-0": "^6.22.0",
-    "razzle": "^0.6.3"
+    "razzle": "^0.6.4"
   }
 }

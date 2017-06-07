@@ -1,6 +1,6 @@
 {
   "name": "razzle",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Build isomorphic Javascript applications with ease.",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "jaredpalmer",
@@ -20,7 +20,7 @@
     "autoprefixer": "^7.1.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
-    "babel-preset-razzle": "^0.6.0-rc2",
+    "babel-preset-razzle": "^0.6.4",
     "chalk": "^1.1.3",
     "css-loader": "^0.28.1",
     "dotenv": "^4.0.0",
