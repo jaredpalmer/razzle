@@ -21,6 +21,16 @@ describe('razzle build', () => {
 
     // Should compile client bundle to js directory
     expect(shell.test('-d', 'build/public/static/js')).toBe(true);
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
+
+    // should compile client image assets to media directory
+    expect(shell.test('-d', 'build/public/static/media')).toBe(true);
+    expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
+
+    // should compile client css to css directory
+    expect(shell.test('-d', 'build/public/static/css')).toBe(true);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -40,6 +50,16 @@ describe('razzle build', () => {
 
     // Should compile client bundle to js directory
     expect(shell.test('-d', 'build/public/static/js')).toBe(true);
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
+
+    // should compile client image assets to media directory
+    expect(shell.test('-d', 'build/public/static/media')).toBe(true);
+    expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
+
+    // should compile client css to css directory
+    expect(shell.test('-d', 'build/public/static/css')).toBe(true);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -54,11 +74,18 @@ describe('razzle build', () => {
     expect(shell.test('-f', 'build/custom.js')).toBe(true);
     expect(shell.test('-f', 'build/custom.js.map')).toBe(true);
 
-    // Should copy static assets from src/public directory
-    expect(shell.test('-f', 'build/public/nothing.txt')).toBe(true);
-
     // Should compile client bundle to js directory
     expect(shell.test('-d', 'build/public/static/js')).toBe(true);
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
+
+    // should compile client image assets to media directory
+    expect(shell.test('-d', 'build/public/static/media')).toBe(true);
+    expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
+
+    // should compile client css to css directory
+    expect(shell.test('-d', 'build/public/static/css')).toBe(true);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
