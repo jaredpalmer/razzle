@@ -213,6 +213,7 @@ module.exports = (
     // Specify webpack Node.js output path and filename
     config.output = {
       path: paths.appBuild,
+      publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
       filename: 'server.js',
     };
     // Add some plugins...
