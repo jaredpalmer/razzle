@@ -1,6 +1,6 @@
 {
   "name": "razzle",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Build isomorphic Javascript applications with ease.",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Jared Palmer <jared@palmer.net>",
@@ -43,7 +43,7 @@
     "minimist": "^1.2.0",
     "postcss-flexbugs-fixes": "^3.0.0",
     "postcss-loader": "^2.0.5",
-    "razzle-dev-utils": "^0.6.4",
+    "razzle-dev-utils": "^0.6.5",
     "react-dev-utils": "^1.0.2",
     "start-server-webpack-plugin": "^2.2.0",
     "style-loader": "^0.17.0",
