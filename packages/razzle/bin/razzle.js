@@ -16,8 +16,12 @@ if (command === 'start') {
   spawn.sync('node', [path.resolve(__dirname, '..', 'scripts/build.js')], {
     stdio: 'inherit',
   });
+} else if (command === 'test') {
+  spawn.sync('node', [path.resolve(__dirname, '..', 'scripts/test.js')], {
+    stdio: 'inherit',
+  });
 } else if (!command && (argv.v || argv.version)) {
   console.log(chalk.cyan(`Razzle ${packageJson.version}`));
 } else {
-  console.log(chalk.red('Valid commands: start; build;'));
+  console.log(chalk.red('Valid commands: start; build; test;'));
 }
