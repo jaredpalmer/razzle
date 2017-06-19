@@ -6,9 +6,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 render(
-  React.createElement(App, {
-    title: 'Welcome to Razzle Reason React',
-  }),
+  <App title="Welcome to Razzle Reason React" />,
   document.getElementById('root')
 );
 

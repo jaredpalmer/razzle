@@ -1,6 +1,11 @@
 # Razzle Reason React
 
 ## How to use
+First install the Reason toolchain ([reason-cli](https://github.com/reasonml/reason-cli)) globally
+
+```bash
+npm install -g https://github.com/reasonml/reason-cli/archive/beta-v-1.13.6-bin-darwin.tar.gz
+```
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -29,52 +34,44 @@ Since Reason compiles to (beautifully written) JS, we don't have to do anything 
 
 ```reason
 /* /src/App.re */
-module App = {
-  /* Include the JS interop so we can pass props from JS */
-  include ReactRe.Component.JsProps;
-  type props = {title: string};
-  let name = "App";
-  let handleClick _ _ => {
-    Js.log "clicked!";
-    None
-  };
-  let render {props, updater} =>
-    <div className="App">
-      <div className="App-header">
-        <div
-          onClick=(updater handleClick)
-          style=(
-                  ReactDOMRe.Style.make
-                    backgroundColor::"#db4d3f" cursor::"pointer" ()
-                )>
-          <svg className="App-logo" viewBox="0 0 841.9 595.3" alt="logo">
-            ...
-          </svg>
+let component = ReasonReact.statefulComponent "App";
+
+/* underscore before names indicate unused variables. We name them for clarity */
+let make ::title _children => {
+  let handleClick _event state _self => ReasonReact.Update (state + 1);
+  {
+    ...component,
+    initialState: fun () => 0,
+    render: fun state self => {
+      let btnMessage = "Clicked" ^ string_of_int state ^ " time(s)!";
+      <div className="App">
+        <div className="App-header">
+          <div style=(ReactDOMRe.Style.make backgroundColor::"#db4d3f" cursor::"pointer" ())>
+            <svg className="App-logo" viewBox="0 0 841.9 595.3" alt="logo">
+              ...                
+            </svg>
+          </div>
+          <h2 style=(ReactDOMRe.Style.make marginLeft::"30px" fontSize::"2em" ())>
+            (ReactRe.stringToElement title)
+          </h2>
         </div>
-        <h2 style=(ReactDOMRe.Style.make marginLeft::"30px" fontSize::"2em" ())>
-          (ReactRe.stringToElement props.title)
-        </h2>
+        <p className="App-intro">
+          (ReactRe.stringToElement "To get started, open ")
+          <code> (ReactRe.stringToElement "src/App.re") </code>
+          (
+            ReactRe.stringToElement ". When you make edits, both the server and broswer will hot reload."
+          )
+          <button onClick=(self.update handleClick)>
+            (ReasonReact.stringToElement btnMessage)
+          </button>
+        </p>
       </div>
-      <p className="App-intro">
-        (ReactRe.stringToElement "To get started, open ")
-        <code> (ReactRe.stringToElement "src/App.re") </code>
-        (ReactRe.stringToElement ". When you make edits, both the server and broswer will hot reload.")
-      </p>
-    </div>;
-  /* Tell Reason-React how to transform JS props into ReasonML */
-  type jsProps = Js.t {. title: string};
-  let jsPropsToReasonProps =
-    Some (
-      fun jsProps => {
-       title: jsProps##title
-      }
-    );
+    }
+  }
 };
 
-include ReactRe.CreateComponent App;
-
-let createElement ::title => wrapProps {title: title};
-
+let comp =
+  ReasonReact.wrapReasonForJs ::component (fun jsProps => make title::jsProps##title [||]);
 ```
 
 ```js
