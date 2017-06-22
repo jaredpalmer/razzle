@@ -1,10 +1,10 @@
 import App from '../App';
 import React from 'react';
-import ReactDOM from 'react-dom/server';
+import ReactDOM from 'react-dom';
 
 describe('<App />', () => {
   test('renders without exploding', () => {
-    const app = ReactDOM.renderToString(<App />);
-    expect(app).toBeTruthy();
+    const div = document.createElement('div');
+    ReactDOM.render(<App />, div);
   });
 });
