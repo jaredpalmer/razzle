@@ -46,6 +46,7 @@ module.exports = (resolve, rootDir) => {
     'testMatch',
     'transform',
     'transformIgnorePatterns',
+    'testResultsProcessor',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
