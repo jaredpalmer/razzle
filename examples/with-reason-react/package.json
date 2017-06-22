@@ -5,20 +5,20 @@
   "scripts": {
     "dev": "npm run js-watch | npm run bsb-watch",
     "js-watch": "razzle start",
-    "bsb-watch": "bsb -make-world -w 2>&1 | berror --path-to-refmttype  /usr/local/bin/refmt",
+    "bsb-watch": "bsb -make-world -w",
     "clean": "bsb -clean-world && rm -rf build",
-    "build": "bsb -make-world 2>&1 | berror --path-to-refmttype /usr/local/bin/refmt && razzle build",
+    "build": "bsb -make-world && razzle build",
+    "test": "razzle test --env=jsdom",
     "start": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
     "express": "^4.15.2",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "reason-react": "0.1.4"
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "reason-react": "^0.1.5"
   },
   "devDependencies": {
-    "bs-platform": "^1.7.5",
-    "ocamlBetterErrors": "^0.1.1",
+    "bs-platform": "latest",
     "razzle": "^0.6.5"
   }
 }

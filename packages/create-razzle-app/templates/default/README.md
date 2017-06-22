@@ -1,8 +1,6 @@
-# Razzle ✨
+![Razzle Logo](https://cloud.githubusercontent.com/assets/4060187/26326651/1fc65eca-3f0a-11e7-9f45-02c2bf950418.png)
 
-[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master)
-![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle)
-[![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
+# Razzle [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
 
 Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Razzle aims to fill this void by abstracting all the required tooling for your universal JavaScript application into a single dependency, and then leaving the rest of the architectural decisions about frameworks, routing, and data fetching up to you.
 
@@ -15,6 +13,38 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), **[Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react)**, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Quick Start](#quick-start)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Creating an app](#creating-an-app)
+  - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+  - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+  - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+  - [`npm test` or `yarn test`](#npm-test-or-yarn-test)
+- [Customization](#customization)
+  - [Extending Babel Config](#extending-babel-config)
+  - [Extending Webpack](#extending-webpack)
+- [`razzle` API Reference](#razzle-api-reference)
+  - [`razzle start`](#razzle-start)
+  - [`razzle build`](#razzle-build)
+  - [`razzle test`](#razzle-test)
+  - [`razzle.config.js`](#razzleconfigjs)
+  - [Environment Variables](#environment-variables)
+  - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+    - [Windows (cmd.exe)](#windows-cmdexe)
+    - [Linux, macOS (Bash)](#linux-macos-bash)
+  - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+    - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+- [Inspiration](#inspiration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Quick Start
 
@@ -66,12 +96,20 @@ or with `yarn create` (new!):
 yarn create razzle-app my-app
 ```
 
-**You can also boostrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
+**You can also bootstrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
 by adding  `--example <example-name>` to your command.**
 
 ```bash
 create-razzle-app --example with-preact my-app
 ```
+
+or with `yarn create`
+
+```bash
+yarn create razzle-app my-app -- --example with-preact
+```
+
+_(The `--` is needed for yarn to ignore options meant for `create-razzle-app`)_
 
 It will create a directory called my-app inside the current folder.  
 Inside that directory, it will generate the initial project structure and install the transitive dependencies. 
@@ -119,6 +157,10 @@ Runs the compiled app in production.
 
 You can again view your application at `http://localhost:3000`
 
+### `npm test` or `yarn test`
+
+Runs the test watcher (Jest) in an interactive mode.
+By default, runs tests related to files changed since the last commit.
 
 ## Customization
 
@@ -173,6 +215,10 @@ You can view your application at `http://localhost:3000`
 
 ### `razzle build`
 Builds a razzle project for production. Final build located in `build` directory.
+
+### `razzle test`
+
+Runs Jest test runner.
 
 ### `razzle.config.js`
 
