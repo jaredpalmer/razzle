@@ -14,9 +14,7 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const markup = renderToString(
-      React.createElement(App, {
-        title: 'Welcome to Razzle Reason React',
-      })
+      <App title="Welcome to Razzle Reason React" />
     );
     res.send(
       `<!doctype html>
