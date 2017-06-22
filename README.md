@@ -13,6 +13,7 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), **[Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react)**, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -154,6 +155,10 @@ Runs the compiled app in production.
 
 You can again view your application at `http://localhost:3000`
 
+### `npm test` or `yarn test`
+
+Runs the test watcher (Jest) in an interactive mode.
+By default, runs tests related to files changed since the last commit.
 
 ## Customization
 
@@ -208,6 +213,10 @@ You can view your application at `http://localhost:3000`
 
 ### `razzle build`
 Builds a razzle project for production. Final build located in `build` directory.
+
+### `razzle test`
+
+Runs Jest test runner.
 
 ### `razzle.config.js`
 
