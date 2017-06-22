@@ -18,6 +18,7 @@ module.exports = {
     const babelLoader = config.module.rules.findIndex(
       rule => rule.options && rule.options.babelrc
     );
+    console.log(babelLoader);
 
     // Get the correct `include` option, since that hasn't changed.
     // This tells Razzle which directories to transform.
