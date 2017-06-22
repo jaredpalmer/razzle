@@ -40,6 +40,7 @@ module.exports = (resolve, rootDir) => {
     'collectCoverageFrom',
     'coverageReporters',
     'coverageThreshold',
+    'moduleFileExtensions',
     'moduleNameMapper',
     'snapshotSerializers',
     'testMatch',
