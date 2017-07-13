@@ -3,13 +3,13 @@
   "version": "0.7.2",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run js-watch | npm run bsb-watch",
+    "start": "npm run js-watch | npm run bsb-watch",
     "js-watch": "razzle start",
     "bsb-watch": "bsb -make-world -w",
     "clean": "bsb -clean-world && rm -rf build",
     "build": "bsb -make-world && razzle build",
     "test": "razzle test --env=jsdom",
-    "start": "NODE_ENV=production node build/server.js"
+    "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
     "express": "^4.15.2",
