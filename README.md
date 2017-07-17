@@ -89,7 +89,7 @@ yarn create razzle-app my-app
 by adding  `--example <example-name>` to your command.**
 
 ```bash
-create-razzle-app --example with-preact my-app
+npx create-razzle-app --example with-preact my-app
 ```
 
 or with `yarn create`
