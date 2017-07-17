@@ -88,6 +88,7 @@ module.exports = (
             /\.(js|jsx)$/,
             /\.(ts|tsx)$/,
             /\.(vue)$/,
+            /\.(less)$/,
             /\.(re)$/,
             /\.s?css$/,
             /\.json$/,
