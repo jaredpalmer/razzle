@@ -49,9 +49,7 @@ Razzle comes with the "battery-pack included" and is part of a complete JavaScri
 ## Quick Start
 
 ```bash
-$ npm i -g create-razzle-app
-
-create-razzle-app my-app
+$ npx create-razzle-app my-app
 cd my-app
 npm start
 ```
@@ -73,21 +71,12 @@ When you’re ready to deploy to production, create a minified bundle with `npm 
 
 ## Getting Started
 
-### Installation
-If you have the latest version of Yarn, you can skip this. Otherwise:
-
-Install Razzle globally:
-
-```
-npm i -g create-razzle-app
-```
-
 ### Creating an app
 
 To create an app, run:
 
 ```bash
-create-razzle-app my-app
+npx create-razzle-app my-app
 ```
 
 or with `yarn create` (new!):
@@ -100,7 +89,7 @@ yarn create razzle-app my-app
 by adding  `--example <example-name>` to your command.**
 
 ```bash
-create-razzle-app --example with-preact my-app
+npx create-razzle-app --example with-preact my-app
 ```
 
 or with `yarn create`
