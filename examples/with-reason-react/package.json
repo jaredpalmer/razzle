@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "bs-platform": "latest",
-    "razzle": "^0.7.2"
+    "razzle": "^0.7.2",
+    "razzle-dev-utils": "^0.8.0"
   }
 }

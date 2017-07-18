@@ -1,5 +1,6 @@
 import express from 'express';
 import app from './server';
+import webpackProxy from 'razzle-dev-utils/webpackProxy';
 
 if (module.hot) {
   module.hot.accept('./server', function() {
@@ -11,6 +12,7 @@ if (module.hot) {
 const port = process.env.PORT || 3000;
 
 export default express()
+  .use((...args) => webpackProxy(...args))
   .use((req, res) => app.handle(req, res))
   .listen(port, function(err) {
     if (err) {
