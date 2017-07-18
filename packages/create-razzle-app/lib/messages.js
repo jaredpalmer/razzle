@@ -17,7 +17,9 @@ exports.help = function() {
 };
 
 exports.exampleHelp = function() {
-  return `Example from https://github.com/jaredpalmer/razzle/tree/master/examples/ ${output.param('example-path')}`;
+  return `Example from https://github.com/jaredpalmer/razzle/tree/master/examples/ ${output.param(
+    'example-path'
+  )}`;
 };
 
 exports.missingProjectName = function() {
@@ -26,14 +28,18 @@ Please specify the project directory:
   ${chalk.cyan(program.name)} ${chalk.green('<project-directory>')}
 For example:
   ${chalk.cyan(program.name)} ${chalk.green('my-razzle-app')}
-  ${chalk.cyan(program.name)} ${chalk.cyan('--example with-preact')} ${chalk.green('my-preact-app')}
+  ${chalk.cyan(program.name)} ${chalk.cyan(
+    '--example with-preact'
+  )} ${chalk.green('my-preact-app')}
 Run ${chalk.cyan(`${program.name} --help`)} to see all options.
 `;
 };
 
 exports.alreadyExists = function(projectName) {
   return `
-Uh oh! Looks like there's already a directory called ${chalk.red(projectName)}. Please try a different name or delete that folder.`;
+Uh oh! Looks like there's already a directory called ${chalk.red(
+    projectName
+  )}. Please try a different name or delete that folder.`;
 };
 
 exports.installing = function(packages) {
