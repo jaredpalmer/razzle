@@ -11,6 +11,7 @@ const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const getEnv = require('./env');
+const errorOverlayMiddleware = require('react-error-overlay/middleware');
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
@@ -265,9 +266,7 @@ module.exports = (
       // specify our client entry point /client/index.js
       config.entry = {
         client: [
-          require.resolve('webpack-dev-server/client') +
-            `?http://${dotenv.raw.HOST}:${devServerPort}`,
-          require.resolve('webpack/hot/dev-server'),
+          require.resolve('react-dev-utils/webpackHotDevClient'),
           paths.appClientIndexJs,
         ],
       };
@@ -305,6 +304,9 @@ module.exports = (
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
           ignored: /node_modules/,
+        },
+        setup(app) {
+          app.use(errorOverlayMiddleware());
         },
       };
       // Add client-only development plugins

@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "razzle": "^0.7.3",
-    "react-test-renderer": "^15.4.2"
+    "react-test-renderer": "^15.4.2",
+    "razzle-dev-utils": "^0.8.0"
   }
 }
