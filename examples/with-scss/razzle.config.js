@@ -6,86 +6,63 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   modify: (baseConfig, { target, dev }, webpack) => {
-    const appConfig = Object.assign({}, baseConfig)
 
-    if (target !== 'web') {
-      // On the server, we can just simply use css-loader to
-      // deal with scss imports
-      appConfig.module.rules.push({
-        test: /.scss$/,
-        use: 'css-loader',
-      })
-      return appConfig
+    const appConfig = Object.assign({}, baseConfig)
+    const isServer = target !== 'web'
+
+    const postCssLoader = {
+      loader: 'postcss-loader',
+      options: {
+        ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+        plugins: () => [
+          autoprefixer({
+            browsers: [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9' // React doesn't support IE8 anyway
+            ]
+          })
+        ]
+      }
     }
 
-    // Setup SCSS
-
-    appConfig.module.rules.push(
+    appConfig.module.rules.push({
+      test: /.scss$/,
+      use:
+      // On the server, we simply use css-loader to deal with scss imports
+      isServer ? 'css-loader' :
+      // For development, include source map
       dev
-        ? {
-          test: /.scss$/,
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: false,
-                sourceMap: true,
-              },
+      ? [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: false,
+            sourceMap: true,
+          },
+        },
+        postCssLoader,
+        'fast-sass-loader',
+      ]
+      // For production, extract CSS
+      : ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                plugins: () => [
-                  autoprefixer({
-                    browsers: [
-                      '>1%',
-                      'last 4 versions',
-                      'Firefox ESR',
-                      'not ie < 9', // React doesn't support IE8 anyway
-                    ],
-                  }),
-                ],
-              },
-            },
-            'fast-sass-loader',
-          ],
-        }
-        : {
-          test: /.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                },
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                  plugins: () => [
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                    }),
-                  ],
-                },
-              },
-              'fast-sass-loader',
-            ],
-          }),
-        }
-    )
+          },
+          postCssLoader,
+          'fast-sass-loader',
+        ],
+      })
+    })
 
-    if (!dev) {
+    if (!isServer && !dev) {
       appConfig.plugins.push(
         new ExtractTextPlugin('static/css/[name].[contenthash:8].css')
       )
