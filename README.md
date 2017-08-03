@@ -13,76 +13,25 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
-
-- [Quick Start](#quick-start)
-- [Getting Started](#getting-started)
-- [Customization](#customization)
-- [`razzle` API Reference](#razzle-api-reference)
-- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
-- [Inspiration](#inspiration)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Quick Start
 
 ```bash
-$ npx create-razzle-app my-app
+npm install -g create-razzle-app
+
+create-razzle-app my-app
 cd my-app
 npm start
-```
-
-or with yarn
-
-```bash
-yarn create razzle-app my-app
-cd my-app 
-yarn start
 ```
 
 Then open http://localhost:3000/ to see your app. Your console should look like this:
 
 <img src="https://cloud.githubusercontent.com/assets/4060187/26324663/b31788c4-3f01-11e7-8e6f-ffa48533af54.png" width="500px" alt="Razzle Development Mode"/>
 
-When you’re ready to deploy to production, create a minified bundle with `npm run build`.
+The above command generated a directory called `my-app` inside the current folder.  
+In that directory, Razzle generated the initial project structure and installed the transitive dependencies. 
 
-
-## Getting Started
-
-### Creating an app
-
-To create an app, run:
-
-```bash
-npx create-razzle-app my-app
-```
-
-or with `yarn create` (new!):
-
-```bash
-yarn create razzle-app my-app
-```
-
-**You can also bootstrap any one of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
-by adding  `--example <example-name>` to your command.**
-
-```bash
-npx create-razzle-app --example with-preact my-app
-```
-
-or with `yarn create`
-
-```bash
-yarn create razzle-app my-app -- --example with-preact
-```
-
-_(The `--` is needed for yarn to ignore options meant for `create-razzle-app`)_
-
-It will create a directory called my-app inside the current folder.  
-Inside that directory, it will generate the initial project structure and install the transitive dependencies. 
-
+_Note: The default application is a universal React application with React Router 4 on an Express server. If don't want this setup, have a look at some of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
 
 ```
 my-app/
@@ -104,9 +53,9 @@ my-app/
     index.js             # Server entry point
 ```
 
-_Note: The default application is a universal React application with React Router 4 on an Express server. If don't want this setup, have a look at some of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
+**That's pretty much it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
 
-Once the installation is done, you can run some commands inside the project folder:
+Some commands you should know about. You can run these inside the project folder:
 
 ### `npm start` or `yarn start` 
 
@@ -173,36 +122,7 @@ module.exports = {
 }
 ```
 
-Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 3 scripts (`build`, `start`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
-
-## `razzle` API Reference
-
-### `razzle start` 
-
-Runs razzle in development mode.   
-You can view your application at `http://localhost:3000`
-
-### `razzle build`
-Builds a razzle project for production. Final build located in `build` directory.
-
-### `razzle test`
-
-Runs Jest test runner.
-
-### `razzle.config.js`
-
-There are just a few settings you should know about. 
-
-```js
-// razzle.config.js
-
-module.exports = {
-  modify: (config, { target, dev }, webpack) => {
-    // do something and return config
-    return config
-  }
-}
-```
+Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
 ### Environment Variables 
 
