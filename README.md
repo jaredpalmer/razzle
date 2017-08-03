@@ -28,34 +28,9 @@ Then open http://localhost:3000/ to see your app. Your console should look like 
 
 <img src="https://cloud.githubusercontent.com/assets/4060187/26324663/b31788c4-3f01-11e7-8e6f-ffa48533af54.png" width="500px" alt="Razzle Development Mode"/>
 
-The above command generated a directory called `my-app` inside the current folder.  
-In that directory, Razzle generated the initial project structure and installed the transitive dependencies. 
+**That's it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
 
-_Note: The default application is a universal React application with React Router 4 on an Express server. If don't want this setup, have a look at some of the [examples](https://github.com/jaredpalmer/razzle/tree/master/examples). Each one is installable with just a few commands._ 
-
-```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  .gitignore
-  public/
-    favicon.ico
-    robots.txt
-  src/
-    App.css
-    App.js
-    client.js            # Client entry point 
-    Home.css
-    Home.js 
-    server.js .          # Main server code (an Express application)
-    react.svg
-    index.js             # Server entry point
-```
-
-**That's pretty much it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
-
-Some commands you should know about. You can run these inside the project folder:
+Below is a list of commands you will probably find useful.
 
 ### `npm start` or `yarn start` 
 
@@ -186,7 +161,6 @@ Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) f
 
 >Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need
 these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
-
 
 ## How Razzle works (the secret sauce)
 
