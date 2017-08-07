@@ -542,8 +542,8 @@ browserslist@^1.4.0:
     electron-to-chromium "^1.2.7"
 
 caniuse-db@^1.0.30000639:
-  version "1.0.30000709"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000709.tgz#0b600072b7cdbbf6336a8758b71b9ad03268ede2"
+  version "1.0.30000712"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000712.tgz#89748396f9d7419d5fa27df3b48872dadbf8318a"
 
 chalk@^1.1.0:
   version "1.1.3"
@@ -556,8 +556,8 @@ chalk@^1.1.0:
     supports-color "^2.0.0"
 
 core-js@^2.4.0:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.0.tgz#569c050918be6486b3837552028ae0466b717086"
 
 debug@^2.2.0:
   version "2.6.8"
@@ -566,8 +566,8 @@ debug@^2.2.0:
     ms "2.0.0"
 
 electron-to-chromium@^1.2.7:
-  version "1.3.16"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.16.tgz#d0e026735754770901ae301a21664cba45d92f7d"
+  version "1.3.17"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.17.tgz#41c13457cc7166c5c15e767ae61d86a8cacdee5d"
 
 escape-string-regexp@^1.0.2:
   version "1.0.5"
