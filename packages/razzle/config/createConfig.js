@@ -90,7 +90,7 @@ module.exports = (
             /\.(vue)$/,
             /\.(less)$/,
             /\.(re)$/,
-            /\.s?css$/,
+            /\.(s?css|sass)$/,
             /\.json$/,
             /\.bmp$/,
             /\.gif$/,
