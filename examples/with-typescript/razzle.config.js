@@ -38,7 +38,7 @@ module.exports = {
     // are migrating incrementally and still need some Babel transforms)
     // then do the following:
     //
-    // - COMMENT out line 34
+    // - COMMENT out line 35
     // - UNCOMMENT line 43
     //
     // config.module.rules.push(tsLoader)
