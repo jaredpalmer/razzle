@@ -10,7 +10,8 @@ const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
-const getEnv = require('./env');
+const getClientEnv = require('./env').getClientEnv;
+const nodePath = require('./env').nodePath;
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
@@ -40,7 +41,7 @@ module.exports = (
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
-  const dotenv = getEnv(target, { clearConsole, host, port });
+  const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
   // This is our base webpack config.
@@ -57,7 +58,7 @@ module.exports = (
       // modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
       modules: ['node_modules', paths.appNodeModules].concat(
         // It is guaranteed to exist because we tweak it in `env.js`
-        process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
+        nodePath.split(path.delimiter).filter(Boolean)
       ),
       extensions: ['.js', '.json', '.jsx'],
       alias: {
