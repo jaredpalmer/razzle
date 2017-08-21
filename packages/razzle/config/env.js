@@ -43,7 +43,7 @@ dotenvFiles.forEach(dotenvFile => {
 // https://github.com/facebookincubator/create-react-app/issues/1023#issuecomment-265344421
 // We also resolve them to make sure all tools using them work consistently.
 const appDirectory = fs.realpathSync(process.cwd());
-process.env.NODE_PATH = (process.env.NODE_PATH || '')
+const nodePath = (process.env.NODE_PATH || '')
   .split(path.delimiter)
   .filter(folder => folder && !path.isAbsolute(folder))
   .map(folder => path.resolve(appDirectory, folder))
@@ -86,4 +86,7 @@ function getClientEnvironment(target, options) {
   return { raw, stringified };
 }
 
-module.exports = getClientEnvironment;
+module.exports = {
+  getClientEnv: getClientEnvironment,
+  nodePath: nodePath,
+};
