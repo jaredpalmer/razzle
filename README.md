@@ -180,3 +180,6 @@ In development mode (`razzle start`), Razzle bundles both your client and server
 ---
 #### Author
 - [Jared Palmer](https://twitter.com/jaredpalmer)
+
+---
+MIT License
