@@ -44,6 +44,50 @@ module.exports = (
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
+
+  const getStyleLoaders = () => {
+    const styleLoader = require.resolve('style-loader');
+    const cssLoader = {
+      loader: require.resolve('css-loader'),
+      options: {
+        importLoaders: 1,
+      },
+    };
+    const styleLoaders = [
+      styleLoader,
+      cssLoader,
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            autoprefixer({
+              browsers: [
+                '>1%',
+                'last 4 versions',
+                'Firefox ESR',
+                'not ie < 9', // React doesn't support IE8 anyway
+              ],
+              flexbox: 'no-2009',
+            }),
+          ],
+        },
+      },
+    ];
+
+    return IS_NODE
+      ? // Style-loader does not work in Node.js without some crazy
+        // magic. Luckily we just need css-loader.
+        [cssLoader]
+      : IS_DEV
+        ? styleLoaders
+        : ExtractTextPlugin.extract({
+            fallback: styleLoader,
+            use: styleLoaders,
+          });
+  };
+
   // This is our base webpack config.
   let config = {
     // Set webpack context to the current command's directory
@@ -125,74 +169,7 @@ module.exports = (
         {
           test: /\.css$/,
           exclude: [paths.appBuild],
-          use: IS_NODE
-            ? // Style-loader does not work in Node.js without some crazy
-              // magic. Luckily we just need css-loader.
-              [
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                  },
-                },
-              ]
-            : IS_DEV
-              ? [
-                  'style-loader',
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: {
-                      ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                      plugins: () => [
-                        require('postcss-flexbugs-fixes'),
-                        autoprefixer({
-                          browsers: [
-                            '>1%',
-                            'last 4 versions',
-                            'Firefox ESR',
-                            'not ie < 9', // React doesn't support IE8 anyway
-                          ],
-                          flexbox: 'no-2009',
-                        }),
-                      ],
-                    },
-                  },
-                ]
-              : ExtractTextPlugin.extract({
-                  fallback: require.resolve('style-loader'),
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                      },
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: {
-                        ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
-                        ],
-                      },
-                    },
-                  ],
-                }),
+          use: getStyleLoaders(),
         },
       ],
     },
@@ -237,15 +214,16 @@ module.exports = (
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
 
-      config.plugins = [
-        ...config.plugins,
-        // Add hot module replacement
-        new webpack.HotModuleReplacementPlugin(),
-        // Supress errors to console (we use our own logger)
-        new webpack.NoEmitOnErrorsPlugin(),
-        // Automatically start the server when we are done compiling
-        new StartServerPlugin('server.js'),
-      ];
+      config.plugins.push(
+        ...[
+          // Add hot module replacement
+          new webpack.HotModuleReplacementPlugin(),
+          // Supress errors to console (we use our own logger)
+          new webpack.NoEmitOnErrorsPlugin(),
+          // Automatically start the server when we are done compiling
+          new StartServerPlugin('server.js'),
+        ]
+      );
     }
   }
 
@@ -261,17 +239,20 @@ module.exports = (
       }),
     ];
 
+    config.entry = {
+      client: [paths.appClientIndexJs],
+    };
+
     if (IS_DEV) {
       // Setup Webpack Dev Server on port 3001 and
       // specify our client entry point /client/index.js
-      config.entry = {
-        client: [
+      config.entry.client.unshift(
+        ...[
           require.resolve('webpack-dev-server/client') +
             `?http://${dotenv.raw.HOST}:${devServerPort}`,
           require.resolve('webpack/hot/dev-server'),
-          paths.appClientIndexJs,
-        ],
-      };
+        ]
+      );
 
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
@@ -309,12 +290,13 @@ module.exports = (
         },
       };
       // Add client-only development plugins
-      config.plugins = [
-        ...config.plugins,
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin(dotenv.stringified),
-      ];
+      config.plugins.push(
+        ...[
+          new webpack.HotModuleReplacementPlugin(),
+          new webpack.NoEmitOnErrorsPlugin(),
+          new webpack.DefinePlugin(dotenv.stringified),
+        ]
+      );
     } else {
       // Specify production entry point (just /client/index.js)
       config.entry = {
@@ -331,45 +313,47 @@ module.exports = (
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
       };
 
-      config.plugins = [
-        ...config.plugins,
-        // Define production environment vars
-        new webpack.DefinePlugin(dotenv.stringified),
-        // Uglify/compress and optimize our JS for production, screw ie8 when
-        // possible, React only works > ie9 anyway
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false,
-            // Disabled because of an issue with Uglify breaking seemingly valid code:
-            // https://github.com/facebookincubator/create-react-app/issues/2376
-            // Pending further investigation:
-            // https://github.com/mishoo/UglifyJS2/issues/2011
-            comparisons: false,
-          },
-          output: {
-            comments: false,
-          },
-          sourceMap: true,
-        }),
-        // Extract our CSS into a files.
-        new ExtractTextPlugin({
-          filename: 'static/css/[name].[contenthash:8].css',
-        }),
-      ];
+      config.plugins.push(
+        ...[
+          // Define production environment vars
+          new webpack.DefinePlugin(dotenv.stringified),
+          // Uglify/compress and optimize our JS for production, screw ie8 when
+          // possible, React only works > ie9 anyway
+          new webpack.optimize.UglifyJsPlugin({
+            compress: {
+              warnings: false,
+              // Disabled because of an issue with Uglify breaking seemingly valid code:
+              // https://github.com/facebookincubator/create-react-app/issues/2376
+              // Pending further investigation:
+              // https://github.com/mishoo/UglifyJS2/issues/2011
+              comparisons: false,
+            },
+            output: {
+              comments: false,
+            },
+            sourceMap: true,
+          }),
+          // Extract our CSS into a files.
+          new ExtractTextPlugin({
+            filename: 'static/css/[name].[contenthash:8].css',
+          }),
+        ]
+      );
     }
   }
 
   if (IS_DEV) {
-    config.plugins = [
-      ...config.plugins,
-      // Use our own FriendlyErrorsPlugin during development.
-      new FriendlyErrorsPlugin({
-        verbose: dotenv.raw.VERBOSE,
-        target,
-        onSuccessMessage: `Your application is running at http://${dotenv.raw
-          .HOST}:${dotenv.raw.PORT}`,
-      }),
-    ];
+    config.plugins.push(
+      ...[
+        // Use our own FriendlyErrorsPlugin during development.
+        new FriendlyErrorsPlugin({
+          verbose: dotenv.raw.VERBOSE,
+          target,
+          onSuccessMessage: `Your application is running at http://${dotenv.raw
+            .HOST}:${dotenv.raw.PORT}`,
+        }),
+      ]
+    );
   }
 
   return config;
