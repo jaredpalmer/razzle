@@ -1,3 +1,5 @@
+import { injectAddRule, resetCache } from 'jsxstyle/lib/styleCache';
+
 import App from './App';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
@@ -8,11 +10,16 @@ import { renderToString } from 'react-dom/server';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
+
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
+    resetCache();
+    let styles = '';
     const context = {};
+    injectAddRule(rule => (styles += rule + '\n'));
+
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>
         <App />
@@ -22,7 +29,7 @@ server
     if (context.url) {
       res.redirect(context.url);
     } else {
-      res.status(200).send(
+      res.send(
         `<!doctype html>
     <html lang="">
     <head>
@@ -30,6 +37,7 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">${styles || ''}</style>
         ${assets.client.css
           ? `<link rel="stylesheet" href="${assets.client.css}">`
           : ''}
