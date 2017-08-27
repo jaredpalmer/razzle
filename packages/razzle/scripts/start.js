@@ -12,6 +12,10 @@ const logger = require('razzle-dev-utils/logger');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
+if (process.argv.includes('--inspect')) {
+  process.env.INSPECT_ENABLED = true;
+}
+
 // Optimistically, we make the console look exactly like the output of our
 // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
 // clearConsole();
