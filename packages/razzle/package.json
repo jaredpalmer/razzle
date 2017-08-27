@@ -45,6 +45,7 @@
     "postcss-loader": "^2.0.6",
     "razzle-dev-utils": "^0.7.5",
     "react-dev-utils": "3.0.0",
+    "react-error-overlay": "^1.0.10",
     "start-server-webpack-plugin": "2.2.0",
     "style-loader": "0.18.2",
     "url-loader": "0.5.9",
