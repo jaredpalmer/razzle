@@ -1,10 +1,8 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This code is derived from Facebook's create-react-app with some modifcations
+ * for Razzle's dual port setup.
+ * 
+ * @see https://github.com/facebookincubator/create-react-app/blob/master/packages/react-dev-utils/formatWebpackMessages.js
  */
 
 'use strict';
@@ -146,7 +144,7 @@ function showErrorOverlay(message) {
       '<div style="' +
       'font-family: sans-serif; color: rgb(135, 142, 145); margin-top: 1rem; ' +
       'flex: 0 0 auto">' +
-      'Quick Links: <a href="https://github.com/jaredpalmer/razzle" target="_blank" rel="noopener">Razzle GitHub</a> ' +
+      'Need Help? Here are some links: <a href="https://github.com/jaredpalmer/razzle" target="_blank" rel="noopener">Razzle GitHub</a> ' +
       '| <a href="https://github.com/jaredpalmer/razzle" target="_blank" rel="noopener">Report an Issue</a> ' +
       '| <a href="https://palmer.chat" target="_blank" rel="noopener">Community Slack</a> ' +
       '| <a href="https://twitter.com/jaredpalmer" target="_blank" rel="noopener">Slide into Jared\'s DMs for help</a></div>';

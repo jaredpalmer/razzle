@@ -52,7 +52,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: IS_PROD ? 'source-map' : 'cheap-eval-source-map',
+    devtool: IS_PROD ? 'source-map' : 'cheap-module-source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
@@ -278,7 +278,9 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
-        filename: 'static/js/[name].js',
+        filename: 'static/js/bundle.js',
+        devtoolModuleFilenameTemplate: info =>
+          path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
       };
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
@@ -302,6 +304,8 @@ module.exports = (
         overlay: false,
         port: devServerPort,
         quiet: true,
+        // By default files from `contentBase` will not trigger a page reload.
+        watchContentBase: true,
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
@@ -310,6 +314,7 @@ module.exports = (
         setup(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
+
           // This service worker file is effectively a 'no-op' that will reset any
           // previous service worker registered for the same host:port combination.
           // We do this in development to avoid hitting the production cache if
