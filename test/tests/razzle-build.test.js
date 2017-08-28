@@ -8,7 +8,7 @@ const stageName = 'stage-build';
 describe('razzle build', () => {
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
-    const output = shell.exec('yarn run build');
+    const output = shell.exec('npm run build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBe(true);
 
@@ -37,7 +37,7 @@ describe('razzle build', () => {
 
   it('should compile files with a custom .babelrc', () => {
     util.setupStageWithFixture(stageName, 'build-with-babelrc');
-    const output = shell.exec('yarn run build');
+    const output = shell.exec('npm run build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBe(true);
 
@@ -66,7 +66,7 @@ describe('razzle build', () => {
 
   it('should compile files with a custom razzle.config.js', () => {
     util.setupStageWithFixture(stageName, 'build-with-custom-config');
-    const output = shell.exec('yarn run build');
+    const output = shell.exec('npm run build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBe(true);
 

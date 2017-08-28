@@ -2,10 +2,6 @@ machine:
   node:
     version: 8
 
-dependencies:
-  override:
-    - yarn
-
 test:
   override:
-    - yarn e2e -- --runInBand
+    - npm run e2e -- --runInBand

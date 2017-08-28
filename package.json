@@ -4,7 +4,7 @@
   "devDependencies": {
     "husky": "^0.13.4",
     "jest": "19.0.2",
-    "lerna": "^2.0.0-rc.5",
+    "lerna": "^2.1.0",
     "lerna-changelog": "^0.5.0",
     "lint-staged": "^4.0.0",
     "prettier": "^1.4.4",
@@ -14,18 +14,15 @@
   },
   "scripts": {
     "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
-    "clean": "lerna clean --yes && node ./scripts/clean.js",
-    "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
+    "clean": "lerna clean --yes",
+    "bootstrap": "lerna bootstrap",
     "postinstall": "npm run clean && npm run bootstrap",
     "changelog": "lerna-changelog",
     "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --trailing-comma es5 --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"]
   },
   "dependencies": {},
   "jest": {
@@ -34,9 +31,7 @@
       "<rootDir>/node_modules/",
       "<rootDir>/examples/"
     ],
-    "collectCoverageFrom": [
-      "**/*.js"
-    ],
+    "collectCoverageFrom": ["**/*.js"],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/packages/*/node_modules/",
