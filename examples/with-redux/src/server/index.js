@@ -1,14 +1,13 @@
-import express from 'express';
-import path from 'path';
-import React from 'react';
-import qs from 'qs';
-import serialize from 'serialize-javascript';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
-
-import configureStore from '../common/store/configureStore';
 import App from '../common/containers/App';
+import { Provider } from 'react-redux';
+import React from 'react';
+import configureStore from '../common/store/configureStore';
+import express from 'express';
 import { fetchCounter } from '../common/api/counter';
+import path from 'path';
+import qs from 'qs';
+import { renderToString } from 'react-dom/server';
+import serialize from 'serialize-javascript';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -46,8 +45,11 @@ server
         <meta charSet='utf-8' />
         <title>Razzle Redux Example</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
-        <script src="${assets.client.js}" defer></script>
+        ${!!assets.client.css &&
+          `<link rel="stylesheet" href="${assets.client.css}">`}
+          ${process.env.NODE_ENV === 'production'
+            ? `<script src="${assets.client.js}" defer></script>`
+            : `<script src="${assets.client.js}" defer crossorigin></script>`}
     </head>
     <body>
         <div id="root">${markup}</div>
