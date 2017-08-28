@@ -7,12 +7,13 @@ const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
+const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
-const errorOverlayMiddleware = require('react-error-overlay/middleware');
+const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
@@ -52,7 +53,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: IS_PROD ? 'source-map' : 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
@@ -74,9 +75,31 @@ module.exports = (
       modules: [paths.appNodeModules, paths.ownNodeModules],
     },
     module: {
+      strictExportPresence: true,
       rules: [
         // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
+        // { parser: { requireEnsure: false } },
+        {
+          test: /\.(js|jsx)$/,
+          enforce: 'pre',
+          use: [
+            {
+              options: {
+                formatter: eslintFormatter,
+                eslintPath: require.resolve('eslint'),
+                // @remove-on-eject-begin
+                baseConfig: {
+                  extends: [require.resolve('eslint-config-react-app')],
+                },
+                ignore: false,
+                useEslintrc: false,
+                // @remove-on-eject-end
+              },
+              loader: require.resolve('eslint-loader'),
+            },
+          ],
+          include: paths.appSrc,
+        },
         // Transform ES6 with Babel
         {
           test: /\.js?$/,
@@ -268,7 +291,6 @@ module.exports = (
       config.entry = {
         client: [
           require.resolve('razzle-dev-utils/webpackHotDevClient'),
-          require.resolve('react-error-overlay'),
           paths.appClientIndexJs,
         ],
       };
@@ -279,8 +301,9 @@ module.exports = (
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
         filename: 'static/js/bundle.js',
+        chunkFilename: 'static/js/[name].chunk.js',
         devtoolModuleFilenameTemplate: info =>
-          path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+          path.resolve(info.resourcePath).replace(/\\/g, '/'),
       };
       // Configure webpack-dev-server to serve our client-side bundle from
       // http://${dotenv.raw.HOST}:3001
@@ -305,7 +328,6 @@ module.exports = (
         port: devServerPort,
         quiet: true,
         // By default files from `contentBase` will not trigger a page reload.
-        watchContentBase: true,
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
         watchOptions: {
@@ -314,13 +336,6 @@ module.exports = (
         setup(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
-
-          // This service worker file is effectively a 'no-op' that will reset any
-          // previous service worker registered for the same host:port combination.
-          // We do this in development to avoid hitting the production cache if
-          // it used the same host and port.
-          // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
-          // app.use(noopServiceWorkerMiddleware());
         },
       };
       // Add client-only development plugins
