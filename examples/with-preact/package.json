@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-preact",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.23.0",
-    "razzle": "^0.8.0"
+    "razzle": "^0.8.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-reason-react",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "scripts": {
     "start": "npm run js-watch | npm run bsb-watch",
@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "bs-platform": "^1.9.1",
-    "razzle": "^0.8.0"
+    "razzle": "^0.8.1"
   }
 }

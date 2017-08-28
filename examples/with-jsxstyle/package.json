@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jsxstyle",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,6 +16,6 @@
     "react-router-dom": "^4.1.2"
   },
   "devDependencies": {
-    "razzle": "^0.8.0"
+    "razzle": "^0.8.1"
   }
 }

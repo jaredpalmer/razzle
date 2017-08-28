@@ -1,6 +1,6 @@
 {
   "name": "create-razzle-app",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Create UNIVERSAL React, Preact, and Inferno apps in one command",
   "main": "index.js",
   "license": "MIT",
