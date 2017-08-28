@@ -51,6 +51,7 @@ module.exports = (
     mainEslintOptions.baseConfig = {
       extends: [require.resolve('eslint-config-react-app')],
     };
+    mainEslintOptions.useEslintrc = false;
   }
 
   // Define some useful shorthands.
@@ -276,6 +277,8 @@ module.exports = (
         new webpack.NoEmitOnErrorsPlugin(),
         // Automatically start the server when we are done compiling
         new StartServerPlugin('server.js'),
+        // Ignore assets.json to avoid infinite recompile bug
+        new webpack.WatchIgnorePlugin([paths.appManifest]),
       ];
     }
   }

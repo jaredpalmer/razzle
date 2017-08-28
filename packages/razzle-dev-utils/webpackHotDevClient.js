@@ -26,7 +26,12 @@ var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 ErrorOverlay.startReportingRuntimeErrors({
-  launchEditorEndpoint: launchEditorEndpoint,
+  launchEditorEndpoint: url.format({
+    protocol: window.location.protocol,
+    hostname: window.location.hostname,
+    port: parseInt(process.env.PORT, 10) + 1 || window.location.port,
+    pathname: launchEditorEndpoint,
+  }),
   onError: function() {
     // TODO: why do we need this?
     if (module.hot && typeof module.hot.decline === 'function') {
