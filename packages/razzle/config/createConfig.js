@@ -357,7 +357,7 @@ module.exports = (
       config.output = {
         path: paths.appBuildPublic,
         publicPath: '/',
-        filename: 'static/js/[name].[chunkhash:8].js',
+        filename: 'static/js/bundle.[chunkhash:8].js',
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
       };
 
@@ -383,7 +383,7 @@ module.exports = (
         }),
         // Extract our CSS into a files.
         new ExtractTextPlugin({
-          filename: 'static/css/[name].[contenthash:8].css',
+          filename: 'static/css/bundle.[contenthash:8].css',
         }),
       ];
     }
