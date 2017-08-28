@@ -16,6 +16,5 @@
       "tag: internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
-  },
-  "version": "0.7.6-rc2"
+  }
 }
