@@ -42,6 +42,7 @@ module.exports = {
   appClientIndexJs: resolveApp('src/client'),
   testsSetup: resolveApp('src/setupTests.js'),
   appBabelRc: resolveApp('.babelrc'),
+  appEslintRc: resolveApp('.eslintrc'),
   appRazzleConfig: resolveApp('razzle.config.js'),
   nodePaths: nodePaths,
   ownPath: resolveOwn('.'),

@@ -30,10 +30,27 @@ module.exports = (
     presets: [],
   };
 
+  const hasEslintRc = fs.existsSync(paths.appEslintRc);
+  const mainEslintOptions = {
+    formatter: eslintFormatter,
+    eslintPath: require.resolve('eslint'),
+
+    ignore: false,
+    useEslintrc: true,
+  };
+
   if (hasBabelRc) {
     console.log('Using .babelrc defined in your app root');
   } else {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+  }
+
+  if (hasEslintRc) {
+    console.log('Using .eslintrc defined in your app root');
+  } else {
+    mainEslintOptions.baseConfig = {
+      extends: [require.resolve('eslint-config-react-app')],
+    };
   }
 
   // Define some useful shorthands.
@@ -84,17 +101,7 @@ module.exports = (
           enforce: 'pre',
           use: [
             {
-              options: {
-                formatter: eslintFormatter,
-                eslintPath: require.resolve('eslint'),
-                // @remove-on-eject-begin
-                baseConfig: {
-                  extends: [require.resolve('eslint-config-react-app')],
-                },
-                ignore: false,
-                useEslintrc: false,
-                // @remove-on-eject-end
-              },
+              options: mainEslintOptions,
               loader: require.resolve('eslint-loader'),
             },
           ],

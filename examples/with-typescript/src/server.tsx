@@ -1,8 +1,8 @@
-import * as express from 'express';
-import * as path from 'path';
 import * as React from 'react';
-import { renderToString } from 'react-dom/server';
+import * as express from 'express';
+
 import App from './App';
+import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -21,7 +21,9 @@ server
         <meta charSet='utf-8' />
         <title>Razzle TypeScript</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
+        ${assets.client.css
+          ? `<link rel="stylesheet" href="${assets.client.css}">`
+          : ''}
         <script src="${assets.client.js}" defer></script>
     </head>
     <body>
