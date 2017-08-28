@@ -276,6 +276,8 @@ module.exports = (
         new webpack.NoEmitOnErrorsPlugin(),
         // Automatically start the server when we are done compiling
         new StartServerPlugin('server.js'),
+        // Ignore assets.json to avoid infinite recompile bug
+        new webpack.WatchIgnorePlugin([paths.appManifest]),
       ];
     }
   }
