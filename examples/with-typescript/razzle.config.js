@@ -1,10 +1,5 @@
 'use strict';
 
-const {
-  CheckerPlugin,
-  TsConfigPathsPlugin,
-} = require('awesome-typescript-loader');
-
 module.exports = {
   modify(config, { target, dev }, webpack) {
     config.resolve.extensions = config.resolve.extensions.concat([
@@ -12,13 +7,10 @@ module.exports = {
       '.tsx',
     ]);
 
-    config.devtool = 'cheap-module-source-map';
-
     // Safely locate Babel-Loader in Razzle's webpack internals
     const babelLoader = config.module.rules.findIndex(
       rule => rule.options && rule.options.babelrc
     );
-    console.log(babelLoader);
 
     // Get the correct `include` option, since that hasn't changed.
     // This tells Razzle which directories to transform.
@@ -28,23 +20,36 @@ module.exports = {
     const tsLoader = {
       include,
       test: /\.tsx?$/,
-      use: 'awesome-typescript-loader',
+      loader: 'ts-loader',
+      options: {
+        // this will make errors clickable in `Problems` tab of VSCode
+        visualStudioErrorFormat: true,
+      },
     };
 
-    // Fully replace babel-loader with aweseome-typescript-loader
+    const tslintLoader = {
+      include,
+      enforce: 'pre',
+      test: /\.tsx?$/,
+      loader: 'tslint-loader',
+      options: {
+        emitErrors: true,
+        configFile: './tslint.json',
+      },
+    };
+
+    // Fully replace babel-loader with ts-loader
     config.module.rules[babelLoader] = tsLoader;
+    config.module.rules.push(tslintLoader);
 
     // If you want to use Babel & Typescript together (e.g. if you
     // are migrating incrementally and still need some Babel transforms)
     // then do the following:
     //
-    // - COMMENT out line 35
-    // - UNCOMMENT line 43
+    // - COMMENT out line 42
+    // - UNCOMMENT line 52
     //
     // config.module.rules.push(tsLoader)
-
-    config.plugins.push(new CheckerPlugin());
-    config.plugins.push(new TsConfigPathsPlugin());
 
     return config;
   },

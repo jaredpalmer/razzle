@@ -24,7 +24,7 @@ describe('razzle start', () => {
           if (data.includes('Compiled successfully')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
-              'curl -sb -o "" localhost:3001/static/js/client.js'
+              'curl -sb -o "" localhost:3001/static/js/bundle.js'
             );
             outputTest = devServerOutput.stdout.includes('React');
             kill(child.pid);
