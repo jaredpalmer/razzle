@@ -75,7 +75,6 @@ module.exports = (
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
-      // modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
       modules: ['node_modules', paths.appNodeModules].concat(
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
