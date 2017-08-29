@@ -268,6 +268,13 @@ module.exports = (
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
 
+      const nodeArgs = [];
+
+      // Add --inspect flag when inspect is enabled
+      if (process.env.INSPECT_ENABLED) {
+        nodeArgs.push('--inspect');
+      }
+
       config.plugins = [
         ...config.plugins,
         // Add hot module replacement
@@ -275,7 +282,10 @@ module.exports = (
         // Supress errors to console (we use our own logger)
         new webpack.NoEmitOnErrorsPlugin(),
         // Automatically start the server when we are done compiling
-        new StartServerPlugin('server.js'),
+        new StartServerPlugin({
+          name: 'server.js',
+          nodeArgs,
+        }),
         // Ignore assets.json to avoid infinite recompile bug
         new webpack.WatchIgnorePlugin([paths.appManifest]),
       ];
