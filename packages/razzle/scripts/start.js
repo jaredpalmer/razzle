@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
-const devServer = require('webpack-dev-server');
+const webpackDevServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -49,26 +49,15 @@ if (razzle.modify) {
   );
 }
 
-const serverCompiler = compile(serverConfig);
-
-// Start our server webpack instance in watch mode.
-serverCompiler.watch(
-  {
-    quiet: true,
-    stats: 'none',
-  },
-  stats => {}
-);
-
-// Compile our assets with webpack
-const clientCompiler = compile(clientConfig);
+const compiler = compile([clientConfig, serverConfig]);
 
 // Create a new instance of Webpack-dev-server for our client assets.
 // This will actually run on a different port than the users app.
-const clientDevServer = new devServer(clientCompiler, clientConfig.devServer);
+
+const devServer = new webpackDevServer(compiler, clientConfig.devServer);
 
 // Start Webpack-dev-server
-clientDevServer.listen(
+devServer.listen(
   (process.env.PORT && parseInt(process.env.PORT) + 1) || razzle.port || 3001,
   err => {
     if (err) {
