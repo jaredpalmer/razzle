@@ -7,6 +7,7 @@ const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
+const WriteServerPlugin = require('razzle-dev-utils/WriteServerPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -275,6 +276,11 @@ module.exports = (
         new webpack.HotModuleReplacementPlugin(),
         // Supress errors to console (we use our own logger)
         new webpack.NoEmitOnErrorsPlugin(),
+        // Output server files to build directory (required whilst using devserver)
+        new WriteServerPlugin({
+          assetName: 'server.js',
+          buildDir: paths.appBuild,
+        }),
         // Automatically start the server when we are done compiling
         new StartServerPlugin('server.js'),
         // Ignore assets.json to avoid infinite recompile bug
@@ -307,7 +313,7 @@ module.exports = (
 
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
-        path: paths.appBuildPublic,
+        path: paths.appBuild,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
         filename: 'static/js/bundle.js',

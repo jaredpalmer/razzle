@@ -49,9 +49,15 @@ if (razzle.modify) {
   );
 }
 
-const compiler = compile([clientConfig, serverConfig]);
+let compiler;
+try {
+  compiler = webpack([clientConfig, serverConfig]);
+} catch (e) {
+  printErrors('Failed to compile.', [e]);
+  process.exit(1);
+}
 
-// Create a new instance of Webpack-dev-server for our client assets.
+// Create a new instance of Webpack-dev-server.
 // This will actually run on a different port than the users app.
 
 const devServer = new webpackDevServer(compiler, clientConfig.devServer);
@@ -65,15 +71,3 @@ devServer.listen(
     }
   }
 );
-
-// Webpack compile in a try-catch
-function compile(config) {
-  let compiler;
-  try {
-    compiler = webpack(config);
-  } catch (e) {
-    printErrors('Failed to compile.', [e]);
-    process.exit(1);
-  }
-  return compiler;
-}
