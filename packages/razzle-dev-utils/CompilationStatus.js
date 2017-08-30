@@ -1,7 +1,6 @@
 const { Component, Text, h, render } = require('ink');
 const Spinner = require('ink-spinner');
-const { default: Console } = require('ink-console');
-const LogCatcher = require('./LogCatcher');
+const { default: Console, LogCatcher } = require('ink-console');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 const logCatcher = new LogCatcher();

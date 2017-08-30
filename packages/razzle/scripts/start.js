@@ -10,10 +10,11 @@ const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const CompilationStatus = require('razzle-dev-utils/CompilationStatus');
+const cluster = require('cluster');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
-clearConsole();
+// clearConsole();
 
 let razzle = {};
 
@@ -54,6 +55,23 @@ try {
   printErrors('Failed to compile.', [e]);
   process.exit(1);
 }
+
+// This will listen to any console events send by the compiled server and redirect to them to ours
+const workers = new Map();
+// multiCompiler.plugin('done', () => {
+cluster.on('online', () => {
+  for (const worker in cluster.workers) {
+    // check if we didn't already hook this worker yet
+    if (!workers.has(worker)) {
+      workers.set(worker, null);
+      cluster.workers[worker].on('message', message => {
+        if (message.cmd === 'console') {
+          console[message.type](...message.args);
+        }
+      });
+    }
+  }
+});
 
 // Create a new instance of Webpack-dev-server.
 // This will actually run on a different port than the users app.

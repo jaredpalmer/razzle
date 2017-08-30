@@ -269,6 +269,7 @@ module.exports = (
       // Use watch mode
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
+      config.entry.unshift(require.resolve('razzle-dev-utils/hijackConsole'));
 
       config.plugins = [
         ...config.plugins,
