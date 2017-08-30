@@ -9,13 +9,12 @@ const webpackDevServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
+const CompilationStatus = require('razzle-dev-utils/CompilationStatus');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
-// Optimistically, we make the console look exactly like the output of our
-// FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
-// clearConsole();
-logger.start('Compiling...');
+clearConsole();
+
 let razzle = {};
 
 // Check for razzle.config.js file
@@ -23,7 +22,6 @@ if (fs.existsSync(paths.appRazzleConfig)) {
   try {
     razzle = require(paths.appRazzleConfig);
   } catch (e) {
-    clearConsole();
     logger.error('Invalid razzle.config.js file.', e);
     process.exit(1);
   }
@@ -49,9 +47,9 @@ if (razzle.modify) {
   );
 }
 
-let compiler;
+let multiCompiler;
 try {
-  compiler = webpack([clientConfig, serverConfig]);
+  multiCompiler = webpack([clientConfig, serverConfig]);
 } catch (e) {
   printErrors('Failed to compile.', [e]);
   process.exit(1);
@@ -60,7 +58,7 @@ try {
 // Create a new instance of Webpack-dev-server.
 // This will actually run on a different port than the users app.
 
-const devServer = new webpackDevServer(compiler, clientConfig.devServer);
+const devServer = new webpackDevServer(multiCompiler, clientConfig.devServer);
 
 // Start Webpack-dev-server
 devServer.listen(
@@ -71,3 +69,6 @@ devServer.listen(
     }
   }
 );
+
+// Start rendering compilation status component
+CompilationStatus.startRender(multiCompiler.compilers);
