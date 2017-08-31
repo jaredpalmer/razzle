@@ -14,6 +14,10 @@ const cluster = require('cluster');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
+if (process.argv.includes('--inspect')) {
+  process.env.INSPECT_ENABLED = true;
+}
+
 // clearConsole();
 
 let razzle = {};

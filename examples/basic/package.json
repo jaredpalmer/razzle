@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-basic",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,6 +14,6 @@
     "react-dom": "15.5.4"
   },
   "devDependencies": {
-    "razzle": "^0.8.1"
+    "razzle": "^0.8.2"
   }
 }

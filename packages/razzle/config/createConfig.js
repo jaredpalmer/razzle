@@ -76,7 +76,6 @@ module.exports = (
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
-      // modules: ['node_modules', paths.appNodeModules].concat(paths.nodePaths),
       modules: ['node_modules', paths.appNodeModules].concat(
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
@@ -271,6 +270,13 @@ module.exports = (
       config.entry.unshift('webpack/hot/poll?300');
       config.entry.unshift(require.resolve('razzle-dev-utils/hijackConsole'));
 
+      const nodeArgs = [];
+
+      // Add --inspect flag when inspect is enabled
+      if (process.env.INSPECT_ENABLED) {
+        nodeArgs.push('--inspect');
+      }
+
       config.plugins = [
         ...config.plugins,
         // Add hot module replacement
@@ -283,7 +289,10 @@ module.exports = (
           buildDir: paths.appBuild,
         }),
         // Automatically start the server when we are done compiling
-        new StartServerPlugin('server.js'),
+        new StartServerPlugin({
+          name: 'server.js',
+          nodeArgs,
+        }),
         // Ignore assets.json to avoid infinite recompile bug
         new webpack.WatchIgnorePlugin([paths.appManifest]),
       ];
