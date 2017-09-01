@@ -9,13 +9,13 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "react": "15.5.4",
-    "react-dom": "15.5.4"
+    "express": "^4.15.4",
+    "react": "15.6.1",
+    "react-dom": "15.6.1"
   },
   "devDependencies": {
     "node-sass": "^4.5.3",
-    "razzle": "^0.7.3",
+    "razzle": "^0.8.2",
     "sass-loader": "^6.0.6"
   }
 }
