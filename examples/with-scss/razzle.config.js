@@ -44,7 +44,7 @@ module.exports = {
           },
         },
         postCssLoader,
-        'fast-sass-loader',
+        'sass-loader',
       ]
       // For production, extract CSS
       : ExtractTextPlugin.extract({
@@ -57,7 +57,7 @@ module.exports = {
             },
           },
           postCssLoader,
-          'fast-sass-loader',
+          'sass-loader',
         ],
       })
     })

@@ -14,8 +14,8 @@
     "react-dom": "15.5.4"
   },
   "devDependencies": {
-    "fast-sass-loader": "^1.2.5",
     "node-sass": "^4.5.3",
-    "razzle": "^0.7.3"
+    "razzle": "^0.7.3",
+    "sass-loader": "^6.0.6"
   }
 }
