@@ -55,6 +55,10 @@ You can again view your application at `http://localhost:3000`
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
 
+### `npm start -- --inspect` or `yarn start -- --inspect`
+
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
