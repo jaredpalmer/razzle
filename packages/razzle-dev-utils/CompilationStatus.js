@@ -12,7 +12,6 @@ class CompilationStatus extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.console = null;
     this.state = {
       web: {
         compiling: true,
@@ -39,9 +38,6 @@ class CompilationStatus extends Component {
       h(Console, {
         lines: 20,
         logCatcher: logCatcher,
-        ref: console => {
-          this.console = console;
-        },
       })
     );
   }
