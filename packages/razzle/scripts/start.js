@@ -9,7 +9,6 @@ const webpackDevServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
-const CompilationStatus = require('razzle-dev-utils/CompilationStatus');
 const cluster = require('cluster');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
@@ -91,5 +90,7 @@ devServer.listen(
   }
 );
 
-// Start rendering compilation status component
+// We only start requiring CompilationStatus here, because it will start redirecting console output once it's required.
+// We only want this to happen after webpack & the devserver have successfully booted up.
+const CompilationStatus = require('razzle-dev-utils/CompilationStatus');
 CompilationStatus.startRender(multiCompiler.compilers);

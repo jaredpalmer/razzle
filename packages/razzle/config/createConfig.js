@@ -285,7 +285,6 @@ module.exports = (
         new webpack.NoEmitOnErrorsPlugin(),
         // Output server files to build directory (required whilst using devserver)
         new WriteServerPlugin({
-          assetName: 'server.js',
           buildDir: paths.appBuild,
         }),
         // Automatically start the server when we are done compiling

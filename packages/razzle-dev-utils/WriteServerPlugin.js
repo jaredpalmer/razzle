@@ -8,22 +8,25 @@ const path = require('path');
 
 class WriteServerPlugin {
   constructor(options) {
-    this.assetName = options.assetName;
-    this.buildDir = options.buildDir; // todo get this from config instead? (but how?)
+    this.buildDir = options.buildDir;
   }
 
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
-      if (this.assetName in compilation.assets) {
-        fs.writeFile(
-          path.join(this.buildDir, this.assetName),
-          compilation.assets[this.assetName].source(),
-          err => callback(err)
-        );
-        // todo: map file???
-      } else {
-        callback();
-      }
+      const promises = Object.keys(compilation.assets).map(
+        asset =>
+          new Promise((resolve, reject) =>
+            fs.writeFile(
+              path.join(this.buildDir, asset),
+              compilation.assets[asset].source(),
+              err => (err ? reject(err) : resolve())
+            )
+          )
+      );
+
+      Promise.all(promises)
+        .then(() => callback(null))
+        .catch(err => callback(err));
     });
   }
 }
