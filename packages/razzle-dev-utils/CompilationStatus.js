@@ -12,6 +12,7 @@ class CompilationStatus extends Component {
 
   constructor(props, context) {
     super(props, context);
+    this.console = null;
     this.state = {
       web: {
         compiling: true,
@@ -35,7 +36,13 @@ class CompilationStatus extends Component {
       ' Server',
       h('br'),
       h('br'),
-      h(Console, { lines: 20, logCatcher: logCatcher })
+      h(Console, {
+        lines: 20,
+        logCatcher: logCatcher,
+        ref: console => {
+          this.console = console;
+        },
+      })
     );
   }
 
@@ -75,6 +82,15 @@ class CompilationStatus extends Component {
   }
 
   invalidate(target) {
+    // super hacky method to clear console.
+    // perhaps file a PR to ink-console at some point?
+    if (logCatcher && !process.env.VERBOSE) {
+      logCatcher._log = [];
+      for (const value of logCatcher._handlers) {
+        value();
+      }
+    }
+
     this.setState({
       [target]: {
         compiling: true,

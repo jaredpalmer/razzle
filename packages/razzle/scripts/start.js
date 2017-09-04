@@ -62,7 +62,6 @@ try {
 
 // This will listen to any console events send by the compiled server and redirect to them to ours
 const workers = new Map();
-// multiCompiler.plugin('done', () => {
 cluster.on('online', () => {
   for (const worker in cluster.workers) {
     // check if we didn't already hook this worker yet
