@@ -421,8 +421,10 @@ module.exports = (
       new FriendlyErrorsPlugin({
         verbose: dotenv.raw.VERBOSE,
         target,
-        onSuccessMessage: `Your application is running at http://${dotenv.raw
-          .HOST}:${dotenv.raw.PORT}`,
+        onSuccessMessage: IS_NODE
+          ? `Your application is running at http://${dotenv.raw.HOST}:${dotenv
+              .raw.PORT}`
+          : null,
       }),
     ];
   }
