@@ -42,11 +42,12 @@ module.exports = (resolve, rootDir) => {
     'coverageThreshold',
     'moduleFileExtensions',
     'moduleNameMapper',
+    'modulePaths',
     'snapshotSerializers',
     'testMatch',
+    'testResultsProcessor',
     'transform',
     'transformIgnorePatterns',
-    'testResultsProcessor',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
