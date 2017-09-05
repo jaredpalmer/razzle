@@ -38,7 +38,7 @@ class CompilationStatus extends Component {
       h('br'),
       h('br'),
       h(Console, {
-        lines: 20,
+        lines: 15,
         logCatcher: logCatcher,
       })
     );
