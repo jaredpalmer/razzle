@@ -15,11 +15,13 @@ class CompilationStatus extends Component {
     this.state = {
       web: {
         compiling: true,
-        valid: false,
+        hasErrors: false,
+        hasWarnings: false,
       },
       node: {
         compiling: true,
-        valid: false,
+        hasErrors: false,
+        hasWarnings: false,
       },
     };
   }
@@ -57,22 +59,35 @@ class CompilationStatus extends Component {
   getIndicator(target) {
     if (this.state[target].compiling) {
       return h(Spinner, { yellow: true });
-    } else if (!this.state[target].valid) {
+    } else if (this.state[target].hasErrors) {
       return h(Text, { red: true }, '✘');
     } else {
-      return h(Text, { green: true }, '✔︎');
+      return h(
+        Text,
+        !this.state[target].hasWarnings ? { green: true } : { yellow: true },
+        '✔︎'
+      );
     }
   }
 
   done(target, stats) {
     const rawMessages = stats.toJson({}, true);
     const messages = formatWebpackMessages(rawMessages);
-    const valid = !messages.errors.length && !messages.warnings.length; // todo warning indicator?
+    const hasErrors =
+      messages.errors.length &&
+      !(
+        rawMessages.errors &&
+        rawMessages.errors.length > 0 &&
+        (rawMessages.errors[0].includes('assets.json') ||
+          rawMessages.errors[0].includes("Module not found: Can't resolve"))
+      );
+    const hasWarnings = !!messages.warnings.length;
 
     this.setState({
       [target]: {
         compiling: false,
-        valid,
+        hasErrors,
+        hasWarnings,
       },
     });
   }

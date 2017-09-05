@@ -49,7 +49,7 @@ class WebpackErrorsPlugin {
 
       if (messages.warnings.length) {
         logger.warn(
-          `Failed to compile with ${messages.warnings.length} warnings`
+          `Compiled ${this.target} with ${messages.warnings.length} warnings`
         );
         messages.warnings.forEach(w => logger.log(w));
       }

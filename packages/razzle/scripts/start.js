@@ -17,7 +17,7 @@ if (process.argv.includes('--inspect')) {
   process.env.INSPECT_ENABLED = true;
 }
 
-// clearConsole();
+clearConsole();
 
 let razzle = {};
 
