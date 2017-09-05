@@ -71,7 +71,8 @@ connection.onclose = function() {
 
 // Remember some state related to hot module replacement.
 var isFirstCompilation = true;
-var mostRecentCompilationHash = null;
+var mostRecentClientCompilationHash = null;
+var mostRecentServerCompilationHash = null;
 var hasCompileErrors = false;
 
 function clearOutdatedErrors() {
@@ -175,8 +176,18 @@ function handleErrors(errors) {
 
 // There is a newer version of the code available.
 function handleAvailableHash(hash) {
+  // clear any build errors if the server hash changed
+  if (
+    hasCompileErrors &&
+    mostRecentServerCompilationHash !== hash.substring(20)
+  ) {
+    ErrorOverlay.dismissBuildError();
+  }
+
   // Update last known compilation hash.
-  mostRecentCompilationHash = hash;
+  // We only look at the first 20 characters because that's the part of the hash that consists of the client.
+  mostRecentClientCompilationHash = hash.substring(0, 20);
+  mostRecentServerCompilationHash = hash.substring(20);
 }
 
 // Handle messages from the server.
@@ -210,7 +221,7 @@ function isUpdateAvailable() {
   /* globals __webpack_hash__ */
   // __webpack_hash__ is the hash of the current compilation.
   // It's a global variable injected by Webpack.
-  return mostRecentCompilationHash !== __webpack_hash__;
+  return mostRecentClientCompilationHash !== __webpack_hash__;
 }
 
 // Webpack disallows updates in other states.
