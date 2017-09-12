@@ -109,7 +109,7 @@ module.exports = (
         },
         // Transform ES6 with Babel
         {
-          test: /\.js?$/,
+          test: /\.(js|jsx)$/,
           loader: require.resolve('babel-loader'),
           include: [paths.appSrc],
           options: mainBabelOptions,
