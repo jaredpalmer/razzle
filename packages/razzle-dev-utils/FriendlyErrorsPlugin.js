@@ -1,7 +1,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const clearConsole = require('react-dev-utils/clearConsole');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const logger = require('./logger');
 
@@ -23,19 +22,10 @@ class WebpackErrorsPlugin {
     compiler.plugin('done', stats => {
       const rawMessages = stats.toJson({}, true);
       const messages = formatWebpackMessages(rawMessages);
-      WEBPACK_COMPILING = false;
       if (!messages.errors.length && !messages.warnings.length) {
-        if (!WEBPACK_DONE) {
-          if (!this.verbose) {
-            clearConsole();
-          }
-          logger.done('Compiled successfully');
-          WEBPACK_DONE = true;
-
-          if (this.onSuccessMessage) {
-            logger.log(this.onSuccessMessage);
-            logger.log('');
-          }
+        if (this.onSuccessMessage) {
+          logger.log(this.onSuccessMessage);
+          logger.log('');
         }
       }
 
@@ -55,25 +45,13 @@ class WebpackErrorsPlugin {
             e
           );
         });
-        // return;
       }
 
       if (messages.warnings.length) {
         logger.warn(
-          `Failed to compile with ${messages.warnings.length} warnings`
+          `Compiled ${this.target} with ${messages.warnings.length} warnings`
         );
         messages.warnings.forEach(w => logger.log(w));
-      }
-    });
-
-    compiler.plugin('invalid', params => {
-      WEBPACK_DONE = false;
-      if (!WEBPACK_COMPILING) {
-        if (!this.verbose) {
-          clearConsole();
-        }
-        logger.start('Compiling...');
-        WEBPACK_COMPILING = true;
       }
     });
   }
