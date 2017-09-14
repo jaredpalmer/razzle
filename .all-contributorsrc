@@ -8,6 +8,23 @@
   "commit": true,
   "contributors": [
     {
+      "login": "jaredpalmer",
+      "name": "Jared Palmer",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4060187?v=4",
+      "profile": "http://jaredpalmer.com",
+      "contributions": [
+        "question",
+        "code",
+        "design",
+        "doc",
+        "example",
+        "ideas",
+        "review",
+        "test",
+        "tool"
+      ]
+    },
+    {
       "login": "jariz",
       "name": "Jari Zwarts",
       "avatar_url": "https://avatars3.githubusercontent.com/u/1415847?v=4",
