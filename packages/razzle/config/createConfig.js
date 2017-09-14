@@ -71,7 +71,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: IS_PROD ? 'source-map' : 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
