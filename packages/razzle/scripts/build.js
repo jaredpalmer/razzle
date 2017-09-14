@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+'use strict';
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.NODE_ENV = 'production';
 
@@ -15,7 +16,6 @@ require('../config/env');
 const webpack = require('webpack');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const path = require('path');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
@@ -74,7 +74,9 @@ function build(previousFileSizes) {
   let razzle = {};
   try {
     razzle = require(paths.appRazzleConfig);
+    /* eslint-disable no-empty */
   } catch (e) {}
+  /* eslint-enable */
 
   if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
     logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
@@ -122,20 +124,20 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
       if (clientMessages.errors.length) {
         return reject(new Error(clientMessages.errors.join('\n\n')));
       }
-      if (
-        process.env.CI &&
-        (typeof process.env.CI !== 'string' ||
-          process.env.CI.toLowerCase() !== 'false') &&
-        clientMessages.warnings.length
-      ) {
-        console.log(
-          chalk.yellow(
-            '\nTreating warnings as errors because process.env.CI = true.\n' +
-              'Most CI servers set it automatically.\n'
-          )
-        );
-        return reject(new Error(clientMessages.warnings.join('\n\n')));
-      }
+      // if (
+      //   process.env.CI &&
+      //   (typeof process.env.CI !== 'string' ||
+      //     process.env.CI.toLowerCase() !== 'false') &&
+      //   clientMessages.warnings.length
+      // ) {
+      //   console.log(
+      //     chalk.yellow(
+      //       '\nTreating warnings as errors because process.env.CI = true.\n' +
+      //         'Most CI servers set it automatically.\n'
+      //     )
+      //   );
+      //   return reject(new Error(clientMessages.warnings.join('\n\n')));
+      // }
 
       console.log(chalk.green('Compiled client successfully.'));
       console.log('Compiling server...');
@@ -149,20 +151,20 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
         if (serverMessages.errors.length) {
           return reject(new Error(serverMessages.errors.join('\n\n')));
         }
-        if (
-          process.env.CI &&
-          (typeof process.env.CI !== 'string' ||
-            process.env.CI.toLowerCase() !== 'false') &&
-          serverMessages.warnings.length
-        ) {
-          console.log(
-            chalk.yellow(
-              '\nTreating warnings as errors because process.env.CI = true.\n' +
-                'Most CI servers set it automatically.\n'
-            )
-          );
-          return reject(new Error(serverMessages.warnings.join('\n\n')));
-        }
+        // if (
+        //   process.env.CI &&
+        //   (typeof process.env.CI !== 'string' ||
+        //     process.env.CI.toLowerCase() !== 'false') &&
+        //   serverMessages.warnings.length
+        // ) {
+        //   console.log(
+        //     chalk.yellow(
+        //       '\nTreating warnings as errors because process.env.CI = true.\n' +
+        //         'Most CI servers set it automatically.\n'
+        //     )
+        //   );
+        //   return reject(new Error(serverMessages.warnings.join('\n\n')));
+        // }
         console.log(chalk.green('Compiled server successfully.'));
         return resolve({
           stats: clientStats,
