@@ -1,3 +1,5 @@
+'use strict';
+
 const psTree = require('ps-tree');
 
 // Loops through processes and kills them

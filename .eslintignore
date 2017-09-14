@@ -1,0 +1,6 @@
+node_modules/
+build
+my-app*
+test/fixtures
+test/tests
+packages/create-razzle-app/templates

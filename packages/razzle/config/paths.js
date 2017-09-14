@@ -9,17 +9,6 @@ const nodePaths = (process.env.NODE_PATH || '')
   .filter(folder => !path.isAbsolute(folder))
   .map(resolveApp);
 
-function ensureSlash(path, needsSlash) {
-  const hasSlash = path.endsWith('/');
-  if (hasSlash && !needsSlash) {
-    return path.substr(path, path.length - 1);
-  } else if (!hasSlash && needsSlash) {
-    return `${path}/`;
-  } else {
-    return path;
-  }
-}
-
 function resolveApp(relativePath) {
   return path.resolve(fs.realpathSync(process.cwd()), relativePath);
 }

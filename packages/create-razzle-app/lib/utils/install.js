@@ -35,7 +35,7 @@ module.exports = function install(opts) {
         output.success(`Installed dependencies for ${projectName}`);
         resolve();
       })
-      .catch(function(err) {
+      .catch(function() {
         stopInstallSpinner();
         console.log(messages.installError(packages));
         return reject(new Error(`${installCmd} installation failed`));

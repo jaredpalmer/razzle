@@ -1,9 +1,7 @@
 'use strict';
 
-const spawn = require('cross-spawn');
 const exec = require('execa');
 const Promise = require('promise');
-const messages = require('../messages');
 const output = require('./output');
 
 module.exports = function loadExample(opts) {

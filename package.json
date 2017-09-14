@@ -1,7 +1,9 @@
 {
+  "private": true,
   "bugs": "https://github.com/jaredpalmer/razzle/issues",
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
   "devDependencies": {
+    "eslint": "^4.6.1",
     "husky": "^0.13.4",
     "jest": "19.0.2",
     "lerna": "^2.0.0-rc.5",
@@ -18,14 +20,13 @@
     "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
     "postinstall": "npm run clean && npm run bootstrap",
     "changelog": "lerna-changelog",
-    "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+    "format":
+      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --trailing-comma es5 --single-quote --write",
-      "git add"
-    ]
+    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"],
+    "yarn.lock": ["git rm --cached"]
   },
   "dependencies": {},
   "jest": {
@@ -34,9 +35,7 @@
       "<rootDir>/node_modules/",
       "<rootDir>/examples/"
     ],
-    "collectCoverageFrom": [
-      "**/*.js"
-    ],
+    "collectCoverageFrom": ["**/*.js"],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/packages/*/node_modules/",

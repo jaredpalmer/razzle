@@ -1,6 +1,7 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
-const output = require('./utils/output');
 const copyDir = require('./utils/copy-dir');
 const install = require('./utils/install');
 const loadExample = require('./utils/load-example');
