@@ -124,20 +124,20 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
       if (clientMessages.errors.length) {
         return reject(new Error(clientMessages.errors.join('\n\n')));
       }
-      // if (
-      //   process.env.CI &&
-      //   (typeof process.env.CI !== 'string' ||
-      //     process.env.CI.toLowerCase() !== 'false') &&
-      //   clientMessages.warnings.length
-      // ) {
-      //   console.log(
-      //     chalk.yellow(
-      //       '\nTreating warnings as errors because process.env.CI = true.\n' +
-      //         'Most CI servers set it automatically.\n'
-      //     )
-      //   );
-      //   return reject(new Error(clientMessages.warnings.join('\n\n')));
-      // }
+      if (
+        process.env.CI &&
+        (typeof process.env.CI !== 'string' ||
+          process.env.CI.toLowerCase() !== 'false') &&
+        clientMessages.warnings.length
+      ) {
+        console.log(
+          chalk.yellow(
+            '\nTreating warnings as errors because process.env.CI = true.\n' +
+              'Most CI servers set it automatically.\n'
+          )
+        );
+        return reject(new Error(clientMessages.warnings.join('\n\n')));
+      }
 
       console.log(chalk.green('Compiled client successfully.'));
       console.log('Compiling server...');
@@ -151,20 +151,20 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
         if (serverMessages.errors.length) {
           return reject(new Error(serverMessages.errors.join('\n\n')));
         }
-        // if (
-        //   process.env.CI &&
-        //   (typeof process.env.CI !== 'string' ||
-        //     process.env.CI.toLowerCase() !== 'false') &&
-        //   serverMessages.warnings.length
-        // ) {
-        //   console.log(
-        //     chalk.yellow(
-        //       '\nTreating warnings as errors because process.env.CI = true.\n' +
-        //         'Most CI servers set it automatically.\n'
-        //     )
-        //   );
-        //   return reject(new Error(serverMessages.warnings.join('\n\n')));
-        // }
+        if (
+          process.env.CI &&
+          (typeof process.env.CI !== 'string' ||
+            process.env.CI.toLowerCase() !== 'false') &&
+          serverMessages.warnings.length
+        ) {
+          console.log(
+            chalk.yellow(
+              '\nTreating warnings as errors because process.env.CI = true.\n' +
+                'Most CI servers set it automatically.\n'
+            )
+          );
+          return reject(new Error(serverMessages.warnings.join('\n\n')));
+        }
         console.log(chalk.green('Compiled server successfully.'));
         return resolve({
           stats: clientStats,

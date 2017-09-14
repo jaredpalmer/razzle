@@ -1,5 +1,7 @@
 {
   "scripts": {
     "build": "razzle build"
-  }
+  },
+  "name": "build-with-babelrc",
+  "license": "MIT"
 }
