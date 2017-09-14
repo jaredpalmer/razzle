@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+'use strict';
 
 process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
@@ -61,6 +62,7 @@ serverCompiler.watch(
     quiet: true,
     stats: 'none',
   },
+  /* eslint-disable no-unused-vars */
   stats => {}
 );
 
