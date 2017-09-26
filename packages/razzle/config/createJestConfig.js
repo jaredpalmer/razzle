@@ -44,6 +44,7 @@ module.exports = (resolve, rootDir) => {
     'moduleNameMapper',
     'modulePaths',
     'snapshotSerializers',
+    'setupFiles',
     'testMatch',
     'testResultsProcessor',
     'transform',
