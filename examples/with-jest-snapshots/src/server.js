@@ -1,6 +1,6 @@
-import { StaticRouter, matchPath } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom';
 
-import App from '../App';
+import App from './App';
 import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
