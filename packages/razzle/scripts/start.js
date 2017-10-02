@@ -34,6 +34,9 @@ if (fs.existsSync(paths.appRazzleConfig)) {
   }
 }
 
+// Delete assets.json to always have a manifest up to date
+fs.removeSync(paths.appManifest);
+
 // Create dev configs using our config factory, passing in razzle file as
 // options.
 let clientConfig = createConfig('web', 'dev', razzle);
