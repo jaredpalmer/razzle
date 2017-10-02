@@ -9,7 +9,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
-- Works with [React](https://github.com/facebook/react), **[Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react)**, [Preact](https://github.com/developit/preact), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/),  [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
@@ -54,6 +54,32 @@ You can again view your application at `http://localhost:3000`
 
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
+
+### `npm start -- --inspect` or `yarn start -- --inspect`
+
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+
+---
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Customization](#customization)
+  - [Extending Babel Config](#extending-babel-config)
+  - [Extending Webpack](#extending-webpack)
+  - [Environment Variables](#environment-variables)
+  - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+    - [Windows (cmd.exe)](#windows-cmdexe)
+    - [Linux, macOS (Bash)](#linux-macos-bash)
+  - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+    - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+- [Inspiration](#inspiration)
+    - [Author](#author)
+- [Contributors](#contributors)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Customization
 
@@ -177,9 +203,19 @@ In development mode (`razzle start`), Razzle bundles both your client and server
 - [zeit/next.js](https://github.com/zeit/next.js)
 
 
----
 #### Author
 - [Jared Palmer](https://twitter.com/jaredpalmer)
 
 ---
 MIT License
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub>Jared Palmer</sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub>Jari Zwarts</sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub>Dan Abramov</sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub>Eric Clemmons</sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") |
+| :---: | :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

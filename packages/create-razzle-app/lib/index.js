@@ -52,7 +52,14 @@ function installWithMessageFactory(opts, isExample = false) {
       projectPath: projectPath,
       packages: isExample
         ? ['razzle']
-        : ['react', 'react-dom', 'react-router-dom', 'razzle', 'express'],
+        : [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'razzle',
+            'express',
+            'raf',
+          ],
     })
       .then(function() {
         console.log(messages.start(projectName));
