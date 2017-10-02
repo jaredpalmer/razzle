@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "react": "15.5.4",
-    "react-dom": "15.5.4"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "raf": "^3.3.2",
     "razzle": "^0.8.3"
   }
 }

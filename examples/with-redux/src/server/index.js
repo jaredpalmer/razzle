@@ -4,7 +4,6 @@ import React from 'react';
 import configureStore from '../common/store/configureStore';
 import express from 'express';
 import { fetchCounter } from '../common/api/counter';
-import path from 'path';
 import qs from 'qs';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';

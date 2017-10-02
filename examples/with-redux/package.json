@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.6.0",
     "qs": "^6.4.0",
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",

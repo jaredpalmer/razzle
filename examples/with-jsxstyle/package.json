@@ -11,11 +11,12 @@
   "dependencies": {
     "express": "^4.15.2",
     "jsxstyle": "next",
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
-    "react-router-dom": "^4.1.2"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
+    "raf": "^3.3.2",
     "razzle": "^0.8.3"
   }
 }
