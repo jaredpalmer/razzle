@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-elm",
-  "version": "0.1.0",
+  "version": "0.8.4",
   "license": "MIT",
   "scripts": {
     "postinstall": "elm-package install -y",
@@ -10,12 +10,12 @@
     "start:prod": "set NODE_ENV=production&&node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.4",
-    "elm-static-html-lib": "^0.0.8-alpha.2"
+    "elm-static-html-lib": "^0.0.8-alpha.2",
+    "express": "^4.15.4"
   },
   "devDependencies": {
-    "elm-webpack-loader": "^4.3.1",
     "elm-hot-loader": "^0.5.4",
-    "razzle": "^0.8.3"
+    "elm-webpack-loader": "^4.3.1",
+    "razzle": "^0.8.4"
   }
 }

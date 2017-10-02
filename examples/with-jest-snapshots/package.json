@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jest",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^0.8.3",
+    "razzle": "^0.8.4",
     "react-test-renderer": "^16.0.0"
   }
 }
