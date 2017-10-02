@@ -21,7 +21,8 @@
     "postinstall": "npm run clean && npm run bootstrap",
     "changelog": "lerna-changelog",
     "format":
-      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'"
+      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"],
