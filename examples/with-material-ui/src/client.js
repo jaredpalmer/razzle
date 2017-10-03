@@ -1,0 +1,23 @@
+import React from 'react';
+import { hydrate } from 'react-dom';
+import theme from './theme';
+import { MuiThemeProvider } from 'material-ui/styles';
+import App from './App';
+
+const sheetsManager = new WeakMap();
+
+hydrate(
+  <MuiThemeProvider sheetsManager={sheetsManager} theme={theme}>
+    <App />
+  </MuiThemeProvider>,
+  document.getElementById('root'),
+  () => {
+    const jssStyles = document.getElementById('jss-ssr');
+    if (jssStyles && jssStyles.parentNode)
+      jssStyles.parentNode.removeChild(jssStyles);
+  }
+);
+
+if (module.hot) {
+  module.hot.accept();
+}
