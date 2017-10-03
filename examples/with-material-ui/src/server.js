@@ -16,7 +16,9 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
+    // This is needed in order to deduplicate the injection of CSS in the page.
     const sheetsManager = new WeakMap();
+    // This is needed in order to inject the critical CSS.
     const sheetsRegistry = new SheetsRegistry();
     const markup = renderToString(
       <JssProvider registry={sheetsRegistry} jss={jss}>
