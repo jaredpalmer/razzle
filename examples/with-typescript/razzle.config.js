@@ -23,7 +23,7 @@ module.exports = {
       loader: 'ts-loader',
       options: {
         // this will make errors clickable in `Problems` tab of VSCode
-        visualStudioErrorFormat: true,
+        visualStudioErrorFormat: false,
       },
     };
 

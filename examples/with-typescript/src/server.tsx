@@ -4,13 +4,13 @@ import * as express from 'express';
 import App from './App';
 import { renderToString } from 'react-dom/server';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST as string);
 
 const server = express();
 
 server
   .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR as string))
   .get('/*', (req: express.Request, res: express.Response) => {
     const markup = renderToString(<App />);
     res.send(

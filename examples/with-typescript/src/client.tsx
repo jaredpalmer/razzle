@@ -3,16 +3,8 @@ import * as ReactDOM from 'react-dom';
 
 import App from './App';
 
-const render = (Comp: any) => {
-  ReactDOM.render(<Comp />, document.getElementById('root'));
-};
-
-render(App);
+ReactDOM.hydrate(<App />, document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept();
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default;
-    render(NextApp);
-  });
 }
