@@ -92,10 +92,14 @@ Razzle comes with most of ES6 stuff you need. However, if you want to add your o
   "presets": [
     "razzle/babel", // NEEDED
     "stage-0"
+   ],
+   "plugins": [
+     // additional plugins
    ]
 }
 ```
-A word of advice: `.babelrc` file will replace the internal razzle's babelrc template. You must include very minimum the default razzle/babel presets.
+
+A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
 
 ### Extending Webpack
 
