@@ -83,18 +83,19 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 ## Customization
 
-### Extending Babel Config
+### Customizing Babel Config
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project. 
 
 ```json
 {
   "presets": [
-    "razzle/babel",
+    "razzle/babel", // NEEDED
     "stage-0"
    ]
 }
 ```
+A word of advice: `.babelrc` file will replace the internal razzle's babelrc template. You must include very minimum the default razzle/babel presets.
 
 ### Extending Webpack
 
