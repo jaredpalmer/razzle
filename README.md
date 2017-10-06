@@ -87,7 +87,7 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project. 
 
-```json
+```js
 {
   "presets": [
     "razzle/babel", // NEEDED
