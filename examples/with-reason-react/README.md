@@ -17,7 +17,7 @@ Install it and run:
 
 ```bash
 yarn install
-yarn dev
+yarn start
 ```
 #### NOTE: This example takes a while to install. Stick with it.
 
