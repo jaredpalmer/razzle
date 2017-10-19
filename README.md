@@ -127,7 +127,7 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 
 ### Environment Variables 
 
-**The environment variables are embedded during the build time.** Since Razzle produces a static HTML/CSS/JS bundle and an equivalent static bundle for your server, it cannot possibly read them at runtime. 
+**The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
