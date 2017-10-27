@@ -83,18 +83,23 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 ## Customization
 
-### Extending Babel Config
+### Customizing Babel Config
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project. 
 
-```json
+```js
 {
   "presets": [
-    "razzle/babel",
+    "razzle/babel", // NEEDED
     "stage-0"
+   ],
+   "plugins": [
+     // additional plugins
    ]
 }
 ```
+
+A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
 
 ### Extending Webpack
 
@@ -127,7 +132,7 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 
 ### Environment Variables 
 
-**The environment variables are embedded during the build time.** Since Razzle produces a static HTML/CSS/JS bundle and an equivalent static bundle for your server, it cannot possibly read them at runtime. 
+**The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
