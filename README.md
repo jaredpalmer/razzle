@@ -16,6 +16,8 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 ## Quick Start
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/)
+
 ```bash
 npm install -g create-razzle-app
 
