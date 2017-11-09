@@ -13,6 +13,7 @@ module.exports = {
       loader: 'postcss-loader',
       options: {
         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+        sourceMap: dev,
         plugins: () => [
           autoprefixer({
             browsers: [
@@ -42,7 +43,12 @@ module.exports = {
           },
         },
         postCssLoader,
-        'sass-loader',
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true
+          }
+        },
       ]
       // For production, extract CSS
       : ExtractTextPlugin.extract({
