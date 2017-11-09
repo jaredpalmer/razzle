@@ -29,8 +29,8 @@ module.exports = {
     appConfig.module.rules.push({
       test: /.scss$/,
       use:
-      // On the server, we simply use css-loader to deal with scss imports
-      isServer ? 'css-loader' :
+      // Handle scss imports on the server
+      isServer ? ['css-loader', 'sass-loader'] :
       // For development, include source map
       dev
       ? [
