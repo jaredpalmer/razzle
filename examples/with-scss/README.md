@@ -16,4 +16,4 @@ yarn start
 ```
 
 ## Idea behind the example
-This example shows how to support `.scss` files by including `node-sass` and [`fast-sass-loader`](https://www.npmjs.com/package/fast-sass-loader) in `razzle.config.js`. It also applies `autoprefixer`.
+This example shows how to support `.scss` files in `razzle.config.js`. It also applies `autoprefixer`.
