@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-basic",
+  "name": "razzle-examples-with-styled-components",
   "version": "0.8.4",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,8 @@
   "dependencies": {
     "express": "^4.15.2",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "styled-components": "^2.2.3"
   },
   "devDependencies": {
     "raf": "^3.3.2",
