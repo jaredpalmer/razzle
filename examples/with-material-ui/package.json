@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-with-material-ui",
+  "name": "razzle-examples-with-material-ui-2",
   "version": "0.8.5",
   "license": "MIT",
   "scripts": {
@@ -9,9 +9,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "jest": {
-    "setupFiles": [
-      "raf/polyfill"
-    ]
+    "setupFiles": ["raf/polyfill"]
   },
   "dependencies": {
     "express": "^4.15.2",
