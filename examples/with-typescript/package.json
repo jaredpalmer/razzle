@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -20,7 +20,7 @@
     "@types/react": "^16.0.9",
     "@types/react-dom": "^16.0.0",
     "@types/webpack-env": "^1.13.2",
-    "razzle": "^0.8.5",
+    "razzle": "^0.8.6",
     "ts-jest": "20.0.6",
     "ts-loader": "2.3.4",
     "tslint": "5.8.0",

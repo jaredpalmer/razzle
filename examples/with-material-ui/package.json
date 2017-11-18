@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-material-ui",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,7 +9,9 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "jest": {
-    "setupFiles": ["raf/polyfill"]
+    "setupFiles": [
+      "raf/polyfill"
+    ]
   },
   "dependencies": {
     "express": "^4.15.2",
@@ -19,6 +21,6 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^0.8.5"
+    "razzle": "^0.8.6"
   }
 }
