@@ -59,7 +59,7 @@ Note: You do not techincally _need_ to fully replace `babel-loader` with
 `ts-loader` to use TypeScript. Both TS and Babel transpile ES6 code,
 so when you run both webpack loaders you are making Razzle do twice the work. From our testing,
 this can make HMR extremely slow on larger apps. Thus, this example overwrites
-`babel-loader` with `awesome-typescript-loader`. However, if you are incrementally moving to typescript you may want to run both loaders side by side. If you are running both, add this to your `jest.transform` setup in `package.json`:
+`babel-loader` with `ts-loader`. However, if you are incrementally moving to typescript you may want to run both loaders side by side. If you are running both, add this to your `jest.transform` setup in `package.json`:
 
 ```
 "^.+\\.(js|jsx)$": "<rootDir>/node_modules/razzle/config/jest/babelTransform.js",

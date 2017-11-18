@@ -1,11 +1,15 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
+  modify(baseConfig, { target, dev }, webpack) {
+    const config = Object.assign({}, baseConfig);
+
     config.resolve.extensions = config.resolve.extensions.concat([
       '.ts',
       '.tsx',
     ]);
+
+    config.devtool = 'cheap-module-source-map';
 
     // Safely locate Babel-Loader in Razzle's webpack internals
     const babelLoader = config.module.rules.findIndex(
@@ -23,24 +27,24 @@ module.exports = {
       loader: 'ts-loader',
       options: {
         // this will make errors clickable in `Problems` tab of VSCode
-        visualStudioErrorFormat: false,
+        visualStudioErrorFormat: true,
       },
     };
 
-    const tslintLoader = {
-      include,
-      enforce: 'pre',
-      test: /\.tsx?$/,
-      loader: 'tslint-loader',
-      options: {
-        emitErrors: true,
-        configFile: './tslint.json',
-      },
-    };
+    // const tslintLoader = {
+    //   include,
+    //   enforce: 'pre',
+    //   test: /\.tsx?$/,
+    //   loader: 'tslint-loader',
+    //   options: {
+    //     emitErrors: true,
+    //     configFile: './tslint.json',
+    //   },
+    // };
 
     // Fully replace babel-loader with ts-loader
     config.module.rules[babelLoader] = tsLoader;
-    config.module.rules.push(tslintLoader);
+    // config.module.rules.push(tslintLoader);
 
     // If you want to use Babel & Typescript together (e.g. if you
     // are migrating incrementally and still need some Babel transforms)

@@ -2,11 +2,16 @@ import * as http from 'http';
 
 import app from './server';
 
-const server = http.createServer(app);
+const server = http.createServer(app as any);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3000, (err: any) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log('started');
+});
 
 if (module.hot) {
   console.log('✅  Server-side HMR Enabled!');
