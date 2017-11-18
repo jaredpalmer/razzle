@@ -20,12 +20,14 @@
     "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
     "postinstall": "npm run clean && npm run bootstrap",
     "changelog": "lerna-changelog",
-    "format":
-      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+    "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
   },
   "dependencies": {},
   "jest": {
@@ -34,7 +36,9 @@
       "<rootDir>/node_modules/",
       "<rootDir>/examples/"
     ],
-    "collectCoverageFrom": ["**/*.js"],
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/packages/*/node_modules/",
