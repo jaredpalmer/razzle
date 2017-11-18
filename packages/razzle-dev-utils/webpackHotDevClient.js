@@ -33,7 +33,7 @@ ErrorOverlay.startReportingRuntimeErrors({
   onError: function() {
     hadRuntimeError = true;
   },
-  filename: process.env.REACT_DEV_BUNDLE_PATH || '/static/js/bundle.js',
+  filename: process.env.REACT_BUNDLE_PATH || '/static/js/bundle.js',
 });
 
 if (module.hot && typeof module.hot.dispose === 'function') {
