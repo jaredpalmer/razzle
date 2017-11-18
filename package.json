@@ -25,8 +25,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"],
-    "yarn.lock": ["git rm --cached"]
+    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"]
   },
   "dependencies": {},
   "jest": {
