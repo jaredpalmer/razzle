@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jsxstyle",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^0.8.4"
+    "razzle": "^0.8.5"
   }
 }
