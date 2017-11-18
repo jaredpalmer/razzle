@@ -1,8 +1,8 @@
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
-[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=svg)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
+[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
 
-Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Razzle aims to fill this void by abstracting all the required tooling for your universal JavaScript application into a single dependency, and then leaving the rest of the architectural decisions about frameworks, routing, and data fetching up to you.
+Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Aiming to fill this void, Razzle is a tool that abstracts all complex configuration needed for SSR into a single dependency--giving you the awesome developer experience of [create-react-app](https://github.com/facebookincubator/create-react-app), but then leaving the rest of your app's architectural decisions about frameworks, routing, and data fetching up to you. With this approach, Razzle not only works with React, but also Reason, Elm, Vue, Angular, and most importantly......whatever comes next.
 
 **Razzle comes with the "battery-pack included"**:
 
@@ -15,6 +15,8 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 
 ## Quick Start
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/)
 
 ```bash
 npm install -g create-razzle-app
@@ -83,18 +85,23 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 ## Customization
 
-### Extending Babel Config
+### Customizing Babel Config
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project. 
 
-```json
+```js
 {
   "presets": [
-    "razzle/babel",
+    "razzle/babel", // NEEDED
     "stage-0"
+   ],
+   "plugins": [
+     // additional plugins
    ]
 }
 ```
+
+A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
 
 ### Extending Webpack
 
@@ -127,15 +134,17 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 
 ### Environment Variables 
 
-**The environment variables are embedded during the build time.** Since Razzle produces a static HTML/CSS/JS bundle and an equivalent static bundle for your server, it cannot possibly read them at runtime. 
+**The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
+- `process.env.REACT_DEV_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
 - `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 - `process.env.PORT`: default is `3000`, unless changed
 - `process.env.HOST`: default is `0.0.0.0`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
+- `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to *include* a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/installation.html#using-a-cdn) on your `<script>` tag in `src/server.js`.
 
 You can create your own custom build-time environment variables. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.

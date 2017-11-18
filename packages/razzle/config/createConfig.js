@@ -379,7 +379,7 @@ module.exports = (
       // we will only be using one port in production.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: '/',
+        publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
       };
