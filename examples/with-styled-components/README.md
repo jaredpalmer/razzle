@@ -20,5 +20,5 @@ This is a basic, bare-bones example that shows a very minimal implementation
 of [StyledComponents](https://github.com/styled-components/styled-components).
 It satisfies the entry points `src/index.js` for the server and`src/client.js`
 for the browser.
-I've added comments in `src/server.js` to show how the styles are gathered and
+There are comments in `src/server.js` to show how the styles are gathered and
 rendered into to the DOM
