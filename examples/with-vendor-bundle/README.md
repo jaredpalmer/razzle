@@ -4,8 +4,8 @@
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-custom-webpack-config
-cd with-custom-webpack-config
+curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-vendor-bundle
+cd with-vendor-bundle
 ```
 
 Install it and run:
