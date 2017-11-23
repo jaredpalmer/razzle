@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
@@ -394,17 +395,19 @@ module.exports = (
         new webpack.DefinePlugin(dotenv.stringified),
         // Uglify/compress and optimize our JS for production, screw ie8 when
         // possible, React only works > ie9 anyway
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false,
-            // Disabled because of an issue with Uglify breaking seemingly valid code:
-            // https://github.com/facebookincubator/create-react-app/issues/2376
-            // Pending further investigation:
-            // https://github.com/mishoo/UglifyJS2/issues/2011
-            comparisons: false,
-          },
-          output: {
-            comments: false,
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              warnings: false,
+              // Disabled because of an issue with Uglify breaking seemingly valid code:
+              // https://github.com/facebookincubator/create-react-app/issues/2376
+              // Pending further investigation:
+              // https://github.com/mishoo/UglifyJS2/issues/2011
+              comparisons: false,
+            },
+            output: {
+              comments: false,
+            },
           },
           sourceMap: true,
         }),
@@ -423,8 +426,9 @@ module.exports = (
       new FriendlyErrorsPlugin({
         verbose: dotenv.raw.VERBOSE,
         target,
-        onSuccessMessage: `Your application is running at http://${dotenv.raw
-          .HOST}:${dotenv.raw.PORT}`,
+        onSuccessMessage: `Your application is running at http://${
+          dotenv.raw.HOST
+        }:${dotenv.raw.PORT}`,
       }),
     ];
   }
