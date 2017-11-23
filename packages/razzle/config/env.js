@@ -51,11 +51,11 @@ const nodePath = (process.env.NODE_PATH || '')
 
 // Grab NODE_ENV and RAZZLE_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
-const RAZZLE = /^RAZZLE_/i;
+const PREFIX = process.env.RAZZLE_ENV_PREFIX || 'RAZZLE_';
 
 function getClientEnvironment(target, options) {
   const raw = Object.keys(process.env)
-    .filter(key => RAZZLE.test(key))
+    .filter(key => key.substring(0, PREFIX.length) === PREFIX)
     .reduce(
       (env, key) => {
         env[key] = process.env[key];
