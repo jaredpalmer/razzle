@@ -274,8 +274,10 @@ module.exports = (
 
       const nodeArgs = [];
 
-      // Add --inspect flag when inspect is enabled
-      if (process.env.INSPECT_ENABLED) {
+      // Add --inspect or --inspect-brk flag when enabled
+      if (process.env.INSPECT_BRK_ENABLED) {
+        nodeArgs.push('--inspect-brk');
+      } else if (process.env.INSPECT_ENABLED) {
         nodeArgs.push('--inspect');
       }
 
