@@ -13,7 +13,9 @@ const logger = require('razzle-dev-utils/logger');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
-if (process.argv.includes('--inspect')) {
+if (process.argv.includes('--inspect-brk')) {
+  process.env.INSPECT_BRK_ENABLED = true;
+} else if (process.argv.includes('--inspect')) {
   process.env.INSPECT_ENABLED = true;
 }
 
