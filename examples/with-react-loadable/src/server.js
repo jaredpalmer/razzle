@@ -47,7 +47,10 @@ server
     ${process.env.NODE_ENV === 'production'
       ? `<script src="${assets.client.js}"></script>`
       : `<script src="${assets.client.js}" crossorigin></script>`}
-    ${chunks.map(chunk => `<script src="/${chunk.file}"></script>`).join('\n')}
+    ${chunks.map(chunk => (process.env.NODE_ENV === 'production'
+      ? `<script src="/${chunk.file}"></script>`
+      : `<script src="http://${process.env.HOST}:${process.env.PORT + 1}/${chunk.file}"></script>`
+    )).join('\n')}
     <script>window.main();</script>
   </body>
 </html>`
