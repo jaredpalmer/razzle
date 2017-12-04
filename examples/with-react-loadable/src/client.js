@@ -4,14 +4,16 @@ import { hydrate } from 'react-dom';
 import Loadable from 'react-loadable';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 
-Loadable.preloadReady().then(() => {
-  hydrate(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-});
+window.main = () => {
+  Loadable.preloadReady().then(() => {
+    hydrate(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
+      document.getElementById('root')
+    );
+  });
+}
 
 if (module.hot) {
   module.hot.accept();

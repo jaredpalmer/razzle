@@ -45,9 +45,10 @@ server
   <body>
     <div id="root">${markup}</div>
     ${process.env.NODE_ENV === 'production'
-      ? `<script src="${assets.client.js}" defer></script>`
-      : `<script src="${assets.client.js}" defer crossorigin></script>`}
+      ? `<script src="${assets.client.js}"></script>`
+      : `<script src="${assets.client.js}" crossorigin></script>`}
     ${chunks.map(chunk => `<script src="/${chunk.file}"></script>`).join('\n')}
+    <script>window.main();</script>
   </body>
 </html>`
       );
