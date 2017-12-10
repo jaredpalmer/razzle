@@ -1,4 +1,4 @@
-# Razzle Basic Example
+# Razzle with Cloud Functions for Firebase example
 
 ## How to use
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
@@ -32,7 +32,7 @@ Deploy to firebase
 yarn deploy
 ```
 
-accss your app at `<firebase-project-id>.firebaseapp.com`
+Access your app at `<firebase-project-id>.firebaseapp.com`
 
 ## Idea behind the example
 This is a basic example of how to use razzle with firebase functions and firebase hosting.
