@@ -9,6 +9,7 @@ const output = require('./output');
 module.exports = function install(opts) {
   const projectName = opts.projectName;
   const projectPath = opts.projectPath;
+  const packageManager = opts.packageManager;
   const packages = opts.packages || [];
 
   if (packages.length === 0) {
@@ -16,7 +17,7 @@ module.exports = function install(opts) {
     process.exit(1);
   }
 
-  const installCmd = getInstallCmd();
+  const installCmd = getInstallCmd(packageManager);
   const installArgs = getInstallArgs(installCmd, packages);
 
   console.log(messages.installing(packages));

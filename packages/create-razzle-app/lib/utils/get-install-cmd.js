@@ -2,16 +2,28 @@
 
 const execa = require('execa');
 
+const valid = ['npm', 'yarn'];
+const defaultPackageManager = 'yarn';
+
 let cmd;
 
-module.exports = function getInstallCmd() {
+// Default to yarn unless otherwise specified.
+module.exports = function getInstallCmd(
+  packageManager = defaultPackageManager
+) {
   if (cmd) {
     return cmd;
   }
+  if (valid.indexOf(packageManager) < 0) {
+    console.log(
+      `Invalid package manager param supplied, defaulting to trying ${defaultPackageManager}`
+    );
+    packageManager = defaultPackageManager;
+  }
 
   try {
-    execa.sync('yarnpkg', '--version');
-    cmd = 'yarn';
+    execa.sync(packageManager, '--version');
+    cmd = packageManager;
   } catch (e) {
     cmd = 'npm';
   }
