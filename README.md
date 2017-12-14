@@ -199,7 +199,7 @@ Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) f
 these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
 
 
-### reate-razzle-app cli options
+### create-razzle-app cli options
 
 Command|Info|Valid values
 --- | --- | ---
