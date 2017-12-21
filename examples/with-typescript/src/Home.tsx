@@ -11,8 +11,8 @@ class Home extends Component {
                     <h2>Welcome to Razzle</h2>
                 </div>
                 <p className="Home-intro">
-                    To get started, edit <code>src/App.js</code> or{' '}
-                    <code>src/Home.js</code> and save to reload.
+                    To get started, edit <code>src/App.tsx</code> or{' '}
+                    <code>src/Home.tsx</code> and save to reload.
                 </p>
                 <ul className="Home-resources">
                     <li>
