@@ -76,6 +76,7 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
     - [Linux, macOS (Bash)](#linux-macos-bash)
   - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+  - [create-razzle-app cli options]($create-razzle-app-cli-options)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
     - [Author](#author)
@@ -196,6 +197,13 @@ Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) f
 
 >Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need
 these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
+
+
+### create-razzle-app cli options
+
+Command|Info|Valid values
+--- | --- | ---
+`-p --packageManager`|Override package manager, default to yarn.|`npm`, `yarn`
 
 ## How Razzle works (the secret sauce)
 
