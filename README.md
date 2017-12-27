@@ -76,7 +76,7 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
     - [Linux, macOS (Bash)](#linux-macos-bash)
   - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
-  - [create-razzle-app cli options]($create-razzle-app-cli-options)
+  - [create-razzle-app cli options](#create-razzle-app-cli-options)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
     - [Author](#author)
