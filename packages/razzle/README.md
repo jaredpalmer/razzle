@@ -141,6 +141,7 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 - `process.env.REACT_DEV_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
 - `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 - `process.env.PORT`: default is `3000`, unless changed
+- `process.env.PORT_DEV`: default is `3001`, unless changed
 - `process.env.HOST`: default is `0.0.0.0`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
