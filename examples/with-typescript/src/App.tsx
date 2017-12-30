@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Home from './Home';
+import './App.css';
 
-const App: React.SFC<{}> = props => (
-  <div className="App">
-    <div className="app">Razzlee and TypeScript for the win</div>
-    <div>They are a badass combo.</div>
-  </div>
+const App = () => (
+    <Switch>
+        <Route exact={true} path="/" component={Home} />
+    </Switch>
 );
 
 export default App;

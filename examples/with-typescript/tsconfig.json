@@ -8,7 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["es6", "es2015", "es2017", "dom"],
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -19,7 +19,7 @@
     "strict": true,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es5"
+    "target": "es2016"
   },
   "exclude": [
     "node_modules",
