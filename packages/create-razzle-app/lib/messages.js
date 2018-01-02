@@ -23,7 +23,7 @@ exports.exampleHelp = function() {
 };
 
 exports.packageManagerHelp = function() {
-  return `Wich package manager (npm or yarn) to utilize for setup.`;
+  return `Which package manager (npm or yarn) to utilize for setup.`;
 };
 
 exports.missingProjectName = function() {
