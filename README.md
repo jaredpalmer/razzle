@@ -10,7 +10,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/),  [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
-- Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
 
@@ -70,6 +70,7 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 - [Customization](#customization)
   - [Extending Babel Config](#extending-babel-config)
   - [Extending Webpack](#extending-webpack)
+  - [Extending ESLint](#extending-eslint)
   - [Environment Variables](#environment-variables)
   - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
     - [Windows (cmd.exe)](#windows-cmdexe)
@@ -131,6 +132,18 @@ module.exports = {
 ```
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
+
+### Extending ESLint
+
+Razzle comes with [Create React App's ESLint configuration](https://github.com/facebookincubator/create-react-app/tree/master/packages/eslint-config-react-app). Add a `.eslintrc` file to the root of your project to use your own configuration.
+```js
+{
+  "extends": "react-app",
+  "rules": {
+    // modify default rules
+  }
+}
+```
 
 ### Environment Variables 
 
