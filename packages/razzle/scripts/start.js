@@ -14,7 +14,9 @@ const setPorts = require('razzle-dev-utils/setPorts');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
-if (process.argv.includes('--inspect')) {
+if (process.argv.includes('--inspect-brk')) {
+  process.env.INSPECT_BRK_ENABLED = true;
+} else if (process.argv.includes('--inspect')) {
   process.env.INSPECT_ENABLED = true;
 }
 
