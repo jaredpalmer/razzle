@@ -16,7 +16,7 @@ require('../config/env');
 const webpack = require('webpack');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const paths = require('../config/paths');
+const defaultPaths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
 const logger = require('razzle-dev-utils/logger');
@@ -25,6 +25,27 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
+
+let razzle = {};
+
+// Check for razzle.config.js file
+if (fs.existsSync(defaultPaths.appRazzleConfig)) {
+  try {
+    razzle = require(defaultPaths.appRazzleConfig);
+  } catch (e) {
+    logger.error('Invalid razzle.config.js file.', e);
+    process.exit(1);
+  }
+}
+
+// Allow overriding paths
+const paths = razzle.modifyPaths
+  ? razzle.modifyPaths('prod', defaultPaths)
+  : defaultPaths;
+
+if (razzle.preCompile) {
+  razzle.preCompile('prod');
+}
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
@@ -70,14 +91,6 @@ measureFileSizesBeforeBuild(paths.appBuildPublic)
   );
 
 function build(previousFileSizes) {
-  // Check if razzle.config.js exists
-  let razzle = {};
-  try {
-    razzle = require(paths.appRazzleConfig);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable */
-
   if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
     logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
 Please use a .env file instead.
@@ -166,6 +179,9 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
           return reject(new Error(serverMessages.warnings.join('\n\n')));
         }
         console.log(chalk.green('Compiled server successfully.'));
+        if (razzle.postCompile) {
+          razzle.postCompile('prod');
+        }
         return resolve({
           stats: clientStats,
           previousFileSizes,

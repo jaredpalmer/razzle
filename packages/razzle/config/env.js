@@ -1,8 +1,22 @@
 'use strict';
 
-const paths = require('./paths');
-const fs = require('fs');
+const defaultPaths = require('./paths');
+const fs = require('fs-extra');
 const path = require('path');
+
+let paths = defaultPaths;
+// Check for razzle.config.js file
+if (fs.existsSync(defaultPaths.appRazzleConfig)) {
+  try {
+    const mods = require(defaultPaths.appRazzleConfig);
+    if (mods.modifyPaths) {
+      paths = mods.modifyPaths(defaultPaths);
+    }
+  } catch (e) {
+    console.error('Invalid razzle.config.js file.', e);
+    process.exit(1);
+  }
+}
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];

@@ -16,6 +16,7 @@ module.exports = (resolve, rootDir) => {
   const config = {
     collectCoverageFrom: ['src/**/*.{js,jsx}'],
     setupTestFrameworkScriptFile: setupTestsFile,
+    setupFiles: [resolve('config/polyfills.js')],
     testMatch: [
       '<rootDir>/src/**/__tests__/**/*.js?(x)',
       '<rootDir>/src/**/?(*.)(spec|test).js?(x)',

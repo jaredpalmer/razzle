@@ -4,7 +4,7 @@
 process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const paths = require('../config/paths');
+const defaultPaths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const devServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
@@ -28,9 +28,9 @@ function main() {
   let razzle = {};
 
   // Check for razzle.config.js file
-  if (fs.existsSync(paths.appRazzleConfig)) {
+  if (fs.existsSync(defaultPaths.appRazzleConfig)) {
     try {
-      razzle = require(paths.appRazzleConfig);
+      razzle = require(defaultPaths.appRazzleConfig);
     } catch (e) {
       clearConsole();
       logger.error('Invalid razzle.config.js file.', e);
@@ -38,13 +38,22 @@ function main() {
     }
   }
 
+  // Allow overriding paths
+  const paths = razzle.modifyPaths
+    ? razzle.modifyPaths('dev', defaultPaths)
+    : defaultPaths;
+
+  if (razzle.preCompile) {
+    razzle.preCompile('dev');
+  }
+
   // Delete assets.json to always have a manifest up to date
   fs.removeSync(paths.appManifest);
 
   // Create dev configs using our config factory, passing in razzle file as
   // options.
-  let clientConfig = createConfig('web', 'dev', razzle);
-  let serverConfig = createConfig('node', 'dev', razzle);
+  let clientConfig = createConfig('web', 'dev', razzle, paths);
+  let serverConfig = createConfig('node', 'dev', razzle, paths);
 
   // Check if razzle.config has a modify function. If it does, call it on the
   // configs we just created.
@@ -86,6 +95,9 @@ function main() {
     err => {
       if (err) {
         logger.error(err);
+      }
+      if (razzle.postCompile) {
+        razzle.postCompile('dev');
       }
     }
   );
