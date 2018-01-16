@@ -5,7 +5,7 @@ process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
 const mri = require('mri');
 const webpack = require('webpack');
-const paths = require('../config/paths');
+const defaultPaths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const devServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
@@ -39,9 +39,9 @@ function main() {
   let razzle = {};
 
   // Check for razzle.config.js file
-  if (fs.existsSync(paths.appRazzleConfig)) {
+  if (fs.existsSync(defaultPaths.appRazzleConfig)) {
     try {
-      razzle = require(paths.appRazzleConfig);
+      razzle = require(defaultPaths.appRazzleConfig);
     } catch (e) {
       clearConsole();
       logger.error('Invalid razzle.config.js file.', e);
@@ -50,6 +50,10 @@ function main() {
   }
 
   if (clientOnly) {
+  // Create dev configs using our config factory, passing in razzle file as
+  // options.
+  let { clientConfig, paths } = createConfig('web', 'dev', razzle, webpack, clientOnly);
+
     // Check for public/index.html file
     if (!fs.existsSync(paths.appHtml)) {
       clearConsole();
@@ -62,16 +66,13 @@ function main() {
   fs.removeSync(paths.appAssetsManifest);
   fs.removeSync(paths.appChunksManifest);
 
-  // Create dev configs using our config factory, passing in razzle file as
-  // options.
-  let clientConfig = createConfig('web', 'dev', razzle, webpack, clientOnly);
+
   const clientCompiler = compile(clientConfig);
 
-  let serverConfig;
   let serverCompiler;
 
   if (!clientOnly) {
-    serverConfig = createConfig('node', 'dev', razzle, webpack);
+    let { serverConfig } = createConfig('node', 'dev', razzle, webpack);
     serverCompiler = compile(serverConfig);
   }
 

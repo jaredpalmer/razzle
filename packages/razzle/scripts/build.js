@@ -17,7 +17,7 @@ const webpack = require('webpack');
 const mri = require('mri');
 const fs = require('fs-extra');
 const chalk = require('chalk');
-const paths = require('../config/paths');
+const defaultPaths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
@@ -38,14 +38,14 @@ process.env.BUILD_TYPE = cliArgs.type;
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-measureFileSizesBeforeBuild(paths.appBuildPublic)
+measureFileSizesBeforeBuild(defaultPaths.appBuildPublic)
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appBuild);
+    fs.emptyDirSync(defaultPaths.appBuild);
 
     // Merge with the public folder
-    copyPublicFolder();
+    copyPublicFolder(defaultPaths);
 
     // Start the webpack build
     return build(previousFileSizes);
@@ -83,9 +83,9 @@ function build(previousFileSizes) {
   let razzle = {};
 
   // Check for razzle.config.js file
-  if (fs.existsSync(paths.appRazzleConfig)) {
+  if (fs.existsSync(defaultPaths.appRazzleConfig)) {
     try {
-      razzle = require(paths.appRazzleConfig);
+      razzle = require(defaultPaths.appRazzleConfig);
     } catch (e) {
       clearConsole();
       logger.error('Invalid razzle.config.js file.', e);
@@ -94,7 +94,7 @@ function build(previousFileSizes) {
   }
 
   if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
-    logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
+    logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated.
 Please use a .env file instead.
 
 ${razzle.host !== 'localhost' && `HOST=${razzle.host}`}
@@ -194,7 +194,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 }
 
 // Helper function to copy public directory to build/public
-function copyPublicFolder() {
+function copyPublicFolder(paths) {
   fs.copySync(paths.appPublic, paths.appBuildPublic, {
     dereference: true,
     filter: file => file !== paths.appHtml,

@@ -39,7 +39,25 @@ if (
 
 const createJestConfig = require('../config/createJestConfig');
 const path = require('path');
-const paths = require('../config/paths');
+const fs = require('fs-extra');
+const defaultPaths = require('../config/paths');
+
+let razzle = {};
+// Check for razzle.config.js file
+if (fs.existsSync(defaultPaths.appRazzleConfig)) {
+  try {
+    razzle = require(defaultPaths.appRazzleConfig);
+  } catch (e) {
+    console.error('Invalid razzle.config.js file.', e);
+    process.exit(1);
+  }
+}
+
+// Allow overriding paths
+const paths = razzle.modifyPaths
+  ? razzle.modifyPaths('test', defaultPaths)
+  : defaultPaths;
+
 argv.push(
   '--config',
   JSON.stringify(
