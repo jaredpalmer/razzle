@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import logo from './react.svg';
-import styles from './Home.css';
+import styles from './Home.module.css';
+import './Home.css';
 
 class Home extends Component {
   render() {
     return (
       <div className={styles.home}>
         <div className={styles.header}>
-          <img src={logo} className={styles.logo} alt="logo" />
+          <img src={logo} className="Home-logo" alt="logo" />
           <h2>Welcome to Razzle</h2>
         </div>
         <p className={styles.intro}>
