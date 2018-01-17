@@ -164,6 +164,7 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
+                    modules: true,
                     importLoaders: 1,
                   },
                 },
@@ -174,6 +175,7 @@ module.exports = (
                   {
                     loader: require.resolve('css-loader'),
                     options: {
+                      modules: true,
                       importLoaders: 1,
                     },
                   },
@@ -202,8 +204,9 @@ module.exports = (
                     {
                       loader: require.resolve('css-loader'),
                       options: {
+                        modules: true,
                         importLoaders: 1,
-                        minimize: true
+                        minimize: true,
                       },
                     },
                     {
