@@ -1,37 +1,33 @@
-.Home {
+.home {
   text-align: center;
 }
 
-.Home-logo {
+.logo {
   animation: Home-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-.Home-header {
+.header {
   background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
 }
 
-.Home-intro {
+.intro {
   font-size: large;
 }
 
-.Home-resources {
+.resources {
   list-style: none;
 }
 
-.Home-resources > li {
+.resources > li {
   display: inline-block;
   padding: 1rem;
 }
 
 @keyframes Home-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

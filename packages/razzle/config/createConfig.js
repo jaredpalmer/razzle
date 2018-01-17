@@ -16,6 +16,22 @@ const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 
+const postCssOptions = {
+  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+  plugins: () => [
+    require('postcss-flexbugs-fixes'),
+    autoprefixer({
+      browsers: [
+        '>1%',
+        'last 4 versions',
+        'Firefox ESR',
+        'not ie < 9', // React doesn't support IE8 anyway
+      ],
+      flexbox: 'no-2009',
+    }),
+  ],
+};
+
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
   target = 'web',
@@ -156,7 +172,7 @@ module.exports = (
         // Note: this yields the exact same CSS config as create-react-app.
         {
           test: /\.css$/,
-          exclude: [paths.appBuild],
+          exclude: [paths.appBuild, /\.module\.css$/],
           use: IS_NODE
             ? // Style-loader does not work in Node.js without some crazy
               // magic. Luckily we just need css-loader.
@@ -179,21 +195,7 @@ module.exports = (
                   },
                   {
                     loader: require.resolve('postcss-loader'),
-                    options: {
-                      ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                      plugins: () => [
-                        require('postcss-flexbugs-fixes'),
-                        autoprefixer({
-                          browsers: [
-                            '>1%',
-                            'last 4 versions',
-                            'Firefox ESR',
-                            'not ie < 9', // React doesn't support IE8 anyway
-                          ],
-                          flexbox: 'no-2009',
-                        }),
-                      ],
-                    },
+                    options: postCssOptions,
                   },
                 ]
               : ExtractTextPlugin.extract({
@@ -202,27 +204,67 @@ module.exports = (
                     {
                       loader: require.resolve('css-loader'),
                       options: {
-                        importLoaders: 1,
-                        minimize: true
+                        modules: true,
+                        minimize: true,
                       },
                     },
                     {
                       loader: require.resolve('postcss-loader'),
+                      options: postCssOptions,
+                    },
+                  ],
+                }),
+        },
+        {
+          test: /\.module\.css$/,
+          exclude: [paths.appBuild],
+          use: IS_NODE
+            ? // Style-loader does not work in Node.js without some crazy
+              // magic. Luckily we just need css-loader.
+              [
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                  },
+                },
+              ]
+            : IS_DEV
+              ? [
+                  'style-loader',
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      modules: true,
+                      importLoaders: 1,
+                    },
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ]
+              : ExtractTextPlugin.extract({
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
+                  use: [
+                    {
+                      loader: require.resolve('css-loader'),
                       options: {
-                        ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
-                        ],
+                        modules: true,
+                        importLoaders: 1,
+                        minimize: true,
+                        localIdentName: '[path]__[name]___[local]',
                       },
+                    },
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: postCssOptions,
                     },
                   ],
                 }),
