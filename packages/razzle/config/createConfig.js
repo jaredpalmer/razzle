@@ -216,7 +216,7 @@ module.exports = (
                 }),
         },
         {
-          test: /\.module.css$/,
+          test: /\.module\.css$/,
           exclude: [paths.appBuild],
           use: IS_NODE
             ? // Style-loader does not work in Node.js without some crazy
