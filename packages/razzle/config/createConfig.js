@@ -8,13 +8,13 @@ const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
+const eslintFormatter = require('react-dev-utils-babel-7/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
-const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const errorOverlayMiddleware = require('react-dev-utils-babel-7/errorOverlayMiddleware');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options

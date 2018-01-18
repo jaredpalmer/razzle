@@ -1,4 +1,4 @@
-const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
+const { choosePort } = require('react-dev-utils-babel-7/WebpackDevServerUtils');
 
 // Checks if PORT and PORT_DEV are available and suggests alternatives if not
 module.exports = async () => {
