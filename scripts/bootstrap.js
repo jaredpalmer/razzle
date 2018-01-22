@@ -78,10 +78,6 @@ shell.exec('yarn link', {
 });
 logTask('razzle\n');
 shell.exec('yarn link', {
-  cwd: path.join(process.cwd(), 'packages', 'babel-preset-razzle'),
-});
-logTask('babel-preset-razzle');
-shell.exec('yarn link', {
   cwd: path.join(process.cwd(), 'packages', 'create-razzle-app'),
 });
 logTask('create-razzle-app');
