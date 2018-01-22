@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "chalk": "1.1.3",
-    "react-dev-utils-babel-7": "^6.0.1",
+    "react-dev-utils": "^6.0.0-next.9754a231",
     "sockjs-client": "1.1.4",
     "strip-ansi": "4.0.0"
   }

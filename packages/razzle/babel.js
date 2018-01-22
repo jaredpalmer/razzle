@@ -1,1 +1,1 @@
-module.exports = require('babel-preset-razzle');
+module.exports = require('babel-preset-react-app');

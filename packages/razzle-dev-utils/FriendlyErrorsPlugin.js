@@ -1,8 +1,8 @@
 'use strict';
 
 const chalk = require('chalk');
-const clearConsole = require('react-dev-utils-babel-7/clearConsole');
-const formatWebpackMessages = require('react-dev-utils-babel-7/formatWebpackMessages');
+const clearConsole = require('react-dev-utils/clearConsole');
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const logger = require('./logger');
 
 let WEBPACK_COMPILING = false;

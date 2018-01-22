@@ -12,8 +12,8 @@
 var SockJS = require('sockjs-client');
 var stripAnsi = require('strip-ansi');
 var url = require('url');
-var launchEditorEndpoint = require('react-dev-utils-babel-7/launchEditorEndpoint');
-var formatWebpackMessages = require('react-dev-utils-babel-7/formatWebpackMessages');
+var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
+var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 // We need to keep track of if there has been a runtime error.

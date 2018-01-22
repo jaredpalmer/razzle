@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@babel/code-frame@7.0.0-beta.37":
-  version "7.0.0-beta.37"
-  resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.0.0-beta.37.tgz#2da1dd3b1b57bfdea777ddc378df7cd12fe40171"
+"@babel/code-frame@7.0.0-beta.38":
+  version "7.0.0-beta.38"
+  resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.0.0-beta.38.tgz#c0af5930617e55e050336838e3a3670983b0b2b2"
   dependencies:
     chalk "^2.0.0"
     esutils "^2.0.2"
@@ -59,14 +59,14 @@ brace-expansion@^1.0.0:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-browserslist@2.11.1:
-  version "2.11.1"
-  resolved "https://registry.npmjs.org/browserslist/-/browserslist-2.11.1.tgz#02fda29d9a2164b879100126e7b0d0b57e43a7bb"
+browserslist@2.11.3:
+  version "2.11.3"
+  resolved "https://registry.npmjs.org/browserslist/-/browserslist-2.11.3.tgz#fe36167aed1bbcde4827ebfe71347a2cc70b99b2"
   dependencies:
-    caniuse-lite "^1.0.30000789"
+    caniuse-lite "^1.0.30000792"
     electron-to-chromium "^1.3.30"
 
-caniuse-lite@^1.0.30000789:
+caniuse-lite@^1.0.30000792:
   version "1.0.30000792"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000792.tgz#d0cea981f8118f3961471afbb43c9a1e5bbf0332"
 
@@ -410,13 +410,13 @@ querystringify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
 
-react-dev-utils-babel-7@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/react-dev-utils-babel-7/-/react-dev-utils-babel-7-6.0.1.tgz#573488ba7e2ae1cbc6c9cd760e26d05b1b09c2bc"
+react-dev-utils@^6.0.0-next.9754a231:
+  version "6.0.0-next.9754a231"
+  resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-6.0.0-next.9754a231.tgz#64d5a9de21b30a34cbd2138bd4bd3051379a7d77"
   dependencies:
-    "@babel/code-frame" "7.0.0-beta.37"
+    "@babel/code-frame" "7.0.0-beta.38"
     address "1.0.3"
-    browserslist "2.11.1"
+    browserslist "2.11.3"
     chalk "2.3.0"
     cross-spawn "5.1.0"
     detect-port-alt "1.1.5"
@@ -428,16 +428,16 @@ react-dev-utils-babel-7@^6.0.1:
     is-root "1.0.0"
     opn "5.2.0"
     pkg-up "2.0.0"
-    react-error-overlay-babel-7 "^5.0.1"
+    react-error-overlay "5.0.0-next.9754a231"
     recursive-readdir "2.2.1"
     shell-quote "1.6.1"
     sockjs-client "1.1.4"
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-error-overlay-babel-7@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/react-error-overlay-babel-7/-/react-error-overlay-babel-7-5.0.1.tgz#b3f0566774f12d7c1cc619ddc250474a397a45bc"
+react-error-overlay@5.0.0-next.9754a231:
+  version "5.0.0-next.9754a231"
+  resolved "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-5.0.0-next.9754a231.tgz#4af836bc7a605f23972b95367c895c7d7577067e"
 
 recursive-readdir@2.2.1:
   version "2.2.1"
