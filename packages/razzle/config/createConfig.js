@@ -96,7 +96,7 @@ module.exports = (
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
       ),
-      extensions: ['.js', '.json', '.jsx'],
+      extensions: ['.js', '.json', '.jsx', '.mjs'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
@@ -114,7 +114,7 @@ module.exports = (
         // Disable require.ensure as it's not a standard language feature.
         // { parser: { requireEnsure: false } },
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(js|jsx|mjs)$/,
           enforce: 'pre',
           use: [
             {
@@ -126,7 +126,7 @@ module.exports = (
         },
         // Transform ES6 with Babel
         {
-          test: /\.(js|jsx)$/,
+          test: /\.(js|jsx|mjs)$/,
           loader: require.resolve('babel-loader'),
           include: [paths.appSrc],
           options: mainBabelOptions,
@@ -134,7 +134,7 @@ module.exports = (
         {
           exclude: [
             /\.html$/,
-            /\.(js|jsx)$/,
+            /\.(js|jsx|mjs)$/,
             /\.(ts|tsx)$/,
             /\.(vue)$/,
             /\.(less)$/,
