@@ -39,7 +39,7 @@ module.exports = (
   { clearConsole = true, host = 'localhost', port = 3000 }
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
-  // we just use babel-preset-razzle.
+  // we just use babel-preset-react-app.
   const hasBabelRc = fs.existsSync(paths.appBabelRc);
   const mainBabelOptions = {
     babelrc: true,
