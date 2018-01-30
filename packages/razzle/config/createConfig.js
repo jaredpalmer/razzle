@@ -186,7 +186,7 @@ module.exports = (
               ]
             : IS_DEV
               ? [
-                  'style-loader',
+                  require.resolve('style-loader'),
                   {
                     loader: require.resolve('css-loader'),
                     options: {
@@ -232,7 +232,7 @@ module.exports = (
               ]
             : IS_DEV
               ? [
-                  'style-loader',
+                 require.resolve('style-loader'),
                   {
                     loader: require.resolve('css-loader'),
                     options: {
