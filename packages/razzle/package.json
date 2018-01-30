@@ -1,6 +1,6 @@
 {
   "name": "razzle",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "Build isomorphic Javascript applications with ease.",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Jared Palmer <jared@palmer.net>",
@@ -55,7 +55,7 @@
     "postcss-loader": "^2.0.6",
     "promise": "^8.0.1",
     "raf": "^3.4.0",
-    "razzle-dev-utils": "^0.8.8",
+    "razzle-dev-utils": "^0.8.9",
     "react-dev-utils": "^4.0.0",
     "react-error-overlay": "^2.0.0",
     "start-server-webpack-plugin": "2.2.0",
