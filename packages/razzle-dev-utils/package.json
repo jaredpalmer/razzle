@@ -9,7 +9,8 @@
     "logger.js",
     "printErrors.js",
     "FriendlyErrorsPlugin.js",
-    "webpackHotDevClient.js"
+    "webpackHotDevClient.js",
+    "setPorts.js"
   ],
   "dependencies": {
     "chalk": "1.1.3",
