@@ -85,6 +85,24 @@ To debug the node server, you can use `razzle start --inspect-brk`. This will st
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## CSS
+### Css Modules
+Razzle supports both normal CSS and Css modules, you can read more about the module [here](https://github.com/css-modules/css-modules)
+Check `src/Home.js` for both approaches. If you import from a `module.css` file make sure to get use the default object that gets imported to access the classNames. F.e.
+```
+import styles from './Home.module.css'
+
+<div className={styles.div}>{children}</div>
+```
+
+If you would like not to use CSS modules just import you css the following way and use the classNames as before. Make sure to scope them manually:
+
+```
+import './Home.css'
+
+<div className="Home-div">{children}</div>
+```
+
 ## Customization
 
 ### Extending Babel Config

@@ -204,6 +204,7 @@ module.exports = (
                     {
                       loader: require.resolve('css-loader'),
                       options: {
+                        importLoaders: 1,
                         modules: false,
                         minimize: true,
                       },
@@ -215,18 +216,21 @@ module.exports = (
                   ],
                 }),
         },
+        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+        // using the extension .module.css
         {
           test: /\.module\.css$/,
           exclude: [paths.appBuild],
           use: IS_NODE
-            ? // Style-loader does not work in Node.js without some crazy
-              // magic. Luckily we just need css-loader.
-              [
+            ? [
                 {
-                  loader: require.resolve('css-loader'),
+                  // on the server we do not need to embed the css and just want the identifier mappings
+                  // https://github.com/webpack-contrib/css-loader#scope
+                  loader: require.resolve('css-loader/locals'),
                   options: {
                     modules: true,
                     importLoaders: 1,
+                    localIdentName: '[path]__[name]___[local]',
                   },
                 },
               ]
@@ -238,6 +242,7 @@ module.exports = (
                     options: {
                       modules: true,
                       importLoaders: 1,
+                      localIdentName: '[path]__[name]___[local]',
                     },
                   },
                   {
