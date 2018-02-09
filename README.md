@@ -8,7 +8,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 - :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
-- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app) 
+- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/),  [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
@@ -34,15 +34,15 @@ Then open http://localhost:3000/ to see your app. Your console should look like 
 
 Below is a list of commands you will probably find useful.
 
-### `npm start` or `yarn start` 
+### `npm start` or `yarn start`
 
-Runs the project in development mode.   
+Runs the project in development mode.
 You can view your application at `http://localhost:3000`
 
 The page will reload if you make edits.
 
 ### `npm run build` or `yarn build`
-Builds the app for production to the build folder.      
+Builds the app for production to the build folder.
 
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
@@ -92,7 +92,7 @@ To debug the node server, you can use `razzle start --inspect-brk`. This will st
 
 ### Customizing Babel Config
 
-Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project. 
+Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
 
 ```js
 {
@@ -110,7 +110,7 @@ A word of advice: the `.babelrc` file will replace the internal razzle babelrc t
 
 ### Extending Webpack
 
-You can also extend the underlying webpack config. Create a file called `razzle.config.js` in your project's root. 
+You can also extend the underlying webpack config. Create a file called `razzle.config.js` in your project's root.
 
 ```js
 // razzle.config.js
@@ -118,7 +118,7 @@ You can also extend the underlying webpack config. Create a file called `razzle.
 module.exports = {
   modify: (config, {target, dev}, webpack) => {
     // do something to config
-  
+
     return config
   }
 }
@@ -149,7 +149,7 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 }
 ```
 
-### Environment Variables 
+### Environment Variables
 
 **The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
 
@@ -159,6 +159,7 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 - `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 - `process.env.PORT`: default is `3000`, unless changed
 - `process.env.HOST`: default is `0.0.0.0`
+- `process.env.PROTOCOL`: default is `http`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
 - `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to *include* a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/installation.html#using-a-cdn) on your `<script>` tag in `src/server.js`.
