@@ -1,4 +1,4 @@
-# Razzle React Native Web Examples
+# Razzle React Native Web Example
 
 ## How to use
 
