@@ -1,9 +1,10 @@
 import * as React from 'react';
 import logo from './react.svg';
+
 import './Home.css';
 
 class Home extends React.Component<{}, {}> {
-  render() {
+  public render() {
     return (
       <div className="Home">
         <div className="Home-header">

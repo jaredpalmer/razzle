@@ -1,10 +1,16 @@
-import * as React from 'react';
 import * as express from 'express';
-import App from './App';
+import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
+import App from './App';
+
+let assets: any;
+
+const syncLoadAssets = () => {
+    assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
+};
+syncLoadAssets();
 
 const server = express();
 

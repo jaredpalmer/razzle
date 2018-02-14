@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint-react"],
+  "extends": ["tslint:latest", "tslint-react"],
   "rules": {
     "align": [true, "parameters", "arguments", "statements"],
     "ban": false,
@@ -18,7 +18,7 @@
     "max-line-length": [true, 120],
     "member-ordering": [
       true,
-      "public-before-private",
+      "private-before-public",
       "static-before-instance",
       "variables-before-functions"
     ],
@@ -26,6 +26,7 @@
     "no-arg": true,
     "no-bitwise": true,
     "no-consecutive-blank-lines": true,
+    "no-console": false,
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -33,6 +34,7 @@
     "no-eval": true,
     "no-shadowed-variable": true,
     "no-string-literal": true,
+    "no-submodule-imports": false,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": false,
     "no-unused-expression": true,
