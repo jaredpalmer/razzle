@@ -15,7 +15,7 @@
     "shelljs": "^0.7.8"
   },
   "scripts": {
-    "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
+    "e2e": "jest --verbose --no-cache ",
     "clean": "lerna clean --yes && node ./scripts/clean.js",
     "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
     "postinstall": "npm run clean && npm run bootstrap",
