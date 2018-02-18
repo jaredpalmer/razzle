@@ -3,22 +3,22 @@
   "bugs": "https://github.com/jaredpalmer/razzle/issues",
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
   "devDependencies": {
-    "eslint": "^4.6.1",
+    "eslint": "^4.18.0",
     "husky": "^0.14.3",
-    "jest": "21.2.1",
-    "lerna": "^2.0.0-rc.5",
+    "jest": "22.3.0",
+    "lerna": "^2.9.0",
     "lerna-changelog": "^0.7.0",
-    "lint-staged": "^4.0.0",
-    "prettier": "^1.4.4",
+    "lint-staged": "^6.1.1",
+    "prettier": "^1.10.2",
     "ps-tree": "1.1.0",
-    "semver": "5.4.1",
-    "shelljs": "^0.7.8"
+    "semver": "5.5.0",
+    "shelljs": "^0.8.1"
   },
   "scripts": {
     "e2e": "jest --verbose --no-cache ",
     "clean": "lerna clean --yes && node ./scripts/clean.js",
     "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
-    "postinstall": "npm run clean && npm run bootstrap",
+    "postinstall": "yarn run clean && yarn run bootstrap",
     "changelog": "lerna-changelog",
     "format":
       "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
@@ -27,7 +27,6 @@
   "lint-staged": {
     "*.js": ["prettier --write", "git add"]
   },
-  "dependencies": {},
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",

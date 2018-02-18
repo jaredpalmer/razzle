@@ -1,9 +1,6 @@
 {
-  "lerna": "2.0.0-beta.38",
-  "packages": [
-    "packages/*",
-    "examples/*"
-  ],
+  "lerna": "2.9.0",
+  "packages": ["packages/*", "examples/*"],
   "npmClient": "yarn",
   "changelog": {
     "repo": "jaredpalmer/razzle",
