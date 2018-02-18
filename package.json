@@ -32,7 +32,9 @@
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",
       "<rootDir>/node_modules/",
-      "<rootDir>/examples/"
+      "<rootDir>/examples/",
+      "<rootDir>/packages/create-razzle-app/templates/",
+      "scripts/test.js"
     ],
     "collectCoverageFrom": ["**/*.js"],
     "coveragePathIgnorePatterns": [
