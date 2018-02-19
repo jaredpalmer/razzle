@@ -13,7 +13,7 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const markup = renderToString(
-      <App title="Welcome to Razzle Reason React" initialUrl={req.url.substring(1)} />
+      <App title="Welcome to Razzle Reason React" initialUrl={req.url} />
     );
     res.send(
       `<!doctype html>
