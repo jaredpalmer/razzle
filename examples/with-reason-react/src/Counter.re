@@ -1,3 +1,5 @@
+let text = ReasonReact.stringToElement;
+
 type state = {count: int};
 
 type action =
@@ -18,13 +20,9 @@ let make = _children => {
   render: self => {
     let message = "Count: " ++ string_of_int(self.state.count);
     <div className="App-intro">
-      (ReasonReact.stringToElement(message))
-      <button onClick=(self.reduce(_event => Increment))>
-        (ReasonReact.stringToElement("+"))
-      </button>
-      <button onClick=(self.reduce(_event => Decrement))>
-        (ReasonReact.stringToElement("-"))
-      </button>
+      (test(message))
+      <button onClick=(self.reduce(_event => Increment))> (test("+")) </button>
+      <button onClick=(self.reduce(_event => Decrement))> (test("-")) </button>
     </div>;
   }
 };
