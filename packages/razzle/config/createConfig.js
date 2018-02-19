@@ -411,7 +411,7 @@ module.exports = (
         watchOptions: {
           ignored: /node_modules/,
         },
-        setup(app) {
+        before(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
         },
