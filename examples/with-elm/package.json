@@ -10,10 +10,11 @@
     "start:prod": "set NODE_ENV=production&&node build/server.js"
   },
   "dependencies": {
-    "elm-static-html-lib": "^0.0.8-alpha.2",
+    "elm-static-html-lib": "^0.1.0",
     "express": "^4.15.4"
   },
   "devDependencies": {
+    "elm": "^0.18.0",
     "elm-hot-loader": "^0.5.4",
     "elm-webpack-loader": "^4.3.1",
     "razzle": "^0.8.12"

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "preact": "^7.2.0",
+    "preact": "^8.2.7",
     "preact-render-to-string": "^3.6.0"
   },
   "devDependencies": {

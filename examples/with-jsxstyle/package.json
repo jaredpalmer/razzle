@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "jsxstyle": "next",
+    "jsxstyle": "2.0.10",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2"

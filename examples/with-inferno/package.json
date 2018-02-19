@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "inferno": "^1.4.2",
-    "inferno-component": "^1.4.2",
-    "inferno-server": "^1.4.2"
+    "inferno": "^4.0.3",
+    "inferno-component": "^4.0.3",
+    "inferno-server": "^4.0.3"
   },
   "devDependencies": {
-    "babel-plugin-inferno": "^2.0.0",
-    "inferno-devtools": "^1.4.2",
+    "babel-plugin-inferno": "^4.0.0",
+    "inferno-devtools": "^4.0.3",
     "razzle": "^0.8.12"
   }
 }

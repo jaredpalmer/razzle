@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "rax": "^0.2.5",
-    "rax-button": "^0.2.5",
-    "rax-image": "^0.2.5",
-    "rax-server-renderer": "^0.2.5",
-    "rax-text": "^0.2.5",
-    "rax-view": "^0.2.5"
+    "rax": "^0.5.3",
+    "rax-button": "^0.5.2",
+    "rax-image": "^0.5.2",
+    "rax-server-renderer": "^0.5.2",
+    "rax-text": "^0.5.2",
+    "rax-view": "^0.5.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.0",
-    "babel-preset-rax": "^0.2.5",
+    "babel-preset-rax": "^0.5.2",
     "razzle": "^0.8.12"
   }
 }
