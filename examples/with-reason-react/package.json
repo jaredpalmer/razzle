@@ -3,6 +3,7 @@
   "version": "0.8.12",
   "license": "MIT",
   "scripts": {
+    "init:bin": "npm add bs-platform --save-dev",
     "start": "concurrently \"npm run js-watch\" \"npm run bsb-watch\"",
     "js-watch": "razzle start",
     "bsb-watch": "bsb -make-world -w",
@@ -18,7 +19,6 @@
     "reason-react": "^0.3.2"
   },
   "devDependencies": {
-    "bs-platform": "2.0.0",
     "concurrently": "^3.5.0",
     "razzle": "^0.8.12"
   }

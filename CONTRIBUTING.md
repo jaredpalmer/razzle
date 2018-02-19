@@ -1,6 +1,6 @@
 # Contributing to Razzle
 
-Hi there! Thanks for your interest in Razzle. This guide will help you get started contributing. 
+Hi there! Thanks for your interest in Razzle. This guide will help you get started contributing.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -12,6 +12,7 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
   - [Updating your fork](#updating-your-fork)
 - [Adding examples](#adding-examples)
   - [Use `examples/basic` as template](#use-examplesbasic-as-template)
+  - [Examples with locally-built binaries](#examples-with-locally-built-binaries)
   - [Naming examples](#naming-examples)
   - [How to get your example merged](#how-to-get-your-example-merged)
 - [Why wasn't my PR merged?](#why-wasnt-my-pr-merged)
@@ -67,6 +68,10 @@ git pull origin master
 
 ### Use `examples/basic` as template
 If you'd like to add an example, I suggest you duplicate the `examples/basic` folder and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap`. This will make sure that your new example is using your local version of all the `packages`. 
+
+### Examples with locally-built binaries
+
+Projects such as `ReactReason` require compilers (`BuckleScript`) that are built locally. These _must_ be installed via `yarn run init:bin` rather than added directly to `devDependencies`. When added directly to `devDependencies`, internal `yarn install` performs an unnecessary, expensive operation. `create-razzle-app` makes sure that `npm/yarn run init:bin` bootstraps these requirements in userland at create-time. See [with-reason-react's `package.json`](examples/with-reason-react/package.json).
 
 ### Naming examples
 
