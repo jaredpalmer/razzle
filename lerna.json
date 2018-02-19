@@ -1,7 +1,7 @@
 {
   "lerna": "2.9.0",
-  "packages": ["packages/*", "examples/*"],
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "changelog": {
     "repo": "jaredpalmer/razzle",
     "labels": {
@@ -14,5 +14,6 @@
     },
     "cacheDir": ".changelog"
   },
-  "version": "0.8.12"
+  "version": "0.8.12",
+  "packages": ["packages/*", "examples/*"]
 }

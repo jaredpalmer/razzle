@@ -2,6 +2,7 @@
   "private": true,
   "bugs": "https://github.com/jaredpalmer/razzle/issues",
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "workspaces": ["packages/*", "examples/*"],
   "devDependencies": {
     "eslint": "^4.18.0",
     "husky": "^0.14.3",
@@ -16,9 +17,7 @@
   },
   "scripts": {
     "e2e": "jest --verbose --no-cache ",
-    "clean": "lerna clean --yes && node ./scripts/clean.js",
-    "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
-    "postinstall": "yarn run clean && yarn run bootstrap",
+    "preinstall": "if which lerna &> /dev/null; then lerna clean --yes; fi",
     "changelog": "lerna-changelog",
     "format":
       "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
