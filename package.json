@@ -16,15 +16,16 @@
     "shelljs": "^0.8.1"
   },
   "scripts": {
-    "e2e": "jest --verbose --no-cache ",
+    "e2e": "jest --verbose --no-cache",
     "preinstall": "if which lerna &> /dev/null; then lerna clean --yes; fi",
+    "postinstall": "yarn format",
     "changelog": "lerna-changelog",
     "format":
-      "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+      "prettier --write '*/*/*.{js,json,css,md}' '*/*/!(node_modules)/**/*.{js,json,css,md}' '*.{js,json,css,md}'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -32,7 +33,8 @@
       "<rootDir>/node_modules/",
       "<rootDir>/examples/",
       "<rootDir>/packages/create-razzle-app/templates/",
-      "scripts/test.js"
+      "scripts/test.js",
+      "build/"
     ],
     "collectCoverageFrom": ["**/*.js"],
     "coveragePathIgnorePatterns": [

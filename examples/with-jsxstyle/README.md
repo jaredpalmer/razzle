@@ -1,6 +1,7 @@
 # Razzle JSXStyle Example
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,6 +17,7 @@ yarn start
 ```
 
 ## Idea behind the example
+
 This is demo shows how to use [JSXXtyle](https://github.com/smyte/jsxstyle) and the new server rendering API
 with Razzle. On each request, JSXStyle will extract out styles into a variable called `styles` will all the critical CSS in the render
 tree that we can then just drop into our `<head>`
@@ -52,9 +54,11 @@ server
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style type="text/css">${styles || ''}</style>
-        ${assets.client.css
-          ? `<link rel="stylesheet" href="${assets.client.css}">`
-          : ''}
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        }
         <script src="${assets.client.js}" defer></script>
     </head>
     <body>

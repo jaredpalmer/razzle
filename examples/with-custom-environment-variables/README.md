@@ -1,6 +1,7 @@
 # Razzle Custom Environment Variables Example
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,8 +17,9 @@ yarn start
 ```
 
 ## Idea behind the example
+
 This example shows how you can use `.env` files to set environment-specific
-**build-time** variables. 
+**build-time** variables.
 
 > Note: Razzle's `.env` setup is alsmost identically to [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables).
 

@@ -16,18 +16,17 @@ There is no single entry point. You can only import individual top-level modules
 
 #### `logger`
 
-- `logger.log(thing: any): void`: Log to console. = `console.log`
-- `logger.start(text: string): void`: Log the start of a task to console
-- `logger.done(text: string): void`: Log the end of task to console
-- `logger.info(text: string, data: object): void`: Log information and data to console
-- `logger.debug(text: string, data: object): void`: Log debug message and data to console
-- `logger.warn(text: string, data: object): void`: Log a warning with message and data to console
-- `logger.error(text: string, err: object): void`: Log a message and an error to console
+* `logger.log(thing: any): void`: Log to console. = `console.log`
+* `logger.start(text: string): void`: Log the start of a task to console
+* `logger.done(text: string): void`: Log the end of task to console
+* `logger.info(text: string, data: object): void`: Log information and data to console
+* `logger.debug(text: string, data: object): void`: Log debug message and data to console
+* `logger.warn(text: string, data: object): void`: Log a warning with message and data to console
+* `logger.error(text: string, err: object): void`: Log a message and an error to console
 
 #### `new FriendlyErrorrWebpackPlugin({ verbose: boolean, onSuccessMessage: string, target: 'web' | 'server' })`
 
 This will pretty print webpack errors to your console. It is mean to be used with Razzle's double webpack setup, where you have two webpack instances running in parallel. Otherwise the output looks almost identical to `create-react-app's` as it uses the same error formatter under the hood.
-
 
 ```js
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');

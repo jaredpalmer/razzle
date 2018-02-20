@@ -1,11 +1,13 @@
 # Razzle Reason React
 
 ## How to use
+
 First install the Reason toolchain ([reason-cli](https://github.com/reasonml/reason-cli)) globally
 
 ```bash
 npm install -g https://github.com/reasonml/reason-cli/archive/beta-v-1.13.6-bin-darwin.tar.gz
 ```
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -19,15 +21,17 @@ Install it and run:
 yarn install
 yarn start
 ```
+
 #### NOTE: This example takes a while to install. Stick with it.
 
-Now you can go and edit `src/App.re`. When you make changes, your **browser and server** will Hot Reload. 
-
+Now you can go and edit `src/App.re`. When you make changes, your **browser and server** will Hot Reload.
 
 ## Idea behind the example
-This is an example of how to use [Reason React](https://github.com/reasonml/reason-react) and Razzle together. Yes, you read that correctly. SSR, Reason, React, HMR. 
+
+This is an example of how to use [Reason React](https://github.com/reasonml/reason-react) and Razzle together. Yes, you read that correctly. SSR, Reason, React, HMR.
 
 ## Secret sauce
+
 This example works by running BuckleScript Platform to compile Reason-React files (`.re`) and then importing that output back into the vanilla Razzle app using the JS-Reason-React interop.
 
 Since Reason compiles to (beautifully written) JS, we don't have to do anything else to get universal HMR going because Razzle already does that. We just need to import `<App />` a litte bit differently in `src/server.js` and `src/client.js`.
@@ -91,7 +95,6 @@ let make ::title _children => {
 
 let comp =
   ReasonReact.wrapReasonForJs ::component (fun jsProps => make title::jsProps##title [||]);
-
 ```
 
 ```js
@@ -117,7 +120,6 @@ if (module.hot) {
   module.hot.accept();
 }
 ```
-
 
 ```js
 // src/server.js
@@ -151,7 +153,11 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle Reason React</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ''}
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        }
         <script src="${assets.client.js}" defer></script>
     </head>
     <body>
