@@ -7,8 +7,9 @@ module.exports = (
 ) => {
   const env = process.env.BABEL_ENV || process.env.NODE_ENV;
   const isEnvDevelopment = env === 'development';
-  const isEnvTest = env === 'test';
   const isEnvProduction = env == 'production';
+  const isEnvTest = env === 'test';
+  const isEnvRest = isEnvDevelopment || isEnvProduction;
   const isEnvUnknown = !isEnvDevelopment && !isEnvProduction && !isEnvTest;
 
   if (isEnvUnknown) {
@@ -46,7 +47,19 @@ module.exports = (
   }
 
   function optionsFor(preset) {
-    return opts.hasOwnProperty(preset) ? opts[preset] : defaults[preset];
+    if (opts.hasOwnProperty(preset)) {
+      return opts[preset];
+    } else if (defaults.hasOwnProperty(preset)) {
+      return defaults[preset];
+    } else {
+      throw new Error(
+        '`babel-preset-razzle` supports options for `preset-env` and `preset-react`. ' +
+          'For `preset-react` use `react`. ' +
+          'For `preset-env`, options must be specified as `envTest` and `envRest`. ' +
+          '`envTest` is of course the test environment, and ' +
+          '`envRest` is either development or production.'
+      );
+    }
   }
 
   // Async transform plugins are included by default.
@@ -66,7 +79,7 @@ module.exports = (
 
   return {
     presets: [
-      (isEnvDevelopment || isEnvProduction) && [
+      isEnvRest && [
         require('@babel/preset-env').default,
         optionsFor('envRest'),
       ],
