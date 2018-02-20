@@ -18,7 +18,6 @@
   "scripts": {
     "e2e": "jest --verbose --no-cache",
     "preinstall": "if which lerna &> /dev/null; then lerna clean --yes; fi",
-    "postinstall": "yarn format",
     "changelog": "lerna-changelog",
     "format":
       "prettier --write '*/*/*.{js,json,css,md}' '*/*/!(node_modules)/**/*.{js,json,css,md}' '*.{js,json,css,md}'",
