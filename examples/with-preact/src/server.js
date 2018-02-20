@@ -2,6 +2,7 @@ import App from './App';
 import express from 'express';
 import { h } from 'preact';
 import render from 'preact-render-to-string';
+/** @jsx h */
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
