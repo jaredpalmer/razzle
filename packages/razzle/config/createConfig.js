@@ -16,22 +16,6 @@ const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 
-const postCssOptions = {
-  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-  plugins: () => [
-    require('postcss-flexbugs-fixes'),
-    autoprefixer({
-      browsers: [
-        '>1%',
-        'last 4 versions',
-        'Firefox ESR',
-        'not ie < 9', // React doesn't support IE8 anyway
-      ],
-      flexbox: 'no-2009',
-    }),
-  ],
-};
-
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
   target = 'web',
@@ -56,6 +40,11 @@ module.exports = (
     useEslintrc: true,
   };
 
+  const hasPostCSSConfig = fs.existsSync(paths.appPostCSSConfig);
+  const mainPostCSSOptions = {
+    ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+  };
+
   if (hasBabelRc) {
     console.log('Using .babelrc defined in your app root');
   } else {
@@ -69,6 +58,26 @@ module.exports = (
       extends: [require.resolve('eslint-config-react-app')],
     };
     mainEslintOptions.useEslintrc = false;
+  }
+
+  if (hasPostCSSConfig) {
+    console.log('Using postcss.config.js defined in your app root');
+    mainPostCSSOptions.config = {
+      path: paths.appPostCSSConfig,
+    };
+  } else {
+    mainPostCSSOptions.plugins = () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: [
+          '>1%',
+          'last 4 versions',
+          'Firefox ESR',
+          'not ie < 9', // React doesn't support IE8 anyway
+        ],
+        flexbox: 'no-2009',
+      }),
+    ];
   }
 
   // Define some useful shorthands.
@@ -195,7 +204,7 @@ module.exports = (
                   },
                   {
                     loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
+                    options: mainPostCSSOptions,
                   },
                 ]
               : ExtractTextPlugin.extract({
@@ -211,7 +220,7 @@ module.exports = (
                     },
                     {
                       loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
+                      options: mainPostCSSOptions,
                     },
                   ],
                 }),
@@ -247,7 +256,7 @@ module.exports = (
                   },
                   {
                     loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
+                    options: mainPostCSSOptions,
                   },
                 ]
               : ExtractTextPlugin.extract({
@@ -269,7 +278,7 @@ module.exports = (
                     },
                     {
                       loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
+                      options: mainPostCSSOptions,
                     },
                   ],
                 }),
