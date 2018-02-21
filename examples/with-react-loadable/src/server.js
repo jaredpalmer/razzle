@@ -38,19 +38,28 @@ server
     <meta charSet='utf-8' />
     <title>Welcome to Razzle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    ${assets.client.css
-      ? `<link rel="stylesheet" href="${assets.client.css}">`
-      : ''}
+    ${
+      assets.client.css
+        ? `<link rel="stylesheet" href="${assets.client.css}">`
+        : ''
+    }
   </head>
   <body>
     <div id="root">${markup}</div>
-    ${process.env.NODE_ENV === 'production'
-      ? `<script src="${assets.client.js}"></script>`
-      : `<script src="${assets.client.js}" crossorigin></script>`}
-    ${chunks.map(chunk => (process.env.NODE_ENV === 'production'
-      ? `<script src="/${chunk.file}"></script>`
-      : `<script src="http://${process.env.HOST}:${process.env.PORT + 1}/${chunk.file}"></script>`
-    )).join('\n')}
+    ${
+      process.env.NODE_ENV === 'production'
+        ? `<script src="${assets.client.js}"></script>`
+        : `<script src="${assets.client.js}" crossorigin></script>`
+    }
+    ${chunks
+      .map(
+        chunk =>
+          process.env.NODE_ENV === 'production'
+            ? `<script src="/${chunk.file}"></script>`
+            : `<script src="http://${process.env.HOST}:${process.env.PORT +
+                1}/${chunk.file}"></script>`
+      )
+      .join('\n')}
     <script>window.main();</script>
   </body>
 </html>`

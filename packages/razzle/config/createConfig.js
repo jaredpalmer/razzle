@@ -38,9 +38,20 @@ module.exports = (
   env = 'dev',
   { clearConsole = true, host = 'localhost', port = 3000 }
 ) => {
-  // First we check to see if the user has a custom .babelrc file, otherwise
-  // we just use babel-preset-razzle.
-  const hasBabelRc = fs.existsSync(paths.appBabelRc);
+  // First we check to see if the user has a custom .babelrc or .babelrc.js file,
+  // otherwise we use `babel-preset-razzle`.
+  const hasBabelRc = (() => {
+    const rc = fs.existsSync(paths.appBabelRc);
+    const rcjs = fs.existsSync(paths.appBabelRcjs);
+    if (rc && rcjs) {
+      throw new Error(
+        'Detected both `.babelrc` and `.babelrc.js`; choose one.'
+      );
+    } else {
+      return rc || rcjs;
+      // rc first, see http://new.babeljs.io/docs/en/next/babelrc.html#config-types
+    }
+  })();
   const mainBabelOptions = {
     babelrc: true,
     cacheDirectory: true,
@@ -57,7 +68,7 @@ module.exports = (
   };
 
   if (hasBabelRc) {
-    console.log('Using .babelrc defined in your app root');
+    console.log('Using .babelrc/.babelrc.js defined in your app root');
   } else {
     mainBabelOptions.presets.push(require.resolve('../babel'));
   }
@@ -411,7 +422,7 @@ module.exports = (
         watchOptions: {
           ignored: /node_modules/,
         },
-        setup(app) {
+        before(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
         },

@@ -15,7 +15,6 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
     "razzle": "^0.8.12",
     "react-test-renderer": "^16.0.0"
   }

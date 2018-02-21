@@ -1,6 +1,7 @@
 # Using Razzle and Jest Snapshots
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,11 +17,11 @@ yarn test
 ```
 
 ## Idea behind the example
-This is an example of how to use [Jest Snapshots](http://facebook.github.io/jest/docs/en/snapshot-testing.html#snapshot-testing-with-jest) with a Razzle project. 
+
+This is an example of how to use [Jest Snapshots](http://facebook.github.io/jest/docs/en/snapshot-testing.html#snapshot-testing-with-jest) with a Razzle project.
 
 > Snapshot tests are a very useful tool whenever you want to make sure your UI does not change unexpectedly.
 > A typical snapshot test case for a mobile app renders a UI component, takes a screenshot, then compares it to a reference image stored alongside the test. The test will fail if the two images do not match: either the change is unexpected, or the screenshot needs to be updated to the new version of the UI component.
-
 
 ```js
 // src/__tests__/Home.test.js

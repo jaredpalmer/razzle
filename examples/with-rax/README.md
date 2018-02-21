@@ -1,6 +1,7 @@
 # Razzle Rax Example
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,5 +17,6 @@ yarn start
 ```
 
 ## Idea behind the example
+
 This example shows how to use [Rax](https://github.com/alibaba/rax) instead of React
 in a Razzle a project.

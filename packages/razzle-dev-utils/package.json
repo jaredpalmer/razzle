@@ -13,8 +13,8 @@
     "setPorts.js"
   ],
   "dependencies": {
-    "chalk": "1.1.3",
-    "react-dev-utils": "4.1.0",
+    "chalk": "2.3.1",
+    "react-dev-utils": "5.0.0",
     "sockjs-client": "1.1.4",
     "strip-ansi": "4.0.0"
   }

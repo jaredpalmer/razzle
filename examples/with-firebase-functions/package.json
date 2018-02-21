@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-basic",
+  "name": "razzle-examples-firebase-functions",
   "version": "0.8.12",
   "license": "MIT",
   "scripts": {
@@ -12,12 +12,11 @@
   "dependencies": {
     "express": "^4.15.2",
     "firebase-admin": "^5.5.1",
-    "firebase-functions": "^0.7.3",
+    "firebase-functions": "^0.8.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
     "razzle": "^0.8.12"
   }
 }

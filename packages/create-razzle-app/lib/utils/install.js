@@ -3,8 +3,9 @@
 const execa = require('execa');
 const Promise = require('promise');
 const messages = require('../messages');
-const getInstallCmd = require('./get-install-cmd');
+const getPackager = require('./get-packager');
 const output = require('./output');
+const isEnvLocal = require('./env');
 
 module.exports = function install(opts) {
   const projectName = opts.projectName;
@@ -16,38 +17,63 @@ module.exports = function install(opts) {
     process.exit(1);
   }
 
-  const installCmd = getInstallCmd();
-  const installArgs = getInstallArgs(installCmd, packages);
+  const packager = getPackager();
+  const installArgs = getInstallArgs(packager, packages);
 
   console.log(messages.installing(packages));
   process.chdir(projectPath);
 
-  return new Promise(function(resolve, reject) {
-    const stopInstallSpinner = output.wait('Installing modules');
+  return new Promise((resolve, reject) => {
+    // `pkg.scripts.init:bin`
+    // Some packages may require compilers. Some, like BuckleScript's, are
+    // compiled locally. When added directly to `devDependencies`, internal
+    // `yarn install` performs an unnecessary, expensive operation. Therefore,
+    // `npm/yarn run init` bootstraps these requirements in userland.
+    let stopSpinner = output.wait('Installing requirements (e.g., a compiler)');
+    let withInit = false;
+    const initArgs = ['run', 'init:bin'];
 
-    execa(installCmd, installArgs)
-      .then(function() {
-        // Confirm that all dependencies were installed
-        return execa(installCmd, ['install']);
+    execa(packager, initArgs)
+      .then(() => {
+        withInit = true;
+        showInstallingModules();
+        install();
       })
-      .then(function() {
-        stopInstallSpinner();
-        output.success(`Installed dependencies for ${projectName}`);
-        resolve();
-      })
-      .catch(function() {
-        stopInstallSpinner();
-        console.log(messages.installError(packages));
-        return reject(new Error(`${installCmd} installation failed`));
-      });
+      .catch(install);
+
+    function install() {
+      !withInit && showInstallingModules();
+      execa(packager, installArgs)
+        .then(() => {
+          // Confirm that all dependencies were installed
+          return execa(packager, ['install']);
+        })
+        .then(() => {
+          stopSpinner();
+          withInit &&
+            output.success(`Initialized requirements for ${projectName}`);
+          output.success(`Installed dependencies for ${projectName}`);
+          resolve(withInit);
+        })
+        .catch(() => {
+          stopSpinner();
+          console.log(messages.installError(packages));
+          return reject(new Error(`${packager} installation failed`));
+        });
+    }
+
+    function showInstallingModules() {
+      stopSpinner();
+      stopSpinner = output.wait('Installing modules');
+    }
   });
 };
 
-function getInstallArgs(cmd, packages) {
-  if (cmd === 'npm') {
+function getInstallArgs(packager, packages) {
+  if (packager === 'npm') {
     const args = ['install', '--save', '--save-exact'];
     return args.concat(packages, ['--verbose']);
-  } else if (cmd === 'yarn') {
+  } else if (packager === 'yarn') {
     const args = ['add'];
     return args.concat(packages);
   }

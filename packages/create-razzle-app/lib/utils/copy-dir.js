@@ -14,7 +14,7 @@ module.exports = function copyDir(opts) {
   console.log(messages.copying(projectName));
 
   return new Promise(function(resolve, reject) {
-    const stopCopySpinner = output.wait('Copying files');
+    const stopSpinner = output.wait('Copying files');
 
     fs
       .copy(templatePath, projectPath)
@@ -25,7 +25,7 @@ module.exports = function copyDir(opts) {
         );
       })
       .then(function() {
-        stopCopySpinner();
+        stopSpinner();
         output.success(
           `Created files for "${output.cmd(projectName)}" razzle app`
         );
@@ -34,7 +34,7 @@ module.exports = function copyDir(opts) {
       .then(resolve)
       .catch(function(err) {
         console.error(err);
-        stopCopySpinner();
+        stopSpinner();
         output.error('Copy command failed, try again.');
         reject(err);
         process.exit(1);
