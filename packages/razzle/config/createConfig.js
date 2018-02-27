@@ -305,9 +305,6 @@ module.exports = (
     };
     // Add some plugins...
     config.plugins = [
-      // This makes debugging much easier as webpack will add filenames to
-      // modules
-      new webpack.NamedModulesPlugin(),
       // We define environment variables that can be accessed globally in our
       new webpack.DefinePlugin(dotenv.stringified),
       // Prevent creating multiple chunks for the server
@@ -337,8 +334,6 @@ module.exports = (
         // Add hot module replacement
         new webpack.HotModuleReplacementPlugin(),
         // Supress errors to console (we use our own logger)
-        new webpack.NoEmitOnErrorsPlugin(),
-        // Automatically start the server when we are done compiling
         new StartServerPlugin({
           name: 'server.js',
           nodeArgs,
@@ -351,8 +346,6 @@ module.exports = (
 
   if (IS_WEB) {
     config.plugins = [
-      // Again use the NamesModules to help with debugging
-      new webpack.NamedModulesPlugin(),
       // Output our JS and CSS files in a manifest file called assets.json
       // in the build directory.
       new AssetsPlugin({
@@ -422,7 +415,6 @@ module.exports = (
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
     } else {
