@@ -83,6 +83,8 @@ module.exports = (
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
   // This is our base webpack config.
   let config = {
+    // Set webpack mode:
+    mode: IS_DEV ? 'development' : 'production',
     // Set webpack context to the current command's directory
     context: process.cwd(),
     // Specify target (either 'node' or 'web')
