@@ -23,12 +23,15 @@ module.exports = {
         // ... add any other vendor packages with require.resolve('xxx')
       ];
 
-      // Chunk splitting optimiztion
-      config.optimization.splitChunks.chunks = 'all';
-
-      // Switch off name generation, otherwise files would be invalidated
-      // when more chunks with the same vendors are added
-      config.optimization.splitChunks.name = false;
+      config.optimization = {
+        splitChunks: {
+          // Chunk splitting optimiztion
+          chunks: 'all',
+          // Switch off name generation, otherwise files would be invalidated
+          // when more chunks with the same vendors are added
+          name: false,
+        },
+      };
     }
 
     return config;

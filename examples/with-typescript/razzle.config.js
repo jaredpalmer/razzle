@@ -36,10 +36,6 @@ module.exports = {
       include,
       test: /\.tsx?$/,
       loader: 'ts-loader',
-      options: {
-        // this will make errors clickable in `Problems` tab of VSCode
-        visualStudioErrorFormat: true,
-      },
     };
 
     const tslintLoader = {
