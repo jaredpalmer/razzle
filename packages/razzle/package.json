@@ -8,14 +8,7 @@
   "bin": {
     "razzle": "./bin/razzle.js"
   },
-  "files": [
-    "bin",
-    "config",
-    "scripts",
-    "template",
-    "babel.js",
-    "polyfills.js"
-  ],
+  "files": ["bin", "config", "scripts", "template", "babel.js", "polyfills.js"],
   "keywords": [
     "razzle",
     "react",
@@ -41,7 +34,7 @@
     "dotenv": "4.0.0",
     "eslint": "4.5.0",
     "eslint-config-react-app": "^2.0.0",
-    "eslint-loader": "1.9.0",
+    "eslint-loader": "2.0.0",
     "eslint-plugin-flowtype": "2.35.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
