@@ -431,14 +431,15 @@ module.exports = (
       ];
 
       config.optimization = {
+        // @todo automatic vendor bundle
         // Automatically split vendor and commons
         // https://twitter.com/wSokra/status/969633336732905474
-        splitChunks: {
-          chunks: 'all',
-        },
+        // splitChunks: {
+        //   chunks: 'all',
+        // },
         // Keep the runtime chunk seperated to enable long term caching
         // https://twitter.com/wSokra/status/969679223278505985
-        runtimeChunk: true,
+        // runtimeChunk: true,
       };
     } else {
       // Specify production entry point (just /client/index.js)
@@ -502,15 +503,16 @@ module.exports = (
             // sourceMap: shouldUseSourceMap,
           }),
         ],
+        // @todo automatic vendor bundle
         // Automatically split vendor and commons
         // https://twitter.com/wSokra/status/969633336732905474
-        splitChunks: {
-          chunks: 'all',
-          name: false,
-        },
+        // splitChunks: {
+        //   chunks: 'all',
+        //   name: false,
+        // },
         // Keep the runtime chunk seperated to enable long term caching
         // https://twitter.com/wSokra/status/969679223278505985
-        runtimeChunk: true,
+        // runtimeChunk: true,
       };
     }
   }

@@ -28,9 +28,7 @@ server
         } 
     </head>
     <body>
-        <div id="root">${markup}</div>
-        <script src="${assets['runtime~client'].js}" defer crossorigin></script>      
-        <script src="${assets['vendors~client'].js}" defer crossorigin></script>      
+        <div id="root">${markup}</div>    
         <script src="${assets.client.js}" defer crossorigin></script>
     </body>
 </html>`
