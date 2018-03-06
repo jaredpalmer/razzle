@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
@@ -129,9 +130,14 @@ module.exports = (
         // Transform ES6 with Babel
         {
           test: /\.(js|jsx|mjs)$/,
-          loader: require.resolve('babel-loader'),
           include: [paths.appSrc],
-          options: mainBabelOptions,
+          use: [
+            require.resolve('thread-loader'),
+            {
+              loader: require.resolve('babel-loader'),
+              options: mainBabelOptions,
+            },
+          ],
         },
         {
           exclude: [
@@ -352,6 +358,12 @@ module.exports = (
         path: paths.appBuild,
         filename: 'assets.json',
       }),
+      // Maybe we should move to this???
+      // new ManifestPlugin({
+      //   path: paths.appBuild,
+      //   writeToFileEmit: true,
+      //   filename: 'manifest.json',
+      // }),
     ];
 
     if (IS_DEV) {
@@ -417,6 +429,17 @@ module.exports = (
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
+
+      config.optimization = {
+        // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        splitChunks: {
+          chunks: 'all',
+        },
+        // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
+        runtimeChunk: true,
+      };
     } else {
       // Specify production entry point (just /client/index.js)
       config.entry = {
@@ -437,29 +460,58 @@ module.exports = (
         ...config.plugins,
         // Define production environment vars
         new webpack.DefinePlugin(dotenv.stringified),
-        // Uglify/compress and optimize our JS for production, screw ie8 when
-        // possible, React only works > ie9 anyway
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebookincubator/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
-              comparisons: false,
-            },
-            output: {
-              comments: false,
-            },
-          },
-          sourceMap: true,
-        }),
         // Extract our CSS into a files.
         new ExtractTextPlugin({
           filename: 'static/css/bundle.[contenthash:8].css',
+          // allChunks: true because we want all css to be included in the main
+          // css bundle when doing code splitting to avoid FOUC:
+          // https://github.com/facebook/create-react-app/issues/2415
+          allChunks: true,
         }),
       ];
+
+      config.optimization = {
+        minimizer: [
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              ecma: 8,
+              compress: {
+                warnings: false,
+                // Disabled because of an issue with Uglify breaking seemingly valid code:
+                // https://github.com/facebook/create-react-app/issues/2376
+                // Pending further investigation:
+                // https://github.com/mishoo/UglifyJS2/issues/2011
+                comparisons: false,
+              },
+              mangle: {
+                safari10: true,
+              },
+              output: {
+                comments: false,
+                // Turned on because emoji and regex is not minified properly using default
+                // https://github.com/facebook/create-react-app/issues/2488
+                ascii_only: true,
+              },
+            },
+            // Use multi-process parallel running to improve the build speed
+            // Default number of concurrent runs: os.cpus().length - 1
+            parallel: true,
+            // Enable file caching
+            cache: true,
+            // @todo add flag for sourcemaps
+            // sourceMap: shouldUseSourceMap,
+          }),
+        ],
+        // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        splitChunks: {
+          chunks: 'all',
+          name: false,
+        },
+        // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
+        runtimeChunk: true,
+      };
     }
   }
 
