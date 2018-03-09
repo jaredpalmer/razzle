@@ -81,8 +81,14 @@ module.exports = (
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
-  const clientPublicPath = dotenv.raw.CLIENT_PUBLIC_PATH || (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
-
+  const clientPublicPath = (
+    dotenv.raw.CLIENT_PUBLIC_PATH
+    || (
+      IS_DEV
+        ? `http://${dotenv.raw.HOST}:${devServerPort}/`
+        : '/'
+    )
+  );
 
   // This is our base webpack config.
   let config = {
@@ -481,7 +487,7 @@ module.exports = (
         target,
         onSuccessMessage: `Your application is running at http://${
           dotenv.raw.HOST
-          }:${dotenv.raw.PORT}`,
+        }:${dotenv.raw.PORT}`,
       }),
     ];
   }
