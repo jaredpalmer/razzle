@@ -3,19 +3,24 @@
 }
 
 .Home-logo {
-  animation: Home-logo-spin infinite 20s linear;
   height: 80px;
 }
 
 .Home-header {
-  background-color: #222;
   height: 150px;
   padding: 20px;
-  color: white;
+}
+
+.Home-header h2 {
+  font-size: 1.2em;
 }
 
 .Home-intro {
-  font-size: large;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 25px;
+  overflow-x: auto;
+  font-size: .9em;
 }
 
 .Home-resources {
@@ -27,11 +32,3 @@
   padding: 1rem;
 }
 
-@keyframes Home-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './react.svg';
+import logo from './koajs-logo.png';
 import './Home.css';
 
 class Home extends React.Component {
@@ -8,15 +8,18 @@ class Home extends React.Component {
       <div className="Home">
         <div className="Home-header">
           <img src={logo} className="Home-logo" alt="logo" />
-          <h2>Welcome to Razzle</h2>
+          <h2>Welcome to Razzle + Koa</h2>
         </div>
-        <p className="Home-intro">
-          To get started, edit <code>src/App.js</code> or{' '}
-          <code>src/Home.js</code> and save to reload.
-        </p>
+        <pre className="Home-intro">
+          To get started, edit <b>src/App.js</b> or{' '}
+          <b>src/Home.js</b> and save to reload.
+        </pre>
         <ul className="Home-resources">
           <li>
             <a href="https://github.com/jaredpalmer/razzle">Docs</a>
+          </li>
+          <li>
+            <a href="http://koajs.com">Koa official site</a>
           </li>
           <li>
             <a href="https://github.com/jaredpalmer/razzle/issues">Issues</a>
