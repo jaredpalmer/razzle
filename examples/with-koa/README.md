@@ -39,7 +39,7 @@ Provides important security headers to make your app more secure by default. Amo
 For additional information, refer to [Koa offical documentation][koa-docs].
 
 [razzle-repo]: https://github.com/jaredpalmer/razzle.git
-[koa]: https://koajs.com
+[koa]: http://koajs.com
 [express]: https://expressjs.com/
 [koa-static]: https://github.com/koajs/static
 [koa-router]: https://github.com/alexmingoia/koa-router
