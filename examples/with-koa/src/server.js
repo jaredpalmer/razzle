@@ -9,6 +9,9 @@ import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
+// Initialize `koa-router` and setup a route listening on `GET /*`
+// Logic has been splitted into two chained middleware functions
+// @see https://github.com/alexmingoia/koa-router#multiple-middleware
 const router = new Router();
 router.get(
   '/*',
@@ -50,9 +53,13 @@ router.get(
   }
 );
 
+// Intialize and configure Koa application
 const server = new Koa();
 server
+  // `koa-helmet` provides security headers to help prevent common, well known attacks
+  // @see https://helmetjs.github.io/
   .use(helmet())
+  // Serve static files located under `process.env.RAZZLE_PUBLIC_DIR`
   .use(serve(process.env.RAZZLE_PUBLIC_DIR))
   .use(router.routes())
   .use(router.allowedMethods());
