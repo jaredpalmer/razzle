@@ -3,7 +3,7 @@ import './client.css';
 import React from 'react';
 import { render } from 'react-dom';
 
-const App = require('../lib/js/src/app').comp; // BuckleScript output directory
+import App from '../lib/js/src/App'; // BuckleScript output directory
 
 render(
   <App title="Welcome to Razzle Reason React" />,

@@ -6,14 +6,14 @@ module.exports = {
     config.module.rules = config.module.rules
       .filter(
         rule =>
-          !(rule.test && rule.test.exec && rule.test.exec('./somthing.css'))
+          !(rule.test && rule.test.exec && rule.test.exec('./something.css'))
       )
       .filter(
         rule =>
           !(
             rule.test &&
             rule.test.exec &&
-            rule.test.exec('./somthing.module.css')
+            rule.test.exec('./something.module.css')
           )
       );
 

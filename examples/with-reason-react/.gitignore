@@ -2,6 +2,7 @@ logs
 *.log
 npm-debug.log*
 .DS_Store
+.bsb.lock
 
 coverage
 node_modules
