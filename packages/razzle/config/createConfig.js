@@ -183,6 +183,10 @@ module.exports = (
                     importLoaders: 1,
                   },
                 },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
+                },
               ]
             : IS_DEV
               ? [
@@ -232,6 +236,10 @@ module.exports = (
                     importLoaders: 1,
                     localIdentName: '[path]__[name]___[local]',
                   },
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
                 },
               ]
             : IS_DEV
