@@ -183,10 +183,6 @@ module.exports = (
                     importLoaders: 1,
                   },
                 },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
               ]
             : IS_DEV
               ? [
