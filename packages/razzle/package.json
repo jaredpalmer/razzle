@@ -8,7 +8,14 @@
   "bin": {
     "razzle": "./bin/razzle.js"
   },
-  "files": ["bin", "config", "scripts", "template", "babel.js", "polyfills.js"],
+  "files": [
+    "bin",
+    "config",
+    "scripts",
+    "template",
+    "babel.js",
+    "polyfills.js"
+  ],
   "keywords": [
     "razzle",
     "react",
@@ -56,10 +63,10 @@
     "thread-loader": "1.1.5",
     "uglifyjs-webpack-plugin": "1.2.2",
     "url-loader": "0.5.9",
-    "webpack": "4.0.1",
+    "webpack": "^4.2.0",
     "webpack-dev-server": "3.0.0",
-    "webpack-node-externals": "1.6.0",
     "webpack-manifest-plugin": "andriijas/webpack-manifest-plugin#master",
+    "webpack-node-externals": "1.6.0",
     "whatwg-fetch": "^2.0.3"
   }
 }
