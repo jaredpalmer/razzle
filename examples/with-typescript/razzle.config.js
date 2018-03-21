@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  modify(baseConfig, { target, dev }, webpack) {
+  modify(baseConfig) {
     const config = Object.assign({}, baseConfig);
 
     config.resolve.extensions = config.resolve.extensions.concat([
@@ -12,7 +12,7 @@ module.exports = {
     config.devtool = 'cheap-module-source-map';
 
     // Locate eslint-loader and remove it (we're using tslint instead)
-    config.module.rules = config.module.rules.filter(
+    config.module.rules[1].oneOf = config.module.rules[1].oneOf.filter(
       rule =>
         !(
           Array.isArray(rule.use) &&
@@ -23,13 +23,13 @@ module.exports = {
     );
 
     // Safely locate Babel-Loader in Razzle's webpack internals
-    const babelLoader = config.module.rules.findIndex(
+    const babelLoader = config.module.rules[1].oneOf.findIndex(
       rule => rule.options && rule.options.babelrc
     );
 
     // Get the correct `include` option, since that hasn't changed.
     // This tells Razzle which directories to transform.
-    const { include } = config.module.rules[babelLoader];
+    const { include } = config.module.rules[1].oneOf[babelLoader];
 
     // Declare our TypeScript loader configuration
     const tsLoader = {

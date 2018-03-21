@@ -3,6 +3,7 @@
     "allowJs": true,
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,22 +14,23 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "sourceMap": true,
     "strictNullChecks": true,
     "strict": true,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2016"
+    "target": "es5",
+    "baseUrl": "."
   },
   "exclude": [
     "node_modules",
     "build",
     "scripts",
-    "acceptance-tests",
-    "webpack",
     "jest",
-    "razzle.config.js"
+    "razzle.config.js",
+    "public"
   ],
-  "types": ["typePatches", "node", "webpack-env"]
+  "include": ["src", "typings"],
+  "types": ["node"]
 }

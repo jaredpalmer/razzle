@@ -15,9 +15,9 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "@types/express": "^4.0.35",
+    "@types/express": "^4.11.1",
     "@types/jest": "^20.0.1",
-    "@types/node": "^8.0.53",
+    "@types/node": "^9.4.7",
     "@types/react": "^16.0.9",
     "@types/react-dom": "^16.0.0",
     "@types/react-router-dom": "^4.2.3",
@@ -25,24 +25,30 @@
     "raf": "^3.4.0",
     "razzle": "^0.8.12",
     "ts-jest": "20.0.6",
-    "ts-loader": "4.0.0",
+    "ts-loader": "^4.1.0",
     "tslint": "5.9.1",
     "tslint-loader": "wbuchwalter/tslint-loader",
     "tslint-react": "^3.2.0",
-    "typescript": "2.5.1"
+    "typescript": "^2.7.2"
   },
   "jest": {
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       "^.+\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)":
-        "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
     },
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
     ],
-    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ]
   }
 }

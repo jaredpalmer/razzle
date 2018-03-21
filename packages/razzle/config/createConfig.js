@@ -5,7 +5,6 @@ const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
-const AssetsPlugin = require('assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
@@ -127,160 +126,151 @@ module.exports = (
           ],
           include: paths.appSrc,
         },
-        // Transform ES6 with Babel
         {
-          test: /\.(js|jsx|mjs)$/,
-          include: [paths.appSrc],
-          use: [
-            require.resolve('thread-loader'),
+          // "oneOf" will traverse all following loaders until one will
+          // match the requirements. When no loader matches it will fall
+          // back to the "file" loader at the end of the loader list.
+          oneOf: [
             {
+              // Transform ES6 with Babel
+              test: /\.(js|jsx|mjs)$/,
+              include: [paths.appSrc],
               loader: require.resolve('babel-loader'),
               options: mainBabelOptions,
             },
-          ],
-        },
-        {
-          exclude: [
-            /\.html$/,
-            /\.(js|jsx|mjs)$/,
-            /\.(ts|tsx)$/,
-            /\.(vue)$/,
-            /\.(less)$/,
-            /\.(re)$/,
-            /\.(s?css|sass)$/,
-            /\.json$/,
-            /\.bmp$/,
-            /\.gif$/,
-            /\.jpe?g$/,
-            /\.png$/,
-          ],
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'static/media/[name].[hash:8].[ext]',
-          },
-        },
-        // "url" loader works like "file" loader except that it embeds assets
-        // smaller than specified limit in bytes as data URLs to avoid requests.
-        // A missing `test` is equivalent to a match.
-        {
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          loader: require.resolve('url-loader'),
-          options: {
-            limit: 10000,
-            name: 'static/media/[name].[hash:8].[ext]',
-          },
-        },
 
-        // "postcss" loader applies autoprefixer to our CSS.
-        // "css" loader resolves paths in CSS and adds assets as dependencies.
-        // "style" loader turns CSS into JS modules that inject <style> tags.
-        // In production, we use a plugin to extract that CSS to a file, but
-        // in development "style" loader enables hot editing of CSS.
-        //
-        // Note: this yields the exact same CSS config as create-react-app.
-        {
-          test: /\.css$/,
-          exclude: [paths.appBuild, /\.module\.css$/],
-          use: IS_NODE
-            ? // Style-loader does not work in Node.js without some crazy
-              // magic. Luckily we just need css-loader.
-              [
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                  },
-                },
-              ]
-            : IS_DEV
-              ? [
-                  require.resolve('style-loader'),
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ]
-              : ExtractTextPlugin.extract({
-                  fallback: require.resolve('style-loader'),
-                  use: [
+            // "postcss" loader applies autoprefixer to our CSS.
+            // "css" loader resolves paths in CSS and adds assets as dependencies.
+            // "style" loader turns CSS into JS modules that inject <style> tags.
+            // In production, we use a plugin to extract that CSS to a file, but
+            // in development "style" loader enables hot editing of CSS.
+            //
+            // Note: this yields the exact same CSS config as create-react-app.
+            {
+              test: /\.css$/,
+              exclude: [paths.appBuild, /\.module\.css$/],
+              use: IS_NODE
+                ? // Style-loader does not work in Node.js without some crazy
+                  // magic. Luckily we just need css-loader.
+                  [
                     {
                       loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
-                        modules: false,
-                        minimize: true,
                       },
                     },
+                  ]
+                : IS_DEV
+                  ? [
+                      require.resolve('style-loader'),
+                      {
+                        loader: require.resolve('css-loader'),
+                        options: {
+                          importLoaders: 1,
+                        },
+                      },
+                      {
+                        loader: require.resolve('postcss-loader'),
+                        options: postCssOptions,
+                      },
+                    ]
+                  : ExtractTextPlugin.extract({
+                      fallback: require.resolve('style-loader'),
+                      use: [
+                        {
+                          loader: require.resolve('css-loader'),
+                          options: {
+                            importLoaders: 1,
+                            modules: false,
+                            minimize: true,
+                          },
+                        },
+                        {
+                          loader: require.resolve('postcss-loader'),
+                          options: postCssOptions,
+                        },
+                      ],
+                    }),
+            },
+            // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+            // using the extension .module.css
+            {
+              test: /\.module\.css$/,
+              exclude: [paths.appBuild],
+              use: IS_NODE
+                ? [
                     {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
-        },
-        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-        // using the extension .module.css
-        {
-          test: /\.module\.css$/,
-          exclude: [paths.appBuild],
-          use: IS_NODE
-            ? [
-                {
-                  // on the server we do not need to embed the css and just want the identifier mappings
-                  // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader/locals'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
-                  },
-                },
-              ]
-            : IS_DEV
-              ? [
-                  require.resolve('style-loader'),
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      modules: true,
-                      importLoaders: 1,
-                      localIdentName: '[path]__[name]___[local]',
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ]
-              : ExtractTextPlugin.extract({
-                  fallback: {
-                    loader: require.resolve('style-loader'),
-                    options: {
-                      hmr: false,
-                    },
-                  },
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
+                      // on the server we do not need to embed the css and just want the identifier mappings
+                      // https://github.com/webpack-contrib/css-loader#scope
+                      loader: require.resolve('css-loader/locals'),
                       options: {
                         modules: true,
                         importLoaders: 1,
-                        minimize: true,
                         localIdentName: '[path]__[name]___[local]',
                       },
                     },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
+                  ]
+                : IS_DEV
+                  ? [
+                      require.resolve('style-loader'),
+                      {
+                        loader: require.resolve('css-loader'),
+                        options: {
+                          modules: true,
+                          importLoaders: 1,
+                          localIdentName: '[path]__[name]___[local]',
+                        },
+                      },
+                      {
+                        loader: require.resolve('postcss-loader'),
+                        options: postCssOptions,
+                      },
+                    ]
+                  : ExtractTextPlugin.extract({
+                      fallback: {
+                        loader: require.resolve('style-loader'),
+                        options: {
+                          hmr: false,
+                        },
+                      },
+                      use: [
+                        {
+                          loader: require.resolve('css-loader'),
+                          options: {
+                            modules: true,
+                            importLoaders: 1,
+                            minimize: true,
+                            localIdentName: '[path]__[name]___[local]',
+                          },
+                        },
+                        {
+                          loader: require.resolve('postcss-loader'),
+                          options: postCssOptions,
+                        },
+                      ],
+                    }),
+            },
+            {
+              exclude: [
+                /\.html$/,
+                /\.(js|jsx|mjs)$/,
+                /\.(ts|tsx)$/,
+                /\.(vue)$/,
+                /\.(less)$/,
+                /\.(re)$/,
+                /\.(s?css|sass)$/,
+                /\.json$/,
+                /\.bmp$/,
+                /\.gif$/,
+                /\.jpe?g$/,
+                /\.png$/,
+              ],
+              loader: require.resolve('file-loader'),
+              options: {
+                name: 'static/media/[name].[hash:8].[ext]',
+              },
+            },
+          ],
         },
       ],
     },
@@ -354,16 +344,11 @@ module.exports = (
     config.plugins = [
       // Output our JS and CSS files in a manifest file called assets.json
       // in the build directory.
-      new AssetsPlugin({
+      new ManifestPlugin({
+        writeToFileEmit: true,
+        fileName: 'assets.json',
         path: paths.appBuild,
-        filename: 'assets.json',
       }),
-      // Maybe we should move to this???
-      // new ManifestPlugin({
-      //   path: paths.appBuild,
-      //   writeToFileEmit: true,
-      //   filename: 'manifest.json',
-      // }),
     ];
 
     if (IS_DEV) {
