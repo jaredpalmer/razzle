@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-material-ui",
-  "version": "0.8.12",
+  "version": "0.8.13",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^0.8.12"
+    "razzle": "^0.8.13"
   }
 }
