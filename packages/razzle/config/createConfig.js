@@ -500,7 +500,7 @@ module.exports = (
             // Enable file caching
             cache: true,
             // @todo add flag for sourcemaps
-            // sourceMap: shouldUseSourceMap,
+            sourceMap: true,
           }),
         ],
         // @todo automatic vendor bundle

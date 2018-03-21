@@ -1,3 +1,5 @@
+'use strict';
+
 require('./client.css');
 const logo = require('./logo.png');
 
