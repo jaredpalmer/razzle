@@ -13,7 +13,7 @@ class Home extends React.Component<{}, {}> {
         </div>
         <p className="Home-intro">
           To get started, edit <code>src/App.tsx</code> or{' '}
-          <code>src/Home.tsx</code> and save to reload.
+          <code>src/Home.tsx</code> and save asdasdfto reload.
         </p>
         <ul className="Home-resources">
           <li>
