@@ -2,7 +2,7 @@ import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 
-import App from '../lib/js/src/App'; // BuckleScript output directory
+import App from '../lib/es6_global/src/App'; // BuckleScript output directory
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 

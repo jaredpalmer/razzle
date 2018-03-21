@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "4.4.0",
+    "elm-webpack-loader": "4.5.0",
     "razzle": "^0.8.12"
   }
 }

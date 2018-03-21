@@ -1,0 +1,10 @@
+{
+  "extends": ["plugin:inferno/recommended"],
+  "plugins": ["inferno"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-unused-vars": 0
+  }
+}
