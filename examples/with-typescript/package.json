@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "0.8.12",
+  "version": "2.0.0-alpha.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -23,7 +23,7 @@
     "@types/react-router-dom": "^4.2.3",
     "@types/webpack-env": "^1.13.2",
     "raf": "^3.4.0",
-    "razzle": "^0.8.12",
+    "razzle": "^2.0.0-alpha.1",
     "ts-jest": "20.0.6",
     "ts-loader": "4.0.0",
     "tslint": "5.9.1",
@@ -35,14 +35,20 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       "^.+\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)":
-        "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
     },
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
     ],
-    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ]
   }
 }
