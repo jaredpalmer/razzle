@@ -20,9 +20,9 @@ let make = _children => {
   render: self => {
     let message = "Count: " ++ string_of_int(self.state.count);
     <div className="App-intro">
-      (test(message))
-      <button onClick=(self.reduce(_event => Increment))> (test("+")) </button>
-      <button onClick=(self.reduce(_event => Decrement))> (test("-")) </button>
+      (text(message))
+      <button onClick=(self.reduce(_event => Increment))> (text("+")) </button>
+      <button onClick=(self.reduce(_event => Decrement))> (text("-")) </button>
     </div>;
   }
 };

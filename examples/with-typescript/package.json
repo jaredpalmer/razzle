@@ -25,9 +25,9 @@
     "raf": "^3.4.0",
     "razzle": "^0.8.12",
     "ts-jest": "20.0.6",
-    "ts-loader": "2.3.4",
-    "tslint": "5.8.0",
-    "tslint-loader": "^3.5.3",
+    "ts-loader": "4.0.0",
+    "tslint": "5.9.1",
+    "tslint-loader": "wbuchwalter/tslint-loader",
     "tslint-react": "^3.2.0",
     "typescript": "2.5.1"
   },
@@ -35,20 +35,14 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js",
       "^.+\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|css|json)$)":
+        "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
     },
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
     ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"]
   }
 }
