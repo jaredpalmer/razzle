@@ -69,7 +69,7 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
 
-## `rs`
+### `rs`
 
 If your application is running, and you need to manually restart your server, you do not need to completely kill and rebundle your application. Instead you can just type `rs` and press enter in terminal.
 
