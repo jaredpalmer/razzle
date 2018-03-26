@@ -6,12 +6,11 @@ const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const paths = require('./paths');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
@@ -206,23 +205,21 @@ module.exports = (
                     options: postCssOptions,
                   },
                 ]
-              : ExtractTextPlugin.extract({
-                  fallback: require.resolve('style-loader'),
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                        modules: false,
-                        minimize: true,
-                      },
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                      modules: false,
+                      minimize: true,
                     },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
@@ -258,29 +255,22 @@ module.exports = (
                     options: postCssOptions,
                   },
                 ]
-              : ExtractTextPlugin.extract({
-                  fallback: {
-                    loader: require.resolve('style-loader'),
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
                     options: {
-                      hmr: false,
+                      modules: true,
+                      importLoaders: 1,
+                      minimize: true,
+                      localIdentName: '[path]__[name]___[local]',
                     },
                   },
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        modules: true,
-                        importLoaders: 1,
-                        minimize: true,
-                        localIdentName: '[path]__[name]___[local]',
-                      },
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
       ],
     },
@@ -462,7 +452,7 @@ module.exports = (
         // Define production environment vars
         new webpack.DefinePlugin(dotenv.stringified),
         // Extract our CSS into a files.
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
           filename: 'static/css/bundle.[contenthash:8].css',
           // allChunks: true because we want all css to be included in the main
           // css bundle when doing code splitting to avoid FOUC:
