@@ -72,6 +72,8 @@ function getClientEnvironment(target, options) {
         BUILD_TARGET: target === 'web' ? 'client' : 'server',
         // only for production builds. Useful if you need to serve from a CDN
         PUBLIC_PATH: process.env.PUBLIC_PATH || '/',
+        // a PUBLIC_PATH for NODE_ENV === 'development' && BUILD_TARGET === 'client'
+        CLIENT_PUBLIC_PATH: process.env.CLIENT_PUBLIC_PATH || '/',
         // The public dir changes between dev and prod, so we use an environment
         // variable available to users.
         RAZZLE_PUBLIC_DIR:
