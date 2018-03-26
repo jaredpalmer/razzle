@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 'use strict';
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -108,7 +108,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
 
-  console.log('Creating an optimized production build...');
+  console.log('Creating an optimized ' + process.env.NODE_ENV + ' build...');
   console.log('Compiling client...');
   // First compile the client. We need it to properly output assets.json (asset
   // manifest file with the correct hashes on file names BEFORE we can start
