@@ -36,7 +36,7 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000, protocol = 'http' }
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -78,7 +78,7 @@ module.exports = (
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
-  const dotenv = getClientEnv(target, { clearConsole, host, port });
+  const dotenv = getClientEnv(target, { clearConsole, host, port, protocol });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
   // This is our base webpack config.
@@ -298,7 +298,7 @@ module.exports = (
     // Specify webpack Node.js output path and filename
     config.output = {
       path: paths.appBuild,
-      publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
+      publicPath: IS_DEV ? `${dotenv.raw.PROTOCOL}://${dotenv.raw.HOST}:${devServerPort}/` : '/',
       filename: 'server.js',
     };
     // Add some plugins...
@@ -376,7 +376,7 @@ module.exports = (
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
+        publicPath: `${dotenv.raw.PROTOCOL}://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
         filename: 'static/js/bundle.js',
         chunkFilename: 'static/js/[name].chunk.js',
@@ -476,7 +476,7 @@ module.exports = (
       new FriendlyErrorsPlugin({
         verbose: dotenv.raw.VERBOSE,
         target,
-        onSuccessMessage: `Your application is running at http://${
+        onSuccessMessage: `Your application is running at ${dotenv.raw.PROTOCOL}://${
           dotenv.raw.HOST
         }:${dotenv.raw.PORT}`,
       }),
