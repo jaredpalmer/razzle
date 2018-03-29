@@ -416,7 +416,9 @@ module.exports = (
       // Add client-only development plugins
       config.plugins = [
         ...config.plugins,
-        new webpack.HotModuleReplacementPlugin(),
+        new webpack.HotModuleReplacementPlugin({
+          multiStep: true
+        }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
 
