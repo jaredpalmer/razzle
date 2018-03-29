@@ -25,7 +25,7 @@
     "raf": "^3.4.0",
     "razzle": "^2.0.0-alpha.4",
     "ts-jest": "20.0.6",
-    "ts-loader": "4.0.0",
+    "ts-loader": "^4.1.0",
     "tslint": "5.9.1",
     "tslint-loader": "wbuchwalter/tslint-loader",
     "tslint-react": "^3.2.0",
