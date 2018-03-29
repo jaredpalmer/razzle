@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-glamorous",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -11,13 +11,12 @@
   "dependencies": {
     "express": "^4.16.3",
     "prop-types": "^15.6.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "glamor": "^2.20.40",
-    "glamorous": "^4.12.1"
+    "glamorous": "^4.12.5"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
-    "razzle": "^2.0.0-alpha.3"
+    "razzle": "^2.0.0-alpha.12"
   }
 }
