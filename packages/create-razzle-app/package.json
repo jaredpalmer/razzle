@@ -1,8 +1,7 @@
 {
   "name": "create-razzle-app",
-  "version": "2.0.0-alpha.4",
-  "description":
-    "CLI tool to bootstrap Razzle applications with no configuration",
+  "version": "2.0.0-alpha.5",
+  "description": "CLI tool to bootstrap Razzle applications with no configuration",
   "main": "index.js",
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net> (http://jaredpalmer.com)",
