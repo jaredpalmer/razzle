@@ -364,7 +364,7 @@ module.exports = (
           // We ship a few polyfills by default but only include them if React is being placed in
           // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
           // on your own.
-          !!dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
+          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
           require.resolve('razzle-dev-utils/webpackHotDevClient'),
           paths.appClientIndexJs,
         ].filter(Boolean),
