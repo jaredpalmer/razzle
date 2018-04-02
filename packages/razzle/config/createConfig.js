@@ -15,6 +15,7 @@ const paths = require('./paths');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const WebpackBar = require('webpackbar');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -519,12 +520,16 @@ module.exports = (
     config.plugins = [
       ...config.plugins,
       // Use our own FriendlyErrorsPlugin during development.
-      new FriendlyErrorsPlugin({
-        verbose: dotenv.raw.VERBOSE,
-        target,
-        onSuccessMessage: `Your application is running at http://${
-          dotenv.raw.HOST
-        }:${dotenv.raw.PORT}`,
+      // new FriendlyErrorsPlugin({
+      //   verbose: dotenv.raw.VERBOSE,
+      //   target,
+      //   onSuccessMessage: `Your application is running at http://${
+      //     dotenv.raw.HOST
+      //   }:${dotenv.raw.PORT}`,
+      // }),
+      new WebpackBar({
+        color: target === 'web' ? '#f56be2' : '#c065f4',
+        name: target === 'web' ? 'client' : 'server',
       }),
     ];
   }
