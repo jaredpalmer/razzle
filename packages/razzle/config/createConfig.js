@@ -417,7 +417,7 @@ module.exports = (
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true
+          multiStep: true,
         }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
@@ -436,13 +436,13 @@ module.exports = (
     } else {
       // Specify production entry point (/client/index.js)
       config.entry = {
-          client: [
-            // We ship a few polyfills by default but only include them if React is being placed in
-            // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
-            // on your own.
-            !!dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
-            paths.appClientIndexJs
-          ],
+        client: [
+          // We ship a few polyfills by default but only include them if React is being placed in
+          // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
+          // on your own.
+          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
+          paths.appClientIndexJs,
+        ].filter(Boolean),
       };
 
       // Specify the client output directory and paths. Notice that we have
