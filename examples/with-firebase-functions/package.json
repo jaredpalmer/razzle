@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-firebase-functions",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-alpha.7",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^2.0.0-alpha.6"
+    "razzle": "^2.0.0-alpha.7"
   }
 }
