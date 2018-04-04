@@ -11,7 +11,7 @@
   "dependencies": {
     "@hyperapp/render": "^2.0.0",
     "express": "^4.15.2",
-    "hyperapp": "^1.2.0"
+    "hyperapp": "^1.2.5"
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.23.0",
