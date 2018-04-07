@@ -61,6 +61,9 @@ function main() {
     );
   }
 
+  // Compile our assets with webpack
+  const clientCompiler = compile(clientConfig);
+
   const serverCompiler = compile(serverConfig);
 
   // Start our server webpack instance in watch mode.
@@ -72,9 +75,6 @@ function main() {
     /* eslint-disable no-unused-vars */
     stats => {}
   );
-
-  // Compile our assets with webpack
-  const clientCompiler = compile(clientConfig);
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.
