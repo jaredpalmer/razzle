@@ -19,4 +19,12 @@ export default [
       Placeholder: () => <div>...LOADING...</div>, // this is optional, just returns null by default
     }),
   },
+  {
+    path: '*',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./NotFound'), // required
+      Placeholder: () => <div>...LOADING...</div>, // this is optional, just returns null by default
+    }),
+  }
 ];

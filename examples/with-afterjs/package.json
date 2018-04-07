@@ -16,5 +16,8 @@
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
     "react-router-dom": "^4.2.2"
+  },
+  "devDependencies": {
+    "jest-cli": "^21.2.1"
   }
 }
