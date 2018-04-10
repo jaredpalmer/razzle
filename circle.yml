@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - npm i -g elm-package
+    - yarn global add elm
   override:
     - yarn
  
