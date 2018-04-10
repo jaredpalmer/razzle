@@ -7,7 +7,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
-const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -157,6 +156,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
+            emitFile: true,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -168,7 +168,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: IS_NODE ? false : true
+            emitFile: true,
           },
         },
 
@@ -280,7 +280,11 @@ module.exports = (
 
   if (IS_NODE) {
     // We want to uphold node's __filename, and __dirname.
-    config.node = { console: true, __filename: true, __dirname: true };
+    config.node = {
+      __console: false,
+      __dirname: false,
+      __filename: false,
+    };
 
     // We need to tell webpack what to bundle into our Node bundle.
     config.externals = [
@@ -300,6 +304,7 @@ module.exports = (
       path: paths.appBuild,
       publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
       filename: 'server.js',
+      libraryTarget: 'commonjs2',
     };
     // Add some plugins...
     config.plugins = [
@@ -377,6 +382,7 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
+        libraryTarget: 'var',
         filename: 'static/js/bundle.js',
         chunkFilename: 'static/js/[name].chunk.js',
         devtoolModuleFilenameTemplate: info =>
@@ -455,6 +461,7 @@ module.exports = (
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        libraryTarget: 'var',
       };
 
       config.plugins = [
@@ -469,9 +476,12 @@ module.exports = (
           // https://github.com/facebook/create-react-app/issues/2415
           allChunks: true,
         }),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
       ];
 
       config.optimization = {
+        minimize: true,
         minimizer: [
           new UglifyJsPlugin({
             uglifyOptions: {
@@ -508,7 +518,24 @@ module.exports = (
         // https://twitter.com/wSokra/status/969633336732905474
         // splitChunks: {
         //   chunks: 'all',
-        //   name: false,
+        //   minSize: 30000,
+        //   minChunks: 1,
+        //   maxAsyncRequests: 5,
+        //   maxInitialRequests: 3,
+        //   name: true,
+        //   cacheGroups: {
+        //     commons: {
+        //       test: /[\\/]node_modules[\\/]/,
+        //       name: 'vendor',
+        //       chunks: 'all',
+        //     },
+        //     main: {
+        //       chunks: 'all',
+        //       minChunks: 2,
+        //       reuseExistingChunk: true,
+        //       enforce: true,
+        //     },
+        //   },
         // },
         // Keep the runtime chunk seperated to enable long term caching
         // https://twitter.com/wSokra/status/969679223278505985
