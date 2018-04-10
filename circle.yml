@@ -5,7 +5,8 @@ machine:
 dependencies:
   override:
     - yarn
-
+  post:
+    - yarn global add elm-package
 test:
   override:
     - yarn e2e -- --runInBand
