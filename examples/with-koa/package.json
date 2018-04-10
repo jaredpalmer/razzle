@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-koa",
-  "version": "2.0.0-y.0",
+  "version": "2.0.0-alpha.9",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
