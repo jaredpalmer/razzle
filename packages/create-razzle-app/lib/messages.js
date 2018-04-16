@@ -22,6 +22,10 @@ exports.exampleHelp = function() {
   )}`;
 };
 
+exports.packageManagerHelp = function() {
+  return `Which package manager (npm or yarn) to utilize for setup.`;
+};
+
 exports.missingProjectName = function() {
   return `
 Please specify the project directory:

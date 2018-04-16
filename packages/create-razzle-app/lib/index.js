@@ -45,11 +45,13 @@ module.exports = function createRazzleApp(opts) {
 function installWithMessageFactory(opts, isExample = false) {
   const projectName = opts.projectName;
   const projectPath = opts.projectPath;
+  const packageManager = opts.packageManager;
 
   return function installWithMessage() {
     return install({
       projectName: projectName,
       projectPath: projectPath,
+      packageManager: packageManager,
       packages: isExample
         ? ['razzle']
         : ['react', 'react-dom', 'react-router-dom', 'razzle', 'express'],

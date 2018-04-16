@@ -18,13 +18,16 @@ program
     projectName = name;
   })
   .option('-e, --example <example-path>', messages.exampleHelp())
+  .option('-p, --packageManager <npm or yarn>', messages.packageManagerHelp())
   .allowUnknownOption()
   .on('--help', messages.help)
   .parse(process.argv);
 
 const example = program.example;
+const packageManager = program.packageManager;
 
 createRazzleApp({
   projectName,
   example,
+  packageManager,
 });

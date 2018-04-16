@@ -30,3 +30,9 @@ or
 yarn create razzle-app --example with-preact my-preact-app
 cd my-preact-app
 ```
+
+## Options
+
+Command|Info|Valid values
+--- | --- | ---
+`-p --packageManager`|Override package manager, default to yarn.|`npm`, `yarn`
