@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-reason-react",
-  "version": "0.8.7",
+  "version": "0.8.14",
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"npm run js-watch\" \"npm run bsb-watch\"",
@@ -12,14 +12,14 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "reason-react": "^0.2.4"
+    "express": "^4.16.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reason-react": "^0.3.2"
   },
   "devDependencies": {
-    "bs-platform": "2.0.0",
+    "bs-platform": "^2.0.0",
     "concurrently": "^3.5.0",
-    "razzle": "^0.8.7"
+    "razzle": "^0.8.14"
   }
 }

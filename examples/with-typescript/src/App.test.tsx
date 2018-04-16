@@ -3,10 +3,16 @@ import * as ReactDOM from 'react-dom';
 
 import App from './App';
 
+import { MemoryRouter } from 'react-router-dom';
+
 describe('<App />', () => {
   test('renders without exploding', () => {
     const div = document.createElement('div');
-    div.style.color = 'white';
-    ReactDOM.render(<App />, div);
+    ReactDOM.render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+      div
+    );
   });
 });

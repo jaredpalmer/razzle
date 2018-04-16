@@ -24,10 +24,10 @@ cd my-preact-app
 npm start
 ```
 
-or 
+or
 
 ```
-yarn create razzle-app --with-preact my-preact-app
+yarn create razzle-app --example with-preact my-preact-app
 cd my-preact-app
 ```
 

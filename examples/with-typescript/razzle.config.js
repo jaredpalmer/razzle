@@ -11,6 +11,17 @@ module.exports = {
 
     config.devtool = 'cheap-module-source-map';
 
+    // Locate eslint-loader and remove it (we're using tslint instead)
+    config.module.rules = config.module.rules.filter(
+      rule =>
+        !(
+          Array.isArray(rule.use) &&
+          rule.use.length > 0 &&
+          rule.use[0].options &&
+          'useEslintrc' in rule.use[0].options
+        )
+    );
+
     // Safely locate Babel-Loader in Razzle's webpack internals
     const babelLoader = config.module.rules.findIndex(
       rule => rule.options && rule.options.babelrc
@@ -31,27 +42,28 @@ module.exports = {
       },
     };
 
-    // const tslintLoader = {
-    //   include,
-    //   enforce: 'pre',
-    //   test: /\.tsx?$/,
-    //   loader: 'tslint-loader',
-    //   options: {
-    //     emitErrors: true,
-    //     configFile: './tslint.json',
-    //   },
-    // };
+    const tslintLoader = {
+      include,
+      enforce: 'pre',
+      test: /\.tsx?$/,
+      loader: 'tslint-loader',
+      options: {
+        emitErrors: true,
+        configFile: './tslint.json',
+      },
+    };
+
+    config.module.rules.push(tslintLoader);
 
     // Fully replace babel-loader with ts-loader
     config.module.rules[babelLoader] = tsLoader;
-    // config.module.rules.push(tslintLoader);
 
     // If you want to use Babel & Typescript together (e.g. if you
     // are migrating incrementally and still need some Babel transforms)
     // then do the following:
     //
-    // - COMMENT out line 42
-    // - UNCOMMENT line 52
+    // - COMMENT out line 59
+    // - UNCOMMENT line 68
     //
     // config.module.rules.push(tsLoader)
 
