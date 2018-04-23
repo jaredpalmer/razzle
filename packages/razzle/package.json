@@ -47,7 +47,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
-    "file-loader": "1.1.11",
+    "file-loader": "^1.1.11",
     "fs-extra": "3.0.1",
     "jest": "20.0.4",
     "mini-css-extract-plugin": "^0.4.0",
@@ -65,7 +65,7 @@
     "uglifyjs-webpack-plugin": "1.2.4",
     "url-loader": "^1.0.1",
     "webpack": "^4.4.1",
-    "webpack-dev-server": "3.0.0",
+    "webpack-dev-server-speedy": "^3.1.1",
     "webpack-node-externals": "1.6.0",
     "webpackbar": "^2.4.0",
     "whatwg-fetch": "^2.0.3"
