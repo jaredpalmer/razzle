@@ -13,6 +13,9 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
+## Software Prerequisites
+
+- [Node.js](https://nodejs.org/en/) v8 or later
 
 ## Quick Start
 
