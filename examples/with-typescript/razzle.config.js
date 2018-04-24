@@ -35,14 +35,17 @@ module.exports = {
     const tsLoader = {
       include,
       test: /\.tsx?$/,
-      loader: require.resolve('ts-loader'),
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
     };
 
     const tslintLoader = {
       include,
       enforce: 'pre',
       test: /\.tsx?$/,
-      loader: require.resolve('tslint-loader'),
+      loader: 'tslint-loader',
       options: {
         emitErrors: true,
         configFile: './tslint.json',
