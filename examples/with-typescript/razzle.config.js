@@ -62,7 +62,7 @@ module.exports = {
     // then do the following:
     //
     // - COMMENT out line 55
-    // - UNCOMMENT line 62
+    // - UNCOMMENT line 67
     //
     // config.module.rules[babelLoader] = tsLoader;
 
