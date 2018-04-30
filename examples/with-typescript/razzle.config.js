@@ -8,8 +8,8 @@ module.exports = {
       '.ts',
       '.tsx',
     ]);
+ 
 
-    config.devtool = 'cheap-module-source-map';
 
     // Locate eslint-loader and remove it (we're using tslint instead)
     config.module.rules = config.module.rules.filter(
@@ -21,6 +21,17 @@ module.exports = {
           'useEslintrc' in rule.use[0].options
         )
     );
+    // Add tslint-loader
+    config.module.rules.push({
+      include,
+      enforce: 'pre',
+      test: /\.tsx?$/,
+      loader: 'tslint-loader',
+      options: {
+        emitErrors: true,
+        configFile: './tslint.json',
+      },
+    });
 
     // Safely locate Babel-Loader in Razzle's webpack internals
     const babelLoader = config.module.rules.findIndex(
@@ -40,31 +51,20 @@ module.exports = {
         transpileOnly: true,
       },
     };
-
-    const tslintLoader = {
-      include,
-      enforce: 'pre',
-      test: /\.tsx?$/,
-      loader: 'tslint-loader',
-      options: {
-        emitErrors: true,
-        configFile: './tslint.json',
-      },
-    };
-
-    config.module.rules.push(tslintLoader);
-
-    // Fully replace babel-loader with ts-loader
-    config.module.rules[babelLoader] = tsLoader;
-
-    // If you want to use Babel & Typescript together (e.g. if you
-    // are migrating incrementally and still need some Babel transforms)
+    // Add loader
+    config.module.rules.push(tsLoader)
+    
+    // Additional options found at https://github.com/TypeStrong/ts-loader#faster-builds
+    // Add async typechecking errors
+    // config.plugins.push(new require('fork-ts-checker-webpack-plugin')())
+ 
+    // If you want to replace Babel with typescript to fully speed up build
     // then do the following:
     //
-    // - COMMENT out line 59
-    // - UNCOMMENT line 68
+    // - COMMENT out line 55
+    // - UNCOMMENT line 67
     //
-    // config.module.rules.push(tsLoader)
+    // config.module.rules[babelLoader] = tsLoader;
 
     return config;
   },
