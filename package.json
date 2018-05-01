@@ -30,7 +30,9 @@
   "resolutions": {
     "file-loader": "1.1.11"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jest": "21.0.0"
+  },
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",
