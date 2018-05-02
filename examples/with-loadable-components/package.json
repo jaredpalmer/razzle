@@ -1,0 +1,18 @@
+{
+  "name": "razzle-examples-with-loadable-components",
+  "version": "2.0.0-alpha.12",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "razzle": "^2.0.0-alpha.12",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "loadable-components": "^1.4.0"
+  }
+}
