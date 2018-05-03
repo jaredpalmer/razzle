@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "raf": "^3.4.0",
     "razzle": "^2.0.0-alpha.12",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
