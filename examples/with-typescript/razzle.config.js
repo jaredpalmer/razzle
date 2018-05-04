@@ -59,8 +59,8 @@ module.exports = {
     // If you want to replace Babel with typescript to fully speed up build
     // then do the following:
     //
-    // - COMMENT out line 55
-    // - UNCOMMENT line 67
+    // - COMMENT out line 53
+    // - UNCOMMENT line 65
     //
     // config.module.rules[babelLoader] = tsLoader;
 
