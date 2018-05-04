@@ -8,8 +8,15 @@ module.exports = {
       '.ts',
       '.tsx',
     ]);
- 
 
+    // Safely locate Babel-Loader in Razzle's webpack internals
+    const babelLoader = config.module.rules.findIndex(
+      rule => rule.use[1].options && rule.use[1].options.babelrc
+    );
+
+    // Get the correct `include` option, since that hasn't changed.
+    // This tells Razzle which directories to transform.
+    const { include } = config.module.rules[babelLoader];
 
     // Locate eslint-loader and remove it (we're using tslint instead)
     config.module.rules = config.module.rules.filter(
@@ -32,15 +39,6 @@ module.exports = {
         configFile: './tslint.json',
       },
     });
-
-    // Safely locate Babel-Loader in Razzle's webpack internals
-    const babelLoader = config.module.rules.findIndex(
-      rule => rule.use[1].options && rule.use[1].options.babelrc
-    );
-
-    // Get the correct `include` option, since that hasn't changed.
-    // This tells Razzle which directories to transform.
-    const { include } = config.module.rules[babelLoader];
 
     // Declare our TypeScript loader configuration
     const tsLoader = {
