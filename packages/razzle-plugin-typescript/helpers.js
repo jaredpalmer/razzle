@@ -1,32 +1,25 @@
 'use strict';
 
-const eslintLoaderFinder = rule =>
-  Array.isArray(rule.use) &&
-  rule.use.find(
-    loader =>
-      typeof loader.loader === 'string' &&
-      loader.loader.match(/[/\\]eslint-loader[/\\]/)
-  );
+const loaderFinder = loaderName => rule => {
+  // i.e.: /eslint-loader/
+  const loaderRegex = new RegExp(`[/\\\\]${loaderName}[/\\\\]`);
 
-const babelLoaderFinder = rule =>
-  Array.isArray(rule.use) &&
-  rule.use.find(
-    loader =>
-      typeof loader.loader === 'string' &&
-      loader.loader.match(/[/\\]babel-loader[/\\]/)
+  // Checks if there is an object inside rule.use with loader matching loaderRegex, OR
+  // If there's a loader string in rule.loader matching loaderRegex.
+  return (
+    (Array.isArray(rule.use) &&
+      rule.use.find(
+        loader =>
+          typeof loader.loader === 'string' && loader.loader.match(loaderRegex)
+      )) ||
+    (typeof rule.loader === 'string' && rule.loader.match(loaderRegex))
   );
+};
 
-const tslintLoaderFinder = rule =>
-  typeof rule.loader === 'string' &&
-  rule.loader.match(/[/\\]tslint-loader[/\\]/);
-
-const tsLoaderFinder = rule =>
-  Array.isArray(rule.use) &&
-  rule.use.find(
-    loader =>
-      typeof loader.loader === 'string' &&
-      loader.loader.match(/[/\\]ts-loader[/\\]/)
-  );
+const eslintLoaderFinder = loaderFinder('eslint-loader');
+const babelLoaderFinder = loaderFinder('babel-loader');
+const tslintLoaderFinder = loaderFinder('tslint-loader');
+const tsLoaderFinder = loaderFinder('ts-loader');
 
 module.exports = {
   eslintLoaderFinder,

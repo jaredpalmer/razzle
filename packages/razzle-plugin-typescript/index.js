@@ -29,12 +29,12 @@ function modify(baseConfig, configOptions, webpack, userOptions = {}) {
   }
 
   // Safely locate Babel-Loader in Razzle's webpack internals
-  const babelLoaderIndex = config.module.rules.findIndex(babelLoaderFinder);
-  if (babelLoaderIndex === -1) {
-    throw new Error('babel-loader was erased from config');
+  const babelLoader = config.module.rules.find(babelLoaderFinder);
+  if (!babelLoader) {
+    throw new Error(
+      `'babel-loader' was erased from config, we need it to define 'include' option`
+    );
   }
-
-  const babelLoader = config.module.rules[babelLoaderIndex];
 
   // Get the correct `include` option, since that hasn't changed.
   // This tells Razzle which directories to transform.
@@ -45,12 +45,16 @@ function modify(baseConfig, configOptions, webpack, userOptions = {}) {
     include,
     enforce: 'pre',
     test: /\.tsx?$/,
-    loader: require.resolve('tslint-loader'),
-    options: Object.assign(
-      {},
-      defaultOptions.tslintLoader,
-      options.tslintLoader
-    ),
+    use: [
+      {
+        loader: require.resolve('tslint-loader'),
+        options: Object.assign(
+          {},
+          defaultOptions.tslintLoader,
+          options.tslintLoader
+        ),
+      },
+    ],
   };
   config.module.rules.push(tslintLoader);
 
@@ -70,12 +74,14 @@ function modify(baseConfig, configOptions, webpack, userOptions = {}) {
     // If using babel, also add babel-loader to ts files,
     // so we can use babel plugins on tsx files too
     tsLoader.use = [babelLoader.use[1], ...tsLoader.use];
-
-    config.module.rules.push(tsLoader);
   } else {
-    // If not using babel, override it with tsLoader
-    config.module.rules[babelLoaderIndex] = tsLoader;
+    // If not using babel, remove it
+    config.module.rules = config.module.rules.filter(
+      rule => !babelLoaderFinder(rule)
+    );
   }
+
+  config.module.rules.push(tsLoader);
 
   return config;
 }
