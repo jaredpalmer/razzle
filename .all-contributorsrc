@@ -65,6 +65,17 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "lucasterra",
+      "name": "Lucas Terra",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/441058?v=4",
+      "profile": "https://www.linkedin.com/in/lucasterra7/",
+      "contributions": [
+        "code",
+        "example",
+        "plugin"
+      ]
     }
   ]
 }
