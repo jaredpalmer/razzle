@@ -1,10 +1,10 @@
 'use strict';
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const createConfig = require('razzle/config/createConfig');
 const pluginFunc = require('../index');
 const {
   eslintLoaderFinder,
-  tslintLoaderFinder,
   babelLoaderFinder,
   tsLoaderFinder,
 } = require('../helpers');
@@ -21,9 +21,12 @@ describe('razzle-typescript-plugin', () => {
       expect(config.resolve.extensions).toContain('.tsx');
     });
 
-    it('should add tslint-loader', () => {
-      const rule = config.module.rules.find(tslintLoaderFinder);
-      expect(rule).not.toBeUndefined();
+    it('should add fork-ts-checker-webpack-plugin', () => {
+      const tsCheckerPlugin = config.plugins.find(
+        plugin => plugin instanceof ForkTsCheckerWebpackPlugin
+      );
+
+      expect(tsCheckerPlugin).not.toBeUndefined();
     });
 
     it('should add ts-loader', () => {
@@ -53,6 +56,23 @@ describe('razzle-typescript-plugin', () => {
     it('should remove babel-loader', () => {
       const rule = config.module.rules.find(babelLoaderFinder);
       expect(rule).toBeUndefined();
+    });
+  });
+
+  describe('when creating a server config', () => {
+    let config;
+    beforeAll(() => {
+      config = createConfig('node', 'dev', {
+        plugins: [{ func: pluginFunc }],
+      });
+    });
+
+    it('should not add fork-ts-checker-webpack-plugin', () => {
+      const tsCheckerPlugin = config.plugins.find(
+        plugin => plugin instanceof ForkTsCheckerWebpackPlugin
+      );
+
+      expect(tsCheckerPlugin).toBeUndefined();
     });
   });
 });

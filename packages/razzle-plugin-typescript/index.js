@@ -1,21 +1,23 @@
 'use strict';
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { babelLoaderFinder, eslintLoaderFinder } = require('./helpers');
 
 const defaultOptions = {
   useBabel: true,
   tsLoader: {
     transpileOnly: true,
+    experimentalWatchApi: true,
   },
-  tslintLoader: {
-    emitErrors: true,
-    configFile: './tslint.json',
+  forkTsChecker: {
+    tsconfig: './tsconfig.json',
+    tslint: './tslint.json',
+    watch: ['./src'],
     typeCheck: true,
-    tsConfigFile: './tsconfig.json',
   },
 };
 
-function modify(baseConfig, configOptions, webpack, userOptions = {}) {
+function modify(baseConfig, { target }, webpack, userOptions = {}) {
   const options = Object.assign({}, defaultOptions, userOptions);
   const config = Object.assign({}, baseConfig);
 
@@ -32,31 +34,13 @@ function modify(baseConfig, configOptions, webpack, userOptions = {}) {
   const babelLoader = config.module.rules.find(babelLoaderFinder);
   if (!babelLoader) {
     throw new Error(
-      `'babel-loader' was erased from config, we need it to define 'include' option`
+      `'babel-loader' was erased from config, we need it to define 'include' option for 'ts-loader'`
     );
   }
 
   // Get the correct `include` option, since that hasn't changed.
   // This tells Razzle which directories to transform.
   const { include } = babelLoader;
-
-  // Configure tslint-loader
-  const tslintLoader = {
-    include,
-    enforce: 'pre',
-    test: /\.tsx?$/,
-    use: [
-      {
-        loader: require.resolve('tslint-loader'),
-        options: Object.assign(
-          {},
-          defaultOptions.tslintLoader,
-          options.tslintLoader
-        ),
-      },
-    ],
-  };
-  config.module.rules.push(tslintLoader);
 
   // Configure ts-loader
   const tsLoader = {
@@ -82,6 +66,16 @@ function modify(baseConfig, configOptions, webpack, userOptions = {}) {
   }
 
   config.module.rules.push(tsLoader);
+
+  // Do typechecking in a separate process,
+  // We can run it only in client builds.
+  if (target === 'web') {
+    config.plugins.push(
+      new ForkTsCheckerWebpackPlugin(
+        Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
+      )
+    );
+  }
 
   return config;
 }
