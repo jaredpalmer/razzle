@@ -1,11 +1,11 @@
-# razzle-dev-utils
+# razzle-plugin-typescript
 
 This package contains a plugin for using TypeScript with Razzle
 
 ## Usage in Razzle Projects
 
 ```
-npm install --save razzle-plugin-typescript
+yarn add razzle-plugin-typescript
 ```
 
 Using the plugin with the default options
@@ -20,7 +20,7 @@ module.exports = {
 };
 ```
 
-Passing custom options to the plugin:
+### With custom options:
 
 ```js
 // razzle.config.js
@@ -29,20 +29,12 @@ module.exports = {
   plugins: [
     {
       name: 'typescript',
-
-      // These are the default options.
       options: {
-        // Set useBabel to true if you want to keep using babel for JS/TS interoperability, or
-        // or if you want to apply any babel-transforms to typescript files
         useBabel: false,
-
-        // Any option you want to pass to ts-loader: https://github.com/TypeStrong/ts-loader
         tsLoader: {
           transpileOnly: true,
           experimentalWatchApi: true,
         },
-
-        // Any option you want to pass to fork-ts-checker-webpack-plugin: https://github.com/Realytics/fork-ts-checker-webpack-plugin
         forkTsChecker: {
           tsconfig: './tsconfig.json',
           tslint: './tslint.json',
@@ -54,3 +46,17 @@ module.exports = {
   ],
 };
 ```
+
+## Options
+
+__useBabel: _boolean___ (defaults: false)
+
+Set `useBabel` to `true` if you want to keep using `babel` for _JS_/_TS_ interoperability, or if you want to apply any babel transforms to typescript files. (i.e.: [`babel-plugin-styled-components`](https://github.com/styled-components/babel-plugin-styled-components)).
+
+__tsLoader: _TSLoaderOptions___ (defaults: { transpileOnly: true, experimentalWatchApi: true })
+
+Use this to override [`ts-loader`](https://github.com/TypeStrong/ts-loader) options. Check all the options here: [ts-loader options](https://github.com/TypeStrong/ts-loader#loader-options).
+
+__forkTsChecker: _TSCheckerOptions___ (defaults: { tsconfig: './tsconfig.json', tslint: './tslint.json', watch: './src',           typeCheck: true })
+
+Use this to override [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin) options. Check all the options here: [fork-ts-checker-webpack-plugin options](https://github.com/Realytics/fork-ts-checker-webpack-plugin#options).
