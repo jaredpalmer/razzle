@@ -32,10 +32,9 @@ module.exports = {
 
       // These are the default options.
       options: {
-        // Whether you want to keep using babel or not (for JS/TS interoperability)
-        // You can set useBabel to false if you have only TS files, or do not want to use
-        // any babel transforms
-        useBabel: true,
+        // Set useBabel to true if you want to keep using babel for JS/TS interoperability, or
+        // or if you want to apply any babel-transforms to typescript files
+        useBabel: false,
 
         // Any option you want to pass to ts-loader: https://github.com/TypeStrong/ts-loader
         tsLoader: {

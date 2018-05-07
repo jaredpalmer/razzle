@@ -4,7 +4,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { babelLoaderFinder, eslintLoaderFinder } = require('./helpers');
 
 const defaultOptions = {
-  useBabel: true,
+  useBabel: false,
   tsLoader: {
     transpileOnly: true,
     experimentalWatchApi: true,
