@@ -12,7 +12,7 @@
     "prettier": "^1.4.4",
     "ps-tree": "1.1.0",
     "semver": "5.4.1",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.8.2"
   },
   "scripts": {
     "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
