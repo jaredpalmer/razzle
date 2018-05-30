@@ -11,6 +11,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const paths = require('./paths');
+const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
@@ -36,7 +37,8 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -569,6 +571,24 @@ module.exports = (
         name: target === 'web' ? 'client' : 'server',
       }),
     ];
+  }
+
+  // Apply razzle plugins, if they are present in razzle.config.js
+  if (Array.isArray(plugins)) {
+    plugins.forEach(plugin => {
+      config = runPlugin(
+        plugin,
+        config,
+        { target, dev: IS_DEV },
+        webpackObject
+      );
+    });
+  }
+
+  // Check if razzle.config has a modify function. If it does, call it on the
+  // configs we created.
+  if (modify) {
+    config = modify(config, { target, dev: IS_DEV }, webpackObject);
   }
 
   return config;
