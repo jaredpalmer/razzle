@@ -8,8 +8,15 @@ module.exports = {
       '.ts',
       '.tsx',
     ]);
- 
 
+    // Safely locate Babel-Loader in Razzle's webpack internals
+    const babelLoader = config.module.rules.findIndex(
+      rule => rule.use[1].options && rule.use[1].options.babelrc
+    );
+
+    // Get the correct `include` option, since that hasn't changed.
+    // This tells Razzle which directories to transform.
+    const { include } = config.module.rules[babelLoader];
 
     // Locate eslint-loader and remove it (we're using tslint instead)
     config.module.rules = config.module.rules.filter(
@@ -26,27 +33,18 @@ module.exports = {
       include,
       enforce: 'pre',
       test: /\.tsx?$/,
-      loader: 'tslint-loader',
+      loader: require.resolve('tslint-loader'),
       options: {
         emitErrors: true,
         configFile: './tslint.json',
       },
     });
 
-    // Safely locate Babel-Loader in Razzle's webpack internals
-    const babelLoader = config.module.rules.findIndex(
-      rule => rule.use[1].options && rule.use[1].options.babelrc
-    );
-
-    // Get the correct `include` option, since that hasn't changed.
-    // This tells Razzle which directories to transform.
-    const { include } = config.module.rules[babelLoader];
-
     // Declare our TypeScript loader configuration
     const tsLoader = {
       include,
       test: /\.tsx?$/,
-      loader: 'ts-loader',
+      loader: require.resolve('ts-loader'),
       options: {
         transpileOnly: true,
       },
@@ -61,8 +59,8 @@ module.exports = {
     // If you want to replace Babel with typescript to fully speed up build
     // then do the following:
     //
-    // - COMMENT out line 55
-    // - UNCOMMENT line 67
+    // - COMMENT out line 53
+    // - UNCOMMENT line 65
     //
     // config.module.rules[babelLoader] = tsLoader;
 
