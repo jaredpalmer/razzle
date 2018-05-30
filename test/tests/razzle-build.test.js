@@ -11,12 +11,15 @@ shell.config.silent = false;
 const stageName = 'stage-build';
 
 describe('razzle build', () => {
+  beforeAll(() => {
+    util.teardownStage(stageName);
+  });
+
   it('should compile files into a build directory', () => {
     util.setupStageWithFixture(stageName, 'build-default');
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBe(true);
-
     // Create server.js
     expect(shell.test('-f', 'build/server.js')).toBe(true);
     expect(shell.test('-f', 'build/server.js.map')).toBe(true);
