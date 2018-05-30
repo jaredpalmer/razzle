@@ -1,9 +1,6 @@
-**WARNING: This is the documentation for `razzle@next` (Webpack 4).**  
-[Go here for for razzle@0.8.x (stable) docs (Webpack 3)](https://github.com/jaredpalmer/razzle/tree/master).
-
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
-[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
+[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/github/jaredpalmer/after.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/jaredpalmer/razzle?targetFile=package.json)
 
 Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Aiming to fill this void, Razzle is a tool that abstracts all complex configuration needed for SSR into a single dependency--giving you the awesome developer experience of [create-react-app](https://github.com/facebookincubator/create-react-app), but then leaving the rest of your app's architectural decisions about frameworks, routing, and data fetching up to you. With this approach, Razzle not only works with React, but also Reason, Elm, Vue, Angular, and most importantly......whatever comes next.
 
@@ -63,11 +60,11 @@ By default, runs tests related to files changed since the last commit.
 
 ### `npm start -- --inspect` or `yarn start -- --inspect`
 
-To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
 ### `npm start -- --inspect-brk` or `yarn start -- --inspect-brk`
 
-To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
+To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
 ### `rs`
 
@@ -79,13 +76,13 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents**
-
 * [Customization](#customization)
-  * [Extending Babel Config](#extending-babel-config)
+  * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
-  * [Environment Variables](#environment-variables)
+* [Environment Variables](#environment-variables)
+  * [Build-time Variables](#build-time-variables)
+  * [Runtime Variables](#runtime-variables)
   * [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
     * [Windows (cmd.exe)](#windows-cmdexe)
     * [Linux, macOS (Bash)](#linux-macos-bash)
@@ -160,17 +157,16 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 }
 ```
 
-### Environment Variables
+## Environment Variables
 
-**The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
+### Build-time Variables
+
+**The following environment variables are embedded during the build time.**
 
 * `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 * `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
 * `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
-<<<<<<< HEAD
-=======
 * `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
->>>>>>> master
 * `process.env.PORT`: default is `3000`, unless changed
 * `process.env.HOST`: default is `0.0.0.0`
 * `process.env.NODE_ENV`: `'development'` or `'production'`
@@ -181,6 +177,71 @@ You can create your own custom build-time environment variables. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable named `RAZZLE_SECRET_CODE` will be exposed in your JS as `process.env.RAZZLE_SECRET_CODE`.
+
+### Runtime Variables
+
+Using the dotenv package, or by defining variables in your shell (see below), you can get access to runtime environment variables. This is useful for services like Heroku which dynamically set `process.env.PORT` for example. Be careful when referencing runtime variables in isomorphic code as they will be `undefined` in the browser, but defined when running in Node. This can lead to weird behavior. If you need to make runtime variables available to the browser, it is up to you to deliver them. You can stringify them and place them on `window`...
+
+```js
+// config.js
+export const runtimeConfig =
+  typeof window !== 'undefined'
+    ? {
+        // client
+        myThing: window.env.myThing,
+        anotherThing: window.env.anotherThing,
+      }
+    : {
+        // server
+        myThing: process.env.MY_THING,
+        anotherThing: process.env.ANOTHER_THING,
+      };
+```
+
+Now we set `window.env` as `runtimeConfig` when we go to render the HTML.
+
+```js
+import App from './App';
+import React from 'react';
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import serialize from 'serialize-javascript'; // Safer stringify, prevents XSS attacks
+import { runtimeConfig } from './config';
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+
+const server = express();
+
+server
+  .disable('x-powered-by')
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .get('/*', (req, res) => {
+    const markup = renderToString(<App />);
+    res.send(
+      // prettier-ignore
+      `<!doctype html>
+    <html lang="">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charSet='utf-8' />
+        <title>Welcome to Razzle</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        } 
+    </head>
+    <body>
+        <div id="root">${markup}</div> 
+        <script>window.env = ${serialize(runtimeConfig)};</script>                   
+        <script src="${assets.client.js}" defer crossorigin></script>
+    </body>
+</html>`
+    );
+  });
+
+export default server;
+```
 
 ### Adding Temporary Environment Variables In Your Shell
 
@@ -232,7 +293,7 @@ Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) f
 
 **TL;DR**: 2 configs, 2 ports, 2 webpack instances, both watching and hot reloading the same filesystem, in parallel during development and a little `webpack.output.publicPath` magic.
 
-In development mode (`razzle start`), Razzle bundles both your client and server code using two different webpack instances running with Hot Module Replacement in parallel. While your server is bundled and run on whatever port your specify in `src/index.js` (`3000` is the default), the client bundle (i.e. entry point at `src/client.js`) is served via `webpack-dev-server` on a different port (`3001` by default) with its `publicPath` explicitly set to `localhost:3001` (and not `/` like many other setups do). Then the server's html template just points to the absolute url of the client JS: `localhost:3001/static/js/client.js`. Since both webpack instances watch the same files, whenever you make edits, they hot reload at _exactly_ the same time. Best of all, because they use the same code, the same webpack loaders, and the same babel transformations, you never run into a React checksum mismatch error.
+In development mode (`razzle start`), Razzle bundles both your client and server code using two different webpack instances running with Hot Module Replacement in parallel. While your server is bundled and run on whatever port you specify in `src/index.js` (`3000` is the default), the client bundle (i.e. entry point at `src/client.js`) is served via `webpack-dev-server` on a different port (`3001` by default) with its `publicPath` explicitly set to `localhost:3001` (and not `/` like many other setups do). Then the server's html template just points to the absolute url of the client JS: `localhost:3001/static/js/client.js`. Since both webpack instances watch the same files, whenever you make edits, they hot reload at _exactly_ the same time. Best of all, because they use the same code, the same webpack loaders, and the same babel transformations, you never run into a React checksum mismatch error.
 
 ## Inspiration
 

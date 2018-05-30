@@ -1,6 +1,3 @@
-**WARNING: This is the documentation for `razzle@next` (Webpack 4).**  
-[Go here for for razzle@0.8.x (stable) docs (Webpack 3)](https://github.com/jaredpalmer/razzle/tree/master).
-
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/github/jaredpalmer/after.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/jaredpalmer/razzle?targetFile=package.json)
@@ -79,13 +76,13 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents**
-
 * [Customization](#customization)
-  * [Extending Babel Config](#extending-babel-config)
+  * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
-  * [Environment Variables](#environment-variables)
+* [Environment Variables](#environment-variables)
+  * [Build-time Variables](#build-time-variables)
+  * [Runtime Variables](#runtime-variables)
   * [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
     * [Windows (cmd.exe)](#windows-cmdexe)
     * [Linux, macOS (Bash)](#linux-macos-bash)
@@ -160,9 +157,11 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 }
 ```
 
-### Environment Variables
+## Environment Variables
 
-**The environment variables are embedded during the build time.** You can read them at runtime just because by default we export them with the `webpack.DefinePlugin`.
+### Build-time Variables
+
+**The following environment variables are embedded during the build time.**
 
 * `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 * `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
@@ -178,6 +177,71 @@ You can create your own custom build-time environment variables. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable named `RAZZLE_SECRET_CODE` will be exposed in your JS as `process.env.RAZZLE_SECRET_CODE`.
+
+### Runtime Variables
+
+Using the dotenv package, or by defining variables in your shell (see below), you can get access to runtime environment variables. This is useful for services like Heroku which dynamically set `process.env.PORT` for example. Be careful when referencing runtime variables in isomorphic code as they will be `undefined` in the browser, but defined when running in Node. This can lead to weird behavior. If you need to make runtime variables available to the browser, it is up to you to deliver them. You can stringify them and place them on `window`...
+
+```js
+// config.js
+export const runtimeConfig =
+  typeof window !== 'undefined'
+    ? {
+        // client
+        myThing: window.env.myThing,
+        anotherThing: window.env.anotherThing,
+      }
+    : {
+        // server
+        myThing: process.env.MY_THING,
+        anotherThing: process.env.ANOTHER_THING,
+      };
+```
+
+Now we set `window.env` as `runtimeConfig` when we go to render the HTML.
+
+```js
+import App from './App';
+import React from 'react';
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import serialize from 'serialize-javascript'; // Safer stringify, prevents XSS attacks
+import { runtimeConfig } from './config';
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+
+const server = express();
+
+server
+  .disable('x-powered-by')
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .get('/*', (req, res) => {
+    const markup = renderToString(<App />);
+    res.send(
+      // prettier-ignore
+      `<!doctype html>
+    <html lang="">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charSet='utf-8' />
+        <title>Welcome to Razzle</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        } 
+    </head>
+    <body>
+        <div id="root">${markup}</div> 
+        <script>window.env = ${serialize(runtimeConfig)};</script>                   
+        <script src="${assets.client.js}" defer crossorigin></script>
+    </body>
+</html>`
+    );
+  });
+
+export default server;
+```
 
 ### Adding Temporary Environment Variables In Your Shell
 
