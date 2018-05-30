@@ -6,7 +6,7 @@
 const shell = require('shelljs');
 const util = require('../fixtures/util');
 
-shell.config.silent = true;
+shell.config.silent = false;
 
 const stageName = 'stage-build';
 
