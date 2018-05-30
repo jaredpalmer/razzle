@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -10,12 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "ts-loader": "^4.2.0",
-    "fork-ts-checker-webpack-plugin": "^0.4.1"
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
+    "ts-loader": "^4.2.0"
   },
   "devDependencies": {
-    "razzle": "^2.0.0-alpha.12",
-    "jest": "20.0.4"
+    "jest": "20.0.4",
+    "razzle": "^2.0.0"
   },
   "peerDependencies": {
     "typescript": ">=2.4.1"
