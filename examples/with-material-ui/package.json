@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-material-ui",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -8,19 +8,13 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
-  "jest": {
-    "setupFiles": [
-      "raf/polyfill"
-    ]
-  },
   "dependencies": {
     "express": "^4.15.2",
-    "material-ui": "^1.0.0-beta.13",
+    "material-ui": "^1.0.0-beta.38",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
-    "razzle": "^1.0.1"
+    "razzle": "^2.0.0-alpha.12"
   }
 }

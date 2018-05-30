@@ -1,5 +1,4 @@
-import { injectAddRule, resetCache } from 'jsxstyle/lib/styleCache';
-
+import { cache } from 'jsxstyle';
 import App from './App';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
@@ -14,10 +13,14 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    resetCache();
+    cache.reset();
     let styles = '';
+    cache.injectOptions({
+      onInsertRule(css) {
+        styles += css;
+      },
+    });
     const context = {};
-    injectAddRule(rule => (styles += rule + '\n'));
 
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>
@@ -36,13 +39,17 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assets.client.css
-          ? `<link rel="stylesheet" href="${assets.client.css}">`
-          : ''}
+        ${
+          assets.client.css
+            ? `<link rel="stylesheet" href="${assets.client.css}">`
+            : ''
+        }
         ${styles ? `<style type="text/css">${styles}</style>` : ''}
-        ${process.env.NODE_ENV === 'production'
-          ? `<script src="${assets.client.js}" defer></script>`
-          : `<script src="${assets.client.js}" defer crossorigin></script>`}
+        ${
+          process.env.NODE_ENV === 'production'
+            ? `<script src="${assets.client.js}" defer></script>`
+            : `<script src="${assets.client.js}" defer crossorigin></script>`
+        }
     </head>
     <body>
         <div id="root">${markup}</div>

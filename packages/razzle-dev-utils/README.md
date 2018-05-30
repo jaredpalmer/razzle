@@ -59,3 +59,26 @@ try {
   printErrors('Failed to compile.', [e]);
 }
 ```
+
+`makeLoaderFinder(loaderName: string): (rule: WebPackRule) => boolean;`
+
+Helper function to find a loader in the webpack config object. Used for writing Razzle Plugins, or razzle modify functions.
+
+Example:
+```js
+// razzle.config.js
+const loaderFinder = require('razzle-dev-utils/makeLoaderFinder');
+
+module.exports = {
+  modify(config) {
+    // Makes a finder function, to search for babel-loader
+    const babelLoaderFinder = makeLoaderFinder('babel-loader');
+
+    // Finds the JS rule containing babel-loader using our function
+    const jsRule = config.module.rules.find(babelLoaderFinder);
+
+    // Set cacheDirectory to true in our babel-loader
+    jsRule.use.find(babelLoaderFinder).options.cacheDirectory = true;
+  }
+}
+```

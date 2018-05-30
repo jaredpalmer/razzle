@@ -7,14 +7,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
-const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const paths = require('./paths');
+const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const WebpackBar = require('webpackbar');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -36,7 +37,8 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -83,6 +85,8 @@ module.exports = (
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
   // This is our base webpack config.
   let config = {
+    // Set webpack mode:
+    mode: IS_DEV ? 'development' : 'production',
     // Set webpack context to the current command's directory
     context: process.cwd(),
     // Specify target (either 'node' or 'web')
@@ -127,9 +131,14 @@ module.exports = (
         // Transform ES6 with Babel
         {
           test: /\.(js|jsx|mjs)$/,
-          loader: require.resolve('babel-loader'),
           include: [paths.appSrc],
-          options: mainBabelOptions,
+          use: [
+            require.resolve('thread-loader'),
+            {
+              loader: require.resolve('babel-loader'),
+              options: mainBabelOptions,
+            },
+          ],
         },
         {
           exclude: [
@@ -149,6 +158,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
+            emitFile: true,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -160,6 +170,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
+            emitFile: true,
           },
         },
 
@@ -198,23 +209,21 @@ module.exports = (
                     options: postCssOptions,
                   },
                 ]
-              : ExtractTextPlugin.extract({
-                  fallback: require.resolve('style-loader'),
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                        modules: false,
-                        minimize: true,
-                      },
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                      modules: false,
+                      minimize: true,
                     },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
@@ -250,29 +259,22 @@ module.exports = (
                     options: postCssOptions,
                   },
                 ]
-              : ExtractTextPlugin.extract({
-                  fallback: {
-                    loader: require.resolve('style-loader'),
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
                     options: {
-                      hmr: false,
+                      modules: true,
+                      importLoaders: 1,
+                      minimize: true,
+                      localIdentName: '[path]__[name]___[local]',
                     },
                   },
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        modules: true,
-                        importLoaders: 1,
-                        minimize: true,
-                        localIdentName: '[path]__[name]___[local]',
-                      },
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: postCssOptions,
-                    },
-                  ],
-                }),
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
       ],
     },
@@ -280,7 +282,11 @@ module.exports = (
 
   if (IS_NODE) {
     // We want to uphold node's __filename, and __dirname.
-    config.node = { console: true, __filename: true, __dirname: true };
+    config.node = {
+      __console: false,
+      __dirname: false,
+      __filename: false,
+    };
 
     // We need to tell webpack what to bundle into our Node bundle.
     config.externals = [
@@ -300,12 +306,10 @@ module.exports = (
       path: paths.appBuild,
       publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
       filename: 'server.js',
+      libraryTarget: 'commonjs2',
     };
     // Add some plugins...
     config.plugins = [
-      // This makes debugging much easier as webpack will add filenames to
-      // modules
-      new webpack.NamedModulesPlugin(),
       // We define environment variables that can be accessed globally in our
       new webpack.DefinePlugin(dotenv.stringified),
       // Prevent creating multiple chunks for the server
@@ -335,8 +339,6 @@ module.exports = (
         // Add hot module replacement
         new webpack.HotModuleReplacementPlugin(),
         // Supress errors to console (we use our own logger)
-        new webpack.NoEmitOnErrorsPlugin(),
-        // Automatically start the server when we are done compiling
         new StartServerPlugin({
           name: 'server.js',
           nodeArgs,
@@ -349,14 +351,18 @@ module.exports = (
 
   if (IS_WEB) {
     config.plugins = [
-      // Again use the NamesModules to help with debugging
-      new webpack.NamedModulesPlugin(),
       // Output our JS and CSS files in a manifest file called assets.json
       // in the build directory.
       new AssetsPlugin({
         path: paths.appBuild,
         filename: 'assets.json',
       }),
+      // Maybe we should move to this???
+      // new ManifestPlugin({
+      //   path: paths.appBuild,
+      //   writeToFileEmit: true,
+      //   filename: 'manifest.json',
+      // }),
     ];
 
     if (IS_DEV) {
@@ -367,7 +373,7 @@ module.exports = (
           // We ship a few polyfills by default but only include them if React is being placed in
           // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
           // on your own.
-          !!dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
+          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
           require.resolve('razzle-dev-utils/webpackHotDevClient'),
           paths.appClientIndexJs,
         ].filter(Boolean),
@@ -378,6 +384,7 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
+        libraryTarget: 'var',
         filename: 'static/js/bundle.js',
         chunkFilename: 'static/js/[name].chunk.js',
         devtoolModuleFilenameTemplate: info =>
@@ -411,7 +418,7 @@ module.exports = (
         watchOptions: {
           ignored: /node_modules/,
         },
-        setup(app) {
+        before(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
         },
@@ -419,14 +426,33 @@ module.exports = (
       // Add client-only development plugins
       config.plugins = [
         ...config.plugins,
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.HotModuleReplacementPlugin({
+          multiStep: true,
+        }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
+
+      config.optimization = {
+        // @todo automatic vendor bundle
+        // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        // splitChunks: {
+        //   chunks: 'all',
+        // },
+        // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
+        // runtimeChunk: true,
+      };
     } else {
-      // Specify production entry point (just /client/index.js)
+      // Specify production entry point (/client/index.js)
       config.entry = {
-        client: [paths.appClientIndexJs],
+        client: [
+          // We ship a few polyfills by default but only include them if React is being placed in
+          // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
+          // on your own.
+          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
+          paths.appClientIndexJs,
+        ].filter(Boolean),
       };
 
       // Specify the client output directory and paths. Notice that we have
@@ -437,35 +463,95 @@ module.exports = (
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        libraryTarget: 'var',
       };
 
       config.plugins = [
         ...config.plugins,
         // Define production environment vars
         new webpack.DefinePlugin(dotenv.stringified),
-        // Uglify/compress and optimize our JS for production, screw ie8 when
-        // possible, React only works > ie9 anyway
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebookincubator/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
-              comparisons: false,
-            },
-            output: {
-              comments: false,
-            },
-          },
-          sourceMap: true,
-        }),
         // Extract our CSS into a files.
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
           filename: 'static/css/bundle.[contenthash:8].css',
+          // allChunks: true because we want all css to be included in the main
+          // css bundle when doing code splitting to avoid FOUC:
+          // https://github.com/facebook/create-react-app/issues/2415
+          allChunks: true,
         }),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
       ];
+
+      config.optimization = {
+        minimize: true,
+        minimizer: [
+          new UglifyJsPlugin({
+            uglifyOptions: {
+              parse: {
+                // we want uglify-js to parse ecma 8 code. However, we don't want it
+                // to apply any minfication steps that turns valid ecma 5 code
+                // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                // sections only apply transformations that are ecma 5 safe
+                // https://github.com/facebook/create-react-app/pull/4234
+                ecma: 8,
+              },
+              compress: {
+                ecma: 5,
+                warnings: false,
+                // Disabled because of an issue with Uglify breaking seemingly valid code:
+                // https://github.com/facebook/create-react-app/issues/2376
+                // Pending further investigation:
+                // https://github.com/mishoo/UglifyJS2/issues/2011
+                comparisons: false,
+              },
+              mangle: {
+                safari10: true,
+              },
+              output: {
+                ecma: 5,
+                comments: false,
+                // Turned on because emoji and regex is not minified properly using default
+                // https://github.com/facebook/create-react-app/issues/2488
+                ascii_only: true,
+              },
+            },
+            // Use multi-process parallel running to improve the build speed
+            // Default number of concurrent runs: os.cpus().length - 1
+            parallel: true,
+            // Enable file caching
+            cache: true,
+            // @todo add flag for sourcemaps
+            sourceMap: true,
+          }),
+        ],
+        // @todo automatic vendor bundle
+        // Automatically split vendor and commons
+        // https://twitter.com/wSokra/status/969633336732905474
+        // splitChunks: {
+        //   chunks: 'all',
+        //   minSize: 30000,
+        //   minChunks: 1,
+        //   maxAsyncRequests: 5,
+        //   maxInitialRequests: 3,
+        //   name: true,
+        //   cacheGroups: {
+        //     commons: {
+        //       test: /[\\/]node_modules[\\/]/,
+        //       name: 'vendor',
+        //       chunks: 'all',
+        //     },
+        //     main: {
+        //       chunks: 'all',
+        //       minChunks: 2,
+        //       reuseExistingChunk: true,
+        //       enforce: true,
+        //     },
+        //   },
+        // },
+        // Keep the runtime chunk seperated to enable long term caching
+        // https://twitter.com/wSokra/status/969679223278505985
+        // runtimeChunk: true,
+      };
     }
   }
 
@@ -473,14 +559,36 @@ module.exports = (
     config.plugins = [
       ...config.plugins,
       // Use our own FriendlyErrorsPlugin during development.
-      new FriendlyErrorsPlugin({
-        verbose: dotenv.raw.VERBOSE,
-        target,
-        onSuccessMessage: `Your application is running at http://${
-          dotenv.raw.HOST
-        }:${dotenv.raw.PORT}`,
+      // new FriendlyErrorsPlugin({
+      //   verbose: dotenv.raw.VERBOSE,
+      //   target,
+      //   onSuccessMessage: `Your application is running at http://${
+      //     dotenv.raw.HOST
+      //   }:${dotenv.raw.PORT}`,
+      // }),
+      new WebpackBar({
+        color: target === 'web' ? '#f56be2' : '#c065f4',
+        name: target === 'web' ? 'client' : 'server',
       }),
     ];
+  }
+
+  // Apply razzle plugins, if they are present in razzle.config.js
+  if (Array.isArray(plugins)) {
+    plugins.forEach(plugin => {
+      config = runPlugin(
+        plugin,
+        config,
+        { target, dev: IS_DEV },
+        webpackObject
+      );
+    });
+  }
+
+  // Check if razzle.config has a modify function. If it does, call it on the
+  // configs we created.
+  if (modify) {
+    config = modify(config, { target, dev: IS_DEV }, webpackObject);
   }
 
   return config;

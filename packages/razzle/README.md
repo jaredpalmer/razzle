@@ -1,3 +1,6 @@
+**WARNING: This is the documentation for `razzle@next` (Webpack 4).**  
+[Go here for for razzle@0.8.x (stable) docs (Webpack 3)](https://github.com/jaredpalmer/razzle/tree/master).
+
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle)
@@ -66,7 +69,11 @@ To debug the node server, you can use `razzle start --inspect`. This will start 
 
 To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/inspector/).
 
----
+### `rs`
+
+If your application is running, and you need to manually restart your server, you do not need to completely kill and rebundle your application. Instead you can just type `rs` and press enter in terminal.
+
+## <img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -160,7 +167,10 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 * `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
 * `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
 * `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
+<<<<<<< HEAD
+=======
 * `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
+>>>>>>> master
 * `process.env.PORT`: default is `3000`, unless changed
 * `process.env.HOST`: default is `0.0.0.0`
 * `process.env.NODE_ENV`: `'development'` or `'production'`

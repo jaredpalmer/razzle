@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jsxstyle",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,13 +10,12 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "jsxstyle": "next",
+    "jsxstyle": "^2.0.11",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
-    "razzle": "^1.0.1"
+    "razzle": "^2.0.0-alpha.12"
   }
 }

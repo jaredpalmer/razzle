@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 /**
  * Print an array of errors to console.
- * 
+ *
  * @param {string} summary Summary of error
  * @param {Array<Error>} errors Array of Errors
  */

@@ -1,7 +1,7 @@
 {
   "name": "create-razzle-app",
-  "version": "0.8.12",
-  "description": "Create UNIVERSAL React, Preact, and Inferno apps in one command",
+  "version": "2.0.0-alpha.12",
+  "description": "CLI tool to bootstrap Razzle applications with no configuration",
   "main": "index.js",
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net> (http://jaredpalmer.com)",

@@ -14,5 +14,12 @@ hydrate(
 );
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept('../common/containers/App', () => {
+    hydrate(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.getElementById('root')
+    );
+  });
 }

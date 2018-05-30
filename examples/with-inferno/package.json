@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-inferno",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,14 +9,15 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "inferno": "^1.4.2",
-    "inferno-component": "^1.4.2",
-    "inferno-server": "^1.4.2"
+    "eslint-plugin-inferno": "^7.7.0",
+    "express": "4.16.3",
+    "inferno": "5.0.1",
+    "inferno-component": "5.0.1",
+    "inferno-server": "5.0.1 "
   },
   "devDependencies": {
-    "babel-plugin-inferno": "^2.0.0",
-    "inferno-devtools": "^1.4.2",
-    "razzle": "^1.0.1"
+    "babel-plugin-inferno": "5.0.1",
+    "inferno-devtools": "5.0.1",
+    "razzle": "^2.0.0-alpha.12"
   }
 }

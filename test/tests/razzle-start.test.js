@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 'use strict';
 
 const shell = require('shelljs');
@@ -23,7 +26,7 @@ describe('razzle start', () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
-          if (data.includes('Compiled successfully')) {
+          if (data.includes('Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/bundle.js'

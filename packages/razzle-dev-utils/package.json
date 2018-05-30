@@ -1,6 +1,6 @@
 {
   "name": "razzle-dev-utils",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.12",
   "description": "Utilities and helpers for Razzle",
   "author": "Jared Palmer <jared@palmer.net>",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -10,7 +10,8 @@
     "printErrors.js",
     "FriendlyErrorsPlugin.js",
     "webpackHotDevClient.js",
-    "setPorts.js"
+    "setPorts.js",
+    "makeLoaderFinder.js"
   ],
   "dependencies": {
     "chalk": "1.1.3",

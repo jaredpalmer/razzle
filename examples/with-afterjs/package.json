@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-afterjs",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.12",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@jaredpalmer/after": "latest",
     "express": "^4.16.2",
-    "razzle": "^1.0.1",
+    "razzle": "^2.0.0-alpha.12",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
