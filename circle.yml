@@ -10,4 +10,4 @@ dependencies:
  
 test:
   override:
-    - yarn e2e -- --runInBand
+    - yarn e2e --runInBand
