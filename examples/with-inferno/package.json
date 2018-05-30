@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-inferno",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,6 +17,6 @@
   "devDependencies": {
     "babel-plugin-inferno": "^2.0.0",
     "inferno-devtools": "^1.4.2",
-    "razzle": "^1.0.0"
+    "razzle": "^1.0.1"
   }
 }
