@@ -9,7 +9,7 @@ const kill = require('../utils/psKill');
 const path = require('path');
 const fs = require('fs');
 
-shell.config.silent = false;
+shell.config.silent = true;
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
