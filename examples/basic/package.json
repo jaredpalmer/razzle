@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-basic",
-  "version": "0.8.14",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "raf": "^3.3.2",
-    "razzle": "^0.8.14"
+    "razzle": "^1.0.0"
   }
 }
