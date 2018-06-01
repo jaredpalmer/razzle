@@ -61,7 +61,6 @@
     "react-error-overlay": "^2.0.0",
     "start-server-webpack-plugin": "2.2.5",
     "style-loader": "0.20.3",
-    "thread-loader": "1.1.5",
     "uglifyjs-webpack-plugin": "1.2.4",
     "url-loader": "^1.0.1",
     "webpack": "^4.6.0",

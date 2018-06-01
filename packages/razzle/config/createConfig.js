@@ -133,7 +133,6 @@ module.exports = (
           test: /\.(js|jsx|mjs)$/,
           include: [paths.appSrc],
           use: [
-            require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
               options: mainBabelOptions,
