@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "jest": "20.0.4",
-    "razzle": "^2.0.0"
+    "razzle": "^2.0.1"
   },
   "peerDependencies": {
     "typescript": ">=2.4.1"
