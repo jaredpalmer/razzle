@@ -324,7 +324,7 @@ module.exports = (
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
 
-      const nodeArgs = [];
+      const nodeArgs = ['-r', 'source-map-support/register'];
 
       // Add --inspect or --inspect-brk flag when enabled
       if (process.env.INSPECT_BRK_ENABLED) {
