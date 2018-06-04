@@ -17,7 +17,7 @@ const defaultOptions = {
   },
 };
 
-function modify(baseConfig, { target }, webpack, userOptions = {}) {
+function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
   const options = Object.assign({}, defaultOptions, userOptions);
   const config = Object.assign({}, baseConfig);
 
@@ -75,6 +75,17 @@ function modify(baseConfig, { target }, webpack, userOptions = {}) {
         Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
       )
     );
+    if (dev) {
+      // As suggested by Microsoft's Outlook team, these optimizations
+      // crank up Webpack x TypeScript perf.
+      // @see https://medium.com/@kenneth_chau/speeding-up-webpack-typescript-incremental-builds-by-7x-3912ba4c1d15
+      config.output.pathinfo = false;
+      config.optimization = {
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      };
+    }
   }
 
   return config;
