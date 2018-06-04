@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-elm",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "license": "MIT",
   "scripts": {
     "postinstall": "elm-package install -y",
@@ -16,6 +16,6 @@
   "devDependencies": {
     "elm-hot-loader": "^0.5.4",
     "elm-webpack-loader": "4.5.0",
-    "razzle": "^2.0.2"
+    "razzle": "^2.0.3"
   }
 }
