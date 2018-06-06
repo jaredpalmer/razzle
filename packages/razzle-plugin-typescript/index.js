@@ -57,7 +57,7 @@ function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
   if (options.useBabel) {
     // If using babel, also add babel-loader to ts files,
     // so we can use babel plugins on tsx files too
-    tsLoader.use = [babelLoader.use[1], ...tsLoader.use];
+    tsLoader.use = [...babelLoader.use, ...tsLoader.use];
   } else {
     // If not using babel, remove it
     config.module.rules = config.module.rules.filter(
