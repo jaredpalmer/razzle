@@ -31,6 +31,7 @@ module.exports = {
       name: 'typescript',
       options: {
         useBabel: false,
+        useEslint: true, // ignored if `useBabel` is false
         tsLoader: {
           transpileOnly: true,
           experimentalWatchApi: true,
@@ -52,6 +53,11 @@ module.exports = {
 __useBabel: _boolean___ (defaults: false)
 
 Set `useBabel` to `true` if you want to keep using `babel` for _JS_/_TS_ interoperability, or if you want to apply any babel transforms to typescript files. (i.e.: [`babel-plugin-styled-components`](https://github.com/styled-components/babel-plugin-styled-components)).
+
+__useEslint: _boolean___ (defaults: true)
+
+Note: This option is ignored if `useBabel` is set to `false`.
+Set `useEslint` to `false` if you want to use `babel` for transforms but do not wish to use eslint.
 
 __tsLoader: _TSLoaderOptions___ (defaults: { transpileOnly: true, experimentalWatchApi: true })
 
