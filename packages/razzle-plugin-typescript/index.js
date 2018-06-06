@@ -5,6 +5,7 @@ const { babelLoaderFinder, eslintLoaderFinder } = require('./helpers');
 
 const defaultOptions = {
   useBabel: false,
+  useEslint: true,
   tsLoader: {
     transpileOnly: true,
     experimentalWatchApi: true,
@@ -23,7 +24,7 @@ function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
 
   config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx'];
 
-  if (!options.useBabel) {
+  if (!options.useBabel || !options.useEslint) {
     // Locate eslint-loader and remove it (we're using only tslint)
     config.module.rules = config.module.rules.filter(
       rule => !eslintLoaderFinder(rule)
