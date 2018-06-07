@@ -7,14 +7,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
-const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const paths = require('./paths');
+const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const WebpackBar = require('webpackbar');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -36,7 +37,8 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000 }
+  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -156,6 +158,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
+            emitFile: true,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -167,6 +170,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
+            emitFile: true,
           },
         },
 
@@ -278,7 +282,11 @@ module.exports = (
 
   if (IS_NODE) {
     // We want to uphold node's __filename, and __dirname.
-    config.node = { console: true, __filename: true, __dirname: true };
+    config.node = {
+      __console: false,
+      __dirname: false,
+      __filename: false,
+    };
 
     // We need to tell webpack what to bundle into our Node bundle.
     config.externals = [
@@ -298,6 +306,7 @@ module.exports = (
       path: paths.appBuild,
       publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
       filename: 'server.js',
+      libraryTarget: 'commonjs2',
     };
     // Add some plugins...
     config.plugins = [
@@ -375,6 +384,7 @@ module.exports = (
         path: paths.appBuildPublic,
         publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
         pathinfo: true,
+        libraryTarget: 'var',
         filename: 'static/js/bundle.js',
         chunkFilename: 'static/js/[name].chunk.js',
         devtoolModuleFilenameTemplate: info =>
@@ -453,6 +463,7 @@ module.exports = (
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
         filename: 'static/js/bundle.[chunkhash:8].js',
         chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        libraryTarget: 'var',
       };
 
       config.plugins = [
@@ -467,14 +478,25 @@ module.exports = (
           // https://github.com/facebook/create-react-app/issues/2415
           allChunks: true,
         }),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
       ];
 
       config.optimization = {
+        minimize: true,
         minimizer: [
           new UglifyJsPlugin({
             uglifyOptions: {
-              ecma: 8,
+              parse: {
+                // we want uglify-js to parse ecma 8 code. However, we don't want it
+                // to apply any minfication steps that turns valid ecma 5 code
+                // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                // sections only apply transformations that are ecma 5 safe
+                // https://github.com/facebook/create-react-app/pull/4234
+                ecma: 8,
+              },
               compress: {
+                ecma: 5,
                 warnings: false,
                 // Disabled because of an issue with Uglify breaking seemingly valid code:
                 // https://github.com/facebook/create-react-app/issues/2376
@@ -486,6 +508,7 @@ module.exports = (
                 safari10: true,
               },
               output: {
+                ecma: 5,
                 comments: false,
                 // Turned on because emoji and regex is not minified properly using default
                 // https://github.com/facebook/create-react-app/issues/2488
@@ -506,7 +529,24 @@ module.exports = (
         // https://twitter.com/wSokra/status/969633336732905474
         // splitChunks: {
         //   chunks: 'all',
-        //   name: false,
+        //   minSize: 30000,
+        //   minChunks: 1,
+        //   maxAsyncRequests: 5,
+        //   maxInitialRequests: 3,
+        //   name: true,
+        //   cacheGroups: {
+        //     commons: {
+        //       test: /[\\/]node_modules[\\/]/,
+        //       name: 'vendor',
+        //       chunks: 'all',
+        //     },
+        //     main: {
+        //       chunks: 'all',
+        //       minChunks: 2,
+        //       reuseExistingChunk: true,
+        //       enforce: true,
+        //     },
+        //   },
         // },
         // Keep the runtime chunk seperated to enable long term caching
         // https://twitter.com/wSokra/status/969679223278505985
@@ -519,14 +559,36 @@ module.exports = (
     config.plugins = [
       ...config.plugins,
       // Use our own FriendlyErrorsPlugin during development.
-      new FriendlyErrorsPlugin({
-        verbose: dotenv.raw.VERBOSE,
-        target,
-        onSuccessMessage: `Your application is running at http://${
-          dotenv.raw.HOST
-        }:${dotenv.raw.PORT}`,
+      // new FriendlyErrorsPlugin({
+      //   verbose: dotenv.raw.VERBOSE,
+      //   target,
+      //   onSuccessMessage: `Your application is running at http://${
+      //     dotenv.raw.HOST
+      //   }:${dotenv.raw.PORT}`,
+      // }),
+      new WebpackBar({
+        color: target === 'web' ? '#f56be2' : '#c065f4',
+        name: target === 'web' ? 'client' : 'server',
       }),
     ];
+  }
+
+  // Apply razzle plugins, if they are present in razzle.config.js
+  if (Array.isArray(plugins)) {
+    plugins.forEach(plugin => {
+      config = runPlugin(
+        plugin,
+        config,
+        { target, dev: IS_DEV },
+        webpackObject
+      );
+    });
+  }
+
+  // Check if razzle.config has a modify function. If it does, call it on the
+  // configs we created.
+  if (modify) {
+    config = modify(config, { target, dev: IS_DEV }, webpackObject);
   }
 
   return config;

@@ -6,7 +6,7 @@
     "eslint": "^4.6.1",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
-    "lerna": "2.9.1",
+    "lerna": "2.10.1",
     "lerna-changelog": "^0.7.0",
     "lint-staged": "^4.0.0",
     "prettier": "^1.4.4",
@@ -18,12 +18,17 @@
     "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes && node ./scripts/clean.js",
     "changelog": "lerna-changelog",
-    "format":
-      "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+    "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"]
+    "*.js": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
+  },
+  "resolutions": {
+    "file-loader": "1.1.11"
   },
   "dependencies": {},
   "jest": {
@@ -32,7 +37,9 @@
       "<rootDir>/node_modules/",
       "<rootDir>/examples/"
     ],
-    "collectCoverageFrom": ["**/*.js"],
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/packages/*/node_modules/",
@@ -40,5 +47,12 @@
       "<rootDir>/coverage/"
     ]
   },
-  "workspaces": ["packages/**", "examples/**"]
+  "workspaces": [
+    "packages/razzle",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*",
+    "examples/*"
+  ]
 }

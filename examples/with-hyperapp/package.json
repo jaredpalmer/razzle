@@ -1,0 +1,20 @@
+{
+  "name": "razzle-examples-with-hyperapp",
+  "version": "2.0.0-alpha.12",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "@hyperapp/render": "^2.0.0",
+    "express": "^4.15.2",
+    "hyperapp": "^1.2.5"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.23.0",
+    "razzle": "^2.0.0-alpha.12"
+  }
+}

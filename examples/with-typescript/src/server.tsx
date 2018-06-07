@@ -1,5 +1,5 @@
-import * as express from 'express';
-import * as React from 'react';
+import express from 'express';
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
@@ -8,13 +8,11 @@ import App from './App';
 let assets: any;
 
 const syncLoadAssets = () => {
-    assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
+  assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 };
 syncLoadAssets();
 
-const server = express();
-
-server
+const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get('/*', (req: express.Request, res: express.Response) => {
