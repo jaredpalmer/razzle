@@ -22,7 +22,7 @@ This example demonstrates how to use [React Native Web](https://github.com/necol
 
 ```
 yarn add react-native-web
-yarn add babel-preset-react-native-web --dev
+yarn add babel-plugin-react-native-web --dev
 ```
 
 Next we add a custom `.babelrc` file to the root our of project as follows. As described in the documentation, we include Razzle's default babel plugin AND the custom react-native-web plugin.
