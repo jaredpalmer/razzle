@@ -5,8 +5,8 @@
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-afterjs
-cd with-afterjs
+curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-afterjs-react-native-web-apollo
+cd with-afterjs-react-native-web-apollo
 ```
 
 Install it and run:
@@ -15,6 +15,10 @@ Install it and run:
 yarn install
 yarn start
 ```
+
+Change your GraphQL Endpoint:
+1. Open src/apollo.config.js
+1. Change api.production and api.dev constants
 
 ## Idea behind the example
 

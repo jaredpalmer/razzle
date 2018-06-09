@@ -76,6 +76,15 @@
         "example",
         "plugin"
       ]
+    },
+    {
+      "login": "noeljackson",
+      "name": "Noël Jackson",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/441058?v=4",
+      "profile": "https://noeljackson.com/",
+      "contributions": [
+        "example",
+      ]
     }
   ]
 }
