@@ -1,7 +1,7 @@
 'use strict';
 
 const chalk = require('chalk');
-const getInstallCmd = require('./utils/get-install-cmd');
+const getPackager = require('./utils/get-packager');
 const output = require('./utils/output');
 
 const program = {
@@ -72,13 +72,13 @@ Creating ${chalk.bold(chalk.green(projectName))}...
 };
 
 exports.start = function(projectName) {
-  const cmd = getInstallCmd();
+  const packager = getPackager();
 
   const commands = {
-    install: cmd === 'npm' ? 'npm install' : 'yarn',
-    build: cmd === 'npm' ? 'npm run build' : 'yarn build',
-    start: cmd === 'npm' ? 'npm run start:prod' : 'yarn start:prod',
-    dev: cmd === 'npm' ? 'npm start' : 'yarn start',
+    install: packager === 'npm' ? 'npm install' : 'yarn',
+    build: packager === 'npm' ? 'npm run build' : 'yarn build',
+    start: packager === 'npm' ? 'npm run start:prod' : 'yarn start:prod',
+    dev: packager === 'npm' ? 'npm start' : 'yarn start',
   };
 
   return `

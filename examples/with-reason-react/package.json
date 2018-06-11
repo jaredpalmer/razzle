@@ -3,6 +3,7 @@
   "version": "2.0.4",
   "license": "MIT",
   "scripts": {
+    "init:bin": "npm add bs-platform --save-dev",
     "start": "concurrently \"npm run js-watch\" \"npm run bsb-watch\"",
     "js-watch": "razzle start",
     "bsb-watch": "bsb -make-world -w",

@@ -1,6 +1,7 @@
 # Razzle Custom Webpack Configuration Example
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,9 +17,10 @@ yarn start
 ```
 
 ## Idea behind the example
+
 This example demonstrates how to use a `razzle.config.js` file to modify Razzle's
 underlying webpack configuration. It modifies the name of the server's output file
-in production (`razzle build`). 
+in production (`razzle build`).
 
 Note that this file is not transpiled, and so you must write it with vanilla
 Node.js-compatible JavaScript.
@@ -39,7 +41,4 @@ module.exports = {
     return appConfig;
   },
 };
-
-
-
 ```

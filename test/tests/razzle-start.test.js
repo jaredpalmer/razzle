@@ -17,9 +17,8 @@ describe('razzle start', () => {
       shell.cd(path.join(util.rootDir, 'examples/basic'));
     });
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
-
     it('should start a dev server', () => {
+      jest.setTimeout(1000000);
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec('./node_modules/.bin/razzle start', () => {
@@ -39,9 +38,8 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBe(true));
     });
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
-
     it('should build and run', () => {
+      jest.setTimeout(400000);
       let outputTest;
       shell.exec('./node_modules/.bin/razzle build');
       const run = new Promise(resolve => {

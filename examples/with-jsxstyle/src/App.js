@@ -9,9 +9,10 @@ import React from 'react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 
-const App = () =>
+const App = () => (
   <Block>
-    {' '}<Block component="ul" margin="2rem auto">
+    {' '}
+    <Block component="ul" margin="2rem auto">
       <InlineBlock component={Link} props={{ to: '/about' }}>
         About
       </InlineBlock>
@@ -23,6 +24,7 @@ const App = () =>
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
     </Switch>
-  </Block>;
+  </Block>
+);
 
 export default App;

@@ -9,7 +9,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
+    "express": "^4.16.2",
     "prop-types": "^15.6.0",
     "qs": "^6.4.0",
     "react": "^16.0.0",
