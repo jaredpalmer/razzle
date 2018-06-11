@@ -9,10 +9,10 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
+    "express": "^4.16.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "styled-components": "^2.2.3"
+    "styled-components": "^3.1.6"
   },
   "devDependencies": {
     "razzle": "^2.0.4"

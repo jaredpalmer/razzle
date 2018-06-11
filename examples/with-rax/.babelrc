@@ -1,7 +1,6 @@
 {
   "presets": [
     "razzle/babel",
-    "es2015",
     "rax"
   ]
 }

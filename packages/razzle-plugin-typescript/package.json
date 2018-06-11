@@ -14,7 +14,7 @@
     "ts-loader": "^4.2.0"
   },
   "devDependencies": {
-    "jest": "20.0.4",
+    "jest": "^23.1.0",
     "razzle": "^2.0.4"
   },
   "peerDependencies": {

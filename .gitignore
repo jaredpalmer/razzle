@@ -33,4 +33,5 @@ node_modules
 
 # Build Output
 build
+stage-build
 .vscode

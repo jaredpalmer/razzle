@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hyperapp/render": "^2.0.0",
-    "express": "^4.15.2",
+    "express": "^4.16.2",
     "hyperapp": "^1.2.5"
   },
   "devDependencies": {

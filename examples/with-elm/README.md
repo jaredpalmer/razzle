@@ -1,6 +1,7 @@
 # Razzle Elm Example
 
 ## How to use
+
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
@@ -16,6 +17,7 @@ yarn start
 ```
 
 ## Idea behind the example
+
 This is a basic example of how to use Razzle and Elm, it uses:
 
 - [elm-static-html](https://github.com/eeue56/elm-static-html-lib) to convert Elm views into raw html
@@ -27,7 +29,7 @@ This is a basic example of how to use Razzle and Elm, it uses:
 
 ---
 
-If you want to activate the Elm debug mode or other tooling and debug utilites of Elm edit `razzle.config.js`: 
+If you want to activate the Elm debug mode or other tooling and debug utilites of Elm edit `razzle.config.js`:
 
 ```js
 {
