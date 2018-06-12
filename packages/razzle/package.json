@@ -1,6 +1,6 @@
 {
   "name": "razzle",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Jared Palmer <jared@palmer.net>",
