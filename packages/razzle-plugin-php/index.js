@@ -1,56 +1,35 @@
 'use strict';
 
-const WebpackConfigHelpers = require('razzle-dev-utils/WebpackConfigHelpers');
-const Helpers = new WebpackConfigHelpers(process.cwd());
+const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 
-module.exports = function modify(config, { dev }) {
-  // Add .elm extension
-  config.resolve.extensions.push('.elm');
-
-  // Don't parse as JS
-  config.module.noParse = config.module.noParse
-    ? config.module.noParse.concat([/.elm$/])
-    : [/.elm$/];
+module.exports = function modify(config) {
+  config.resolve.extensions.push('.php');
 
   // Exclude from file-loader
   config.module.rules[
-    config.module.rules.findIndex(Helpers.makeLoaderFinder('file-loader'))
-  ].exclude.push(/\.(elm)$/);
+    config.module.rules.findIndex(makeLoaderFinder('file-loader'))
+  ].exclude.push(/\.(php)$/);
 
-  if (dev) {
-    config.module.rules.push({
-      test: /\.elm$/,
-      exclude: [/elm-stuff/, /node_modules/],
-      use: [
-        {
-          loader: require.resolve('elm-hot-loader'),
+  // Don't parse as JS
+  config.module.noParse = config.module.noParse
+    ? config.module.noParse.concat([/.php$/])
+    : [/.php$/];
+
+  // Add a custom babel loader (in addition to the one for .js)
+  // making sure to ignore .babelrc
+  config.module.rules.push({
+    test: /\.php$/,
+    include: config.module.rules.find(makeLoaderFinder('babel-loader')).include,
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          presets: [require.resolve('babel-preset-php')],
+          babelrc: false,
         },
-        {
-          loader: require.resolve('elm-webpack-loader'),
-          options: {
-            verbose: true,
-            warn: true,
-            pathToMake: require('elm/platform').executablePaths['elm-make'],
-            forceWatch: true,
-          },
-        },
-      ],
-    });
-  } else {
-    // Production
-    config.module.rules.push({
-      test: /\.elm$/,
-      exclude: [/elm-stuff/, /node_modules/],
-      use: [
-        {
-          loader: require.resolve('elm-webpack-loader'),
-          options: {
-            pathToMake: require('elm/platform').executablePaths['elm-make'],
-          },
-        },
-      ],
-    });
-  }
+      },
+    ],
+  });
 
   return config;
 };

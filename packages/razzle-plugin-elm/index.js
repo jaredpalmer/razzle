@@ -9,7 +9,7 @@ module.exports = function modify(config, { dev }) {
 
   // Don't parse as JS
   config.module.noParse = config.module.noParse
-    ? config.module.noParse.concat([/.elm$/])
+    ? config.module.noParse.push(/.elm$/)
     : [/.elm$/];
 
   // Exclude from file-loader
