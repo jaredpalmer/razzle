@@ -11,7 +11,8 @@
     "FriendlyErrorsPlugin.js",
     "webpackHotDevClient.js",
     "setPorts.js",
-    "makeLoaderFinder.js"
+    "makeLoaderFinder.js",
+    "WebpackConfigHelpers.js"
   ],
   "dependencies": {
     "chalk": "1.1.3",
