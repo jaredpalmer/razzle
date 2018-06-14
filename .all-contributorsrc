@@ -56,6 +56,26 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "HofmannZ",
+      "name": "Zino Hofmann",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17142193?v=4",
+      "profile": "https://www.linkedin.com/in/zinohofmann/",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "lucasterra",
+      "name": "Lucas Terra",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/441058?v=4",
+      "profile": "https://www.linkedin.com/in/lucasterra7/",
+      "contributions": [
+        "code",
+        "example",
+        "plugin"
+      ]
     }
   ]
 }

@@ -5,8 +5,8 @@
   "devDependencies": {
     "eslint": "^4.6.1",
     "husky": "^0.14.3",
-    "jest": "21.2.1",
-    "lerna": "^2.0.0-rc.5",
+    "jest": "^22.4.3",
+    "lerna": "2.10.1",
     "lerna-changelog": "^0.7.0",
     "lint-staged": "^4.0.0",
     "prettier": "^1.4.4",
@@ -17,8 +17,6 @@
   "scripts": {
     "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes && node ./scripts/clean.js",
-    "bootstrap": "lerna bootstrap && node ./scripts/bootstrap.js",
-    "postinstall": "npm run clean && npm run bootstrap",
     "changelog": "lerna-changelog",
     "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
@@ -28,6 +26,9 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ]
+  },
+  "resolutions": {
+    "file-loader": "1.1.11"
   },
   "dependencies": {},
   "jest": {
@@ -45,5 +46,13 @@
       "<rootDir>/examples/",
       "<rootDir>/coverage/"
     ]
-  }
+  },
+  "workspaces": [
+    "packages/razzle",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*",
+    "examples/*"
+  ]
 }
