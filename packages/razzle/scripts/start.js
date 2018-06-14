@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
-const devServer = require('webpack-dev-server');
+const devServer = require('webpack-dev-server-speedy');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -43,38 +43,24 @@ function main() {
 
   // Create dev configs using our config factory, passing in razzle file as
   // options.
-  let clientConfig = createConfig('web', 'dev', razzle);
-  let serverConfig = createConfig('node', 'dev', razzle);
-
-  // Check if razzle.config has a modify function. If it does, call it on the
-  // configs we just created.
-  if (razzle.modify) {
-    clientConfig = razzle.modify(
-      clientConfig,
-      { target: 'web', dev: true },
-      webpack
-    );
-    serverConfig = razzle.modify(
-      serverConfig,
-      { target: 'node', dev: true },
-      webpack
-    );
-  }
-
-  const serverCompiler = compile(serverConfig);
-
-  // Start our server webpack instance in watch mode.
-  serverCompiler.watch(
-    {
-      quiet: true,
-      stats: 'none',
-    },
-    /* eslint-disable no-unused-vars */
-    stats => {}
-  );
+  let clientConfig = createConfig('web', 'dev', razzle, webpack);
+  let serverConfig = createConfig('node', 'dev', razzle, webpack);
 
   // Compile our assets with webpack
   const clientCompiler = compile(clientConfig);
+  const serverCompiler = compile(serverConfig);
+
+  // Start our server webpack instance in watch mode after assets compile
+  clientCompiler.plugin('done', () => {
+    serverCompiler.watch(
+      {
+        quiet: true,
+        stats: 'none',
+      },
+      /* eslint-disable no-unused-vars */
+      stats => {}
+    );
+  });
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.

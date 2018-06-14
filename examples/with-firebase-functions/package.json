@@ -1,6 +1,6 @@
 {
-  "name": "razzle-examples-basic",
-  "version": "0.8.14",
+  "name": "razzle-examples-with-firebase-functions",
+  "version": "2.1.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,7 +17,6 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
-    "razzle": "^0.8.14"
+    "razzle": "^2.1.0"
   }
 }

@@ -3,9 +3,11 @@ machine:
     version: 8
 
 dependencies:
+  pre:
+    - yarn global add elm
   override:
     - yarn
-
+ 
 test:
   override:
-    - yarn e2e -- --runInBand
+    - yarn e2e --runInBand

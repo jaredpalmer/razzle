@@ -30,13 +30,13 @@ let make = (~title, ~initialUrl, _children) => {
           style=(
             ReactDOMRe.Style.make(~marginLeft="30px", ~fontSize="2em", ())
           )>
-          (test(title))
+          (text(title))
         </h2>
       </div>
       <p>
-        <Link href="/home"> (test("home")) </Link>
-        (test(" "))
-        <Link href="/counter"> (test("counter")) </Link>
+        <Link href="/home"> (text("home")) </Link>
+        (text(" "))
+        <Link href="/counter"> (text("counter")) </Link>
       </p>
       <Router initialUrl>
         ...(

@@ -88,23 +88,8 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   }
 
   // Create our production webpack configurations and pass in razzle options.
-  let clientConfig = createConfig('web', 'prod', razzle);
-  let serverConfig = createConfig('node', 'prod', razzle);
-
-  // Check if razzle.config has a modify function. If it does, call it on the
-  // configs we just created.
-  if (razzle.modify) {
-    clientConfig = razzle.modify(
-      clientConfig,
-      { target: 'web', dev: false },
-      webpack
-    );
-    serverConfig = razzle.modify(
-      serverConfig,
-      { target: 'node', dev: false },
-      webpack
-    );
-  }
+  let clientConfig = createConfig('web', 'prod', razzle, webpack);
+  let serverConfig = createConfig('node', 'prod', razzle, webpack);
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
 
