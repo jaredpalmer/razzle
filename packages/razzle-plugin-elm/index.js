@@ -1,17 +1,21 @@
 'use strict';
 
 const WebpackConfigHelpers = require('razzle-dev-utils/WebpackConfigHelpers');
-
 const Helpers = new WebpackConfigHelpers(process.cwd());
 
 module.exports = function modify(config, { dev }) {
-  config.module.noParse.push([/.elm$/]);
+  // Add .elm extension
+  config.resolve.extensions.push('.elm');
 
+  // Don't parse as JS
+  config.module.noParse = config.module.noParse
+    ? config.module.noParse.concat([/.elm$/])
+    : [/.elm$/];
+
+  // Exclude from file-loader
   config.module.rules[
     config.module.rules.findIndex(Helpers.makeLoaderFinder('file-loader'))
   ].exclude.push(/\.(elm)$/);
-
-  config.resolve.extensions = config.resolve.extensions.push('.elm');
 
   if (dev) {
     config.module.rules.push({
@@ -19,16 +23,14 @@ module.exports = function modify(config, { dev }) {
       exclude: [/elm-stuff/, /node_modules/],
       use: [
         {
-          loader: 'elm-hot-loader',
+          loader: require.resolve('elm-hot-loader'),
         },
         {
-          loader: 'elm-webpack-loader',
+          loader: require.resolve('elm-webpack-loader'),
           options: {
             verbose: true,
             warn: true,
-            pathToMake: require.resolve('elm/platform').executablePaths[
-              'elm-make'
-            ],
+            pathToMake: require('elm/platform').executablePaths['elm-make'],
             forceWatch: true,
           },
         },
@@ -43,9 +45,7 @@ module.exports = function modify(config, { dev }) {
         {
           loader: require.resolve('elm-webpack-loader'),
           options: {
-            pathToMake: require.resolve('elm/platform').executablePaths[
-              'elm-make'
-            ],
+            pathToMake: require('elm/platform').executablePaths['elm-make'],
           },
         },
       ],
