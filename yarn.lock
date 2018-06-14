@@ -1745,6 +1745,12 @@ babel-preset-jest@^22.4.3:
     babel-plugin-jest-hoist "^22.4.3"
     babel-plugin-syntax-object-rest-spread "^6.13.0"
 
+babel-preset-php@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-php/-/babel-preset-php-1.2.0.tgz#fbf9548a5a9e38fc1cb99c9014de93aaf5132a21"
+  dependencies:
+    php-parser "^2.0.7"
+
 babel-preset-rax@^0.2.5:
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/babel-preset-rax/-/babel-preset-rax-0.2.11.tgz#8ce040c0d36d546948df35e16248021c74890e9d"
@@ -8602,6 +8608,10 @@ performance-now@^0.2.0:
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+
+php-parser@^2.0.7:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-2.2.0.tgz#67384f0a5933dbbef40beab0ab31d0b8c582ff88"
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
