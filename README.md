@@ -74,7 +74,12 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 * [Customization](#customization)
+  * [Plugins](#plugins)
+    * [Using Plugins](#using-plugins)
+    * [Writing Plugins](#writing-plugins)
   * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
@@ -94,6 +99,59 @@ If your application is running, and you need to manually restart your server, yo
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Customization
+
+### Plugins
+
+As of Razzle 2.0, you can add your plugins to modify your setup.
+
+* [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
+* [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
+* [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+* [See All](https://www.npmjs.com/search?q=razzle-plugin)
+
+#### Using Plugins
+
+You can use Razzle plugins by installing in your project and adding them to your `razzle.config.js`. See the README.md of the specific plugin, but generally speaking, the flow is something like...
+
+```bash
+yarn add razzle-plugin-xxxx
+```
+
+```js
+//./razzle.config.js
+module.exports = {
+  plugins: ['xxxx'],
+};
+```
+
+#### Writing Plugins
+
+Plugins are simply functions that modify and return Razzle's webpack config.
+
+```js
+'use strict';
+
+module.exports = function myRazzlePlugin(config, env, webpack, options) {
+  const { target, dev } = env;
+
+  if (target === 'web') {
+    // client only
+  }
+
+  if (target === 'server') {
+    // serer only
+  }
+
+  if (dev) {
+    // dev only
+  } else {
+    // prod only
+  }
+
+  // Do some stuff...
+  return webpackConfig;
+};
+```
 
 ### Customizing Babel Config
 
