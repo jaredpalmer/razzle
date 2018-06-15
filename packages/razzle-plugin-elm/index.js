@@ -23,9 +23,6 @@ module.exports = function modify(config, { dev }) {
       exclude: [/elm-stuff/, /node_modules/],
       use: [
         {
-          loader: require.resolve('elm-hot-loader'),
-        },
-        {
           loader: require.resolve('elm-webpack-loader'),
           options: {
             verbose: true,
