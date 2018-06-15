@@ -1,5 +1,5 @@
 {
-  "name": "razzle-plugin-css",
+  "name": "razzle-plugin-preact",
   "version": "2.1.1",
   "main": "index.js",
   "license": "MIT"
