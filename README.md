@@ -139,7 +139,7 @@ module.exports = function myRazzlePlugin(config, env, webpack, options) {
   }
 
   if (target === 'server') {
-    // serer only
+    // server only
   }
 
   if (dev) {
