@@ -331,10 +331,10 @@ module.exports = (
       const nodeArgs = ['-r', 'source-map-support/register'];
 
       // Add --inspect or --inspect-brk flag when enabled
-      if (process.env.INSPECT_BRK_ENABLED) {
-        nodeArgs.push('--inspect-brk');
-      } else if (process.env.INSPECT_ENABLED) {
-        nodeArgs.push('--inspect');
+      if (process.env.INSPECT_BRK) {
+        nodeArgs.push(process.env.INSPECT_BRK);
+      } else if (process.env.INSPECT) {
+        nodeArgs.push(process.env.INSPECT);
       }
 
       config.plugins = [
