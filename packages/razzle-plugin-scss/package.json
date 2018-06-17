@@ -1,6 +1,24 @@
 {
   "name": "razzle-plugin-scss",
   "version": "2.2.0",
+  "description": "Use SCSS with Razzle",
   "main": "index.js",
-  "license": "MIT"
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Ray Andrew <raydreww@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --forceExit"
+  },
+  "dependencies": {
+    "autoprefixer": "^8.6.2",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "postcss-flexbugs-fixes": "^3.3.1",
+    "razzle": "^2.2.0",
+    "resolve-url-loader": "^2.3.0",
+    "sass-loader": "^7.0.3"
+  },
+  "devDependencies": {
+    "jest": "20.0.4"
+  }
 }
