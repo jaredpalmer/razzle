@@ -5,8 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
 const paths = require('razzle/config/paths');
 
-module.exports = (defaultConfig, env) => {
-  const { target, dev } = env;
+module.exports = (defaultConfig, { target, dev }) => {
   const isServer = target !== 'web';
 
   const config = Object.assign({}, defaultConfig);
