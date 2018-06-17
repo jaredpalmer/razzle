@@ -56,13 +56,13 @@ You can again view your application at `http://localhost:3000`
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
 
-### `npm start -- --inspect` or `yarn start -- --inspect`
+### `npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-### `npm start -- --inspect-brk` or `yarn start -- --inspect-brk`
+### `npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+This is the same as --inspect, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
 ### `rs`
 

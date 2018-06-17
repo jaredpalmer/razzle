@@ -326,7 +326,7 @@ module.exports = (
 
       const nodeArgs = ['-r', 'source-map-support/register'];
 
-      // Add --inspect or --inspect-brk flag when enabled
+      // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
       if (process.env.INSPECT_BRK) {
         nodeArgs.push(process.env.INSPECT_BRK);
       } else if (process.env.INSPECT) {
