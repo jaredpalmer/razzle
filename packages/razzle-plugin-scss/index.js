@@ -35,7 +35,7 @@ module.exports = (defaultConfig, { target, dev }) => {
   config.module.rules = [
     ...config.module.rules,
     {
-      test: /\.(sa|sc|c)ss$/,
+      test: /\.(sa|sc)ss$/,
       use: isServer
         ? [
             {
