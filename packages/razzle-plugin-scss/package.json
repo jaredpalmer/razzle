@@ -7,7 +7,7 @@
   "author": "Ray Andrew <raydreww@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --forceExit"
+    "test": "jest"
   },
   "dependencies": {
     "autoprefixer": "^8.6.2",
