@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-with-graphql",
+  "name": "razzle-examples-with-apollo-redux",
   "version": "2.0.0-alpha.8",
   "license": "MIT",
   "scripts": {
@@ -16,7 +16,6 @@
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
-    "razzle": "^2.0.0-alpha.12",
     "react": "^16.3.2",
     "react-apollo": "^2.1.4",
     "react-dom": "^16.3.2",
@@ -24,5 +23,8 @@
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "razzle": "^2.0.0-alpha.12"
   }
 }

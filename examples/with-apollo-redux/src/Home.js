@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './react.svg';
 import './Home.css';
-import Geolocation from './containers/Geolocation'
+import Geolocation from './containers/Geolocation';
 
 class Home extends React.Component {
   render() {
