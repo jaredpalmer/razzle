@@ -43,23 +43,8 @@ function main() {
 
   // Create dev configs using our config factory, passing in razzle file as
   // options.
-  let clientConfig = createConfig('web', 'dev', razzle);
-  let serverConfig = createConfig('node', 'dev', razzle);
-
-  // Check if razzle.config has a modify function. If it does, call it on the
-  // configs we just created.
-  if (razzle.modify) {
-    clientConfig = razzle.modify(
-      clientConfig,
-      { target: 'web', dev: true },
-      webpack
-    );
-    serverConfig = razzle.modify(
-      serverConfig,
-      { target: 'node', dev: true },
-      webpack
-    );
-  }
+  let clientConfig = createConfig('web', 'dev', razzle, webpack);
+  let serverConfig = createConfig('node', 'dev', razzle, webpack);
 
   // Compile our assets with webpack
   const clientCompiler = compile(clientConfig);

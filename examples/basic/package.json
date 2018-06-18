@@ -14,7 +14,6 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
     "razzle": "^2.0.0-alpha.12"
   }
 }

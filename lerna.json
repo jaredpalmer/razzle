@@ -5,6 +5,7 @@
     "packages/babel-preset-razzle",
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*",
     "examples/*"
   ],
   "useWorkspaces": true,

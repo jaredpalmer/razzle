@@ -15,7 +15,6 @@
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
-    "raf": "^3.3.2",
     "razzle": "^2.0.0-alpha.12"
   }
 }

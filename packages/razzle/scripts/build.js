@@ -91,21 +91,6 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   let clientConfig = createConfig('web', 'prod', razzle);
   let serverConfig = createConfig('node', 'prod', razzle);
 
-  // Check if razzle.config has a modify function. If it does, call it on the
-  // configs we just created.
-  if (razzle.modify) {
-    clientConfig = razzle.modify(
-      clientConfig,
-      { target: 'web', dev: false },
-      webpack
-    );
-    serverConfig = razzle.modify(
-      serverConfig,
-      { target: 'node', dev: false },
-      webpack
-    );
-  }
-
   process.noDeprecation = true; // turns off that loadQuery clutter.
 
   console.log('Creating an optimized production build...');
