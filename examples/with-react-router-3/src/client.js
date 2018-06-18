@@ -1,5 +1,5 @@
-import Routes from './routes';
 import React from 'react';
+import Routes from './routes';
 import { hydrate } from 'react-dom';
 
 hydrate(<Routes />, document.getElementById('root'));
