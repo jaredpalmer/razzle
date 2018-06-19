@@ -20,6 +20,60 @@ module.exports = {
 
 ### With custom options
 
+Please remember that custom options will extends default options using `Object.assign`.
+Array such as postcss.plugins __WILL NOT BE EXTENDED OR CONCATED__, it will override all default plugins.
+
+```js
+// default options
+const defaultOptions = {
+  postcss: {
+    dev: {
+      sourceMap: true,
+      ident: 'postcss',
+    },
+    prod: {
+      sourceMap: false,
+      ident: 'postcss',
+    },
+    plugins: [
+      PostCssFlexBugFixes,
+      autoprefixer({
+        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+        flexbox: 'no-2009',
+      }),
+    ],
+  },
+  sass: {
+    dev: {
+      sourceMap: true,
+      includePaths: [paths.appNodeModules],
+    },
+    prod: {
+      sourceMap: false,
+      includePaths: [paths.appNodeModules],
+    },
+  },
+  css: {
+    dev: {
+      sourceMap: true,
+      importLoaders: 1,
+      modules: false,
+    },
+    prod: {
+      sourceMap: false,
+      importLoaders: 1,
+      modules: false,
+      minimize: true,
+    },
+  },
+  style: {},
+  resolveUrl: {
+    dev: {},
+    prod: {},
+  },
+};
+```
+
 ```js
 // razzle.config.js
 
@@ -30,54 +84,13 @@ module.exports = {
       options: {
         postcss: {
           dev: {
-            sourceMap: true,
-            ident: 'postcss',
-          },
-          prod: {
             sourceMap: false,
-            ident: 'postcss',
-          },
-          plugins: [
-            PostCssFlexBugFixes,
-            autoprefixer({
-              browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-              flexbox: 'no-2009',
-            }),
-          ],
-        },
-        sass: {
-          dev: {
-            sourceMap: true,
-            includePaths: [paths.appNodeModules],
-          },
-          prod: {
-            sourceMap: false,
-            includePaths: [paths.appNodeModules],
           },
         },
-        css: {
-          dev: {
-            sourceMap: true,
-            importLoaders: 1,
-            modules: false,
-          },
-          prod: {
-            sourceMap: false,
-            importLoaders: 1,
-            modules: false,
-            minimize: true,
-          },
-        },
-        style: {},
-        resolveUrl: {
-          dev: {},
-          prod: {},
-        },
-      }
+      },
     }
   ],
 };
-;
 ```
 
 ## Options
