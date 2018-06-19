@@ -19,7 +19,9 @@
     "clean": "lerna clean --yes && node ./scripts/clean.js",
     "changelog": "lerna-changelog",
     "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "lint-staged": {
     "*.js": [
@@ -30,7 +32,9 @@
   "resolutions": {
     "file-loader": "1.1.11"
   },
-  "dependencies": {},
+  "dependencies": {
+    "snyk": "^1.83.0"
+  },
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",
@@ -54,5 +58,6 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*",
     "examples/*"
-  ]
+  ],
+  "snyk": true
 }
