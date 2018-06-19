@@ -56,8 +56,8 @@ module.exports = (defaultConfig, { target, dev }) => {
                   sourceMap: true,
                 },
               },
-              require.resolve('resolve-url-loader'),
               postCssLoader,
+              require.resolve('resolve-url-loader'),
               sassLoader,
             ]
           : [
@@ -70,8 +70,8 @@ module.exports = (defaultConfig, { target, dev }) => {
                   minimize: true,
                 },
               },
-              require.resolve('resolve-url-loader'),
               postCssLoader,
+              require.resolve('resolve-url-loader'),
               sassLoader,
             ],
     },
