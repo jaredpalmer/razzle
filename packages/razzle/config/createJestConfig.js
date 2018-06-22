@@ -49,6 +49,7 @@ module.exports = (resolve, rootDir) => {
     'snapshotSerializers',
     'setupFiles',
     'testMatch',
+    'testEnvironmentOptions',
     'testResultsProcessor',
     'transform',
     'transformIgnorePatterns',
