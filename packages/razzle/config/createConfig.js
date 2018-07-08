@@ -328,9 +328,12 @@ module.exports = (
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
 
+      // Pretty format server errors
+      config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
+
       const nodeArgs = ['-r', 'source-map-support/register'];
 
-      // Add --inspect or --inspect-brk flag when enabled
+      // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
       if (process.env.INSPECT_BRK) {
         nodeArgs.push(process.env.INSPECT_BRK);
       } else if (process.env.INSPECT) {

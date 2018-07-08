@@ -56,13 +56,13 @@ You can again view your application at `http://localhost:3000`
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
 
-### `npm start -- --inspect` or `yarn start -- --inspect`
+### `npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-### `npm start -- --inspect-brk` or `yarn start -- --inspect-brk`
+### `npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+This is the same as --inspect, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
 ### `rs`
 
@@ -74,7 +74,12 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 * [Customization](#customization)
+  * [Plugins](#plugins)
+    * [Using Plugins](#using-plugins)
+    * [Writing Plugins](#writing-plugins)
   * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
@@ -94,6 +99,59 @@ If your application is running, and you need to manually restart your server, yo
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Customization
+
+### Plugins
+
+As of Razzle 2.0, you can add your plugins to modify your setup.
+
+* [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
+* [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
+* [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+* [See All](https://www.npmjs.com/search?q=razzle-plugin)
+
+#### Using Plugins
+
+You can use Razzle plugins by installing in your project and adding them to your `razzle.config.js`. See the README.md of the specific plugin, but generally speaking, the flow is something like...
+
+```bash
+yarn add razzle-plugin-xxxx
+```
+
+```js
+//./razzle.config.js
+module.exports = {
+  plugins: ['xxxx'],
+};
+```
+
+#### Writing Plugins
+
+Plugins are simply functions that modify and return Razzle's webpack config.
+
+```js
+'use strict';
+
+module.exports = function myRazzlePlugin(config, env, webpack, options) {
+  const { target, dev } = env;
+
+  if (target === 'web') {
+    // client only
+  }
+
+  if (target === 'server') {
+    // server only
+  }
+
+  if (dev) {
+    // dev only
+  } else {
+    // prod only
+  }
+
+  // Do some stuff...
+  return webpackConfig;
+};
+```
 
 ### Customizing Babel Config
 

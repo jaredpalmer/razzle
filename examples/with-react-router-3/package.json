@@ -1,0 +1,22 @@
+{
+  "name": "razzle-examples-with-react-router-3",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "prestart:prod": "razzle build",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "prop-types": "^15.6.1",
+    "razzle": "^0.8.12",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router": "^3.2.0",
+    "react-router-redux": "4.0.8",
+    "react-router-scroll": "0.4.2"
+  }
+}

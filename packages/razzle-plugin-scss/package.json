@@ -1,0 +1,6 @@
+{
+  "name": "razzle-plugin-scss",
+  "version": "2.2.0",
+  "main": "index.js",
+  "license": "MIT"
+}
