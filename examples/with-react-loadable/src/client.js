@@ -5,7 +5,7 @@ import Loadable from 'react-loadable';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 
 window.main = () => {
-  Loadable.preloadReady().then(() => {
+  Loadable.preloadAll().then(() => {
     hydrate(
       <BrowserRouter>
         <App />
