@@ -83,6 +83,7 @@ If your application is running, and you need to manually restart your server, yo
   * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
+  * [CSS Modules](#css-modules)
 * [Environment Variables](#environment-variables)
   * [Build-time Variables](#build-time-variables)
   * [Runtime Variables](#runtime-variables)
@@ -212,6 +213,20 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
   }
 }
 ```
+
+### CSS Modules
+
+Razzle supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and Razzle will process the file using `css-loader`.
+
+```jsx
+import React from 'react';
+import styles from './style.module.css';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
+```
+
 
 ## Environment Variables
 
