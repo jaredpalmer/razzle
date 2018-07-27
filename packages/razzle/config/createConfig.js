@@ -37,7 +37,14 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  {
+    clearConsole = true,
+    host = 'localhost',
+    port = 3000,
+    modify,
+    plugins,
+    modifyBabelOptions,
+  },
   webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
@@ -58,10 +65,17 @@ module.exports = (
     useEslintrc: true,
   };
 
-  if (hasBabelRc) {
-    console.log('Using .babelrc defined in your app root');
-  } else {
+  if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+  }
+
+  // Allow app to override babel options
+  const babelOptions = modifyBabelOptions
+    ? modifyBabelOptions(mainBabelOptions)
+    : mainBabelOptions;
+
+  if (hasBabelRc && babelOptions.babelrc) {
+    console.log('Using .babelrc defined in your app root');
   }
 
   if (hasEslintRc) {
@@ -135,7 +149,7 @@ module.exports = (
           use: [
             {
               loader: require.resolve('babel-loader'),
-              options: mainBabelOptions,
+              options: babelOptions,
             },
           ],
         },
