@@ -1,0 +1,20 @@
+{
+  "name": "razzle-plugin-mdx",
+  "version": "2.2.0",
+  "description": "Use mdx with Razzle",
+  "main": "index.js",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Ivakhnenko Dmitry <jeetiss@ya.ru>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^0.15.0-0",
+    "@mdx-js/mdx": "^0.15.0-0"
+  },
+  "devDependencies": {
+    "jest": "20.0.4",
+    "razzle": "^2.2.0"
+  }
+}
