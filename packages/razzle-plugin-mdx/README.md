@@ -5,15 +5,14 @@ This package contains a plugin for using mdx with Razzle
 ## Usage in Razzle Projects
 
 ```
-npm i razzle-plugin-mdx
+npm i razzle-plugin-mdx @mdx-js/tag
 ```
 
 or
 
 ```
-yarn add razzle-plugin-mdx
+yarn add razzle-plugin-mdx @mdx-js/tag
 ```
-
 
 ### Using the plugin with the default options
 
@@ -21,7 +20,7 @@ yarn add razzle-plugin-mdx
 // razzle.config.js
 
 module.exports = {
-  plugins: ['mdx'],
+  plugins: ["mdx"]
 };
 ```
 
@@ -29,18 +28,18 @@ module.exports = {
 
 ```js
 // razzle.config.js
-const images = require('remark-images')
-const emoji = require('remark-emoji')
+const images = require("remark-images");
+const emoji = require("remark-emoji");
 
 module.exports = {
   plugins: [
     {
-      name: 'mdx',
+      name: "mdx",
       options: {
         mdPlugins: [images, emoji]
-      },
-    },
-  ],
+      }
+    }
+  ]
 };
 ```
 

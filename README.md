@@ -109,6 +109,7 @@ As of Razzle 2.0, you can add your plugins to modify your setup.
 * [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
 * [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
 * [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+* [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
 * [See All](https://www.npmjs.com/search?q=razzle-plugin)
 
 #### Using Plugins
