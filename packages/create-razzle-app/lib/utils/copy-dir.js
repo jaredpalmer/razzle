@@ -16,8 +16,7 @@ module.exports = function copyDir(opts) {
   return new Promise(function(resolve, reject) {
     const stopCopySpinner = output.wait('Copying files');
 
-    fs
-      .copy(templatePath, projectPath)
+    fs.copy(templatePath, projectPath)
       .then(function() {
         return fs.move(
           path.resolve(projectPath, './gitignore'),
