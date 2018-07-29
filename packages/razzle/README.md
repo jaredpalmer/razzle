@@ -1,6 +1,6 @@
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
-[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/npm/razzle/badge.svg)](https://snyk.io/test/npm/razzle) [![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/)
+[![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/npm/razzle/badge.svg)](https://snyk.io/test/npm/razzle) [![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/palmer)
 
 Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Aiming to fill this void, Razzle is a tool that abstracts all complex configuration needed for SSR into a single dependency--giving you the awesome developer experience of [create-react-app](https://github.com/facebookincubator/create-react-app), but then leaving the rest of your app's architectural decisions about frameworks, routing, and data fetching up to you. With this approach, Razzle not only works with React, but also Reason, Elm, Vue, Angular, and most importantly......whatever comes next.
 
@@ -56,13 +56,13 @@ You can again view your application at `http://localhost:3000`
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
 
-### `npm start -- --inspect` or `yarn start -- --inspect`
+### `npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-### `npm start -- --inspect-brk` or `yarn start -- --inspect-brk`
+### `npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`
 
-To debug the node server, you can use `razzle start --inspect-brk`. This will start the node server, enable the inspector agent and Break before user code starts. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+This is the same as --inspect, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
 ### `rs`
 
@@ -83,6 +83,7 @@ If your application is running, and you need to manually restart your server, yo
   * [Customizing Babel Config](#customizing-babel-config)
   * [Extending Webpack](#extending-webpack)
   * [Extending ESLint](#extending-eslint)
+  * [CSS Modules](#css-modules)
 * [Environment Variables](#environment-variables)
   * [Build-time Variables](#build-time-variables)
   * [Runtime Variables](#runtime-variables)
@@ -107,6 +108,7 @@ As of Razzle 2.0, you can add your plugins to modify your setup.
 * [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
 * [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
 * [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+* [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
 * [See All](https://www.npmjs.com/search?q=razzle-plugin)
 
 #### Using Plugins
@@ -211,6 +213,19 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
     // modify default rules
   }
 }
+```
+
+### CSS Modules
+
+Razzle supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and Razzle will process the file using `css-loader`.
+
+```jsx
+import React from 'react';
+import styles from './style.module.css';
+
+const Component = () => <div className={styles.className} />;
+
+export default Component;
 ```
 
 ## Environment Variables
@@ -374,8 +389,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") |
-| :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
