@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-polka",
-  "version": "0.8.12",
+  "version": "2.3.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
