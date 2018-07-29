@@ -142,6 +142,12 @@ module.exports = (
           ],
           include: paths.appSrc,
         },
+        // Avoid "require is not defined" errors
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto",
+        },
         // Transform ES6 with Babel
         {
           test: /\.(js|jsx|mjs)$/,
