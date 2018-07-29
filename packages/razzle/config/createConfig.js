@@ -114,7 +114,7 @@ module.exports = (
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
       ),
-      extensions: ['.js', '.json', '.jsx', '.mjs'],
+      extensions: ['.mjs', '.jsx', '.js', '.json'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
