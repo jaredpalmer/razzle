@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-styled-components",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +15,6 @@
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
-    "razzle": "^2.2.0"
+    "razzle": "^2.4.0"
   }
 }
