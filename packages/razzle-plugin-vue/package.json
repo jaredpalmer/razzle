@@ -1,11 +1,11 @@
 {
   "name": "razzle-plugin-vue",
-  "version": "2.3.0",
+  "version": "2.1.1",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "css-loader": "^0.28.11",
-    "razzle-dev-utils": "^2.3.0",
+    "razzle-dev-utils": "^2.1.1",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
