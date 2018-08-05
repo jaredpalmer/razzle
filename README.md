@@ -34,7 +34,7 @@ Below is a list of commands you will probably find useful.
 
 ### `npm start` or `yarn start`
 
-Runs the project in development mode.  
+Runs the project in development mode.
 You can view your application at `http://localhost:3000`
 
 The page will reload if you make edits.
@@ -110,6 +110,7 @@ As of Razzle 2.0, you can add your plugins to modify your setup.
 * [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
 * [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
 * [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
+* [SCSS](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-scss)
 * [See All](https://www.npmjs.com/search?q=razzle-plugin)
 
 #### Using Plugins
@@ -302,11 +303,11 @@ server
           assets.client.css
             ? `<link rel="stylesheet" href="${assets.client.css}">`
             : ''
-        } 
+        }
     </head>
     <body>
-        <div id="root">${markup}</div> 
-        <script>window.env = ${serialize(runtimeConfig)};</script>                   
+        <div id="root">${markup}</div>
+        <script>window.env = ${serialize(runtimeConfig)};</script>
         <script src="${assets.client.js}" defer crossorigin></script>
     </body>
 </html>`
@@ -393,6 +394,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 <!-- prettier-ignore -->
 | [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [📖](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Documentation") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Tests") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

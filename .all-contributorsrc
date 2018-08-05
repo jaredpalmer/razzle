@@ -85,7 +85,8 @@
       "contributions": [
         "code",
         "example",
-        "plugin"
+        "plugin",
+        "documentation"
       ]
     }
   ]
