@@ -106,7 +106,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: 'cheap-module-source-map',
+    devtool: IS_DEV ? 'cheap-module-source-map' : 'source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
@@ -146,7 +146,7 @@ module.exports = (
         {
           test: /\.mjs$/,
           include: /node_modules/,
-          type: "javascript/auto",
+          type: 'javascript/auto',
         },
         // Transform ES6 with Babel
         {
