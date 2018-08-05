@@ -86,7 +86,8 @@
         "code",
         "example",
         "plugin",
-        "documentation"
+        "documentation",
+        "test"
       ]
     }
   ]
