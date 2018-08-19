@@ -18,17 +18,20 @@ yarn start
 
 ### Setup Now:
 
-[Now](https://zeit.co/now) manages app deployments with a [desktop](https://zeit.co/download) app or [CLI](https://zeit.co/download#now-cli). You can download either or install the CLI using `npm install -g now`
+[Now](https://zeit.co/now) manages app deployments with a [desktop](https://zeit.co/download) app or [CLI](https://zeit.co/download#now-cli).
 
-#### Deploy:
-
+* You can download either the [desktop](https://zeit.co/download) (ships and installs the CLI as well) or just the [CLI](https://zeit.co/download#now-cli)
+  * Or install only the CLI directly using: `npm install -g now`
 * Create a Now [account](https://zeit.co/signup)
-* Authenticate in the desktop app or CLI `now login`
+* Authenticate in the desktop app or CLI with `now login`
+
+### Deploy:
+
 * Deploy using `now` in the root of your app.
-* Open your [Dashboard](https://zeit.co/dashboard/deployments) and open your deployment
+* Open your [Dashboard](https://zeit.co/dashboard/deployments) and test your deployment
   * Note: on the free plan your deployment and logs will be **_publicly visible_**
 
-#### Additional Configuration
+#### Additional Configuration:
 
 * Additional build, deployment, and config steps available: [Zeit/Now](https://zeit.co/now#frequently-asked-questions)
 
