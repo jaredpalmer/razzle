@@ -33,8 +33,8 @@ git commit -m "Heroku deployment, first commit"
 * Create a Heroku [account](https://signup.heroku.com/)
 * Install Heroku [CLI](https://devcenter.heroku.com/articles/heroku-cli) and [authenticate](https://devcenter.heroku.com/articles/authentication)
 * Create Heroku app: `heroku create`
-  * or `heroku create <your-name>` if you want to specify an app name (checks for unique)
-  * or `heroku git:remote -a <your-name>` if you already created an App in the [dashbaord](https://dashboard.heroku.com/apps)
+  * or `heroku create <appname>` if you want to specify an app name (checks for unique app name)
+  * or `heroku git:remote -a <appname>` if you already created an App in the [dashbaord](https://dashboard.heroku.com/apps)
 * Verify with `git remote -v`:
 
 ```
@@ -46,8 +46,8 @@ heroku	https://git.heroku.com/<appname>.git (push)
 
 * `git push heroku master`
   * or from another branch, other than **master**: `git push heroku <feature-branch>:master`
-* Console should complete with: **_https://<appname>.herokuapp.com/ deployed to Heroku_**
-* Verify app by opening **_https://<appname>.herokuapp.com/_**
+* Console should complete with: **_https://appname.herokuapp.com/ deployed to Heroku_**
+* Verify app by opening **_https://appname.herokuapp.com/_**
 
 #### 👉 Please note
 
