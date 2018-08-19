@@ -34,7 +34,7 @@ git commit -m "Heroku deployment, first commit"
 * Install Heroku [CLI](https://devcenter.heroku.com/articles/heroku-cli) and [authenticate](https://devcenter.heroku.com/articles/authentication)
 * Create Heroku app: `heroku create`
   * or `heroku create <appname>` if you want to specify an app name (checks for unique app name)
-  * or `heroku git:remote -a <appname>` if you already created an App in the [dashbaord](https://dashboard.heroku.com/apps)
+  * or `heroku git:remote -a <appname>` if you already created an App in the [dashboard](https://dashboard.heroku.com/apps)
 * Verify with `git remote -v`:
 
 ```
