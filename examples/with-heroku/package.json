@@ -7,7 +7,8 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "prestart:prod": "yarn build",
-    "start:prod": "NODE_ENV=production node build/server.js"
+    "start:prod": "NODE_ENV=production node build/server.js",
+    "deploy": "git push heroku master"
   },
   "dependencies": {
     "express": "^4.15.2",
