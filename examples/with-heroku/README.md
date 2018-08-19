@@ -44,7 +44,7 @@ heroku	https://git.heroku.com/<appname>.git (push)
 
 #### Deployment
 
-* `git push heroku master`
+* `yarn deploy` or `git push heroku master`
   * or from another branch, other than **master**: `git push heroku <feature-branch>:master`
 * Console should complete with: **_https://appname.herokuapp.com/ deployed to Heroku_**
 * Verify app by opening **_https://appname.herokuapp.com/_**
