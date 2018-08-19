@@ -21,6 +21,8 @@ process.env.INSPECT_BRK =
 process.env.INSPECT =
   process.argv.find(arg => arg.match(/--inspect(=|$)/)) || '';
 
+const HOST = process.env.HOST || '0.0.0.0';
+
 function main() {
   // Optimistically, we make the console look exactly like the output of our
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
@@ -70,6 +72,7 @@ function main() {
   // Start Webpack-dev-server
   clientDevServer.listen(
     (process.env.PORT && parseInt(process.env.PORT) + 1) || razzle.port || 3001,
+    HOST,
     err => {
       if (err) {
         logger.error(err);
