@@ -20,8 +20,6 @@ var preset = {
     ],
     // Adds syntax support for import()
     require.resolve('babel-plugin-syntax-dynamic-import'),
-    // Add support for async/await
-    require.resolve('babel-plugin-transform-runtime'),
   ],
 };
 
@@ -52,7 +50,18 @@ if (env === 'test') {
       require.resolve('babel-plugin-transform-es2015-modules-commonjs'),
       { loose: true },
     ],
+    // Add support for async/await
+    [
+      require.resolve('babel-plugin-transform-runtime'),
+      {polyfill: false},
+    ],
   ]);
+}
+
+if (env === 'production' || env === 'development') {
+    preset.plugins.push.apply(preset.plugins, [
+      require.resolve('babel-plugin-transform-runtime'),
+    ]);
 }
 
 if (env === 'production') {
