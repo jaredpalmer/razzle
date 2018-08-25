@@ -16,8 +16,5 @@
   "devDependencies": {
     "jest": "20.0.4",
     "razzle": "^2.4.0"
-  },
-  "peerDependencies": {
-    "@mdx-js/tag": ">=0.14.1"
   }
 }
