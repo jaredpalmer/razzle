@@ -5,13 +5,13 @@ This package contains a plugin for using mdx with Razzle
 ## Usage in Razzle Projects
 
 ```
-npm i razzle-plugin-mdx @mdx-js/tag
+npm i razzle-plugin-mdx
 ```
 
 or
 
 ```
-yarn add razzle-plugin-mdx @mdx-js/tag
+yarn add razzle-plugin-mdx
 ```
 
 ### Using the plugin with the default options

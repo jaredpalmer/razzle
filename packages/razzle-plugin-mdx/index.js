@@ -1,13 +1,18 @@
 'use strict';
 
 const { babelLoaderFinder, fileLoaderFinder } = require('./helpers');
+const path = require('path');
 
 const defaultOptions = {};
 
-function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
+function modify(baseConfig, params, webpack, userOptions = {}) {
   const options = Object.assign({}, defaultOptions, userOptions);
   const config = Object.assign({}, baseConfig);
 
+  config.resolve.modules = [
+    ...config.resolve.modules,
+    path.join(__dirname, './node_modules'),
+  ];
   config.resolve.extensions = [...config.resolve.extensions, '.md', '.mdx'];
 
   // Safely locate Babel-Loader in Razzle's webpack internals
@@ -32,7 +37,7 @@ function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
       ...babelLoader.use,
       {
         loader: require.resolve('@mdx-js/loader'),
-        options: Object.assign({}, options.mdxLoader),
+        options: Object.assign({}, options),
       },
     ],
   };
