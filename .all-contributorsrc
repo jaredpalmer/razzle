@@ -76,6 +76,17 @@
         "example",
         "plugin"
       ]
+    },
+    {
+      "login": "rhodee",
+      "name": "Denis Rhoden",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/737290?s=400",
+      "profile": "https://www.linkedin.com/in/denisrhoden/",
+      "contributions": [
+        "question",
+        "plugin",
+        "example"
+      ]
     }
   ]
 }
