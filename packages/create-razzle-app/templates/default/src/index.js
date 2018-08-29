@@ -19,7 +19,7 @@ if (module.hot) {
 
   const noErrors = () => {
     try {
-      require('./server.js').default;
+      require('./server').default;
     } catch (error) {
       console.error(error);
       return false;
