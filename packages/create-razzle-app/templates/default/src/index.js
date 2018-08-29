@@ -1,5 +1,6 @@
-import app from './server';
 import http from 'http';
+
+let app = require('./server').default;
 
 const server = http.createServer(app);
 
@@ -18,7 +19,7 @@ if (module.hot) {
 
   const noErrors = () => {
     try {
-      require('./server').default;
+      require('./server.js').default;
     } catch (error) {
       console.error(error);
       return false;
@@ -30,9 +31,9 @@ if (module.hot) {
     if (noErrors()) {
       console.log('🔁  HMR Reloading `./server`...');
       server.removeListener('request', currentApp);
-      const newApp = require('./server').default;
-      server.on('request', newApp);
-      currentApp = newApp;
+      app = require('./server').default;
+      server.on('request', app);
+      currentApp = app;
     }
   });
 }
