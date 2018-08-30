@@ -37,7 +37,14 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  {
+    clearConsole = true,
+    host = 'localhost',
+    port = 3000,
+    modify,
+    plugins,
+    modifyBabelOptions,
+  },
   webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
@@ -58,10 +65,17 @@ module.exports = (
     useEslintrc: true,
   };
 
-  if (hasBabelRc) {
-    console.log('Using .babelrc defined in your app root');
-  } else {
+  if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+  }
+
+  // Allow app to override babel options
+  const babelOptions = modifyBabelOptions
+    ? modifyBabelOptions(mainBabelOptions)
+    : mainBabelOptions;
+
+  if (hasBabelRc && babelOptions.babelrc) {
+    console.log('Using .babelrc defined in your app root');
   }
 
   if (hasEslintRc) {
@@ -96,7 +110,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: 'cheap-module-source-map',
+    devtool: IS_DEV ? 'cheap-module-source-map' : 'source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
@@ -104,7 +118,7 @@ module.exports = (
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
       ),
-      extensions: ['.js', '.json', '.jsx', '.mjs'],
+      extensions: ['.mjs', '.jsx', '.js', '.json'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
@@ -132,6 +146,12 @@ module.exports = (
           ],
           include: paths.appSrc,
         },
+        // Avoid "require is not defined" errors
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
         // Transform ES6 with Babel
         {
           test: /\.(js|jsx|mjs)$/,
@@ -139,7 +159,7 @@ module.exports = (
           use: [
             {
               loader: require.resolve('babel-loader'),
-              options: mainBabelOptions,
+              options: babelOptions,
             },
           ],
         },
