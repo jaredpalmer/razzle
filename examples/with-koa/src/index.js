@@ -7,12 +7,12 @@ import http from 'http';
 let currentHandler = app.callback();
 const server = http.createServer(currentHandler);
 
-server.listen(process.env.PORT || 3000, (error) => {
+server.listen(process.env.PORT || 3000, error => {
   if (error) {
-    console.log(error)
+    console.log(error);
   }
 
-  console.log('🚀 started')
+  console.log('🚀 started');
 });
 
 if (module.hot) {

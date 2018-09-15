@@ -54,13 +54,13 @@ server.use((req, res) => {
                 <body>
                     <div id="root">${markup}</div>
                 </body>
-            </html>`,
+            </html>`
           );
         }
       } else {
         res.status(404).send('Not found');
       }
-    },
+    }
   );
 });
 
