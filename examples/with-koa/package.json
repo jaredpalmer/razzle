@@ -18,6 +18,6 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "razzle": "^0.8.12"
+    "razzle": "^2.4.0"
   }
 }
