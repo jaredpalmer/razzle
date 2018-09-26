@@ -4,7 +4,7 @@
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
   "devDependencies": {
     "eslint": "^4.6.1",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "jest": "^22.4.3",
     "lerna": "2.10.1",
     "lerna-changelog": "^0.7.0",
