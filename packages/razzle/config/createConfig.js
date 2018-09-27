@@ -97,6 +97,11 @@ module.exports = (
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
+  // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
+  const clientPublicPath =
+    dotenv.raw.CLIENT_PUBLIC_PATH ||
+    (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
+
   // This is our base webpack config.
   let config = {
     // Set webpack mode:
@@ -323,7 +328,7 @@ module.exports = (
     // Specify webpack Node.js output path and filename
     config.output = {
       path: paths.appBuild,
-      publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
+      publicPath: clientPublicPath,
       filename: 'server.js',
       libraryTarget: 'commonjs2',
     };
@@ -404,7 +409,7 @@ module.exports = (
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
+        publicPath: clientPublicPath,
         pathinfo: true,
         libraryTarget: 'var',
         filename: 'static/js/bundle.js',
