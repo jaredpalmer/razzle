@@ -9,6 +9,7 @@ const createConfig = require('../config/createConfig');
 const devServer = require('webpack-dev-server-speedy');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
+const openBrowser = require('react-dev-utils/openBrowser');
 const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 
@@ -50,6 +51,7 @@ function main() {
   // Compile our assets with webpack
   const clientCompiler = compile(clientConfig);
   const serverCompiler = compile(serverConfig);
+  let isInWatchMode = false;
 
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
@@ -59,7 +61,13 @@ function main() {
         stats: 'none',
       },
       /* eslint-disable no-unused-vars */
-      stats => {}
+      stats => {
+        // Just open the browser when the watch mode is first activated
+        if (!isInWatchMode) {
+          openBrowser(`http://localhost:${process.env.PORT}`);
+          isInWatchMode = true;
+        }
+      }
     );
   });
 
