@@ -17,23 +17,16 @@ server.listen(process.env.PORT || 3000, error => {
 if (module.hot) {
   console.log('✅  Server-side HMR Enabled!');
 
-  const noErrors = () => {
-    try {
-      require('./server').default;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-    return true;
-  };
-
   module.hot.accept('./server', () => {
-    if (noErrors()) {
-      console.log('🔁  HMR Reloading `./server`...');
-      server.removeListener('request', currentApp);
+    console.log('🔁  HMR Reloading `./server`...');
+
+    try {
       app = require('./server').default;
+      server.removeListener('request', currentApp);
       server.on('request', app);
       currentApp = app;
+    } catch (error) {
+      console.error(error);
     }
   });
 }

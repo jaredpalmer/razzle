@@ -1,5 +1,6 @@
-import app from './server';
 import http from 'http';
+
+let app = require('./server').default;
 
 // Use `app#callback()` method here instead of directly
 // passing `app` as an argument to `createServer` (or use `app#listen()` instead)
@@ -7,12 +8,12 @@ import http from 'http';
 let currentHandler = app.callback();
 const server = http.createServer(currentHandler);
 
-server.listen(process.env.PORT || 3000, (error) => {
+server.listen(process.env.PORT || 3000, error => {
   if (error) {
-    console.log(error)
+    console.log(error);
   }
 
-  console.log('🚀 started')
+  console.log('🚀 started');
 });
 
 if (module.hot) {
@@ -20,9 +21,14 @@ if (module.hot) {
 
   module.hot.accept('./server', () => {
     console.log('🔁  HMR Reloading `./server`...');
-    server.removeListener('request', currentHandler);
-    const newHandler = require('./server').default.callback();
-    server.on('request', newHandler);
-    currentHandler = newHandler;
+
+    try {
+      const newHandler = require('./server').default.callback();
+      server.removeListener('request', currentHandler);
+      server.on('request', newHandler);
+      currentHandler = newHandler;
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
