@@ -1,6 +1,6 @@
 {
   "name": "my-razzle-app",
-  "version": "2.0.0-alpha.8",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
