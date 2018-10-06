@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -513,8 +514,8 @@ module.exports = (
       config.optimization = {
         minimize: true,
         minimizer: [
-          new UglifyJsPlugin({
-            uglifyOptions: {
+          new TerserPlugin({
+            terserOptions: {
               parse: {
                 // we want uglify-js to parse ecma 8 code. However, we don't want it
                 // to apply any minfication steps that turns valid ecma 5 code
@@ -531,6 +532,11 @@ module.exports = (
                 // Pending further investigation:
                 // https://github.com/mishoo/UglifyJS2/issues/2011
                 comparisons: false,
+                // Disabled because of an issue with Terser breaking valid code:
+                // https://github.com/facebook/create-react-app/issues/5250
+                // Pending futher investigation:
+                // https://github.com/terser-js/terser/issues/120
+                inline: 2,
               },
               mangle: {
                 safari10: true,

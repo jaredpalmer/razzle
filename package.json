@@ -5,14 +5,14 @@
   "devDependencies": {
     "eslint": "^4.6.1",
     "husky": "^0.14.3",
-    "jest": "^22.4.3",
+    "jest": "^23.6.0",
     "lerna": "2.10.1",
     "lerna-changelog": "^0.7.0",
     "lint-staged": "^4.0.0",
     "prettier": "^1.4.4",
     "ps-tree": "1.1.0",
-    "semver": "5.4.1",
-    "shelljs": "^0.7.8"
+    "semver": "5.5.1",
+    "shelljs": "^0.8.2"
   },
   "scripts": {
     "e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
@@ -28,7 +28,7 @@
     ]
   },
   "resolutions": {
-    "file-loader": "1.1.11"
+    "file-loader": "2.0.0"
   },
   "dependencies": {},
   "jest": {

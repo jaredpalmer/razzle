@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "mdx-razzle",
+  "version": "2.4.0",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",

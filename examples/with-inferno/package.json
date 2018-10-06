@@ -9,15 +9,15 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "eslint-plugin-inferno": "^7.7.0",
+    "eslint-plugin-inferno": "^7.10.0",
     "express": "4.16.3",
-    "inferno": "5.0.1",
-    "inferno-component": "5.0.1",
-    "inferno-server": "5.0.1 "
+    "inferno": "5.6.1",
+    "inferno-component": "5.6.1",
+    "inferno-server": "5.6.1"
   },
   "devDependencies": {
-    "babel-plugin-inferno": "5.0.1",
-    "inferno-devtools": "5.0.1",
+    "babel-plugin-inferno": "5.1.0",
+    "inferno-devtools": "5.6.1",
     "razzle": "^2.4.0"
   }
 }
