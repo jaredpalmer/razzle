@@ -4,13 +4,13 @@ const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
-const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const safePostCssParser = require('postcss-safe-parser');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
@@ -22,14 +22,11 @@ const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
   plugins: () => [
     require('postcss-flexbugs-fixes'),
-    autoprefixer({
-      browsers: [
-        '>1%',
-        'last 4 versions',
-        'Firefox ESR',
-        'not ie < 9', // React doesn't support IE8 anyway
-      ],
-      flexbox: 'no-2009',
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009',
+      },
+      stage: 3,
     }),
   ],
 };
@@ -556,6 +553,20 @@ module.exports = (
             cache: true,
             // @todo add flag for sourcemaps
             sourceMap: true,
+          }),
+          new OptimizeCSSAssetsPlugin({
+            cssProcessorOptions: {
+              parser: safePostCssParser,
+              // @todo add flag for sourcemaps
+              map: {
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true,
+              },
+            },
           }),
         ],
         // @todo automatic vendor bundle

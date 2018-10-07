@@ -46,7 +46,7 @@ if (env === 'development' || env === 'test') {
 if (env === 'test') {
   preset.plugins.push.apply(preset.plugins, [
     // Compiles import() to a deferred require()
-    require.resolve('babel-plugin-transform-dynamic-import'),
+    require.resolve('babel-plugin-dynamic-import-node'),
     // Transform ES modules to commonjs for Jest support
     [
       require.resolve('@babel/plugin-transform-modules-commonjs'),
