@@ -36,7 +36,7 @@ describe('razzle start', () => {
           }
         });
       });
-      return run.then(test => expect(test).toBe(true));
+      return run.then(test => expect(test).toBeTruthy());
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
@@ -57,7 +57,7 @@ describe('razzle start', () => {
           }
         });
       });
-      return run.then(test => expect(test).toBe(true));
+      return run.then(test => expect(test).toBeTruthy());
     });
 
     afterAll(() => {
