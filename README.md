@@ -17,9 +17,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 ## Quick Start
 
 ```bash
-npm install -g create-razzle-app
-
-create-razzle-app my-app
+npx create-razzle-app my-app
 cd my-app
 npm start
 ```
