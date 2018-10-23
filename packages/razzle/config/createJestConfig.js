@@ -55,6 +55,7 @@ module.exports = (resolve, rootDir) => {
     'transform',
     'transformIgnorePatterns',
     'reporters',
+    'coveragePathIgnorePatterns',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
