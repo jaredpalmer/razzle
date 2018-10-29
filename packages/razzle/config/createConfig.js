@@ -37,7 +37,14 @@ const postCssOptions = {
 module.exports = (
   target = 'web',
   env = 'dev',
-  { clearConsole = true, host = 'localhost', port = 3000, modify, plugins },
+  {
+    clearConsole = true,
+    host = 'localhost',
+    port = 3000,
+    modify,
+    plugins,
+    modifyBabelOptions,
+  },
   webpackObject
 ) => {
   // First we check to see if the user has a custom .babelrc file, otherwise
@@ -58,10 +65,17 @@ module.exports = (
     useEslintrc: true,
   };
 
-  if (hasBabelRc) {
-    console.log('Using .babelrc defined in your app root');
-  } else {
+  if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+  }
+
+  // Allow app to override babel options
+  const babelOptions = modifyBabelOptions
+    ? modifyBabelOptions(mainBabelOptions)
+    : mainBabelOptions;
+
+  if (hasBabelRc && babelOptions.babelrc) {
+    console.log('Using .babelrc defined in your app root');
   }
 
   if (hasEslintRc) {
@@ -83,6 +97,11 @@ module.exports = (
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
+  // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
+  const clientPublicPath =
+    dotenv.raw.CLIENT_PUBLIC_PATH ||
+    (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
+
   // This is our base webpack config.
   let config = {
     // Set webpack mode:
@@ -92,7 +111,7 @@ module.exports = (
     // Specify target (either 'node' or 'web')
     target: target,
     // Controversially, decide on sourcemaps.
-    devtool: 'cheap-module-source-map',
+    devtool: IS_DEV ? 'cheap-module-source-map' : 'source-map',
     // We need to tell webpack how to resolve both Razzle's node_modules and
     // the users', so we use resolve and resolveLoader.
     resolve: {
@@ -100,7 +119,7 @@ module.exports = (
         // It is guaranteed to exist because we tweak it in `env.js`
         nodePath.split(path.delimiter).filter(Boolean)
       ),
-      extensions: ['.js', '.json', '.jsx', '.mjs'],
+      extensions: ['.mjs', '.jsx', '.js', '.json'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
@@ -128,15 +147,20 @@ module.exports = (
           ],
           include: paths.appSrc,
         },
+        // Avoid "require is not defined" errors
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
         // Transform ES6 with Babel
         {
           test: /\.(js|jsx|mjs)$/,
           include: [paths.appSrc],
           use: [
-            require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: mainBabelOptions,
+              options: babelOptions,
             },
           ],
         },
@@ -304,7 +328,7 @@ module.exports = (
     // Specify webpack Node.js output path and filename
     config.output = {
       path: paths.appBuild,
-      publicPath: IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/',
+      publicPath: clientPublicPath,
       filename: 'server.js',
       libraryTarget: 'commonjs2',
     };
@@ -325,13 +349,16 @@ module.exports = (
       config.watch = true;
       config.entry.unshift('webpack/hot/poll?300');
 
-      const nodeArgs = [];
+      // Pretty format server errors
+      config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
 
-      // Add --inspect or --inspect-brk flag when enabled
-      if (process.env.INSPECT_BRK_ENABLED) {
-        nodeArgs.push('--inspect-brk');
-      } else if (process.env.INSPECT_ENABLED) {
-        nodeArgs.push('--inspect');
+      const nodeArgs = ['-r', 'source-map-support/register'];
+
+      // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
+      if (process.env.INSPECT_BRK) {
+        nodeArgs.push(process.env.INSPECT_BRK);
+      } else if (process.env.INSPECT) {
+        nodeArgs.push(process.env.INSPECT);
       }
 
       config.plugins = [
@@ -382,7 +409,7 @@ module.exports = (
       // Configure our client bundles output. Not the public path is to 3001.
       config.output = {
         path: paths.appBuildPublic,
-        publicPath: `http://${dotenv.raw.HOST}:${devServerPort}/`,
+        publicPath: clientPublicPath,
         pathinfo: true,
         libraryTarget: 'var',
         filename: 'static/js/bundle.js',
@@ -473,6 +500,7 @@ module.exports = (
         // Extract our CSS into a files.
         new MiniCssExtractPlugin({
           filename: 'static/css/bundle.[contenthash:8].css',
+          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
           // allChunks: true because we want all css to be included in the main
           // css bundle when doing code splitting to avoid FOUC:
           // https://github.com/facebook/create-react-app/issues/2415

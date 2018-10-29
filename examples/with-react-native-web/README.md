@@ -135,10 +135,6 @@ module.exports = {
           )
       );
 
-    // We should thus also remove extract text plugin too.
-    const extPlugin = require(require.resolve('extract-text-webpack-plugin')); // get it out node_modules
-    config.plugins = config.plugins.filter(w => !(w instanceof extPlugin));
-
     return config;
   },
 };

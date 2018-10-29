@@ -1,19 +1,19 @@
-import app from './server';
 import http from 'http';
+
+let app = require('./server').default;
 
 // Use `app#callback()` method here instead of directly
 // passing `app` as an argument to `createServer` (or use `app#listen()` instead)
 // @see https://github.com/koajs/koa/blob/master/docs/api/index.md#appcallback
-const server = http.createServer(app.callback());
+let currentHandler = app.callback();
+const server = http.createServer(currentHandler);
 
-let currentApp = app;
-
-server.listen(process.env.PORT || 3000, (error) => {
+server.listen(process.env.PORT || 3000, error => {
   if (error) {
-    console.log(error)
+    console.log(error);
   }
-  
-  console.log('🚀 started')
+
+  console.log('🚀 started');
 });
 
 if (module.hot) {
@@ -21,9 +21,14 @@ if (module.hot) {
 
   module.hot.accept('./server', () => {
     console.log('🔁  HMR Reloading `./server`...');
-    server.removeListener('request', currentApp);
-    const newApp = require('./server').default;
-    server.on('request', newApp);
-    currentApp = newApp;
+
+    try {
+      const newHandler = require('./server').default.callback();
+      server.removeListener('request', currentHandler);
+      server.on('request', newHandler);
+      currentHandler = newHandler;
+    } catch (error) {
+      console.error(error);
+    }
   });
 }
