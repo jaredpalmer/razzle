@@ -1,6 +1,10 @@
 {
   "name": "razzle-examples-with-styled-components",
+<<<<<<< HEAD
   "version": "2.0.0-alpha.12",
+=======
+  "version": "2.4.0",
+>>>>>>> master
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +19,10 @@
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "razzle": "^2.0.0-alpha.12"
+=======
+    "razzle": "^2.4.0"
+>>>>>>> master
   }
 }

@@ -88,8 +88,13 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   }
 
   // Create our production webpack configurations and pass in razzle options.
+<<<<<<< HEAD
   let clientConfig = createConfig('web', 'prod', razzle);
   let serverConfig = createConfig('node', 'prod', razzle);
+=======
+  let clientConfig = createConfig('web', 'prod', razzle, webpack);
+  let serverConfig = createConfig('node', 'prod', razzle, webpack);
+>>>>>>> master
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
 

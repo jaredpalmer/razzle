@@ -1,6 +1,10 @@
 {
   "name": "razzle-examples-with-rax",
+<<<<<<< HEAD
   "version": "2.0.0-alpha.12",
+=======
+  "version": "2.4.0",
+>>>>>>> master
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -20,6 +24,10 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-rax": "^0.2.5",
+<<<<<<< HEAD
     "razzle": "^2.0.0-alpha.12"
+=======
+    "razzle": "^2.4.0"
+>>>>>>> master
   }
 }

@@ -1,6 +1,10 @@
 {
   "name": "razzle-examples-basic",
+<<<<<<< HEAD
   "version": "2.0.0-alpha.12",
+=======
+  "version": "2.4.0",
+>>>>>>> master
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,6 +18,10 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "razzle": "^2.0.0-alpha.12"
+=======
+    "razzle": "^2.4.0"
+>>>>>>> master
   }
 }

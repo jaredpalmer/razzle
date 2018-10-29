@@ -6,6 +6,13 @@ function runPlugin(plugin, config, { target, dev }, webpack) {
     return runPlugin({ name: plugin }, config, { target, dev }, webpack);
   }
 
+<<<<<<< HEAD
+=======
+  if (typeof plugin === 'function') {
+    return plugin(config, { target, dev }, webpack);
+  }
+
+>>>>>>> master
   if (typeof plugin.func === 'function') {
     // Used for writing plugin tests
     return plugin.func(config, { target, dev }, webpack, plugin.options);

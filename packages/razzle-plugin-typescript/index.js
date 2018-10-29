@@ -5,6 +5,10 @@ const { babelLoaderFinder, eslintLoaderFinder } = require('./helpers');
 
 const defaultOptions = {
   useBabel: false,
+<<<<<<< HEAD
+=======
+  useEslint: true,
+>>>>>>> master
   tsLoader: {
     transpileOnly: true,
     experimentalWatchApi: true,
@@ -17,13 +21,21 @@ const defaultOptions = {
   },
 };
 
+<<<<<<< HEAD
 function modify(baseConfig, { target }, webpack, userOptions = {}) {
+=======
+function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
+>>>>>>> master
   const options = Object.assign({}, defaultOptions, userOptions);
   const config = Object.assign({}, baseConfig);
 
   config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx'];
 
+<<<<<<< HEAD
   if (!options.useBabel) {
+=======
+  if (!options.useBabel || !options.useEslint) {
+>>>>>>> master
     // Locate eslint-loader and remove it (we're using only tslint)
     config.module.rules = config.module.rules.filter(
       rule => !eslintLoaderFinder(rule)
@@ -57,7 +69,11 @@ function modify(baseConfig, { target }, webpack, userOptions = {}) {
   if (options.useBabel) {
     // If using babel, also add babel-loader to ts files,
     // so we can use babel plugins on tsx files too
+<<<<<<< HEAD
     tsLoader.use = [babelLoader.use[1], ...tsLoader.use];
+=======
+    tsLoader.use = [...babelLoader.use, ...tsLoader.use];
+>>>>>>> master
   } else {
     // If not using babel, remove it
     config.module.rules = config.module.rules.filter(
@@ -75,6 +91,20 @@ function modify(baseConfig, { target }, webpack, userOptions = {}) {
         Object.assign({}, defaultOptions.forkTsChecker, options.forkTsChecker)
       )
     );
+<<<<<<< HEAD
+=======
+    if (dev) {
+      // As suggested by Microsoft's Outlook team, these optimizations
+      // crank up Webpack x TypeScript perf.
+      // @see https://medium.com/@kenneth_chau/speeding-up-webpack-typescript-incremental-builds-by-7x-3912ba4c1d15
+      config.output.pathinfo = false;
+      config.optimization = {
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      };
+    }
+>>>>>>> master
   }
 
   return config;

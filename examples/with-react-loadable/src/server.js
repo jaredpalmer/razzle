@@ -29,6 +29,7 @@ server
     } else {
       const bundles = getBundles(stats, modules);
       const chunks = bundles.filter(bundle => bundle.file.endsWith('.js'));
+      const styles = bundles.filter(bundle => bundle.file.endsWith('.css'));
 
       res.status(200).send(
         `<!doctype html>
@@ -43,6 +44,14 @@ server
         ? `<link rel="stylesheet" href="${assets.client.css}">`
         : ''
     }
+<<<<<<< HEAD
+=======
+    ${styles
+      .map(style => {
+        return `<link href="${style.file}" rel="stylesheet"/>`;
+      })
+      .join('\n')}
+>>>>>>> master
   </head>
   <body>
     <div id="root">${markup}</div>

@@ -9,11 +9,21 @@ const makeLoaderFinder = loaderName => rule => {
     typeof rule.loader === 'string' && rule.loader.match(loaderRegex);
 
   // Checks if there is an object inside rule.use with loader matching loaderRegex, OR
+<<<<<<< HEAD
+=======
+  // Checks another condition, if rule is not an object, but pure string (ex: "style-loader", etc)
+>>>>>>> master
   const inUseArray =
     Array.isArray(rule.use) &&
     rule.use.find(
       loader =>
+<<<<<<< HEAD
         typeof loader.loader === 'string' && loader.loader.match(loaderRegex)
+=======
+        (typeof loader.loader === 'string' &&
+          loader.loader.match(loaderRegex)) ||
+        (typeof loader === 'string' && loader.match(loaderRegex))
+>>>>>>> master
     );
 
   return inUseArray || inLoaderString;

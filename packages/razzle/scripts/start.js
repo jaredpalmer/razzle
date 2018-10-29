@@ -14,11 +14,12 @@ const setPorts = require('razzle-dev-utils/setPorts');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
-if (process.argv.includes('--inspect-brk')) {
-  process.env.INSPECT_BRK_ENABLED = true;
-} else if (process.argv.includes('--inspect')) {
-  process.env.INSPECT_ENABLED = true;
-}
+// Capture any --inspect or --inspect-brk flags (with optional values) so that we
+// can pass them when we invoke nodejs
+process.env.INSPECT_BRK =
+  process.argv.find(arg => arg.match(/--inspect-brk(=|$)/)) || '';
+process.env.INSPECT =
+  process.argv.find(arg => arg.match(/--inspect(=|$)/)) || '';
 
 function main() {
   // Optimistically, we make the console look exactly like the output of our

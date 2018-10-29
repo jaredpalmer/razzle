@@ -27,7 +27,7 @@ ErrorOverlay.startReportingRuntimeErrors({
   launchEditorEndpoint: url.format({
     protocol: window.location.protocol,
     hostname: window.location.hostname,
-    port: parseInt(process.env.PORT, 10) + 1 || window.location.port,
+    port: parseInt(process.env.PORT || window.location.port, 10) + 1,
     pathname: launchEditorEndpoint,
   }),
   onError: function() {
@@ -48,7 +48,7 @@ var connection = new SockJS(
   url.format({
     protocol: window.location.protocol,
     hostname: window.location.hostname,
-    port: parseInt(process.env.PORT, 10) + 1 || window.location.port,
+    port: parseInt(process.env.PORT || window.location.port, 10) + 1,
     // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
   })

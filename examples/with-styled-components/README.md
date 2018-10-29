@@ -1,11 +1,11 @@
-# Razzle Basic Example
+# Razzle with-styled-components Example
 
 ## How to use
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/basic
-cd basic
+curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-styled-components
+cd with-styled-components
 ```
 
 Install it and run:

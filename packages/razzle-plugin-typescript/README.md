@@ -14,9 +14,13 @@ Using the plugin with the default options
 // razzle.config.js
 
 module.exports = {
+<<<<<<< HEAD
   plugins: [
     'typescript'
   ],
+=======
+  plugins: ['typescript'],
+>>>>>>> master
 };
 ```
 
@@ -31,6 +35,10 @@ module.exports = {
       name: 'typescript',
       options: {
         useBabel: false,
+<<<<<<< HEAD
+=======
+        useEslint: true, // ignored if `useBabel` is false
+>>>>>>> master
         tsLoader: {
           transpileOnly: true,
           experimentalWatchApi: true,
@@ -40,7 +48,11 @@ module.exports = {
           tslint: './tslint.json',
           watch: './src',
           typeCheck: true,
+<<<<<<< HEAD
         }
+=======
+        },
+>>>>>>> master
       },
     },
   ],
@@ -49,6 +61,7 @@ module.exports = {
 
 ## Options
 
+<<<<<<< HEAD
 __useBabel: _boolean___ (defaults: false)
 
 Set `useBabel` to `true` if you want to keep using `babel` for _JS_/_TS_ interoperability, or if you want to apply any babel transforms to typescript files. (i.e.: [`babel-plugin-styled-components`](https://github.com/styled-components/babel-plugin-styled-components)).
@@ -58,5 +71,21 @@ __tsLoader: _TSLoaderOptions___ (defaults: { transpileOnly: true, experimentalWa
 Use this to override [`ts-loader`](https://github.com/TypeStrong/ts-loader) options. Check all the options here: [ts-loader options](https://github.com/TypeStrong/ts-loader#loader-options).
 
 __forkTsChecker: _TSCheckerOptions___ (defaults: { tsconfig: './tsconfig.json', tslint: './tslint.json', watch: './src',           typeCheck: true })
+=======
+**useBabel: _boolean_** (defaults: false)
+
+Set `useBabel` to `true` if you want to keep using `babel` for _JS_/_TS_ interoperability, or if you want to apply any babel transforms to typescript files. (i.e.: [`babel-plugin-styled-components`](https://github.com/styled-components/babel-plugin-styled-components)).
+
+**useEslint: _boolean_** (defaults: true)
+
+Note: This option is ignored if `useBabel` is set to `false`.
+Set `useEslint` to `false` if you want to use `babel` for transforms but do not wish to use eslint.
+
+**tsLoader: _TSLoaderOptions_** (defaults: { transpileOnly: true, experimentalWatchApi: true })
+
+Use this to override [`ts-loader`](https://github.com/TypeStrong/ts-loader) options. Check all the options here: [ts-loader options](https://github.com/TypeStrong/ts-loader#loader-options).
+
+**forkTsChecker: _TSCheckerOptions_** (defaults: { tsconfig: './tsconfig.json', tslint: './tslint.json', watch: './src', typeCheck: true })
+>>>>>>> master
 
 Use this to override [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin) options. Check all the options here: [fork-ts-checker-webpack-plugin options](https://github.com/Realytics/fork-ts-checker-webpack-plugin#options).
