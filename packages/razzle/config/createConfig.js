@@ -469,7 +469,7 @@ module.exports = (
     } else {
       // Specify production entry point (/client/index.js)
       config.entry = {
-        client: [paths.appClientIndexJs],
+        client: paths.appClientIndexJs,
       };
 
       // Specify the client output directory and paths. Notice that we have
