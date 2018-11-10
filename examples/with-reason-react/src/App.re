@@ -1,4 +1,4 @@
-let text = ReasonReact.stringToElement;
+let text = ReasonReact.string;
 
 let component = ReasonReact.statelessComponent("App");
 
@@ -8,14 +8,7 @@ let make = (~title, ~initialUrl, _children) => {
   render: _self =>
     <div className="App">
       <div className="App-header">
-        <div
-          style=(
-            ReactDOMRe.Style.make(
-              ~backgroundColor="#db4d3f",
-              ~cursor="pointer",
-              ()
-            )
-          )>
+        <div style={ReactDOMRe.Style.make(~backgroundColor="#db4d3f", ~cursor="pointer", ())}>
           <svg className="App-logo" viewBox="0 0 841.9 595.3" alt="logo">
             <g fill="#fff">
               <path
@@ -26,37 +19,28 @@ let make = (~title, ~initialUrl, _children) => {
             </g>
           </svg>
         </div>
-        <h2
-          style=(
-            ReactDOMRe.Style.make(~marginLeft="30px", ~fontSize="2em", ())
-          )>
-          (text(title))
-        </h2>
+        <h2 style={ReactDOMRe.Style.make(~marginLeft="30px", ~fontSize="2em", ())}> {text(title)} </h2>
       </div>
       <p>
-        <Link href="/home"> (text("home")) </Link>
-        (text(" "))
-        <Link href="/counter"> (text("counter")) </Link>
+        <Link href="/home"> {text("home")} </Link>
+        {text(" ")}
+        <Link href="/counter"> {text("counter")} </Link>
       </p>
       <Router initialUrl>
-        ...(
+        ...{
              (url: ReasonReact.Router.url) =>
-               switch url.path {
+               switch (url.path) {
                | [] => <Home />
                | ["home"] => <Home />
                | ["counter"] => <Counter />
                | _ => "404 not found" |> text
                }
-           )
+           }
       </Router>
-    </div>
+    </div>,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~title=jsProps##title,
-      ~initialUrl=Js.undefinedToOption(jsProps##initialUrl),
-      [||]
-    )
+    make(~title=jsProps##title, ~initialUrl=Js.undefinedToOption(jsProps##initialUrl), [||])
   );

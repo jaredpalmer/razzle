@@ -15,11 +15,11 @@
     "express": "^4.16.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "reason-react": "^0.3.2"
+    "reason-react": "^0.5.3"
   },
   "devDependencies": {
-    "bs-platform": "^2.0.0",
-    "concurrently": "^3.5.0",
+    "bs-platform": "^4.0.7",
+    "concurrently": "^4.0.1",
     "razzle": "^2.4.0"
   }
 }
