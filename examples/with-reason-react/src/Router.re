@@ -5,7 +5,7 @@ type state = ReasonReact.Router.url;
 
 /* copied from  ReasonReact */
 let urlToUrlList = url =>
-  switch url {
+  switch (url) {
   | ""
   | "/" => []
   | _ =>
@@ -22,24 +22,21 @@ let urlToUrlList = url =>
 
 let component = ReasonReact.reducerComponent("Router");
 
-let make:
-  (~initialUrl: option(string), 'a) => ReasonReact.component(state, _, action) =
+let make: (~initialUrl: option(string), 'a) => ReasonReact.component(state, _, action) =
   (~initialUrl, children) => {
     ...component,
     initialState: () =>
-      switch initialUrl {
+      switch (initialUrl) {
       | Some(url) => {path: urlToUrlList(url), hash: "", search: ""}
       | None => ReasonReact.Router.dangerouslyGetInitialUrl()
       },
     reducer: (action, _state) =>
-      switch action {
+      switch (action) {
       | UpdateRoute(url) => ReasonReact.Update(url)
       },
-    subscriptions: ({send}) => [
-      Sub(
-        () => ReasonReact.Router.watchUrl(url => send(UpdateRoute(url))),
-        ReasonReact.Router.unwatchUrl
-      )
-    ],
-    render: ({state}) => children(state)
+    didMount: self => {
+      let watcherID = ReasonReact.Router.watchUrl(url => self.send(UpdateRoute(url)));
+      self.onUnmount(() => ReasonReact.Router.unwatchUrl(watcherID));
+    },
+    render: ({state}) => children(state),
   };
