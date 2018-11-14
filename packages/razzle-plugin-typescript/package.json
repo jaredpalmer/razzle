@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "fork-ts-checker-webpack-plugin": "^0.4.1",
-    "ts-loader": "^4.2.0"
+    "ts-loader": "^5.2.1"
   },
   "devDependencies": {
-    "jest": "20.0.4",
     "razzle": "^2.4.0"
   },
   "peerDependencies": {

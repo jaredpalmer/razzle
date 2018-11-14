@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "razzle": "^2.0.0-alpha.12",
+    "razzle": "^2.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "loadable-components": "^1.4.0"

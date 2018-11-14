@@ -9,15 +9,15 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "koa": "^2.5.0",
-    "koa-helmet": "^3.3.0",
+    "koa": "^2.5.3",
+    "koa-helmet": "^4.0.0",
     "koa-router": "^7.4.0",
-    "koa-static": "^4.0.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2"
+    "koa-static": "^5.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
-    "razzle": "^0.8.12"
+    "razzle": "^2.4.0"
   }
 }

@@ -14,7 +14,6 @@
     "@mdx-js/mdx": "^0.15.0-0"
   },
   "devDependencies": {
-    "jest": "20.0.4",
     "razzle": "^2.4.0"
   }
 }
