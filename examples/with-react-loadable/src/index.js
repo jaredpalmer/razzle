@@ -17,8 +17,8 @@ if (module.hot) {
 
 const port = process.env.PORT || 3000;
 
-export default Loadable.preloadAll()
-  .then(() => express()
+export default Loadable.preloadAll().then(() =>
+  express()
     .use((req, res) => app.handle(req, res))
     .listen(port, function(err) {
       if (err) {
@@ -26,4 +26,5 @@ export default Loadable.preloadAll()
         return;
       }
       console.log(`> Started on port ${port}`);
-    }));
+    })
+);

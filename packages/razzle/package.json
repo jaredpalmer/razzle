@@ -13,8 +13,7 @@
     "config",
     "scripts",
     "template",
-    "babel.js",
-    "polyfills.js"
+    "babel.js"
   ],
   "keywords": [
     "razzle",
