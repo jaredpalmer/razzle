@@ -28,7 +28,7 @@
     ]
   },
   "resolutions": {
-    "file-loader": "1.1.11"
+    "file-loader": "2.0.0"
   },
   "dependencies": {},
   "jest": {
