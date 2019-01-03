@@ -51,14 +51,18 @@ function main() {
   const clientCompiler = compile(clientConfig);
   const serverCompiler = compile(serverConfig);
 
+  // Instatiate a variable to track server watching
+  let watching;
+
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
-    serverCompiler.watch(
-      {
-        quiet: true,
-        stats: 'none',
-      },
-      /* eslint-disable no-unused-vars */
+    // If we've already started the server watcher, bail early.
+    if (watching) {
+      return;
+    }
+    // Otherwise, create a new watcher for our server code.
+    watching = serverCompiler.watch(
+      { quiet: true, stats: 'none' } /* eslint-disable no-unused-vars */,
       stats => {}
     );
   });
