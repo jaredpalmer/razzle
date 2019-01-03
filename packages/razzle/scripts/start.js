@@ -56,8 +56,7 @@ function main() {
 
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
-    // If we've already started the server watcher,
-    // bail early.
+    // If we've already started the server watcher, bail early.
     if (watching) {
       return;
     }

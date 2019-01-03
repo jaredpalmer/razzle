@@ -121,7 +121,7 @@ yarn add razzle-plugin-xxxx
 ```js
 //./razzle.config.js
 module.exports = {
-  plugins: ["xxxx"]
+  plugins: ['xxxx'],
 };
 ```
 
@@ -130,16 +130,16 @@ module.exports = {
 Plugins are simply functions that modify and return Razzle's webpack config.
 
 ```js
-"use strict";
+'use strict';
 
 module.exports = function myRazzlePlugin(config, env, webpack, options) {
   const { target, dev } = env;
 
-  if (target === "web") {
+  if (target === 'web') {
     // client only
   }
 
-  if (target === "server") {
+  if (target === 'server') {
     // server only
   }
 
@@ -184,7 +184,7 @@ module.exports = {
     // do something to config
 
     return config;
-  }
+  },
 };
 ```
 
@@ -219,8 +219,8 @@ Razzle comes with [Create React App's ESLint configuration](https://github.com/f
 Razzle supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and Razzle will process the file using `css-loader`.
 
 ```jsx
-import React from "react";
-import styles from "./style.module.css";
+import React from 'react';
+import styles from './style.module.css';
 
 const Component = () => <div className={styles.className} />;
 
@@ -241,8 +241,8 @@ or
 Next, place one of the following lines at the very top of `src/client.js:`
 
 ```javascript
-import "react-app-polyfill/ie9"; // For IE 9-11 support
-import "react-app-polyfill/ie11"; // For IE 11 support
+import 'react-app-polyfill/ie9'; // For IE 9-11 support
+import 'react-app-polyfill/ie11'; // For IE 11 support
 ```
 
 ## Environment Variables
@@ -274,36 +274,36 @@ Using the dotenv package, or by defining variables in your shell (see below), yo
 ```js
 // config.js
 export const runtimeConfig =
-  typeof window !== "undefined"
+  typeof window !== 'undefined'
     ? {
         // client
         myThing: window.env.myThing,
-        anotherThing: window.env.anotherThing
+        anotherThing: window.env.anotherThing,
       }
     : {
         // server
         myThing: process.env.MY_THING,
-        anotherThing: process.env.ANOTHER_THING
+        anotherThing: process.env.ANOTHER_THING,
       };
 ```
 
 Now we set `window.env` as `runtimeConfig` when we go to render the HTML.
 
 ```js
-import App from "./App";
-import React from "react";
-import express from "express";
-import { renderToString } from "react-dom/server";
-import serialize from "serialize-javascript"; // Safer stringify, prevents XSS attacks
-import { runtimeConfig } from "./config";
+import App from './App';
+import React from 'react';
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import serialize from 'serialize-javascript'; // Safer stringify, prevents XSS attacks
+import { runtimeConfig } from './config';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
 
 server
-  .disable("x-powered-by")
+  .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get("/*", (req, res) => {
+  .get('/*', (req, res) => {
     const markup = renderToString(<App />);
     res.send(
       // prettier-ignore
@@ -406,8 +406,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |[<img src="https://avatars1.githubusercontent.com/u/11960153?s=460&v=4" width="100px;"/><br /><sub><b>Oleg Reznichenko</b></sub>](www.linkedin.com/in/oleg-reznichenko)
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

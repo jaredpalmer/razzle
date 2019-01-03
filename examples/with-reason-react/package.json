@@ -20,6 +20,6 @@
   "devDependencies": {
     "bs-platform": "^4.0.7",
     "concurrently": "^4.0.1",
-    "razzle": "^2.4.0"
+    "razzle": "^2.4.1"
   }
 }
