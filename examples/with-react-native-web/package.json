@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-react-native-web",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,6 +17,6 @@
   "devDependencies": {
     "babel-plugin-react-native-web": "^0.9.1",
     "extract-text-webpack-plugin": "^3.0.2",
-    "razzle": "^3.0.0-alpha.0"
+    "razzle": "^3.0.0-alpha.1"
   }
 }
