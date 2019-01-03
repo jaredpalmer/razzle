@@ -56,18 +56,13 @@ function main() {
 
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
-    // If we've already started the server watcher,
-    // bail early.
+    // If we've already started the server watcher, bail early.
     if (watching) {
       return;
     }
     // Otherwise, create a new watcher for our server code.
     watching = serverCompiler.watch(
-      {
-        quiet: true,
-        stats: 'none',
-      },
-      /* eslint-disable no-unused-vars */
+      { quiet: true, stats: 'none' } /* eslint-disable no-unused-vars */,
       stats => {}
     );
   });
