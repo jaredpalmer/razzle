@@ -10,7 +10,7 @@ module.exports = function getInstallCmd() {
   }
 
   try {
-    execa.sync('yarnpkg', '--version');
+    execa.sync('yarnpkg', ['--version']);
     cmd = 'yarn';
   } catch (e) {
     cmd = 'npm';
