@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "express": "^4.15.2",
-    "razzle": "^2.4.0",
-    "razzle-plugin-mdx": "^2.4.0",
+    "razzle": "^2.4.1",
+    "razzle-plugin-mdx": "^2.4.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "remark-emoji": "^2.0.1"
-  }
+  },
+  "version": "2.4.1"
 }

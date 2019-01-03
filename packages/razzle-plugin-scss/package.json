@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "2.2.0",
+  "version": "2.4.1",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,12 +14,12 @@
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass-chokidar": "^1.3.0",
     "postcss-flexbugs-fixes": "^3.3.1",
+    "postcss-scss": "^1.0.5",
     "resolve-url-loader": "^2.3.0",
-    "sass-loader": "^7.0.3",
-    "postcss-scss": "^1.0.5"
+    "sass-loader": "^7.0.3"
   },
   "devDependencies": {
     "jest": "^23.1.0",
-    "razzle": "^2.2.0"
+    "razzle": "^2.4.1"
   }
 }
