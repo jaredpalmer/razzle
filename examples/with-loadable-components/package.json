@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-loadable-components",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -11,7 +11,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "loadable-components": "^1.4.0",
-    "razzle": "^3.0.0-alpha.1",
+    "razzle": "^3.0.0-alpha.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
