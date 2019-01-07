@@ -18,7 +18,7 @@
     "reason-react": "^0.5.3"
   },
   "devDependencies": {
-    "bs-platform": "^4.0.7",
+    "bs-platform": "^4.0.17",
     "concurrently": "^4.0.1",
     "razzle": "^2.4.1"
   }
