@@ -63,7 +63,7 @@
     "terser-webpack-plugin": "^1.1.0",
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
-    "webpack-dev-server-speedy": "^3.1.1",
+    "webpack-dev-server": "^3.1.14",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^3.1.5"
   }
