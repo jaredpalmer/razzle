@@ -48,7 +48,6 @@ const routes = (
         getComponent={() => import('../components/Us').then(module => module.default)}
         getData={({ location, context }) =>
           new Promise(resolve => {
-            console.log('getHomeData =>', context);
             context.store.dispatch(new FetchBoards());
             resolve({ store: context.store });
           })
