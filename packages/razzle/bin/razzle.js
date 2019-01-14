@@ -32,7 +32,7 @@ prog
   });
 
 prog
-  .command('start')
+  .command('test')
   .describe('Runs the test watcher in an interactive mode.')
   .action(() => {
     runCommand('test');
