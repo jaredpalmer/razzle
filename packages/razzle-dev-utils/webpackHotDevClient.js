@@ -16,7 +16,7 @@ var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
 var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
-const isClientOnly = process.env.RAZZLE_MODE === 'client';
+const isClientOnly = process.env.BUILD_TYPE === 'spa';
 
 let PORT = parseInt(process.env.PORT || window.location.port, 10);
 

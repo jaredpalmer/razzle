@@ -98,6 +98,21 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Build Types
+
+In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js`. Then pass `--type=spa` to your `package.json`'s scripts like so:
+
+```diff
+"scripts": {
+-  "start": "razzle start",
++  "start": "razzle start --type=spa",
+-  "build": "razzle build",
++  "build": "razzle build --type=spa",
+  "test": "razzle test --env=jsdom",
+-  "start:prod": "NODE_ENV=production node build/server.js"
+}
+```
+
 ## Customization
 
 ### Plugins
@@ -258,9 +273,10 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 - `process.env.PORT`: default is `3000`, unless changed
 - `process.env.HOST`: default is `0.0.0.0`
 - `process.env.NODE_ENV`: `'development'` or `'production'`
+- `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
 - `process.env.BUILD_TARGET`: either `'client'` or `'server'`
 - `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
-- `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`
+- `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`. This is ignored if running razzle in `spa` mode (only `PUBLIC_PATH` is used).
 
 You can create your own custom build-time environment variables. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.

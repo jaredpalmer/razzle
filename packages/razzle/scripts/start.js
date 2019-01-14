@@ -3,6 +3,7 @@
 
 process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
+const mri = require('mri');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
@@ -14,20 +15,20 @@ const setPorts = require('razzle-dev-utils/setPorts');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
+const argv = process.argv.slice(2);
+const cliArgs = mri(argv);
+
+// Set the default build mode to isomorphic
+cliArgs.type = cliArgs.type || 'iso';
+
 // Capture any --inspect or --inspect-brk flags (with optional values) so that we
 // can pass them when we invoke nodejs
-process.env.INSPECT_BRK =
-  process.argv.find(arg => arg.match(/--inspect-brk(=|$)/)) || '';
-process.env.INSPECT =
-  process.argv.find(arg => arg.match(/--inspect(=|$)/)) || '';
+process.env.INSPECT_BRK = cliArgs['inspect-brk'] || '';
+process.env.INSPECT = cliArgs.inspect || '';
+// Capture the type (isomorphic or single-page) as an environment variable
+process.env.BUILD_TYPE = cliArgs.type;
 
-const clientOnly = process.argv.some(arg => arg.match(/--client(=|$)/));
-
-if (clientOnly) {
-  process.env.RAZZLE_MODE = 'client';
-} else {
-  process.env.RAZZLE_MODE = 'iso';
-}
+const clientOnly = cliArgs.type === 'spa';
 
 function main() {
   // Optimistically, we make the console look exactly like the output of our
