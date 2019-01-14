@@ -49,6 +49,7 @@ module.exports = {
   appPublic: resolveApp('public'),
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp('src'),
+  appHtml: resolveApp('public/index.html'), // client only
   appPackageJson: resolveApp('package.json'),
   appServerIndexJs: resolveApp('src'),
   appClientIndexJs: resolveApp('src/client'),

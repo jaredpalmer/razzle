@@ -21,6 +21,14 @@ process.env.INSPECT_BRK =
 process.env.INSPECT =
   process.argv.find(arg => arg.match(/--inspect(=|$)/)) || '';
 
+const clientOnly = process.argv.some(arg => arg.match(/--client(=|$)/));
+
+if (clientOnly) {
+  process.env.RAZZLE_MODE = 'client';
+} else {
+  process.env.RAZZLE_MODE = 'iso';
+}
+
 function main() {
   // Optimistically, we make the console look exactly like the output of our
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
@@ -44,13 +52,18 @@ function main() {
 
   // Create dev configs using our config factory, passing in razzle file as
   // options.
-  let clientConfig = createConfig('web', 'dev', razzle, webpack);
-  let serverConfig = createConfig('node', 'dev', razzle, webpack);
+  let clientConfig = createConfig('web', 'dev', razzle, webpack, clientOnly);
+  const clientCompiler = compile(clientConfig);
+
+  let serverConfig;
+  let serverCompiler;
+
+  if (!clientOnly) {
+    serverConfig = createConfig('node', 'dev', razzle, webpack);
+    serverCompiler = compile(serverConfig);
+  }
 
   // Compile our assets with webpack
-  const clientCompiler = compile(clientConfig);
-  const serverCompiler = compile(serverConfig);
-
   // Instatiate a variable to track server watching
   let watching;
 
@@ -60,24 +73,29 @@ function main() {
     if (watching) {
       return;
     }
-    // Otherwise, create a new watcher for our server code.
-    watching = serverCompiler.watch(
-      {
-        quiet: true,
-        stats: 'none',
-      },
-      /* eslint-disable no-unused-vars */
-      stats => {}
-    );
+
+    if (!clientOnly && serverCompiler) {
+      // Otherwise, create a new watcher for our server code.
+      watching = serverCompiler.watch(
+        {
+          quiet: true,
+          stats: 'none',
+        },
+        /* eslint-disable no-unused-vars */
+        stats => {}
+      );
+    }
   });
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.
   const clientDevServer = new devServer(clientCompiler, clientConfig.devServer);
-
+  const maybePlusOne = clientOnly ? 0 : 1;
   // Start Webpack-dev-server
   clientDevServer.listen(
-    (process.env.PORT && parseInt(process.env.PORT) + 1) || razzle.port || 3001,
+    (process.env.PORT && parseInt(process.env.PORT) + maybePlusOne) ||
+      razzle.port ||
+      3000 + maybePlusOne,
     err => {
       if (err) {
         logger.error(err);

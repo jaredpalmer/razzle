@@ -16,13 +16,21 @@ var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
 var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
+const isClientOnly = process.env.RAZZLE_MODE === 'client';
+
+let PORT = parseInt(process.env.PORT || window.location.port, 10);
+
+if (!isClientOnly) {
+  PORT += 1;
+}
+
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
   fetch(
     url.format({
       protocol: window.location.protocol,
       hostname: window.location.hostname,
-      port: parseInt(process.env.PORT || window.location.port, 10) + 1,
+      port: PORT,
       pathname: launchEditorEndpoint,
       search:
         '?fileName=' +
@@ -62,7 +70,7 @@ var connection = new SockJS(
   url.format({
     protocol: window.location.protocol,
     hostname: window.location.hostname,
-    port: parseInt(process.env.PORT || window.location.port, 10) + 1,
+    port: PORT,
     // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
   })
