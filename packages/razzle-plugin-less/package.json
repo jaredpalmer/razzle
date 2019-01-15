@@ -1,6 +1,17 @@
 {
   "name": "razzle-plugin-less",
-  "version": "2.2.0",
+  "version": "2.3.0",
+  "description": "Use LESS with Razzle",
   "main": "index.js",
-  "license": "MIT"
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Ilya Fnpen <me@fnpen.com>",
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^9.4.5",
+    "mini-css-extract-plugin": "^0.5.0",
+    "postcss-flexbugs-fixes": "^4.1.0",
+    "less": "^3.9.0",
+    "resolve-url-loader": "^3.0.0",
+    "less-loader": "^4.1.0"
+  }
 }
