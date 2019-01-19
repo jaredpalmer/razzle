@@ -1,11 +1,11 @@
-# Razzle TypeScript Example
+# Razzle ApolloClient with TypeScript Example
 
 ## How to use
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-typescript
-cd with-typescript
+curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-apollo-typescript
+cd with-apollo-typescript
 ```
 
 Install it and run:
@@ -16,6 +16,8 @@ yarn start
 ```
 
 ## Idea behind the example
+Using techniques specified by [Apollo](https://www.apollographql.com/docs/react/features/server-side-rendering.html) and also following the [GitHunt](https://github.com/apollographql/GitHunt-React/blob/master/src/server.js) app as an example
+
 This is an of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript). 
 In `razzle.config.js`, we locate the part of the webpack configuration 
 that is running `babel-loader` and swap it out for `ts-loader`. 
