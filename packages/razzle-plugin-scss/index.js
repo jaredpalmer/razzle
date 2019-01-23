@@ -29,7 +29,10 @@ const defaultOptions = {
       includePaths: [paths.appNodeModules],
     },
     prod: {
-      sourceMap: false,
+      // XXX Source maps are required for the resolve-url-loader to properly
+      // function. Disable them in later stages if you do not want source maps.
+      sourceMap: true,
+      sourceMapContents: false,
       includePaths: [paths.appNodeModules],
     },
   },
@@ -107,8 +110,8 @@ module.exports = (
         : [
             dev ? styleLoader : MiniCssExtractPlugin.loader,
             cssLoader,
-            resolveUrlLoader,
             postCssLoader,
+            resolveUrlLoader,
             sassLoader,
           ],
     },
