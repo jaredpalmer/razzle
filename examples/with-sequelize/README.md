@@ -40,6 +40,7 @@ Install it and run:
 ```bash
 yarn install
 yarn database:start
+yarn database:create
 yarn start
 ```
 
