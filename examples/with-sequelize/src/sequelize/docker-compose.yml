@@ -1,0 +1,18 @@
+version: '3.2'
+
+# Port is mapped to 3307 for machine access, but on the internal network it's still listening on 3306
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - '3307:3306'
+    volumes:
+      - type: volume
+        source: mysql57razzle
+        target: /var/lib/mysql
+    container_name: razzle_mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD="true"
+
+volumes:
+  mysql57razzle:
