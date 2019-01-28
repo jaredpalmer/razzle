@@ -7,23 +7,22 @@ class Home extends React.Component {
     users: null,
   };
 
-  async componentDidMount() {
-    try {
-      const res = await fetch('/rest/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+  componentDidMount() {
+    fetch('/rest/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(users => {
+        this.setState({
+          users,
+        });
+      })
+      .catch(err => {
+        throw err;
       });
-
-      const users = await res.json();
-
-      this.setState({
-        users,
-      });
-    } catch (err) {
-      throw err;
-    }
   }
 
   render() {

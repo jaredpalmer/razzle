@@ -10,6 +10,7 @@ const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 const app = express();
 const server = http.createServer(app);
 
+// REST Route (doesn't render react)
 app.get('/rest/users', async (req, res) => {
   try {
     const users = await models.User.findAll();
@@ -19,6 +20,7 @@ app.get('/rest/users', async (req, res) => {
   }
 });
 
+// React render route
 app
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))

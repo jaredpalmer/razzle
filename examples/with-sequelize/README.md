@@ -11,15 +11,48 @@ cd with-sequelize
 
 ### Database server
 
-The example comes with a `docker` container to bootstrap a database server. For this to work you should have `docker` installed. If you already have `mysql` installed and want to use that server instead of `docker`, create a `.env` file in the `with-sequelize` root, with the following values:
+Use one of the following options:
+
+#### Using an existing database server
+
+Create the following `.env` file
 
 ```
-RAZZLE_RUNTIME_DB_PORT=3306
+process.env.RAZZLE_RUNTIME_DB_HOST=localhost
+process.env.RAZZLE_RUNTIME_DB_PORT=3306
+process.env.RAZZLE_RUNTIME_DB_USER=root
+process.env.RAZZLE_RUNTIME_DB_PW=
+process.env.RAZZLE_RUNTIME_DB_SCHEMA=razzle
+process.env.RAZZLE_RUNTIME_DB_TZ=Etc/UTC
+process.env.RAZZLE_RUNTIME_DB_DIALECT=mysql
 ```
 
-In that case, _don't_ run `yarn database:start` in the following section.
+Use the appropriate settings depending on your favourite database. See the `sequelize` documentation for the supported dialects, ports, timezone and other settings.
 
-#### Other .env values
+Run
+
+```
+yarn install
+yarn database:create
+yarn start
+```
+
+#### Using docker
+
+The example comes with a mysql `docker` container to bootstrap a database server. For this to work you should have `docker` installed.
+
+By default, it runs on port `3307` and you don't have to create a `.env` file unless you want different defaults than the ones below.
+
+Keep in mind that you can only change `RAZZLE_RUNTIME_SCHEMA` without having to make a change to the docker container configuration in `src/server/sequelize`.
+
+```bash
+yarn install
+yarn database:start
+yarn database:create
+yarn start
+```
+
+#### Changing .env defaults
 
 Additional customization can be achieved with the following `.env` values
 
@@ -31,17 +64,6 @@ process.env.RAZZLE_RUNTIME_DB_PW=
 process.env.RAZZLE_RUNTIME_DB_SCHEMA=razzle
 process.env.RAZZLE_RUNTIME_DB_TZ=Etc/UTC
 process.env.RAZZLE_RUNTIME_DB_DIALECT=mysql
-```
-
-## Install and run
-
-Install it and run:
-
-```bash
-yarn install
-yarn database:start
-yarn database:create
-yarn start
 ```
 
 ## Idea behind the example

@@ -15,7 +15,9 @@ Object.keys(models).forEach(key => {
 });
 
 sequelize.addHook('afterBulkSync', async () => {
-  if (process.env.NODE_ENV !== 'test') await seed(models, sequelize);
+  if (process.env.NODE_ENV !== 'test') {
+    await seed(models, sequelize);
+  }
 });
 
 const testConnection = async () => {
