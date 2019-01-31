@@ -18,13 +18,13 @@ Use one of the following options:
 Create the following `.env` file
 
 ```
-process.env.RAZZLE_RUNTIME_DB_HOST=localhost
-process.env.RAZZLE_RUNTIME_DB_PORT=3306
-process.env.RAZZLE_RUNTIME_DB_USER=root
-process.env.RAZZLE_RUNTIME_DB_PW=
-process.env.RAZZLE_RUNTIME_DB_SCHEMA=razzle
-process.env.RAZZLE_RUNTIME_DB_TZ=Etc/UTC
-process.env.RAZZLE_RUNTIME_DB_DIALECT=mysql
+RAZZLE_RUNTIME_DB_HOST=localhost
+RAZZLE_RUNTIME_DB_PORT=3306
+RAZZLE_RUNTIME_DB_USER=root
+RAZZLE_RUNTIME_DB_PW=
+RAZZLE_RUNTIME_DB_SCHEMA=razzle
+RAZZLE_RUNTIME_DB_TZ=Etc/UTC
+RAZZLE_RUNTIME_DB_DIALECT=mysql
 ```
 
 Use the appropriate settings depending on your favourite database. See the `sequelize` documentation for the supported dialects, ports, timezone and other settings.
@@ -57,13 +57,13 @@ yarn start
 Additional customization can be achieved with the following `.env` values
 
 ```
-process.env.RAZZLE_RUNTIME_DB_HOST=localhost
-process.env.RAZZLE_RUNTIME_DB_PORT=3307
-process.env.RAZZLE_RUNTIME_DB_USER=root
-process.env.RAZZLE_RUNTIME_DB_PW=
-process.env.RAZZLE_RUNTIME_DB_SCHEMA=razzle
-process.env.RAZZLE_RUNTIME_DB_TZ=Etc/UTC
-process.env.RAZZLE_RUNTIME_DB_DIALECT=mysql
+RAZZLE_RUNTIME_DB_HOST=localhost
+RAZZLE_RUNTIME_DB_PORT=3307
+RAZZLE_RUNTIME_DB_USER=root
+RAZZLE_RUNTIME_DB_PW=
+RAZZLE_RUNTIME_DB_SCHEMA=razzle
+RAZZLE_RUNTIME_DB_TZ=Etc/UTC
+RAZZLE_RUNTIME_DB_DIALECT=mysql
 ```
 
 ## Idea behind the example
