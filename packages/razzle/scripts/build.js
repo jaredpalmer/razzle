@@ -74,6 +74,7 @@ function build(previousFileSizes) {
   let razzle = {};
   try {
     razzle = require(paths.appRazzleConfig);
+    console.log(chalk.yellow('Found custom razzle.config.js'));
     /* eslint-disable no-empty */
   } catch (e) {}
   /* eslint-enable */
