@@ -77,7 +77,8 @@ function build(previousFileSizes) {
     console.log(chalk.yellow('Found custom razzle.config.js'));
     /* eslint-disable no-empty */
   } catch (e) {
-    console.log(`No custom razzle config processed (${e.message})`);
+    const errMessage = chalk.yellow(e.message);
+    console.log(`No custom razzle config processed (${errMessage})`);
   }
   /* eslint-enable */
 
