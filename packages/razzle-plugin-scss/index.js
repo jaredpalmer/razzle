@@ -106,6 +106,9 @@ module.exports = (
               loader: require.resolve('css-loader/locals'),
               options: options.css[constantEnv],
             },
+            resolveUrlLoader,
+            postCssLoader,
+            sassLoader,
           ]
         : [
             dev ? styleLoader : MiniCssExtractPlugin.loader,
