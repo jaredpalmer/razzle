@@ -3,11 +3,7 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const createConfig = require('razzle/config/createConfig');
 const pluginFunc = require('../index');
-const {
-  eslintLoaderFinder,
-  babelLoaderFinder,
-  tsLoaderFinder,
-} = require('../helpers');
+const { babelLoaderFinder, tsLoaderFinder } = require('../helpers');
 
 describe('razzle-typescript-plugin', () => {
   describe('with useBabel=false', () => {
@@ -34,11 +30,6 @@ describe('razzle-typescript-plugin', () => {
       );
 
       expect(tsCheckerPlugin).not.toBeUndefined();
-    });
-
-    it('should remove eslint loader', () => {
-      const rule = config.module.rules.find(eslintLoaderFinder);
-      expect(rule).toBeUndefined();
     });
 
     it('should remove babel-loader', () => {
