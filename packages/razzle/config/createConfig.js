@@ -7,7 +7,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -54,15 +53,6 @@ module.exports = (
     presets: [],
   };
 
-  const hasEslintRc = fs.existsSync(paths.appEslintRc);
-  const mainEslintOptions = {
-    formatter: eslintFormatter,
-    eslintPath: require.resolve('eslint'),
-
-    ignore: false,
-    useEslintrc: true,
-  };
-
   if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
   }
@@ -74,15 +64,6 @@ module.exports = (
 
   if (hasBabelRc && babelOptions.babelrc) {
     console.log('Using .babelrc defined in your app root');
-  }
-
-  if (hasEslintRc) {
-    console.log('Using .eslintrc defined in your app root');
-  } else {
-    mainEslintOptions.baseConfig = {
-      extends: [require.resolve('eslint-config-react-app')],
-    };
-    mainEslintOptions.useEslintrc = false;
   }
 
   // Define some useful shorthands.
@@ -134,17 +115,6 @@ module.exports = (
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         // { parser: { requireEnsure: false } },
-        {
-          test: /\.(js|jsx|mjs)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: mainEslintOptions,
-              loader: require.resolve('eslint-loader'),
-            },
-          ],
-          include: paths.appSrc,
-        },
         // Avoid "require is not defined" errors
         {
           test: /\.mjs$/,

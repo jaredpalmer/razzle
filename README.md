@@ -10,7 +10,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
 - Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
-- Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
+- Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
 ## Quick Start
@@ -74,13 +74,21 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [Quick Start](#quick-start)
+  - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+  - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+  - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+  - [`npm test` or `yarn test`](#npm-test-or-yarn-test)
+  - [`npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start------inspecthostport)
+  - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
+  - [`rs`](#rs)
+- [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
 - [Customization](#customization)
   - [Plugins](#plugins)
     - [Using Plugins](#using-plugins)
     - [Writing Plugins](#writing-plugins)
   - [Customizing Babel Config](#customizing-babel-config)
   - [Extending Webpack](#extending-webpack)
-  - [Extending ESLint](#extending-eslint)
   - [CSS Modules](#css-modules)
   - [Polyfills](#polyfills)
 - [Environment Variables](#environment-variables)
@@ -93,7 +101,7 @@ If your application is running, and you need to manually restart your server, yo
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
-  - [Author](#author)
+    - [Author](#author)
 - [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -200,19 +208,6 @@ module.exports = {
 ```
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
-
-### Extending ESLint
-
-Razzle comes with [Create React App's ESLint configuration](https://github.com/facebookincubator/create-react-app/tree/master/packages/eslint-config-react-app). Add a `.eslintrc` file to the root of your project to use your own configuration.
-
-```js
-{
-  "extends": "react-app",
-  "rules": {
-    // modify default rules
-  }
-}
-```
 
 ### CSS Modules
 
