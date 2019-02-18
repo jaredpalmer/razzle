@@ -74,11 +74,13 @@ function build(previousFileSizes) {
   let razzle = {};
   try {
     razzle = require(paths.appRazzleConfig);
-    console.log(chalk.yellow('Found custom razzle.config.js'));
+    console.log(chalk.dim('Found custom razzle.config.js'));
     /* eslint-disable no-empty */
   } catch (e) {
-    const errMessage = chalk.yellow(e.message);
-    console.log(`No custom razzle config processed (${errMessage})`);
+    if (e.code !== 'MODULE_NOT_FOUND') {
+      const errMessage = chalk.yellow(e.message);
+      console.log(`No custom razzle config processed (${errMessage})`);
+    }
   }
   /* eslint-enable */
 
