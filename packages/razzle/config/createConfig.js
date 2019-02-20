@@ -54,6 +54,8 @@ module.exports = (
     babelrc: true,
     cacheDirectory: true,
     presets: [],
+    target,
+    env,
   };
 
   const hasEslintRc = fs.existsSync(paths.appEslintRc);
