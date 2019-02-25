@@ -50,12 +50,14 @@ module.exports = (
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
   const hasBabelRc = fs.existsSync(paths.appBabelRc);
+  const buildOptions = {
+    target,
+    env,
+  };
   const mainBabelOptions = {
     babelrc: true,
     cacheDirectory: true,
     presets: [],
-    target,
-    env,
   };
 
   const hasEslintRc = fs.existsSync(paths.appEslintRc);
@@ -73,7 +75,7 @@ module.exports = (
 
   // Allow app to override babel options
   const babelOptions = modifyBabelOptions
-    ? modifyBabelOptions(mainBabelOptions)
+    ? modifyBabelOptions(mainBabelOptions, buildOptions)
     : mainBabelOptions;
 
   if (hasBabelRc && babelOptions.babelrc) {
