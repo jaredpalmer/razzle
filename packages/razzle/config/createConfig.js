@@ -381,8 +381,8 @@ module.exports = (
       // Output our JS and CSS files in a manifest file called assets.json
       // in the build directory.
       new AssetsPlugin({
-        path: paths.appBuild,
-        filename: 'assets.json',
+        path: path.dirname(paths.appManifest),
+        filename: path.basename(paths.appManifest),
       }),
       // Maybe we should move to this???
       // new ManifestPlugin({
