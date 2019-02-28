@@ -6,9 +6,9 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
+const resolveRazzle = require('../config/resolveRazzle');
 const devServer = require('webpack-dev-server-speedy');
 const printErrors = require('razzle-dev-utils/printErrors');
-const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 
@@ -24,20 +24,8 @@ process.env.INSPECT =
 function main() {
   // Optimistically, we make the console look exactly like the output of our
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
-  // clearConsole();
   logger.start('Compiling...');
-  let razzle = {};
-
-  // Check for razzle.config.js file
-  if (fs.existsSync(paths.appRazzleConfig)) {
-    try {
-      razzle = require(paths.appRazzleConfig);
-    } catch (e) {
-      clearConsole();
-      logger.error('Invalid razzle.config.js file.', e);
-      process.exit(1);
-    }
-  }
+  const razzle = resolveRazzle(paths.appRazzleConfig);
 
   // Delete assets.json to always have a manifest up to date
   fs.removeSync(paths.appManifest);
