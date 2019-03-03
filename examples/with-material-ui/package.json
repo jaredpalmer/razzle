@@ -16,7 +16,7 @@
     "react-jss": "^8.6.1"
   },
   "devDependencies": {
-    "razzle": "^2.4.1",
-    "jest": "^24.1.0"
+    "jest": "^24.1.0",
+    "razzle": "^2.4.1"
   }
 }
