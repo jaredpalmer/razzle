@@ -1,7 +1,7 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import theme from './theme';
-import { MuiThemeProvider } from 'material-ui/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import App from './App';
 
 // This is needed in order to deduplicate the injection of CSS in the page.

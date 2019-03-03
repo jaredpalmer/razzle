@@ -3,9 +3,8 @@ import React from 'react';
 import express from 'express';
 import theme from './theme';
 import jss from './styles';
-import { SheetsRegistry } from 'react-jss';
-import { JssProvider } from 'react-jss';
-import { MuiThemeProvider } from 'material-ui/styles';
+import { JssProvider, SheetsRegistry } from 'react-jss';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
