@@ -182,7 +182,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: true,
+            emitFile: IS_WEB,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -194,7 +194,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: true,
+            emitFile: IS_WEB,
           },
         },
 
