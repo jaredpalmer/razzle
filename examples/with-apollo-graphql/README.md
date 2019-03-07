@@ -4,8 +4,8 @@
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/basic
-cd basic
+curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-apollo-graphql
+cd with-apollo-graphql
 ```
 
 Install it and run:
@@ -16,5 +16,6 @@ yarn start
 ```
 
 ## Idea behind the example
-This is a basic, bare-bones example of how to use razzle. It satisfies the entry points
-`src/index.js` for the server and and `src/client.js` for the browser.
+This is a basic example of how to use razzle with apollo graphql.
+
+This sample has the full SSR setup as described in the [apollo graphql docs](https://www.apollographql.com/docs/react/features/server-side-rendering.html).
