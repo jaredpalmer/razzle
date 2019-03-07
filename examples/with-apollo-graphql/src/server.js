@@ -70,7 +70,7 @@ server
       );
     };
 
-    // during request (see above)
+    // during request
     getDataFromTree(Application).then(() => {
       // We are ready to render for real
       const content = ReactDOM.renderToString(Application);
