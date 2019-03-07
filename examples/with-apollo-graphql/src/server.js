@@ -17,6 +17,34 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import App from './App';
 
+// Your markup in this case can look something like:
+const Html = ({ content, state, assets }) => {
+  return (
+    <html>
+      <title>Welcome to Razzle</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      {assets.client.css && <link rel="stylesheet" href={assets.client.css} />}
+      <body>
+        <div
+          id="root"
+          dangerouslySetInnerHTML={{
+            __html: content,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__APOLLO_STATE__=${JSON.stringify(state).replace(
+              /</g,
+              '\\u003c'
+            )};`,
+          }}
+        />
+        <script src={assets.client.js} defer crossorigin="anonymous" />
+      </body>
+    </html>
+  );
+};
+
 // Create an ApolloClient instance
 // Pass your GraphQL endpoint to uri
 const client = new ApolloClient({
@@ -41,42 +69,15 @@ server
       </ApolloProvider>
     );
 
-    // Your markup in this case can look something like:
-    const Html = ({ content, state }) => {
-      return (
-        <html>
-          <title>Welcome to Razzle</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {assets.client.css && (
-            <link rel="stylesheet" href={assets.client.css} />
-          )}
-          <body>
-            <div
-              id="root"
-              dangerouslySetInnerHTML={{
-                __html: content,
-              }}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.__APOLLO_STATE__=${JSON.stringify(
-                  state
-                ).replace(/</g, '\\u003c')};`,
-              }}
-            />
-            <script src={assets.client.js} defer crossorigin="anonymous" />
-          </body>
-        </html>
-      );
-    };
-
     // during request
     getDataFromTree(Application).then(() => {
       // We are ready to render for real
       const content = ReactDOM.renderToString(Application);
       const initialState = client.extract();
 
-      const html = <Html content={content} state={initialState} />;
+      const html = (
+        <Html content={content} state={initialState} assets={assets} />
+      );
 
       res.status(200);
       res.send(`<!doctype html>\n${ReactDOM.renderToStaticMarkup(html)}`);
