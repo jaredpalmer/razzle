@@ -1,4 +1,4 @@
-# Razzle Basic Example
+# Razzle and Apollo GraphQL Example
 
 ## How to use
 Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
