@@ -30,6 +30,7 @@ module.exports = (resolve, rootDir) => {
       ),
     },
     transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$'],
+    moduleDirectories: ["node_modules"],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
     },
@@ -44,6 +45,7 @@ module.exports = (resolve, rootDir) => {
     'coverageThreshold',
     'globals',
     'mapCoverage',
+    'moduleDirectories',
     'moduleFileExtensions',
     'moduleNameMapper',
     'modulePaths',
