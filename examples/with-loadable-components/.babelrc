@@ -1,4 +1,8 @@
 {
-  "presets": ["razzle/babel"],
-  "plugins": ["loadable-components/babel"]
+  "presets": [
+    "razzle/babel"
+  ],
+  "plugins": [
+    "@loadable/babel-plugin"
+  ]
 }
