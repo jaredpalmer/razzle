@@ -1,22 +1,13 @@
-import './App.css';
 import React from 'react';
-import loadable from 'loadable-components';
-
-const Header = loadable(() =>
-  import(/* webpackChunkName: "header" */ './Header')
-);
-const Body = loadable(() => import(/* webpackChunkName: "body" */ './Body'));
-const Footer = loadable(() =>
-  import(/* webpackChunkName: "footer" */ './Footer')
-);
+import Route from 'react-router-dom/Route';
+import Switch from 'react-router-dom/Switch';
+import Home from './Home';
+import './App.css';
 
 const App = () => (
-  <div>
-    <h3>Welcome to the Razzle</h3>
-    <Header />
-    <Body />
-    <Footer />
-  </div>
+  <Switch>
+    <Route exact path="/" component={Home} />
+  </Switch>
 );
 
 export default App;

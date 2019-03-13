@@ -1,6 +1,6 @@
 {
-  "name": "razzle-examples-with-loadable-components",
-  "version": "3.0.0",
+  "name": "my-razzle-app",
+  "version": "2.0.0-alpha.8",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,10 +9,10 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "loadable-components": "^1.4.0",
-    "razzle": "^3.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "express": "^4.16.4",
+    "razzle": "^2.4.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router-dom": "^4.3.1"
   }
 }
