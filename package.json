@@ -11,7 +11,7 @@
     "lint-staged": "^4.0.0",
     "prettier": "^1.4.4",
     "ps-tree": "1.1.0",
-    "semver": "5.4.1",
+    "semver": "6.0.0",
     "shelljs": "^0.7.8"
   },
   "scripts": {
