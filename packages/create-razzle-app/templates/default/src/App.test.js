@@ -1,7 +1,7 @@
 import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MemoryRouter from 'react-router-dom/MemoryRouter';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('<App />', () => {
   test('renders without exploding', () => {
