@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-polka",
-  "version": "2.4.1",
+  "version": "3.0.0-alpha.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +15,6 @@
     "serve-static": "^1.13.2"
   },
   "devDependencies": {
-    "razzle": "^0.8.12"
+    "razzle": "^3.0.0-alpha.2"
   }
 }

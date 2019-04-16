@@ -3,13 +3,13 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
-const eslintFormatter = require('react-dev-utils/eslintFormatter');
-const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const safePostCssParser = require('postcss-safe-parser');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
@@ -21,14 +21,11 @@ const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
   plugins: () => [
     require('postcss-flexbugs-fixes'),
-    autoprefixer({
-      browsers: [
-        '>1%',
-        'last 4 versions',
-        'Firefox ESR',
-        'not ie < 9', // React doesn't support IE8 anyway
-      ],
-      flexbox: 'no-2009',
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009',
+      },
+      stage: 3,
     }),
   ],
 };
@@ -56,15 +53,6 @@ module.exports = (
     presets: [],
   };
 
-  const hasEslintRc = fs.existsSync(paths.appEslintRc);
-  const mainEslintOptions = {
-    formatter: eslintFormatter,
-    eslintPath: require.resolve('eslint'),
-
-    ignore: false,
-    useEslintrc: true,
-  };
-
   if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
   }
@@ -76,15 +64,6 @@ module.exports = (
 
   if (hasBabelRc && babelOptions.babelrc) {
     console.log('Using .babelrc defined in your app root');
-  }
-
-  if (hasEslintRc) {
-    console.log('Using .eslintrc defined in your app root');
-  } else {
-    mainEslintOptions.baseConfig = {
-      extends: [require.resolve('eslint-config-react-app')],
-    };
-    mainEslintOptions.useEslintrc = false;
   }
 
   // Define some useful shorthands.
@@ -136,17 +115,6 @@ module.exports = (
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         // { parser: { requireEnsure: false } },
-        {
-          test: /\.(js|jsx|mjs)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: mainEslintOptions,
-              loader: require.resolve('eslint-loader'),
-            },
-          ],
-          include: paths.appSrc,
-        },
         // Avoid "require is not defined" errors
         {
           test: /\.mjs$/,
@@ -220,34 +188,34 @@ module.exports = (
                 },
               ]
             : IS_DEV
-              ? [
-                  require.resolve('style-loader'),
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                    },
+            ? [
+                require.resolve('style-loader'),
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    importLoaders: 1,
                   },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
+                },
+              ]
+            : [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    importLoaders: 1,
+                    modules: false,
+                    minimize: true,
                   },
-                ]
-              : [
-                  MiniCssExtractPlugin.loader,
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                      modules: false,
-                      minimize: true,
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ],
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
+                },
+              ],
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
@@ -268,37 +236,37 @@ module.exports = (
                 },
               ]
             : IS_DEV
-              ? [
-                  require.resolve('style-loader'),
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      modules: true,
-                      importLoaders: 1,
-                      localIdentName: '[path]__[name]___[local]',
-                    },
+            ? [
+                require.resolve('style-loader'),
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                    localIdentName: '[path]__[name]___[local]',
                   },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
+                },
+              ]
+            : [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                    minimize: true,
+                    localIdentName: '[path]__[name]___[local]',
                   },
-                ]
-              : [
-                  MiniCssExtractPlugin.loader,
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      modules: true,
-                      importLoaders: 1,
-                      minimize: true,
-                      localIdentName: '[path]__[name]___[local]',
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ],
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCssOptions,
+                },
+              ],
         },
       ],
     },
@@ -397,13 +365,9 @@ module.exports = (
       // specify our client entry point /client/index.js
       config.entry = {
         client: [
-          // We ship a few polyfills by default but only include them if React is being placed in
-          // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
-          // on your own.
-          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
           require.resolve('razzle-dev-utils/webpackHotDevClient'),
           paths.appClientIndexJs,
-        ].filter(Boolean),
+        ],
       };
 
       // Configure our client bundles output. Not the public path is to 3001.
@@ -473,13 +437,7 @@ module.exports = (
     } else {
       // Specify production entry point (/client/index.js)
       config.entry = {
-        client: [
-          // We ship a few polyfills by default but only include them if React is being placed in
-          // the default path. If you are doing some vendor bundling, you'll need to require the razzle/polyfills
-          // on your own.
-          !dotenv.raw.REACT_BUNDLE_PATH && require.resolve('./polyfills'),
-          paths.appClientIndexJs,
-        ].filter(Boolean),
+        client: paths.appClientIndexJs,
       };
 
       // Specify the client output directory and paths. Notice that we have
@@ -513,8 +471,8 @@ module.exports = (
       config.optimization = {
         minimize: true,
         minimizer: [
-          new UglifyJsPlugin({
-            uglifyOptions: {
+          new TerserPlugin({
+            terserOptions: {
               parse: {
                 // we want uglify-js to parse ecma 8 code. However, we don't want it
                 // to apply any minfication steps that turns valid ecma 5 code
@@ -531,6 +489,11 @@ module.exports = (
                 // Pending further investigation:
                 // https://github.com/mishoo/UglifyJS2/issues/2011
                 comparisons: false,
+                // Disabled because of an issue with Terser breaking valid code:
+                // https://github.com/facebook/create-react-app/issues/5250
+                // Pending futher investigation:
+                // https://github.com/terser-js/terser/issues/120
+                inline: 2,
               },
               mangle: {
                 safari10: true,
@@ -551,34 +514,21 @@ module.exports = (
             // @todo add flag for sourcemaps
             sourceMap: true,
           }),
+          new OptimizeCSSAssetsPlugin({
+            cssProcessorOptions: {
+              parser: safePostCssParser,
+              // @todo add flag for sourcemaps
+              map: {
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true,
+              },
+            },
+          }),
         ],
-        // @todo automatic vendor bundle
-        // Automatically split vendor and commons
-        // https://twitter.com/wSokra/status/969633336732905474
-        // splitChunks: {
-        //   chunks: 'all',
-        //   minSize: 30000,
-        //   minChunks: 1,
-        //   maxAsyncRequests: 5,
-        //   maxInitialRequests: 3,
-        //   name: true,
-        //   cacheGroups: {
-        //     commons: {
-        //       test: /[\\/]node_modules[\\/]/,
-        //       name: 'vendor',
-        //       chunks: 'all',
-        //     },
-        //     main: {
-        //       chunks: 'all',
-        //       minChunks: 2,
-        //       reuseExistingChunk: true,
-        //       enforce: true,
-        //     },
-        //   },
-        // },
-        // Keep the runtime chunk seperated to enable long term caching
-        // https://twitter.com/wSokra/status/969679223278505985
-        // runtimeChunk: true,
       };
     }
   }
@@ -586,14 +536,6 @@ module.exports = (
   if (IS_DEV) {
     config.plugins = [
       ...config.plugins,
-      // Use our own FriendlyErrorsPlugin during development.
-      // new FriendlyErrorsPlugin({
-      //   verbose: dotenv.raw.VERBOSE,
-      //   target,
-      //   onSuccessMessage: `Your application is running at http://${
-      //     dotenv.raw.HOST
-      //   }:${dotenv.raw.PORT}`,
-      // }),
       new WebpackBar({
         color: target === 'web' ? '#f56be2' : '#c065f4',
         name: target === 'web' ? 'client' : 'server',

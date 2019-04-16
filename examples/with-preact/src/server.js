@@ -1,6 +1,6 @@
 import App from './App';
 import express from 'express';
-import { h } from 'preact';
+import { h } from 'preact'; // eslint-disable-line
 import render from 'preact-render-to-string';
 /** @jsx h */
 
