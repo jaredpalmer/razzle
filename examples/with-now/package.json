@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-now",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,6 +15,6 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "razzle": "^3.0.0-alpha.2"
+    "razzle": "^3.0.0"
   }
 }
