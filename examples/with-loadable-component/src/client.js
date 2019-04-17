@@ -1,10 +1,10 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
-import { loadComponents } from 'loadable-components';
+import { loadableReady } from '@loadable/component'
 import App from './App';
 
 // Load all components needed before rendering
-loadComponents().then(() => {
+loadableReady(() => {
   hydrate(<App />, document.getElementById('root'));
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import loadable from 'loadable-components';
+import loadable from '@loadable/component';
 
 const BodyPart = loadable(() =>
   import(/* webpackChunkName: "body-part" */ './BodyPart')

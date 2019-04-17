@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import loadable from 'loadable-components';
+import loadable from '@loadable/component';
 
 const Header = loadable(() =>
   import(/* webpackChunkName: "header" */ './Header')

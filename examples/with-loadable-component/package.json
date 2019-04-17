@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-with-react-loadable",
+  "name": "razzle-examples-with-loadable-component",
   "version": "3.0.0-alpha.2",
   "license": "MIT",
   "scripts": {
@@ -9,11 +9,15 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.16.3",
+    "@loadable/component": "^5.7.0",
+    "@loadable/server": "^5.8.0",
     "razzle": "^3.0.0-alpha.2",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-loadable": "^5.5.0",
-    "react-router-dom": "^4.2.2"
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "@loadable/babel-plugin": "^5.8.0",
+    "@loadable/webpack-plugin": "^5.7.1"
   }
 }
