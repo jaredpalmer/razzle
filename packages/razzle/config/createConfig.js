@@ -59,7 +59,7 @@ module.exports = (
 
   // Allow app to override babel options
   const babelOptions = modifyBabelOptions
-    ? modifyBabelOptions(mainBabelOptions)
+    ? modifyBabelOptions(mainBabelOptions, target, env)
     : mainBabelOptions;
 
   if (hasBabelRc && babelOptions.babelrc) {
