@@ -103,6 +103,20 @@ See [node-sass options](https://github.com/sass/node-sass#options) to override c
 
 ---
 
+### sassResources: _object_
+
+default
+
+```js
+{
+  resources: []
+}
+```
+
+See [sass-resources options](https://github.com/shakacode/sass-resources-loader#tips) to override configs.
+
+---
+
 ### css: _object_
 
 default

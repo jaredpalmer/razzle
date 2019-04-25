@@ -51,6 +51,9 @@ const defaultOptions = {
     dev: {},
     prod: {},
   },
+  sassResources: {
+    resources: [],
+  },
 };
 
 module.exports = (
@@ -93,6 +96,25 @@ module.exports = (
     options: options.sass[constantEnv],
   };
 
+  const sassResourcesLoader = {
+    loader: require.resolve('sass-resources-loader'),
+    options: options.sassResources,
+  };
+
+  const webLoaders = [
+    dev ? styleLoader : MiniCssExtractPlugin.loader,
+    cssLoader,
+    resolveUrlLoader,
+    postCssLoader,
+    sassLoader,
+  ];
+
+  const CanAddSassResourcesLoader = !options.sassResources.resources.length;
+
+  if (CanAddSassResourcesLoader) {
+    webLoaders.push(sassResourcesLoader);
+  }
+
   config.module.rules = [
     ...config.module.rules,
     {
@@ -104,13 +126,7 @@ module.exports = (
               options: options.css[constantEnv],
             },
           ]
-        : [
-            dev ? styleLoader : MiniCssExtractPlugin.loader,
-            cssLoader,
-            resolveUrlLoader,
-            postCssLoader,
-            sassLoader,
-          ],
+        : webLoaders,
     },
   ];
 
