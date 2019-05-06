@@ -1,0 +1,28 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-AXIOS-174505:
+    - firebase-admin > @google-cloud/firestore > google-gax > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/firestore > @google-cloud/common > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/firestore > google-gax > google-auth-library > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > google-auth-library > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/firestore > @google-cloud/common > google-auth-library > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/firestore > @google-cloud/common > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > google-auth-library > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > gcs-resumable-upload > google-auto-auth > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > google-auth-library > gcp-metadata > axios:
+        patched: '2019-05-06T02:15:02.747Z'

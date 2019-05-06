@@ -7,16 +7,20 @@
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "predeploy": "npm run build",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "express": "^4.15.2",
     "firebase-admin": "^5.5.1",
     "firebase-functions": "^0.7.3",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "razzle": "^3.0.0"
-  }
+  },
+  "snyk": true
 }
