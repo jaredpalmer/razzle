@@ -10,6 +10,7 @@ shell.config.silent = false;
 
 const stageName = 'stage-build';
 const staticFolder = 'static';
+const mediaFolder = 'assets';
 
 describe('razzle build', () => {
   beforeAll(() => {
