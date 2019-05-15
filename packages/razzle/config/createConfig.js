@@ -40,6 +40,7 @@ module.exports = (
     port = 3000,
     modify,
     plugins,
+    mediaFolder,
     modifyBabelOptions,
   },
   webpackObject
@@ -52,6 +53,8 @@ module.exports = (
     cacheDirectory: true,
     presets: [],
   };
+
+  const STATIC_FOLDER = mediaFolder ? mediaFolder : paths.staticFolder;
 
   if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
@@ -149,7 +152,7 @@ module.exports = (
           ],
           loader: require.resolve('file-loader'),
           options: {
-            name: 'static/media/[name].[hash:8].[ext]',
+            name: `${STATIC_FOLDER}/media/[name].[hash:8].[ext]`,
             emitFile: IS_WEB,
           },
         },
@@ -161,7 +164,7 @@ module.exports = (
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
-            name: 'static/media/[name].[hash:8].[ext]',
+            name: `${STATIC_FOLDER}/media/[name].[hash:8].[ext]`,
             emitFile: IS_WEB,
           },
         },
@@ -376,8 +379,8 @@ module.exports = (
         publicPath: clientPublicPath,
         pathinfo: true,
         libraryTarget: 'var',
-        filename: 'static/js/bundle.js',
-        chunkFilename: 'static/js/[name].chunk.js',
+        filename: `${STATIC_FOLDER}/js/bundle.js`,
+        chunkFilename: `${STATIC_FOLDER}/js/[name].chunk.js`,
         devtoolModuleFilenameTemplate: info =>
           path.resolve(info.resourcePath).replace(/\\/g, '/'),
       };
@@ -446,8 +449,8 @@ module.exports = (
       config.output = {
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
-        filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        filename: `${STATIC_FOLDER}/js/bundle.[chunkhash:8].js`,
+        chunkFilename: `${STATIC_FOLDER}/js/[name].[chunkhash:8].chunk.js`,
         libraryTarget: 'var',
       };
 
@@ -457,8 +460,8 @@ module.exports = (
         new webpack.DefinePlugin(dotenv.stringified),
         // Extract our CSS into a files.
         new MiniCssExtractPlugin({
-          filename: 'static/css/bundle.[contenthash:8].css',
-          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: `${STATIC_FOLDER}/css/bundle.[contenthash:8].css`,
+          chunkFilename: `${STATIC_FOLDER}/css/[name].[contenthash:8].chunk.css`,
           // allChunks: true because we want all css to be included in the main
           // css bundle when doing code splitting to avoid FOUC:
           // https://github.com/facebook/create-react-app/issues/2415

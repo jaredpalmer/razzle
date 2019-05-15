@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  mediaFolder: ['assets'],
   modify(config, { target, dev }, webpack) {
     const appConfig = config; // stay immutable here
 

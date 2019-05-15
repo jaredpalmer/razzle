@@ -9,6 +9,7 @@ const util = require('../fixtures/util');
 shell.config.silent = false;
 
 const stageName = 'stage-build';
+const staticFolder = 'static';
 
 describe('razzle build', () => {
   beforeAll(() => {
@@ -75,6 +76,8 @@ describe('razzle build', () => {
   it('should compile files with a custom razzle.config.js', () => {
     util.setupStageWithFixture(stageName, 'build-with-custom-config');
     const output = shell.exec('yarn build');
+
+    const STATIC_FOLDER = mediaFolder ? mediaFolder : staticFolder;
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
 
@@ -83,17 +86,27 @@ describe('razzle build', () => {
     expect(shell.test('-f', 'build/custom.js.map')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(shell.test('-d', `build/public/${STATIC_FOLDER}/js`)).toBeTruthy();
+    expect(shell.ls(`build/public/${STATIC_FOLDER}/js/bundle.*.js`).code).toBe(
+      0
+    );
+    expect(
+      shell.ls(`build/public/${STATIC_FOLDER}/js/bundle.*.js.map`).code
+    ).toBe(0);
 
     // should compile client image assets to media directory
-    expect(shell.test('-d', 'build/public/static/media')).toBeTruthy();
-    expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
+    expect(
+      shell.test('-d', `build/public/${STATIC_FOLDER}/media`)
+    ).toBeTruthy();
+    expect(
+      shell.ls(`build/public/${STATIC_FOLDER}/media/logo.*.png`).code
+    ).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.test('-d', `build/public/${STATIC_FOLDER}/css`)).toBeTruthy();
+    expect(shell.ls(`build/public/STATIC_FOLDER/css/bundle.*.css`).code).toBe(
+      0
+    );
 
     expect(output.code).toBe(0);
   });
