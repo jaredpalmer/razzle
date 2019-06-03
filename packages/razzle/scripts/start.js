@@ -4,11 +4,8 @@
 process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
 const webpack = require('webpack');
-const paths = require('../config/paths');
-const createConfig = require('../config/createConfig');
+const { paths, createConfig, getRazzleConfig, compile } = require('../lib');
 const devServer = require('webpack-dev-server');
-const printErrors = require('razzle-dev-utils/printErrors');
-const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 
@@ -26,19 +23,7 @@ function main() {
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
   // clearConsole();
   logger.start('Compiling...');
-  let razzle = {};
-
-  // Check for razzle.config.js file
-  if (fs.existsSync(paths.appRazzleConfig)) {
-    try {
-      razzle = require(paths.appRazzleConfig);
-    } catch (e) {
-      clearConsole();
-      logger.error('Invalid razzle.config.js file.', e);
-      process.exit(1);
-    }
-  }
-
+  const razzle = getRazzleConfig('dev');
   // Delete assets.json to always have a manifest up to date
   fs.removeSync(paths.appManifest);
 
@@ -84,18 +69,6 @@ function main() {
       }
     }
   );
-}
-
-// Webpack compile in a try-catch
-function compile(config) {
-  let compiler;
-  try {
-    compiler = webpack(config);
-  } catch (e) {
-    printErrors('Failed to compile.', [e]);
-    process.exit(1);
-  }
-  return compiler;
 }
 
 setPorts()

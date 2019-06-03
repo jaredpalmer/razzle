@@ -8,6 +8,7 @@
   "bin": {
     "razzle": "./bin/razzle.js"
   },
+  "main": "lib/index.js",
   "files": [
     "bin",
     "config",

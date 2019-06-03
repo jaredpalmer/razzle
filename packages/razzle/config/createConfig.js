@@ -68,7 +68,8 @@ module.exports = (
 
   // Define some useful shorthands.
   const IS_NODE = target === 'node';
-  const IS_WEB = target === 'web';
+  const IS_ELECTRON = target.indexOf('electron') > -1;
+  const IS_CLIENT = target === 'web' || IS_ELECTRON;
   const IS_PROD = env === 'prod';
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
@@ -150,7 +151,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: IS_WEB,
+            emitFile: IS_CLIENT,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -162,7 +163,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: IS_WEB,
+            emitFile: IS_CLIENT,
           },
         },
 
@@ -344,7 +345,7 @@ module.exports = (
     }
   }
 
-  if (IS_WEB) {
+  if (IS_CLIENT) {
     config.plugins = [
       // Output our JS and CSS files in a manifest file called assets.json
       // in the build directory.
@@ -418,7 +419,7 @@ module.exports = (
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true,
+          multiStep: !IS_ELECTRON,
         }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
