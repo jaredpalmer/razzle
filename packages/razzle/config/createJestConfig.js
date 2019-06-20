@@ -68,6 +68,7 @@ module.exports = (resolve, rootDir) => {
     'transform',
     'transformIgnorePatterns',
     'reporters',
+    'watchPlugins',
   ];
   if (overrides) {
     supportedKeys.forEach(key => {
