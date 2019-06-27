@@ -2,10 +2,8 @@ import App from './App';
 import React from 'react';
 import express from 'express';
 import theme from './theme';
-import jss from './styles';
-import { SheetsRegistry } from 'react-jss';
-import { JssProvider } from 'react-jss';
-import { MuiThemeProvider } from 'material-ui/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@material-ui/styles';
 import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -16,18 +14,15 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    // This is needed in order to deduplicate the injection of CSS in the page.
-    const sheetsManager = new WeakMap();
-    // This is needed in order to inject the critical CSS.
-    const sheetsRegistry = new SheetsRegistry();
+    const sheets = new ServerStyleSheets()
     const markup = renderToString(
-      <JssProvider registry={sheetsRegistry} jss={jss}>
-        <MuiThemeProvider sheetsManager={sheetsManager} theme={theme}>
+      sheets.collect(
+        <MuiThemeProvider theme={theme}>
           <App />
         </MuiThemeProvider>
-      </JssProvider>
+      )
     );
-    const css = sheetsRegistry.toString();
+    const css = sheets.toString();
     res.send(
       `<!doctype html>
     <html lang="">
