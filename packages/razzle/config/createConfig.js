@@ -16,18 +16,50 @@ const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
+const postcssNormalize = require('postcss-normalize');
+const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
-const postCssOptions = {
-  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-  plugins: () => [
-    require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
-      autoprefixer: {
-        flexbox: 'no-2009',
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const getStyleLoaders = (cssOptions, preProcessor, IS_NODE, IS_DEV) => {
+  let loaders = [
+    IS_DEV && !IS_NODE && require.resolve('style-loader'),
+    !IS_DEV && !IS_NODE && MiniCssExtractPlugin.loader,
+    {
+      loader: require.resolve('css-loader'),
+      options: cssOptions,
+    },
+    {
+      loader: require.resolve('postcss-loader'),
+      options: {
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+          postcssNormalize(),
+        ],
+        sourceMap: IS_DEV,
       },
-      stage: 3,
-    }),
-  ],
+    },
+  ].filter(Boolean);
+
+  if (preProcessor) {
+    loaders.push({
+      loader: require.resolve(preProcessor),
+      options: {
+        sourceMap: IS_DEV,
+      },
+    });
+  }
+  return loaders;
 };
 
 // This is the Webpack configuration factory. It's the juice!
@@ -174,99 +206,75 @@ module.exports = (
         //
         // Note: this yields the exact same CSS config as create-react-app.
         {
-          test: /\.css$/,
-          exclude: [paths.appBuild, /\.module\.css$/],
-          use: IS_NODE
-            ? // Style-loader does not work in Node.js without some crazy
-              // magic. Luckily we just need css-loader.
-              [
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                  },
-                },
-              ]
-            : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                    modules: false,
-                    minimize: true,
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+          test: cssRegex,
+          exclude: [paths.appBuild, cssModuleRegex],
+          use: getStyleLoaders(
+            {
+              importLoaders: 1,
+              sourceMap: IS_DEV,
+            },
+            null,
+            IS_NODE,
+            IS_DEV
+          ),
+          // Don't consider CSS imports dead code even if the
+          // containing package claims to have no side effects.
+          // Remove this when webpack adds a warning or an error for this.
+          // See https://github.com/webpack/webpack/issues/6571
+          sideEffects: true,
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
         {
-          test: /\.module\.css$/,
+          test: cssModuleRegex,
           exclude: [paths.appBuild],
-          use: IS_NODE
-            ? [
-                {
-                  // on the server we do not need to embed the css and just want the identifier mappings
-                  // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader/locals'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
-                  },
-                },
-              ]
-            : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    minimize: true,
-                    localIdentName: '[path]__[name]___[local]',
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+          use: getStyleLoaders(
+            {
+              importLoaders: 1,
+              sourceMap: IS_DEV,
+              onlyLocals: IS_NODE,
+              modules: {
+                mode: 'local',
+                context: paths.appSrc,
+                getLocalIdent: getCSSModuleLocalIdent,
+              },
+            },
+            null,
+            IS_NODE,
+            IS_DEV
+          ),
+        },
+        {
+          test: sassRegex,
+          exclude: [paths.appBuild, sassModuleRegex],
+          use: getStyleLoaders(
+            {
+              importLoaders: 2,
+              sourceMap: IS_DEV,
+            },
+            'sass-loader',
+            IS_NODE,
+            IS_DEV
+          ),
+          sideEffects: true,
+        },
+        {
+          test: sassModuleRegex,
+          use: getStyleLoaders(
+            {
+              importLoaders: 2,
+              sourceMap: IS_DEV,
+              onlyLocals: IS_NODE,
+              modules: {
+                mode: 'local',
+                context: paths.appSrc,
+                getLocalIdent: getCSSModuleLocalIdent,
+              },
+            },
+            'sass-loader',
+            IS_NODE,
+            IS_DEV
+          ),
         },
       ],
     },
