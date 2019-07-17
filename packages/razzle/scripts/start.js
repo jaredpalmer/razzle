@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
-const devServer = require('webpack-dev-server-speedy');
+const devServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -62,7 +62,11 @@ function main() {
     }
     // Otherwise, create a new watcher for our server code.
     watching = serverCompiler.watch(
-      { quiet: true, stats: 'none' } /* eslint-disable no-unused-vars */,
+      {
+        quiet: true,
+        stats: 'none',
+      },
+      /* eslint-disable no-unused-vars */
       stats => {}
     );
   });

@@ -5,6 +5,7 @@ import App from './App';
 let root;
 function renderApp() {
   root = render(<App />, document.body, document.body.firstElementChild);
+  return root;
 }
 
 // Initial render.
