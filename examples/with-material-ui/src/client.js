@@ -1,13 +1,13 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import theme from './theme';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import App from './App';
 
 hydrate(
-  <MuiThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
     <App />
-  </MuiThemeProvider>,
+  </ThemeProvider>,
   document.getElementById('root'),
   () => {
     // [ReHydratation](https://github.com/cssinjs/jss/blob/master/docs/ssr.md)
