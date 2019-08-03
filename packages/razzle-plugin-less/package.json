@@ -1,6 +1,17 @@
 {
   "name": "razzle-plugin-less",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "description": "Use LESS with Razzle",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Majid Sajadi <majidsajadi93@gmail.com>",
+  "dependencies": {
+    "mini-css-extract-plugin": "^0.4.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0"
+  },
+  "devDependencies": {
+    "razzle": "^3.0.0"
+  }
 }
