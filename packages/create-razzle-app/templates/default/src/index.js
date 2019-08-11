@@ -6,13 +6,13 @@ const server = http.createServer(app);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000, error => {
-  if (error) {
+server
+  .listen(process.env.PORT || 3000, () => {
+    console.log('🚀 started');
+  })
+  .on('error', error => {
     console.log(error);
-  }
-
-  console.log('🚀 started');
-});
+  });
 
 if (module.hot) {
   console.log('✅  Server-side HMR Enabled!');
