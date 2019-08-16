@@ -103,8 +103,8 @@ module.exports = (
       use: isServer
         ? [
             {
-              loader: require.resolve('css-loader/locals'),
-              options: options.css[constantEnv],
+              loader: require.resolve('css-loader'),
+              options: Object.assign({}, options.css[constantEnv], {onlyLocals: true}),
             },
             resolveUrlLoader,
             postCssLoader,
