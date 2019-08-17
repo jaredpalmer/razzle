@@ -31,7 +31,7 @@ Thus we add `ts-jest` and `@types/jest` to our dev dependencies. Then we augment
   ...
   "jest": {
     "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "\\.(ts|tsx)$": "ts-jest",
       "\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
     },
