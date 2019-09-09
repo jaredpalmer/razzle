@@ -3,6 +3,7 @@
 const paths = require('./paths');
 const fs = require('fs');
 const path = require('path');
+const getNetworkAddress = require('./getNetworkAddress');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -67,7 +68,7 @@ function getClientEnvironment(target, options) {
         NODE_ENV: process.env.NODE_ENV || 'development',
         PORT: process.env.PORT || options.port || 3000,
         VERBOSE: !!process.env.VERBOSE,
-        HOST: process.env.HOST || options.host || 'localhost',
+        HOST: process.env.HOST || options.host || getNetworkAddress(),
         RAZZLE_ASSETS_MANIFEST: paths.appManifest,
         BUILD_TARGET: target === 'web' ? 'client' : 'server',
         // only for production builds. Useful if you need to serve from a CDN

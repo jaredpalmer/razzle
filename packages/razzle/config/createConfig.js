@@ -14,6 +14,7 @@ const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const nodePath = require('./env').nodePath;
+const getNetworkAddress = require('./getNetworkAddress');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 
@@ -36,7 +37,7 @@ module.exports = (
   env = 'dev',
   {
     clearConsole = true,
-    host = 'localhost',
+    host = getNetworkAddress(),
     port = 3000,
     modify,
     plugins,
@@ -178,17 +179,17 @@ module.exports = (
           exclude: [paths.appBuild, /\.module\.css$/],
           use: IS_NODE
             ? // Style-loader does not work in Node.js without some crazy
-              // magic. Luckily we just need css-loader.
-              [
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                  },
+            // magic. Luckily we just need css-loader.
+            [
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
                 },
-              ]
+              },
+            ]
             : IS_DEV
-            ? [
+              ? [
                 require.resolve('style-loader'),
                 {
                   loader: require.resolve('css-loader'),
@@ -201,7 +202,7 @@ module.exports = (
                   options: postCssOptions,
                 },
               ]
-            : [
+              : [
                 MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve('css-loader'),
@@ -224,19 +225,19 @@ module.exports = (
           exclude: [paths.appBuild],
           use: IS_NODE
             ? [
-                {
-                  // on the server we do not need to embed the css and just want the identifier mappings
-                  // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader/locals'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
-                  },
+              {
+                // on the server we do not need to embed the css and just want the identifier mappings
+                // https://github.com/webpack-contrib/css-loader#scope
+                loader: require.resolve('css-loader/locals'),
+                options: {
+                  modules: true,
+                  importLoaders: 1,
+                  localIdentName: '[path]__[name]___[local]',
                 },
-              ]
+              },
+            ]
             : IS_DEV
-            ? [
+              ? [
                 require.resolve('style-loader'),
                 {
                   loader: require.resolve('css-loader'),
@@ -251,7 +252,7 @@ module.exports = (
                   options: postCssOptions,
                 },
               ]
-            : [
+              : [
                 MiniCssExtractPlugin.loader,
                 {
                   loader: require.resolve('css-loader'),
