@@ -2,8 +2,8 @@
   "name": "razzle",
   "version": "3.0.1",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
-  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": "git@github.com:zhouhansen/razzle.git",
+  "author": "Zhouhancheng <z308114274@gmail.com>",
   "license": "MIT",
   "bin": {
     "razzle": "./bin/razzle.js"

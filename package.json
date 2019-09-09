@@ -1,7 +1,7 @@
 {
   "private": true,
-  "bugs": "https://github.com/jaredpalmer/razzle/issues",
-  "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "bugs": "https://github.com/zhouhansen/razzle/issues",
+  "homepage": "https://github.com/zhouhansen/razzle#readme",
   "devDependencies": {
     "eslint": "^4.6.1",
     "husky": "^0.14.3",
