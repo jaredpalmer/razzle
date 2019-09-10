@@ -1,5 +1,5 @@
 {
-  "name": "razzle",
+  "name": "razzle-zhc",
   "version": "3.0.1",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
   "repository": "git@github.com:zhouhansen/razzle.git",
