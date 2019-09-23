@@ -38,7 +38,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/styles.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -67,7 +67,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/styles.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -93,7 +93,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/styles.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
