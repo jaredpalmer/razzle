@@ -457,8 +457,7 @@ module.exports = (
         new webpack.DefinePlugin(dotenv.stringified),
         // Extract our CSS into a files.
         new MiniCssExtractPlugin({
-          filename: 'static/css/bundle.[contenthash:8].css',
-          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: 'static/css/[name].[contenthash:8].css',
         }),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
@@ -470,8 +469,8 @@ module.exports = (
         splitChunks: {
           cacheGroups: {
             styles: {
-              name: 'styles',
-              test: /\.(css|scss|sass|sss|less)$/,
+              name: 'bundle',
+              test: /\.css$/,
               chunks: 'all',
               enforce: true,
             },
