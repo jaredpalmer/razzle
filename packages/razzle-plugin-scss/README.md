@@ -117,13 +117,13 @@ default
 {
   dev: {
     sourceMap: true,
-		includePaths: [paths.appNodeModules],
-		modules: true
+    includePaths: [paths.appNodeModules],
+    modules: true
   },
   prod: {
     sourceMap: false,
-		includePaths: [paths.appNodeModules],
-		modules: true
+    includePaths: [paths.appNodeModules],
+    modules: true
   },
 }
 ```
