@@ -16,7 +16,7 @@ yarn start
 ```
 
 ## Idea behind the example
-This is an of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript). 
+This is an example of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript). 
 In `razzle.config.js`, we locate the part of the webpack configuration 
 that is running `babel-loader` and swap it out for `ts-loader`. 
 Additionally, we make sure Razzle knows how to resolve `.ts` and `.tsx` files.
