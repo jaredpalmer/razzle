@@ -17,9 +17,7 @@ yarn start
 
 ## Idea behind the example
 This is an example of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript). 
-In `razzle.config.js`, we locate the part of the webpack configuration 
-that is running `babel-loader` and swap it out for `ts-loader`. 
-Additionally, we make sure Razzle knows how to resolve `.ts` and `.tsx` files.
+In `razzle.config.js`, we use the `razzle-typescript-plugin` to transpile your code. If you'd still want to keep using `Babel` alongside of `TypeScript`, have a look at the `useBabel` option in the [razzle-typescript-plugin](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript#options) options.
 
 Lastly, we also need to modify our Jest configuration to handle typescript files. 
 Thus we add `ts-jest` and `@types/jest` to our dev dependencies. Then we augment Razzle's default jest setup by adding a field in our `package.json`.
