@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const url = require('url');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -80,6 +81,11 @@ module.exports = (
   const clientPublicPath =
     dotenv.raw.CLIENT_PUBLIC_PATH ||
     (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
+
+  // VMs, Docker containers might be reverse proxied with SSL at example.com:443. CLIENT_PUBLIC_PATH can override.
+  const { host: hotDevClientPublic, port: hotDevClientPort } = dotenv.raw.CLIENT_PUBLIC_PATH
+    ? url.parse(dotenv.raw.CLIENT_PUBLIC_PATH)
+    : { host: `${dotenv.raw.HOST}:${devServerPort}`, port: parseInt(dotenv.raw.PORT) + 1 };
 
   // This is our base webpack config.
   let config = {
@@ -402,6 +408,7 @@ module.exports = (
         noInfo: true,
         overlay: false,
         port: devServerPort,
+        public: hotDevClientPublic,
         quiet: true,
         // By default files from `contentBase` will not trigger a page reload.
         // Reportedly, this avoids CPU overload on some systems.
@@ -420,7 +427,10 @@ module.exports = (
         new webpack.HotModuleReplacementPlugin({
           multiStep: true,
         }),
-        new webpack.DefinePlugin(dotenv.stringified),
+        new webpack.DefinePlugin({
+          HOTDEVCLIENT_PORT: JSON.stringify(hotDevClientPort),
+          ...dotenv.stringified
+        }),
       ];
 
       config.optimization = {
