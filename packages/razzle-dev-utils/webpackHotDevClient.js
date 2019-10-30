@@ -22,7 +22,7 @@ ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
     url.format({
       protocol: window.location.protocol,
       hostname: window.location.hostname,
-      port: HOTDEVCLIENT_PORT ? parseInt(HOTDEVCLIENT_PORT) : parseInt(window.location.port, 10) + 1,
+      port: HOTDEVCLIENT_PORT,
       pathname: launchEditorEndpoint,
       search:
         '?fileName=' +
@@ -62,8 +62,7 @@ var connection = new SockJS(
   url.format({
     protocol: window.location.protocol,
     hostname: window.location.hostname,
-      port: HOTDEVCLIENT_PORT ? parseInt(HOTDEVCLIENT_PORT) : parseInt(window.location.port, 10) + 1,
-    // Hardcoded in WebpackDevServer
+    port: HOTDEVCLIENT_PORT,
     pathname: SOCKJS_NODE_PATH,
   })
 );
