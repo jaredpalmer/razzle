@@ -85,7 +85,7 @@ module.exports = (
   // VMs, Docker containers might be reverse proxied with SSL at example.com:443. CLIENT_PUBLIC_PATH can override.
   const {
     host: hotDevClientPublic = `${dotenv.raw.HOST}:${devServerPort}`,
-    port: hotDevClientPort = parseInt(dotenv.raw.PORT) + 1
+    port: hotDevClientPort = parseInt(dotenv.raw.PORT) + 1,
     pathname: hotDevClientPathName = '/'
   } = clientPublicPath ? url.parse(dotenv.raw.CLIENT_PUBLIC_PATH) : {};
 
