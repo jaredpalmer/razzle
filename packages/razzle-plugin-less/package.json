@@ -4,7 +4,7 @@
   "description": "Use LESS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "author": "Ray Yang <orange881217@gmail.com>",
+  "author": "Ryan Yang <orange881217@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest"
