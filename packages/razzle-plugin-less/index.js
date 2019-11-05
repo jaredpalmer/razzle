@@ -93,7 +93,7 @@ module.exports = (
 
   const lessLoader = {
     loader: require.resolve('less-loader'),
-    options: Object.assign({}, options.less, options.less[constantEnv]),
+    options: Object.assign({}, options.less[constantEnv]),
   };
 
   config.module.rules = [
