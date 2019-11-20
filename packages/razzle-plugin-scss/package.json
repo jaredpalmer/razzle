@@ -9,6 +9,9 @@
   "scripts": {
     "test": "jest"
   },
+  "browserList":[
+    ">1%", "last 4 versions", "Firefox ESR", "not ie < 9"
+  ],
   "dependencies": {
     "autoprefixer": "^9.6.5",
     "mini-css-extract-plugin": "^0.4.0",
