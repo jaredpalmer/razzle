@@ -17,7 +17,13 @@ module.exports = {
   plugins: ['scss'],
 };
 ```
+Files with an ending in the name *.module.scss and *.module.sass will load as cssModules
 
+example:
+
+```jsx
+import s from './myfile.module.scss'
+```
 ---
 
 ### With custom options
@@ -103,6 +109,31 @@ See [node-sass options](https://github.com/sass/node-sass#options) to override c
 
 ---
 
+### sassModules: _object_
+
+default
+
+```js
+{
+  dev: {
+    sourceMap: true,
+    includePaths: [paths.appNodeModules],
+    modules: true
+  },
+  prod: {
+    sourceMap: false,
+    includePaths: [paths.appNodeModules],
+    modules: true
+  },
+}
+```
+
+Set `dev` to add config to postcss in `development`.
+Set `prod` to add config to postcss in `production`.
+
+See [node-sass options](https://github.com/sass/node-sass#options) to override configs.
+
+---
 ### css: _object_
 
 default
