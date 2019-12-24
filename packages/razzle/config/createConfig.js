@@ -340,7 +340,10 @@ module.exports = (
           nodeArgs,
         }),
         // Ignore assets.json to avoid infinite recompile bug
-        new webpack.WatchIgnorePlugin([paths.appManifest]),
+        new webpack.WatchIgnorePlugin([
+          paths.appAssetsManifest,
+          paths.appChunksManifest,
+        ]),
       ];
     }
   }
@@ -355,7 +358,7 @@ module.exports = (
       }),
       // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
       new ManifestPlugin({
-        fileName: paths.appBuild.concat('manifest.json'),
+        fileName: path.join(paths.appBuild, 'chunks.json'),
         writeToFileEmit: true,
         filter: item => item.isChunk,
         generate: (seed, files) => {
@@ -372,7 +375,7 @@ module.exports = (
             const files = []
               .concat(
                 ...(entry.chunks || []).map(chunk =>
-                  chunk.files.map(path => baseConfig.output.publicPath + path)
+                  chunk.files.map(path => config.output.publicPath + path)
                 )
               )
               .filter(Boolean);
