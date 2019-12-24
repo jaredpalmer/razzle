@@ -56,6 +56,7 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
     "webpack-dev-server": "^3.1.14",
+    "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^3.1.5"
   }
