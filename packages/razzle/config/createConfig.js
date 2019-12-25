@@ -339,7 +339,7 @@ module.exports = (
           name: 'server.js',
           nodeArgs,
         }),
-        // Ignore assets.json to avoid infinite recompile bug
+        // Ignore assets.json and chunks.json to avoid infinite recompile bug
         new webpack.WatchIgnorePlugin([
           paths.appAssetsManifest,
           paths.appChunksManifest,
@@ -356,6 +356,8 @@ module.exports = (
         path: paths.appBuild,
         filename: 'assets.json',
       }),
+      // Output our JS and CSS files in a manifest file called chunks.json
+      // in the build directory.
       // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
       new ManifestPlugin({
         fileName: path.join(paths.appBuild, 'chunks.json'),
