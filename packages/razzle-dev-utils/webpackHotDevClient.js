@@ -16,13 +16,29 @@ var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
 var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
+// To get the server port, prefer the env var if available
+// If it's not set, (e.g. for a Docker image that has to run in multiple environments)
+// use window.location.port in client-side code like this.
+// Note that window.location.port is '' if the port is not part of the url (it can be inferred from
+// window.location.protocol)
+var serverPort = process.env.PORT
+  ? parseInt(process.env.PORT, 10)
+  : window.location.port
+    ? parseInt(window.location.port, 10)
+    : window.location.protocol === 'http:'
+      ? 80
+      : 443;
+
+// the client-side build (webpack-dev-server) is on a different port
+var sockJsPort = serverPort + 1;
+
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
   fetch(
     url.format({
       protocol: window.location.protocol,
       hostname: window.location.hostname,
-      port: parseInt(process.env.PORT || window.location.port, 10) + 1,
+      port: sockJsPort,
       pathname: launchEditorEndpoint,
       search:
         '?fileName=' +
@@ -62,7 +78,7 @@ var connection = new SockJS(
   url.format({
     protocol: window.location.protocol,
     hostname: window.location.hostname,
-    port: parseInt(process.env.PORT || window.location.port, 10) + 1,
+    port: sockJsPort,
     // Hardcoded in WebpackDevServer
     pathname: '/sockjs-node',
   })
