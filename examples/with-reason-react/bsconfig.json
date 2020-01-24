@@ -12,7 +12,8 @@
   "bs-dependencies": ["reason-react"],
   "sources": [
     {
-      "dir": "src"
+      "dir": "src",
+      "subdirs": true
     }
   ],
   "package-specs": [

@@ -1,4 +1,4 @@
-let text = ReasonReact.stringToElement;
+let text = ReasonReact.string;
 
 type state = {count: int};
 
@@ -13,16 +13,16 @@ let make = _children => {
   ...component,
   initialState: () => {count: 0},
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | Increment => ReasonReact.Update({count: state.count + 1})
     | Decrement => ReasonReact.Update({count: state.count - 1})
     },
   render: self => {
     let message = "Count: " ++ string_of_int(self.state.count);
     <div className="App-intro">
-      (text(message))
-      <button onClick=(self.reduce(_event => Increment))> (text("+")) </button>
-      <button onClick=(self.reduce(_event => Decrement))> (text("-")) </button>
+      {text(message)}
+      <button onClick={_event => self.send(Increment)}> {text("+")} </button>
+      <button onClick={_event => self.send(Decrement)}> {text("-")} </button>
     </div>;
-  }
+  },
 };

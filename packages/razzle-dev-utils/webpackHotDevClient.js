@@ -32,6 +32,26 @@ var serverPort = process.env.PORT
 // the client-side build (webpack-dev-server) is on a different port
 var sockJsPort = serverPort + 1;
 
+ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
+  // Keep this sync with errorOverlayMiddleware.js
+  fetch(
+    url.format({
+      protocol: window.location.protocol,
+      hostname: window.location.hostname,
+      port: sockJsPort,
+      pathname: launchEditorEndpoint,
+      search:
+        '?fileName=' +
+        window.encodeURIComponent(errorLocation.fileName) +
+        '&lineNumber=' +
+        window.encodeURIComponent(errorLocation.lineNumber || 1) +
+        '&colNumber=' +
+        window.encodeURIComponent(errorLocation.colNumber || 1),
+    }),
+    { mode: 'no-cors' }
+  );
+});
+
 // We need to keep track of if there has been a runtime error.
 // Essentially, we cannot guarantee application state was not corrupted by the
 // runtime error. To prevent confusing behavior, we forcibly reload the entire
@@ -40,12 +60,6 @@ var sockJsPort = serverPort + 1;
 // See https://github.com/facebookincubator/create-react-app/issues/3096
 var hadRuntimeError = false;
 ErrorOverlay.startReportingRuntimeErrors({
-  launchEditorEndpoint: url.format({
-    protocol: window.location.protocol,
-    hostname: window.location.hostname,
-    port: sockJsPort,
-    pathname: launchEditorEndpoint,
-  }),
   onError: function() {
     hadRuntimeError = true;
   },

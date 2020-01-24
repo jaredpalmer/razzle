@@ -17,9 +17,6 @@ module.exports = {
           )
       );
 
-    const extPlugin = require(require.resolve('extract-text-webpack-plugin'));
-    config.plugins = config.plugins.filter(w => !(w instanceof extPlugin));
-
     return config;
   },
 };
