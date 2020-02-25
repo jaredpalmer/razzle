@@ -1,11 +1,10 @@
 'use strict';
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { babelLoaderFinder, eslintLoaderFinder } = require('./helpers');
+const { babelLoaderFinder } = require('./helpers');
 
 const defaultOptions = {
   useBabel: false,
-  useEslint: true,
   tsLoader: {
     transpileOnly: true,
     experimentalWatchApi: true,
@@ -14,7 +13,6 @@ const defaultOptions = {
     tsconfig: './tsconfig.json',
     tslint: './tslint.json',
     watch: ['./src'],
-    typeCheck: true,
   },
 };
 
@@ -23,13 +21,6 @@ function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
   const config = Object.assign({}, baseConfig);
 
   config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx'];
-
-  if (!options.useBabel || !options.useEslint) {
-    // Locate eslint-loader and remove it (we're using only tslint)
-    config.module.rules = config.module.rules.filter(
-      rule => !eslintLoaderFinder(rule)
-    );
-  }
 
   // Safely locate Babel-Loader in Razzle's webpack internals
   const babelLoader = config.module.rules.find(babelLoaderFinder);

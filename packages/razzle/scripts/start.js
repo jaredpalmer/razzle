@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
-const devServer = require('webpack-dev-server-speedy');
+const devServer = require('webpack-dev-server');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -51,9 +51,17 @@ function main() {
   const clientCompiler = compile(clientConfig);
   const serverCompiler = compile(serverConfig);
 
+  // Instatiate a variable to track server watching
+  let watching;
+
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
-    serverCompiler.watch(
+    // If we've already started the server watcher, bail early.
+    if (watching) {
+      return;
+    }
+    // Otherwise, create a new watcher for our server code.
+    watching = serverCompiler.watch(
       {
         quiet: true,
         stats: 'none',

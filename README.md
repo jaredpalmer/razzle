@@ -2,24 +2,21 @@
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/npm/razzle/badge.svg)](https://snyk.io/test/npm/razzle) [![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/palmer)
 
-
 Universal JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js) or [react-server](https://github.com/redfin/react-server), fork a boilerplate, or set things up yourself. Aiming to fill this void, Razzle is a tool that abstracts all complex configuration needed for SSR into a single dependency--giving you the awesome developer experience of [create-react-app](https://github.com/facebookincubator/create-react-app), but then leaving the rest of your app's architectural decisions about frameworks, routing, and data fetching up to you. With this approach, Razzle not only works with React, but also Reason, Elm, Vue, Angular, and most importantly......whatever comes next.
 
 **Razzle comes with the "battery-pack included"**:
 
-* :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
-* Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
-* Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
-* Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
-* Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
-* [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+- :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
+- Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
+- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
+- Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
 ## Quick Start
 
 ```bash
-npm install -g create-razzle-app
-
-create-razzle-app my-app
+npx create-razzle-app my-app
 cd my-app
 npm start
 ```
@@ -77,26 +74,35 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-* [Customization](#customization)
-  * [Plugins](#plugins)
-    * [Using Plugins](#using-plugins)
-    * [Writing Plugins](#writing-plugins)
-  * [Customizing Babel Config](#customizing-babel-config)
-  * [Extending Webpack](#extending-webpack)
-  * [Extending ESLint](#extending-eslint)
-  * [CSS Modules](#css-modules)
-* [Environment Variables](#environment-variables)
-  * [Build-time Variables](#build-time-variables)
-  * [Runtime Variables](#runtime-variables)
-  * [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
-    * [Windows (cmd.exe)](#windows-cmdexe)
-    * [Linux, macOS (Bash)](#linux-macos-bash)
-  * [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
-    * [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
-* [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
-* [Inspiration](#inspiration)
-  * [Author](#author)
-* [Contributors](#contributors)
+- [Quick Start](#quick-start)
+  - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+  - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+  - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+  - [`npm test` or `yarn test`](#npm-test-or-yarn-test)
+  - [`npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start------inspecthostport)
+  - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
+  - [`rs`](#rs)
+- [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
+- [Customization](#customization)
+  - [Plugins](#plugins)
+    - [Using Plugins](#using-plugins)
+    - [Writing Plugins](#writing-plugins)
+  - [Customizing Babel Config](#customizing-babel-config)
+  - [Extending Webpack](#extending-webpack)
+  - [CSS Modules](#css-modules)
+  - [Polyfills](#polyfills)
+- [Environment Variables](#environment-variables)
+  - [Build-time Variables](#build-time-variables)
+  - [Runtime Variables](#runtime-variables)
+  - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+    - [Windows (cmd.exe)](#windows-cmdexe)
+    - [Linux, macOS (Bash)](#linux-macos-bash)
+  - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+    - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+- [Inspiration](#inspiration)
+    - [Author](#author)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -106,11 +112,11 @@ If your application is running, and you need to manually restart your server, yo
 
 As of Razzle 2.0, you can add your plugins to modify your setup.
 
-* [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
-* [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
-* [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
-* [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
-* [See All](https://www.npmjs.com/search?q=razzle-plugin)
+- [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
+- [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
+- [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+- [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
+- [See All](https://www.npmjs.com/search?q=razzle-plugin)
 
 #### Using Plugins
 
@@ -203,19 +209,6 @@ module.exports = {
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
-### Extending ESLint
-
-Razzle comes with [Create React App's ESLint configuration](https://github.com/facebookincubator/create-react-app/tree/master/packages/eslint-config-react-app). Add a `.eslintrc` file to the root of your project to use your own configuration.
-
-```js
-{
-  "extends": "react-app",
-  "rules": {
-    // modify default rules
-  }
-}
-```
-
 ### CSS Modules
 
 Razzle supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and Razzle will process the file using `css-loader`.
@@ -229,6 +222,23 @@ const Component = () => <div className={styles.className} />;
 export default Component;
 ```
 
+### Polyfills
+
+Polyfills for IE 9, IE 10, and IE 11 are no longer included by default (but you can opt in!)
+We have dropped default support for Internet Explorer 9, 10, and 11. If you still need to support these browsers, follow the instructions below.
+
+First, install `react-app-polyfill`:
+
+`npm install react-app-polyfill`
+or
+
+`yarn add react-app-polyfill`
+Next, place one of the following lines at the very top of `src/client.js:`
+
+```javascript
+import 'react-app-polyfill/ie9'; // For IE 9-11 support
+import 'react-app-polyfill/ie11'; // For IE 11 support
+```
 
 ## Environment Variables
 
@@ -346,16 +356,16 @@ RAZZLE_SECRET_CODE=abcdef
 
 #### What other `.env` files are can be used?
 
-* `.env`: Default.
-* `.env.local`: Local overrides. **This file is loaded for all environments except test.**
-* `.env.development`, `.env.test`, `.env.production`: Environment-specific settings.
-* `.env.development.local`, `.env.test.local`, `.env.production.local`: Local overrides of environment-specific settings.
+- `.env`: Default.
+- `.env.local`: Local overrides. **This file is loaded for all environments except test.**
+- `.env.development`, `.env.test`, `.env.production`: Environment-specific settings.
+- `.env.development.local`, `.env.test.local`, `.env.production.local`: Local overrides of environment-specific settings.
 
 Files on the left have more priority than files on the right:
 
-* `npm start`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
-* `npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
-* `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
+- `npm start`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
+- `npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
+- `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
 
 These variables will act as the defaults if the machine does not explicitly set them.<br>
 Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) for more details.
@@ -371,15 +381,15 @@ In development mode (`razzle start`), Razzle bundles both your client and server
 
 ## Inspiration
 
-* [palmerhq/backpack](https://github.com/palmerhq/backpack)
-* [nytimes/kyt](https://github.com/nytimes/kyt)
-* [facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)
-* [humblespark/sambell](https://github.com/humblespark/sambell)
-* [zeit/next.js](https://github.com/zeit/next.js)
+- [palmerhq/backpack](https://github.com/palmerhq/backpack)
+- [nytimes/kyt](https://github.com/nytimes/kyt)
+- [facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)
+- [humblespark/sambell](https://github.com/humblespark/sambell)
+- [zeit/next.js](https://github.com/zeit/next.js)
 
 #### Author
 
-* [Jared Palmer](https://twitter.com/jaredpalmer)
+- [Jared Palmer](https://twitter.com/jaredpalmer)
 
 ---
 
@@ -390,10 +400,10 @@ MIT License
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
+| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

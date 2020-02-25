@@ -1,0 +1,25 @@
+{
+  "name": "razzle-examples-with-vue-router",
+  "version": "3.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js",
+    "lint": "eslint --ext .js,.vue src"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6",
+    "vue-server-renderer": "^2.6.10"
+  },
+  "devDependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "razzle": "^3.0.0",
+    "razzle-plugin-vue": "^3.0.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}

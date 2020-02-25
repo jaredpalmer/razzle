@@ -34,3 +34,6 @@ node_modules
 # Build Output
 build
 .vscode
+
+# Editors
+**/.idea

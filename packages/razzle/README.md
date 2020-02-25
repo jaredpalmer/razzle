@@ -6,12 +6,12 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 **Razzle comes with the "battery-pack included"**:
 
-* :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
-* Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
-* Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
-* Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
-* Escape hatches for customization via `.babelrc`, `.eslintrc` and `razzle.config.js`
-* [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+- :fire: Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
+- Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
+- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
+- Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
 
 ## Quick Start
 
@@ -76,26 +76,34 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-* [Customization](#customization)
-  * [Plugins](#plugins)
-    * [Using Plugins](#using-plugins)
-    * [Writing Plugins](#writing-plugins)
-  * [Customizing Babel Config](#customizing-babel-config)
-  * [Extending Webpack](#extending-webpack)
-  * [Extending ESLint](#extending-eslint)
-  * [CSS Modules](#css-modules)
-* [Environment Variables](#environment-variables)
-  * [Build-time Variables](#build-time-variables)
-  * [Runtime Variables](#runtime-variables)
-  * [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
-    * [Windows (cmd.exe)](#windows-cmdexe)
-    * [Linux, macOS (Bash)](#linux-macos-bash)
-  * [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
-    * [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
-* [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
-* [Inspiration](#inspiration)
-  * [Author](#author)
-* [Contributors](#contributors)
+- [Quick Start](#quick-start)
+  - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
+  - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
+  - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
+  - [`npm test` or `yarn test`](#npm-test-or-yarn-test)
+  - [`npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start------inspecthostport)
+  - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
+  - [`rs`](#rs)
+- [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
+- [Customization](#customization)
+  - [Plugins](#plugins)
+    - [Using Plugins](#using-plugins)
+    - [Writing Plugins](#writing-plugins)
+  - [Customizing Babel Config](#customizing-babel-config)
+  - [Extending Webpack](#extending-webpack)
+  - [CSS Modules](#css-modules)
+- [Environment Variables](#environment-variables)
+  - [Build-time Variables](#build-time-variables)
+  - [Runtime Variables](#runtime-variables)
+  - [Adding Temporary Environment Variables In Your Shell](#adding-temporary-environment-variables-in-your-shell)
+    - [Windows (cmd.exe)](#windows-cmdexe)
+    - [Linux, macOS (Bash)](#linux-macos-bash)
+  - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+    - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
+- [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
+- [Inspiration](#inspiration)
+  - [Author](#author)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -105,11 +113,11 @@ If your application is running, and you need to manually restart your server, yo
 
 As of Razzle 2.0, you can add your plugins to modify your setup.
 
-* [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
-* [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
-* [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
-* [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
-* [See All](https://www.npmjs.com/search?q=razzle-plugin)
+- [TypeScript](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-typescript)
+- [Vue](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-vue)
+- [Elm](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-elm)
+- [MDX](https://github.com/jaredpalmer/razzle/tree/master/packages/razzle-plugin-mdx)
+- [See All](https://www.npmjs.com/search?q=razzle-plugin)
 
 #### Using Plugins
 
@@ -122,7 +130,7 @@ yarn add razzle-plugin-xxxx
 ```js
 //./razzle.config.js
 module.exports = {
-  plugins: ['xxxx'],
+  plugins: ['xxxx']
 };
 ```
 
@@ -185,7 +193,7 @@ module.exports = {
     // do something to config
 
     return config;
-  },
+  }
 };
 ```
 
@@ -201,19 +209,6 @@ module.exports = {
 ```
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
-
-### Extending ESLint
-
-Razzle comes with [Create React App's ESLint configuration](https://github.com/facebookincubator/create-react-app/tree/master/packages/eslint-config-react-app). Add a `.eslintrc` file to the root of your project to use your own configuration.
-
-```js
-{
-  "extends": "react-app",
-  "rules": {
-    // modify default rules
-  }
-}
-```
 
 ### CSS Modules
 
@@ -260,12 +255,12 @@ export const runtimeConfig =
     ? {
         // client
         myThing: window.env.myThing,
-        anotherThing: window.env.anotherThing,
+        anotherThing: window.env.anotherThing
       }
     : {
         // server
         myThing: process.env.MY_THING,
-        anotherThing: process.env.ANOTHER_THING,
+        anotherThing: process.env.ANOTHER_THING
       };
 ```
 
@@ -343,16 +338,16 @@ RAZZLE_SECRET_CODE=abcdef
 
 #### What other `.env` files are can be used?
 
-* `.env`: Default.
-* `.env.local`: Local overrides. **This file is loaded for all environments except test.**
-* `.env.development`, `.env.test`, `.env.production`: Environment-specific settings.
-* `.env.development.local`, `.env.test.local`, `.env.production.local`: Local overrides of environment-specific settings.
+- `.env`: Default.
+- `.env.local`: Local overrides. **This file is loaded for all environments except test.**
+- `.env.development`, `.env.test`, `.env.production`: Environment-specific settings.
+- `.env.development.local`, `.env.test.local`, `.env.production.local`: Local overrides of environment-specific settings.
 
 Files on the left have more priority than files on the right:
 
-* `npm start`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
-* `npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
-* `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
+- `npm start`: `.env.development.local`, `.env.development`, `.env.local`, `.env`
+- `npm run build`: `.env.production.local`, `.env.production`, `.env.local`, `.env`
+- `npm test`: `.env.test.local`, `.env.test`, `.env` (note `.env.local` is missing)
 
 These variables will act as the defaults if the machine does not explicitly set them.<br>
 Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) for more details.
@@ -368,15 +363,15 @@ In development mode (`razzle start`), Razzle bundles both your client and server
 
 ## Inspiration
 
-* [palmerhq/backpack](https://github.com/palmerhq/backpack)
-* [nytimes/kyt](https://github.com/nytimes/kyt)
-* [facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)
-* [humblespark/sambell](https://github.com/humblespark/sambell)
-* [zeit/next.js](https://github.com/zeit/next.js)
+- [palmerhq/backpack](https://github.com/palmerhq/backpack)
+- [nytimes/kyt](https://github.com/nytimes/kyt)
+- [facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)
+- [humblespark/sambell](https://github.com/humblespark/sambell)
+- [zeit/next.js](https://github.com/zeit/next.js)
 
 #### Author
 
-* [Jared Palmer](https://twitter.com/jaredpalmer)
+- [Jared Palmer](https://twitter.com/jaredpalmer)
 
 ---
 
