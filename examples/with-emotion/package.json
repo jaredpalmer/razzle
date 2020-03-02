@@ -1,0 +1,27 @@
+{
+  "name": "razzle-examples-with-emotion",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "@emotion/cache": "^11.0.0-next.10",
+    "@emotion/css": "^11.0.0-next.11",
+    "@emotion/react": "^11.0.0-next.11",
+    "@emotion/server": "^11.0.0-next.10",
+    "@emotion/styled": "^11.0.0-next.11"
+  },
+  "devDependencies": {
+    "razzle": "^3.0.0",
+    "@emotion/babel-plugin": "^11.0.0-next.10"
+  }
+}
