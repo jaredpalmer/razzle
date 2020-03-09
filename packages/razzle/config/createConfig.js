@@ -15,6 +15,7 @@ const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
 
 const postCssOptions = {
@@ -187,34 +188,34 @@ module.exports = (
                 },
               ]
             : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
+              ? [
+                  require.resolve('style-loader'),
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                    },
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                    modules: false,
-                    minimize: true,
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+                ]
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                      modules: false,
+                      minimize: true,
+                    },
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
@@ -235,37 +236,37 @@ module.exports = (
                 },
               ]
             : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+              ? [
+                  require.resolve('style-loader'),
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      modules: true,
+                      importLoaders: 1,
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    minimize: true,
-                    localIdentName: '[path]__[name]___[local]',
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+                ]
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      modules: true,
+                      importLoaders: 1,
+                      minimize: true,
+                      localIdentName: '[path]__[name]___[local]',
+                    },
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
       ],
     },
@@ -337,8 +338,11 @@ module.exports = (
           name: 'server.js',
           nodeArgs,
         }),
-        // Ignore assets.json to avoid infinite recompile bug
-        new webpack.WatchIgnorePlugin([paths.appManifest]),
+        // Ignore assets.json and chunks.json to avoid infinite recompile bug
+        new webpack.WatchIgnorePlugin([
+          paths.appAssetsManifest,
+          paths.appChunksManifest,
+        ]),
       ];
     }
   }
@@ -351,12 +355,53 @@ module.exports = (
         path: paths.appBuild,
         filename: 'assets.json',
       }),
-      // Maybe we should move to this???
-      // new ManifestPlugin({
-      //   path: paths.appBuild,
-      //   writeToFileEmit: true,
-      //   filename: 'manifest.json',
-      // }),
+      // Output our JS and CSS files in a manifest file called chunks.json
+      // in the build directory.
+      // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
+      new ManifestPlugin({
+        fileName: path.join(paths.appBuild, 'chunks.json'),
+        writeToFileEmit: true,
+        filter: item => item.isChunk,
+        generate: (seed, files) => {
+          const entrypoints = new Set();
+          files.forEach(file =>
+            ((file.chunk || {})._groups || []).forEach(group =>
+              entrypoints.add(group)
+            )
+          );
+          const entries = [...entrypoints];
+          const entryArrayManifest = entries.reduce((acc, entry) => {
+            const name =
+              (entry.options || {}).name || (entry.runtimeChunk || {}).name;
+            const files = []
+              .concat(
+                ...(entry.chunks || []).map(chunk =>
+                  chunk.files.map(path => config.output.publicPath + path)
+                )
+              )
+              .filter(Boolean);
+
+            const cssFiles = files
+              .map(item => (item.indexOf('.css') !== -1 ? item : null))
+              .filter(Boolean);
+
+            const jsFiles = files
+              .map(item => (item.indexOf('.js') !== -1 ? item : null))
+              .filter(Boolean);
+
+            return name
+              ? {
+                  ...acc,
+                  [name]: {
+                    css: cssFiles,
+                    js: jsFiles,
+                  },
+                }
+              : acc;
+          }, seed);
+          return entryArrayManifest;
+        },
+      }),
     ];
 
     if (IS_DEV) {
