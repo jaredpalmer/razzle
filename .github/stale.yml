@@ -1,7 +1,7 @@
 # Number of days of inactivity before an issue becomes stale
 daysUntilStale: 60
 # Number of days of inactivity before a stale issue is closed
-daysUntilClose: 36000
+daysUntilClose: 14
 # Issues with these labels will never be considered stale
 exemptLabels:
   - pinned
@@ -11,4 +11,4 @@ staleLabel: stale
 # Comment to post when marking an issue as stale. Set to `false` to disable
 markComment: false
 # Comment to post when closing a stale issue. Set to `false` to disable
-closeComment: false
+closeComment: Hi everyone, in an effort to clean up the issue list, this issue was closed due to inactivity. If this is still related / important to you please tag me: @ elliottjro. Thanks for understanding!
