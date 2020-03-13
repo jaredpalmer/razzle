@@ -190,34 +190,34 @@ module.exports = (
                 },
               ]
             : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
+              ? [
+                  require.resolve('style-loader'),
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                    },
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                    modules: false,
-                    minimize: true,
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+                ]
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      importLoaders: 1,
+                      modules: false,
+                      minimize: true,
+                    },
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
@@ -238,37 +238,37 @@ module.exports = (
                 },
               ]
             : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+              ? [
+                  require.resolve('style-loader'),
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      modules: true,
+                      importLoaders: 1,
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    minimize: true,
-                    localIdentName: '[path]__[name]___[local]',
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
                   },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
+                ]
+              : [
+                  MiniCssExtractPlugin.loader,
+                  {
+                    loader: require.resolve('css-loader'),
+                    options: {
+                      modules: true,
+                      importLoaders: 1,
+                      minimize: true,
+                      localIdentName: '[path]__[name]___[local]',
+                    },
+                  },
+                  {
+                    loader: require.resolve('postcss-loader'),
+                    options: postCssOptions,
+                  },
+                ],
         },
       ],
     },
@@ -529,9 +529,11 @@ module.exports = (
     }
 
     if (clientOnly) {
-      config.devServer.contentBase = paths.appPublic;
-      config.devServer.watchContentBase = true;
-      config.devServer.publicPath = '/';
+      if (IS_DEV) {
+        config.devServer.contentBase = paths.appPublic;
+        config.devServer.watchContentBase = true;
+        config.devServer.publicPath = '/';
+      }
 
       config.plugins = [
         ...config.plugins,
