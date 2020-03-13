@@ -12,6 +12,7 @@ const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
+const chalk = require('chalk');
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
@@ -30,6 +31,7 @@ process.env.BUILD_TYPE = cliArgs.type;
 
 const clientOnly = cliArgs.type === 'spa';
 
+const portOffset = clientOnly ? 0 : 1;
 function main() {
   // Optimistically, we make the console look exactly like the output of our
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
@@ -73,9 +75,16 @@ function main() {
     serverCompiler = compile(serverConfig);
   }
 
+  const port =
+    (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
+    razzle.port ||
+    3000 + portOffset;
+
   // Compile our assets with webpack
   // Instatiate a variable to track server watching
   let watching;
+
+  let logged = false;
 
   // Start our server webpack instance in watch mode after assets compile
   clientCompiler.plugin('done', () => {
@@ -95,23 +104,22 @@ function main() {
         stats => {}
       );
     }
+
+    if (clientOnly && !logged) {
+      logged = true;
+      console.log(chalk.green(`> SPA Started on port ${port}`));
+    }
   });
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.
   const clientDevServer = new devServer(clientCompiler, clientConfig.devServer);
-  const maybePlusOne = clientOnly ? 0 : 1;
   // Start Webpack-dev-server
-  clientDevServer.listen(
-    (process.env.PORT && parseInt(process.env.PORT) + maybePlusOne) ||
-      razzle.port ||
-      3000 + maybePlusOne,
-    err => {
-      if (err) {
-        logger.error(err);
-      }
+  clientDevServer.listen(port, err => {
+    if (err) {
+      logger.error(err);
     }
-  );
+  });
 }
 
 // Webpack compile in a try-catch
