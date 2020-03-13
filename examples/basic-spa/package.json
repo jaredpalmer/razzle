@@ -3,8 +3,8 @@
   "version": "3.0.0-alpha.2",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start",
-    "build": "razzle build",
+    "start": "razzle start --type=spa",
+    "build": "razzle build --type=spa",
     "test": "razzle test --env=jsdom"
   },
   "dependencies": {
