@@ -84,6 +84,10 @@ function main() {
   // Instatiate a variable to track server watching
   let watching;
 
+  // in SPA mode we want to give the user
+  // feedback about the port that app is running on
+  // this variable helps us to don't show
+  // the message multiple times ...
   let logged = false;
 
   // Start our server webpack instance in watch mode after assets compile
@@ -105,6 +109,8 @@ function main() {
       );
     }
 
+    // in SPA mode we want to give the user
+    // feedback about the port that app is running on
     if (clientOnly && !logged) {
       logged = true;
       console.log(chalk.green(`> SPA Started on port ${port}`));
