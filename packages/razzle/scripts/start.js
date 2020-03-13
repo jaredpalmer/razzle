@@ -48,6 +48,15 @@ function main() {
     }
   }
 
+  if (clientOnly) {
+    // Check for public/index.html file
+    if (!fs.existsSync(paths.appHtml)) {
+      clearConsole();
+      logger.error(`index.html dose not exists public folder.`);
+      process.exit(1);
+    }
+  }
+
   // Delete assets.json to always have a manifest up to date
   fs.removeSync(paths.appManifest);
 
