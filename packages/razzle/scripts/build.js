@@ -102,7 +102,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   let clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
 
   if (!clientOnly) {
-    serverConfig = createConfig('node', 'dev', razzle, webpack);
+    serverConfig = createConfig('node', 'prod', razzle, webpack);
   }
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
