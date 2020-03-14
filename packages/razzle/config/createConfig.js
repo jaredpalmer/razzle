@@ -307,13 +307,12 @@ module.exports = (
     ];
     // in dev mode emitting one huge server file on every save is very slow
     if (IS_PROD) {
-      config.plugins = [
-        ...config.plugins,
-        // Prevent creating multiple chunks for the server
+      // Prevent creating multiple chunks for the server
+      config.plugins.push(
         new webpack.optimize.LimitChunkCountPlugin({
           maxChunks: 1,
-        }),
-      ]
+        })
+      );
     }
 
     config.entry = [paths.appServerIndexJs];
