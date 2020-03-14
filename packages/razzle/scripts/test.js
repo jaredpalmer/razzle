@@ -29,7 +29,11 @@ const jest = require('jest');
 const argv = process.argv.slice(2);
 
 // Watch unless on CI, in coverage mode, or user has specified --watchAll
-if (!process.env.CI && argv.indexOf('--coverage') < 0 && argv.indexOf('--watchAll') < 0) {
+if (
+  !process.env.CI &&
+  argv.indexOf('--coverage') < 0 &&
+  argv.indexOf('--watchAll') < 0
+) {
   argv.push('--watch');
 }
 
