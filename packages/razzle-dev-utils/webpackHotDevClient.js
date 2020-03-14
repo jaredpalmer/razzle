@@ -24,10 +24,10 @@ var ErrorOverlay = require('react-error-overlay');
 var serverPort = process.env.PORT
   ? parseInt(process.env.PORT, 10)
   : window.location.port
-    ? parseInt(window.location.port, 10)
-    : window.location.protocol === 'http:'
-      ? 80
-      : 443;
+  ? parseInt(window.location.port, 10)
+  : window.location.protocol === 'http:'
+  ? 80
+  : 443;
 
 // if this meta tag was avaliable we are in spa mode and
 // in spa mode we only have one webpack-dev-server instance
