@@ -306,7 +306,7 @@ module.exports = (
       new webpack.DefinePlugin(dotenv.stringified),
     ];
     // in dev mode emitting one huge server file on every save is very slow
-    if (!IS_DEV) {
+    if (IS_PROD) {
       config.plugins = [
         ...config.plugins,
         // Prevent creating multiple chunks for the server
