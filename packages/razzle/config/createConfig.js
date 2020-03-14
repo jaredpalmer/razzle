@@ -73,13 +73,6 @@ module.exports = (
     console.log('Using .babelrc defined in your app root');
   }
 
-  // Define some useful shorthands.
-  const IS_NODE = target === 'node';
-  const IS_WEB = target === 'web';
-  const IS_PROD = env === 'prod';
-  const IS_DEV = env === 'dev';
-  process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
   const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
