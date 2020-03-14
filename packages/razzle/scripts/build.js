@@ -110,7 +110,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   console.log('Creating an optimized production build...');
   console.log('Compiling client...');
   // First compile the client. We need it to properly output assets.json (asset
-  // manifest file with the correct hashes on file names BEFORE we can start
+  // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
   // the server compiler.
   return new Promise((resolve, reject) => {
     compile(clientConfig, (err, clientStats) => {

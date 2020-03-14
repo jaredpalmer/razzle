@@ -20,6 +20,10 @@ describe('razzle build', () => {
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+
+    // Create chunk manifest
+    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+
     // Create server.js
     expect(shell.test('-f', 'build/server.js')).toBeTruthy();
     expect(shell.test('-f', 'build/server.js.map')).toBeTruthy();
@@ -49,6 +53,9 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
 
+    // Create chunk manifest
+    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+
     // Create server.js
     expect(shell.test('-f', 'build/server.js')).toBeTruthy();
     expect(shell.test('-f', 'build/server.js.map')).toBeTruthy();
@@ -77,6 +84,9 @@ describe('razzle build', () => {
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+
+    // Create chunk manifest
+    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
 
     // We modify the default server output filename -> custom.js
     expect(shell.test('-f', 'build/custom.js')).toBeTruthy();

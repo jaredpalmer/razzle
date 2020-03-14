@@ -14,9 +14,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
-const nodePath = require('./env').nodePath;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const modules = require('./modules');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -97,8 +98,7 @@ module.exports = (
     // the users', so we use resolve and resolveLoader.
     resolve: {
       modules: ['node_modules', paths.appNodeModules].concat(
-        // It is guaranteed to exist because we tweak it in `env.js`
-        nodePath.split(path.delimiter).filter(Boolean)
+        modules.additionalModulePaths || []
       ),
       extensions: ['.mjs', '.jsx', '.js', '.json'],
       alias: {
@@ -152,7 +152,7 @@ module.exports = (
           loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: true,
+            emitFile: IS_WEB,
           },
         },
         // "url" loader works like "file" loader except that it embeds assets
@@ -164,7 +164,7 @@ module.exports = (
           options: {
             limit: 10000,
             name: 'static/media/[name].[hash:8].[ext]',
-            emitFile: true,
+            emitFile: IS_WEB,
           },
         },
 
@@ -340,8 +340,11 @@ module.exports = (
           name: 'server.js',
           nodeArgs,
         }),
-        // Ignore assets.json to avoid infinite recompile bug
-        new webpack.WatchIgnorePlugin([paths.appManifest]),
+        // Ignore assets.json and chunks.json to avoid infinite recompile bug
+        new webpack.WatchIgnorePlugin([
+          paths.appAssetsManifest,
+          paths.appChunksManifest,
+        ]),
       ];
     }
   }
@@ -354,12 +357,53 @@ module.exports = (
         path: paths.appBuild,
         filename: 'assets.json',
       }),
-      // Maybe we should move to this???
-      // new ManifestPlugin({
-      //   path: paths.appBuild,
-      //   writeToFileEmit: true,
-      //   filename: 'manifest.json',
-      // }),
+      // Output our JS and CSS files in a manifest file called chunks.json
+      // in the build directory.
+      // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
+      new ManifestPlugin({
+        fileName: path.join(paths.appBuild, 'chunks.json'),
+        writeToFileEmit: true,
+        filter: item => item.isChunk,
+        generate: (seed, files) => {
+          const entrypoints = new Set();
+          files.forEach(file =>
+            ((file.chunk || {})._groups || []).forEach(group =>
+              entrypoints.add(group)
+            )
+          );
+          const entries = [...entrypoints];
+          const entryArrayManifest = entries.reduce((acc, entry) => {
+            const name =
+              (entry.options || {}).name || (entry.runtimeChunk || {}).name;
+            const files = []
+              .concat(
+                ...(entry.chunks || []).map(chunk =>
+                  chunk.files.map(path => config.output.publicPath + path)
+                )
+              )
+              .filter(Boolean);
+
+            const cssFiles = files
+              .map(item => (item.indexOf('.css') !== -1 ? item : null))
+              .filter(Boolean);
+
+            const jsFiles = files
+              .map(item => (item.indexOf('.js') !== -1 ? item : null))
+              .filter(Boolean);
+
+            return name
+              ? {
+                  ...acc,
+                  [name]: {
+                    css: cssFiles,
+                    js: jsFiles,
+                  },
+                }
+              : acc;
+          }, seed);
+          return entryArrayManifest;
+        },
+      }),
     ];
 
     if (IS_DEV) {

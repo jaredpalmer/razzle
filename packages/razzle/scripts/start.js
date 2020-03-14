@@ -59,8 +59,9 @@ function main() {
     }
   }
 
-  // Delete assets.json to always have a manifest up to date
-  fs.removeSync(paths.appManifest);
+  // Delete assets.json and chunks.json to always have a manifest up to date
+  fs.removeSync(paths.appAssetsManifest);
+  fs.removeSync(paths.appChunksManifest);
 
   // Create dev configs using our config factory, passing in razzle file as
   // options.

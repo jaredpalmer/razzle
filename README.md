@@ -83,6 +83,7 @@ If your application is running, and you need to manually restart your server, yo
   - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
   - [`rs`](#rs)
 - [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
+- [Build Types](#build-types)
 - [Customization](#customization)
   - [Plugins](#plugins)
     - [Using Plugins](#using-plugins)
@@ -261,19 +262,20 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 **The following environment variables are embedded during the build time.**
 
-- `process.env.RAZZLE_PUBLIC_DIR`: Path to the public directory.
-- `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
-- `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
-- `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
-- `process.env.PORT`: default is `3000`, unless changed
-- `process.env.HOST`: default is `0.0.0.0`
-- `process.env.NODE_ENV`: `'development'` or `'production'`
-- `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
-- `process.env.BUILD_TARGET`: either `'client'` or `'server'`
-- `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
-- `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`. This is ignored if running razzle in `spa` mode (only `PUBLIC_PATH` is used).
+* `process.env.RAZZLE_PUBLIC_DIR`: Absolute path to the public directory in the server's filesystem.
+* `process.env.RAZZLE_CHUNKS_MANIFEST`: Path to a file containing compiled chunk outputs
+* `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
+* `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
+* `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
+* `process.env.PORT`: The `BUILD_TARGET=server` build listens on this port for all NODE_ENVs. default is `3000`
+* `process.env.HOST`: The IP address that the server will bind to. default is `0.0.0.0`, for INADDR_ANY
+* `process.env.NODE_ENV`: `'development'` or `'production'`
+* `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
+* `process.env.BUILD_TARGET`: either `'client'` or `'server'`
+* `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
+* `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`
 
-You can create your own custom build-time environment variables. They must start
+You can create your own custom environment variables that will be inlined during the build. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable named `RAZZLE_SECRET_CODE` will be exposed in your JS as `process.env.RAZZLE_SECRET_CODE`.
@@ -307,7 +309,7 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript'; // Safer stringify, prevents XSS attacks
 import { runtimeConfig } from './config';
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const chunks = require(process.env.RAZZLE_CHUNKS_MANIFEST);
 
 const server = express();
 
@@ -325,16 +327,12 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
-        } 
+        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)} 
     </head>
     <body>
         <div id="root">${markup}</div> 
-        <script>window.env = ${serialize(runtimeConfig)};</script>                   
-        <script src="${assets.client.js}" defer crossorigin></script>
+        <script>window.env = ${serialize(runtimeConfig)};</script>
+        ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}        
     </body>
 </html>`
     );
