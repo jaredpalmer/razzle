@@ -12,6 +12,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+- :rocket: SPA mode, build client side apps with razzle 
 
 ## Quick Start
 
@@ -109,7 +110,7 @@ If your application is running, and you need to manually restart your server, yo
 
 ## Build Types
 
-In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js`. Then pass `--type=spa` to your `package.json`'s scripts like so:
+In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js` then `index.html` file inside public folder at the end pass `--type=spa` to your `package.json`'s scripts like so:
 
 ```diff
 "scripts": {
@@ -119,6 +120,7 @@ In addition to universal/isomorphic appplications, Razzle can build single page 
 +  "build": "razzle build --type=spa",
   "test": "razzle test --env=jsdom",
 -  "start:prod": "NODE_ENV=production node build/server.js"
++  "start:prod": "serve -s build/public"
 }
 ```
 
