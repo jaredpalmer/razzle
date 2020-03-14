@@ -45,6 +45,13 @@ module.exports = (
   },
   webpackObject
 ) => {
+  // Define some useful shorthands.
+  const IS_NODE = target === 'node';
+  const IS_WEB = target === 'web';
+  const IS_PROD = env === 'prod';
+  const IS_DEV = env === 'dev';
+  process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
+
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
   const hasBabelRc = fs.existsSync(paths.appBabelRc);
@@ -60,19 +67,12 @@ module.exports = (
 
   // Allow app to override babel options
   const babelOptions = modifyBabelOptions
-    ? modifyBabelOptions(mainBabelOptions)
+    ? modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
     : mainBabelOptions;
 
   if (hasBabelRc && babelOptions.babelrc) {
     console.log('Using .babelrc defined in your app root');
   }
-
-  // Define some useful shorthands.
-  const IS_NODE = target === 'node';
-  const IS_WEB = target === 'web';
-  const IS_PROD = env === 'prod';
-  const IS_DEV = env === 'dev';
-  process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
