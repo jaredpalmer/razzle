@@ -13,7 +13,6 @@ const defaultOptions = {
     tsconfig: './tsconfig.json',
     tslint: './tslint.json',
     watch: ['./src'],
-    typeCheck: true,
   },
 };
 

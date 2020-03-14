@@ -1,0 +1,20 @@
+{
+  "name": "razzle-examples-now-v2",
+  "version": "2.4.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "now-build": "razzle build",
+    "now-start": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "razzle": "^2.4.1"
+  }
+}

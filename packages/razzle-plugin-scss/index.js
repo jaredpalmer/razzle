@@ -100,11 +100,12 @@ module.exports = (
     ...config.module.rules,
     {
       test: /\.(sa|sc)ss$/,
+      exclude: [/\.module.(sa|sc)ss$/],
       use: isServer
         ? [
             {
-              loader: require.resolve('css-loader/locals'),
-              options: options.css[constantEnv],
+              loader: require.resolve('css-loader'),
+              options: Object.assign({}, options.css[constantEnv], {onlyLocals: true}),
             },
             resolveUrlLoader,
             postCssLoader,
@@ -113,6 +114,35 @@ module.exports = (
         : [
             dev ? styleLoader : MiniCssExtractPlugin.loader,
             cssLoader,
+            postCssLoader,
+            resolveUrlLoader,
+            sassLoader,
+          ],
+    },
+    {
+      test: /\.module.(sa|sc)ss$/,
+      use: isServer
+        ? [
+            {
+              loader: require.resolve('css-loader/locals'),
+              options: Object.assign({}, options.css[constantEnv], {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              }),
+            },
+            resolveUrlLoader,
+            postCssLoader,
+            sassLoader,
+          ]
+        : [
+            dev ? styleLoader : MiniCssExtractPlugin.loader,
+            {
+              loader: require.resolve('css-loader'),
+              options: Object.assign({}, options.css[constantEnv], {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+              }),
+            },
             postCssLoader,
             resolveUrlLoader,
             sassLoader,

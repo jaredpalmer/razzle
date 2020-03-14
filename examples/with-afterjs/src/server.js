@@ -22,7 +22,8 @@ server
       });
       res.send(html);
     } catch (error) {
-      res.json(error);
+      console.error(error);
+      res.json({ message: error.message, stack: error.stack });
     }
   });
 

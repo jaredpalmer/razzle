@@ -2,42 +2,63 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/repo
-  docker:
-    - image: circleci/node:8
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+    - run:
+        name: Install elm globally
+        command: yarn global add elm
+
+    - run:
+        name: Install and bootstrap packages
+        command: yarn install --frozen-lockfile
+
+    - run:
+        name: Run tests
+        command: yarn e2e --runInBand --coverage
+
+    - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+    - persist_to_workspace:
+        root: ~/repo
+        paths: .
 
 jobs:
-  test:
+  test-node8:
     <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "yarn.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run:
-          name: Install elm globally
-          command: yarn global add elm
-
-      - run:
-          name: Install and bootstrap packages
-          command: yarn install --frozen-lockfile
-
-      - run:
-          name: Run tests
-          command: yarn e2e --runInBand --coverage
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
-
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
+    docker:
+      - image: circleci/node:8
+  test-node9:
+    <<: *defaults
+    docker:
+      - image: circleci/node:9
+  test-node10:
+    <<: *defaults
+    docker:
+      - image: circleci/node:10
+  test-node11:
+    <<: *defaults
+    docker:
+      - image: circleci/node:11
+  test-node12:
+    <<: *defaults
+    docker:
+      - image: circleci/node:12
+    
 
 workflows:
   version: 2
   test-deploy:
     jobs:
-      - test
+      - test-node8
+      - test-node9
+      - test-node10
+      - test-node11
+      - test-node12

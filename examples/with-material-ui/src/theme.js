@@ -1,6 +1,5 @@
-import { createMuiTheme } from 'material-ui/styles';
-import indigo from 'material-ui/colors/purple';
-import orange from 'material-ui/colors/purple';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { indigo, orange } from '@material-ui/core/colors';
 
 // Configure Material UI theme
 const theme = createMuiTheme({
