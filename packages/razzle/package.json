@@ -37,6 +37,7 @@
     "chalk": "^2.4.1",
     "css-loader": "^1.0.0",
     "dotenv": "6.0.0",
+    "dotenv-expand": "4.2.0",
     "file-loader": "^3.0.1",
     "fs-extra": "7.0.0",
     "jest": "^24.9.0",
