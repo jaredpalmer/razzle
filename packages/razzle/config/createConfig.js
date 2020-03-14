@@ -304,11 +304,16 @@ module.exports = (
     config.plugins = [
       // We define environment variables that can be accessed globally in our
       new webpack.DefinePlugin(dotenv.stringified),
-      // Prevent creating multiple chunks for the server
-      new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1,
-      }),
     ];
+    // in dev mode emitting one huge server file on every save is very slow
+    if (IS_PROD) {
+      // Prevent creating multiple chunks for the server
+      config.plugins.push(
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 1,
+        })
+      );
+    }
 
     config.entry = [paths.appServerIndexJs];
 
