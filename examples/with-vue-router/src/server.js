@@ -15,7 +15,7 @@ server
     const { app, router } = createVueApp();
 
     // Set server-side router's location
-    router.push(req.url);
+    router.push(req.originalUrl).catch(err => {});
 
     // wait until the router has resolved possible async components and hooks
     router.onReady(async () => {
