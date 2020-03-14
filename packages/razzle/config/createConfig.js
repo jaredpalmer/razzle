@@ -458,7 +458,8 @@ module.exports = (
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true,
+          // set this true will break HtmlWebpackPlugin
+          multiStep: !clientOnly,
         }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
@@ -604,7 +605,13 @@ module.exports = (
                     minifyURLs: true,
                   },
                 }
-              : undefined
+              : {
+                  // setting a varriable for razzle-dev-utils/webpackHotDevClient
+                  // so it can choose devServer port correctly
+                  meta: {
+                    'razzle-is-client-only': 'true',
+                  },
+                }
           )
         ),
       ];
