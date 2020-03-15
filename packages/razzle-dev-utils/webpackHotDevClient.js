@@ -122,7 +122,7 @@ function handleSuccess() {
     tryApplyUpdates(function onHotUpdateSuccess() {
       // Only dismiss it when we're sure it's a hot update.
       // Otherwise it would flicker right before the reload.
-      ErrorOverlay.dismissBuildError();
+      tryDismissErrorOverlay();
     });
   }
 }
@@ -164,7 +164,7 @@ function handleWarnings(warnings) {
       printWarnings();
       // Only dismiss it when we're sure it's a hot update.
       // Otherwise it would flicker right before the reload.
-      ErrorOverlay.dismissBuildError();
+      tryDismissErrorOverlay();
     });
   } else {
     // Print initial warnings immediately.
@@ -197,6 +197,12 @@ function handleErrors(errors) {
 
   // Do not attempt to reload now.
   // We will reload on next success instead.
+}
+
+function tryDismissErrorOverlay() {
+  if (!hasCompileErrors) {
+    ErrorOverlay.dismissBuildError();
+  }
 }
 
 // There is a newer version of the code available.

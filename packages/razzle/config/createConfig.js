@@ -208,7 +208,6 @@ module.exports = (
                   options: {
                     importLoaders: 1,
                     modules: false,
-                    minimize: true,
                   },
                 },
                 {
@@ -227,11 +226,13 @@ module.exports = (
                 {
                   // on the server we do not need to embed the css and just want the identifier mappings
                   // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader/locals'),
+                  loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
+                    onlyLocals: true,
                     importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    }
                   },
                 },
               ]
@@ -241,9 +242,10 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
                     importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
                 },
                 {
@@ -256,10 +258,11 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
                     importLoaders: 1,
                     minimize: true,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
                 },
                 {
@@ -551,11 +554,6 @@ module.exports = (
                 ascii_only: true,
               },
             },
-            // Use multi-process parallel running to improve the build speed
-            // Default number of concurrent runs: os.cpus().length - 1
-            parallel: true,
-            // Enable file caching
-            cache: true,
             // @todo add flag for sourcemaps
             sourceMap: true,
           }),
