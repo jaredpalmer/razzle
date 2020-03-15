@@ -15,7 +15,7 @@ defaults: &defaults
 
     - run:
         name: Install and bootstrap packages
-        command: yarn install --frozen-lockfile
+        command: yarn install --frozen-lockfile --ignore-engines
 
     - run:
         name: Run tests
