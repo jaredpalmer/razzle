@@ -25,7 +25,7 @@ jobs:
       run: yarn global add elm
 
     - name: Install and bootstrap packages
-      run: yarn install --frozen-lockfile     
+      run: yarn install --frozen-lockfile --ignore-engines
 
     - name: Run tests
       run: yarn e2e --runInBand --coverage
