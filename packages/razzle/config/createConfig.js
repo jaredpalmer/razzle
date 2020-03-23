@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -43,7 +44,8 @@ module.exports = (
     plugins,
     modifyBabelOptions,
   },
-  webpackObject
+  webpackObject,
+  clientOnly = false
 ) => {
   // Define some useful shorthands.
   const IS_NODE = target === 'node';
@@ -76,7 +78,7 @@ module.exports = (
 
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
-  const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
+  const devServerPort = parseInt(dotenv.raw.PORT, 10) + (clientOnly ? 0 : 1);
   // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
   const clientPublicPath =
     dotenv.raw.CLIENT_PUBLIC_PATH ||
@@ -434,13 +436,9 @@ module.exports = (
       // http://${dotenv.raw.HOST}:3001
       config.devServer = {
         disableHostCheck: true,
-        clientLogLevel: 'none',
-        // Enable gzip compression of generated files.
-        compress: true,
-        // watchContentBase: true,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
+        clientLogLevel: 'none', // Enable gzip compression of generated files.
+        compress: true, // watchContentBase: true,
+        headers: { 'Access-Control-Allow-Origin': '*' },
         historyApiFallback: {
           // Paths with dots should still use the history fallback.
           // See https://github.com/facebookincubator/create-react-app/issues/387.
@@ -451,23 +449,22 @@ module.exports = (
         noInfo: true,
         overlay: false,
         port: devServerPort,
-        quiet: true,
-        // By default files from `contentBase` will not trigger a page reload.
+        quiet: true, // By default files from `contentBase` will not trigger a page reload.
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
-        watchOptions: {
-          ignored: /node_modules/,
-        },
+        watchOptions: { ignored: /node_modules/ },
         before(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
         },
       };
+
       // Add client-only development plugins
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true,
+          // set this true will break HtmlWebpackPlugin
+          multiStep: !clientOnly,
         }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
@@ -575,6 +572,50 @@ module.exports = (
           }),
         ],
       };
+    }
+
+    if (clientOnly) {
+      if (IS_DEV) {
+        config.devServer.contentBase = paths.appPublic;
+        config.devServer.watchContentBase = true;
+        config.devServer.publicPath = '/';
+      }
+
+      config.plugins = [
+        ...config.plugins,
+        // Generates an `index.html` file with the <script> injected.
+        new HtmlWebpackPlugin(
+          Object.assign(
+            {},
+            {
+              inject: true,
+              template: paths.appHtml,
+            },
+            IS_PROD
+              ? {
+                  minify: {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                    removeRedundantAttributes: true,
+                    useShortDoctype: true,
+                    removeEmptyAttributes: true,
+                    removeStyleLinkTypeAttributes: true,
+                    keepClosingSlash: true,
+                    minifyJS: true,
+                    minifyCSS: true,
+                    minifyURLs: true,
+                  },
+                }
+              : {
+                  // setting a varriable for razzle-dev-utils/webpackHotDevClient
+                  // so it can choose devServer port correctly
+                  meta: {
+                    'razzle-is-client-only': 'true',
+                  },
+                }
+          )
+        ),
+      ];
     }
   }
 

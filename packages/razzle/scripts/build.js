@@ -14,6 +14,7 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 const webpack = require('webpack');
+const mri = require('mri');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const paths = require('../config/paths');
@@ -25,6 +26,14 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
+
+const argv = process.argv.slice(2);
+const cliArgs = mri(argv);
+// Set the default build mode to isomorphic
+cliArgs.type = cliArgs.type || 'iso';
+const clientOnly = cliArgs.type === 'spa';
+// Capture the type (isomorphic or single-page) as an environment variable
+process.env.BUILD_TYPE = cliArgs.type;
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
@@ -87,9 +96,14 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 `);
   }
 
+  let serverConfig;
+
   // Create our production webpack configurations and pass in razzle options.
-  let clientConfig = createConfig('web', 'prod', razzle, webpack);
-  let serverConfig = createConfig('node', 'prod', razzle, webpack);
+  let clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
+
+  if (!clientOnly) {
+    serverConfig = createConfig('node', 'prod', razzle, webpack);
+  }
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
 
@@ -125,42 +139,50 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
       }
 
       console.log(chalk.green('Compiled client successfully.'));
-      console.log('Compiling server...');
-      compile(serverConfig, (err, serverStats) => {
-        if (err) {
-          reject(err);
-        }
-        const serverMessages = formatWebpackMessages(
-          serverStats.toJson({}, true)
-        );
-        if (serverMessages.errors.length) {
-          return reject(new Error(serverMessages.errors.join('\n\n')));
-        }
-        if (
-          process.env.CI &&
-          (typeof process.env.CI !== 'string' ||
-            process.env.CI.toLowerCase() !== 'false') &&
-          serverMessages.warnings.length
-        ) {
-          console.log(
-            chalk.yellow(
-              '\nTreating warnings as errors because process.env.CI = true.\n' +
-                'Most CI servers set it automatically.\n'
-            )
-          );
-          return reject(new Error(serverMessages.warnings.join('\n\n')));
-        }
-        console.log(chalk.green('Compiled server successfully.'));
+      if (clientOnly) {
         return resolve({
           stats: clientStats,
           previousFileSizes,
-          warnings: Object.assign(
-            {},
-            clientMessages.warnings,
-            serverMessages.warnings
-          ),
+          warnings: clientMessages.warnings,
         });
-      });
+      } else {
+        console.log('Compiling server...');
+        compile(serverConfig, (err, serverStats) => {
+          if (err) {
+            reject(err);
+          }
+          const serverMessages = formatWebpackMessages(
+            serverStats.toJson({}, true)
+          );
+          if (serverMessages.errors.length) {
+            return reject(new Error(serverMessages.errors.join('\n\n')));
+          }
+          if (
+            process.env.CI &&
+            (typeof process.env.CI !== 'string' ||
+              process.env.CI.toLowerCase() !== 'false') &&
+            serverMessages.warnings.length
+          ) {
+            console.log(
+              chalk.yellow(
+                '\nTreating warnings as errors because process.env.CI = true.\n' +
+                  'Most CI servers set it automatically.\n'
+              )
+            );
+            return reject(new Error(serverMessages.warnings.join('\n\n')));
+          }
+          console.log(chalk.green('Compiled server successfully.'));
+          return resolve({
+            stats: clientStats,
+            previousFileSizes,
+            warnings: Object.assign(
+              {},
+              clientMessages.warnings,
+              serverMessages.warnings
+            ),
+          });
+        });
+      }
     });
   });
 }
