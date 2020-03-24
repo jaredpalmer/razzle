@@ -8,7 +8,7 @@
     "jest": "^24.9.0",
     "lerna": "2.10.1",
     "lerna-changelog": "^0.7.0",
-    "lint-staged": "^4.0.0",
+    "lint-staged": "^10.0.9",
     "prettier": "^1.4.4",
     "ps-tree": "1.1.0",
     "semver": "5.5.1",
