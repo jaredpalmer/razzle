@@ -15,12 +15,16 @@ function runPlugin(plugin, config, { target, dev }, webpack) {
     return plugin.func(config, { target, dev }, webpack, plugin.options);
   }
 
-  const completePluginName = `razzle-plugin-${plugin.name}`;
-
+  const completePluginNames = [`razzle-plugin-${plugin.name}`, `${plugin.name}/razzle-plugin`];
+  
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(completePluginName);
+  const razzlePlugin = null;
+  for (const completePluginName of completePluginName) {
+    razzlePlugin = require(completePluginName);
+  }  
+  
   if (!razzlePlugin) {
-    throw new Error(`Unable to find '${completePluginName}`);
+    throw new Error(`Unable to find '${completePluginName[0]}' or '${completePluginName[1]}'`);
   }
 
   return razzlePlugin(config, { target, dev }, webpack, plugin.options);
