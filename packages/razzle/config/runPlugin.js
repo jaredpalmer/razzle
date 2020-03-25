@@ -21,6 +21,9 @@ function runPlugin(plugin, config, { target, dev }, webpack) {
   let razzlePlugin = null;
   for (const completePluginName of completePluginNames) {
     razzlePlugin = require(completePluginName);
+    if (razzlePlugin) {
+      break;
+    }
   }  
   
   if (!razzlePlugin) {
