@@ -19,7 +19,7 @@ function runPlugin(plugin, config, { target, dev }, webpack) {
   
   // Try to find the plugin in node_modules
   const razzlePlugin = null;
-  for (const completePluginName of completePluginName) {
+  for (const completePluginName of completePluginNames) {
     razzlePlugin = require(completePluginName);
   }  
   
