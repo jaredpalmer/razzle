@@ -19,6 +19,7 @@ const chalk = require('chalk');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
+const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
@@ -70,13 +71,18 @@ measureFileSizesBeforeBuild(paths.appBuildPublic)
   );
 
 function build(previousFileSizes) {
-  // Check if razzle.config.js exists
   let razzle = {};
-  try {
-    razzle = require(paths.appRazzleConfig);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable */
+
+  // Check for razzle.config.js file
+  if (fs.existsSync(paths.appRazzleConfig)) {
+    try {
+      razzle = require(paths.appRazzleConfig);
+    } catch (e) {
+      clearConsole();
+      logger.error('Invalid razzle.config.js file.', e);
+      process.exit(1);
+    }
+  }
 
   if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
     logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
