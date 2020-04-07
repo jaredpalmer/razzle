@@ -100,6 +100,7 @@ If your application is running, and you need to manually restart your server, yo
     - [Windows (cmd.exe)](#windows-cmdexe)
     - [Linux, macOS (Bash)](#linux-macos-bash)
   - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+  - [Expanding Environment Variables In `.env`](#expanding-environment-variables-in-env)
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
@@ -368,6 +369,26 @@ To define permanent environment variables, create a file called .env in the root
 
 ```
 RAZZLE_SECRET_CODE=abcdef
+```
+
+### Expanding Environment Variables In `.env`
+
+Expand variables already on your machine for use in your `.env` file.
+
+For example, to get the environment variable `npm_package_version`:
+
+```
+RAZZLE_VERSION=$npm_package_version
+# also works:
+# RAZZLE_VERSION=${npm_package_version}
+```
+
+Or expand variables local to the current `.env` file:
+
+```
+DOMAIN=www.example.com
+RAZZLE_FOO=$DOMAIN/foo
+RAZZLE_BAR=$DOMAIN/bar
 ```
 
 #### What other `.env` files are can be used?
