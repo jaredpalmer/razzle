@@ -24,13 +24,19 @@ var ErrorOverlay = require('react-error-overlay');
 var serverPort = process.env.PORT
   ? parseInt(process.env.PORT, 10)
   : window.location.port
-    ? parseInt(window.location.port, 10)
-    : window.location.protocol === 'http:'
-      ? 80
-      : 443;
+  ? parseInt(window.location.port, 10)
+  : window.location.protocol === 'http:'
+  ? 80
+  : 443;
+
+// if this meta tag was avaliable we are in spa mode and
+// in spa mode we only have one webpack-dev-server instance
+// and it's on port 3000
+const metaTag = document.head.querySelector('meta[name=razzle-is-client-only]');
+const isClientOnly = metaTag !== null && metaTag.content == 'true';
 
 // the client-side build (webpack-dev-server) is on a different port
-var sockJsPort = serverPort + 1;
+var sockJsPort = serverPort + (isClientOnly ? 0 : 1);
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js

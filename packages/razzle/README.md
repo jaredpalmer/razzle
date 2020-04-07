@@ -12,13 +12,12 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+- :rocket: SPA mode, build client side apps with razzle 
 
 ## Quick Start
 
 ```bash
-npm install -g create-razzle-app
-
-create-razzle-app my-app
+npx create-razzle-app my-app
 cd my-app
 npm start
 ```
@@ -85,6 +84,7 @@ If your application is running, and you need to manually restart your server, yo
   - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
   - [`rs`](#rs)
 - [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
+- [Build Types](#build-types)
 - [Customization](#customization)
   - [Plugins](#plugins)
     - [Using Plugins](#using-plugins)
@@ -92,6 +92,7 @@ If your application is running, and you need to manually restart your server, yo
   - [Customizing Babel Config](#customizing-babel-config)
   - [Extending Webpack](#extending-webpack)
   - [CSS Modules](#css-modules)
+  - [Polyfills](#polyfills)
 - [Environment Variables](#environment-variables)
   - [Build-time Variables](#build-time-variables)
   - [Runtime Variables](#runtime-variables)
@@ -99,13 +100,30 @@ If your application is running, and you need to manually restart your server, yo
     - [Windows (cmd.exe)](#windows-cmdexe)
     - [Linux, macOS (Bash)](#linux-macos-bash)
   - [Adding Environment Variables In `.env`](#adding-environment-variables-in-env)
+  - [Expanding Environment Variables In `.env`](#expanding-environment-variables-in-env)
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
-  - [Author](#author)
+    - [Author](#author)
 - [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Build Types
+
+In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js` then `index.html` file inside public folder at the end pass `--type=spa` to your `package.json`'s scripts like so:
+
+```diff
+"scripts": {
+-  "start": "razzle start",
++  "start": "razzle start --type=spa",
+-  "build": "razzle build",
++  "build": "razzle build --type=spa",
+  "test": "razzle test --env=jsdom",
+-  "start:prod": "NODE_ENV=production node build/server.js"
++  "start:prod": "serve -s build/public"
+}
+```
 
 ## Customization
 
@@ -130,7 +148,7 @@ yarn add razzle-plugin-xxxx
 ```js
 //./razzle.config.js
 module.exports = {
-  plugins: ['xxxx']
+  plugins: ['xxxx'],
 };
 ```
 
@@ -193,7 +211,7 @@ module.exports = {
     // do something to config
 
     return config;
-  }
+  },
 };
 ```
 
@@ -223,6 +241,24 @@ const Component = () => <div className={styles.className} />;
 export default Component;
 ```
 
+### Polyfills
+
+Polyfills for IE 9, IE 10, and IE 11 are no longer included by default (but you can opt in!)
+We have dropped default support for Internet Explorer 9, 10, and 11. If you still need to support these browsers, follow the instructions below.
+
+First, install `react-app-polyfill`:
+
+`npm install react-app-polyfill`
+or
+
+`yarn add react-app-polyfill`
+Next, place one of the following lines at the very top of `src/client.js:`
+
+```javascript
+import 'react-app-polyfill/ie9'; // For IE 9-11 support
+import 'react-app-polyfill/ie11'; // For IE 11 support
+```
+
 ## Environment Variables
 
 ### Build-time Variables
@@ -230,14 +266,17 @@ export default Component;
 **The following environment variables are embedded during the build time.**
 
 * `process.env.RAZZLE_PUBLIC_DIR`: Absolute path to the public directory in the server's filesystem.
+* `process.env.RAZZLE_CHUNKS_MANIFEST`: Path to a file containing compiled chunk outputs
 * `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
 * `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
 * `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
 * `process.env.PORT`: The `BUILD_TARGET=server` build listens on this port for all NODE_ENVs. default is `3000`
 * `process.env.HOST`: The IP address that the server will bind to. default is `0.0.0.0`, for INADDR_ANY
 * `process.env.NODE_ENV`: `'development'` or `'production'`
+* `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
 * `process.env.BUILD_TARGET`: either `'client'` or `'server'`
 * `process.env.PUBLIC_PATH`: Only in used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
+* `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`
 
 You can create your own custom environment variables that will be inlined during the build. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.
@@ -255,12 +294,12 @@ export const runtimeConfig =
     ? {
         // client
         myThing: window.env.myThing,
-        anotherThing: window.env.anotherThing
+        anotherThing: window.env.anotherThing,
       }
     : {
         // server
         myThing: process.env.MY_THING,
-        anotherThing: process.env.ANOTHER_THING
+        anotherThing: process.env.ANOTHER_THING,
       };
 ```
 
@@ -273,7 +312,7 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript'; // Safer stringify, prevents XSS attacks
 import { runtimeConfig } from './config';
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const chunks = require(process.env.RAZZLE_CHUNKS_MANIFEST);
 
 const server = express();
 
@@ -291,16 +330,12 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
-        } 
+        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)} 
     </head>
     <body>
         <div id="root">${markup}</div> 
-        <script>window.env = ${serialize(runtimeConfig)};</script>                   
-        <script src="${assets.client.js}" defer crossorigin></script>
+        <script>window.env = ${serialize(runtimeConfig)};</script>
+        ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}        
     </body>
 </html>`
     );
@@ -334,6 +369,26 @@ To define permanent environment variables, create a file called .env in the root
 
 ```
 RAZZLE_SECRET_CODE=abcdef
+```
+
+### Expanding Environment Variables In `.env`
+
+Expand variables already on your machine for use in your `.env` file.
+
+For example, to get the environment variable `npm_package_version`:
+
+```
+RAZZLE_VERSION=$npm_package_version
+# also works:
+# RAZZLE_VERSION=${npm_package_version}
+```
+
+Or expand variables local to the current `.env` file:
+
+```
+DOMAIN=www.example.com
+RAZZLE_FOO=$DOMAIN/foo
+RAZZLE_BAR=$DOMAIN/bar
 ```
 
 #### What other `.env` files are can be used?
@@ -382,10 +437,10 @@ MIT License
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
+| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
