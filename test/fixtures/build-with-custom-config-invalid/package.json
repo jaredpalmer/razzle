@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "razzle build"
+  },
+  "name": "build-with-custom-config-invalid",
+  "license": "MIT"
+}
