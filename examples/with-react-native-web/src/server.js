@@ -36,10 +36,10 @@ server
     <body>
         <div id="root">${html}</div>
   ${
-          process.env.NODE_ENV === 'production'
-            ? `<script src="${assets.client.js}" defer></script>`
-            : `<script src="${assets.client.js}" defer crossorigin></script>`
-        }
+    process.env.NODE_ENV === 'production'
+      ? `<script src="${assets.client.js}" defer></script>`
+      : `<script src="${assets.client.js}" defer crossorigin></script>`
+  }
     </body>
 </html>`
     );

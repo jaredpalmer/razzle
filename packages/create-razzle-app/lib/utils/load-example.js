@@ -16,7 +16,7 @@ module.exports = function loadExample(opts) {
     `Downloading files for ${output.cmd(example)} example`
   );
   const cmdPromises = cmds.map(function(cmd) {
-    return exec.shell(cmd);
+    return exec(cmd, { shell: true });
   });
 
   return Promise.all(cmdPromises).then(function() {
