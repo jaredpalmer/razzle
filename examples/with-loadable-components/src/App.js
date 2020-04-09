@@ -1,16 +1,22 @@
+import './App.css';
 import React from 'react';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
-import loadable from '@loadable/component'
+import { Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
+import Header from './Header';
+import Footer from './Footer';
 
-const Home = loadable(() => import('./Home'))
-const About = loadable(() => import('./About'))
+const Home = loadable(() => import('./Home'));
+const About = loadable(() => import('./About'));
 
 const App = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route exact path="/about" component={About} />
-  </Switch>
+  <>
+    <Header />
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/about" component={About} />
+    </Switch>
+    <Footer />
+  </>
 );
 
 export default App;

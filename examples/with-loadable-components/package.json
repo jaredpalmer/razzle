@@ -9,14 +9,14 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "@loadable/babel-plugin": "^5.6.0",
-    "@loadable/component": "^5.6.1",
-    "@loadable/server": "^5.6.1",
-    "@loadable/webpack-plugin": "^5.5.0",
+    "@loadable/babel-plugin": "^5.12.0",
+    "@loadable/component": "^5.12.0",
+    "@loadable/server": "^5.12.0",
+    "@loadable/webpack-plugin": "^5.12.0",
     "express": "^4.16.4",
-    "razzle": "3.0.0",
+    "razzle": "^3.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^5.1.2"
   }
 }

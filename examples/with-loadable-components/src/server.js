@@ -1,24 +1,25 @@
-import { ChunkExtractor } from '@loadable/server'
+import { ChunkExtractor } from '@loadable/server';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import express from 'express';
-import path from 'path'
+import path from 'path';
 import React from 'react';
 
 import App from './App';
 
-
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-let statsFile
-let extractor
+
+let statsFile;
+let extractor;
 
 if (process.env.NODE_ENV === 'production') {
   console.log('reading statsfile for PROD');
-  statsFile = path.resolve('./build/public/loadable-stats.json')
-  extractor = new ChunkExtractor({ statsFile, entrypoints: ['client'] })
+  statsFile = path.resolve('./build/public/loadable-stats.json');
+  extractor = new ChunkExtractor({ statsFile, entrypoints: ['client'] });
 }
 
 const server = express();
+
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
@@ -28,18 +29,17 @@ server
       <StaticRouter context={context} location={req.url}>
         <App />
       </StaticRouter>
-    )
+    );
 
     if (process.env.NODE_ENV === 'development') {
       console.log('reading statsfile for DEV');
-      statsFile = path.resolve('./build/public/loadable-stats.json')
-      extractor = new ChunkExtractor({ statsFile, entrypoints: ['client'] })
+      statsFile = path.resolve('./build/public/loadable-stats.json');
+      extractor = new ChunkExtractor({ statsFile, entrypoints: ['client'] });
     }
-    const jsx = extractor.collectChunks(app)
-    const markup = renderToString(jsx)
-    const scriptTags = extractor.getScriptTags()
+    const jsx = extractor.collectChunks(app);
+    const markup = renderToString(jsx);
+    const scriptTags = extractor.getScriptTags();
     console.log('scriptTags', scriptTags);
-
 
     if (context.url) {
       res.redirect(context.url);
@@ -53,9 +53,9 @@ server
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         ${
-        process.env.NODE_ENV === 'production'
-          ? `<script src="${assets.client.js}" defer></script>`
-          : `<script src="${assets.client.js}" defer crossorigin></script>`
+          process.env.NODE_ENV === 'production'
+            ? `<script src="${assets.client.js}" defer></script>`
+            : `<script src="${assets.client.js}" defer crossorigin></script>`
         }
         ${scriptTags}
     </head>
