@@ -609,13 +609,7 @@ module.exports = (
                     minifyURLs: true,
                   },
                 }
-              : {
-                  // setting a varriable for razzle-dev-utils/webpackHotDevClient
-                  // so it can choose devServer port correctly
-                  meta: {
-                    'razzle-is-client-only': 'true',
-                  },
-                }
+              : {}
           )
         ),
       ];
