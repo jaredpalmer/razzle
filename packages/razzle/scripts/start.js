@@ -31,7 +31,6 @@ process.env.BUILD_TYPE = cliArgs.type;
 
 const clientOnly = cliArgs.type === 'spa';
 
-const portOffset = clientOnly ? 0 : 1;
 function main() {
   // Optimistically, we make the console look exactly like the output of our
   // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
@@ -76,10 +75,7 @@ function main() {
     serverCompiler = compile(serverConfig);
   }
 
-  const port =
-    (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
-    razzle.port ||
-    3000 + portOffset;
+  const port = razzle.port || clientConfig.devServer.port;
 
   // Compile our assets with webpack
   // Instatiate a variable to track server watching

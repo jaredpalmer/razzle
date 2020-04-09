@@ -23308,7 +23308,7 @@ webpack-dev-server-speedy@^3.1.1:
     webpack-log "^1.1.2"
     yargs "9.0.1"
 
-webpack-dev-server@^3.10.3:
+webpack-dev-server@~3.10.3:
   version "3.10.3"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.10.3.tgz#f35945036813e57ef582c2420ef7b470e14d3af0"
   integrity sha512-e4nWev8YzEVNdOMcNzNeCN947sWJNd43E5XvsJzbAL08kGc2frm1tQ32hTJslRS+H65LCb/AaUCYU7fjHCpDeQ==

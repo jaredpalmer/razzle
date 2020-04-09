@@ -78,7 +78,12 @@ module.exports = (
 
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
-  const devServerPort = parseInt(dotenv.raw.PORT, 10) + (clientOnly ? 0 : 1);
+  const portOffset = clientOnly ? 0 : 1;
+
+  const devServerPort =
+    (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
+    3000 + portOffset;
+
   // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
   const clientPublicPath =
     dotenv.raw.CLIENT_PUBLIC_PATH ||
@@ -604,13 +609,7 @@ module.exports = (
                     minifyURLs: true,
                   },
                 }
-              : {
-                  // setting a varriable for razzle-dev-utils/webpackHotDevClient
-                  // so it can choose devServer port correctly
-                  meta: {
-                    'razzle-is-client-only': 'true',
-                  },
-                }
+              : {}
           )
         ),
       ];

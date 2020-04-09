@@ -12,39 +12,21 @@
 var SockJS = require('sockjs-client');
 var stripAnsi = require('strip-ansi');
 var url = require('url');
+var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
 var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
-// To get the server port, prefer the env var if available
-// If it's not set, (e.g. for a Docker image that has to run in multiple environments)
-// use window.location.port in client-side code like this.
-// Note that window.location.port is '' if the port is not part of the url (it can be inferred from
-// window.location.protocol)
-var serverPort = process.env.PORT
-  ? parseInt(process.env.PORT, 10)
-  : window.location.port
-  ? parseInt(window.location.port, 10)
-  : window.location.protocol === 'http:'
-  ? 80
-  : 443;
-
-// if this meta tag was avaliable we are in spa mode and
-// in spa mode we only have one webpack-dev-server instance
-// and it's on port 3000
-const metaTag = document.head.querySelector('meta[name=razzle-is-client-only]');
-const isClientOnly = metaTag !== null && metaTag.content == 'true';
-
-// the client-side build (webpack-dev-server) is on a different port
-var sockJsPort = serverPort + (isClientOnly ? 0 : 1);
+var socketUrl = createSocketUrl();
+var parsedSocketUrl = url.parse(socketUrl);
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
   fetch(
     url.format({
-      protocol: window.location.protocol,
-      hostname: window.location.hostname,
-      port: sockJsPort,
+      protocol: parsedSocketUrl.protocol,
+      hostname: parsedSocketUrl.hostname,
+      port: parsedSocketUrl.port,
       pathname: launchEditorEndpoint,
       search:
         '?fileName=' +
@@ -80,15 +62,7 @@ if (module.hot && typeof module.hot.dispose === 'function') {
 }
 
 // Connect to WebpackDevServer via a socket.
-var connection = new SockJS(
-  url.format({
-    protocol: window.location.protocol,
-    hostname: window.location.hostname,
-    port: sockJsPort,
-    // Hardcoded in WebpackDevServer
-    pathname: '/sockjs-node',
-  })
-);
+var connection = new SockJS(socketUrl);
 
 // Unlike WebpackDevServer client, we won't try to reconnect
 // to avoid spamming the console. Disconnect usually happens
