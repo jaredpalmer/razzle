@@ -44,4 +44,4 @@ let make = (~title, ~initialUrl, _children) => {
   </div>;
 };
 
-let default = make /*       [||]*/ /* let default */ /*     make*/ /*       ~initialUrl=Js.undefinedToOption(jsProps##initialUrl)*/ /*       ~title=jsProps##title*/ /*   ReasonReact.wrapReasonForJs(~component, jsProps =*/;
+let default = make;
