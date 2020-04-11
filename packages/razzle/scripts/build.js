@@ -69,7 +69,7 @@ measureFileSizesBeforeBuild(defaultPaths.appBuildPublic)
         console.log(chalk.green('Compiled successfully.\n'));
       }
       console.log('File sizes after gzip:\n');
-      printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild);
+      printFileSizesAfterBuild(stats, previousFileSizes, defaultPaths.appBuild);
       console.log();
     },
     err => {
@@ -101,11 +101,10 @@ ${razzle.host !== 'localhost' && `HOST=${razzle.host}`}
 ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 `);
   }
-
   let serverConfig;
-
+  let clientConfig;
   // Create our production webpack configurations and pass in razzle options.
-  let clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
+  clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
 
   if (!clientOnly) {
     serverConfig = createConfig('node', 'prod', razzle, webpack);
@@ -119,7 +118,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
   // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
   // the server compiler.
   return new Promise((resolve, reject) => {
-    compile(clientConfig, (err, clientStats) => {
+    compile(clientConfig.config, (err, clientStats) => {
       if (err) {
         reject(err);
       }
@@ -153,7 +152,7 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
         });
       } else {
         console.log('Compiling server...');
-        compile(serverConfig, (err, serverStats) => {
+        compile(serverConfig.config, (err, serverStats) => {
           if (err) {
             reject(err);
           }

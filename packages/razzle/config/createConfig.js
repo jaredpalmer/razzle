@@ -18,6 +18,7 @@ const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
 const logger = require('razzle-dev-utils/logger');
+const defaultPaths = require('../config/paths');
 
 const postCssOptions = {
   ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
@@ -38,8 +39,7 @@ module.exports = (
   env = 'dev',
   razzle,
   webpackObject,
-  clientOnly = false,
-  defaultPaths
+  clientOnly = false
 ) => {
   // Define some useful shorthands.
   const IS_NODE = target === 'node';
@@ -50,16 +50,11 @@ module.exports = (
 
   // Load razzle plugins, if they are present in razzle.config.js
   const loadedPlugins = Array.isArray(razzle.plugins)
-    ? loadPlugins(razzle.plugins) : [];
+    ? loadPlugins(razzle.plugins)
+    : [];
 
   // Allow overriding paths
   let paths = defaultPaths;
-
-  // Check if razzle.config has a modifyPaths function. If it does, call it on the
-  // paths we created.
-  paths = razzle.modifyPaths
-    ? razzle.modifyPaths({ target, dev: IS_DEV }, paths)
-    : paths;
 
   // Apply modifyPaths razzle plugins
   loadedPlugins.forEach(plugin => {
@@ -73,10 +68,10 @@ module.exports = (
     );
   });
 
-  // Check if razzle.config has a modifyPathsAfter function. If it does, call it on the
+  // Check if razzle.config has a modifyPaths function. If it does, call it on the
   // paths we created.
-  paths = razzle.modifyPathsAfter
-    ? razzle.modifyPathsAfter({ target, dev: IS_DEV })
+  paths = razzle.modifyPaths
+    ? razzle.modifyPaths({ target, dev: IS_DEV }, paths)
     : paths;
 
   let configOptions = {};
@@ -96,14 +91,21 @@ module.exports = (
 
   // Allow app to override babel options
   configOptions.babelOptions = razzle.modifyBabelOptions
-    ? razzle.modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
-    : mainBabelOptions;
+    ? razzle.modifyBabelOptions(configOptions.mainBabelOptions, {
+        target,
+        dev: IS_DEV,
+      })
+    : configOptions.mainBabelOptions;
 
   if (hasBabelRc && configOptions.babelOptions.babelrc) {
     console.log('Using .babelrc defined in your app root');
   }
 
-  const dotenv = getClientEnv(target, { razzle.clearConsole, razzle.host, razzle.port });
+  const dotenv = getClientEnv(target, {
+    clearConsole: razzle.clearConsole,
+    host: razzle.host,
+    port: razzle.port,
+  });
 
   const portOffset = clientOnly ? 0 : 1;
 
@@ -119,6 +121,7 @@ module.exports = (
   configOptions.context = process.cwd();
 
   configOptions.staticPrefix = 'static';
+  configOptions.mediaPrefix = 'static/media';
 
   configOptions.fileLoaderExclude = [
     /\.html$/,
@@ -135,33 +138,24 @@ module.exports = (
     /\.png$/,
   ];
 
-  configOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/]
+  configOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
 
   if (IS_NODE) {
-
     configOptions.nodeExternalsWhitelist = [
       IS_DEV ? 'webpack/hot/poll?300' : null,
       /\.(eot|woff|woff2|ttf|otf)$/,
       /\.(svg|png|jpg|jpeg|gif|ico)$/,
       /\.(mp4|mp3|ogg|swf|webp)$/,
       /\.(css|scss|sass|sss|less)$/,
-    ].filter(x => x),
+    ].filter(x => x);
 
     if (IS_DEV) {
-
       configOptions.watchIgnorePaths = [
         paths.appAssetsManifest,
         paths.appChunksManifest,
       ];
-
     }
   }
-
-  // Check if razzle.config has a modifyOptions function. If it does, call it on the
-  // configOptions we created.
-  configOptions = razzle.modifyOptions
-    ? razzle.modifyOptions({ target, dev: IS_DEV }, paths, configOptions)
-    : configOptions;
 
   // Apply modifyOptions razzle plugins
   loadedPlugins.forEach(plugin => {
@@ -175,9 +169,9 @@ module.exports = (
     );
   });
 
-  // Check if razzle.config has a modifyOptionsAfter function. If it does, call it on the
+  // Check if razzle.config has a modifyOptions function. If it does, call it on the
   // configOptions we created.
-  configOptions = razzle.modifyOptionsAfter
+  configOptions = razzle.modifyOptions
     ? razzle.modifyOptionsAfter({ target, dev: IS_DEV }, paths, configOptions)
     : configOptions;
 
@@ -235,7 +229,7 @@ module.exports = (
           exclude: configOptions.fileLoaderExclude,
           loader: require.resolve('file-loader'),
           options: {
-            name: `${configOptions.staticPrefix}/media/[name].[hash:8].[ext]`,
+            name: `${configOptions.mediaPrefix}/[name].[hash:8].[ext]`,
             emitFile: IS_WEB,
           },
         },
@@ -247,7 +241,7 @@ module.exports = (
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
-            name: `${configOptions.staticPrefix}/media/[name].[hash:8].[ext]`,
+            name: `${configOptions.mediaPrefix}/[name].[hash:8].[ext]`,
             emitFile: IS_WEB,
           },
         },
@@ -570,8 +564,8 @@ module.exports = (
       config.output = {
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
-        filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        filename: `${configOptions.staticPrefix}/js/bundle.[chunkhash:8].js`,
+        chunkFilename: `${configOptions.staticPrefix}/js/[name].[chunkhash:8].chunk.js`,
         libraryTarget: 'var',
       };
 
@@ -581,8 +575,8 @@ module.exports = (
         new webpack.DefinePlugin(dotenv.stringified),
         // Extract our CSS into files.
         new MiniCssExtractPlugin({
-          filename: 'static/css/bundle.[contenthash:8].css',
-          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: `${configOptions.staticPrefix}/css/bundle.[contenthash:8].css`,
+          chunkFilename: `${configOptions.staticPrefix}/css/[name].[contenthash:8].chunk.css`,
         }),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
@@ -696,12 +690,6 @@ module.exports = (
     ];
   }
 
-  // Check if razzle.config has a modifyConfig function. If it does, call it on the
-  // configs we created.
-  if (razzle.modifyConfig) {
-    config = razzle.modifyConfig(config, { target, dev: IS_DEV }, webpackObject, paths, configOptions);
-  }
-
   // Apply modifyConfig razzle plugins
   loadedPlugins.forEach(plugin => {
     config = runPlugin(
@@ -715,18 +703,16 @@ module.exports = (
     );
   });
 
-  // Check if razzle.config has a modifyConfigAfter function. If it does, call it on the
-  // configs we created.
-  if (razzle.modifyConfigAfter) {
-    config = razzle.modifyConfigAfter(config, { target, dev: IS_DEV }, webpackObject, paths, configOptions);
-  }
-
   // Check if razzle.config has a modify function. If it does, call it on the
   // configs we created.
   if (razzle.modify) {
-    logger.warn(`Specifying \`modify\` in razzle.config.js has been deprecated.
-      Use \`modifyConfig\` or \`modifyConfigAfter\` instead.`);
-    config = razzle.modify(config, { target, dev: IS_DEV }, webpackObject);
+    config = razzle.modify(
+      config,
+      { target, dev: IS_DEV },
+      webpackObject,
+      paths,
+      configOptions
+    );
   }
 
   return { config, paths };
