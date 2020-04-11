@@ -6,23 +6,19 @@ type action =
   | Increment
   | Decrement;
 
-let component = ReasonReact.reducerComponent("Counter");
+let reducer = (state, action) =>
+  switch (action) {
+  | Increment => {count: state.count + 1}
+  | Decrement => {count: state.count - 1}
+  };
 
-/* underscore before names indicate unused variables. We name them for clarity */
-let make = _children => {
-  ...component,
-  initialState: () => {count: 0},
-  reducer: (action, state) =>
-    switch (action) {
-    | Increment => ReasonReact.Update({count: state.count + 1})
-    | Decrement => ReasonReact.Update({count: state.count - 1})
-    },
-  render: self => {
-    let message = "Count: " ++ string_of_int(self.state.count);
-    <div className="App-intro">
-      {text(message)}
-      <button onClick={_event => self.send(Increment)}> {text("+")} </button>
-      <button onClick={_event => self.send(Decrement)}> {text("-")} </button>
-    </div>;
-  },
+[@react.component]
+let make = () => {
+  let (state, send) = React.useReducer(reducer, {count: 0});
+  let message = "Count: " ++ string_of_int(state.count);
+  <div className="App-intro">
+    {text(message)}
+    <button onClick={_event => send(Increment)}> {text("+")} </button>
+    <button onClick={_event => send(Decrement)}> {text("-")} </button>
+  </div>;
 };

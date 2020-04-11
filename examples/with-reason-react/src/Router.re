@@ -1,7 +1,7 @@
+type state = ReasonReact.Router.url;
+
 type action =
   | UpdateRoute(ReasonReact.Router.url);
-
-type state = ReasonReact.Router.url;
 
 /* copied from  ReasonReact */
 let urlToUrlList = url =>
@@ -20,23 +20,31 @@ let urlToUrlList = url =>
     raw |> Js.String.split("/") |> Array.to_list;
   };
 
-let component = ReasonReact.reducerComponent("Router");
-
-let make: (~initialUrl: option(string), 'a) => ReasonReact.component(state, _, action) =
-  (~initialUrl, children) => {
-    ...component,
-    initialState: () =>
-      switch (initialUrl) {
-      | Some(url) => {path: urlToUrlList(url), hash: "", search: ""}
-      | None => ReasonReact.Router.dangerouslyGetInitialUrl()
-      },
-    reducer: (action, _state) =>
-      switch (action) {
-      | UpdateRoute(url) => ReasonReact.Update(url)
-      },
-    didMount: self => {
-      let watcherID = ReasonReact.Router.watchUrl(url => self.send(UpdateRoute(url)));
-      self.onUnmount(() => ReasonReact.Router.unwatchUrl(watcherID));
-    },
-    render: ({state}) => children(state),
+[@react.component]
+let make = (~initialUrl, ~children) => {
+  let initialState = {
+    switch (initialUrl) {
+    | Some(url) => (
+        {path: urlToUrlList(url), hash: "", search: ""}: ReasonReactRouter.url
+      )
+    | None => ReasonReactRouter.dangerouslyGetInitialUrl()
+    };
   };
+  let (state, send) =
+    React.useReducer(
+      (_, action) =>
+        switch (action) {
+        | UpdateRoute(url) => url
+        },
+      initialState,
+    );
+  React.useEffect1(
+    () => {
+      let watcherID =
+        ReasonReact.Router.watchUrl(url => send(UpdateRoute(url)));
+      Some(() => ReasonReact.Router.unwatchUrl(watcherID));
+    },
+    [|initialUrl|],
+  );
+  children(state);
+};

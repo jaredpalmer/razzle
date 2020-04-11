@@ -1,19 +1,11 @@
-let component = ReasonReact.statelessComponent("Link");
-
-let make = (~href, ~className="", children) => {
-  ...component,
-  render: self =>
-    ReasonReact.createDomElement(
-      "a",
-      ~props={
-        "className": className,
-        "href": href,
-        "onClick":
-          self.handle((event, _self) => {
-            ReactEventRe.Mouse.preventDefault(event);
-            ReasonReact.Router.push(href);
-          })
-      },
-      children
-    )
+[@react.component]
+let make = (~href, ~className="", ~children) => {
+  let handleClick = (href, event) =>
+    if (!ReactEvent.Mouse.defaultPrevented(event)) {
+      ReactEvent.Mouse.preventDefault(event);
+      ReasonReactRouter.push(href);
+    };
+  <a href className onClick={event => handleClick(href, event)}>
+    children
+  </a>;
 };

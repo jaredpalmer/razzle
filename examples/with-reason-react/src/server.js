@@ -2,7 +2,7 @@ import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 
-import App from '../lib/es6_global/src/App'; // BuckleScript output directory
+import * as App from '../lib/es6_global/src/App'; // BuckleScript output directory
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -13,7 +13,10 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const markup = renderToString(
-      <App title="Welcome to Razzle Reason React" initialUrl={req.url} />
+      React.createElement(App.make, {
+        title: 'Welcome to Razzle Reason React',
+        initialUrl: req.url,
+      })
     );
     res.send(
       `<!doctype html>

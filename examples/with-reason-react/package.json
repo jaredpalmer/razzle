@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "reason-react": "^0.5.3"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "reason-react": "^0.7.0"
   },
   "devDependencies": {
     "bs-platform": "^7.2.2",
     "concurrently": "^4.0.1",
-    "razzle": "^2.4.1"
+    "razzle": "^3.0.0"
   }
 }
