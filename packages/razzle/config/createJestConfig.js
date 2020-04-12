@@ -2,11 +2,11 @@
 
 const fs = require('fs');
 const chalk = require('chalk');
-const paths = require('./paths');
+const defaultPaths = require('./paths');
 
 // first search for setupTests.ts file
 // if .ts file not exists then looks for setupTests.js
-function getSetupTestsFilePath() {
+function getSetupTestsFilePath(paths) {
   const path = '<rootDir>/src/setupTests';
   if (fs.existsSync(paths.tsTestsSetup)) {
     return path.concat('.ts');
@@ -16,17 +16,17 @@ function getSetupTestsFilePath() {
   }
 }
 
-module.exports = (resolve, rootDir) => {
+module.exports = (resolve, rootDir, paths) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsFile = getSetupTestsFilePath();
+  const setupTestsFile = getSetupTestsFilePath(paths ? defaultPaths : paths);
 
   // TODO: I don't know if it's safe or not to just use / as path separator
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
     collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
     setupTestFrameworkScriptFile: setupTestsFile,
-    setupFiles: [resolve('config/polyfills.js')],
+    // setupFiles: [resolve('config/polyfills.js')],
     testMatch: [
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}',
@@ -41,7 +41,7 @@ module.exports = (resolve, rootDir) => {
       ),
     },
     transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$'],
-    moduleDirectories: ["node_modules"],
+    moduleDirectories: ['node_modules'],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
     },

@@ -19,6 +19,7 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 const defaultPaths = require('../config/paths');
 const createConfig = require('../config/createConfig');
+const loadRazzleConfig = require('../config/loadRazzleConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -36,137 +37,109 @@ const clientOnly = cliArgs.type === 'spa';
 // Capture the type (isomorphic or single-page) as an environment variable
 process.env.BUILD_TYPE = cliArgs.type;
 
-// First, read the current file sizes in build directory.
-// This lets us display how much they changed later.
-measureFileSizesBeforeBuild(defaultPaths.appBuildPublic)
-  .then(previousFileSizes => {
-    // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(defaultPaths.appBuild);
+loadRazzleConfig(webpack, defaultPaths).then(
+  async ({ razzle, webpackObject, plugins, paths }) => {
+    // First, read the current file sizes in build directory.
+    // This lets us display how much they changed later.
+    measureFileSizesBeforeBuild(paths.appBuildPublic)
+      .then(previousFileSizes => {
+        // Remove all content but keep the directory so that
+        // if you're in it, you don't end up in Trash
+        fs.emptyDirSync(paths.appBuild);
 
-    // Merge with the public folder
-    copyPublicFolder(defaultPaths);
+        // Merge with the public folder
+        copyPublicFolder();
 
-    // Start the webpack build
-    return build(previousFileSizes);
-  })
-  .then(
-    ({ stats, previousFileSizes, warnings }) => {
-      if (warnings.length) {
-        console.log(chalk.yellow('Compiled with warnings.\n'));
-        console.log(warnings.join('\n\n'));
-        console.log(
-          '\nSearch for the ' +
-            chalk.underline(chalk.yellow('keywords')) +
-            ' to learn more about each warning.'
-        );
-        console.log(
-          'To ignore, add ' +
-            chalk.cyan('// eslint-disable-next-line') +
-            ' to the line before.\n'
-        );
-      } else {
-        console.log(chalk.green('Compiled successfully.\n'));
-      }
-      console.log('File sizes after gzip:\n');
-      printFileSizesAfterBuild(stats, previousFileSizes, defaultPaths.appBuild);
-      console.log();
-    },
-    err => {
-      console.log(chalk.red('Failed to compile.\n'));
-      console.log((err.message || err) + '\n');
-      process.exit(1);
-    }
-  );
-
-function build(previousFileSizes) {
-  let razzle = {};
-
-  // Check for razzle.config.js file
-  if (fs.existsSync(defaultPaths.appRazzleConfig)) {
-    try {
-      razzle = require(defaultPaths.appRazzleConfig);
-    } catch (e) {
-      clearConsole();
-      logger.error('Invalid razzle.config.js file.', e);
-      process.exit(1);
-    }
-  }
-
-  if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
-    logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated.
-Please use a .env file instead.
-
-${razzle.host !== 'localhost' && `HOST=${razzle.host}`}
-${razzle.port !== '3000' && `PORT=${razzle.port}`}
-`);
-  }
-  let serverConfig;
-  let clientConfig;
-  // Create our production webpack configurations and pass in razzle options.
-  clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
-
-  if (!clientOnly) {
-    serverConfig = createConfig('node', 'prod', razzle, webpack);
-  }
-
-  process.noDeprecation = true; // turns off that loadQuery clutter.
-
-  console.log('Creating an optimized production build...');
-  console.log('Compiling client...');
-  // First compile the client. We need it to properly output assets.json (asset
-  // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
-  // the server compiler.
-  return new Promise((resolve, reject) => {
-    compile(clientConfig.config, (err, clientStats) => {
-      if (err) {
-        reject(err);
-      }
-      const clientMessages = formatWebpackMessages(
-        clientStats.toJson({}, true)
+        // Start the webpack build
+        return build(previousFileSizes);
+      })
+      .then(
+        ({ stats, previousFileSizes, warnings }) => {
+          if (warnings.length) {
+            console.log(chalk.yellow('Compiled with warnings.\n'));
+            console.log(warnings.join('\n\n'));
+            console.log(
+              '\nSearch for the ' +
+                chalk.underline(chalk.yellow('keywords')) +
+                ' to learn more about each warning.'
+            );
+            console.log(
+              'To ignore, add ' +
+                chalk.cyan('// eslint-disable-next-line') +
+                ' to the line before.\n'
+            );
+          } else {
+            console.log(chalk.green('Compiled successfully.\n'));
+          }
+          console.log('File sizes after gzip:\n');
+          printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild);
+          console.log();
+        },
+        err => {
+          console.log(chalk.red('Failed to compile.\n'));
+          console.log((err.message || err) + '\n');
+          process.exit(1);
+        }
       );
-      if (clientMessages.errors.length) {
-        return reject(new Error(clientMessages.errors.join('\n\n')));
-      }
-      if (
-        process.env.CI &&
-        (typeof process.env.CI !== 'string' ||
-          process.env.CI.toLowerCase() !== 'false') &&
-        clientMessages.warnings.length
-      ) {
-        console.log(
-          chalk.yellow(
-            '\nTreating warnings as errors because process.env.CI = true.\n' +
-              'Most CI servers set it automatically.\n'
-          )
-        );
-        return reject(new Error(clientMessages.warnings.join('\n\n')));
+
+    function build(previousFileSizes) {
+      if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
+        logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated.
+  Please use a .env file instead.
+
+  ${razzle.host !== 'localhost' && `HOST=${razzle.host}`}
+  ${razzle.port !== '3000' && `PORT=${razzle.port}`}
+  `);
       }
 
-      console.log(chalk.green('Compiled client successfully.'));
-      if (clientOnly) {
-        return resolve({
-          stats: clientStats,
-          previousFileSizes,
-          warnings: clientMessages.warnings,
-        });
-      } else {
-        console.log('Compiling server...');
-        compile(serverConfig.config, (err, serverStats) => {
+      return new Promise(async (resolve, reject) => {
+        let serverConfig;
+        let clientConfig;
+        // Create our production webpack configurations and pass in razzle options.
+        clientConfig = await createConfig(
+          'web',
+          'prod',
+          razzle,
+          webpackObject,
+          clientOnly,
+          paths,
+          plugins
+        );
+
+        if (!clientOnly) {
+          serverConfig = await createConfig(
+            'node',
+            'prod',
+            razzle,
+            webpackObject,
+            clientOnly,
+            paths,
+            plugins
+          );
+        }
+
+        process.noDeprecation = true; // turns off that loadQuery clutter.
+
+        console.log('Creating an optimized production build...');
+        console.log('Compiling client...');
+        // First compile the client. We need it to properly output assets.json (asset
+        // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
+        // the server compiler.
+        compile(clientConfig.config, (err, clientStats) => {
           if (err) {
             reject(err);
           }
-          const serverMessages = formatWebpackMessages(
-            serverStats.toJson({}, true)
+          const clientMessages = formatWebpackMessages(
+            clientStats.toJson({}, true)
           );
-          if (serverMessages.errors.length) {
-            return reject(new Error(serverMessages.errors.join('\n\n')));
+          if (clientMessages.errors.length) {
+            return reject(new Error(clientMessages.errors.join('\n\n')));
           }
           if (
             process.env.CI &&
             (typeof process.env.CI !== 'string' ||
               process.env.CI.toLowerCase() !== 'false') &&
-            serverMessages.warnings.length
+            clientMessages.warnings.length
           ) {
             console.log(
               chalk.yellow(
@@ -174,42 +147,78 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
                   'Most CI servers set it automatically.\n'
               )
             );
-            return reject(new Error(serverMessages.warnings.join('\n\n')));
+            return reject(new Error(clientMessages.warnings.join('\n\n')));
           }
-          console.log(chalk.green('Compiled server successfully.'));
-          return resolve({
-            stats: clientStats,
-            previousFileSizes,
-            warnings: Object.assign(
-              {},
-              clientMessages.warnings,
-              serverMessages.warnings
-            ),
-          });
+
+          console.log(chalk.green('Compiled client successfully.'));
+          if (clientOnly) {
+            return resolve({
+              stats: clientStats,
+              previousFileSizes,
+              warnings: clientMessages.warnings,
+            });
+          } else {
+            console.log('Compiling server...');
+            compile(serverConfig.config, (err, serverStats) => {
+              if (err) {
+                reject(err);
+              }
+              const serverMessages = formatWebpackMessages(
+                serverStats.toJson({}, true)
+              );
+              if (serverMessages.errors.length) {
+                return reject(new Error(serverMessages.errors.join('\n\n')));
+              }
+              if (
+                process.env.CI &&
+                (typeof process.env.CI !== 'string' ||
+                  process.env.CI.toLowerCase() !== 'false') &&
+                serverMessages.warnings.length
+              ) {
+                console.log(
+                  chalk.yellow(
+                    '\nTreating warnings as errors because process.env.CI = true.\n' +
+                      'Most CI servers set it automatically.\n'
+                  )
+                );
+                return reject(new Error(serverMessages.warnings.join('\n\n')));
+              }
+              console.log(chalk.green('Compiled server successfully.'));
+              return resolve({
+                stats: clientStats,
+                previousFileSizes,
+                warnings: Object.assign(
+                  {},
+                  clientMessages.warnings,
+                  serverMessages.warnings
+                ),
+              });
+            });
+          }
         });
+      });
+    }
+
+    // Helper function to copy public directory to build/public
+    function copyPublicFolder() {
+      fs.copySync(paths.appPublic, paths.appBuildPublic, {
+        dereference: true,
+        filter: file => file !== paths.appHtml,
+      });
+    }
+
+    // Wrap webpackcompile in a try catch.
+    function compile(config, cb) {
+      let compiler;
+      try {
+        compiler = webpackObject(config);
+      } catch (e) {
+        printErrors('Failed to compile.', [e]);
+        process.exit(1);
       }
-    });
-  });
-}
-
-// Helper function to copy public directory to build/public
-function copyPublicFolder(paths) {
-  fs.copySync(paths.appPublic, paths.appBuildPublic, {
-    dereference: true,
-    filter: file => file !== paths.appHtml,
-  });
-}
-
-// Wrap webpack compile in a try catch.
-function compile(config, cb) {
-  let compiler;
-  try {
-    compiler = webpack(config);
-  } catch (e) {
-    printErrors('Failed to compile.', [e]);
-    process.exit(1);
+      compiler.run((err, stats) => {
+        cb(err, stats);
+      });
+    }
   }
-  compiler.run((err, stats) => {
-    cb(err, stats);
-  });
-}
+);

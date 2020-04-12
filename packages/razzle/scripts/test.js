@@ -37,35 +37,26 @@ if (
   argv.push('--watch');
 }
 
+const webpack = require('webpack');
+const loadRazzleConfig = require('../config/loadRazzleConfig');
 const createJestConfig = require('../config/createJestConfig');
 const path = require('path');
 const fs = require('fs-extra');
 const defaultPaths = require('../config/paths');
 
-let razzle = {};
-// Check for razzle.config.js file
-if (fs.existsSync(defaultPaths.appRazzleConfig)) {
-  try {
-    razzle = require(defaultPaths.appRazzleConfig);
-  } catch (e) {
-    console.error('Invalid razzle.config.js file.', e);
-    process.exit(1);
+loadRazzleConfig(webpack, defaultPaths).then(
+  ({ razzle, webpackObject, plugins, paths }) => {
+    argv.push(
+      '--config',
+      JSON.stringify(
+        createJestConfig(
+          relativePath => path.resolve(__dirname, '..', relativePath),
+          path.resolve(paths.appSrc, '..'),
+          paths
+        )
+      )
+    );
+
+    jest.run(argv);
   }
-}
-
-// Allow overriding paths
-const paths = razzle.modifyPaths
-  ? razzle.modifyPaths('test', defaultPaths)
-  : defaultPaths;
-
-argv.push(
-  '--config',
-  JSON.stringify(
-    createJestConfig(
-      relativePath => path.resolve(__dirname, '..', relativePath),
-      path.resolve(paths.appSrc, '..')
-    )
-  )
 );
-
-jest.run(argv);
