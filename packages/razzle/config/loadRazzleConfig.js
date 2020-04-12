@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const logger = require('razzle-dev-utils/logger');
 
 module.exports = (webpackObject, defaultPaths) => {
   return new Promise(async resolve => {
