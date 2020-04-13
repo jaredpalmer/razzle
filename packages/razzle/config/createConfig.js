@@ -108,11 +108,15 @@ module.exports = (
       console.log('Using .babelrc defined in your app root');
     }
 
-    const dotenv = getClientEnv(target, {
-      clearConsole: razzle.clearConsole,
-      host: razzle.host,
-      port: razzle.port,
-    });
+    const dotenv = getClientEnv(
+      target,
+      {
+        clearConsole: razzle.clearConsole,
+        host: razzle.host,
+        port: razzle.port,
+      },
+      paths
+    );
 
     const portOffset = clientOnly ? 0 : 1;
 
@@ -204,7 +208,7 @@ module.exports = (
       // the users', so we use resolve and resolveLoader.
       resolve: {
         modules: ['node_modules', paths.appNodeModules].concat(
-          modules.additionalModulePaths || []
+          modules(paths).additionalModulePaths || []
         ),
         extensions: ['.mjs', '.js', '.jsx', '.json'],
         alias: {
