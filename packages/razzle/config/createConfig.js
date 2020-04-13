@@ -73,7 +73,7 @@ module.exports = (
       );
     }
 
-    // Check if razzle.config has a modifyPaths function. If it does, call it on the
+    // Check if razzle.config has a modifyConfigPaths function. If it does, call it on the
     // paths we created.
     paths = razzle.modifyConfigPaths
       ? await Promise.resolve(
@@ -182,7 +182,7 @@ module.exports = (
       );
     }
 
-    // Check if razzle.config has a modifyOptions function. If it does, call it on the
+    // Check if razzle.config has a modifyConfigOptions function. If it does, call it on the
     // configOptions we created.
     configOptions = razzle.modifyConfigOptions
       ? await Promise.resolve(

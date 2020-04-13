@@ -28,6 +28,12 @@ module.exports = (webpackObject, defaultPaths) => {
       );
     }
 
+    // Check if razzle.config has a modifyPaths function. If it does, call it on the
+    // paths we created.
+    paths = razzle.modifyPaths
+      ? await Promise.resolve(razzle.modifyPaths(paths))
+      : paths;
+
     resolve({ razzle, webpackObject, plugins, paths });
   });
 };
