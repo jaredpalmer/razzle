@@ -28,7 +28,7 @@ jobs:
       run: yarn install --frozen-lockfile --ignore-engines
 
     - name: Run tests
-      run: yarn e2e --runInBand --coverage
+      run: yarn test --runInBand --coverage
       env:
         CI: true
 
