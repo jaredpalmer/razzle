@@ -22,7 +22,7 @@
     "serve": "^11.3.0"
   },
   "scripts": {
-    "test": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
+    "test:ci": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
     "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes && node ./scripts/clean.js",
     "changelog": "lerna-changelog",
@@ -58,11 +58,6 @@
     ]
   },
   "workspaces": [
-    "packages/razzle",
-    "packages/babel-preset-razzle",
-    "packages/create-razzle-app",
-    "packages/razzle-dev-utils",
-    "packages/razzle-plugin-*",
-    "examples/*"
+    "packages/*"
   ]
 }

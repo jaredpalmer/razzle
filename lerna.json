@@ -1,18 +1,16 @@
 {
   "lerna": "3.20.2",
-  "packages": [
-    "packages/razzle",
-    "packages/babel-preset-razzle",
-    "packages/create-razzle-app",
-    "packages/razzle-dev-utils",
-    "packages/razzle-plugin-*",
-    "examples/*"
-  ],
+  "packages": ["packages/*"],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "bootstrap": {
       "nohoist": "express"
+    },
+    "publish": {
+      "npmClient": "npm",
+      "allowBranch": ["master", "canary"],
+      "registry": "https://registry.npmjs.org/"
     }
   },
   "changelog": {
