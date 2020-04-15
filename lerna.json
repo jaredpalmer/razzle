@@ -1,5 +1,5 @@
 {
-  "lerna": "2.10.1",
+  "lerna": "3.20.2",
   "packages": [
     "packages/razzle",
     "packages/babel-preset-razzle",
@@ -10,9 +10,8 @@
   ],
   "useWorkspaces": true,
   "npmClient": "yarn",
-  "commands": {
+  "command": {
     "bootstrap": {
-      "hoist": true,
       "nohoist": "express"
     }
   },
