@@ -1,0 +1,18 @@
+examples:
+  - examples/*
+  - examples/**/*
+
+razzle: 
+  - packages/razzle/*
+  - packages/razzle/**/*
+
+webpack: 
+  - packages/razzle/*
+  - packages/razzle/**/*
+
+plugins: 
+  - packages/razzle-plugin-*/*
+  - packages/razzle-plugin-*/**/*
+
+repo:
+  - ./*
