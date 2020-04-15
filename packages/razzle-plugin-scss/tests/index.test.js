@@ -69,19 +69,16 @@ const nodeLoaderTests = [
     loaderFinder: cssLoaderFinder,
   },
   {
-    name: 'should not add postcss-loader',
+    name: 'should add postcss-loader',
     loaderFinder: postCssLoaderFinder,
-    status: 'falsy',
   },
   {
-    name: 'should not add resolve-url-loader',
+    name: 'should add resolve-url-loader',
     loaderFinder: resolveUrlLoaderFinder,
-    status: 'falsy',
   },
   {
-    name: 'should not add sass-loader',
+    name: 'should add sass-loader',
     loaderFinder: sassLoaderFinder,
-    status: 'falsy',
   },
 ];
 
