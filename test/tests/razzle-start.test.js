@@ -8,7 +8,7 @@ const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
 
-// shell.config.silent = true;
+shell.config.silent = true;
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
