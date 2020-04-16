@@ -17,12 +17,14 @@
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
     "ps-tree": "1.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "semver": "7.1.3",
-    "shelljs": "^0.8.3",
-    "serve": "^11.3.0"
+    "serve": "^11.3.0",
+    "shelljs": "^0.8.3"
   },
   "scripts": {
-    "test": "yarn test:packages && yarn test:e2e",
+    "test": "yarn test:e2e",
     "test:packages": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
     "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes",
@@ -61,6 +63,10 @@
     ]
   },
   "workspaces": [
-    "packages/*"
+    "packages/razzle",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*"
   ]
 }

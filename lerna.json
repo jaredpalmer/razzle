@@ -1,6 +1,12 @@
 {
   "lerna": "3.20.2",
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/razzle",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*"
+  ],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
