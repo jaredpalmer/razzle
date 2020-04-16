@@ -52,6 +52,9 @@ loadRazzleConfig(webpack, defaultPaths).then(
         createJestConfig(
           relativePath => path.resolve(__dirname, '..', relativePath),
           path.resolve(paths.appSrc, '..'),
+          razzle,
+          webpackObject,
+          plugins,
           paths
         )
       )

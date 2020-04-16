@@ -1,41 +1,38 @@
 'use strict';
 
-const defaultPaths = require('./paths');
 const fs = require('fs-extra');
 const path = require('path');
 
-// Make sure that including paths.js after env.js will read .env variables.
-delete require.cache[require.resolve('./paths')];
-
-const NODE_ENV = process.env.NODE_ENV;
-if (!NODE_ENV) {
-  throw new Error(
-    'The NODE_ENV environment variable is required but was not specified.'
-  );
-}
-
-// https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-var dotenvFiles = [
-  `${defaultPaths.dotenv}.${NODE_ENV}.local`,
-  `${defaultPaths.dotenv}.${NODE_ENV}`,
-  `${defaultPaths.dotenv}.local`,
-  defaultPaths.dotenv,
-];
-// Load environment variables from .env* files. Suppress warnings using silent
-// if this file is missing. dotenv will never modify any environment variables
-// that have already been set. Variable expansion is supported in .env files.
-// https://github.com/motdotla/dotenv
-// https://github.com/motdotla/dotenv-expand
-dotenvFiles.forEach(dotenvFile => {
-  if (fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(
-      require('dotenv').config({
-        path: dotenvFile,
-      })
+function setupEnvironment(paths) {
+  const NODE_ENV = process.env.NODE_ENV;
+  if (!NODE_ENV) {
+    throw new Error(
+      'The NODE_ENV environment variable is required but was not specified.'
     );
   }
-});
 
+  // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
+  var dotenvFiles = [
+    `${paths.dotenv}.${NODE_ENV}.local`,
+    `${paths.dotenv}.${NODE_ENV}`,
+    `${paths.dotenv}.local`,
+    paths.dotenv,
+  ];
+  // Load environment variables from .env* files. Suppress warnings using silent
+  // if this file is missing. dotenv will never modify any environment variables
+  // that have already been set. Variable expansion is supported in .env files.
+  // https://github.com/motdotla/dotenv
+  // https://github.com/motdotla/dotenv-expand
+  dotenvFiles.forEach(dotenvFile => {
+    if (fs.existsSync(dotenvFile)) {
+      require('dotenv-expand')(
+        require('dotenv').config({
+          path: dotenvFile,
+        })
+      );
+    }
+  });
+}
 // Grab NODE_ENV and RAZZLE_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
 const RAZZLE = /^RAZZLE_/i;
@@ -82,4 +79,5 @@ function getClientEnvironment(target, options, paths) {
 
 module.exports = {
   getClientEnv: getClientEnvironment,
+  setupEnvironment: setupEnvironment,
 };

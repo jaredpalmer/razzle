@@ -7,7 +7,7 @@ function loadPlugin(plugin) {
   }
 
   if (typeof plugin === 'function') {
-    return plugin;
+    return [plugin, {}];
   }
 
   const completePluginName = `razzle-plugin-${plugin.name}`;
@@ -18,7 +18,7 @@ function loadPlugin(plugin) {
     throw new Error(`Unable to find '${completePluginName}`);
   }
 
-  return razzlePlugin;
+  return [razzlePlugin, plugin.options];
 }
 
 function loadPlugins(plugins) {

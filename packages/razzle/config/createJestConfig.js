@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const chalk = require('chalk');
-const defaultPaths = require('./paths');
 
 // first search for setupTests.ts file
 // if .ts file not exists then looks for setupTests.js
@@ -16,10 +15,35 @@ function getSetupTestsFilePath(paths) {
   }
 }
 
-module.exports = (resolve, rootDir, paths) => {
+module.exports = (
+  resolve,
+  rootDir,
+  razzle,
+  webpackObject,
+  plugins,
+  razzlePaths
+) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsFile = getSetupTestsFilePath(paths ? defaultPaths : paths);
+
+  // Allow overriding paths
+  let paths = Object.assign({}, razzlePaths);
+
+  for (const [plugin, options] of plugins) {
+    // Check if plugin has a modifyJestPaths function.
+    // If it does, call it on the paths we created.
+    if (plugin.modifyJestPaths) {
+      paths = plugin.modifyJestPaths(paths, webpackObject, options);
+    }
+  }
+
+  // Check if razzle.config.js has a modifyJestPaths function.
+  // If it does, call it on the paths we created.
+  paths = razzle.modifyJestPaths
+    ? razzle.modifyJestPaths(paths, webpackObject)
+    : paths;
+
+  const setupTestsFile = getSetupTestsFilePath(paths);
 
   // TODO: I don't know if it's safe or not to just use / as path separator
   // in Jest configs. We need help from somebody with Windows to determine this.
@@ -95,5 +119,20 @@ module.exports = (resolve, rootDir, paths) => {
       process.exit(1);
     }
   }
+
+  for (const [plugin, options] of plugins) {
+    // Check if plugin has a modifyJestPaths function.
+    // If it does, call it on the configs we created.
+    if (plugin.modifyJestConfig) {
+      config = plugin.modifyJestConfig(config, webpackObject, paths, options);
+    }
+  }
+
+  // Check if razzle.config.js has a modifyJestConfig function.
+  // If it does, call it on the configs we created.
+  config = razzle.modifyJestConfig
+    ? razzle.modifyJestConfig(config, webpackObject, paths)
+    : paths;
+
   return config;
 };

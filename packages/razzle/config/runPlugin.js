@@ -1,35 +1,16 @@
 'use strict';
 
-function runPlugin(
-  plugin,
-  modifyObject,
-  env,
-  webpack,
-  paths,
-  configOptions,
-  func
-) {
-  if ((typeof plugin === 'function' && func === 'modifyConfig') || !func) {
-    return plugin(modifyObject, env, webpack);
+function runPlugin(plugin, config, { target, dev }, webpack, options) {
+  if (typeof plugin === 'function') {
+    return plugin(config, { target, dev }, webpack, options);
   }
 
-  if ((typeof plugin.func === 'function' && func === 'modifyConfig') || !func) {
+  if (typeof plugin.func === 'function') {
     // Used for writing plugin tests
-    return plugin.func(modifyObject, env, webpack, plugin.options);
+    return plugin.func(config, { target, dev }, webpack, plugin.options);
   }
 
-  if (plugin[func]) {
-    return plugin[func](
-      modifyObject,
-      env,
-      webpack,
-      plugin.options,
-      paths,
-      configOptions
-    );
-  } else {
-    return modifyObject;
-  }
+  return config;
 }
 
 module.exports = runPlugin;

@@ -40,8 +40,8 @@ module.exports = (
   razzle,
   webpackObject,
   clientOnly = false,
-  razzlePaths = defaultPaths,
-  razzlePlugins = []
+  razzlePaths,
+  plugins
 ) => {
   return new Promise(async resolve => {
     // Define some useful shorthands.
@@ -53,58 +53,50 @@ module.exports = (
 
     // Allow overriding paths
     let paths = Object.assign({}, razzlePaths);
-    const plugins = razzlePlugins
-      ? razzlePlugins
-      : Array.isArray(razzle.plugins)
-      ? loadPlugins(razzle.plugins)
-      : [];
 
-    // Apply modifyConfigPaths razzle plugins
-    for (const plugin of plugins) {
-      paths = await Promise.resolve(
-        runPlugin(
-          plugin,
+    for (const [plugin, options] of plugins) {
+      // Check if plugin has a modifyConfigPaths function.
+      // If it does, call it on the paths we created.
+      if (plugin.modifyConfigPaths) {
+        paths = plugin.modifyConfigPaths(
           paths,
           { target, dev: IS_DEV },
-          {},
-          {},
-          'modifyConfigPaths'
-        )
-      );
+          webpackObject,
+          options
+        );
+      }
     }
 
-    // Check if razzle.config has a modifyConfigPaths function. If it does, call it on the
-    // paths we created.
+    // Check if razzle.config.js has a modifyConfigPaths function.
+    // If it does, call it on the paths we created.
     paths = razzle.modifyConfigPaths
-      ? await Promise.resolve(
-          razzle.modifyConfigPaths({ target, dev: IS_DEV }, paths)
-        )
+      ? razzle.modifyConfigPaths(paths, { target, dev: IS_DEV }, webpackObject)
       : paths;
 
-    let configOptions = {};
+    let configContext = {};
 
     // First we check to see if the user has a custom .babelrc file, otherwise
     // we just use babel-preset-razzle.
     const hasBabelRc = fs.existsSync(paths.appBabelRc);
-    configOptions.mainBabelOptions = {
+    configContext.mainBabelOptions = {
       babelrc: true,
       cacheDirectory: true,
       presets: [],
     };
 
     if (!hasBabelRc) {
-      configOptions.mainBabelOptions.presets.push(require.resolve('../babel'));
+      configContext.mainBabelOptions.presets.push(require.resolve('../babel'));
     }
 
     // Allow app to override babel options
-    configOptions.babelOptions = razzle.modifyBabelOptions
-      ? razzle.modifyBabelOptions(configOptions.mainBabelOptions, {
+    configContext.babelOptions = razzle.modifyBabelOptions
+      ? razzle.modifyBabelOptions(configContext.mainBabelOptions, {
           target,
           dev: IS_DEV,
         })
-      : configOptions.mainBabelOptions;
+      : configContext.mainBabelOptions;
 
-    if (hasBabelRc && configOptions.babelOptions.babelrc) {
+    if (hasBabelRc && configContext.babelOptions.babelrc) {
       console.log('Using .babelrc defined in your app root');
     }
 
@@ -129,12 +121,12 @@ module.exports = (
       dotenv.raw.CLIENT_PUBLIC_PATH ||
       (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
 
-    configOptions.context = process.cwd();
+    configContext.context = process.cwd();
 
-    configOptions.staticPrefix = 'static';
-    configOptions.mediaPrefix = 'static/media';
+    configContext.staticPrefix = 'static';
+    configContext.mediaPrefix = 'static/media';
 
-    configOptions.fileLoaderExclude = [
+    configContext.fileLoaderExclude = [
       /\.html$/,
       /\.(js|jsx|mjs)$/,
       /\.(ts|tsx)$/,
@@ -149,10 +141,10 @@ module.exports = (
       /\.png$/,
     ];
 
-    configOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
+    configContext.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
 
     if (IS_NODE) {
-      configOptions.nodeExternalsWhitelist = [
+      configContext.nodeExternalsWhitelist = [
         IS_DEV ? 'webpack/hot/poll?300' : null,
         /\.(eot|woff|woff2|ttf|otf)$/,
         /\.(svg|png|jpg|jpeg|gif|ico)$/,
@@ -161,45 +153,50 @@ module.exports = (
       ].filter(x => x);
 
       if (IS_DEV) {
-        configOptions.watchIgnorePaths = [
+        configContext.watchIgnorePaths = [
           paths.appAssetsManifest,
           paths.appChunksManifest,
         ];
       }
     }
 
-    // Apply modifyOptions razzle plugins
-    for (const plugin of plugins) {
-      configOptions = await Promise.resolve(
-        runPlugin(
-          plugin,
-          configOptions,
-          { target, dev: IS_DEV },
-          paths,
-          {},
-          'modifyConfigOptions'
-        )
-      );
+    for (const [plugin, options] of plugins) {
+      // Check if plugin has a modifyConfigContext function.
+      // If it does, call it on the configContext we created.
+      // Await promise if one is returned.
+      if (plugin.modifyConfigContext) {
+        configContext = await Promise.resolve(
+          plugin.modifyConfigContext(
+            configContext,
+            { target, dev: IS_DEV },
+            webpackObject,
+            paths,
+            options
+          )
+        );
+      }
     }
 
-    // Check if razzle.config has a modifyConfigOptions function. If it does, call it on the
-    // configOptions we created.
-    configOptions = razzle.modifyConfigOptions
+    // Check if razzle.config has a modifyConfigContext function.
+    // If it does, call it on the configContext we created.
+    // Await promise if one is returned.
+    configContext = razzle.modifyConfigContext
       ? await Promise.resolve(
-          razzle.modifyConfigOptions(
+          razzle.modifyConfigContext(
+            configContext,
             { target, dev: IS_DEV },
-            paths,
-            configOptions
+            webpackObject,
+            paths
           )
         )
-      : configOptions;
+      : configContext;
 
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
       mode: IS_DEV ? 'development' : 'production',
       // Set webpack context to the current command's directory
-      context: configOptions.context,
+      context: configContext.context,
       // Specify target (either 'node' or 'web')
       target: target,
       // Controversially, decide on sourcemaps.
@@ -240,15 +237,15 @@ module.exports = (
             use: [
               {
                 loader: require.resolve('babel-loader'),
-                options: configOptions.babelOptions,
+                options: configContext.babelOptions,
               },
             ],
           },
           {
-            exclude: configOptions.fileLoaderExclude,
+            exclude: configContext.fileLoaderExclude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${configOptions.mediaPrefix}/[name].[hash:8].[ext]`,
+              name: `${configContext.mediaPrefix}/[name].[hash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -256,11 +253,11 @@ module.exports = (
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
           {
-            test: configOptions.urlLoaderTest,
+            test: configContext.urlLoaderTest,
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${configOptions.mediaPrefix}/[name].[hash:8].[ext]`,
+              name: `${configContext.mediaPrefix}/[name].[hash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -385,7 +382,7 @@ module.exports = (
       // We need to tell webpack what to bundle into our Node bundle.
       config.externals = [
         nodeExternals({
-          whitelist: configOptions.nodeExternalsWhitelist,
+          whitelist: configContext.nodeExternalsWhitelist,
         }),
       ];
 
@@ -440,7 +437,7 @@ module.exports = (
             nodeArgs,
           }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
-          new webpack.WatchIgnorePlugin(configOptions.watchIgnorePaths),
+          new webpack.WatchIgnorePlugin(configContext.watchIgnorePaths),
         ];
       }
     }
@@ -518,8 +515,8 @@ module.exports = (
           publicPath: clientPublicPath,
           pathinfo: true,
           libraryTarget: 'var',
-          filename: `${configOptions.staticPrefix}/js/bundle.js`,
-          chunkFilename: `${configOptions.staticPrefix}/js/[name].chunk.js`,
+          filename: `${configContext.staticPrefix}/js/bundle.js`,
+          chunkFilename: `${configContext.staticPrefix}/js/[name].chunk.js`,
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
         };
@@ -583,8 +580,8 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${configOptions.staticPrefix}/js/bundle.[chunkhash:8].js`,
-          chunkFilename: `${configOptions.staticPrefix}/js/[name].[chunkhash:8].chunk.js`,
+          filename: `${configContext.staticPrefix}/js/bundle.[chunkhash:8].js`,
+          chunkFilename: `${configContext.staticPrefix}/js/[name].[chunkhash:8].chunk.js`,
           libraryTarget: 'var',
         };
 
@@ -594,8 +591,8 @@ module.exports = (
           new webpack.DefinePlugin(dotenv.stringified),
           // Extract our CSS into files.
           new MiniCssExtractPlugin({
-            filename: `${configOptions.staticPrefix}/css/bundle.[contenthash:8].css`,
-            chunkFilename: `${configOptions.staticPrefix}/css/[name].[contenthash:8].chunk.css`,
+            filename: `${configContext.staticPrefix}/css/bundle.[contenthash:8].css`,
+            chunkFilename: `${configContext.staticPrefix}/css/[name].[contenthash:8].chunk.css`,
           }),
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
@@ -709,40 +706,55 @@ module.exports = (
       ];
     }
 
-    // Apply modifyConfig razzle plugins
-    for (const plugin of plugins) {
-      config = await Promise.resolve(
-        runPlugin(
+    for (const [plugin, options] of plugins) {
+      // Check if plugin has a modifyConfig function.
+      // If it does, call it on the configContext we created.
+      // Await promise if one is returned.
+      if (plugin.modifyConfig) {
+        config = plugin.modifyConfig(
+          config,
+          { target, dev: IS_DEV },
+          webpackObject,
+          paths,
+          configContext,
+          options
+        );
+      }
+    }
+
+    // Check if razzle.config.js has a modifyConfig function.
+    // If it does, call it on the configs we created.
+    if (razzle.modifyConfig) {
+      config = razzle.modifyConfig(
+        config,
+        { target, dev: IS_DEV },
+        webpackObject,
+        paths,
+        configContext
+      );
+    }
+
+    for (const [plugin, options] of plugins) {
+      // Check if plugin is a function.
+      // If it is, call it on the configs we created.
+      if (typeof plugin === 'function') {
+        // keep for backwards compatibility
+        config = runPlugin(
           plugin,
           config,
           { target, dev: IS_DEV },
           webpackObject,
-          paths,
-          configOptions,
-          'modifyConfig'
-        )
-      );
+          options
+        );
+      }
     }
-
-    // Check if razzle.config has a modify function. If it does, call it on the
-    // configs we created.
+    // Check if razzle.config.js has a modify function.
+    // If it does, call it on the configs we created.
     if (razzle.modify) {
       // keep for backwards compatibility
       config = razzle.modify(config, { target, dev: IS_DEV }, webpackObject);
     }
-    // Check if razzle.config has a modifyConfig function. If it does, call it on the
-    // configs we created.
-    if (razzle.modifyConfig) {
-      config = await Promise.resolve(
-        razzle.modifyConfig(
-          config,
-          { target, dev: IS_DEV },
-          webpackObject,
-          paths,
-          configOptions
-        )
-      );
-    }
+
     resolve({ config, paths });
   });
 };
