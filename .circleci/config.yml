@@ -19,7 +19,7 @@ defaults: &defaults
 
     - run:
         name: Run tests
-        command: yarn e2e --runInBand --coverage
+        command: yarn test --runInBand --coverage
 
     - save_cache:
         paths:
