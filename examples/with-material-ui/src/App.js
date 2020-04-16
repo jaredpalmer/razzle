@@ -14,17 +14,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const App = () => {
-  const classes = useStyles()
+  const classes = useStyles();
   return (
     <Paper className={classes.root} elevation={4}>
       <Typography type="headline" component="h3">
         This is a sheet of paper.
       </Typography>
       <Typography type="body1" component="p">
-        Paper can be used to build surface or other elements for your application.
+        Paper can be used to build surface or other elements for your
+        application.
       </Typography>
     </Paper>
   );
-}
+};
 
 export default App;

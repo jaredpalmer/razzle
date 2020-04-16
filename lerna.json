@@ -5,14 +5,21 @@
     "packages/babel-preset-razzle",
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
-    "packages/razzle-plugin-*",
-    "examples/*"
+    "packages/razzle-plugin-*"
   ],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "bootstrap": {
       "nohoist": "express"
+    },
+    "publish": {
+      "npmClient": "npm",
+      "allowBranch": [
+        "master",
+        "canary"
+      ],
+      "registry": "https://registry.npmjs.org/"
     }
   },
   "changelog": {
@@ -27,5 +34,5 @@
     },
     "cacheDir": ".changelog"
   },
-  "version": "3.0.0"
+  "version": "3.1.0-canary.1"
 }
