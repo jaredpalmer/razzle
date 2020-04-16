@@ -8,7 +8,7 @@ const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
 
-shell.config.silent = true;
+// shell.config.silent = true;
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
@@ -21,12 +21,9 @@ describe('razzle start', () => {
     it('should start a dev server', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(
-          `${path.join('./node_modules/.bin/razzle')} start`,
-          () => {
-            resolve(outputTest);
-          }
-        );
+        const child = shell.exec('./node_modules/.bin/razzle start', () => {
+          resolve(outputTest);
+        });
         child.stdout.on('data', data => {
           if (data.includes('Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
@@ -72,7 +69,7 @@ describe('razzle start', () => {
 
     it('should build and run', () => {
       let outputTest;
-      shell.exec(`${path.join('./node_modules/.bin/razzle')} build`);
+      shell.exec('./node_modules/.bin/razzle build');
       const run = new Promise(resolve => {
         const child = shell.exec('node build/server.js', () => {
           resolve(outputTest);
