@@ -21,27 +21,10 @@ module.exports = (
   razzle,
   webpackObject,
   plugins,
-  razzlePaths
+  paths
 ) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-
-  // Allow overriding paths
-  let paths = Object.assign({}, razzlePaths);
-
-  for (const [plugin, options] of plugins) {
-    // Check if plugin has a modifyJestPaths function.
-    // If it does, call it on the paths we created.
-    if (plugin.modifyJestPaths) {
-      paths = plugin.modifyJestPaths(paths, webpackObject, options);
-    }
-  }
-
-  // Check if razzle.config.js has a modifyJestPaths function.
-  // If it does, call it on the paths we created.
-  paths = razzle.modifyJestPaths
-    ? razzle.modifyJestPaths(paths, webpackObject)
-    : paths;
 
   const setupTestsFile = getSetupTestsFilePath(paths);
 
@@ -121,7 +104,7 @@ module.exports = (
   }
 
   for (const [plugin, options] of plugins) {
-    // Check if plugin has a modifyJestPaths function.
+    // Check if plugin has a modifyJestConfig function.
     // If it does, call it on the configs we created.
     if (plugin.modifyJestConfig) {
       config = plugin.modifyJestConfig(config, webpackObject, paths, options);

@@ -40,7 +40,7 @@ module.exports = (
   razzle,
   webpackObject,
   clientOnly = false,
-  razzlePaths,
+  paths,
   plugins
 ) => {
   return new Promise(async resolve => {
@@ -50,28 +50,6 @@ module.exports = (
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
-    // Allow overriding paths
-    let paths = Object.assign({}, razzlePaths);
-
-    for (const [plugin, options] of plugins) {
-      // Check if plugin has a modifyConfigPaths function.
-      // If it does, call it on the paths we created.
-      if (plugin.modifyConfigPaths) {
-        paths = plugin.modifyConfigPaths(
-          paths,
-          { target, dev: IS_DEV },
-          webpackObject,
-          options
-        );
-      }
-    }
-
-    // Check if razzle.config.js has a modifyConfigPaths function.
-    // If it does, call it on the paths we created.
-    paths = razzle.modifyConfigPaths
-      ? razzle.modifyConfigPaths(paths, { target, dev: IS_DEV }, webpackObject)
-      : paths;
 
     let configContext = {};
 
@@ -177,7 +155,7 @@ module.exports = (
       }
     }
 
-    // Check if razzle.config has a modifyConfigContext function.
+    // Check if razzle.config.js has a modifyConfigContext function.
     // If it does, call it on the configContext we created.
     // Await promise if one is returned.
     configContext = razzle.modifyConfigContext
@@ -708,29 +686,34 @@ module.exports = (
 
     for (const [plugin, options] of plugins) {
       // Check if plugin has a modifyConfig function.
-      // If it does, call it on the configContext we created.
+      // If it does, call it on the config we created.
       // Await promise if one is returned.
       if (plugin.modifyConfig) {
-        config = plugin.modifyConfig(
-          config,
-          { target, dev: IS_DEV },
-          webpackObject,
-          paths,
-          configContext,
-          options
+        config = await Promise.resolve(
+            plugin.modifyConfig(
+            config,
+            { target, dev: IS_DEV },
+            webpackObject,
+            paths,
+            configContext,
+            options
+          )
         );
       }
     }
 
     // Check if razzle.config.js has a modifyConfig function.
     // If it does, call it on the configs we created.
+    // Await promise if one is returned.
     if (razzle.modifyConfig) {
-      config = razzle.modifyConfig(
-        config,
-        { target, dev: IS_DEV },
-        webpackObject,
-        paths,
-        configContext
+      config = await Promise.resolve(
+        razzle.modifyConfig(
+          config,
+          { target, dev: IS_DEV },
+          webpackObject,
+          paths,
+          configContext
+        )
       );
     }
 
