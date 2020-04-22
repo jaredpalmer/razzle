@@ -15,7 +15,6 @@ jobs:
         with:
           node-version: 12
       - run: yarn install --frozen-lockfile
-      - run: yarn test
         env:
           CI: true
       - name: Potentially save npm token
