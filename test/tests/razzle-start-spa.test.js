@@ -23,7 +23,7 @@ describe('razzle start', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          './node_modules/.bin/razzle start --type=spa',
+          './node_modules/.bin/razzle start --type=spa --verbose',
           () => {
             resolve(outputTest);
           }

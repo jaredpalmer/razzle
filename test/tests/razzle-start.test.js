@@ -21,7 +21,7 @@ describe('razzle start', () => {
     it('should start a dev server', () => {
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec('./node_modules/.bin/razzle start', () => {
+        const child = shell.exec('./node_modules/.bin/razzle start --verbose', () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
@@ -46,7 +46,7 @@ describe('razzle start', () => {
       );
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec('./node_modules/.bin/razzle start', () => {
+        const child = shell.exec('./node_modules/.bin/razzle start --verbose', () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
