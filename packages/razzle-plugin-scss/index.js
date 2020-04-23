@@ -126,8 +126,9 @@ module.exports = (
       use: isServer
         ? [
             {
-              loader: require.resolve('css-loader/locals'),
+              loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
+                onlyLocals: true,
                 modules: true,
                 localIdentName: '[name]__[local]___[hash:base64:5]',
               }),
