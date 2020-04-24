@@ -44,9 +44,7 @@ describe('razzle start', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
     it('should start a dev server on different port', () => {
-      shell.cd(
-        path.join(util.rootDir, 'examples/with-custom-devserver-options')
-      );
+      util.setupStageWithExample(stageName, 'with-custom-devserver-options');
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec('./node_modules/.bin/razzle start', () => {
