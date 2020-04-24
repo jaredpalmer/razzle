@@ -10,20 +10,22 @@ const path = require('path');
 const fs = require('fs');
 
 shell.config.silent = true;
+const stageName = 'stage-start-spa';
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
     beforeAll(() => {
-      shell.cd(path.join(util.rootDir, 'examples/basic-spa'));
+      util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
     it('should start a dev server for spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          './node_modules/.bin/razzle start --type=spa',
+          'razzle start --type=spa --verbose',
           () => {
             resolve(outputTest);
           }
@@ -45,11 +47,12 @@ describe('razzle start', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run in spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec('./node_modules/.bin/razzle build --type=spa');
+      shell.exec('razzle build --type=spa');
       const run = new Promise(resolve => {
         const child = shell.exec(
-          './node_modules/.bin/serve -s build/public',
+          'serve -s build/public',
           () => {
             resolve(outputTest);
           }
@@ -67,9 +70,8 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBeTruthy());
     });
 
-    afterAll(() => {
-      shell.rm('-rf', 'build');
-      shell.cd(util.rootDir);
+    afterEach(() => {
+      util.teardownStage(stageName);
     });
   });
 });

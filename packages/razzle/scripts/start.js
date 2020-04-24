@@ -7,7 +7,7 @@ const mri = require('mri');
 const webpack = require('webpack');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
-const devServer = require('webpack-dev-server');
+const devServer = require('../config/razzleDevServer');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
@@ -28,6 +28,8 @@ process.env.INSPECT_BRK = cliArgs['inspect-brk'] || '';
 process.env.INSPECT = cliArgs.inspect || '';
 // Capture the type (isomorphic or single-page) as an environment variable
 process.env.BUILD_TYPE = cliArgs.type;
+
+const verbose = cliArgs.verbose || false;
 
 const clientOnly = cliArgs.type === 'spa';
 
@@ -116,7 +118,9 @@ function main() {
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.
-  const clientDevServer = new devServer(clientCompiler, clientConfig.devServer);
+  const clientDevServer = new devServer(clientCompiler,
+    Object.assign(clientConfig.devServer, { verbose: verbose }));
+
   // Start Webpack-dev-server
   clientDevServer.listen(port, err => {
     if (err) {
@@ -131,7 +135,7 @@ function compile(config) {
   try {
     compiler = webpack(config);
   } catch (e) {
-    printErrors('Failed to compile.', [e]);
+    printErrors('Failed to compile.', [e], verbose);
     process.exit(1);
   }
   return compiler;
