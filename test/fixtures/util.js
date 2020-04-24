@@ -13,7 +13,7 @@ module.exports = {
     shell.exec(`cp -a ${rootDir}/test/fixtures/${fixtureName}/. ${stagePath}/`);
     shell.ln(
       '-s',
-      path.join(rootDir, 'node_modules'),
+      path.join(rootDir, 'packages/razzle/node_modules'),
       path.join(stagePath, 'node_modules')
     );
     shell.cd(stagePath);
@@ -25,7 +25,7 @@ module.exports = {
     shell.exec(`cp -a ${rootDir}/examples/${exampleName}/. ${stagePath}/`);
     shell.ln(
       '-s',
-      path.join(rootDir, 'node_modules'),
+      path.join(rootDir, 'packages/razzle/node_modules'),
       path.join(stagePath, 'node_modules')
     );
     shell.cd(stagePath);
