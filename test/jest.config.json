@@ -2,6 +2,6 @@
   "roots": ["<rootDir>/tests"],
   "collectCoverageFrom": ["**/*.js"],
   "testMatch": [
-    "<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)"
+      "<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)"
   ]
 }

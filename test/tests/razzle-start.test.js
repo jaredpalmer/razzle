@@ -10,15 +10,18 @@ const path = require('path');
 
 shell.config.silent = true;
 
+const stageName = 'stage-start';
+
 describe('razzle start', () => {
   describe('razzle basic example', () => {
     beforeAll(() => {
-      shell.cd(path.join(util.rootDir, 'examples/basic'));
+      util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
     it('should start a dev server', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec('./node_modules/.bin/razzle start', () => {
@@ -68,6 +71,7 @@ describe('razzle start', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       shell.exec('./node_modules/.bin/razzle build');
       const run = new Promise(resolve => {
@@ -86,9 +90,8 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBeTruthy());
     });
 
-    afterAll(() => {
-      shell.rm('-rf', 'build');
-      shell.cd(util.rootDir);
+    afterEach(() => {
+      util.teardownStage(stageName);
     });
   });
 });
