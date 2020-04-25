@@ -15,7 +15,10 @@
     },
     "publish": {
       "npmClient": "npm",
-      "allowBranch": ["master", "next"],
+      "allowBranch": [
+        "master",
+        "next"
+      ],
       "registry": "https://registry.npmjs.org/"
     }
   },
@@ -31,5 +34,5 @@
     },
     "cacheDir": ".changelog"
   },
-  "version": "3.1.0-canary.8"
+  "version": "3.1.0-canary.9"
 }
