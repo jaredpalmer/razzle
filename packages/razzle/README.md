@@ -12,7 +12,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
-- :rocket: SPA mode, build client side apps with razzle 
+- :rocket: SPA mode, build client side apps with razzle
 
 ## Quick Start
 
@@ -32,7 +32,7 @@ Below is a list of commands you will probably find useful.
 
 ### `npm start` or `yarn start`
 
-Runs the project in development mode.  
+Runs the project in development mode.
 You can view your application at `http://localhost:3000`
 
 The page will reload if you make edits.
@@ -90,6 +90,7 @@ If your application is running, and you need to manually restart your server, yo
     - [Using Plugins](#using-plugins)
     - [Writing Plugins](#writing-plugins)
   - [Customizing Babel Config](#customizing-babel-config)
+  - [Customizing PostCSS Config](#customizing-postcss-config)
   - [Extending Webpack](#extending-webpack)
   - [CSS Modules](#css-modules)
   - [Polyfills](#polyfills)
@@ -198,6 +199,22 @@ Razzle comes with most of ES6 stuff you need. However, if you want to add your o
 ```
 
 A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
+
+### Customizing PostCSS Config
+
+Razzle comes with default PostCSS config, that transforms your css based on targeted browsers or runtime environments, thanks to [postcss-preset-env](https://github.com/csstools/postcss-preset-env). However, if you want to add custom plugins, just add a `postcss.config.js` file to the root of your project.
+
+You can read more about common PostCSS Config [here](https://github.com/michael-ciniawsky/postcss-load-config).
+
+```js
+module.exports = {
+  parser: 'sugarss',
+  map: false,
+  plugins: {
+    'postcss-plugin': {}
+  }
+}
+```
 
 ### Extending Webpack
 
@@ -330,12 +347,12 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)} 
+        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)}
     </head>
     <body>
-        <div id="root">${markup}</div> 
+        <div id="root">${markup}</div>
         <script>window.env = ${serialize(runtimeConfig)};</script>
-        ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}        
+        ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}
     </body>
 </html>`
     );
