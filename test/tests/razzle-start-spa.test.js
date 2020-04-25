@@ -23,14 +23,16 @@ describe("razzle start", () => {
     it("should start a dev server for spa mode", () => {
       util.setupStageWithExample(stageName, "basic-spa");
       let outputTest;
-      const run = new Promise((resolve) => {
-        const child = shell.exec("razzle start --type=spa --verbose", () => {
-          resolve(outputTest);
-        });
-        child.stdout.on("data", (data) => {
-          console.log(data);
-          if (data.includes("> SPA Started on port 3000")) {
-            shell.exec("sleep 5");
+      const run = new Promise(resolve => {
+        const child = shell.exec(
+          `${path.join('./node_modules/.bin/razzle')} start --type=spa --verbose`,
+          () => {
+            resolve(outputTest);
+          }
+        );
+        child.stdout.on('data', data => {
+          if (data.includes('> SPA Started on port 3000')) {
+            shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3000/static/js/bundle.js'
             );
@@ -47,15 +49,17 @@ describe("razzle start", () => {
     it("should build and run in spa mode", () => {
       util.setupStageWithExample(stageName, "basic-spa");
       let outputTest;
-      shell.exec("razzle build --type=spa");
-      const run = new Promise((resolve) => {
-        const child = shell.exec("serve -s build/public", () => {
-          resolve(outputTest);
-        });
-        child.stdout.on("data", (data) => {
-          console.log(data);
-          if (data.includes("http://localhost:5000")) {
-            shell.exec("sleep 5");
+      shell.exec(`${path.join('./node_modules/.bin/razzle')} build --type=spa`);
+      const run = new Promise(resolve => {
+        const child = shell.exec(
+          `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
+          () => {
+            resolve(outputTest);
+          }
+        );
+        child.stdout.on('data', data => {
+          if (data.includes('http://localhost:5000')) {
+            shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
             const output = shell.exec("curl -I localhost:5000");
             outputTest = output.stdout.includes("200");
