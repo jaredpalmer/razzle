@@ -15,10 +15,7 @@
     },
     "publish": {
       "npmClient": "npm",
-      "allowBranch": [
-        "master",
-        "canary"
-      ],
+      "allowBranch": ["master", "next"],
       "registry": "https://registry.npmjs.org/"
     }
   },
