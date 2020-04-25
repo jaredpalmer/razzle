@@ -11,24 +11,29 @@ const fs = require('fs');
 
 shell.config.silent = true;
 
+const stageName = 'stage-start-spa';
+
 describe('razzle start', () => {
   describe('razzle basic example', () => {
+
     beforeAll(() => {
-      shell.cd(path.join(util.rootDir, 'examples/basic-spa'));
+      util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
     it('should start a dev server for spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          './node_modules/.bin/razzle start --type=spa',
+          `${path.join('./node_modules/.bin/razzle')} start --type=spa`,
           () => {
             resolve(outputTest);
           }
         );
         child.stdout.on('data', data => {
+          console.log(data);
           if (data.includes('> SPA Started on port 3000')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
@@ -45,16 +50,18 @@ describe('razzle start', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run in spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec('./node_modules/.bin/razzle build --type=spa');
+      shell.exec(`${path.join('./node_modules/.bin/razzle')} build --type=spa`);
       const run = new Promise(resolve => {
         const child = shell.exec(
-          './node_modules/.bin/serve -s build/public',
+          `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
           () => {
             resolve(outputTest);
           }
         );
         child.stdout.on('data', data => {
+          console.log(data);
           if (data.includes('http://localhost:5000')) {
             shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
@@ -67,9 +74,5 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBeTruthy());
     });
 
-    afterAll(() => {
-      shell.rm('-rf', 'build');
-      shell.cd(util.rootDir);
-    });
   });
 });
