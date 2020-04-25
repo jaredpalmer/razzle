@@ -18,9 +18,10 @@ const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware')
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
+const postcssLoadConfig = require('postcss-load-config')
 
-const postCssOptions = {
-  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+const defaultPostCssOptions = {
+  ident: 'postcss',
   plugins: () => [
     require('postcss-flexbugs-fixes'),
     require('postcss-preset-env')({
@@ -31,6 +32,16 @@ const postCssOptions = {
     }),
   ],
 };
+
+const hasPostCssConfig = () => {
+  try {
+    return !!postcssLoadConfig.sync()
+  } catch (_error) {
+    return false
+  }
+}
+
+const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
