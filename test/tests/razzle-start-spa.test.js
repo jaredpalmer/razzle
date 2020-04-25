@@ -1,78 +1,73 @@
 /**
  * @jest-environment node
  */
-'use strict';
+"use strict";
 
-const shell = require('shelljs');
-const util = require('../fixtures/util');
-const kill = require('../utils/psKill');
-const path = require('path');
-const fs = require('fs');
+const shell = require("shelljs");
+const util = require("../fixtures/util");
+const kill = require("../utils/psKill");
+const path = require("path");
+const fs = require("fs");
 
 shell.config.silent = true;
+const stageName = "stage-start-spa";
 
-const stageName = 'stage-start-spa';
-
-describe('razzle start', () => {
-  describe('razzle basic example', () => {
-
+describe("razzle start", () => {
+  describe("razzle basic example", () => {
     beforeAll(() => {
       util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    it('should start a dev server for spa mode', () => {
-      util.setupStageWithExample(stageName, 'basic-spa');
+    it("should start a dev server for spa mode", () => {
+      util.setupStageWithExample(stageName, "basic-spa");
       let outputTest;
-      const run = new Promise(resolve => {
-        const child = shell.exec(
-          `${path.join('./node_modules/.bin/razzle')} start --type=spa`,
-          () => {
-            resolve(outputTest);
-          }
-        );
-        child.stdout.on('data', data => {
+      const run = new Promise((resolve) => {
+        const child = shell.exec("razzle start --type=spa --verbose", () => {
+          resolve(outputTest);
+        });
+        child.stdout.on("data", (data) => {
           console.log(data);
-          if (data.includes('> SPA Started on port 3000')) {
-            shell.exec('sleep 5');
+          if (data.includes("> SPA Started on port 3000")) {
+            shell.exec("sleep 5");
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3000/static/js/bundle.js'
             );
-            outputTest = devServerOutput.stdout.includes('React');
+            outputTest = devServerOutput.stdout.includes("React");
             kill(child.pid);
           }
         });
       });
-      return run.then(test => expect(test).toBeTruthy());
+      return run.then((test) => expect(test).toBeTruthy());
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
-    it('should build and run in spa mode', () => {
-      util.setupStageWithExample(stageName, 'basic-spa');
+    it("should build and run in spa mode", () => {
+      util.setupStageWithExample(stageName, "basic-spa");
       let outputTest;
-      shell.exec(`${path.join('./node_modules/.bin/razzle')} build --type=spa`);
-      const run = new Promise(resolve => {
-        const child = shell.exec(
-          `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
-          () => {
-            resolve(outputTest);
-          }
-        );
-        child.stdout.on('data', data => {
+      shell.exec("razzle build --type=spa");
+      const run = new Promise((resolve) => {
+        const child = shell.exec("serve -s build/public", () => {
+          resolve(outputTest);
+        });
+        child.stdout.on("data", (data) => {
           console.log(data);
-          if (data.includes('http://localhost:5000')) {
-            shell.exec('sleep 5');
+          if (data.includes("http://localhost:5000")) {
+            shell.exec("sleep 5");
             // we use serve package and it will run in prot 5000
-            const output = shell.exec('curl -I localhost:5000');
-            outputTest = output.stdout.includes('200');
+            const output = shell.exec("curl -I localhost:5000");
+            outputTest = output.stdout.includes("200");
             kill(child.pid);
           }
         });
       });
-      return run.then(test => expect(test).toBeTruthy());
+      return run.then((test) => expect(test).toBeTruthy());
     });
 
+    afterEach(() => {
+      util.teardownStage(stageName);
+    });
   });
 });
