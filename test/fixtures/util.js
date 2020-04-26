@@ -39,17 +39,6 @@ module.exports = {
     shell.cd(stagePath);
   },
 
-  setupStageWithExample: (stageName, exampleName) => {
-    const stagePath = path.join(rootDir, stageName);
-    shell.mkdir(stagePath);
-    shell.exec(`cp -a ${rootDir}/examples/${exampleName}/. ${stagePath}/`);
-    shell.ln(
-      '-s',
-      path.join(rootDir, 'packages/razzle/node_modules'),
-      path.join(stagePath, 'node_modules')
-    );
-    shell.cd(stagePath);
-  },
 
   teardownStage: stageName => {
     shell.cd(rootDir);
