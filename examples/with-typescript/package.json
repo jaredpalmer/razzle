@@ -23,7 +23,7 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
-    "razzle": "^3.1.0",
+    "razzle": "latest",
     "ts-jest": "^24.3.0",
     "typescript": "^3.8.3"
   },
