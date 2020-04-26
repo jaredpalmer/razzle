@@ -10,27 +10,31 @@ const path = require("path");
 const fs = require("fs");
 
 shell.config.silent = true;
-const stageName = "stage-start-spa";
 
-describe("razzle start", () => {
-  describe("razzle basic example", () => {
+const stageName = 'stage-start-spa';
+
+describe('razzle start', () => {
+  describe('razzle basic example', () => {
+
     beforeAll(() => {
       util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    it("should start a dev server for spa mode", () => {
-      util.setupStageWithExample(stageName, "basic-spa");
+    it('should start a dev server for spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      const run = new Promise((resolve) => {
-        const child = shell.exec("razzle start --type=spa --verbose", () => {
-          resolve(outputTest);
-        });
-        child.stdout.on("data", (data) => {
-          console.log(data);
-          if (data.includes("> SPA Started on port 3000")) {
-            shell.exec("sleep 5");
+      const run = new Promise(resolve => {
+        const child = shell.exec(
+          `${path.join('./node_modules/.bin/razzle')} start --type=spa`,
+          () => {
+            resolve(outputTest);
+          }
+        );
+        child.stdout.on('data', data => {
+          if (data.includes('> SPA Started on port 3000')) {
+            shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3000/static/js/bundle.js'
             );
@@ -44,18 +48,20 @@ describe("razzle start", () => {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
-    it("should build and run in spa mode", () => {
-      util.setupStageWithExample(stageName, "basic-spa");
+    it('should build and run in spa mode', () => {
+      util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec("razzle build --type=spa");
-      const run = new Promise((resolve) => {
-        const child = shell.exec("serve -s build/public", () => {
-          resolve(outputTest);
-        });
-        child.stdout.on("data", (data) => {
-          console.log(data);
-          if (data.includes("http://localhost:5000")) {
-            shell.exec("sleep 5");
+      shell.exec(`${path.join('./node_modules/.bin/razzle')} build --type=spa`);
+      const run = new Promise(resolve => {
+        const child = shell.exec(
+          `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
+          () => {
+            resolve(outputTest);
+          }
+        );
+        child.stdout.on('data', data => {
+          if (data.includes('http://localhost:5000')) {
+            shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
             const output = shell.exec("curl -I localhost:5000");
             outputTest = output.stdout.includes("200");
@@ -69,5 +75,6 @@ describe("razzle start", () => {
     afterEach(() => {
       util.teardownStage(stageName);
     });
+
   });
 });

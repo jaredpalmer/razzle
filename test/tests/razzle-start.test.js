@@ -10,21 +10,21 @@ const path = require("path");
 
 shell.config.silent = true;
 
-const stageName = "stage-start";
+const stageName = 'stage-start';
 
-describe("razzle start", () => {
-  describe("razzle basic example", () => {
+describe('razzle start', () => {
+  describe('razzle basic example', () => {
     beforeAll(() => {
       util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    it("should start a dev server", () => {
-      util.setupStageWithExample(stageName, "basic");
+    it('should start a dev server', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      const run = new Promise((resolve) => {
-        const child = shell.exec("razzle start --verbose", () => {
+      const run = new Promise(resolve => {
+        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start`, () => {
           resolve(outputTest);
         });
         child.stdout.on("data", (data) => {
@@ -43,11 +43,11 @@ describe("razzle start", () => {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
-    it("should start a dev server on different port", () => {
-      util.setupStageWithExample(stageName, "with-custom-devserver-options");
+    it('should start a dev server on different port', () => {
+      util.setupStageWithExample(stageName, 'with-custom-devserver-options');
       let outputTest;
-      const run = new Promise((resolve) => {
-        const child = shell.exec("razzle start --verbose", () => {
+      const run = new Promise(resolve => {
+        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start`, () => {
           resolve(outputTest);
         });
         child.stdout.on("data", (data) => {
@@ -68,12 +68,12 @@ describe("razzle start", () => {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
-    it("should build and run", () => {
-      util.setupStageWithExample(stageName, "basic");
+    it('should build and run', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec("razzle build");
-      const run = new Promise((resolve) => {
-        const child = shell.exec(`node ${path.join("build/server.js")}`, () => {
+      shell.exec(`${path.join('./node_modules/.bin/razzle')} build`);
+      const run = new Promise(resolve => {
+        const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);
         });
         child.stdout.on("data", (data) => {
