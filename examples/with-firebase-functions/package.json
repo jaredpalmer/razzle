@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-firebase-functions",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,13 +10,13 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "firebase-admin": "^5.5.1",
-    "firebase-functions": "^0.7.3",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "express": "^4.17.1",
+    "firebase-admin": "^8.11.0",
+    "firebase-functions": "^3.6.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "^3.0.0"
+    "razzle": "latest"
   }
 }

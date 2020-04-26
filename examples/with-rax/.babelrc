@@ -1,6 +1,3 @@
 {
-  "presets": [
-    "razzle/babel",
-    "rax"
-  ]
+  "presets": ["razzle/babel"]
 }

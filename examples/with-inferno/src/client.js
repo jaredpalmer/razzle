@@ -1,11 +1,11 @@
-import { render } from 'inferno';
-import App from './App';
+import { hydrate } from "inferno-hydrate";
+import App from "./App";
 
 if (module.hot) {
-  require('inferno-devtools');
+  require("inferno-devtools");
 }
 
-render(<App />, document.getElementById('root'));
+hydrate(<App />, document.getElementById("root"));
 
 if (module.hot) {
   module.hot.accept();

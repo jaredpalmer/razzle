@@ -1,25 +1,37 @@
-import App from './App';
-import React from 'react';
-import express from 'express';
-import { renderToString } from 'react-dom/server';
-import { getLoadableState } from 'loadable-components/server';
-
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+import App from "./App";
+import React from "react";
+import express from "express";
+import { renderToString } from "react-dom/server";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import path from "path";
 
 const server = express();
 
 server
-  .disable('x-powered-by')
+  .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get('/*', async (req, res) => {
-    // Render the app
-    const app = <App />;
+  .get("/*", async (req, res) => {
+    // We create an extractor from the statsFile
+    const extractor = new ChunkExtractor({
+      statsFile: path.resolve("build/loadable-stats.json"),
+      // razzle client bundle entrypoint is client.js
+      entrypoints: ["client"],
+    });
 
-    // Gets the loadable state (list of loaded chunks)
-    const loadableState = await getLoadableState(app);
+    const markup = renderToString(
+      <ChunkExtractorManager extractor={extractor}>
+        <App />
+      </ChunkExtractorManager>
+    );
 
-    // Render to html markup
-    const markup = renderToString(app);
+    // collect script tags
+    const scriptTags = extractor.getScriptTags();
+
+    // collect "preload/prefetch" links
+    const linkTags = extractor.getLinkTags();
+
+    // collect style tags
+    const styleTags = extractor.getStyleTags();
 
     res.send(
       // prettier-ignore
@@ -30,16 +42,12 @@ server
       <meta charSet='utf-8' />
       <title>Welcome to Razzle</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      ${
-        assets.client.css
-          ? `<link rel="stylesheet" href="${assets.client.css}">`
-          : ''
-      } 
+      ${linkTags}
+      ${styleTags}
   </head>
   <body>
       <div id="root">${markup}</div>
-      ${loadableState.getScriptTag()}
-      <script src="${assets.client.js}" crossorigin></script>
+      ${scriptTags}
   </body>
 </html>`
     );

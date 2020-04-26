@@ -1,6 +1,6 @@
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import InfernoLogo from './inferno.svg';
+import Inferno from "inferno";
+import Component from "inferno-component";
+import InfernoLogo from "./inferno.svg";
 
 class App extends Component {
   render() {
