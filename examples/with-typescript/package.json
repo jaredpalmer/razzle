@@ -3,31 +3,29 @@
   "version": "3.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start",
-    "build": "razzle build",
+    "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start": "yarn start:tsc & razzle start",
+    "build": "tsc -b && razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "@types/express": "^4.17.0",
-    "@types/jest": "^23.3.14",
-    "@types/node": "^12.6.6",
-    "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.4",
-    "@types/react-router-dom": "^4.3.4",
-    "@types/webpack-env": "^1.14.0",
-    "razzle": "^3.0.0",
-    "razzle-plugin-typescript": "^3.0.0",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.18.0",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.5.3"
+    "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-router-dom": "^5.1.4",
+    "@types/webpack-env": "^1.15.2",
+    "razzle": "^3.1.0",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.8.3"
   },
   "jest": {
     "transform": {

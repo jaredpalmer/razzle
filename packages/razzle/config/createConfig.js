@@ -105,7 +105,7 @@ module.exports = (
       modules: ['node_modules', paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),
-      extensions: ['.mjs', '.js', '.jsx', '.json'],
+      extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
@@ -130,7 +130,7 @@ module.exports = (
         },
         // Transform ES6 with Babel
         {
-          test: /\.(js|jsx|mjs)$/,
+          test: /\.(js|jsx|mjs|ts|tsx)$/,
           include: [paths.appSrc],
           use: [
             {
