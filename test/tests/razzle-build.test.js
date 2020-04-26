@@ -142,7 +142,7 @@ describe('razzle build', () => {
 
     expect(output.code).toBe(0);
   });
-  
+
   it('should exit with an error code when the custom config is invalid', () => {
     util.setupStageWithFixture(stageName, 'build-with-custom-config-invalid');
     const output = shell.exec('yarn build', {
