@@ -129,8 +129,9 @@ module.exports = (
               loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
                 onlyLocals: true,
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
+                modules: { 
+                  localIdentName: '[name]__[local]___[hash:base64:5]',
+                },
               }),
             },
             resolveUrlLoader,
@@ -142,8 +143,9 @@ module.exports = (
             {
               loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
+                modules: { 
+                  localIdentName: '[name]__[local]___[hash:base64:5]',
+                },
               }),
             },
             postCssLoader,
