@@ -1,10 +1,7 @@
-import React from 'react';
+import React from "react";
 
 export default class MyLuckNo extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.state = { randomNo: null };
-  }
+  state = { randomNo: null };
 
   componentDidMount() {
     this.recalculate();
@@ -28,13 +25,13 @@ export default class MyLuckNo extends React.Component {
     const message = do {
       if (randomNo < 30) {
         // eslint-disable-next-line no-unused-expressions
-        ('Do not give up. Try again.');
+        ("Do not give up. Try again.");
       } else if (randomNo < 60) {
         // eslint-disable-next-line no-unused-expressions
-        ('You are a lucky guy');
+        ("You are a lucky guy");
       } else {
         // eslint-disable-next-line no-unused-expressions
-        ('You are soooo lucky!');
+        ("You are soooo lucky!");
       }
     };
 

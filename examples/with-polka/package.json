@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-polka",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,12 +9,12 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "polka": "^0.3.4",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "serve-static": "^1.13.2"
+    "polka": "^0.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "serve-static": "^1.14.1"
   },
   "devDependencies": {
-    "razzle": "^3.0.0"
+    "razzle": "latest"
   }
 }

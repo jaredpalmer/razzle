@@ -1,11 +1,11 @@
 {
-  "name": "razzle-examples-with-jest",
+  "name": "razzle-examples-with-react-router",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
-    "test": "razzle test --env=jsdom",
     "build": "razzle build",
+    "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
@@ -15,7 +15,6 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "latest",
-    "react-test-renderer": "^16.13.1"
+    "razzle": "latest"
   }
 }

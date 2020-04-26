@@ -1,14 +1,10 @@
-import './App.css';
-import React from 'react';
-import loadable from 'loadable-components';
+import "./App.css";
+import React from "react";
+import loadable from "@loadable/component";
 
-const Header = loadable(() =>
-  import(/* webpackChunkName: "header" */ './Header')
-);
-const Body = loadable(() => import(/* webpackChunkName: "body" */ './Body'));
-const Footer = loadable(() =>
-  import(/* webpackChunkName: "footer" */ './Footer')
-);
+const Header = loadable(() => import("./Header"));
+const Body = loadable(() => import("./Body"));
+const Footer = loadable(() => import("./Footer"));
 
 const App = () => (
   <div>

@@ -1,5 +1,5 @@
-import { h, Component } from 'preact';
-import PreactLogo from './preact.svg';
+import { h, Component } from "preact";
+import PreactLogo from "./preact.svg";
 /** @jsx h */
 
 class App extends Component {

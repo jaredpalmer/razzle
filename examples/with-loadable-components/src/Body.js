@@ -1,9 +1,7 @@
-import React from 'react';
-import loadable from 'loadable-components';
+import React from "react";
+import loadable from "@loadable/component";
 
-const BodyPart = loadable(() =>
-  import(/* webpackChunkName: "body-part" */ './BodyPart')
-);
+const BodyPart = loadable(() => import("./BodyPart"));
 
 const Body = () => (
   <div>
