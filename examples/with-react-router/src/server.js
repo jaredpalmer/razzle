@@ -22,12 +22,10 @@ server
     if (context.url) {
       // Somewhere a `<Redirect>` was rendered
       redirect(301, context.url);
-      return;
-    }
-
-    res.send(
-      // prettier-ignore
-      `<!doctype html>
+    } else {
+      res.send(
+        // prettier-ignore
+        `<!doctype html>
     <html lang="">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,9 +33,9 @@ server
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
+        assets.client.css
+          ? `<link rel="stylesheet" href="${assets.client.css}">`
+          : ''
         } 
     </head>
     <body>
@@ -45,7 +43,8 @@ server
         <script src="${assets.client.js}" defer crossorigin></script>
     </body>
 </html>`
-    );
+      );
+    }
   });
 
 export default server;
