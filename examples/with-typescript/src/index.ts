@@ -23,5 +23,5 @@ export default express()
       console.error(err);
       return;
     }
-    console.log(`> Started on port ${port}`);
+    console.log(`> App started http://localhost:${port}`)
   });
