@@ -24,12 +24,11 @@
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
     "razzle": "latest",
-    "ts-jest": "^24.3.0",
     "typescript": "^3.8.3"
   },
   "jest": {
     "transform": {
-      "\\.(ts|tsx)$": "ts-jest",
+      "\\.(ts|js)x?$": "<rootDir>/node_modules/razzle/config/jest/babelTransform.js",
       "\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
     },
