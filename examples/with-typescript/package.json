@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start:tsc": "tsc -b -w --preserveWatchOutput",
-    "start": "yarn start:tsc & razzle start",
+    "type-check": "tsc -w",
+    "start": "razzle start",
     "build": "tsc -b && razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
