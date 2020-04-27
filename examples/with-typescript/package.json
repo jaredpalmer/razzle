@@ -25,25 +25,5 @@
     "@types/webpack-env": "^1.15.2",
     "razzle": "latest",
     "typescript": "^3.8.3"
-  },
-  "jest": {
-    "transform": {
-      "\\.(ts|js)x?$": "<rootDir>/node_modules/razzle/config/jest/babelTransform.js",
-      "\\.css$": "<rootDir>/node_modules/razzle/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/node_modules/razzle/config/jest/fileTransform.js"
-    },
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.(ts|js)?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).(ts|js)?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}"
-    ]
   }
 }
