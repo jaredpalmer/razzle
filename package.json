@@ -43,8 +43,7 @@
   },
   "lint-staged": {
     "*.{js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx}": [
-      "prettier --trailing-comma es5 --single-quote --write",
-      "git add"
+      "prettier --trailing-comma es5 --single-quote --write"
     ]
   },
   "dependencies": {},
