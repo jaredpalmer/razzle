@@ -45,6 +45,7 @@ class WebpackErrorsPlugin {
           rawMessages.errors &&
           rawMessages.errors.length > 0 &&
           (rawMessages.errors[0].includes('assets.json') ||
+            rawMessages.errors[0].includes('chunks.json') ||
             rawMessages.errors[0].includes("Module not found: Can't resolve"))
         )
       ) {

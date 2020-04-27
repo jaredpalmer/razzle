@@ -45,10 +45,12 @@ module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
   appBuildPublic: resolveApp('build/public'),
-  appManifest: resolveApp('build/assets.json'),
+  appAssetsManifest: resolveApp('build/assets.json'),
+  appChunksManifest: resolveApp('build/chunks.json'),
   appPublic: resolveApp('public'),
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp('src'),
+  appHtml: resolveApp('public/index.html'), // client only
   appPackageJson: resolveApp('package.json'),
   appServerIndexJs: resolveApp('src'),
   appClientIndexJs: resolveApp('src/client'),

@@ -25,10 +25,10 @@ jobs:
       run: yarn global add elm
 
     - name: Install and bootstrap packages
-      run: yarn install --frozen-lockfile     
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 
     - name: Run tests
-      run: yarn e2e --runInBand --coverage
+      run: yarn test --runInBand --coverage
       env:
         CI: true
 

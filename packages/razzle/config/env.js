@@ -23,13 +23,16 @@ var dotenvFiles = [
 ];
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
-// that have already been set.
+// that have already been set. Variable expansion is supported in .env files.
 // https://github.com/motdotla/dotenv
+// https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach(dotenvFile => {
   if (fs.existsSync(dotenvFile)) {
-    require('dotenv').config({
-      path: dotenvFile,
-    });
+    require('dotenv-expand')(
+      require('dotenv').config({
+        path: dotenvFile,
+      })
+    );
   }
 });
 
@@ -68,7 +71,8 @@ function getClientEnvironment(target, options) {
         PORT: process.env.PORT || options.port || 3000,
         VERBOSE: !!process.env.VERBOSE,
         HOST: process.env.HOST || options.host || 'localhost',
-        RAZZLE_ASSETS_MANIFEST: paths.appManifest,
+        RAZZLE_ASSETS_MANIFEST: paths.appAssetsManifest,
+        RAZZLE_CHUNKS_MANIFEST: paths.appChunksManifest,
         BUILD_TARGET: target === 'web' ? 'client' : 'server',
         // only for production builds. Useful if you need to serve from a CDN
         PUBLIC_PATH: process.env.PUBLIC_PATH || '/',

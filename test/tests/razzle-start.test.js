@@ -7,22 +7,24 @@ const shell = require('shelljs');
 const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
-const fs = require('fs');
 
 shell.config.silent = true;
+
+const stageName = 'stage-start';
 
 describe('razzle start', () => {
   describe('razzle basic example', () => {
     beforeAll(() => {
-      shell.cd(path.join(util.rootDir, 'examples/basic'));
+      util.teardownStage(stageName);
     });
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
 
     it('should start a dev server', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec('./node_modules/.bin/razzle start', () => {
+        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
@@ -39,13 +41,39 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBeTruthy());
     });
 
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000; // eslint-disable-line no-undef
+
+    it('should start a dev server on different port', () => {
+      util.setupStageWithExample(stageName, 'with-custom-devserver-options');
+      let outputTest;
+      const run = new Promise(resolve => {
+        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
+          resolve(outputTest);
+        });
+        child.stdout.on('data', data => {
+          if (data.includes('Server-side HMR Enabled!')) {
+            shell.exec('sleep 5');
+            const devServerOutput = shell.exec(
+              'curl -sb -o "" localhost:3002/static/js/bundle.js'
+            );
+            outputTest = devServerOutput.stdout.includes(
+              'index.js?http://localhost:3002'
+            );
+            kill(child.pid);
+          }
+        });
+      });
+      return run.then(test => expect(test).toBeTruthy());
+    });
+
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000; // eslint-disable-line no-undef
 
     it('should build and run', () => {
+      util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec('./node_modules/.bin/razzle build');
+      shell.exec(`${path.join('./node_modules/.bin/razzle')} build`);
       const run = new Promise(resolve => {
-        const child = shell.exec('node build/server.js', () => {
+        const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
@@ -60,9 +88,8 @@ describe('razzle start', () => {
       return run.then(test => expect(test).toBeTruthy());
     });
 
-    afterAll(() => {
-      shell.rm('-rf', 'build');
-      shell.cd(util.rootDir);
+    afterEach(() => {
+      util.teardownStage(stageName);
     });
   });
 });

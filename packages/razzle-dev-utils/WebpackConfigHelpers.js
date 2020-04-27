@@ -84,16 +84,15 @@ class WebpackConfigHelpers {
    */
   getLoadersByName(config, name) {
     return this.getLoaders(config)
-      .map(
-        ({ rule, ruleIndex, loaders }) =>
-          Array.isArray(loaders)
-            ? loaders.map((loader, loaderIndex) => ({
-                rule,
-                ruleIndex,
-                loader,
-                loaderIndex,
-              }))
-            : [{ rule, ruleIndex, loader: loaders, loaderIndex: -1 }]
+      .map(({ rule, ruleIndex, loaders }) =>
+        Array.isArray(loaders)
+          ? loaders.map((loader, loaderIndex) => ({
+              rule,
+              ruleIndex,
+              loader,
+              loaderIndex,
+            }))
+          : [{ rule, ruleIndex, loader: loaders, loaderIndex: -1 }]
       )
       .reduce((arr, loaders) => arr.concat(loaders), [])
       .filter(

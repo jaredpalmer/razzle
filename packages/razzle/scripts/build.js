@@ -14,17 +14,27 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 const webpack = require('webpack');
+const mri = require('mri');
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const paths = require('../config/paths');
 const createConfig = require('../config/createConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
+const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
+
+const argv = process.argv.slice(2);
+const cliArgs = mri(argv);
+// Set the default build mode to isomorphic
+cliArgs.type = cliArgs.type || 'iso';
+const clientOnly = cliArgs.type === 'spa';
+// Capture the type (isomorphic or single-page) as an environment variable
+process.env.BUILD_TYPE = cliArgs.type;
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
@@ -70,13 +80,18 @@ measureFileSizesBeforeBuild(paths.appBuildPublic)
   );
 
 function build(previousFileSizes) {
-  // Check if razzle.config.js exists
   let razzle = {};
-  try {
-    razzle = require(paths.appRazzleConfig);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable */
+
+  // Check for razzle.config.js file
+  if (fs.existsSync(paths.appRazzleConfig)) {
+    try {
+      razzle = require(paths.appRazzleConfig);
+    } catch (e) {
+      clearConsole();
+      logger.error('Invalid razzle.config.js file.', e);
+      process.exit(1);
+    }
+  }
 
   if (razzle.clearConsole === false || !!razzle.host || !!razzle.port) {
     logger.warn(`Specifying options \`port\`, \`host\`, and \`clearConsole\` in razzle.config.js has been deprecated. 
@@ -87,16 +102,21 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
 `);
   }
 
+  let serverConfig;
+
   // Create our production webpack configurations and pass in razzle options.
-  let clientConfig = createConfig('web', 'prod', razzle, webpack);
-  let serverConfig = createConfig('node', 'prod', razzle, webpack);
+  let clientConfig = createConfig('web', 'prod', razzle, webpack, clientOnly);
+
+  if (!clientOnly) {
+    serverConfig = createConfig('node', 'prod', razzle, webpack);
+  }
 
   process.noDeprecation = true; // turns off that loadQuery clutter.
 
   console.log('Creating an optimized production build...');
   console.log('Compiling client...');
   // First compile the client. We need it to properly output assets.json (asset
-  // manifest file with the correct hashes on file names BEFORE we can start
+  // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
   // the server compiler.
   return new Promise((resolve, reject) => {
     compile(clientConfig, (err, clientStats) => {
@@ -125,42 +145,50 @@ ${razzle.port !== '3000' && `PORT=${razzle.port}`}
       }
 
       console.log(chalk.green('Compiled client successfully.'));
-      console.log('Compiling server...');
-      compile(serverConfig, (err, serverStats) => {
-        if (err) {
-          reject(err);
-        }
-        const serverMessages = formatWebpackMessages(
-          serverStats.toJson({}, true)
-        );
-        if (serverMessages.errors.length) {
-          return reject(new Error(serverMessages.errors.join('\n\n')));
-        }
-        if (
-          process.env.CI &&
-          (typeof process.env.CI !== 'string' ||
-            process.env.CI.toLowerCase() !== 'false') &&
-          serverMessages.warnings.length
-        ) {
-          console.log(
-            chalk.yellow(
-              '\nTreating warnings as errors because process.env.CI = true.\n' +
-                'Most CI servers set it automatically.\n'
-            )
-          );
-          return reject(new Error(serverMessages.warnings.join('\n\n')));
-        }
-        console.log(chalk.green('Compiled server successfully.'));
+      if (clientOnly) {
         return resolve({
           stats: clientStats,
           previousFileSizes,
-          warnings: Object.assign(
-            {},
-            clientMessages.warnings,
-            serverMessages.warnings
-          ),
+          warnings: clientMessages.warnings,
         });
-      });
+      } else {
+        console.log('Compiling server...');
+        compile(serverConfig, (err, serverStats) => {
+          if (err) {
+            reject(err);
+          }
+          const serverMessages = formatWebpackMessages(
+            serverStats.toJson({}, true)
+          );
+          if (serverMessages.errors.length) {
+            return reject(new Error(serverMessages.errors.join('\n\n')));
+          }
+          if (
+            process.env.CI &&
+            (typeof process.env.CI !== 'string' ||
+              process.env.CI.toLowerCase() !== 'false') &&
+            serverMessages.warnings.length
+          ) {
+            console.log(
+              chalk.yellow(
+                '\nTreating warnings as errors because process.env.CI = true.\n' +
+                  'Most CI servers set it automatically.\n'
+              )
+            );
+            return reject(new Error(serverMessages.warnings.join('\n\n')));
+          }
+          console.log(chalk.green('Compiled server successfully.'));
+          return resolve({
+            stats: clientStats,
+            previousFileSizes,
+            warnings: Object.assign(
+              {},
+              clientMessages.warnings,
+              serverMessages.warnings
+            ),
+          });
+        });
+      }
     });
   });
 }

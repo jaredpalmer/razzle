@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -15,6 +16,7 @@ const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
 
 const postCssOptions = {
@@ -42,8 +44,16 @@ module.exports = (
     plugins,
     modifyBabelOptions,
   },
-  webpackObject
+  webpackObject,
+  clientOnly = false
 ) => {
+  // Define some useful shorthands.
+  const IS_NODE = target === 'node';
+  const IS_WEB = target === 'web';
+  const IS_PROD = env === 'prod';
+  const IS_DEV = env === 'dev';
+  process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
+
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
   const hasBabelRc = fs.existsSync(paths.appBabelRc);
@@ -59,23 +69,21 @@ module.exports = (
 
   // Allow app to override babel options
   const babelOptions = modifyBabelOptions
-    ? modifyBabelOptions(mainBabelOptions)
+    ? modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
     : mainBabelOptions;
 
   if (hasBabelRc && babelOptions.babelrc) {
     console.log('Using .babelrc defined in your app root');
   }
 
-  // Define some useful shorthands.
-  const IS_NODE = target === 'node';
-  const IS_WEB = target === 'web';
-  const IS_PROD = env === 'prod';
-  const IS_DEV = env === 'dev';
-  process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
   const dotenv = getClientEnv(target, { clearConsole, host, port });
 
-  const devServerPort = parseInt(dotenv.raw.PORT, 10) + 1;
+  const portOffset = clientOnly ? 0 : 1;
+
+  const devServerPort =
+    (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
+    3000 + portOffset;
+
   // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
   const clientPublicPath =
     dotenv.raw.CLIENT_PUBLIC_PATH ||
@@ -97,7 +105,7 @@ module.exports = (
       modules: ['node_modules', paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),
-      extensions: ['.mjs', '.jsx', '.js', '.json'],
+      extensions: ['.mjs', '.js', '.jsx', '.json'],
       alias: {
         // This is required so symlinks work during development.
         'webpack/hot/poll': require.resolve('webpack/hot/poll'),
@@ -207,7 +215,6 @@ module.exports = (
                   options: {
                     importLoaders: 1,
                     modules: false,
-                    minimize: true,
                   },
                 },
                 {
@@ -226,11 +233,13 @@ module.exports = (
                 {
                   // on the server we do not need to embed the css and just want the identifier mappings
                   // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader/locals'),
+                  loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
+                    onlyLocals: true,
                     importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
                 },
               ]
@@ -240,9 +249,10 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
                     importLoaders: 1,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
                 },
                 {
@@ -255,10 +265,11 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
-                    modules: true,
                     importLoaders: 1,
                     minimize: true,
-                    localIdentName: '[path]__[name]___[local]',
+                    modules: {
+                      localIdentName: '[path]__[name]___[local]',
+                    },
                   },
                 },
                 {
@@ -303,11 +314,16 @@ module.exports = (
     config.plugins = [
       // We define environment variables that can be accessed globally in our
       new webpack.DefinePlugin(dotenv.stringified),
-      // Prevent creating multiple chunks for the server
-      new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1,
-      }),
     ];
+    // in dev mode emitting one huge server file on every save is very slow
+    if (IS_PROD) {
+      // Prevent creating multiple chunks for the server
+      config.plugins.push(
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 1,
+        })
+      );
+    }
 
     config.entry = [paths.appServerIndexJs];
 
@@ -337,8 +353,11 @@ module.exports = (
           name: 'server.js',
           nodeArgs,
         }),
-        // Ignore assets.json to avoid infinite recompile bug
-        new webpack.WatchIgnorePlugin([paths.appManifest]),
+        // Ignore assets.json and chunks.json to avoid infinite recompile bug
+        new webpack.WatchIgnorePlugin([
+          paths.appAssetsManifest,
+          paths.appChunksManifest,
+        ]),
       ];
     }
   }
@@ -351,12 +370,53 @@ module.exports = (
         path: paths.appBuild,
         filename: 'assets.json',
       }),
-      // Maybe we should move to this???
-      // new ManifestPlugin({
-      //   path: paths.appBuild,
-      //   writeToFileEmit: true,
-      //   filename: 'manifest.json',
-      // }),
+      // Output our JS and CSS files in a manifest file called chunks.json
+      // in the build directory.
+      // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
+      new ManifestPlugin({
+        fileName: path.join(paths.appBuild, 'chunks.json'),
+        writeToFileEmit: true,
+        filter: item => item.isChunk,
+        generate: (seed, files) => {
+          const entrypoints = new Set();
+          files.forEach(file =>
+            ((file.chunk || {})._groups || []).forEach(group =>
+              entrypoints.add(group)
+            )
+          );
+          const entries = [...entrypoints];
+          const entryArrayManifest = entries.reduce((acc, entry) => {
+            const name =
+              (entry.options || {}).name || (entry.runtimeChunk || {}).name;
+            const files = []
+              .concat(
+                ...(entry.chunks || []).map(chunk =>
+                  chunk.files.map(path => config.output.publicPath + path)
+                )
+              )
+              .filter(Boolean);
+
+            const cssFiles = files
+              .map(item => (item.indexOf('.css') !== -1 ? item : null))
+              .filter(Boolean);
+
+            const jsFiles = files
+              .map(item => (item.indexOf('.js') !== -1 ? item : null))
+              .filter(Boolean);
+
+            return name
+              ? {
+                  ...acc,
+                  [name]: {
+                    css: cssFiles,
+                    js: jsFiles,
+                  },
+                }
+              : acc;
+          }, seed);
+          return entryArrayManifest;
+        },
+      }),
     ];
 
     if (IS_DEV) {
@@ -384,13 +444,9 @@ module.exports = (
       // http://${dotenv.raw.HOST}:3001
       config.devServer = {
         disableHostCheck: true,
-        clientLogLevel: 'none',
-        // Enable gzip compression of generated files.
-        compress: true,
-        // watchContentBase: true,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
+        clientLogLevel: 'none', // Enable gzip compression of generated files.
+        compress: true, // watchContentBase: true,
+        headers: { 'Access-Control-Allow-Origin': '*' },
         historyApiFallback: {
           // Paths with dots should still use the history fallback.
           // See https://github.com/facebookincubator/create-react-app/issues/387.
@@ -401,23 +457,22 @@ module.exports = (
         noInfo: true,
         overlay: false,
         port: devServerPort,
-        quiet: true,
-        // By default files from `contentBase` will not trigger a page reload.
+        quiet: true, // By default files from `contentBase` will not trigger a page reload.
         // Reportedly, this avoids CPU overload on some systems.
         // https://github.com/facebookincubator/create-react-app/issues/293
-        watchOptions: {
-          ignored: /node_modules/,
-        },
+        watchOptions: { ignored: /node_modules/ },
         before(app) {
           // This lets us open files from the runtime error overlay.
           app.use(errorOverlayMiddleware());
         },
       };
+
       // Add client-only development plugins
       config.plugins = [
         ...config.plugins,
         new webpack.HotModuleReplacementPlugin({
-          multiStep: true,
+          // set this true will break HtmlWebpackPlugin
+          multiStep: !clientOnly,
         }),
         new webpack.DefinePlugin(dotenv.stringified),
       ];
@@ -454,14 +509,10 @@ module.exports = (
         ...config.plugins,
         // Define production environment vars
         new webpack.DefinePlugin(dotenv.stringified),
-        // Extract our CSS into a files.
+        // Extract our CSS into files.
         new MiniCssExtractPlugin({
           filename: 'static/css/bundle.[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
-          // allChunks: true because we want all css to be included in the main
-          // css bundle when doing code splitting to avoid FOUC:
-          // https://github.com/facebook/create-react-app/issues/2415
-          allChunks: true,
         }),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
@@ -505,11 +556,6 @@ module.exports = (
                 ascii_only: true,
               },
             },
-            // Use multi-process parallel running to improve the build speed
-            // Default number of concurrent runs: os.cpus().length - 1
-            parallel: true,
-            // Enable file caching
-            cache: true,
             // @todo add flag for sourcemaps
             sourceMap: true,
           }),
@@ -529,6 +575,44 @@ module.exports = (
           }),
         ],
       };
+    }
+
+    if (clientOnly) {
+      if (IS_DEV) {
+        config.devServer.contentBase = paths.appPublic;
+        config.devServer.watchContentBase = true;
+        config.devServer.publicPath = '/';
+      }
+
+      config.plugins = [
+        ...config.plugins,
+        // Generates an `index.html` file with the <script> injected.
+        new HtmlWebpackPlugin(
+          Object.assign(
+            {},
+            {
+              inject: true,
+              template: paths.appHtml,
+            },
+            IS_PROD
+              ? {
+                  minify: {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                    removeRedundantAttributes: true,
+                    useShortDoctype: true,
+                    removeEmptyAttributes: true,
+                    removeStyleLinkTypeAttributes: true,
+                    keepClosingSlash: true,
+                    minifyJS: true,
+                    minifyCSS: true,
+                    minifyURLs: true,
+                  },
+                }
+              : {}
+          )
+        ),
+      ];
     }
   }
 
