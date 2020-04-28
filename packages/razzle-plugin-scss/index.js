@@ -130,7 +130,7 @@ module.exports = (
               options: Object.assign({}, options.css[constantEnv], {
                 onlyLocals: true,
                 modules: { 
-                  localIdentName: '[name]__[local]___[hash:base64:5]',
+                  localIdentName: '[path]__[name]___[local]',
                 },
               }),
             },
@@ -144,7 +144,7 @@ module.exports = (
               loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
                 modules: { 
-                  localIdentName: '[name]__[local]___[hash:base64:5]',
+                  localIdentName: '[path]__[name]___[local]',
                 },
               }),
             },
