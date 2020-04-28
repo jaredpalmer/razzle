@@ -25,7 +25,7 @@ module.exports = (resolve, rootDir) => {
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
     collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
-    setupTestFrameworkScriptFile: setupTestsFile,
+    setupFilesAfterEnv: [setupTestsFile],
     testMatch: [
       '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
       '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}',
