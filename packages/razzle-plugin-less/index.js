@@ -46,7 +46,6 @@ const defaultOptions = {
       sourceMap: false,
       importLoaders: 1,
       modules: false,
-      minimize: true,
     },
   },
   style: {},
