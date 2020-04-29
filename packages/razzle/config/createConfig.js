@@ -182,7 +182,6 @@ module.exports = (
         // Note: this yields the exact same CSS config as create-react-app.
         {
           test: /\.css$/,
-          exclude: [paths.appBuild, /\.module\.css$/],
           use: IS_NODE
             ? // Style-loader does not work in Node.js without some crazy
               // magic. Luckily we just need css-loader.
@@ -191,6 +190,7 @@ module.exports = (
                   loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
+                    modules: { auto: true },
                   },
                 },
               ]
@@ -201,6 +201,7 @@ module.exports = (
                   loader: require.resolve('css-loader'),
                   options: {
                     importLoaders: 1,
+                    modules: { auto: true },
                   },
                 },
                 {
@@ -213,63 +214,7 @@ module.exports = (
                 {
                   loader: require.resolve('css-loader'),
                   options: {
-                    importLoaders: 1,
-                    modules: false,
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ],
-        },
-        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-        // using the extension .module.css
-        {
-          test: /\.module\.css$/,
-          exclude: [paths.appBuild],
-          use: IS_NODE
-            ? [
-                {
-                  // on the server we do not need to embed the css and just want the identifier mappings
-                  // https://github.com/webpack-contrib/css-loader#scope
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    onlyLocals: true,
-                    importLoaders: 1,
-                    modules: {
-                      localIdentName: '[path]__[name]___[local]',
-                    },
-                  },
-                },
-              ]
-            : IS_DEV
-            ? [
-                require.resolve('style-loader'),
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                    modules: {
-                      localIdentName: '[path]__[name]___[local]',
-                    },
-                  },
-                },
-                {
-                  loader: require.resolve('postcss-loader'),
-                  options: postCssOptions,
-                },
-              ]
-            : [
-                MiniCssExtractPlugin.loader,
-                {
-                  loader: require.resolve('css-loader'),
-                  options: {
-                    importLoaders: 1,
-                    minimize: true,
-                    modules: {
-                      localIdentName: '[path]__[name]___[local]',
-                    },
+                    importLoaders: 1
                   },
                 },
                 {
