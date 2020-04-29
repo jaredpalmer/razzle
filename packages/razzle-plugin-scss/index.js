@@ -46,7 +46,6 @@ const defaultOptions = {
       sourceMap: false,
       importLoaders: 1,
       modules: false,
-      minimize: true,
     },
   },
   style: {},
@@ -129,8 +128,7 @@ module.exports = (
               loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
                 onlyLocals: true,
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
+                modules: true
               }),
             },
             resolveUrlLoader,
@@ -143,7 +141,6 @@ module.exports = (
               loader: require.resolve('css-loader'),
               options: Object.assign({}, options.css[constantEnv], {
                 modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
               }),
             },
             postCssLoader,
