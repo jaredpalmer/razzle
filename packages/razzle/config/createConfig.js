@@ -14,6 +14,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -43,6 +44,10 @@ const hasPostCssConfig = () => {
 
 const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions
 
+const webpackDevClientEntry = require.resolve(
+  'razzle-dev-utils/webpackHotDevClient'
+);
+
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
   target = 'web',
@@ -54,6 +59,7 @@ module.exports = (
     modify,
     plugins,
     modifyBabelOptions,
+    experimental = {}
   },
   webpackObject,
   clientOnly = false
@@ -65,6 +71,8 @@ module.exports = (
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
+  const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
+
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
   const hasBabelRc = fs.existsSync(paths.appBabelRc);
@@ -72,10 +80,14 @@ module.exports = (
     babelrc: true,
     cacheDirectory: true,
     presets: [],
+    plugins: []
   };
 
   if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+    if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
+      mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'))
+    }
   }
 
   // Allow app to override babel options
@@ -87,7 +99,7 @@ module.exports = (
     console.log('Using .babelrc defined in your app root');
   }
 
-  const dotenv = getClientEnv(target, { clearConsole, host, port });
+  const dotenv = getClientEnv(target, { clearConsole, host, port, shouldUseReactRefresh });
 
   const portOffset = clientOnly ? 0 : 1;
 
@@ -147,8 +159,8 @@ module.exports = (
             {
               loader: require.resolve('babel-loader'),
               options: babelOptions,
-            },
-          ],
+            }
+          ]
         },
         {
           exclude: [
@@ -435,9 +447,9 @@ module.exports = (
       // specify our client entry point /client/index.js
       config.entry = {
         client: [
-          require.resolve('razzle-dev-utils/webpackHotDevClient'),
+          !shouldUseReactRefresh ? webpackDevClientEntry : null,
           paths.appClientIndexJs,
-        ],
+        ].filter(x => x),
       };
 
       // Configure our client bundles output. Not the public path is to 3001.
@@ -485,8 +497,16 @@ module.exports = (
           // set this true will break HtmlWebpackPlugin
           multiStep: !clientOnly,
         }),
+        shouldUseReactRefresh ?
+          new ReactRefreshWebpackPlugin({
+            overlay: {
+              entry: webpackDevClientEntry,
+            },
+          })
+          : null
+        ,
         new webpack.DefinePlugin(dotenv.stringified),
-      ];
+      ].filter(x => x);
 
       config.optimization = {
         // @todo automatic vendor bundle
