@@ -1,0 +1,21 @@
+{
+  "docs": {
+    "Getting started": [
+      "quickstart",
+      "build_types"
+    ],
+    "Customization": [
+      "plugins",
+      "babel_config",
+      "extending_webpack",
+      "css_modules",
+      "polyfills",
+      "environment_variables",
+      "extending_webpack"
+    ],
+    "About": [
+      "how_razzle_works",
+      "contributors"
+    ]
+  }
+}
