@@ -1,31 +1,19 @@
 {
   "name": "razzle",
-  "version": "3.1.0",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
-  "author": "Jared Palmer <jared@palmer.net>",
   "license": "MIT",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "version": "3.1.0",
   "bin": {
     "razzle": "./bin/razzle.js"
   },
   "files": [
+    "babel.js",
     "bin",
     "config",
     "scripts",
-    "template",
-    "babel.js"
-  ],
-  "keywords": [
-    "razzle",
-    "react",
-    "webpack",
-    "preact",
-    "ssr",
-    "universal",
-    "isomorphic",
-    "inferno",
-    "reason",
-    "reasonml"
+    "template"
   ],
   "dependencies": {
     "@babel/core": "^7.8.7",
@@ -35,7 +23,7 @@
     "babel-loader": "^8.0.6",
     "babel-preset-razzle": "^3.1.0",
     "chalk": "^3.0.0",
-    "css-loader": "^3.4.2",
+    "css-loader": "3.5.3",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "file-loader": "^4.3.0",
@@ -63,5 +51,17 @@
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^4.0.0"
-  }
+  },
+  "keywords": [
+    "inferno",
+    "isomorphic",
+    "preact",
+    "razzle",
+    "react",
+    "reason",
+    "reasonml",
+    "ssr",
+    "universal",
+    "webpack"
+  ]
 }

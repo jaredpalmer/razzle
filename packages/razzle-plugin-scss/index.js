@@ -40,13 +40,12 @@ const defaultOptions = {
     dev: {
       sourceMap: true,
       importLoaders: 1,
-      modules: false,
+      modules: { auto: true },
     },
     prod: {
       sourceMap: false,
       importLoaders: 1,
-      modules: false,
-      minimize: true,
+      modules: { auto: true },
     },
   },
   style: {},
@@ -100,7 +99,6 @@ module.exports = (
     ...config.module.rules,
     {
       test: /\.(sa|sc)ss$/,
-      exclude: [/\.module.(sa|sc)ss$/],
       use: isServer
         ? [
             {
@@ -120,37 +118,7 @@ module.exports = (
             resolveUrlLoader,
             sassLoader,
           ],
-    },
-    {
-      test: /\.module.(sa|sc)ss$/,
-      use: isServer
-        ? [
-            {
-              loader: require.resolve('css-loader'),
-              options: Object.assign({}, options.css[constantEnv], {
-                onlyLocals: true,
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-              }),
-            },
-            resolveUrlLoader,
-            postCssLoader,
-            sassLoader,
-          ]
-        : [
-            dev ? styleLoader : MiniCssExtractPlugin.loader,
-            {
-              loader: require.resolve('css-loader'),
-              options: Object.assign({}, options.css[constantEnv], {
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-              }),
-            },
-            postCssLoader,
-            resolveUrlLoader,
-            sassLoader,
-          ],
-    },
+    }
   ];
 
   return config;
