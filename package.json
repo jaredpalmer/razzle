@@ -9,6 +9,8 @@
     "url": "https://github.com/jaredpalmer/razzle/issues"
   },
   "devDependencies": {
+    "all-contributors-cli": "^6.14.2",
+    "doctoc": "^1.4.0",
     "eslint": "^6.8.0",
     "got": "^11.0.2",
     "husky": "^4.2.3",
@@ -33,6 +35,7 @@
     "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
     "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre",
     "publish-stable": "lerna version --force-publish && release && node ./scripts/release-notes.js",
+    "build-docs": "node ./scripts/build-docs.js",
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f"
   },

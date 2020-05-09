@@ -87,6 +87,40 @@
         "example",
         "plugin"
       ]
+    },
+    {
+      "login": "Nima77",
+      "name": "nima77",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/49443619?v=4",
+      "profile": "https://github.com/Nima77",
+      "contributions": [
+        "question",
+        "code",
+        "doc",
+        "example",
+        "ideas",
+        "review",
+        "test",
+        "tool"
+      ]
+    },
+    {
+      "login": "fivethreeo",
+      "name": "Øyvind Saltvik",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/410?v=4",
+      "profile": "http://fivethreeo.cylon.no/",
+      "contributions": [
+        "question",
+        "code",
+        "doc",
+        "example",
+        "ideas",
+        "review",
+        "test",
+        "tool"
+      ]
     }
-  ]
+  ],
+  "repoType": "github",
+  "commitConvention": "none"
 }

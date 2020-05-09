@@ -1,3 +1,5 @@
+
+
 ![repo-banner](https://user-images.githubusercontent.com/4060187/28923990-050a32d4-782e-11e7-9da7-574ce5a8b455.png)
 
 [![CircleCI](https://circleci.com/gh/jaredpalmer/razzle/tree/master.svg?style=shield)](https://circleci.com/gh/jaredpalmer/razzle/tree/master) ![Razzle-status](https://david-dm.org/jaredpalmer/razzle.svg?path=packages/razzle) [![npm version](https://badge.fury.io/js/razzle.svg)](https://badge.fury.io/js/razzle) [![Known Vulnerabilities](https://snyk.io/test/npm/razzle/badge.svg)](https://snyk.io/test/npm/razzle) [![Greenkeeper badge](https://badges.greenkeeper.io/jaredpalmer/razzle.svg)](https://greenkeeper.io/) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/palmer)
@@ -12,7 +14,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
-- :rocket: SPA mode, build client side apps with razzle 
+- :rocket: SPA mode, build client side apps with razzle
 
 ## Quick Start
 
@@ -69,11 +71,10 @@ If your application is running, and you need to manually restart your server, yo
 
 ## <img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>
 
+<!-- INSERT doctoc generated TOC please keep comment here to allow auto update -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
-
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Quick Start](#quick-start)
   - [`npm start` or `yarn start`](#npm-start-or-yarn-start)
@@ -83,8 +84,7 @@ If your application is running, and you need to manually restart your server, yo
   - [`npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start------inspecthostport)
   - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
   - [`rs`](#rs)
-- [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
-- [Build Types](#build-types)
+- [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-srchttpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng-width500px-altrazzle-hot-restart)
 - [Customization](#customization)
   - [Plugins](#plugins)
     - [Using Plugins](#using-plugins)
@@ -108,8 +108,6 @@ If your application is running, and you need to manually restart your server, yo
 - [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## Build Types
 
 In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js` then `index.html` file inside public folder at the end pass `--type=spa` to your `package.json`'s scripts like so:
 
@@ -330,10 +328,10 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)} 
+        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)}
     </head>
     <body>
-        <div id="root">${markup}</div> 
+        <div id="root">${markup}</div>
         <script>window.env = ${serialize(runtimeConfig)};</script>
         ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}        
     </body>
@@ -437,11 +435,28 @@ MIT License
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;"/><br /><sub><b>Jared Palmer</b></sub>](http://jaredpalmer.com)<br />[💬](#question-jaredpalmer "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Code") [🎨](#design-jaredpalmer "Design") [📖](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Documentation") [💡](#example-jaredpalmer "Examples") [🤔](#ideas-jaredpalmer "Ideas, Planning, & Feedback") [👀](#review-jaredpalmer "Reviewed Pull Requests") [⚠️](https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer "Tests") [🔧](#tool-jaredpalmer "Tools") | [<img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;"/><br /><sub><b>Jari Zwarts</b></sub>](https://jari.io)<br />[💬](#question-jariz "Answering Questions") [💻](https://github.com/jaredpalmer/razzle/commits?author=jariz "Code") [🤔](#ideas-jariz "Ideas, Planning, & Feedback") [🔌](#plugin-jariz "Plugin/utility libraries") [👀](#review-jariz "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;"/><br /><sub><b>Dan Abramov</b></sub>](http://twitter.com/dan_abramov)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=gaearon "Code") [🤔](#ideas-gaearon "Ideas, Planning, & Feedback") | [<img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;"/><br /><sub><b>Eric Clemmons</b></sub>](http://ericclemmons.github.com/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=ericclemmons "Code") [🤔](#ideas-ericclemmons "Ideas, Planning, & Feedback") | [<img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;"/><br /><sub><b>Zino Hofmann</b></sub>](https://www.linkedin.com/in/zinohofmann/)<br />[💡](#example-HofmannZ "Examples") | [<img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;"/><br /><sub><b>Lucas Terra</b></sub>](https://www.linkedin.com/in/lucasterra7/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=lucasterra "Code") [💡](#example-lucasterra "Examples") [🔌](#plugin-lucasterra "Plugin/utility libraries") | [<img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;"/><br /><sub><b>Ray Andrew</b></sub>](https://www.linkedin.com/in/ray-andrew/)<br />[💻](https://github.com/jaredpalmer/razzle/commits?author=rayandrews "Code") [💡](#example-rayandrews "Examples") [🔌](#plugin-rayandrews "Plugin/utility libraries") |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://avatars.githubusercontent.com/u/3628043" width="100px;"/><br /><sub><b>Erik Engi</b></sub>](https://oengi.com/)<br />[📖](https://github.com/jaredpalmer/razzle/commits?author=kireerik "Documentation") [📝](https://hackernoon.com/material-ui-get-started-fast-react-16-eea211d65308 "Blogposts") [💡](https://github.com/kireerik/razzle-material-ui-styled-example "Examples") [🐛](https://github.com/jaredpalmer/razzle/issues/created_by/kireerik "Bug reports") |
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://jaredpalmer.com"><img src="https://avatars2.githubusercontent.com/u/4060187?v=4" width="100px;" alt=""/><br /><sub><b>Jared Palmer</b></sub></a><br /><a href="#question-jaredpalmer" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer" title="Code">💻</a> <a href="#design-jaredpalmer" title="Design">🎨</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer" title="Documentation">📖</a> <a href="#example-jaredpalmer" title="Examples">💡</a> <a href="#ideas-jaredpalmer" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3Ajaredpalmer" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=jaredpalmer" title="Tests">⚠️</a> <a href="#tool-jaredpalmer" title="Tools">🔧</a></td>
+    <td align="center"><a href="https://jari.io"><img src="https://avatars3.githubusercontent.com/u/1415847?v=4" width="100px;" alt=""/><br /><sub><b>Jari Zwarts</b></sub></a><br /><a href="#question-jariz" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=jariz" title="Code">💻</a> <a href="#ideas-jariz" title="Ideas, Planning, & Feedback">🤔</a> <a href="#plugin-jariz" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3Ajariz" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="http://twitter.com/dan_abramov"><img src="https://avatars0.githubusercontent.com/u/810438?v=4" width="100px;" alt=""/><br /><sub><b>Dan Abramov</b></sub></a><br /><a href="https://github.com/jaredpalmer/razzle/commits?author=gaearon" title="Code">💻</a> <a href="#ideas-gaearon" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://ericclemmons.github.com/"><img src="https://avatars0.githubusercontent.com/u/15182?v=4" width="100px;" alt=""/><br /><sub><b>Eric Clemmons</b></sub></a><br /><a href="https://github.com/jaredpalmer/razzle/commits?author=ericclemmons" title="Code">💻</a> <a href="#ideas-ericclemmons" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/zinohofmann/"><img src="https://avatars3.githubusercontent.com/u/17142193?v=4" width="100px;" alt=""/><br /><sub><b>Zino Hofmann</b></sub></a><br /><a href="#example-HofmannZ" title="Examples">💡</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/lucasterra7/"><img src="https://avatars2.githubusercontent.com/u/441058?v=4" width="100px;" alt=""/><br /><sub><b>Lucas Terra</b></sub></a><br /><a href="https://github.com/jaredpalmer/razzle/commits?author=lucasterra" title="Code">💻</a> <a href="#example-lucasterra" title="Examples">💡</a> <a href="#plugin-lucasterra" title="Plugin/utility libraries">🔌</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/ray-andrew/"><img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;" alt=""/><br /><sub><b>Ray Andrew</b></sub></a><br /><a href="https://github.com/jaredpalmer/razzle/commits?author=rayandrews" title="Code">💻</a> <a href="#example-rayandrews" title="Examples">💡</a> <a href="#plugin-rayandrews" title="Plugin/utility libraries">🔌</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/Nima77"><img src="https://avatars1.githubusercontent.com/u/49443619?v=4" width="100px;" alt=""/><br /><sub><b>nima77</b></sub></a><br /><a href="#question-Nima77" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Documentation">📖</a> <a href="#example-Nima77" title="Examples">💡</a> <a href="#ideas-Nima77" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3ANima77" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Tests">⚠️</a> <a href="#tool-Nima77" title="Tools">🔧</a></td>
+    <td align="center"><a href="http://fivethreeo.cylon.no/"><img src="https://avatars2.githubusercontent.com/u/410?v=4" width="100px;" alt=""/><br /><sub><b>Øyvind Saltvik</b></sub></a><br /><a href="#question-fivethreeo" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Documentation">📖</a> <a href="#example-fivethreeo" title="Examples">💡</a> <a href="#ideas-fivethreeo" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3Afivethreeo" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Tests">⚠️</a> <a href="#tool-fivethreeo" title="Tools">🔧</a></td>
+  </tr>
+</table>
 
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
+Done in 0.23s.
