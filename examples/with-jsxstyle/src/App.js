@@ -1,21 +1,19 @@
-import './App.css';
+import "./App.css";
 
-import { Block, InlineBlock } from 'jsxstyle';
+import { Block, InlineBlock } from "jsxstyle";
 
-import About from './About';
-import Home from './Home';
-import Link from 'react-router-dom/Link';
-import React from 'react';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
+import About from "./About";
+import Home from "./Home";
+import { Link, Route, Switch } from "react-router-dom";
+import React from "react";
 
-const App = () =>
+const App = () => (
   <Block>
-    {' '}<Block component="ul" margin="2rem auto">
-      <InlineBlock component={Link} props={{ to: '/about' }}>
+    <Block component="ul" margin="2rem auto">
+      <InlineBlock component={Link} props={{ to: "/about" }}>
         About
       </InlineBlock>
-      <InlineBlock component={Link} props={{ to: '/' }}>
+      <InlineBlock component={Link} props={{ to: "/" }}>
         Home
       </InlineBlock>
     </Block>
@@ -23,6 +21,7 @@ const App = () =>
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
     </Switch>
-  </Block>;
+  </Block>
+);
 
 export default App;

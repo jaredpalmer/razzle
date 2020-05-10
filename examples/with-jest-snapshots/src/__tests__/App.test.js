@@ -1,9 +1,9 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import MemoryRouter from 'react-router-dom/MemoryRouter';
-import App from '../App';
+import React from "react";
+import renderer from "react-test-renderer";
+import { MemoryRouter } from "react-router-dom";
+import App from "../App";
 
-it('renders App correctly', () => {
+it("renders App correctly", () => {
   const tree = renderer
     .create(
       <MemoryRouter>
@@ -14,7 +14,7 @@ it('renders App correctly', () => {
   expect(tree).toMatchSnapshot();
 });
 
-test('hello', async () => {
-  const yo = await Promise.resolve('hello');
-  expect(yo).toEqual('hello');
+test("hello", async () => {
+  const yo = await Promise.resolve("hello");
+  expect(yo).toEqual("hello");
 });

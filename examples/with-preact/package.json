@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-preact",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,12 +9,12 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "preact": "^8.3.1",
-    "preact-render-to-string": "^3.8.2"
+    "express": "^4.17.1",
+    "preact": "^10.4.1",
+    "preact-render-to-string": "^5.1.6"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.0.0",
-    "razzle": "^3.0.0"
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "razzle": "latest"
   }
 }

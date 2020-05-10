@@ -24,8 +24,8 @@ cliArgs.type = cliArgs.type || 'iso';
 
 // Capture any --inspect or --inspect-brk flags (with optional values) so that we
 // can pass them when we invoke nodejs
-process.env.INSPECT_BRK = cliArgs['inspect-brk'] || '';
-process.env.INSPECT = cliArgs.inspect || '';
+process.env.INSPECT_BRK = formatInspectFlag(cliArgs, 'inspect-brk');
+process.env.INSPECT = formatInspectFlag(cliArgs, 'inspect');
 // Capture the type (isomorphic or single-page) as an environment variable
 process.env.BUILD_TYPE = cliArgs.type;
 
@@ -140,6 +140,23 @@ function compile(config) {
   }
   return compiler;
 }
+
+function formatInspectFlag(cliArgs, flag) {
+  const value = cliArgs[flag];
+
+  if (typeof value === 'undefined' || value === '') {
+    return '';
+  }
+
+  // When passed as `--inspect`.
+  if (value === true) {
+    return '--' + flag;
+  }
+
+  // When passed as `--inspect=[port]` or `--inspect=[host:port]`
+  return '--' + flag + '=' + value.toString();
+}
+
 
 setPorts()
   .then(main)

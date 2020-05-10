@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "^2.4.1"
+    "razzle": "latest"
   }
 }
