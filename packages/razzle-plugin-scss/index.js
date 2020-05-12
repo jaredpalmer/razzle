@@ -4,6 +4,15 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
 const paths = require('razzle/config/paths');
+const postcssLoadConfig = require('postcss-load-config');
+
+const hasPostCssConfig = () => {
+  try {
+    return !!postcssLoadConfig.sync()
+  } catch (_error) {
+    return false
+  }
+}
 
 const defaultOptions = {
   postcss: {
@@ -85,7 +94,8 @@ module.exports = (
 
   const postCssLoader = {
     loader: require.resolve('postcss-loader'),
-    options: Object.assign({}, options.postcss[constantEnv], {
+    options: hasPostCssConfig() ?
+      undefined : Object.assign({}, options.postcss[constantEnv], {
       plugins: () => options.postcss.plugins,
     }),
   };
