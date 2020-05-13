@@ -55,7 +55,7 @@ function main() {
     // Check for public/index.html file
     if (!fs.existsSync(paths.appHtml)) {
       clearConsole();
-      logger.error(`index.html dose not exists public folder.`);
+      logger.error(`index.html does not exist in public folder.`);
       process.exit(1);
     }
   }
