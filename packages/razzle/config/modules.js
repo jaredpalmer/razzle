@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
-const logger = require('../../razzle-dev-utils/logger');
+const logger = require('razzle-dev-utils/logger');
 const resolve = require('resolve');
 const nodePath = require('./env').nodePath;
 
