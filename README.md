@@ -109,7 +109,9 @@ If your application is running, and you need to manually restart your server, yo
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js` then `index.html` file inside public folder at the end pass `--type=spa` to your `package.json`'s scripts like so:
+## Build Types
+
+In addition to universal/isomorphic appplications, Razzle can build single page (or client-only) applications. To do this, you can remove `index.js` and `server.js` then add `index.html` file inside public folder, at the end pass `--type=spa` to your `package.json`'s scripts like so:
 
 ```diff
 "scripts": {
