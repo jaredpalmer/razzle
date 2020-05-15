@@ -18,10 +18,15 @@ module.exports = function copyDir(opts) {
 
     fs.copy(templatePath, projectPath)
       .then(function() {
-        return fs.move(
-          path.resolve(projectPath, './gitignore'),
-          path.resolve(projectPath, './.gitignore')
-        );
+        return fs.pathExists(path.resolve(projectPath, './gitignore'))
+        .then(exists => {
+          if (exists) {
+            return fs.move(
+              path.resolve(projectPath, './gitignore'),
+              path.resolve(projectPath, './.gitignore')
+            );
+          }
+        })
       })
       .then(function() {
         stopCopySpinner();

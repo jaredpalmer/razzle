@@ -1,52 +1,59 @@
 'use strict';
 
 const fs = require('fs-extra');
-const tar = require('tar');
-const axios = require('axios');
-const httpAdapter = require('axios/lib/adapters/http');
 const os = require('os');
 const path = require('path');
 const UUID = require('pure-uuid');
 const output = require('./output');
 const copyDir = require('./copy-dir');
-const Promise = require('promise');
+const exec = require('execa');
 
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/master';
-
+  const [repoBranch, examplePath = ''] = example.slice(3).split(/(?<!\+http?s|\+ssh|\+git):/);
+  const [repoUrl, branch = 'HEAD'] = repoBranch.slice(1).split('@');
   const id = new UUID(4).format();
+  const idIndex = new UUID(4).format();
   const directory = path.join(os.tmpdir(), id);
+  const directoryIndex = path.join(os.tmpdir(), idIndex);
+
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
+
+  const branchArg = branch !== 'HEAD' ? ` --branch=${branch}` : '';
 
   const stopExampleSpinner = output.wait(
     `Downloading files for ${output.cmd(example)} example`
   );
+
   return fs.ensureDir(directory).then(() => {
-    return axios.get(url, {responseType: 'stream', adapter: httpAdapter});
+    return exec(
+      `git clone --depth 1${branchArg} ${repoUrl} .`,
+      {cwd: directory, shell: true})
   })
-  .then((response) => {
-    return new Promise((resolve, reject) => {
-      const stream = response.data;
-      stream.on("end", () => resolve());
-      stream.pipe(tar.x({ C: directory}));
-    })
-  })
+  .then(() => {
+     return exec(
+       `git checkout-index --prefix=${(directoryIndex+path.sep).replace(/\\/g, '/')} -a`,
+       {cwd: directory, shell: true});
+   })
   .then(function() {
     stopExampleSpinner();
     output.success(
       `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
     );
     return copyDir({
-      templatePath: path.join(directory, 'razzle-master', 'examples', example),
+      templatePath: path.join(directoryIndex, examplePath),
       projectPath: projectPath,
       projectName: projectName,
     })
-  }).then(function() {
+  })
+  .then(function() {
     return fs.remove(directory)
   })
-  .catch(function(err) {
-    throw err;
-  });
+  .then(function() {
+    return fs.remove(directoryIndex)
+  })
+ .catch(function(err) {
+   throw err;
+ });
 };

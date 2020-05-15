@@ -9,6 +9,13 @@ const fs = require('fs-extra');
 // shell.config.silent = true;
 
 module.exports = {
+
+  setupStage: (stageName) => {
+    const stagePath = path.join(rootDir, stageName);
+    fs.ensureDirSync(stagePath);
+    shell.cd(stagePath);
+  },
+
   setupStageWithFixture: (stageName, fixtureName) => {
     const stagePath = path.join(rootDir, stageName);
 
