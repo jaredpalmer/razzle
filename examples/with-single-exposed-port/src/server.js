@@ -1,5 +1,5 @@
 import App from './App';
-import * as React from 'react'
+import React from 'react';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 
@@ -13,7 +13,6 @@ server
   .get('/*', (req, res) => {
     const markup = renderToString(<App />);
     res.send(
-      // prettier-ignore
       `<!doctype html>
     <html lang="">
     <head>
@@ -26,10 +25,14 @@ server
             ? `<link rel="stylesheet" href="${assets.client.css}">`
             : ''
         }
+        ${
+          process.env.NODE_ENV === 'production'
+            ? `<script src="${assets.client.js}" defer></script>`
+            : `<script src="${assets.client.js}" defer crossorigin></script>`
+        }
     </head>
     <body>
         <div id="root">${markup}</div>
-        <script src="${assets.client.js}" defer crossorigin></script>
     </body>
 </html>`
     );
