@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = {
-  modify(defaultConfig, { target, dev }, webpack) {
-    const config = defaultConfig; // stay immutable here
-
+  modify(config, { target, dev }, webpack) {
     // Change the name of the server output file in production
     if (target === 'web') {
       // modify filenaming to account for multiple entry files
