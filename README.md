@@ -418,7 +418,7 @@ In development mode (`razzle start`), Razzle bundles both your client and server
 
 ## Inspiration
 
-- [palmerhq/backpack](https://github.com/palmerhq/backpack)
+- [jaredpalmer/backpack](https://github.com/jaredpalmer/backpack)
 - [nytimes/kyt](https://github.com/nytimes/kyt)
 - [facebookincubator/create-react-app](https://github.com/facebookincubator/create-react-app)
 - [humblespark/sambell](https://github.com/humblespark/sambell)
