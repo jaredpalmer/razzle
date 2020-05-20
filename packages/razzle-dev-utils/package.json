@@ -1,24 +1,24 @@
 {
   "name": "razzle-dev-utils",
-  "version": "3.1.3",
   "description": "Utilities and helpers for Razzle",
+  "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "license": "MIT",
+  "version": "3.1.3",
   "files": [
-    "logger.js",
-    "printErrors.js",
     "FriendlyErrorsPlugin.js",
-    "webpackHotDevClient.js",
-    "setPorts.js",
-    "makeLoaderFinder.js",
     "WebpackConfigHelpers.js",
-    "prettyNodeErrors.js"
+    "logger.js",
+    "makeLoaderFinder.js",
+    "prettyNodeErrors.js",
+    "printErrors.js",
+    "setPorts.js",
+    "webpackHotDevClient.js"
   ],
   "dependencies": {
     "@babel/code-frame": "^7.8.3",
     "chalk": "3.0.0",
-    "jest-message-util": "^24.9.0",
+    "jest-message-util": "26.0.1",
     "react-dev-utils": "^10.2.0",
     "strip-ansi": "6.0.0"
   }
