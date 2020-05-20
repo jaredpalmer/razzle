@@ -1,4 +1,10 @@
-# razzle-plugin-typescript
+# DEPRECATED.
+
+This is no longer supported, Razzle now has support for typescript ining babel.
+
+Use [with-typescript example](https://github.com/jaredpalmer/razzle/tree/next/examples/with-typescript) instead.
+
+## razzle-plugin-typescript
 
 This package contains a plugin for using TypeScript with Razzle
 

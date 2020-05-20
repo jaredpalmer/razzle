@@ -30,6 +30,9 @@ function modify(baseConfig, { target, dev }, webpack, userOptions = {}) {
     );
   }
 
+  // don't allow babel-loader to transpile typescript
+  babelLoader.exclude = [/\.ts$/, /\.tsx$/];
+
   // Get the correct `include` option, since that hasn't changed.
   // This tells Razzle which directories to transform.
   const { include } = babelLoader;
