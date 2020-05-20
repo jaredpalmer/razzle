@@ -447,8 +447,8 @@ module.exports = (
       config.output = {
         path: paths.appBuildPublic,
         publicPath: dotenv.raw.PUBLIC_PATH || '/',
-        filename: 'static/js/bundle.[chunkhash:8].js',
-        chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+        filename: 'static/js/bundle.[contenthash:8].js',
+        chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
         libraryTarget: 'var',
       };
 
