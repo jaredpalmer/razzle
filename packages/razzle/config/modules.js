@@ -2,19 +2,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('./paths');
 const logger = require('razzle-dev-utils/logger');
 const resolve = require('resolve');
-const nodePath = require('./env').nodePath;
 
-function getAdditionalModulePaths(options = {}) {
+function getAdditionalModulePaths(options = {}, paths) {
   const baseUrl = options.baseUrl;
 
   // We need to explicitly check for null and undefined (and not a falsy value) because
   // TypeScript treats an empty string as `.`.
   if (baseUrl == null) {
     // If there's no baseUrl set we respect NODE_PATH
-    return nodePath.split(path.delimiter).filter(Boolean);
+    return paths.nodePaths.split(path.delimiter).filter(Boolean);
   }
 
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
@@ -39,7 +37,7 @@ function getAdditionalModulePaths(options = {}) {
   );
 }
 
-function getModules() {
+function getModules(paths) {
   // Check if TypeScript is setup
   const hasTsConfig = fs.existsSync(paths.appTsConfig);
   const hasJsConfig = fs.existsSync(paths.appJsConfig);
@@ -69,11 +67,11 @@ function getModules() {
   config = config || {};
   const options = config.compilerOptions || {};
 
-  const additionalModulePaths = getAdditionalModulePaths(options);
+  const additionalModulePaths = getAdditionalModulePaths(options, paths);
 
   return {
     additionalModulePaths: additionalModulePaths,
   };
 }
 
-module.exports = getModules();
+module.exports = getModules;

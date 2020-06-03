@@ -69,6 +69,7 @@ module.exports = {
     if (test) {
       shell.exec("CI=true yarn run test");
     }
+    return stagePath;
   },
 
   teardownStage: stageName => {
