@@ -1,21 +1,18 @@
 'use strict';
 
 const fs = require('fs-extra');
-const tar = require('tar');
+const pacote = require('pacote');
 const axios = require('axios');
-const httpAdapter = require('axios/lib/adapters/http');
 const os = require('os');
 const path = require('path');
 const UUID = require('pure-uuid');
 const output = require('./output');
 const copyDir = require('./copy-dir');
-const Promise = require('promise');
 
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/master';
-
+  const [npmPackage, examplePath = ''] = example.split(/:/);
   const id = new UUID(4).format();
   const directory = path.join(os.tmpdir(), id);
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
@@ -24,14 +21,7 @@ module.exports = function loadExample(opts) {
     `Downloading files for ${output.cmd(example)} example`
   );
   return fs.ensureDir(directory).then(() => {
-    return axios.get(url, {responseType: 'stream', adapter: httpAdapter});
-  })
-  .then((response) => {
-    return new Promise((resolve, reject) => {
-      const stream = response.data;
-      stream.on("end", () => resolve());
-      stream.pipe(tar.x({ C: directory}));
-    })
+    return pacote.extract(npmPackage, directory);
   })
   .then(function() {
     stopExampleSpinner();
@@ -39,7 +29,7 @@ module.exports = function loadExample(opts) {
       `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
     );
     return copyDir({
-      templatePath: path.join(directory, 'razzle-master', 'examples', example),
+      templatePath: path.join(directory, examplePath),
       projectPath: projectPath,
       projectName: projectName,
     })

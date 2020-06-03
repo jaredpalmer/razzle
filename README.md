@@ -492,6 +492,17 @@ Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) f
 > Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need
 > these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
 
+## create-razzle-app
+
+You can try out razzle easily with the help of [create-razzle-app](https://www.npmjs.com/package/create-razzle-app)
+
+
+```bash
+npx create-razzle-app my-proj
+cd my-proj
+npm start
+```
+
 ## How Razzle works (the secret sauce)
 
 **TL;DR**: 2 configs, 2 ports, 2 webpack instances, both watching and hot reloading the same filesystem, in parallel during development and a little `webpack.output.publicPath` magic.

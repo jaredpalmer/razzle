@@ -14,23 +14,25 @@ const Promise = require('promise');
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/master';
-
+  const [url, examplePath = ''] = example.split(/(?<!https):/);
+  const [, , , user, repoBranch] = url.split('/');
+  const [repo, branch = 'master'] = repoBranch.split('@');
   const id = new UUID(4).format();
   const directory = path.join(os.tmpdir(), id);
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
+  const tarGzUrl = `https://codeload.github.com/${user}/${repo}/tar.gz/${branch}`;
 
   const stopExampleSpinner = output.wait(
     `Downloading files for ${output.cmd(example)} example`
   );
   return fs.ensureDir(directory).then(() => {
-    return axios.get(url, {responseType: 'stream', adapter: httpAdapter});
+    return axios.get(tarGzUrl, {responseType: 'stream', adapter: httpAdapter});
   })
   .then((response) => {
     return new Promise((resolve, reject) => {
       const stream = response.data;
       stream.on("end", () => resolve());
-      stream.pipe(tar.x({ C: directory}));
+      stream.pipe(tar.x({ C: directory}))
     })
   })
   .then(function() {
@@ -39,7 +41,7 @@ module.exports = function loadExample(opts) {
       `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
     );
     return copyDir({
-      templatePath: path.join(directory, 'razzle-master', 'examples', example),
+      templatePath: path.join(directory, `${repo}-${branch}`, examplePath),
       projectPath: projectPath,
       projectName: projectName,
     })
