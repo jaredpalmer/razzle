@@ -115,6 +115,11 @@ module.exports = (
       dotenv.raw.CLIENT_PUBLIC_PATH ||
       (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
 
+    const modulesConfig = modules(paths);
+    const additionalModulePaths = modulesConfig.additionalModulePaths || [];
+    const additionalAliases = modulesConfig.additionalAliases || {};
+    const additionalIncludes = modulesConfig.additionalIncludes || [];
+
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
@@ -129,16 +134,16 @@ module.exports = (
       // the users', so we use resolve and resolveLoader.
       resolve: {
         modules: ['node_modules', paths.appNodeModules].concat(
-          modules(paths).additionalModulePaths || []
+          additionalModulePaths
         ),
         extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
-        alias: {
+        alias: Object.assign({
           // This is required so symlinks work during development.
           'webpack/hot/poll': require.resolve('webpack/hot/poll'),
           // Support React Native Web
           // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
           'react-native': 'react-native-web',
-        },
+        }, additionalAliases),
       },
       resolveLoader: {
         modules: [paths.appNodeModules, paths.ownNodeModules],
@@ -157,7 +162,7 @@ module.exports = (
           // Transform ES6 with Babel
           {
             test: /\.(js|jsx|mjs|ts|tsx)$/,
-            include: [paths.appSrc],
+            include: [paths.appSrc].concat(additionalIncludes),
             use: [
               {
                 loader: require.resolve('babel-loader'),

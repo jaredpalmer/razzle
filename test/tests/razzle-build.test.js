@@ -175,7 +175,7 @@ describe('razzle build', () => {
     // Create chunk manifest
     expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
 
-    const assets = require(path.join(stagePath, 'build/assets.json'));
+    const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
     const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.css));
 
     expect(css.toString().includes("razzle-scss-prepend")).toBeTruthy();
@@ -195,6 +195,23 @@ describe('razzle build', () => {
     // We modify the default server output filename -> custom.js
     expect(shell.test('-f', 'build/custom.js')).toBeTruthy();
     expect(shell.test('-f', 'build/custom.js.map')).toBeTruthy();
+
+    expect(output.code).toBe(0);
+  });
+
+  it('should compile with jsconfig paths', () => {
+    const stagePath = util.setupStageWithExample(stageName, 'with-jsconfig-paths');
+    const output = shell.exec('yarn build');
+    // Create asset manifest
+    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+
+    // Create chunk manifest
+    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+
+    const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
+    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js));
+
+    expect(js.toString().includes("Something Extra")).toBeTruthy();
 
     expect(output.code).toBe(0);
   });

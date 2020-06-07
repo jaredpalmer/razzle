@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const logger = require('razzle-dev-utils/logger');
-const resolve = require('resolve');
 
 function getAdditionalModulePaths(options = {}, paths) {
   const baseUrl = options.baseUrl;
@@ -23,7 +22,7 @@ function getAdditionalModulePaths(options = {}, paths) {
     return null;
   }
 
-  // Allow the user set the `baseUrl` to `appSrc`.
+  // Allow the user set the `baseUrl` to `appSrc`.-
   if (path.relative(paths.appSrc, baseUrlResolved) === '') {
     return [paths.appSrc];
   }
@@ -35,6 +34,33 @@ function getAdditionalModulePaths(options = {}, paths) {
         ' Razzle does not support other values at this time.'
     )
   );
+}
+
+function getAdditionalAliases(options = {}, paths) {
+  const baseUrl = options.baseUrl;
+  let aliases = {};
+
+  // We need to explicitly check for null and undefined (and not a falsy value) because
+  // TypeScript treats an empty string as `.`.
+  if (baseUrl == null) {
+    // If there's no baseUrl we have no aliases
+    return {};
+  }
+
+  const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
+
+  Object.keys(options.paths || {}).forEach((item) => {
+    const name = item.replace(/\/\*$/, "");
+    // webpack5 allows arrays here, fix later
+    const value = path.resolve(baseUrlResolved, options.paths[item][0].replace(/\/\*$/, ""));
+    aliases[name] = value;
+  });
+
+  return aliases;
+}
+
+function getAdditionalIncludes(additionalAliases) {
+  return Object.values(additionalAliases);
 }
 
 function getModules(paths) {
@@ -68,9 +94,13 @@ function getModules(paths) {
   const options = config.compilerOptions || {};
 
   const additionalModulePaths = getAdditionalModulePaths(options, paths);
+  const additionalAliases = getAdditionalAliases(options, paths);
+  const additionalIncludes = getAdditionalIncludes(additionalAliases);
 
   return {
     additionalModulePaths: additionalModulePaths,
+    additionalAliases: additionalAliases,
+    additionalIncludes: additionalIncludes,
   };
 }
 
