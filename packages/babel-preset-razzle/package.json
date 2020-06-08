@@ -20,7 +20,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.2",
-    "babel-plugin-dynamic-import-node": "2.3.0",
+    "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24"
   }
 }
