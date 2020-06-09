@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-const StartServerPlugin = require('start-server-webpack-plugin');
+const StartServerPlugin = require('@fivethreeo/start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -17,6 +17,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const webpackMajor = require('razzle-dev-utils/webpackMajor');
 const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config')
 const logger = require('razzle-dev-utils/logger');
@@ -263,7 +264,6 @@ module.exports = (
     if (IS_NODE) {
       // We want to uphold node's __filename, and __dirname.
       config.node = {
-        __console: false,
         __dirname: false,
         __filename: false,
       };
@@ -288,6 +288,12 @@ module.exports = (
         filename: 'server.js',
         libraryTarget: 'commonjs2',
       };
+      if (webpackMajor === 5) {
+        config.output.library = {
+          type: 'commonjs2',
+          name: 'server',
+        };
+      }
       // Add some plugins...
       config.plugins = [
         // We define environment variables that can be accessed globally in our
@@ -332,10 +338,11 @@ module.exports = (
             nodeArgs,
           }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
-          new webpack.WatchIgnorePlugin([
-            paths.appAssetsManifest,
-            paths.appChunksManifest,
-          ]),
+          new webpack.WatchIgnorePlugin(
+            webpackMajor === 5
+              ? { paths: [paths.appAssetsManifest, paths.appChunksManifest] }
+              : [paths.appAssetsManifest, paths.appChunksManifest]
+          ),
         ];
       }
     }
@@ -418,6 +425,14 @@ module.exports = (
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
         };
+
+        if (webpackMajor === 5) {
+          config.output.library = {
+            type: 'var',
+            name: 'client',
+          };
+        }
+
         // Configure webpack-dev-server to serve our client-side bundle from
         // http://${dotenv.raw.HOST}:3001
         config.devServer = {
@@ -491,6 +506,13 @@ module.exports = (
           libraryTarget: 'var',
         };
 
+        if (webpackMajor === 5) {
+          config.output.library = {
+            type: 'var',
+            name: 'client',
+          };
+        }
+
         config.plugins = [
           ...config.plugins,
           // Define production environment vars
@@ -500,11 +522,12 @@ module.exports = (
             filename: 'static/css/bundle.[contenthash:8].css',
             chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
           }),
-          new webpack.HashedModuleIdsPlugin(),
+          webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
-        ];
+        ].filter(x => x);
 
         config.optimization = {
+          moduleIds: webpackMajor === 5 ? 'deterministic' : 'hashed',
           minimize: true,
           minimizer: [
             new TerserPlugin({
