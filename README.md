@@ -125,7 +125,6 @@ In addition to universal/isomorphic appplications, Razzle can build single page 
 }
 ```
 
-
 ## Customization
 
 ### Plugins
