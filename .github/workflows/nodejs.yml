@@ -11,9 +11,9 @@ jobs:
       matrix:
         node-version: [8.x, 10.x, 12.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
-    
+
     name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }}
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -27,8 +27,12 @@ jobs:
     - name: Install and bootstrap packages
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 
+    - name: Set webpack version output
+      id: set-webpack
+      run: node -e "console.log('::set-output name=webpack::'+(/5\./.test(require('webpack').version)?'5':'4'));"
+
     - name: Run tests
       run: yarn test --runInBand --coverage
+      if: steps.set-webpack.outputs.webpack == '5' && matrix.node-version != '8.x' || steps.set-webpack.outputs.webpack == '4'
       env:
         CI: true
-
