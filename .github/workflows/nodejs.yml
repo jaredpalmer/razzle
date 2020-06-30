@@ -24,6 +24,9 @@ jobs:
     - name: Install elm globally
       run: yarn global add elm
 
+    - name: Install and bootstrap packages
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
+
     - name: Set webpack version output
       id: set-webpack
       run: node -e "console.log('::set-output name=webpack::'+(/5\./.test(require('webpack').version)?'5':'4'));"
