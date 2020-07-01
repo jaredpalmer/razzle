@@ -8,6 +8,9 @@
   "bugs": {
     "url": "https://github.com/jaredpalmer/razzle/issues"
   },
+  "resolutions": {
+    "**/**/node-gyp": "7.0.0"
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "got": "^11.0.2",
