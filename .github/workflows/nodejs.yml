@@ -24,6 +24,14 @@ jobs:
     - name: Install elm globally
       run: yarn global add elm
 
+    - name: Restore lerna
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+
     - name: Install and bootstrap packages
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 
