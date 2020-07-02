@@ -19,7 +19,13 @@ defaults: &defaults
 
     - run:
         name: Run tests
-        command: yarn test --runInBand --coverage
+        command: |
+          if [[ $(node -v | awk 'BEGIN { FS="." } { gsub("v", "", $1); print $1 }') =~ 8|9 ]] &&
+            [[ $(node -e "console.log(require('webpack').version);" | awk 'BEGIN { FS="." } { print $1 }') = "5" ]]; then
+            exit 0
+          else
+            yarn test --runInBand --coverage
+          fi
 
     - save_cache:
         paths:
@@ -51,7 +57,7 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/node:12
-    
+
 
 workflows:
   version: 2
