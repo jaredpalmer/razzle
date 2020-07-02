@@ -15,5 +15,6 @@ jobs:
 
     steps:
     - uses: actions/labeler@v2
+      if: github.repository == 'jaredpalmer/razzle'
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
