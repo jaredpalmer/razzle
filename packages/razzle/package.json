@@ -50,7 +50,8 @@
     "webpack-dev-server": "~3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^4.0.0",
+    "snyk": "^1.360.0"
   },
   "keywords": [
     "inferno",
@@ -63,5 +64,10 @@
     "ssr",
     "universal",
     "webpack"
-  ]
+  ],
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
