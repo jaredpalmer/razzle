@@ -5,6 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "babel-preset-php": "^1.2.0",
-    "razzle-dev-utils": "^3.1.5"
-  }
+    "razzle-dev-utils": "^3.1.5",
+    "snyk": "^1.360.0"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
