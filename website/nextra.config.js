@@ -48,13 +48,13 @@ export default {
       />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@jaredpalmer" />
-      <meta name="twitter:image" content="/og_image.png" />
+      <meta name="twitter:image" content="https://razzlejs.org/og_image.png" />
       <meta
         name="og:title"
         content="Razzle: Build React Apps from Zero to Production."
       />
       <meta name="og:url" content="https://razzlejs.org" />
-      <meta name="og:image" content="/og_image.png" />
+      <meta name="og:image" content="https://razzlejs.org/og_image.png" />
       <meta name="apple-mobile-web-app-title" content="Razzle" />
       {/* <link
         rel="stylesheet"
