@@ -1,5 +1,5 @@
 {
-  "name": "swr-site",
+  "name": "razzle-site",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "start": "next",
     "build": "next build"
   },
-  "author": "Shu Ding",
+  "author": "Jared Palmer",
   "license": "MIT",
   "dependencies": {
     "@reach/skip-nav": "^0.10.5",
