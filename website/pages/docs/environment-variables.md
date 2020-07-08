@@ -102,7 +102,7 @@ set RAZZLE_SECRET_CODE=abcdef&&npm start
 RAZZLE_SECRET_CODE=abcdef npm start
 ```
 
-## Adding Environment Variables In `.env`
+## Adding Environment Variables In .env
 
 To define permanent environment variables, create a file called .env in the root of your project:
 
@@ -110,7 +110,7 @@ To define permanent environment variables, create a file called .env in the root
 RAZZLE_SECRET_CODE=abcdef
 ```
 
-## Expanding Environment Variables In `.env`
+## Expanding Environment Variables In .env
 
 Expand variables already on your machine for use in your `.env` file.
 
@@ -130,7 +130,7 @@ RAZZLE_FOO=$DOMAIN/foo
 RAZZLE_BAR=$DOMAIN/bar
 ```
 
-### What other `.env` files are can be used?
+### What other .env files are can be used?
 
 - `.env`: Default.
 - `.env.local`: Local overrides. **This file is loaded for all environments except test.**
