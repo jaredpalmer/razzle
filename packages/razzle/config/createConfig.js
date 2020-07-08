@@ -18,7 +18,7 @@ const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware')
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
-const postcssLoadConfig = require('postcss-load-config')
+const postcssLoadConfig = require('postcss-load-config');
 const logger = require('razzle-dev-utils/logger');
 
 const defaultPostCssOptions = {
@@ -36,13 +36,13 @@ const defaultPostCssOptions = {
 
 const hasPostCssConfig = () => {
   try {
-    return !!postcssLoadConfig.sync()
+    return !!postcssLoadConfig.sync();
   } catch (_error) {
-    return false
+    return false;
   }
-}
+};
 
-const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions
+const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions;
 
 const webpackDevClientEntry = require.resolve(
   'razzle-dev-utils/webpackHotDevClient'
@@ -58,12 +58,12 @@ module.exports = (
     port = 3000,
     modify = null,
     modifyBabelOptions = null,
-    experimental = {}
+    experimental = {},
   },
   webpackObject,
   clientOnly = false,
   paths,
-  plugins = [],
+  plugins = []
 ) => {
   return new Promise(async resolve => {
     // Define some useful shorthands.
@@ -72,7 +72,6 @@ module.exports = (
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
 
     const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
 
@@ -83,13 +82,13 @@ module.exports = (
       babelrc: true,
       cacheDirectory: true,
       presets: [],
-      plugins: []
+      plugins: [],
     };
 
     if (!hasBabelRc) {
       mainBabelOptions.presets.push(require.resolve('../babel'));
       if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
-        mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'))
+        mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
       }
     }
 
@@ -102,7 +101,11 @@ module.exports = (
       console.log('Using .babelrc defined in your app root');
     }
 
-    const dotenv = getClientEnv(target, { clearConsole, host, port, shouldUseReactRefresh }, paths);
+    const dotenv = getClientEnv(
+      target,
+      { clearConsole, host, port, shouldUseReactRefresh },
+      paths
+    );
 
     const portOffset = clientOnly ? 0 : 1;
 
@@ -138,13 +141,16 @@ module.exports = (
           additionalModulePaths
         ),
         extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
-        alias: Object.assign({
-          // This is required so symlinks work during development.
-          'webpack/hot/poll': require.resolve('webpack/hot/poll'),
-          // Support React Native Web
-          // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-          'react-native': 'react-native-web',
-        }, additionalAliases),
+        alias: Object.assign(
+          {
+            // This is required so symlinks work during development.
+            'webpack/hot/poll': require.resolve('webpack/hot/poll'),
+            // Support React Native Web
+            // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+            'react-native': 'react-native-web',
+          },
+          additionalAliases
+        ),
       },
       resolveLoader: {
         modules: [paths.appNodeModules, paths.ownNodeModules],
@@ -168,8 +174,8 @@ module.exports = (
               {
                 loader: require.resolve('babel-loader'),
                 options: babelOptions,
-              }
-            ]
+              },
+            ],
           },
           {
             exclude: [
@@ -375,6 +381,10 @@ module.exports = (
                 )
                 .filter(Boolean);
 
+              const chunkIds = [].concat(
+                ...(entry.chunks || []).map(chunk => chunk.ids)
+              );
+
               const cssFiles = files
                 .map(item => (item.indexOf('.css') !== -1 ? item : null))
                 .filter(Boolean);
@@ -389,6 +399,7 @@ module.exports = (
                     [name]: {
                       css: cssFiles,
                       js: jsFiles,
+                      chunks: chunkIds,
                     },
                   }
                 : acc;
@@ -453,14 +464,13 @@ module.exports = (
             // set this true will break HtmlWebpackPlugin
             multiStep: !clientOnly,
           }),
-          shouldUseReactRefresh ?
-            new ReactRefreshWebpackPlugin({
-              overlay: {
-                entry: webpackDevClientEntry,
-              },
-            })
-            : null
-          ,
+          shouldUseReactRefresh
+            ? new ReactRefreshWebpackPlugin({
+                overlay: {
+                  entry: webpackDevClientEntry,
+                },
+              })
+            : null,
           new webpack.DefinePlugin(dotenv.stringified),
         ].filter(x => x);
 
@@ -613,24 +623,27 @@ module.exports = (
       ];
     }
 
-
     for (const [plugin, options] of plugins) {
       // Check if plugin is a function.
       // If it is, call it on the configs we created.
       if (typeof plugin === 'function') {
-        config = await Promise.resolve(runPlugin(
-          plugin,
-          config,
-          { target, dev: IS_DEV },
-          webpackObject,
-          options
-        ));
+        config = await Promise.resolve(
+          runPlugin(
+            plugin,
+            config,
+            { target, dev: IS_DEV },
+            webpackObject,
+            options
+          )
+        );
       }
     }
     // Check if razzle.config.js has a modify function.
     // If it does, call it on the configs we created.
     if (modify) {
-      config = await Promise.resolve(modify(config, { target, dev: IS_DEV }, webpackObject));
+      config = await Promise.resolve(
+        modify(config, { target, dev: IS_DEV }, webpackObject)
+      );
     }
 
     resolve(config);
