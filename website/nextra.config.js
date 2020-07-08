@@ -7,8 +7,8 @@ export default {
     <>
       <Logo height={22} />
       <span className=" font-extrabold hidden md:inline sr-only">Razzle</span>
-      <span className="mx-3 text-gray-600 font-normal hidden md:inline whitespace-no-wrap">
-        JavaScript applications. From zero to production.
+      <span className="mx-3 text-gray-500 font-normal hidden md:inline whitespace-no-wrap">
+        React applications. From zero to production.
       </span>
     </>
   ),
