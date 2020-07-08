@@ -50,7 +50,7 @@ export default {
       <meta name="twitter:site" content="@jaredpalmer" />
       <meta name="twitter:image" content="/og_image.png" />
       <meta name="og:title" content="SWR: React Hooks for Data Fetching" />
-      <meta name="og:url" content="https://jaredpalmer.com/razzle" />
+      <meta name="og:url" content="https://razzlejs.org" />
       <meta name="og:image" content="/og_image.png" />
       <meta name="apple-mobile-web-app-title" content="Razzle" />
       {/* <link
