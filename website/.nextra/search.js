@@ -11,7 +11,7 @@ const Item = ({ title, active, href, onMouseOver, search }) => {
     <Link href={href}>
       <a className="block no-underline" onMouseOver={onMouseOver}>
         <li
-          className={cn('py-2 px-3  text-gray-800', {
+          className={cn('py-2 px-3 text-gray-800', {
             'bg-gray-100': active,
           })}
         >
@@ -100,12 +100,12 @@ const Search = ({ directories }) => {
       {renderList && (
         <div className="search-overlay z-1" onClick={() => setShow(false)} />
       )}
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <svg
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
-          stroke-width="2"
+          strokeWidth="2"
           viewBox="0 0 24 24"
           stroke="currentColor"
           className="h-4 w-4 text-gray-400"
