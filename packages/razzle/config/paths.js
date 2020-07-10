@@ -61,6 +61,7 @@ module.exports = {
   appSrc: resolveApp('src'),
   appHtml: resolveApp('public/index.html'), // client only
   appPackageJson: resolveApp('package.json'),
+  appServerJs: resolveApp('src/server'),
   appServerIndexJs: resolveApp('src'),
   appClientIndexJs: resolveApp('src/client'),
   tsTestsSetup: resolveApp('src/setupTests.ts'),

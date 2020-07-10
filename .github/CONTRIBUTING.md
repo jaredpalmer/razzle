@@ -104,7 +104,7 @@ I will do my best to write out my reasoning before closing a PR, but 80% of the 
 
 We use the project README to recognize the contributions of members of the project community.
 
-To add a contributor: `all-contrubutors add github_username doc,code`
+To add a contributor: `all-contributors add github_username doc,code`
 
 [Valid contributing keys](https://allcontributors.org/docs/en/emoji-key)
 

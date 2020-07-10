@@ -52,6 +52,12 @@ Runs the compiled app in production.
 
 You can again view your application at `http://localhost:3000`
 
+### `npm prerender` or `yarn prerender`
+
+Renders a static version of specified routes to the build folder based on the built production app.
+See [Experimental](#experimental) on how to enable prerender.
+Your prerendered app is ready to be served!
+
 ### `npm test` or `yarn test`
 
 Runs the test watcher (Jest) in an interactive mode.
@@ -327,7 +333,7 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 ### Experimental
 
-Razzle has support for some experimental features. Currently razzle only has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin). More features may be added in the future and may become fully supported features.
+Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and prerender. More features may be added in the future and may become fully supported features.
 
 To enable react-refresh:
 
@@ -337,6 +343,49 @@ To enable react-refresh:
 module.exports = {
   experimental: {
     reactRefresh: true,
+  },
+};
+```
+
+To enable prerender:
+
+Add `prerender` to your `package.json`'s scripts like so:
+
+```diff
+"scripts": {
++  "prerender": "razzle prerender --routes=routes.json",
+}
+```
+
+Add a `routes.json` to your app dir:
+
+```json
+["/","/about"]
+```
+
+Add a `experimental.prerender` to your `razzle.config.js`:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    prerender: true,
+  },
+};
+```
+
+To enable prerender with options:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    prerender: {
+      entrypoint: 'server.js',
+      export: 'render'
+    },
   },
 };
 ```
@@ -543,8 +592,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
     <td align="center"><a href="https://www.linkedin.com/in/ray-andrew/"><img src="https://avatars1.githubusercontent.com/u/4437323?v=4" width="100px;" alt=""/><br /><sub><b>Ray Andrew</b></sub></a><br /><a href="https://github.com/jaredpalmer/razzle/commits?author=rayandrews" title="Code">💻</a> <a href="#example-rayandrews" title="Examples">💡</a> <a href="#plugin-rayandrews" title="Plugin/utility libraries">🔌</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/Nima77"><img src="https://avatars1.githubusercontent.com/u/49443619?v=4" width="100px;" alt=""/><br /><sub><b>nima77</b></sub></a><br /><a href="#question-Nima77" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Documentation">📖</a> <a href="#example-Nima77" title="Examples">💡</a> <a href="#ideas-Nima77" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3ANima77" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nima77" title="Tests">⚠️</a> <a href="#tool-Nima77" title="Tools">🔧</a></td>
-    <td align="center"><a href="http://fivethreeo.cylon.no/"><img src="https://avatars2.githubusercontent.com/u/410?v=4" width="100px;" alt=""/><br /><sub><b>Øyvind Saltvik</b></sub></a><br /><a href="#question-fivethreeo" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Documentation">📖</a> <a href="#example-fivethreeo" title="Examples">💡</a> <a href="#ideas-fivethreeo" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3Afivethreeo" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Tests">⚠️</a> <a href="#tool-fivethreeo" title="Tools">🔧</a></td>
+    <td align="center"><a href="https://github.com/Nimaa77"><img src="https://avatars2.githubusercontent.com/u/25016067?v=4" width="100px;" alt=""/><br /><sub><b>nimaa77</b></sub></a><br /><a href="#question-Nimaa77" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nimaa77" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nimaa77" title="Documentation">📖</a> <a href="#example-Nimaa77" title="Examples">💡</a> <a href="#ideas-Nimaa77" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3ANimaa77" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=Nimaa77" title="Tests">⚠️</a> <a href="#tool-Nimaa77" title="Tools">🔧</a></td>
+    <td align="center"><a href="https://github.com/fivethreeo"><img src="https://avatars2.githubusercontent.com/u/410?v=4" width="100px;" alt=""/><br /><sub><b>Øyvind Saltvik</b></sub></a><br /><a href="#question-fivethreeo" title="Answering Questions">💬</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Code">💻</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Documentation">📖</a> <a href="#example-fivethreeo" title="Examples">💡</a> <a href="#ideas-fivethreeo" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/jaredpalmer/razzle/pulls?q=is%3Apr+reviewed-by%3Afivethreeo" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/jaredpalmer/razzle/commits?author=fivethreeo" title="Tests">⚠️</a> <a href="#tool-fivethreeo" title="Tools">🔧</a></td>
   </tr>
 </table>
 
@@ -553,5 +602,3 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
-
-Done in 0.23s.
