@@ -1,0 +1,17 @@
+import Features from 'components/features';
+
+# Razzle
+
+<Features />
+
+JavaScript applications are tough to setup. Either you buy into a framework like [Next.js](https://github.com/zeit/next.js), fork a boilerplate, or set things up yourself. Aiming to fill this void, Razzle is a tool that abstracts all complex configuration needed for both SPA's and SSR applications into a single dependency--giving you the awesome developer experience of [create-react-app](https://github.com/facebookincubator/create-react-app), but then leaving the rest of your app's architectural decisions about frameworks, routing, and data fetching up to you. With this approach, Razzle not only works with React, but also Reason, Elm, Vue, Angular, and most importantly......whatever comes next.
+
+**Razzle comes with the "battery-pack included"**:
+
+- 🔥 Universal Hot Module Replacement, so both the client and server update whenever you make edits. No annoying restarts necessary
+- Comes with your favorite ES6 JavaScript goodies (through `babel-preset-razzle`)
+- Comes with the same CSS setup as [create-react-app](https://github.com/facebookincubator/create-react-app)
+- Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), and [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
+- Escape hatches for customization via `.babelrc` and `razzle.config.js`
+- [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
+- SPA mode, build client side apps with razzle

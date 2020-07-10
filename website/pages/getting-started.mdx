@@ -1,0 +1,78 @@
+import Link from 'next/link';
+
+# Getting Started
+
+## Quick Start
+
+```sh
+npx create-razzle-app my-app
+cd my-app
+npm start
+```
+
+Then open http://localhost:3000/ to see your app. Your console should look like this:
+
+<img
+  src="https://cloud.githubusercontent.com/assets/4060187/26324663/b31788c4-3f01-11e7-8e6f-ffa48533af54.png"
+  width="500px"
+  alt="Razzle Development Mode"
+/>
+
+**That's it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
+
+Below is a list of commands you will probably find useful.
+
+Then open http://localhost:3000/ to see your app. Your console should look like this:
+
+<img
+  src="https://cloud.githubusercontent.com/assets/4060187/26324663/b31788c4-3f01-11e7-8e6f-ffa48533af54.png"
+  width="500px"
+  alt="Razzle Development Mode"
+/>
+
+**That's it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
+
+## Commands
+
+Below is a list of commands you will probably find useful.
+
+### npm start
+
+Runs the project in development mode.  
+You can view your application at `http://localhost:3000`
+
+The page will reload if you make edits.
+
+### npm run build
+
+Builds the app for production to the build folder.
+
+The build is minified and the filenames include the hashes.
+Your app is ready to be deployed!
+
+### npm run start:prod
+
+Runs the compiled app in production.
+
+You can again view your application at `http://localhost:3000`
+
+### npm test
+
+Runs the test watcher (Jest) in an interactive mode.
+By default, runs tests related to files changed since the last commit.
+
+### rs
+
+If your application is running, and you need to manually restart your server, you do not need to completely kill and rebundle your application. Instead you can just type `rs` and press enter in terminal.
+
+<img
+  src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png"
+  width="500px"
+  alt="Razzle Hot Restart"
+/>
+
+## Debugging with Inspector
+
+- `npm start -- --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+
+- `npm start -- --inspect-brk=[host:port]` This is the same as `--inspect`, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
