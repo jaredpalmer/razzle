@@ -112,7 +112,9 @@ loadRazzleConfig(webpack).then(
 
           fs.ensureDirSync(outputDir);
           fs.outputFileSync(htmlFile, html);
-          fs.outputFileSync(pageDataFile, JSON.stringify(data));
+          if (!!data) {
+            fs.outputFileSync(pageDataFile, JSON.stringify(data));
+          }
         };
 
         const req = { url: pathname };
