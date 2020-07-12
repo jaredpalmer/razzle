@@ -1,19 +1,29 @@
 # Razzle Experimental React Refresh Example
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the development documentation for this example
+
+Clone the `razzle` repository:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-experimental-refresh
-cd with-experimental-refresh
+git clone https://github.com/jaredpalmer/razzle.git
+
+cd razzle
+yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 ```
 
-Install it and run:
+Create and start the example:
 
 ```bash
-yarn install
+node -e 'require("./test/fixtures/util").setupStageWithExample("with-experimental-refresh", "with-experimental-refresh", symlink=false, yarnlink=true, install=true, test=false);'
+
+cd with-experimental-refresh
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
 This is a basic, bare-bones example of how to use razzle. It satisfies the entry points

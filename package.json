@@ -39,6 +39,7 @@
     "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre",
     "publish-stable": "lerna version --force-publish && release && node ./scripts/release-notes.js",
     "build-docs": "node ./scripts/build-docs.js",
+    "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f"
   },

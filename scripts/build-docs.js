@@ -1,5 +1,6 @@
 'use strict';
 
+const execa = require('execa');
 const updateSection = require('update-section');
 const transform = require('doctoc/lib/transform');
 const fs = require('fs-extra');
@@ -7,47 +8,69 @@ const path = require('path');
 
 const rootDir = process.cwd();
 
-var insert = '<!-- INSERT doctoc generated TOC please keep comment here to allow auto update -->\n';
+var startDocToc = '<!-- START doctoc generated instructions please keep comment here to allow auto update -->\n' +
+            '<!-- DON\'T EDIT THIS SECTION, INSTEAD RE-RUN yarn build-docs TO UPDATE -->'
+  , endDocToc   = '<!-- END doctoc generated instructions please keep comment here to allow auto update -->'
 
-const insertRe = /<!-- INSERT doctoc .*$/m;
+var startContributors = '<!-- START contributors generated instructions please keep comment here to allow auto update -->\n' +
+            '<!-- DON\'T EDIT THIS SECTION, INSTEAD RE-RUN yarn build-docs TO UPDATE -->'
+  , endContributors   = '<!-- END contributors generated instructions please keep comment here to allow auto update -->'
 
-function matchesStart(line) {
+function matchesStartDocToc(line) {
   return (/<!-- START doctoc /).test(line);
 }
 
-function matchesEnd(line) {
+function matchesEndDocToc(line) {
   return (/<!-- END doctoc /).test(line);
 }
 
-function stripGetToc(content) {
-  let lines = content.split('\n')
-    , info = updateSection.parse(lines, matchesStart, matchesEnd);
-  if (info.hasStart&&info.hasEnd) {
-    return {
-      stripped: lines.slice(0, info.startIdx).join('\n') +
-        lines.slice(info.endIdx+1).join('\n'),
-      toc: lines.slice(info.startIdx, info.endIdx+1).join('\n')
-    }
-  }
-  return {
-    stripped: content
-  }
+function matchesStartContributors(line) {
+  return (/<!-- START contributors /).test(line);
 }
 
-const docs = [
-  path.join(rootDir, 'README.md'),
+function matchesEndContributors(line) {
+  return (/<!-- END contributors /).test(line);
+}
+
+const tocDocs = [
   path.join(rootDir, '.github', 'CODE_OF_CONDUCT.md'),
   path.join(rootDir, '.github', 'CONTRIBUTING.md'),
 ];
 
-for (let doc of docs) {
-  fs.readFile(doc).then(data=>{
-    const tocInfo = stripGetToc(data.toString());
-    const newToc = transform(tocInfo.stripped).data;
-    const newTocInfo = stripGetToc(newToc);
-    return newTocInfo.stripped.replace(insertRe, insert + newTocInfo.toc);
-  }).then(data=>{
-    return fs.writeFile(doc, data);
+const contributorsDocs = [
+  path.join(rootDir, 'README.md'),
+];
+
+for (let tocDoc of tocDocs) {
+  fs.readFile(tocDoc).then(data=>{
+    return {
+      headings: data.toString().replace(/^((?!#.+$).*\n)/gm, ''),
+      document: data.toString()
+    };
+  }).then(info=>{
+    const newToc = transform(info.headings).data.replace(/^((?!\s*\-.+$).*\n)/gm, '');
+    const newDoc = updateSection(info.document, startDocToc+newToc+endDocToc, matchesStartDocToc, matchesEndDocToc);
+    return fs.writeFile(tocDoc, newDoc);
+  }).catch(err=>{
+    console.log(err)
+  })
+}
+
+for (let contributorsDoc of contributorsDocs) {
+  fs.readFile(contributorsDoc).then(data=>{
+    const allContributors = JSON.parse(fs.readFileSync(path.join(rootDir, '.all-contributorsrc')));
+    const contributors = '\n' +
+        allContributors.contributors.map(contributor=>`- **${contributor.name}** - [@${contributor.login}](${contributor.profile})\n` +
+        `  - **Contributions:** ` + contributor.contributions.join(', ') ).join('\n')
+      + '\n';
+    return {
+      contributors: contributors,
+      document: data.toString()
+    };
+  }).then(info=>{
+    console.log(info.contributors);
+    const newDoc = updateSection(info.document, startContributors+info.contributors+endContributors, matchesStartContributors, matchesEndContributors);
+    return fs.writeFile(contributorsDoc, newDoc);
   }).catch(err=>{
     console.log(err)
   })

@@ -54,6 +54,38 @@ module.exports = function myRazzlePlugin(config, env, webpack, options) {
 };
 ```
 
+##### New in razzle 3.2
+
+Plugins also support using promises
+
+```js
+'use strict';
+
+module.exports = function myRazzlePlugin(webpackConfig, env, webpack, options) {
+  const { target, dev } = env;
+
+  return new Promise(async (resolve) => {
+    if (target === 'web') {
+      // client only
+    }
+
+    if (target === 'server') {
+      // server only
+    }
+
+    if (dev) {
+      // dev only
+      await getDevcert();
+    } else {
+      // prod only
+    }
+
+    // Do some stuff...
+    resolve(webpackConfig);
+  })
+};
+```
+
 ## Customizing Babel Config
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
@@ -101,6 +133,39 @@ module.exports = {
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
+#### New in razzle 3.2
+
+`razzle.config.js` modify also support using promises
+
+```js
+// razzle.config.js
+
+module.exports = {
+  modify: (webpackConfig, { target, dev }, webpack) => {
+
+    return new Promise(async (resolve) => {
+      if (target === 'web') {
+        // client only
+      }
+
+      if (target === 'server') {
+        // server only
+      }
+
+      if (dev) {
+        // dev only
+        await getDevcert();
+      } else {
+        // prod only
+      }
+
+      // Do some stuff...
+      resolve(webpackConfig);
+    })
+  },
+};
+```
+
 ## CSS Modules
 
 Razzle supports [CSS Modules](https://github.com/css-modules/css-modules) using Webpack's [css-loader](https://github.com/webpack-contrib/css-loader). Simply import your CSS file with the extension `.module.css` and Razzle will process the file using `css-loader`.
@@ -130,4 +195,20 @@ Next, place one of the following lines at the very top of `src/client.js:`
 ```javascript
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
+```
+
+## Experimental
+
+Razzle has support for some experimental features. Currently razzle only has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin). More features may be added in the future and may become fully supported features.
+
+To enable react-refresh:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    reactRefresh: true,
+  },
+};
 ```
