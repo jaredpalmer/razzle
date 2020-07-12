@@ -34,11 +34,16 @@ loadRazzleConfig(webpack).then(
   async ({ razzle, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
-    measureFileSizesBeforeBuild(paths.appBuildPublic+'/')
+    measureFileSizesBeforeBuild(paths.appBuildPublic + '/')
       .then(previousFileSizes => {
         if (!fs.existsSync(path.join(paths.appBuild, 'prerender.js'))) {
           console.log(chalk.red('Failed to prerender.\n'));
-          console.log('No prerender.js found in ' + paths.appBuild + ', run build before prerender.\n' + '\n');
+          console.log(
+            'No prerender.js found in ' +
+              paths.appBuild +
+              ', run build before prerender.\n' +
+              '\n'
+          );
           process.exit(1);
         }
         // Start the webpack build
@@ -65,7 +70,7 @@ loadRazzleConfig(webpack).then(
       ));
       const render_export =
         (razzle.experimental &&
-        razzle.experimental.prerender &&
+          razzle.experimental.prerender &&
           razzle.experimental.prerender.export) ||
         'render';
       const render = prerender_entrypoint[render_export];
@@ -74,7 +79,9 @@ loadRazzleConfig(webpack).then(
 
       if (!fs.existsSync(routesPath)) {
         console.log(chalk.red('Failed to prerender.\n'));
-        console.log('No ' + cliArgs.routes + ' found in ' + paths.appPath + '.\n' + '\n');
+        console.log(
+          'No ' + cliArgs.routes + ' found in ' + paths.appPath + '.\n' + '\n'
+        );
         process.exit(1);
       }
 
@@ -86,26 +93,36 @@ loadRazzleConfig(webpack).then(
 
       if (!render) {
         console.log(chalk.red('Failed to prerender.\n'));
-        console.log('No ' + render_export + ' export found in ' + path.join(paths.appBuild, 'prerender.js') + '.\n' + '\n');
+        console.log(
+          'No ' +
+            render_export +
+            ' export found in ' +
+            path.join(paths.appBuild, 'prerender.js') +
+            '.\n' +
+            '\n'
+        );
         process.exit(1);
       }
 
-      return new Promise(async (resolve, reject) => {
-        const prerender = route => new Promise(async (resolve) => {
-          render({url:route}, {send: (data) => {
-            const outputDir = path.join(paths.appBuildPublic, route);
-            const outputFile = path.join(outputDir, 'index.html');
-            fs.ensureDir(outputDir).then(()=>{
-              fs.outputFile(outputFile, data).then(()=>{
-                resolve();
-              })
-            })
-          }})
-        });
-        await asyncPool(Math.min(2, routes.lenght), routes, prerender);
-        const stats = await getFileNamesAsStat(paths.appBuildPublic+'/');
-        resolve({ stats, previousFileSizes })
-      });
+      const prerender = async pathname => {
+        const json = ({ html, data }) => {
+          const outputDir = path.join(paths.appBuildPublic, route);
+          const htmlFile = path.join(outputDir, 'index.html');
+          const pageDataFile = path.join(outputDir, 'page-data.json');
+
+          fs.ensureDirSync(outputDir);
+          fs.outputFileSync(htmlFile, html);
+          fs.outputFileSync(pageDataFile, data);
+        };
+
+        const req = { url: pathname };
+        const res = { json };
+        await render(req, res);
+      };
+
+      await asyncPool(Math.min(2, routes.lenght), routes, prerender);
+      const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');
+      return { stats, previousFileSizes };
     }
   }
 );
