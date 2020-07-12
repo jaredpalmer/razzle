@@ -28,7 +28,7 @@ const getFileNamesAsStat = FileSizeReporter.getFileNamesAsStat;
 const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
 
-cliArgs.routes = cliArgs.routes || 'routes.json';
+cliArgs.routes = cliArgs.routes || 'paths.js';
 
 loadRazzleConfig(webpack).then(
   async ({ razzle, webpackObject, plugins, paths }) => {
