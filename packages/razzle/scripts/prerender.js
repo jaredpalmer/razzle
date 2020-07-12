@@ -85,7 +85,7 @@ loadRazzleConfig(webpack).then(
         process.exit(1);
       }
 
-      const imported_routes = require(routesPath);
+      const imported_routes = require(routesPath).default;
       const routes =
         typeof imported_routes == 'function'
           ? await imported_routes()
@@ -106,13 +106,13 @@ loadRazzleConfig(webpack).then(
 
       const prerender = async pathname => {
         const json = ({ html, data }) => {
-          const outputDir = path.join(paths.appBuildPublic, route);
+          const outputDir = path.join(paths.appBuildPublic, pathname);
           const htmlFile = path.join(outputDir, 'index.html');
           const pageDataFile = path.join(outputDir, 'page-data.json');
 
           fs.ensureDirSync(outputDir);
           fs.outputFileSync(htmlFile, html);
-          fs.outputFileSync(pageDataFile, data);
+          fs.outputFileSync(pageDataFile, JSON.stringify(data));
         };
 
         const req = { url: pathname };
