@@ -1,14 +1,14 @@
-import App from "./App";
-import React from "react";
-import express from "express";
-import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
+import App from './App';
+import React from 'react';
+import express from 'express';
+import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
 
-export const render = (req, res) => {
+const renderApp = (req, res) => {
   const context = {};
   const markup = renderToString(
     <StaticRouter location={req.url} context={context}>
@@ -16,13 +16,9 @@ export const render = (req, res) => {
     </StaticRouter>
   );
 
-  if (context.url) {
-    // Somewhere a `<Redirect>` was rendered
-    redirect(301, context.url);
-  } else {
-    res.send(
-      // prettier-ignore
-      `<!doctype html>
+  const html =
+    // prettier-ignore
+    `<!doctype html>
   <html lang="">
   <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -39,14 +35,29 @@ export const render = (req, res) => {
       <div id="root">${markup}</div>
       <script src="${assets.client.js}" defer crossorigin></script>
   </body>
-</html>`
-    );
-  }
-}
+</html>`;
+
+  return { html, context };
+};
+
+export const render = (req, res) => {
+  const { html } = renderApp(req, res);
+
+  res.json({ html });
+};
 
 server
-  .disable("x-powered-by")
+  .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get("/*", render);
+  .get('/*', (req, res) => {
+    const { html, context } = renderApp(req, res);
+
+    if (context.url) {
+      // Somewhere a `<Redirect>` was rendered
+      return res.redirect(301, context.url);
+    }
+
+    res.send(html);
+  });
 
 export default server;
