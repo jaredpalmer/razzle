@@ -58,11 +58,15 @@ loadRazzleConfig(webpack).then(
         }
       );
 
-    function prerender(previousFileSizes) {
-      const prerender_entrypoint = require(path.join(paths.appBuild, 'prerender.js'));
-      const render_export = razzle.experimental &&
+    async function prerender(previousFileSizes) {
+      const prerender_entrypoint = require(path.join(
+        paths.appBuild,
+        'prerender.js'
+      ));
+      const render_export =
+        (razzle.experimental &&
         razzle.experimental.prerender &&
-        razzle.experimental.prerender.export ||
+          razzle.experimental.prerender.export) ||
         'render';
       const render = prerender_entrypoint[render_export];
 
@@ -75,7 +79,10 @@ loadRazzleConfig(webpack).then(
       }
 
       const imported_routes = require(routesPath);
-      const routes = typeof imported_routes == 'function' ? imported_routes() : imported_routes;
+      const routes =
+        typeof imported_routes == 'function'
+          ? await imported_routes()
+          : imported_routes;
 
       if (!render) {
         console.log(chalk.red('Failed to prerender.\n'));
