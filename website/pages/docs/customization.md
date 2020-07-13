@@ -54,6 +54,38 @@ module.exports = function myRazzlePlugin(config, env, webpack, options) {
 };
 ```
 
+##### New in razzle 3.2
+
+Plugins also support using promises
+
+```js
+'use strict';
+
+module.exports = function myRazzlePlugin(webpackConfig, env, webpack, options) {
+  const { target, dev } = env;
+
+  return new Promise(async (resolve) => {
+    if (target === 'web') {
+      // client only
+    }
+
+    if (target === 'server') {
+      // server only
+    }
+
+    if (dev) {
+      // dev only
+      await getDevcert();
+    } else {
+      // prod only
+    }
+
+    // Do some stuff...
+    resolve(webpackConfig);
+  })
+};
+```
+
 ## Customizing Babel Config
 
 Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
@@ -100,6 +132,39 @@ module.exports = {
 ```
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
+
+#### New in razzle 3.2
+
+`razzle.config.js` modify also support using promises
+
+```js
+// razzle.config.js
+
+module.exports = {
+  modify: (webpackConfig, { target, dev }, webpack) => {
+
+    return new Promise(async (resolve) => {
+      if (target === 'web') {
+        // client only
+      }
+
+      if (target === 'server') {
+        // server only
+      }
+
+      if (dev) {
+        // dev only
+        await getDevcert();
+      } else {
+        // prod only
+      }
+
+      // Do some stuff...
+      resolve(webpackConfig);
+    })
+  },
+};
+```
 
 ## CSS Modules
 

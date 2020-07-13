@@ -6,26 +6,38 @@ First install the Reason toolchain ([reason-cli](https://github.com/reasonml/rea
 ```bash
 npm install -g https://github.com/reasonml/reason-cli/archive/beta-v-1.13.6-bin-darwin.tar.gz
 ```
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the development documentation for this example
+
+Clone the `razzle` repository:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-reason-react
-cd with-reason-react
+git clone https://github.com/jaredpalmer/razzle.git
+
+cd razzle
+yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 ```
 
-Install it and run:
+Create and start the example:
 
 ```bash
-yarn install
+node -e 'require("./test/fixtures/util").setupStageWithExample("with-reason-react", "with-reason-react", symlink=false, yarnlink=true, install=true, test=false);'
+
+cd with-reason-react
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
+
+
 #### NOTE: This example takes a while to install. Stick with it.
 
-Now you can go and edit `src/App.re`. When you make changes, your **browser and server** will Hot Reload. 
+Now you can go and edit `src/App.re`. When you make changes, your **browser and server** will Hot Reload.
 
 
 ## Idea behind the example
-This is an example of how to use [Reason React](https://github.com/reasonml/reason-react) and Razzle together. Yes, you read that correctly. SSR, Reason, React, HMR. 
+This is an example of how to use [Reason React](https://github.com/reasonml/reason-react) and Razzle together. Yes, you read that correctly. SSR, Reason, React, HMR.
 
 ## Secret sauce
 This example works by running BuckleScript Platform to compile Reason-React files (`.re`) and then importing that output back into the vanilla Razzle app using the JS-Reason-React interop.
