@@ -131,3 +131,67 @@ Next, place one of the following lines at the very top of `src/client.js:`
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 ```
+
+### Experimental
+
+Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and prerender. More features may be added in the future and may become fully supported features.
+
+To enable react-refresh:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    reactRefresh: true,
+  },
+};
+```
+
+To enable prerender:
+
+Add `prerender` to your `package.json`'s scripts like so:
+
+```diff
+"scripts": {
++  "prerender": "razzle prerender --routes=routes.json",
+}
+```
+
+Add a `routes.json` to your app dir:
+
+```json
+["/","/about"]
+```
+
+Add a `experimental.prerender` to your `razzle.config.js`:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    prerender: true,
+  },
+};
+```
+
+Run `npm prerender` or `yarn prerender`:
+
+Renders a static version of specified routes to the build folder based on the built production app.
+Your prerendered app is ready to be served!
+
+To enable prerender with options:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    prerender: {
+      entrypoint: 'server.js',
+      export: 'render'
+    },
+  },
+};
+```
