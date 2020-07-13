@@ -197,7 +197,7 @@ import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 ```
 
-### Experimental
+## Experimental
 
 Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and prerender. More features may be added in the future and may become fully supported features.
 
