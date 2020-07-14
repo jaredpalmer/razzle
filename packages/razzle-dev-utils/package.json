@@ -20,6 +20,7 @@
     "chalk": "3.0.0",
     "jest-message-util": "^24.9.0",
     "react-dev-utils": "^10.2.0",
-    "strip-ansi": "6.0.0"
+    "strip-ansi": "6.0.0",
+    "webpack-dev-server": "~3.10.3"
   }
 }
