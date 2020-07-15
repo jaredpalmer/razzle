@@ -42,3 +42,5 @@ We are also setting the `NODE_ENV` environment variable. Most likely, your app w
 * [Zeit Now v2 Documentation](https://zeit.co/docs/v2/)
   * [@now/node-server](https://zeit.co/docs/v2/deployments/official-builders/node-js-server-now-node-server/)
   * [Environment Variables and Secrets](https://zeit.co/docs/v2/deployments/environment-variables-and-secrets/)
+  
+https://github.com/jaredpalmer/razzle/issues/900#issuecomment-504701394
