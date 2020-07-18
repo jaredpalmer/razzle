@@ -55,11 +55,11 @@ You can again view your application at `http://localhost:3000`
 Runs the test watcher (Jest) in an interactive mode.
 By default, runs tests related to files changed since the last commit.
 
-### `npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`
+### `npm start -- --inspect=[host:port]` or `yarn start --inspect=[host:port]`
 
 To debug the node server, you can use `razzle start --inspect`. This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-### `npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`
+### `npm start -- --inspect-brk=[host:port]` or `yarn start --inspect-brk=[host:port]`
 
 This is the same as --inspect, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
@@ -80,8 +80,8 @@ If your application is running, and you need to manually restart your server, yo
   - [`npm run build` or `yarn build`](#npm-run-build-or-yarn-build)
   - [`npm run start:prod` or `yarn start:prod`](#npm-run-startprod-or-yarn-startprod)
   - [`npm test` or `yarn test`](#npm-test-or-yarn-test)
-  - [`npm start -- --inspect=[host:port]` or `yarn start -- --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start------inspecthostport)
-  - [`npm start -- --inspect-brk=[host:port]` or `yarn start -- --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start------inspect-brkhostport)
+  - [`npm start -- --inspect=[host:port]` or `yarn start --inspect=[host:port]`](#npm-start------inspecthostport-or-yarn-start----inspecthostport)
+  - [`npm start -- --inspect-brk=[host:port]` or `yarn start --inspect-brk=[host:port]`](#npm-start------inspect-brkhostport-or-yarn-start----inspect-brkhostport)
   - [`rs`](#rs)
 - [<img src="https://user-images.githubusercontent.com/4060187/37915268-209644d0-30e7-11e8-8ef7-086b529ede8c.png" width="500px" alt="Razzle Hot Restart"/>](#img-src%22httpsuser-imagesgithubusercontentcom406018737915268-209644d0-30e7-11e8-8ef7-086b529ede8cpng%22-width%22500px%22-alt%22razzle-hot-restart%22)
 - [Build Types](#build-types)
