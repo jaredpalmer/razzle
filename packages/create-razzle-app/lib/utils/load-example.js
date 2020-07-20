@@ -14,14 +14,15 @@ const Promise = require('promise');
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/master';
+  const branch = 'next'; // this line auto updates when yarn update-examples is run
+  const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/' + branch;
 
   const id = new UUID(4).format();
   const directory = path.join(os.tmpdir(), id);
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
 
   const stopExampleSpinner = output.wait(
-    `Downloading files for ${output.cmd(example)} example`
+    `Downloading files for ${output.cmd(example)} example from ${branch} branch`
   );
   return fs.ensureDir(directory).then(() => {
     return axios.get(url, {responseType: 'stream', adapter: httpAdapter});
@@ -39,7 +40,7 @@ module.exports = function loadExample(opts) {
       `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
     );
     return copyDir({
-      templatePath: path.join(directory, 'razzle-master', 'examples', example),
+      templatePath: path.join(directory, 'razzle-' + branch, 'examples', example),
       projectPath: projectPath,
       projectName: projectName,
     })

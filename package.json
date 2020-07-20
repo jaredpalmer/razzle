@@ -35,10 +35,11 @@
     "test:packages": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
     "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes",
-    "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
+    "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
     "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre",
     "publish-stable": "lerna version --force-publish && release && node ./scripts/release-notes.js",
     "build-docs": "node ./scripts/build-docs.js",
+    "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f"
   },
@@ -49,7 +50,7 @@
   },
   "lint-staged": {
     "*.{js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx}": [
-      "prettier --trailing-comma es5 --single-quote --write"
+      "yarn format"
     ]
   },
   "dependencies": {},

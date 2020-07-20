@@ -4,12 +4,9 @@
 Hi there! Thanks for your interest in Razzle. This guide will help you get started contributing.
 
 <!-- INSERT doctoc generated TOC please keep comment here to allow auto update -->
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
+<!-- START doctoc generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn build-docs TO UPDATE -->
 - [Contributing to Razzle](#contributing-to-razzle)
-  - [Project Structure](#project-structure)
   - [Developing locally](#developing-locally)
     - [Commands](#commands)
     - [Updating your fork](#updating-your-fork)
@@ -21,9 +18,7 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
   - [Why wasn't my PR merged?](#why-wasnt-my-pr-merged)
   - [Getting recognition](#getting-recognition)
   - [Getting help](#getting-help)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-## Project Structure
+<!-- END doctoc generated instructions please keep comment here to allow auto update -->
 
 Razzle is monorepo made up of a several npm packages powered by Lerna.
 

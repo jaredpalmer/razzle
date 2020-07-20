@@ -1,24 +1,30 @@
 # Razzle with Cloud Functions for Firebase example
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the development documentation for this example
+
+Clone the `razzle` repository:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-firebase-functions
-cd with-firebase-functions
+git clone https://github.com/jaredpalmer/razzle.git
+
+cd razzle
+yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
 ```
 
-Setting up firebase:
-- install Firebase Tools: `npm i -g firebase-tools`
-- create a project at [Firebase console](https://console.firebase.google.com/)
-- replace <firebase-project-id> in `.firebaserc` with the actual project ID
-
-Install it and run:
+Create and start the example:
 
 ```bash
-yarn install
+node -e 'require("./test/fixtures/util").setupStageWithExample("with-firebase-functions", "with-firebase-functions", symlink=false, yarnlink=true, install=true, test=false);'
+
+cd with-firebase-functions
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
+
 
 Build client and server
 

@@ -23,7 +23,7 @@ module.exports = function loadExample(opts) {
   const tarGzUrl = `https://codeload.github.com/${user}/${repo}/tar.gz/${branch}`;
 
   const stopExampleSpinner = output.wait(
-    `Downloading files for ${output.cmd(example)} example`
+    `Downloading files for ${output.cmd(example)} example from ${branch} branch`
   );
   return fs.ensureDir(directory).then(() => {
     return axios.get(tarGzUrl, {responseType: 'stream', adapter: httpAdapter});
