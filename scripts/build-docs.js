@@ -75,3 +75,13 @@ for (let contributorsDoc of contributorsDocs) {
     console.log(err)
   })
 }
+
+execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
+  const branch = stdout.split('\n')[0];
+  const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
+  const readmePath = path.join(rootDir, 'README.md');
+  fs.readFile(readmePath).then(content => {
+    const updated = content.toString().replace(/https:\/\/razzle.*?(\.org|\.app)\//g, docSite);
+    return fs.writeFile(readmePath, updated);
+  })
+});
