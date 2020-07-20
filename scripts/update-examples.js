@@ -13,7 +13,7 @@ var startInstall = '<!-- START install generated instructions please keep commen
 
 
 function matchesStartInstall(line) {
-  return (/<!-- START install /).test(line);
+  return /<!-- START install /.test(line);
 }
 
 function matchesEndInstall(line) {
@@ -37,8 +37,11 @@ function updateInstallSection(example, readme, branch) {
       update += `\`\`\`bash\nnode -e 'require("./test/fixtures/util").setupStageWithExample("${example}", "${example}", symlink=false, yarnlink=true, install=true, test=false);'\n\n`;
       update += `cd ${example}\nyarn start\n\`\`\`\n`;
     }
-    const updated = updateSection(content.toString(), startInstall+update+endInstall, matchesStartInstall, matchesEndInstall);
-    return fs.writeFile(readme, updated);
+    const contentString = content.toString();
+    if (matchesStartInstall(contentString)) {
+      const updated = updateSection(contentString, startInstall+update+endInstall, matchesStartInstall, matchesEndInstall);
+      return fs.writeFile(readme, updated);
+    }
   })
 }
 
@@ -48,6 +51,12 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout
     return items
       .filter(item => item.isDirectory())
       .map(item => updateInstallSection(
-        item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch))
+        item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch));
+  })
+
+  const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';
+  fs.readFile(loadExamplePath).then(content => {
+    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
+    return fs.writeFile(loadExamplePath, updated);
   })
 });
