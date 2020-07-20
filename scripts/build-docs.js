@@ -84,4 +84,10 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout
     const updated = content.toString().replace(/https:\/\/razzle.*?(\.org|\.app)\//g, docSite);
     return fs.writeFile(readmePath, updated);
   })
+  const npxCmd = 'npx create-razzle-app' + ( branch == 'canary' ? '@' + branch : '');
+  const startedPath = path.join(rootDir, 'website/pages/getting-started.mdx');
+  fs.readFile(startedPath).then(content => {
+    const updated = content.toString().replace(/npx create-razzle-app@?[^\s]*/g, npxCmd);
+    return fs.writeFile(startedPath, updated);
+  })
 });
