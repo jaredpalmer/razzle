@@ -40,12 +40,18 @@ const defaultOptions = {
     dev: {
       sourceMap: true,
       importLoaders: 1,
-      modules: { auto: true },
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]'
+      }
     },
     prod: {
       sourceMap: false,
       importLoaders: 1,
-      modules: { auto: true },
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]'
+      }
     },
   },
   style: {},
