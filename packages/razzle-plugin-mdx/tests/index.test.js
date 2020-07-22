@@ -1,13 +1,13 @@
 'use strict';
 
-const createConfig = require('razzle/config/createConfig');
+const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
 const pluginFunc = require('../index');
 const { fileLoaderFinder, mdxLoaderFinder } = require('../helpers');
 
 describe('razzle-mdx-plugin', () => {
   let config;
-  beforeAll(() => {
-    config = createConfig('web', 'dev', {
+  beforeAll(async () => {
+    config = await createRazzleTestConfig('web', 'dev', {
       plugins: [{ func: pluginFunc }],
     });
   });
