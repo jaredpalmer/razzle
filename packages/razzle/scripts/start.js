@@ -158,6 +158,6 @@ function formatInspectFlag(cliArgs, flag) {
 }
 
 
-setPorts()
+setPorts(clientOnly)
   .then(main)
   .catch(console.error);

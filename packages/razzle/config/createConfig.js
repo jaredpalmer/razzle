@@ -81,6 +81,7 @@ module.exports = (
   const portOffset = clientOnly ? 0 : 1;
 
   const devServerPort =
+    (process.env.PORT_DEV && parseInt(process.env.PORT_DEV)) ||
     (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
     3000 + portOffset;
 
