@@ -6,9 +6,9 @@ const defaultPaths = require('./paths');
 const setupEnvironment = require('./env').setupEnvironment;
 const loadPlugins = require('./loadPlugins');
 
-module.exports = (webpackObject) => {
+module.exports = (webpackObject, razzleConfig) => {
   return new Promise(resolve => {
-    let razzle = {};
+    let razzle = razzleConfig || {};
     let paths = Object.assign({}, defaultPaths);
     // Check for razzle.config.js file
     if (fs.existsSync(paths.appRazzleConfig)) {

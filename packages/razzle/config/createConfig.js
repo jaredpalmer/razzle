@@ -59,6 +59,7 @@ module.exports = (
     modify = null,
     modifyBabelOptions = null,
     experimental = {},
+    disableStartServer = false
   },
   webpackObject,
   clientOnly = false,
@@ -343,7 +344,7 @@ module.exports = (
           // Add hot module replacement
           new webpack.HotModuleReplacementPlugin(),
           // Supress errors to console (we use our own logger)
-          new StartServerPlugin({
+          !disableStartServer && new StartServerPlugin({
             name: 'server.js',
             nodeArgs,
           }),
@@ -352,7 +353,7 @@ module.exports = (
             paths.appAssetsManifest,
             paths.appChunksManifest,
           ]),
-        ];
+        ].filter(x => x);;
       }
     }
 

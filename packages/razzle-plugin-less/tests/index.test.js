@@ -1,6 +1,6 @@
 'use strict';
 
-const createConfig = require('razzle/config/createConfig');
+const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
 
 const pluginFunc = require('../index');
 const {
@@ -87,8 +87,8 @@ describe('razzle-less-plugin', () => {
     describe('when environment set to development', () => {
       let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'dev', {
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'dev', {
           plugins: [{ func: pluginFunc }],
         });
       });
@@ -111,8 +111,8 @@ describe('razzle-less-plugin', () => {
     describe('when environment set to production', () => {
       let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'prod', {
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'prod', {
           plugins: [{ func: pluginFunc }],
         });
       });
@@ -136,8 +136,8 @@ describe('razzle-less-plugin', () => {
   describe('when creating a node config', () => {
     let config;
 
-    beforeAll(() => {
-      config = createConfig('node', 'prod', {
+    beforeAll(async () => {
+      config = await createRazzleTestConfig('node', 'prod', {
         plugins: [{ func: pluginFunc }],
       });
     });
