@@ -166,7 +166,7 @@ module.exports = function myRazzlePlugin(config, env, webpack, options) {
     // client only
   }
 
-  if (target === 'server') {
+  if (target === 'node') {
     // server only
   }
 
