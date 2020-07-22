@@ -39,7 +39,7 @@ module.exports = function myRazzlePlugin(config, env, webpack, options) {
     // client only
   }
 
-  if (target === 'server') {
+  if (target === 'node') {
     // server only
   }
 
@@ -69,7 +69,7 @@ module.exports = function myRazzlePlugin(webpackConfig, env, webpack, options) {
       // client only
     }
 
-    if (target === 'server') {
+    if (target === 'node') {
       // server only
     }
 
@@ -148,7 +148,7 @@ module.exports = {
         // client only
       }
 
-      if (target === 'server') {
+      if (target === 'node') {
         // server only
       }
 
