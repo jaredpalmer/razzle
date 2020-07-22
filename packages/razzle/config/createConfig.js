@@ -241,7 +241,10 @@ module.exports = (
                     loader: require.resolve('css-loader'),
                     options: {
                       importLoaders: 1,
-                      modules: { auto: true },
+                      modules: {
+                        auto: true,
+                        localIdentName: '[name]__[local]___[hash:base64:5]'
+                      }
                     },
                   },
                   {
@@ -255,7 +258,10 @@ module.exports = (
                     loader: require.resolve('css-loader'),
                     options: {
                       importLoaders: 1,
-                      modules: { auto: true },
+                      modules: {
+                        auto: true,
+                        localIdentName: '[name]__[local]___[hash:base64:5]'
+                      }
                     },
                   },
                   {
