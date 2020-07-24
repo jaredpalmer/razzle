@@ -1,7 +1,6 @@
 const webpack = require('webpack');
-const createConfig = require('./createConfig');
+const createConfig = require('./createConfigAsync');
 const loadRazzleConfig = require('./loadRazzleConfig');
-
 
 module.exports = (target, env, razzleConfig, clientOnly = false) => {
   return new Promise(async (resolve) => {

@@ -20,7 +20,6 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config');
 const logger = require('razzle-dev-utils/logger');
-const loadPlugins = require('./loadPlugins');
 const razzlePaths = require('razzle/config/paths');
 
 const defaultPostCssOptions = {
@@ -61,28 +60,20 @@ module.exports = (
     modify = null,
     modifyBabelOptions = null,
     experimental = {},
-    disableStartServer = false,
-    plugins = []
+    disableStartServer = false
   },
   webpackObject,
   clientOnly = false,
-  paths = razzlePaths
+  paths = razzlePaths,
+  plugins = []
 ) => {
-
-    // In next major release remove this module or rename createConfigAsync to createConfig.
-    // Keep createConfigAsync and createConfig in sync until then.
-
-    console.warn("Using createConfig in plugin tests is deprecated.\n"
-      + "Update plugin tests to use createRazzleTestConfig that is async.");
-
+  return new Promise(async resolve => {
     // Define some useful shorthands.
     const IS_NODE = target === 'node';
     const IS_WEB = target === 'web';
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
-    const loadedPlugins = loadPlugins(plugins);
 
     const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
 
@@ -640,24 +631,29 @@ module.exports = (
       ];
     }
 
-    for (const [plugin, options] of loadedPlugins) {
+    for (const [plugin, options] of plugins) {
       // Check if plugin is a function.
       // If it is, call it on the configs we created.
       if (typeof plugin === 'function') {
-        config = runPlugin(
-          plugin,
-          config,
-          { target, dev: IS_DEV },
-          webpackObject,
-          options
+        config = await Promise.resolve(
+          runPlugin(
+            plugin,
+            config,
+            { target, dev: IS_DEV },
+            webpackObject,
+            options
+          )
         );
       }
     }
     // Check if razzle.config.js has a modify function.
     // If it does, call it on the configs we created.
     if (modify) {
-      config = modify(config, { target, dev: IS_DEV }, webpackObject);
+      config = await Promise.resolve(
+        modify(config, { target, dev: IS_DEV }, webpackObject)
+      );
     }
 
-    return config;
+    resolve(config);
+  });
 };
