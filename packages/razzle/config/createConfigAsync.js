@@ -21,6 +21,7 @@ const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config');
 const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('razzle/config/paths');
+const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 
 const defaultPostCssOptions = {
   ident: 'postcss',
@@ -89,6 +90,25 @@ module.exports = (
 
     if (!hasBabelRc) {
       mainBabelOptions.presets.push(require.resolve('../babel'));
+      // Make sure we have a unique cache identifier, erring on the
+      // side of caution.
+      // We remove this when the user ejects because the default
+      // is sane and uses Babel options. Instead of options, we use
+      // the razzle-dev-utils and babel-preset-razzle versions.
+      mainBabelOptions.cacheIdentifier = getCacheIdentifier(
+        (IS_PROD
+          ? 'production'
+          : IS_DEV && 'development')
+        + '_'
+        + (IS_NODE
+          ? 'nodebuild'
+          : IS_WEB && 'webbuild'),
+        [
+          'babel-preset-razzle',
+          'react-dev-utils',
+          'razzle-dev-utils',
+        ]
+      );
       if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
         mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
       }
