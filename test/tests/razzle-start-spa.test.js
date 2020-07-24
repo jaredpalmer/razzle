@@ -60,6 +60,7 @@ describe('razzle start', () => {
           }
         );
         child.stdout.on('data', data => {
+          console.log(data);
           if (data.includes('http://localhost:5000')) {
             shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
