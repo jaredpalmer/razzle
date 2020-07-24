@@ -33,6 +33,7 @@ describe('razzle start', () => {
           }
         );
         child.stdout.on('data', data => {
+          console.log(data);
           if (data.includes('> SPA Started on port 3000')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
@@ -41,6 +42,10 @@ describe('razzle start', () => {
             outputTest = devServerOutput.stdout.includes("React");
             kill(child.pid);
           }
+        });
+        child.stderr.on('data', data => {
+          console.log(data);
+          kill(child.pid);
         });
       });
       return run.then((test) => expect(test).toBeTruthy());
@@ -61,18 +66,12 @@ describe('razzle start', () => {
           }
         );
         child.stdout.on('data', data => {
-          console.log(data);
           if (data.includes('http://localhost:5000')) {
-            shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
             const output = shell.exec("curl -I localhost:5000");
             outputTest = output.stdout.includes("200");
             kill(child.pid);
           }
-        });
-        child.stderr.on('data', data => {
-          console.log(data);
-          kill(child.pid);
         });
       });
       return run.then((test) => expect(test).toBeTruthy());
