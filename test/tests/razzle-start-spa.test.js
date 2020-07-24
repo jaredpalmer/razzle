@@ -69,6 +69,10 @@ describe('razzle start', () => {
             kill(child.pid);
           }
         });
+        child.stderr.on('data', data => {
+          console.log(data);
+          kill(child.pid);
+        });
       });
       return run.then((test) => expect(test).toBeTruthy());
     });
