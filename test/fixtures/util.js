@@ -74,9 +74,7 @@ module.exports = {
 
   teardownStage: stageName => {
     shell.cd(rootDir);
-    fs.removeSync(path.join(rootDir, stageName), {
-      maxRetries: 3
-    });
+    fs.removeSync(path.join(rootDir, stageName));
   },
 
   rootDir,
