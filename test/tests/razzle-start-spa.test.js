@@ -56,6 +56,7 @@ describe('razzle start', () => {
         const child = shell.exec(
           `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
           () => {
+            shell.exec('sleep 5');
             resolve(outputTest);
           }
         );
