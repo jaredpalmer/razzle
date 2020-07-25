@@ -36,7 +36,7 @@ module.exports = {
           },
         },
       },
-    }
+    },
   ],
 };
 ```
@@ -44,7 +44,7 @@ module.exports = {
 ## Options
 
 Please remember that custom options will extends default options using `Object.assign`.
-Array such as postcss.plugins __WILL NOT BE EXTENDED OR CONCATED__, it will override all default plugins.
+Array such as postcss.plugins **WILL NOT BE EXTENDED OR CONCATED**, it will override all default plugins.
 
 ---
 
@@ -101,7 +101,6 @@ Set `prod` to add config to postcss in `production`.
 
 See [less loader options](https://github.com/webpack-contrib/less-loader) to override configs.
 
-
 ---
 
 ### css: _object_
@@ -136,7 +135,8 @@ See [css loader options](https://github.com/webpack-contrib/css-loader#options) 
 default
 
 ```js
-{}
+{
+}
 ```
 
 Style loader only used in `development` environment.

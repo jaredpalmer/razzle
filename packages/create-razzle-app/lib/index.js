@@ -13,19 +13,21 @@ const loadGitExample = require('./utils/load-git-example');
 const loadNpmExample = require('./utils/load-npm-example');
 const messages = require('./messages');
 
-const isFolder = ({ type }) => type === "dir";
-const prop = (key) => (obj) => obj[key];
+const isFolder = ({ type }) => type === 'dir';
+const prop = key => obj => obj[key];
 
-const officialExamplesApiUrl = 'https://api.github.com/repos/jaredpalmer/razzle/contents/examples';
+const officialExamplesApiUrl =
+  'https://api.github.com/repos/jaredpalmer/razzle/contents/examples';
 
 const getOfficialExamples = () => {
   if (typeof process.env.CI === 'undefined') {
-    return axios.get(officialExamplesApiUrl, {adapter: httpAdapter})
-      .then(({data}) => data.filter(isFolder).map(prop("name")));
+    return axios
+      .get(officialExamplesApiUrl, { adapter: httpAdapter })
+      .then(({ data }) => data.filter(isFolder).map(prop('name')));
   } else {
     return Promise.resolve(['basic']);
   }
-}
+};
 
 module.exports = function createRazzleApp(opts) {
   const projectName = opts.projectName;
@@ -47,42 +49,36 @@ module.exports = function createRazzleApp(opts) {
       loadGitHubExample({
         projectName: projectName,
         example: opts.example,
-      })
-      .then(installWithMessageFactory(opts, true));
-    }
-    else if (/^git\+/.test(opts.example)) {
+      }).then(installWithMessageFactory(opts, true));
+    } else if (/^git\+/.test(opts.example)) {
       loadGitExample({
         projectName: projectName,
         example: opts.example,
-      })
-      .then(installWithMessageFactory(opts, true));
-    }
-    else if (/^file:/.test(opts.example)) {
-      const examplePath = path.resolve(path.join(process.cwd(), opts.example.slice(5)));
+      }).then(installWithMessageFactory(opts, true));
+    } else if (/^file:/.test(opts.example)) {
+      const examplePath = path.resolve(
+        path.join(process.cwd(), opts.example.slice(5))
+      );
       console.log(examplePath);
       copyDir({
         templatePath: examplePath,
         projectPath: projectPath,
         projectName: projectName,
-      })
-      .then(installWithMessageFactory(opts, true));
+      }).then(installWithMessageFactory(opts, true));
     } else {
-      getOfficialExamples()
-      .then((officialExamples) => {
+      getOfficialExamples().then(officialExamples => {
         if (officialExamples.includes(opts.example)) {
           loadExample({
             projectName: projectName,
             example: opts.example,
-          })
-          .then(installWithMessageFactory(opts, true));
+          }).then(installWithMessageFactory(opts, true));
         } else {
           loadNpmExample({
             projectName: projectName,
             example: opts.example,
-          })
-          .then(installWithMessageFactory(opts, true));
+          }).then(installWithMessageFactory(opts, true));
         }
-      })
+      });
     }
   } else {
     const templatePath = path.resolve(__dirname, '../templates/default');
@@ -92,10 +88,10 @@ module.exports = function createRazzleApp(opts) {
       projectPath: projectPath,
       projectName: projectName,
     })
-    .then(installWithMessageFactory(opts))
-    .catch(function(err) {
-      throw err;
-    });
+      .then(installWithMessageFactory(opts))
+      .catch(function(err) {
+        throw err;
+      });
   }
 };
 
@@ -106,7 +102,7 @@ function installWithMessageFactory(opts, isExample = false) {
   if (!opts.install) {
     return function() {
       console.log(messages.start(projectName));
-    }
+    };
   }
 
   return function installWithMessage() {

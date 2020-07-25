@@ -25,7 +25,7 @@ Please see our [CONTRIBUTING.md](/.github/CONTRIBUTING.md).
 - [humblespark/sambell](https://github.com/humblespark/sambell)
 - [zeit/next.js](https://github.com/zeit/next.js)
 
-#### Author
+### Author
 
 - [Jared Palmer](https://twitter.com/jaredpalmer)
 

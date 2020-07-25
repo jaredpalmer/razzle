@@ -61,7 +61,7 @@ module.exports = (
     modify = null,
     modifyBabelOptions = null,
     experimental = {},
-    disableStartServer = false
+    disableStartServer = false,
   },
   webpackObject,
   clientOnly = false,
@@ -96,18 +96,10 @@ module.exports = (
       // is sane and uses Babel options. Instead of options, we use
       // the razzle-dev-utils and babel-preset-razzle versions.
       mainBabelOptions.cacheIdentifier = getCacheIdentifier(
-        (IS_PROD
-          ? 'production'
-          : IS_DEV && 'development')
-        + '_'
-        + (IS_NODE
-          ? 'nodebuild'
-          : IS_WEB && 'webbuild'),
-        [
-          'babel-preset-razzle',
-          'react-dev-utils',
-          'razzle-dev-utils',
-        ]
+        (IS_PROD ? 'production' : IS_DEV && 'development') +
+          '_' +
+          (IS_NODE ? 'nodebuild' : IS_WEB && 'webbuild'),
+        ['babel-preset-razzle', 'react-dev-utils', 'razzle-dev-utils']
       );
       if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
         mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
@@ -264,8 +256,8 @@ module.exports = (
                       importLoaders: 1,
                       modules: {
                         auto: true,
-                        localIdentName: '[name]__[local]___[hash:base64:5]'
-                      }
+                        localIdentName: '[name]__[local]___[hash:base64:5]',
+                      },
                     },
                   },
                   {
@@ -281,8 +273,8 @@ module.exports = (
                       importLoaders: 1,
                       modules: {
                         auto: true,
-                        localIdentName: '[name]__[local]___[hash:base64:5]'
-                      }
+                        localIdentName: '[name]__[local]___[hash:base64:5]',
+                      },
                     },
                   },
                   {
@@ -362,16 +354,17 @@ module.exports = (
           // Add hot module replacement
           new webpack.HotModuleReplacementPlugin(),
           // Supress errors to console (we use our own logger)
-          !disableStartServer && new StartServerPlugin({
-            name: 'server.js',
-            nodeArgs,
-          }),
+          !disableStartServer &&
+            new StartServerPlugin({
+              name: 'server.js',
+              nodeArgs,
+            }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
           new webpack.WatchIgnorePlugin([
             paths.appAssetsManifest,
             paths.appChunksManifest,
           ]),
-        ].filter(x => x);;
+        ].filter(x => x);
       }
     }
 

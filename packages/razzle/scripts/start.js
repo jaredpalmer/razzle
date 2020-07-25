@@ -169,7 +169,6 @@ function formatInspectFlag(cliArgs, flag) {
   return '--' + flag + '=' + value.toString();
 }
 
-
 setPorts(clientOnly)
   .then(main)
   .catch(console.error);

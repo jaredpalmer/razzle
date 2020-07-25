@@ -15,14 +15,7 @@ function getSetupTestsFilePath(paths) {
   }
 }
 
-module.exports = (
-  resolve,
-  rootDir,
-  razzle,
-  webpackObject,
-  plugins,
-  paths
-) => {
+module.exports = (resolve, rootDir, razzle, webpackObject, plugins, paths) => {
   return new Promise(async resolveConfig => {
     // Use this instead of `paths.testsSetup` to avoid putting
     // an absolute filename into configuration after ejecting.
@@ -91,7 +84,7 @@ module.exports = (
           config[key] = overrides[key];
           delete overrides[key];
         }
-      })
+      });
     }
     resolveConfig(config);
   });
