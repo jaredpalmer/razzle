@@ -11,7 +11,9 @@ const exec = require('execa');
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const [repoBranch, examplePath = ''] = example.slice(3).split(/(?<!\+http?s|\+ssh|\+git):/);
+  const [repoBranch, examplePath = ''] = example
+    .slice(3)
+    .split(/(?<!\+http?s|\+ssh|\+git):/);
   const [repoUrl, branch = 'HEAD'] = repoBranch.slice(1).split('@');
   const id = new UUID(4).format();
   const idIndex = new UUID(4).format();
@@ -26,34 +28,41 @@ module.exports = function loadExample(opts) {
     `Downloading files for ${output.cmd(example)} example`
   );
 
-  return fs.ensureDir(directory).then(() => {
-    return exec(
-      `git clone --depth 1${branchArg} ${repoUrl} .`,
-      {cwd: directory, shell: true})
-  })
-  .then(() => {
-     return exec(
-       `git checkout-index --prefix=${(directoryIndex+path.sep).replace(/\\/g, '/')} -a`,
-       {cwd: directory, shell: true});
-   })
-  .then(function() {
-    stopExampleSpinner();
-    output.success(
-      `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
-    );
-    return copyDir({
-      templatePath: path.join(directoryIndex, examplePath),
-      projectPath: projectPath,
-      projectName: projectName,
+  return fs
+    .ensureDir(directory)
+    .then(() => {
+      return exec(`git clone --depth 1${branchArg} ${repoUrl} .`, {
+        cwd: directory,
+        shell: true,
+      });
     })
-  })
-  .then(function() {
-    return fs.remove(directory)
-  })
-  .then(function() {
-    return fs.remove(directoryIndex)
-  })
- .catch(function(err) {
-   throw err;
- });
+    .then(() => {
+      return exec(
+        `git checkout-index --prefix=${(directoryIndex + path.sep).replace(
+          /\\/g,
+          '/'
+        )} -a`,
+        { cwd: directory, shell: true }
+      );
+    })
+    .then(function() {
+      stopExampleSpinner();
+      output.success(
+        `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
+      );
+      return copyDir({
+        templatePath: path.join(directoryIndex, examplePath),
+        projectPath: projectPath,
+        projectName: projectName,
+      });
+    })
+    .then(function() {
+      return fs.remove(directory);
+    })
+    .then(function() {
+      return fs.remove(directoryIndex);
+    })
+    .catch(function(err) {
+      throw err;
+    });
 };

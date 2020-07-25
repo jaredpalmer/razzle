@@ -45,13 +45,30 @@ function updateInstallSection(example, readme, branch) {
   })
 }
 
+function updatePackageJson(example, packageJson, branch) {
+  fs.pathExists(packageJson).then(exists => {
+    if (exists) {
+      fs.readFile(packageJson).then(content => {
+        const tag = branch === 'canary' ? `canary` : 'latest';
+        const contentString = content.toString();
+        const updated = contentString.replace(/("razzle": ")(canary|latest)(")/, '$1' + tag + '$3');
+        return fs.writeFile(packageJson, updated);
+      })
+    }
+  })
+}
+
 execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
   const branch = stdout.split('\n')[0];
   fs.readdir(path.join(rootDir, 'examples'), {withFileTypes: true}).then(items => {
     return items
       .filter(item => item.isDirectory())
-      .map(item => updateInstallSection(
-        item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch));
+      .map(item => {
+        updateInstallSection(
+          item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch);
+        updatePackageJson(
+          item.name, path.join(rootDir, 'examples', item.name, 'package.json'), branch);
+      })
   })
 
   const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';

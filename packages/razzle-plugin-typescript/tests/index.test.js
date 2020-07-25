@@ -8,7 +8,7 @@ const { babelLoaderFinder, tsLoaderFinder } = require('../helpers');
 describe('razzle-typescript-plugin', () => {
   describe('with useBabel=false', () => {
     let config;
-    beforeAll(async (done) => {
+    beforeAll(async done => {
       config = await createRazzleTestConfig('web', 'dev', {
         plugins: [{ func: pluginFunc, options: { useBabel: false } }],
       });
@@ -41,7 +41,7 @@ describe('razzle-typescript-plugin', () => {
 
   describe('with useBabel=true', () => {
     let config;
-    beforeAll(async (done) => {
+    beforeAll(async done => {
       config = await createRazzleTestConfig('web', 'dev', {
         plugins: [{ func: pluginFunc, options: { useBabel: true } }],
       });
@@ -63,7 +63,7 @@ describe('razzle-typescript-plugin', () => {
 
   describe('when creating a server config', () => {
     let config;
-    beforeAll(async (done) => {
+    beforeAll(async done => {
       config = await createRazzleTestConfig('node', 'dev', {
         disableStartServer: true,
         plugins: [{ func: pluginFunc, options: {} }],

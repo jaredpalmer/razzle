@@ -8,11 +8,11 @@ const postcssLoadConfig = require('postcss-load-config');
 
 const hasPostCssConfig = () => {
   try {
-    return !!postcssLoadConfig.sync()
+    return !!postcssLoadConfig.sync();
   } catch (_error) {
-    return false
+    return false;
   }
-}
+};
 
 const defaultOptions = {
   postcss: {
@@ -49,12 +49,18 @@ const defaultOptions = {
     dev: {
       sourceMap: true,
       importLoaders: 1,
-      modules: { auto: true },
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
     prod: {
       sourceMap: false,
       importLoaders: 1,
-      modules: { auto: true },
+      modules: {
+        auto: true,
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
   },
   style: {},
@@ -94,10 +100,11 @@ module.exports = (
 
   const postCssLoader = {
     loader: require.resolve('postcss-loader'),
-    options: hasPostCssConfig() ?
-      undefined : Object.assign({}, options.postcss[constantEnv], {
-      plugins: () => options.postcss.plugins,
-    }),
+    options: hasPostCssConfig()
+      ? undefined
+      : Object.assign({}, options.postcss[constantEnv], {
+          plugins: () => options.postcss.plugins,
+        }),
   };
 
   const lessLoader = {

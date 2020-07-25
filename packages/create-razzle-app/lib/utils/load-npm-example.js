@@ -20,23 +20,26 @@ module.exports = function loadExample(opts) {
   const stopExampleSpinner = output.wait(
     `Downloading files for ${output.cmd(example)} example`
   );
-  return fs.ensureDir(directory).then(() => {
-    return pacote.extract(npmPackage, directory);
-  })
-  .then(function() {
-    stopExampleSpinner();
-    output.success(
-      `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
-    );
-    return copyDir({
-      templatePath: path.join(directory, examplePath),
-      projectPath: projectPath,
-      projectName: projectName,
+  return fs
+    .ensureDir(directory)
+    .then(() => {
+      return pacote.extract(npmPackage, directory);
     })
-  }).then(function() {
-    return fs.remove(directory)
-  })
-  .catch(function(err) {
-    throw err;
-  });
+    .then(function() {
+      stopExampleSpinner();
+      output.success(
+        `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
+      );
+      return copyDir({
+        templatePath: path.join(directory, examplePath),
+        projectPath: projectPath,
+        projectName: projectName,
+      });
+    })
+    .then(function() {
+      return fs.remove(directory);
+    })
+    .catch(function(err) {
+      throw err;
+    });
 };

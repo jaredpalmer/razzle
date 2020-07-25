@@ -20,7 +20,7 @@ yarn add razzle-plugin-mdx
 // razzle.config.js
 
 module.exports = {
-  plugins: ["mdx"]
+  plugins: ['mdx'],
 };
 ```
 
@@ -28,18 +28,18 @@ module.exports = {
 
 ```js
 // razzle.config.js
-const images = require("remark-images");
-const emoji = require("remark-emoji");
+const images = require('remark-images');
+const emoji = require('remark-emoji');
 
 module.exports = {
   plugins: [
     {
-      name: "mdx",
+      name: 'mdx',
       options: {
-        mdPlugins: [images, emoji]
-      }
-    }
-  ]
+        mdPlugins: [images, emoji],
+      },
+    },
+  ],
 };
 ```
 

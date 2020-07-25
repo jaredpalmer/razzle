@@ -25,30 +25,36 @@ module.exports = function loadExample(opts) {
   const stopExampleSpinner = output.wait(
     `Downloading files for ${output.cmd(example)} example from ${branch} branch`
   );
-  return fs.ensureDir(directory).then(() => {
-    return axios.get(tarGzUrl, {responseType: 'stream', adapter: httpAdapter});
-  })
-  .then((response) => {
-    return new Promise((resolve, reject) => {
-      const stream = response.data;
-      stream.on("end", () => resolve());
-      stream.pipe(tar.x({ C: directory}))
+  return fs
+    .ensureDir(directory)
+    .then(() => {
+      return axios.get(tarGzUrl, {
+        responseType: 'stream',
+        adapter: httpAdapter,
+      });
     })
-  })
-  .then(function() {
-    stopExampleSpinner();
-    output.success(
-      `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
-    );
-    return copyDir({
-      templatePath: path.join(directory, `${repo}-${branch}`, examplePath),
-      projectPath: projectPath,
-      projectName: projectName,
+    .then(response => {
+      return new Promise((resolve, reject) => {
+        const stream = response.data;
+        stream.on('end', () => resolve());
+        stream.pipe(tar.x({ C: directory }));
+      });
     })
-  }).then(function() {
-    return fs.remove(directory)
-  })
-  .catch(function(err) {
-    throw err;
-  });
+    .then(function() {
+      stopExampleSpinner();
+      output.success(
+        `Downloaded ${output.cmd(example)} files for ${output.cmd(projectName)}`
+      );
+      return copyDir({
+        templatePath: path.join(directory, `${repo}-${branch}`, examplePath),
+        projectPath: projectPath,
+        projectName: projectName,
+      });
+    })
+    .then(function() {
+      return fs.remove(directory);
+    })
+    .catch(function(err) {
+      throw err;
+    });
 };

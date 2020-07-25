@@ -5,7 +5,7 @@ process.env.NODE_ENV = 'development';
 const fs = require('fs-extra');
 const mri = require('mri');
 const webpack = require('webpack');
-const createConfig = require('../config/createConfig');
+const createConfig = require('../config/createConfigAsync');
 const loadRazzleConfig = require('../config/loadRazzleConfig');
 const devServer = require('../config/razzleDevServer');
 const printErrors = require('razzle-dev-utils/printErrors');
@@ -168,7 +168,6 @@ function formatInspectFlag(cliArgs, flag) {
   // When passed as `--inspect=[port]` or `--inspect=[host:port]`
   return '--' + flag + '=' + value.toString();
 }
-
 
 setPorts(clientOnly)
   .then(main)
