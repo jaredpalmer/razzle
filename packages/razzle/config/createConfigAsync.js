@@ -655,23 +655,19 @@ module.exports = (
       // Check if plugin is a function.
       // If it is, call it on the configs we created.
       if (typeof plugin === 'function') {
-        config = await Promise.resolve(
-          runPlugin(
-            plugin,
-            config,
-            { target, dev: IS_DEV },
-            webpackObject,
-            options
-          )
+        config = await runPlugin(
+          plugin,
+          config,
+          { target, dev: IS_DEV },
+          webpackObject,
+          options
         );
       }
     }
     // Check if razzle.config.js has a modify function.
     // If it does, call it on the configs we created.
     if (modify) {
-      config = await Promise.resolve(
-        modify(config, { target, dev: IS_DEV }, webpackObject)
-      );
+      config = await modify(config, { target, dev: IS_DEV }, webpackObject);
     }
 
     resolve(config);
