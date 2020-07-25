@@ -38,7 +38,7 @@ const tocDocs = [
 ];
 
 const contributorsDocs = [
-  path.join(rootDir, 'README.md'),
+  path.join(rootDir, 'packages', 'razzle', 'README.md'),
 ];
 
 for (let tocDoc of tocDocs) {
