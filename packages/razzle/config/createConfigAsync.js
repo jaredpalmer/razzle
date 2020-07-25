@@ -341,14 +341,14 @@ module.exports = (
           config.entry.prerender = [prerender_entrypoint];
         }
       }
-      
+
       if (IS_DEV) {
         // Use watch mode
         config.watch = true;
-        config.entry.unshift('webpack/hot/poll?300');
+        config.entry.server.unshift('webpack/hot/poll?300');
 
         // Pretty format server errors
-        config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
+        config.entry.server.unshift('razzle-dev-utils/prettyNodeErrors');
 
         const nodeArgs = ['-r', 'source-map-support/register'];
 
