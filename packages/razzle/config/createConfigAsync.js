@@ -312,7 +312,7 @@ module.exports = (
       config.output = {
         path: paths.appBuild,
         publicPath: clientPublicPath,
-        filename: 'server.js',
+        filename: '[name].js',
         libraryTarget: 'commonjs2',
       };
       // Add some plugins...
@@ -330,8 +330,18 @@ module.exports = (
         );
       }
 
-      config.entry = [paths.appServerIndexJs];
+      config.entry = {
+        server: [paths.appServerIndexJs],
+      };
 
+      if (IS_PROD) {
+        if (experimental.prerender) {
+          const prerender_entrypoint =
+            experimental.prerender.entrypoint || paths.appServerJs;
+          config.entry.prerender = [prerender_entrypoint];
+        }
+      }
+      
       if (IS_DEV) {
         // Use watch mode
         config.watch = true;
