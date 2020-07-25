@@ -20,6 +20,6 @@
     "serialize-javascript": "^3.0.0"
   },
   "devDependencies": {
-    "razzle": "latest"
+    "razzle": "canary"
   }
 }

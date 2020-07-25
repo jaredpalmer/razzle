@@ -18,7 +18,7 @@
   "devDependencies": {
     "connect-history-api-fallback": "^1.6.0",
     "eslint-plugin-vue": "^6.2.2",
-    "razzle": "latest",
+    "razzle": "canary",
     "razzle-plugin-vue": "latest",
     "vue-template-compiler": "^2.6.11"
   }
