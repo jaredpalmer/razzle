@@ -8,11 +8,11 @@ const postcssLoadConfig = require('postcss-load-config');
 
 const hasPostCssConfig = () => {
   try {
-    return !!postcssLoadConfig.sync()
+    return !!postcssLoadConfig.sync();
   } catch (_error) {
-    return false
+    return false;
   }
-}
+};
 
 const defaultOptions = {
   postcss: {
@@ -37,7 +37,7 @@ const defaultOptions = {
       sassOptions: {
         sourceMap: true,
         includePaths: [paths.appNodeModules],
-      }
+      },
     },
     prod: {
       sassOptions: {
@@ -46,25 +46,25 @@ const defaultOptions = {
         sourceMap: true,
         sourceMapContents: false,
         includePaths: [paths.appNodeModules],
-      }
+      },
     },
   },
   css: {
     dev: {
       sourceMap: true,
       importLoaders: 1,
-      modules:{
+      modules: {
         auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
     prod: {
       sourceMap: false,
       importLoaders: 1,
       modules: {
         auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
   },
   style: {},
@@ -104,10 +104,11 @@ module.exports = (
 
   const postCssLoader = {
     loader: require.resolve('postcss-loader'),
-    options: hasPostCssConfig() ?
-      undefined : Object.assign({}, options.postcss[constantEnv], {
-      plugins: () => options.postcss.plugins,
-    }),
+    options: hasPostCssConfig()
+      ? undefined
+      : Object.assign({}, options.postcss[constantEnv], {
+          plugins: () => options.postcss.plugins,
+        }),
   };
 
   const sassLoader = {
@@ -138,7 +139,7 @@ module.exports = (
             resolveUrlLoader,
             sassLoader,
           ],
-    }
+    },
   ];
 
   return config;

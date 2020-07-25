@@ -14,8 +14,7 @@ function printErrors(summary, errors, verbose) {
   errors.forEach(err => {
     if (verbose) {
       console.log(err);
-    }
-    else {
+    } else {
       console.log(err.message || err);
     }
     console.log();

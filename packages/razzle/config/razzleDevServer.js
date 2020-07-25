@@ -4,7 +4,6 @@
 const devServer = require('webpack-dev-server');
 
 class razzleDevServer extends devServer {
-
   constructor(compiler, options = {}, _log) {
     const verbose = options.verbose || false;
     delete options['verbose'];
@@ -17,7 +16,6 @@ class razzleDevServer extends devServer {
       super.showStatus();
     }
   }
-
 }
 
 module.exports = razzleDevServer;

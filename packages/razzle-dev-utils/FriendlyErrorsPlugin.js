@@ -51,9 +51,7 @@ class WebpackErrorsPlugin {
       ) {
         messages.errors.forEach(e => {
           logger.error(
-            `Failed to compile ${this.target} with ${
-              messages.errors.length
-            } errors`,
+            `Failed to compile ${this.target} with ${messages.errors.length} errors`,
             e
           );
         });

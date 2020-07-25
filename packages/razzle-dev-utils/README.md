@@ -28,7 +28,6 @@ There is no single entry point. You can only import individual top-level modules
 
 This will pretty print webpack errors to your console. It is mean to be used with Razzle's double webpack setup, where you have two webpack instances running in parallel. Otherwise the output looks almost identical to `create-react-app's` as it uses the same error formatter under the hood.
 
-
 ```js
 const FriendlyErrorsPlugin = require('razzle-dev-utils/FriendlyErrorsPlugin');
 
@@ -65,6 +64,7 @@ try {
 Helper function to find a loader in the webpack config object. Used for writing Razzle Plugins, or razzle modify functions.
 
 Example:
+
 ```js
 // razzle.config.js
 const loaderFinder = require('razzle-dev-utils/makeLoaderFinder');
@@ -79,6 +79,6 @@ module.exports = {
 
     // Set cacheDirectory to true in our babel-loader
     jsRule.use.find(babelLoaderFinder).options.cacheDirectory = true;
-  }
-}
+  },
+};
 ```

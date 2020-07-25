@@ -17,13 +17,15 @@ module.exports = {
   plugins: ['scss'],
 };
 ```
-Files with an ending in the name *.module.scss and *.module.sass will load as cssModules
+
+Files with an ending in the name _.module.scss and _.module.sass will load as cssModules
 
 example:
 
 ```jsx
-import s from './myfile.module.scss'
+import s from './myfile.module.scss';
 ```
+
 ---
 
 ### With custom options
@@ -42,7 +44,7 @@ module.exports = {
           },
         },
       },
-    }
+    },
   ],
 };
 ```
@@ -50,7 +52,7 @@ module.exports = {
 ## Options
 
 Please remember that custom options will extends default options using `Object.assign`.
-Array such as postcss.plugins __WILL NOT BE EXTENDED OR CONCATED__, it will override all default plugins.
+Array such as postcss.plugins **WILL NOT BE EXTENDED OR CONCATED**, it will override all default plugins.
 
 ---
 
@@ -134,6 +136,7 @@ Set `prod` to add config to postcss in `production`.
 See [node-sass options](https://github.com/sass/node-sass#options) to override configs.
 
 ---
+
 ### css: _object_
 
 default
@@ -166,7 +169,8 @@ See [css loader options](https://github.com/webpack-contrib/css-loader#options) 
 default
 
 ```js
-{}
+{
+}
 ```
 
 Style loader only used in `development` environment.

@@ -29,7 +29,12 @@ module.exports = function install(opts) {
       .then(function() {
         // Confirm that all dependencies were installed
         // ignore-engines for node 9.x
-        return execa(installCmd, ['install', installCmd === 'yarn' ?  '--ignore-engines' : null].filter(x=>x));
+        return execa(
+          installCmd,
+          ['install', installCmd === 'yarn' ? '--ignore-engines' : null].filter(
+            x => x
+          )
+        );
       })
       .then(function() {
         stopInstallSpinner();

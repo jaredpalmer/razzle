@@ -49,10 +49,13 @@ function getAdditionalAliases(options = {}, paths) {
 
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
-  Object.keys(options.paths || {}).forEach((item) => {
-    const name = item.replace(/\/\*$/, "");
+  Object.keys(options.paths || {}).forEach(item => {
+    const name = item.replace(/\/\*$/, '');
     // webpack5 allows arrays here, fix later
-    const value = path.resolve(baseUrlResolved, options.paths[item][0].replace(/\/\*$/, ""));
+    const value = path.resolve(
+      baseUrlResolved,
+      options.paths[item][0].replace(/\/\*$/, '')
+    );
     aliases[name] = value;
   });
 
