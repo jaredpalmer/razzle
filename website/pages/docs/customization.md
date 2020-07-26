@@ -199,7 +199,7 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 ## Experimental
 
-Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and prerender. More features may be added in the future and may become fully supported features.
+Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and static export. More features may be added in the future and may become fully supported features.
 
 To enable react-refresh:
 
@@ -213,49 +213,47 @@ module.exports = {
 };
 ```
 
-To enable prerender:
+To enable static export:
 
-Add `prerender` to your `package.json`'s scripts like so:
+Add `export` to your `package.json`'s scripts like so:
 
 ```diff
 "scripts": {
-+  "prerender": "razzle prerender --routes=routes.json",
++  "export": "razzle static export",
 }
 ```
 
-Add a `routes.json` to your app dir:
-
-```json
-["/","/about"]
-```
-
-Add a `experimental.prerender` to your `razzle.config.js`:
+Add a `static_export.js` to your src dir:
 
 ```js
-// razzle.config.js
+import { renderApp } from './server';
 
-module.exports = {
-  experimental: {
-    prerender: true,
-  },
+export const render = (req, res) => {
+  const { html } = renderApp(req, res);
+
+  res.json({ html });
+};
+
+export const routes = () => {
+  return ['/', '/about'];
 };
 ```
 
-Run `npm prerender` or `yarn prerender`:
+Run `npm export` or `yarn export`:
 
 Renders a static version of specified routes to the build folder based on the built production app.
 Your prerendered app is ready to be served!
 
-To enable prerender with options:
+To enable static export with options:
 
 ```js
 // razzle.config.js
 
 module.exports = {
   experimental: {
-    prerender: {
-      entrypoint: 'server.js',
-      export: 'render'
+    static_export: {
+      routes_export: 'routes',
+      render_export: 'render'
     },
   },
 };
