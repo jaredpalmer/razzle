@@ -57,7 +57,7 @@ module.exports = {
   appAssetsManifest: resolveApp('build/assets.json'),
   appChunksManifest: resolveApp('build/chunks.json'),
   appBuildStaticExport: resolveApp('build/static_export.js'),
-  appBuildStaticExportPaths: resolveApp('build/public/static_paths.js'),
+  appBuildStaticExportRoutes: resolveApp('build/public/static_routes.js'),
   appPublic: resolveApp('public'),
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp('src'),

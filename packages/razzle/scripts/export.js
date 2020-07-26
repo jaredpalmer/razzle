@@ -139,6 +139,7 @@ loadRazzleConfig(webpack).then(
       };
 
       await asyncPool(Math.min(2, routes.lenght), routes, render_static_export);
+      await fs.writeFile(paths.appBuildStaticExportRoutes,'window.RAZZLE_STATIC_ROUTES = ' + JSON.stringify(routes));
       const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');
       return { stats, previousFileSizes };
     }
