@@ -33,6 +33,7 @@ export const renderApp = (req, res) => {
   </head>
   <body>
       <div id="root">${markup}</div>
+      <!-- razzle_static_js -->
       <script src="${assets.client.js}" defer crossorigin></script>
   </body>
 </html>`;

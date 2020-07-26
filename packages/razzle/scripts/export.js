@@ -120,6 +120,9 @@ loadRazzleConfig(webpack).then(
           ? await imported_routes()
           : imported_routes;
 
+      const insertScript = `<script src="${process.env.PUBLIC_PATH || '/'}static_routes.js" defer crossorigin></script>`;
+      const insertScriptRe = /<!-- razzle_static_js -->/;
+
       const render_static_export = async pathname => {
         const json = ({ html, data }) => {
           const outputDir = path.join(paths.appBuildPublic, pathname);
@@ -127,7 +130,7 @@ loadRazzleConfig(webpack).then(
           const pageDataFile = path.join(outputDir, 'page-data.json');
 
           fs.ensureDirSync(outputDir);
-          fs.outputFileSync(htmlFile, html);
+          fs.outputFileSync(htmlFile, html.replace(insertScriptRe, insertScript));
           if (!!data) {
             fs.outputFileSync(pageDataFile, JSON.stringify(data));
           }
