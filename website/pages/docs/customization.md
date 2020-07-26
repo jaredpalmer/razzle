@@ -219,7 +219,7 @@ Add `export` to your `package.json`'s scripts like so:
 
 ```diff
 "scripts": {
-+  "export": "razzle static export",
++  "export": "razzle export",
 }
 ```
 
