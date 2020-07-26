@@ -32,15 +32,10 @@ prog
   });
 
 prog
-  .command('prerender')
-  .describe('Prerender the application in production mode.')
-  .option(
-    '-r, --routes',
-    'Where to import routes from. Can be a json file with a array or js file with a exported function.',
-    'routes.json'
-  )
+  .command('export')
+  .describe('Export a static version of the application in production mode.')
   .action(() => {
-    runCommand('prerender');
+    runCommand('export');
   });
 
 prog

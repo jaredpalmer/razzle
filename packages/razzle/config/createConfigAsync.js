@@ -115,6 +115,8 @@ module.exports = (
       console.log('Using .babelrc defined in your app root');
     }
 
+    const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
+
     const dotenv = getClientEnv(
       target,
       { clearConsole, host, port, shouldUseReactRefresh },
@@ -335,10 +337,8 @@ module.exports = (
       };
 
       if (IS_PROD) {
-        if (experimental.prerender) {
-          const prerender_entrypoint =
-            experimental.prerender.entrypoint || paths.appServerJs;
-          config.entry.prerender = [prerender_entrypoint];
+        if (hasStaticExportJs) {
+          config.entry.static_export = [paths.appStaticExportJs];
         }
       }
 

@@ -28,83 +28,99 @@ const getFileNamesAsStat = FileSizeReporter.getFileNamesAsStat;
 const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
 
-cliArgs.routes = cliArgs.routes || 'paths.js';
-
 loadRazzleConfig(webpack).then(
   async ({ razzle, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic + '/')
       .then(previousFileSizes => {
-        if (!fs.existsSync(path.join(paths.appBuild, 'prerender.js'))) {
-          console.log(chalk.red('Failed to prerender.\n'));
+        if (!fs.existsSync(paths.appBuildStaticExport)) {
+          console.log(chalk.red('Failed to export static.\n'));
           console.log(
-            'No prerender.js found in ' +
-              paths.appBuild +
-              ', run build before prerender.\n' +
+            'No ' + path.basename(paths.appBuildStaticExport) + ' found in ' +
+              path.dirname(paths.appBuildStaticExport) +
+              ', run build before export.\n' +
               '\n'
           );
           process.exit(1);
         }
         // Start the webpack build
-        return prerender(previousFileSizes);
+        return static_export(previousFileSizes);
       })
       .then(
         ({ stats, previousFileSizes }) => {
-          console.log(chalk.green('Prerendered successfully.\n'));
+          console.log(chalk.green('Exported static successfully.\n'));
           console.log('File sizes after gzip:\n');
           printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild);
           console.log();
         },
         err => {
-          console.log(chalk.red('Failed to prerender.\n'));
+          console.log(chalk.red('Failed to export static.\n'));
           console.log((err.message || err) + '\n');
           process.exit(1);
         }
       );
 
-    async function prerender(previousFileSizes) {
-      const prerender_entrypoint = require(path.join(
-        paths.appBuild,
-        'prerender.js'
-      ));
-      const render_export =
-        (razzle.experimental &&
-          razzle.experimental.prerender &&
-          razzle.experimental.prerender.export) ||
-        'render';
-      const render = prerender_entrypoint[render_export];
+    async function static_export(previousFileSizes) {
 
-      const routesPath = path.join(paths.appPath, cliArgs.routes);
-
-      if (!fs.existsSync(routesPath)) {
-        console.log(chalk.red('Failed to prerender.\n'));
+      if (!fs.existsSync(paths.appBuildStaticExport)) {
+        console.log(chalk.red('Failed to export static.\n'));
         console.log(
-          'No ' + cliArgs.routes + ' found in ' + paths.appPath + '.\n' + '\n'
+          'No ' + path.basename(paths.appBuildStaticExport) + ' found in ' + path.dirname(paths.appBuildStaticExport) + '.\n' + '\n'
         );
         process.exit(1);
       }
 
-      const imported_routes = require(routesPath).default;
-      const routes =
-        typeof imported_routes == 'function'
-          ? await imported_routes()
-          : imported_routes;
+      const static_export_entrypoint = require(paths.appBuildStaticExport);
 
-      if (!render) {
-        console.log(chalk.red('Failed to prerender.\n'));
+      const render_export =
+        (razzle.experimental &&
+          razzle.experimental.static_export &&
+          razzle.experimental.static_export.render_export) ||
+        'render';
+
+      const imported_render = static_export_entrypoint[render_export];
+
+      const routes_export =
+        (razzle.experimental &&
+          razzle.experimental.static_export &&
+          razzle.experimental.static_export.routes_export) ||
+        'routes';
+
+      const imported_routes = static_export_entrypoint[routes_export];
+
+      if (!imported_routes) {
+        console.log(chalk.red('Failed to export static.\n'));
+        console.log(
+        'No ' +
+          routes_export +
+          ' export found in ' +
+          paths.appBuildStaticExport +
+          '.\n' +
+          '\n'
+        );
+        process.exit(1);
+      }
+
+      if (!imported_render) {
+        console.log(chalk.red('Failed to export static.\n'));
         console.log(
           'No ' +
             render_export +
             ' export found in ' +
-            path.join(paths.appBuild, 'prerender.js') +
+            paths.appBuildStaticExport +
             '.\n' +
             '\n'
         );
         process.exit(1);
       }
 
-      const prerender = async pathname => {
+      const routes =
+        typeof imported_routes == 'function'
+          ? await imported_routes()
+          : imported_routes;
+
+      const render_static_export = async pathname => {
         const json = ({ html, data }) => {
           const outputDir = path.join(paths.appBuildPublic, pathname);
           const htmlFile = path.join(outputDir, 'index.html');
@@ -119,10 +135,10 @@ loadRazzleConfig(webpack).then(
 
         const req = { url: pathname };
         const res = { json };
-        await render(req, res);
+        await imported_render(req, res);
       };
 
-      await asyncPool(Math.min(2, routes.lenght), routes, prerender);
+      await asyncPool(Math.min(2, routes.lenght), routes, render_static_export);
       const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');
       return { stats, previousFileSizes };
     }

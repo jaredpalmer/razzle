@@ -8,7 +8,7 @@ const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
 
-const renderApp = (req, res) => {
+export const renderApp = (req, res) => {
   const context = {};
   const markup = renderToString(
     <StaticRouter location={req.url} context={context}>
@@ -38,12 +38,6 @@ const renderApp = (req, res) => {
 </html>`;
 
   return { html, context };
-};
-
-export const render = (req, res) => {
-  const { html } = renderApp(req, res);
-
-  res.json({ html });
 };
 
 server
