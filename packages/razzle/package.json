@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "bin": {
     "razzle": "./bin/razzle.js"
   },
@@ -21,7 +21,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
-    "babel-preset-razzle": "^3.1.5",
+    "babel-preset-razzle": "^3.1.6",
     "chalk": "^3.0.0",
     "css-loader": "3.5.3",
     "dotenv": "8.2.0",
@@ -37,7 +37,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-safe-parser": "^4.0.2",
-    "razzle-dev-utils": "^3.1.5",
+    "razzle-dev-utils": "^3.1.6",
     "react-dev-utils": "^10.2.0",
     "react-error-overlay": "^6.0.6",
     "sade": "^1.4.2",

@@ -1,10 +1,10 @@
 {
   "name": "razzle-plugin-php",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "babel-preset-php": "^1.2.0",
-    "razzle-dev-utils": "^3.1.5"
+    "razzle-dev-utils": "^3.1.6"
   }
 }
