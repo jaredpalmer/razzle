@@ -37,7 +37,9 @@ loadRazzleConfig(webpack).then(
         if (!fs.existsSync(paths.appBuildStaticExport)) {
           console.log(chalk.red('Failed to export static.\n'));
           console.log(
-            'No ' + path.basename(paths.appBuildStaticExport) + ' found in ' +
+            'No ' +
+              path.basename(paths.appBuildStaticExport) +
+              ' found in ' +
               path.dirname(paths.appBuildStaticExport) +
               ', run build before export.\n' +
               '\n'
@@ -62,42 +64,39 @@ loadRazzleConfig(webpack).then(
       );
 
     async function static_export(previousFileSizes) {
+      const options =
+        (razzle.experimental && razzle.experimental.static_export) || {};
 
       if (!fs.existsSync(paths.appBuildStaticExport)) {
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
-          'No ' + path.basename(paths.appBuildStaticExport) + ' found in ' + path.dirname(paths.appBuildStaticExport) + '.\n' + '\n'
+          'No ' +
+            path.basename(paths.appBuildStaticExport) +
+            ' found in ' +
+            path.dirname(paths.appBuildStaticExport) +
+            '.\n' +
+            '\n'
         );
         process.exit(1);
       }
 
       const static_export_entrypoint = require(paths.appBuildStaticExport);
 
-      const render_export =
-        (razzle.experimental &&
-          razzle.experimental.static_export &&
-          razzle.experimental.static_export.render_export) ||
-        'render';
+      const imported_render =
+        static_export_entrypoint[options.render_export || 'render'];
 
-      const imported_render = static_export_entrypoint[render_export];
-
-      const routes_export =
-        (razzle.experimental &&
-          razzle.experimental.static_export &&
-          razzle.experimental.static_export.routes_export) ||
-        'routes';
-
-      const imported_routes = static_export_entrypoint[routes_export];
+      const imported_routes =
+        static_export_entrypoint[options.routes_export || 'routes'];
 
       if (!imported_routes) {
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
-        'No ' +
-          routes_export +
-          ' export found in ' +
-          paths.appBuildStaticExport +
-          '.\n' +
-          '\n'
+          'No ' +
+            routes_export +
+            ' export found in ' +
+            paths.appBuildStaticExport +
+            '.\n' +
+            '\n'
         );
         process.exit(1);
       }
@@ -120,8 +119,20 @@ loadRazzleConfig(webpack).then(
           ? await imported_routes()
           : imported_routes;
 
-      const insertScript = `<script src="${process.env.PUBLIC_PATH || '/'}static_routes.js" defer crossorigin></script>`;
-      const insertScriptRe = /<!-- razzle_static_js -->/;
+      const insertScriptCode =
+        'window.' +
+        (options.window_variable || 'RAZZLE_STATIC_ROUTES') +
+        ' = ' +
+        JSON.stringify(routes) +
+        ';';
+
+      const insertScript = options.script_inline
+        ? `<script>\n${insertScriptCode}\n</script>`
+        : `<script src="${process.env.PUBLIC_PATH ||
+            '/'}static_routes.js" defer crossorigin></script>`;
+      const insertScriptRe = options.script_replacement
+        ? new RegExp(options.script_replacement)
+        : /<!-- razzle_static_js -->/;
 
       const render_static_export = async pathname => {
         const json = ({ html, data }) => {
@@ -130,7 +141,10 @@ loadRazzleConfig(webpack).then(
           const pageDataFile = path.join(outputDir, 'page-data.json');
 
           fs.ensureDirSync(outputDir);
-          fs.outputFileSync(htmlFile, html.replace(insertScriptRe, insertScript));
+          fs.outputFileSync(
+            htmlFile,
+            html.replace(insertScriptRe, insertScript)
+          );
           if (!!data) {
             fs.outputFileSync(pageDataFile, JSON.stringify(data));
           }
@@ -142,7 +156,10 @@ loadRazzleConfig(webpack).then(
       };
 
       await asyncPool(Math.min(2, routes.lenght), routes, render_static_export);
-      await fs.writeFile(paths.appBuildStaticExportRoutes,'window.RAZZLE_STATIC_ROUTES = ' + JSON.stringify(routes));
+
+      if (!options.script_inline) {
+        await fs.writeFile(paths.appBuildStaticExportRoutes, insertScriptCode);
+      }
       const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');
       return { stats, previousFileSizes };
     }

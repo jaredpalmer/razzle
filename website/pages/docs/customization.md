@@ -253,7 +253,10 @@ module.exports = {
   experimental: {
     static_export: {
       routes_export: 'routes',
-      render_export: 'render'
+      render_export: 'render',
+      script_replacement: '<!-- razzle_static_js -->',
+      script_inline: false,
+      window_variable: 'RAZZLE_STATIC_ROUTES'
     },
   },
 };
