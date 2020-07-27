@@ -127,7 +127,7 @@ loadRazzleConfig(webpack).then(
         ';';
 
       const insertScript = options.script_inline
-        ? `<script>\n${insertScriptCode}\n</script>`
+        ? `<script>${insertScriptCode}</script>`
         : `<script src="${process.env.PUBLIC_PATH ||
             '/'}static_routes.js" defer crossorigin></script>`;
       const insertScriptRe = options.script_replacement
