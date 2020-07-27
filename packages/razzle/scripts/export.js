@@ -135,7 +135,8 @@ loadRazzleConfig(webpack).then(
         : /<!-- razzle_static_js -->/;
 
       const render_static_export = async pathname => {
-        const json = ({ html, data }) => {
+        const json = ({ html, data, error = {} }) => {
+          if (error) console.error(error);
           const outputDir = path.join(paths.appBuildPublic, pathname);
           const htmlFile = path.join(outputDir, 'index.html');
           const pageDataFile = path.join(outputDir, 'page-data.json');
