@@ -151,7 +151,7 @@ loadRazzleConfig(webpack).then(
           }
         };
 
-        const req = { url: pathname };
+        const req = { url: pathname.replace(/^\//, '') };
         const res = { json };
         await imported_render(req, res);
       };
