@@ -115,9 +115,9 @@ loadRazzleConfig(webpack).then(
       }
 
       const routes =
-        typeof imported_routes == 'function'
+        (typeof imported_routes == 'function'
           ? await imported_routes()
-          : imported_routes;
+          : imported_routes).map(route=>route.replace(/^\/|\/$/g, ''));
 
       const insertScriptCode =
         'window.' +
@@ -151,7 +151,7 @@ loadRazzleConfig(webpack).then(
           }
         };
 
-        const req = { url: pathname.replace(/^\//, '') };
+        const req = { url: pathname };
         const res = { json };
         await imported_render(req, res);
       };
