@@ -51,7 +51,7 @@ function updatePackageJson(example, packageJson, branch) {
       fs.readFile(packageJson).then(content => {
         const tag = branch === 'canary' ? `canary` : 'latest';
         const contentString = content.toString();
-        const updated = contentString.replace(/("razzle": ")(canary|latest)(")/, '$1' + tag + '$3');
+        const updated = contentString.replace(/("razzle(-plugin-\w*)?": ")(canary|latest)(")/g, '$1' + tag + '$4');
         return fs.writeFile(packageJson, updated);
       })
     }
