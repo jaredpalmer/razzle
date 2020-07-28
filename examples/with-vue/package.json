@@ -17,6 +17,6 @@
   "devDependencies": {
     "eslint-plugin-vue": "^6.2.2",
     "razzle": "canary",
-    "razzle-plugin-vue": "latest"
+    "razzle-plugin-vue": "canary"
   }
 }
