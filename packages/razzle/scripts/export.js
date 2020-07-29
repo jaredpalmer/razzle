@@ -117,7 +117,7 @@ loadRazzleConfig(webpack).then(
       const routes =
         (typeof imported_routes == 'function'
           ? await imported_routes()
-          : imported_routes).map(route=>route.replace(/^\/|\/$/g, ''));
+          : imported_routes);
 
       const insertScript = `<script src="${process.env.PUBLIC_PATH ||
             '/'}static_routes.js" defer crossorigin></script>`;
@@ -127,7 +127,7 @@ loadRazzleConfig(webpack).then(
 
       const render_static_export = async pathname => {
         let htmlFile, hasData;
-        const json = ({ html, data, error = {} }) => {
+        const json = ({ html, data, error = null }) => {
           if (error) console.error(error);
           const outputDir = path.join(paths.appBuildPublic, pathname);
           const pageDataFile = path.join(outputDir, 'page-data.json');
@@ -140,6 +140,7 @@ loadRazzleConfig(webpack).then(
           );
           hasData = !!data;
           if (hasData) {
+            console.log(chalk.green(`Data written for ${pathname}.`), data);
             fs.outputFileSync(pageDataFile, JSON.stringify(data));
           }
         };
@@ -161,9 +162,9 @@ loadRazzleConfig(webpack).then(
 
       const insertScriptCode =
         `window.${(options.window_routes_variable || 'RAZZLE_STATIC_ROUTES')}`
-        + ` =  ${JSON.stringify(routes)};\n` +
+        + ` =  ${JSON.stringify(routes.map(route=>route.replace(/^\/|\/$/g, '')))};\n` +
         `window.${(options.window_routes_data_variable || 'RAZZLE_STATIC_DATA_ROUTES')}`
-        + ` =  ${JSON.stringify(razzleDataRoutes)};\n`;
+        + ` =  ${JSON.stringify(razzleDataRoutes.map(route=>route.replace(/^\/|\/$/g, '')))};\n`;
 
       if (!options.script_inline) {
         await fs.writeFile(paths.appBuildStaticExportRoutes, insertScriptCode);
