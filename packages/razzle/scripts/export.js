@@ -115,12 +115,12 @@ loadRazzleConfig(webpack).then(
       }
 
       const routes =
-        (typeof imported_routes == 'function'
+        typeof imported_routes == 'function'
           ? await imported_routes()
-          : imported_routes);
+          : imported_routes;
 
       const insertScript = `<script src="${process.env.PUBLIC_PATH ||
-            '/'}static_routes.js" defer crossorigin></script>`;
+        '/'}static_routes.js" defer crossorigin></script>`;
       const insertScriptRe = options.script_replacement
         ? new RegExp(options.script_replacement)
         : /<!-- razzle_static_js -->/;
@@ -136,7 +136,9 @@ loadRazzleConfig(webpack).then(
           fs.ensureDirSync(outputDir);
           fs.outputFileSync(
             htmlFile,
-            !options.script_inline ? html.replace(insertScriptRe, insertScript) : html
+            !options.script_inline
+              ? html.replace(insertScriptRe, insertScript)
+              : html
           );
           hasData = !!data;
           if (hasData) {
@@ -154,17 +156,23 @@ loadRazzleConfig(webpack).then(
       const rendersInfo = await asyncPool(
         Math.min(options.paralell || 5, routes.lenght),
         routes,
-        render_static_export);
+        render_static_export
+      );
 
       const razzleDataRoutes = rendersInfo
-        .filter(info=>info.hasData)
-        .map(info=>info.pathname);
+        .filter(info => info.hasData)
+        .map(info => info.pathname);
 
       const insertScriptCode =
-        `window.${(options.window_routes_variable || 'RAZZLE_STATIC_ROUTES')}`
-        + ` =  ${JSON.stringify(routes.map(route=>route.replace(/^\/|\/$/g, '')))};\n` +
-        `window.${(options.window_routes_data_variable || 'RAZZLE_STATIC_DATA_ROUTES')}`
-        + ` =  ${JSON.stringify(razzleDataRoutes.map(route=>route.replace(/^\/|\/$/g, '')))};\n`;
+        `window.${options.window_routes_variable || 'RAZZLE_STATIC_ROUTES'}` +
+        ` =  ${JSON.stringify(
+          routes.map(route => route.replace(/^\/|\/$/g, ''))
+        )};\n` +
+        `window.${options.window_routes_data_variable ||
+          'RAZZLE_STATIC_DATA_ROUTES'}` +
+        ` =  ${JSON.stringify(
+          razzleDataRoutes.map(route => route.replace(/^\/|\/$/g, ''))
+        )};\n`;
 
       if (!options.script_inline) {
         await fs.writeFile(paths.appBuildStaticExportRoutes, insertScriptCode);
@@ -175,17 +183,23 @@ loadRazzleConfig(webpack).then(
             if (exists) {
               fs.readFile(htmlFile).then(content => {
                 const contentString = content.toString();
-                const updated = contentString.replace(insertScriptRe, insertScriptInline);
+                const updated = contentString.replace(
+                  insertScriptRe,
+                  insertScriptInline
+                );
                 return fs.writeFile(htmlFile, updated);
-              })
+              });
             }
-          })
+          });
         };
-        const razzleDataFiles = rendersInfo.filter(info=>info.hasData).map(info=>info.htmlFile);
+        const razzleDataFiles = rendersInfo
+          .filter(info => info.hasData)
+          .map(info => info.htmlFile);
         await asyncPool(
           Math.min(options.paralell || 5, razzleDataFiles.lenght),
           razzleDataFiles,
-          updateFile);
+          updateFile
+        );
       }
 
       const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');

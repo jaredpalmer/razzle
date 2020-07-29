@@ -403,7 +403,9 @@ module.exports = (
             const entries = [...entrypoints];
             const entryArrayManifest = entries.reduce((acc, entry) => {
               const name =
-                (entry.options || {}).name || (entry.runtimeChunk || {}).name || entry.id;
+                (entry.options || {}).name ||
+                (entry.runtimeChunk || {}).name ||
+                entry.id;
               const files = []
                 .concat(
                   ...(entry.chunks || []).map(chunk =>

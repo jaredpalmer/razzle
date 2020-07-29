@@ -7,7 +7,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
@@ -153,9 +152,7 @@ function measureFileSizesBeforeBuild(buildFolder) {
 }
 
 function removeFilePrefix(buildFolder, fileName) {
-  return fileName
-    .replace(buildFolder, '')
-    .replace(/\\/g, '/')
+  return fileName.replace(buildFolder, '').replace(/\\/g, '/');
 }
 
 function getFileNamesAsStat(buildFolder) {
@@ -163,12 +160,15 @@ function getFileNamesAsStat(buildFolder) {
     recursive(buildFolder, (err, fileNames) => {
       var filteredFileNames;
       if (!err && fileNames) {
-        filteredFileNames = fileNames.filter(canReadAsset).map((fileName) => removeFilePrefix(buildFolder, fileName));
+        filteredFileNames = fileNames
+          .filter(canReadAsset)
+          .map(fileName => removeFilePrefix(buildFolder, fileName));
       }
-      resolve(
-        {toJson: () => (
-          { assets: filteredFileNames.map(name => ({name:name})) }
-      )});
+      resolve({
+        toJson: () => ({
+          assets: filteredFileNames.map(name => ({ name: name })),
+        }),
+      });
     });
   });
 }
@@ -176,5 +176,5 @@ function getFileNamesAsStat(buildFolder) {
 module.exports = {
   measureFileSizesBeforeBuild: measureFileSizesBeforeBuild,
   printFileSizesAfterBuild: printFileSizesAfterBuild,
-  getFileNamesAsStat: getFileNamesAsStat
+  getFileNamesAsStat: getFileNamesAsStat,
 };
