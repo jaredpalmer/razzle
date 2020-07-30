@@ -159,7 +159,7 @@ loadRazzleConfig(webpack).then(
         render_static_export
       );
 
-      const razzleDataRoutes = rendersInfo
+      const exportDataRoutes = rendersInfo
         .filter(info => info.hasData)
         .map(info => info.pathname);
 
@@ -171,7 +171,7 @@ loadRazzleConfig(webpack).then(
         `window.${options.window_routes_data_variable ||
           'RAZZLE_STATIC_DATA_ROUTES'}` +
         ` =  ${JSON.stringify(
-          razzleDataRoutes.map(route => route.replace(/^\/|\/$/g, ''))
+          exportDataRoutes.map(route => route.replace(/^\/|\/$/g, ''))
         )};\n`;
 
       if (!options.script_inline) {
@@ -192,12 +192,13 @@ loadRazzleConfig(webpack).then(
             }
           });
         };
-        const razzleDataFiles = rendersInfo
-          .filter(info => info.hasData)
+
+        const exportHtmlFiles = rendersInfo
           .map(info => info.htmlFile);
+
         await asyncPool(
-          Math.min(options.paralell || 5, razzleDataFiles.lenght),
-          razzleDataFiles,
+          Math.min(options.paralell || 5, exportHtmlFiles.lenght),
+          exportHtmlFiles,
           updateFile
         );
       }
