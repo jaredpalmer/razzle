@@ -119,11 +119,9 @@ loadRazzleConfig(webpack).then(
           ? await imported_routes()
           : imported_routes;
 
-      const insertScript = `<script src="${process.env.PUBLIC_PATH ||
+      const insertScript = `\$1<script src="${process.env.PUBLIC_PATH ||
         '/'}static_routes.js" defer crossorigin></script>`;
-      const insertScriptRe = options.script_replacement
-        ? new RegExp(options.script_replacement)
-        : /<!-- razzle_static_js -->/;
+      const insertScriptRe = /(<body.*?>)/mis;
 
       const render_static_export = async pathname => {
         let htmlFile, hasData;
@@ -177,7 +175,7 @@ loadRazzleConfig(webpack).then(
       if (!options.script_inline) {
         await fs.writeFile(paths.appBuildStaticExportRoutes, insertScriptCode);
       } else {
-        const insertScriptInline = `<script>${insertScriptCode}</script>`;
+        const insertScriptInline = `\$1<script>${insertScriptCode}</script>`;
         const updateFile = htmlFile => {
           fs.pathExists(htmlFile).then(exists => {
             if (exists) {
