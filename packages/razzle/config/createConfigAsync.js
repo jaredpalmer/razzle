@@ -255,7 +255,22 @@ module.exports = (
       },
       module: {
         strictExportPresence: true,
-        rules: [
+        rules: (experimental.newBabel ? [
+          {
+            test: /\.(js|jsx|mjs|ts|tsx)$/,
+            include: [paths.appSrc].concat(additionalIncludes),
+            loader: require.resolve('./babel/razzle-babel-loader'),
+            options: {
+              isServer: IS_NODE,
+              cwd: paths.appPath,
+              cache: true,
+              babelPresetPlugins: (experimental.newBabel || {}).plugins || [],
+              hasModern: !!(experimental.newBabel || {}).modern,
+              development: IS_DEV,
+              hasReactRefresh: shouldUseReactRefresh
+            },
+          }
+        ] : [
           // Disable require.ensure as it's not a standard language feature.
           // { parser: { requireEnsure: false } },
           // Avoid "require is not defined" errors
@@ -274,7 +289,7 @@ module.exports = (
                 options: babelOptions,
               },
             ],
-          },
+          }]).concat([
           {
             exclude: [
               /\.html$/,
@@ -367,7 +382,7 @@ module.exports = (
                   },
                 ],
           },
-        ],
+        ])
       },
     };
 
