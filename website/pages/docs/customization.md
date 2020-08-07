@@ -199,7 +199,7 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 ## Experimental
 
-Razzle has support for some experimental features. Currently razzle only has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin). More features may be added in the future and may become fully supported features.
+Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and static export. More features may be added in the future and may become fully supported features.
 
 To enable react-refresh:
 
@@ -209,6 +209,55 @@ To enable react-refresh:
 module.exports = {
   experimental: {
     reactRefresh: true,
+  },
+};
+```
+
+To enable static export:
+
+Add `export` to your `package.json`'s scripts like so:
+
+```diff
+"scripts": {
++  "export": "razzle export",
+}
+```
+
+Add a `static_export.js` to your src dir:
+
+```js
+import { renderApp } from './server';
+
+export const render = (req, res) => {
+  const { html } = renderApp(req, res);
+
+  res.json({ html });
+};
+
+export const routes = () => {
+  return ['/', '/about'];
+};
+```
+
+Run `npm export` or `yarn export`:
+
+Renders a static version of specified routes to the build folder based on the built production app.
+Your prerendered app is ready to be served!
+
+To enable static export with options:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    static_export: {
+      routes_export: 'routes',
+      render_export: 'render',
+      script_replacement: '<!-- razzle_static_js -->',
+      script_inline: false,
+      window_variable: 'RAZZLE_STATIC_ROUTES'
+    },
   },
 };
 ```

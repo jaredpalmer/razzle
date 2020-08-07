@@ -19,7 +19,7 @@ const loadRazzleConfig = require('../config/loadRazzleConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
-const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+const FileSizeReporter = require('razzle-dev-utils/FileSizeReporter');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
