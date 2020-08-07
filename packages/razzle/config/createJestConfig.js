@@ -2,7 +2,9 @@
 
 const fs = require('fs');
 const chalk = require('chalk');
+const jest = require("jest");
 
+const jestMajorVersion = parseInt(jest.default.getVersion().split('.')[0]);
 // first search for setupTests.ts file
 // if .ts file not exists then looks for setupTests.js
 function getSetupTestsFilePath(paths) {
@@ -23,13 +25,12 @@ module.exports = (resolve, rootDir, razzle, webpackObject, plugins, paths) => {
 
     // TODO: I don't know if it's safe or not to just use / as path separator
     // in Jest configs. We need help from somebody with Windows to determine this.
-    const config = {
+    const config = Object.assign({
       collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
 
-      setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : [],
       testMatch: [
-        '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
-        '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+        '<rootDir>/src/**/__tests__/**/*(*.)@(spec|test).(ts|js)?(x)',
+        '<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)',
       ],
       testEnvironment: 'node',
       testURL: 'http://localhost',
@@ -51,7 +52,11 @@ module.exports = (resolve, rootDir, razzle, webpackObject, plugins, paths) => {
         '^react-native$': 'react-native-web',
       },
       moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
-    };
+    }, jestMajorVersion >= 24 ? {
+      setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : []
+    } : {
+      setupTestFrameworkScriptFile: setupTestsFile
+    });
     if (rootDir) {
       config.rootDir = rootDir;
     }
@@ -77,7 +82,8 @@ module.exports = (resolve, rootDir, razzle, webpackObject, plugins, paths) => {
       'transformIgnorePatterns',
       'reporters',
       'watchPlugins',
-    ];
+    ].concat(jestMajorVersion >= 24 ?
+      ['setupFilesAfterEnv'] : ['setupTestFrameworkScriptFile']);
     if (overrides) {
       supportedKeys.forEach(key => {
         if (overrides.hasOwnProperty(key)) {
