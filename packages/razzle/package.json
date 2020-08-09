@@ -42,6 +42,7 @@
     "react-dev-utils": "^10.2.0",
     "react-error-overlay": "^6.0.6",
     "react-refresh": "^0.8.1",
+    "resolve": "1.17.0",
     "sade": "^1.4.2",
     "source-map-support": "^0.5.16",
     "start-server-webpack-plugin": "^2.2.5",

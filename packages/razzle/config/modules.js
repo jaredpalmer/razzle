@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const resolve = require('resolve');
 const logger = require('razzle-dev-utils/logger');
 
 function getAdditionalModulePaths(options = {}, paths) {
