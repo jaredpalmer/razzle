@@ -76,4 +76,10 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout
     const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
     return fs.writeFile(loadExamplePath, updated);
   })
+
+  const  installExamplePath = 'packages/create-razzle-app/lib/index.js';
+  fs.readFile(installExamplePath).then(content => {
+    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
+    return fs.writeFile(installExamplePath, updated);
+  })
 });
