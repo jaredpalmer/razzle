@@ -2,12 +2,12 @@ const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 const path = require("path");
 
 module.exports = {
-  modify: (defaultConfig, { target, dev }, webpack) => {
-    const config = defaultConfig;
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
     // add loadable webpack plugin only
     // when we are building the client bundle
-    if (target === "web") {
+    if (opts.env.target === "web") {
       const filename = path.resolve(__dirname, "build");
 
       // saving stats file to build folder

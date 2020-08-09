@@ -36,7 +36,7 @@ process.env.BUILD_TYPE = cliArgs.type;
 const verbose = cliArgs.verbose || false;
 
 loadRazzleConfig(webpack).then(
-  async ({ razzle, webpackObject, plugins, paths }) => {
+  async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic)
@@ -101,7 +101,8 @@ loadRazzleConfig(webpack).then(
           webpackObject,
           clientOnly,
           paths,
-          plugins
+          plugins,
+          razzleOptions
         );
 
         if (!clientOnly) {
@@ -112,7 +113,8 @@ loadRazzleConfig(webpack).then(
             webpackObject,
             clientOnly,
             paths,
-            plugins
+            plugins,
+            razzleOptions
           );
         }
 

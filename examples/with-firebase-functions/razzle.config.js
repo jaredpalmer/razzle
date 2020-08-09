@@ -1,16 +1,16 @@
 'use strict';
 const path = require('path');
 module.exports = {
-  modify(config, { target, dev }) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
-    if (target === 'node' && !dev) {
-      appConfig.entry = path.resolve(__dirname, './src/server.js');
-      appConfig.output.filename = 'server.bundle.js';
-      appConfig.output.path = path.resolve(__dirname, './server/build');
-      appConfig.output.libraryTarget = 'commonjs2';
+    if (opts.env.target === 'node' && !opts.env.dev) {
+      config.entry = path.resolve(__dirname, './src/server.js');
+      config.output.filename = 'server.bundle.js';
+      config.output.path = path.resolve(__dirname, './server/build');
+      config.output.libraryTarget = 'commonjs2';
     }
 
-    return appConfig;
+    return config;
   },
 }

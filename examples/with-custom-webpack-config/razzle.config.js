@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
     // Change the name of the server output file in production
-    if (target === 'node' && !dev) {
-      appConfig.output.filename = 'custom.js';
+    if (opts.env.target === 'node' && !opts.env.dev) {
+      config.output.filename = 'custom.js';
     }
 
-    return appConfig;
+    return config;
   },
 };

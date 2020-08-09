@@ -60,6 +60,8 @@ module.exports = (
     host = 'localhost',
     port = 3000,
     modify = null,
+    modifyWebpackOptions = null,
+    modifyWebpackConfig = null,
     modifyBabelOptions = null,
     experimental = {},
     disableStartServer = false,
@@ -67,7 +69,8 @@ module.exports = (
   webpackObject,
   clientOnly = false,
   paths = razzlePaths,
-  plugins = []
+  plugins = [],
+  razzleOptions = {}
 ) => {
   return new Promise(async resolve => {
     // Define some useful shorthands.
@@ -79,15 +82,18 @@ module.exports = (
 
     const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
 
-    // First we check to see if the user has a custom .babelrc file, otherwise
-    // we just use babel-preset-razzle.
-    const hasBabelRc = fs.existsSync(paths.appBabelRc);
+    let webpackOptions = {};
+
     const mainBabelOptions = {
       babelrc: true,
       cacheDirectory: true,
       presets: [],
       plugins: [],
     };
+
+    // First we check to see if the user has a custom .babelrc file, otherwise
+    // we just use babel-preset-razzle.
+    const hasBabelRc = fs.existsSync(paths.appBabelRc);
 
     if (!hasBabelRc) {
       mainBabelOptions.presets.push(require.resolve('../babel'));
@@ -112,9 +118,10 @@ module.exports = (
       ? modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
       : mainBabelOptions;
 
-    if (hasBabelRc && babelOptions.babelrc) {
+    if (!experimental.newBabel && hasBabelRc && babelOptions.babelrc) {
       console.log('Using .babelrc defined in your app root');
     }
+
 
     const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
 
@@ -224,6 +231,132 @@ module.exports = (
         ].filter(x => x),
       });
 
+    webpackOptions.fileLoaderExlude = [
+      /\.html$/,
+      /\.(js|jsx|mjs)$/,
+      /\.(ts|tsx)$/,
+      /\.(vue)$/,
+      /\.(less)$/,
+      /\.(re)$/,
+      /\.(s?css|sass)$/,
+      /\.json$/,
+      /\.bmp$/,
+      /\.gif$/,
+      /\.jpe?g$/,
+      /\.png$/,
+    ];
+
+    webpackOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
+
+    webpackOptions.definePluginOptions = dotenv.stringified;
+
+     if (IS_NODE) {
+       if (IS_DEV) {}
+       else { }
+    }
+
+    if (IS_WEB) {
+      if (IS_DEV) {}
+      else {
+        webpackOptions.terserPluginOptions = {
+          terserOptions: {
+            parse: {
+              // we want uglify-js to parse ecma 8 code. However, we don't want it
+              // to apply any minfication steps that turns valid ecma 5 code
+              // into invalid ecma 5 code. This is why the 'compress' and 'output'
+              // sections only apply transformations that are ecma 5 safe
+              // https://github.com/facebook/create-react-app/pull/4234
+              ecma: 8,
+            },
+            compress: {
+              ecma: 5,
+              warnings: false,
+              // Disabled because of an issue with Uglify breaking seemingly valid code:
+              // https://github.com/facebook/create-react-app/issues/2376
+              // Pending further investigation:
+              // https://github.com/mishoo/UglifyJS2/issues/2011
+              comparisons: false,
+              // Disabled because of an issue with Terser breaking valid code:
+              // https://github.com/facebook/create-react-app/issues/5250
+              // Pending futher investigation:
+              // https://github.com/terser-js/terser/issues/120
+              inline: 2,
+            },
+            mangle: {
+              safari10: true,
+            },
+            output: {
+              ecma: 5,
+              comments: false,
+              // Turned on because emoji and regex is not minified properly using default
+              // https://github.com/facebook/create-react-app/issues/2488
+              ascii_only: true,
+            },
+          },
+          // @todo add flag for sourcemaps
+          sourceMap: true,
+        }
+      }
+    }
+
+    if (clientOnly) {
+
+      webpackOptions.htmlWebpackPluginOptions = Object.assign(
+        {},
+        {
+          inject: true,
+          template: paths.appHtml,
+        },
+        IS_PROD
+          ? {
+              minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeRedundantAttributes: true,
+                useShortDoctype: true,
+                removeEmptyAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                keepClosingSlash: true,
+                minifyJS: true,
+                minifyCSS: true,
+                minifyURLs: true,
+              },
+            }
+          : {}
+      )
+    }
+
+    for (const [plugin, pluginOptions] of plugins) {
+      // Check if .modifyWebpackConfig is a function.
+      // If it is, call it on the configs we created.
+      if (plugin.modifyWebpackOptions) {
+        webpackOptions = await plugin.modifyWebpackOptions(
+          { env: { target, dev: IS_DEV },
+            webpackObject: webpackObject,
+            options: {
+              pluginOptions,
+              razzleOptions,
+              webpackOptions
+            },
+            paths
+          }
+        );
+      }
+    }
+    // Check if razzle.config.js has a modifyWebpackOptions function.
+    // If it does, call it on the configs we created.
+    if (modifyWebpackOptions) {
+      webpackOptions = await modifyWebpackOptions(
+        { env: { target, dev: IS_DEV },
+          webpackObject: webpackObject,
+          options: {
+            razzleOptions,
+            webpackOptions
+          },
+          paths
+        });
+    }
+
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
@@ -293,23 +426,10 @@ module.exports = (
             ],
           }]).concat([
           {
-            exclude: [
-              /\.html$/,
-              /\.(js|jsx|mjs)$/,
-              /\.(ts|tsx)$/,
-              /\.(vue)$/,
-              /\.(less)$/,
-              /\.(re)$/,
-              /\.(s?css|sass)$/,
-              /\.json$/,
-              /\.bmp$/,
-              /\.gif$/,
-              /\.jpe?g$/,
-              /\.png$/,
-            ],
+            exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),
             options: {
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: `${razzleOptions.mediaPrefix}/[name].[hash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -317,11 +437,11 @@ module.exports = (
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
           {
-            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            test: webpackOptions.urlLoaderTest,
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: `${razzleOptions.mediaPrefix}/[name].[hash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -410,7 +530,7 @@ module.exports = (
       // Add some plugins...
       config.plugins = [
         // We define environment variables that can be accessed globally in our
-        new webpack.DefinePlugin(dotenv.stringified),
+        new webpack.DefinePlugin(webpackOptions.definePluginOptions),
       ];
       // in dev mode emitting one huge server file on every save is very slow
       if (IS_PROD) {
@@ -547,8 +667,8 @@ module.exports = (
           publicPath: clientPublicPath,
           pathinfo: true,
           libraryTarget: 'var',
-          filename: 'static/js/bundle.js',
-          chunkFilename: 'static/js/[name].chunk.js',
+          filename: `${razzleOptions.jsPrefix}/bundle.js`,
+          chunkFilename: `${razzleOptions.jsPrefix}/[name].chunk.js`,
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
         };
@@ -593,7 +713,7 @@ module.exports = (
                 },
               })
             : null,
-          new webpack.DefinePlugin(dotenv.stringified),
+          new webpack.DefinePlugin(webpackOptions.definePluginOptions),
         ].filter(x => x);
 
         config.optimization = {
@@ -619,19 +739,19 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: 'static/js/bundle.[chunkhash:8].js',
-          chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+          filename: `${razzleOptions.jsPrefix}/bundle.[chunkhash:8].js`,
+          chunkFilename: `${razzleOptions.jsPrefix}/[name].[chunkhash:8].chunk.js`,
           libraryTarget: 'var',
         };
 
         config.plugins = [
           ...config.plugins,
           // Define production environment vars
-          new webpack.DefinePlugin(dotenv.stringified),
+          new webpack.DefinePlugin(webpackOptions.definePluginOptions),
           // Extract our CSS into files.
           new MiniCssExtractPlugin({
-            filename: 'static/css/bundle.[contenthash:8].css',
-            chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+            filename: `${razzleOptions.cssPrefix}/bundle.[contenthash:8].css`,
+            chunkFilename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`,
           }),
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
@@ -640,44 +760,7 @@ module.exports = (
         config.optimization = {
           minimize: true,
           minimizer: [
-            new TerserPlugin({
-              terserOptions: {
-                parse: {
-                  // we want uglify-js to parse ecma 8 code. However, we don't want it
-                  // to apply any minfication steps that turns valid ecma 5 code
-                  // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                  // sections only apply transformations that are ecma 5 safe
-                  // https://github.com/facebook/create-react-app/pull/4234
-                  ecma: 8,
-                },
-                compress: {
-                  ecma: 5,
-                  warnings: false,
-                  // Disabled because of an issue with Uglify breaking seemingly valid code:
-                  // https://github.com/facebook/create-react-app/issues/2376
-                  // Pending further investigation:
-                  // https://github.com/mishoo/UglifyJS2/issues/2011
-                  comparisons: false,
-                  // Disabled because of an issue with Terser breaking valid code:
-                  // https://github.com/facebook/create-react-app/issues/5250
-                  // Pending futher investigation:
-                  // https://github.com/terser-js/terser/issues/120
-                  inline: 2,
-                },
-                mangle: {
-                  safari10: true,
-                },
-                output: {
-                  ecma: 5,
-                  comments: false,
-                  // Turned on because emoji and regex is not minified properly using default
-                  // https://github.com/facebook/create-react-app/issues/2488
-                  ascii_only: true,
-                },
-              },
-              // @todo add flag for sourcemaps
-              sourceMap: true,
-            }),
+            new TerserPlugin(webpackOptions.terserPluginOptions),
             new OptimizeCSSAssetsPlugin({
               cssProcessorOptions: {
                 parser: safePostCssParser,
@@ -706,31 +789,7 @@ module.exports = (
         config.plugins = [
           ...config.plugins,
           // Generates an `index.html` file with the <script> injected.
-          new HtmlWebpackPlugin(
-            Object.assign(
-              {},
-              {
-                inject: true,
-                template: paths.appHtml,
-              },
-              IS_PROD
-                ? {
-                    minify: {
-                      removeComments: true,
-                      collapseWhitespace: true,
-                      removeRedundantAttributes: true,
-                      useShortDoctype: true,
-                      removeEmptyAttributes: true,
-                      removeStyleLinkTypeAttributes: true,
-                      keepClosingSlash: true,
-                      minifyJS: true,
-                      minifyCSS: true,
-                      minifyURLs: true,
-                    },
-                  }
-                : {}
-            )
-          ),
+          new HtmlWebpackPlugin(webpackOptions.htmlWebpackPluginOptions),
         ];
       }
     }
@@ -745,10 +804,44 @@ module.exports = (
       ];
     }
 
+    for (const [plugin, pluginOptions] of plugins) {
+      // Check if .modifyWebpackConfig is a function.
+      // If it is, call it on the configs we created.
+      if (plugin.modifyWebpackConfig) {
+        config = await plugin.modifyWebpackConfig(
+          { env: { target, dev: IS_DEV },
+            webpackConfig: config,
+            webpackObject: webpackObject,
+            options: {
+              pluginOptions,
+              razzleOptions,
+              webpackOptions
+            },
+            paths
+          }
+        );
+      }
+    }
+    // Check if razzle.config.js has a modifyWebpackConfig function.
+    // If it does, call it on the configs we created.
+    if (modifyWebpackConfig) {
+      config = await modifyWebpackConfig(
+        { env: { target, dev: IS_DEV },
+          webpackConfig: config,
+          webpackObject: webpackObject,
+          options: {
+            razzleOptions,
+            webpackOptions
+          },
+          paths
+        });
+    }
+
     for (const [plugin, options] of plugins) {
       // Check if plugin is a function.
       // If it is, call it on the configs we created.
       if (typeof plugin === 'function') {
+        console.warn("Function only plugins are deprecated, use .modifyWebpackConfig")
         config = await runPlugin(
           plugin,
           config,
@@ -761,6 +854,7 @@ module.exports = (
     // Check if razzle.config.js has a modify function.
     // If it does, call it on the configs we created.
     if (modify) {
+      console.warn("razzle.modify is deprecated use razzle.modifyWebpackConfig.")
       config = await modify(config, { target, dev: IS_DEV }, webpackObject);
     }
 

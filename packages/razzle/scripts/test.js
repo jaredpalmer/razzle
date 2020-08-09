@@ -45,18 +45,19 @@ const fs = require('fs-extra');
 const defaultPaths = require('../config/paths');
 
 loadRazzleConfig(webpack, defaultPaths).then(
-  async ({ razzle, webpackObject, plugins, paths }) => {
+  async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     argv.push(
       '--config',
       JSON.stringify(
-        await (createJestConfig(
+        await createJestConfig(
           relativePath => path.resolve(__dirname, '..', relativePath),
           path.resolve(paths.appSrc, '..'),
           razzle,
+          razzleOptions,
           webpackObject,
           plugins,
           paths
-        ))
+        )
       )
     );
 

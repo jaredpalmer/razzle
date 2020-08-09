@@ -28,6 +28,7 @@
     "babel-preset-razzle": "^3.1.5",
     "chalk": "^3.0.0",
     "css-loader": "3.5.3",
+    "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "file-loader": "^4.3.0",

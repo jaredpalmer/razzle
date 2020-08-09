@@ -27,44 +27,62 @@ module.exports = {
 
 ### Writing Plugins
 
-Plugins are simply functions that modify and return Razzle's webpack config.
+Plugins are simply a collection of functions that modify and return Razzle/webpack/jest configuration.
+
+There are five functions that can be used to hook into Razzle configuration.
+
+* modifyOptions - modifies default Razzle options and options passed to Razzle in the `options` key in `razzle.config.js`.
+* modifyPaths - modifies default Razzle paths.
+* modifyWebpackOptions - modifies some default options that will be used to configure webpack/ webpack loaders and plugins.
+* modifyWebpackConfig - modifies the created webpack config.
+* modifyJestConfig - modifies jest config that is used to run tests for yor app.
+
+
+Here is a complete plugin that uses all five functions, usually you just need `modifyWebpackConfig` and/or `modifyWebpackOptions`.
 
 ```js
 'use strict';
 
-module.exports = function myRazzlePlugin(config, env, webpack, options) {
-  const { target, dev } = env;
+module.exports = {
+  modifyOptions(
+    {
+      webpackObject, // the imported webpack node module
+      options: {
+        pluginOptions, // the options passed to the plugin ({ name:'pluginname', options: { key: 'value'}})
+        razzleOptions, // the default options/ options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+      }
+    }) {
 
-  if (target === 'web') {
-    // client only
-  }
+    // Do some stuff...
+    return razzleOptions;
+  },
+  modifyPaths(
+    {
+      webpackObject, // the imported webpack node module
+      options: {
+        pluginOptions, // the options passed to the plugin ({ name:'pluginname', options: { key: 'value'}})
+        razzleOptions, // the modified options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+      },
+      paths // the default paths that will be used by Razzle.
+    }) {
 
-  if (target === 'node') {
-    // server only
-  }
+    // Do some stuff...
+    return paths;
+  },
+  modifyWebpackOptions(
+    { env: {
+        target, // the target 'node' or 'web'
+        dev // is this a development build? true or false
+      },
+      webpackObject, // the imported webpack node module
+      options: {
+        pluginOptions, // the options passed to the plugin ({ name:'pluginname', options: { key: 'value'}})
+        razzleOptions, // the modified options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+        webpackOptions // the default options that will be used to configure webpack/ webpack loaders and plugins
+      },
+      paths // the modified paths that will be used by Razzle.
+    }) {
 
-  if (dev) {
-    // dev only
-  } else {
-    // prod only
-  }
-
-  // Do some stuff...
-  return webpackConfig;
-};
-```
-
-##### New in razzle 3.2
-
-Plugins also support using promises
-
-```js
-'use strict';
-
-module.exports = function myRazzlePlugin(webpackConfig, env, webpack, options) {
-  const { target, dev } = env;
-
-  return new Promise(async (resolve) => {
     if (target === 'web') {
       // client only
     }
@@ -75,14 +93,102 @@ module.exports = function myRazzlePlugin(webpackConfig, env, webpack, options) {
 
     if (dev) {
       // dev only
-      await getDevcert();
     } else {
       // prod only
     }
 
     // Do some stuff...
-    resolve(webpackConfig);
-  })
+    return webpackOptions;
+  },
+  modifyWebpackConfig(
+    { env: {
+        target, // the target 'node' or 'web'
+        dev // is this a development build? true or false
+      },
+      webpackConfig, // the created webpack config
+      webpackObject, // the imported webpack node module
+      options: {
+        pluginOptions, // the options passed to the plugin ({ name:'pluginname', options: { key: 'value'}})
+        razzleOptions, // the modified options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+        webpackOptions // the modified options that will be used to configure webpack/ webpack loaders and plugins
+      },
+      paths // the modified paths that will be used by Razzle.
+    }) {
+
+    if (target === 'web') {
+      // client only
+    }
+
+    if (target === 'node') {
+      // server only
+    }
+
+    if (dev) {
+      // dev only
+    } else {
+      // prod only
+    }
+
+    // Do some stuff...
+    return webpackConfig;
+  },
+  modifyJestConfig(
+    { jestConfig,// the created jest config
+      webpackObject,// the imported webpack node module
+      options: {
+        pluginOptions,// the options passed to the plugin ({ name:'pluginname', options: { key: 'value'}})
+        razzleOptions// the modified options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+      },
+      paths // the modified paths that will be used by Razzle.
+    }) {
+
+    // Do some stuff...
+    return jestConfig;
+  }
+};
+```
+
+Plugins also support using promises, this example uses `modifyWebpackConfig` but promises are supported in all hooks.
+
+```js
+'use strict';
+
+module.exports = {
+  modifyWebpackConfig(
+    { env: {
+        target,
+        dev
+      },
+      webpackConfig,
+      webpackObject,
+      options: {
+        pluginOptions,
+        razzleOptions,
+        webpackOptions
+      },
+      paths
+    }) {
+
+    return new Promise(async (resolve) => {
+      if (target === 'web') {
+        // client only
+      }
+
+      if (target === 'node') {
+        // server only
+      }
+
+      if (dev) {
+        // dev only
+        await getDevcert();
+      } else {
+        // prod only
+      }
+
+      // Do some stuff...
+      resolve(webpackConfig);
+    })
+  }
 };
 ```
 
@@ -108,27 +214,53 @@ A word of advice: the `.babelrc` file will replace the internal razzle babelrc t
 
 You can also extend the underlying webpack config. Create a file called `razzle.config.js` in your project's root.
 
+All the hook functions supported in plugins is also supported here. We show only one function here for brevity.
+
 ```js
 // razzle.config.js
 
 module.exports = {
-  modify: (config, { target, dev }, webpack) => {
-    // do something to config
+  modifyWebpackConfig(
+    { env: {
+        target, // the target 'node' or 'web'
+        dev // is this a development build? true or false
+      },
+      webpackConfig, // the created webpack config
+      webpackObject, // the imported webpack node module
+      options: {
+        razzleOptions, // the modified options passed to Razzle in the `options` key in `razzle.config.js` (options: { key: 'value'})
+        webpackOptions // the modified options that will be used to configure webpack/ webpack loaders and plugins
+      },
+      paths // the modified paths that will be used by Razzle.
+    }) {
 
-    return config;
+    if (target === 'web') {
+      // client only
+    }
+
+    if (target === 'node') {
+      // server only
+    }
+
+    if (dev) {
+      // dev only
+    } else {
+      // prod only
+    }
+
+    // Do some stuff...
+    return webpackConfig;
   },
 };
 ```
 
 A word of advice: `razzle.config.js` is an escape hatch. However, since it's just JavaScript, you can and should publish your `modify` function to npm to make it reusable across your projects. For example, imagine you added some custom webpack loaders and published it as a package to npm as `my-razzle-modifictions`. You could then write your `razzle.config.js` like so:
 
-```
+```js
 // razzle.config.js
-const modify = require('my-razzle-modifictions');
+const modifications = require('my-razzle-modifictions');
 
-module.exports = {
-  modify
-}
+module.exports = modifications;
 ```
 
 Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
@@ -141,7 +273,20 @@ Last but not least, if you find yourself needing a more customized setup, Razzle
 // razzle.config.js
 
 module.exports = {
-  modify: (webpackConfig, { target, dev }, webpack) => {
+  modifyWebpackConfig(
+    { env: {
+        target,
+        dev
+      },
+      webpackConfig,
+      webpackObject,
+      options: {
+        razzleOptions,
+        webpackOptions
+      },
+      paths
+    }) {
+
 
     return new Promise(async (resolve) => {
       if (target === 'web') {

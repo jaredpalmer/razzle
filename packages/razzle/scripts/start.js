@@ -36,7 +36,7 @@ const clientOnly = cliArgs.type === 'spa';
 function main() {
   return new Promise(async (resolve, reject) => {
     loadRazzleConfig(webpack).then(
-      async ({ razzle, webpackObject, plugins, paths }) => {
+      async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
         // Optimistically, we make the console look exactly like the output of our
         // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
         // clearConsole();
@@ -52,7 +52,8 @@ function main() {
           webpackObject,
           clientOnly,
           paths,
-          plugins
+          plugins,
+          razzleOptions
         );
         if (clientOnly) {
           // Check for public/index.html file
@@ -79,7 +80,8 @@ function main() {
             webpackObject,
             clientOnly,
             paths,
-            plugins
+            plugins,
+            razzleOptions
           );
           serverCompiler = compile(serverConfig);
         }

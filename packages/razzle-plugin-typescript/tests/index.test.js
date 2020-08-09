@@ -2,7 +2,7 @@
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
-const pluginFunc = require('../index');
+const plugin = require('../index');
 const { babelLoaderFinder, tsLoaderFinder } = require('../helpers');
 
 describe('razzle-typescript-plugin', () => {
@@ -10,7 +10,7 @@ describe('razzle-typescript-plugin', () => {
     let config;
     beforeAll(async done => {
       config = await createRazzleTestConfig('web', 'dev', {
-        plugins: [{ func: pluginFunc, options: { useBabel: false } }],
+        plugins: [{ object: plugin, options: { useBabel: false } }],
       });
       done();
     });
@@ -43,7 +43,7 @@ describe('razzle-typescript-plugin', () => {
     let config;
     beforeAll(async done => {
       config = await createRazzleTestConfig('web', 'dev', {
-        plugins: [{ func: pluginFunc, options: { useBabel: true } }],
+        plugins: [{ object: plugin, options: { useBabel: true } }],
       });
       done();
     });
@@ -66,7 +66,7 @@ describe('razzle-typescript-plugin', () => {
     beforeAll(async done => {
       config = await createRazzleTestConfig('node', 'dev', {
         disableStartServer: true,
-        plugins: [{ func: pluginFunc, options: {} }],
+        plugins: [{ object: plugin, options: {} }],
       });
       done();
     });

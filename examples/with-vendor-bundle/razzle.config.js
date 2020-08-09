@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = {
-  modify(defaultConfig, { target, dev }, webpack) {
-    const config = defaultConfig; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
     // Change the name of the server output file in production
-    if (target === 'web') {
+    if (opts.env.target === 'web') {
       // modify filenaming to account for multiple entry files
-      config.output.filename = dev
+      config.output.filename = opts.env.dev
         ? 'static/js/[name].js'
         : 'static/js/[name].[hash:8].js';
 

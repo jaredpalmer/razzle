@@ -70,73 +70,72 @@ const defaultOptions = {
   },
 };
 
-module.exports = (
-  defaultConfig,
-  { target, dev },
-  webpack,
-  userOptions = {}
-) => {
-  const isServer = target !== 'web';
-  const constantEnv = dev ? 'dev' : 'prod';
 
-  const config = Object.assign({}, defaultConfig);
+module.exports = {
+  modifyWebpackConfig(opts) {
 
-  const options = Object.assign({}, defaultOptions, userOptions);
+    const isServer = opts.env.target !== 'web';
+    const constantEnv = opts.env.dev ? 'dev' : 'prod';
 
-  const styleLoader = {
-    loader: require.resolve('style-loader'),
-    options: options.style,
-  };
+    const config = Object.assign({}, opts.webpackConfig);
 
-  const cssLoader = {
-    loader: require.resolve('css-loader'),
-    options: options.css[constantEnv],
-  };
+    const options = Object.assign({}, defaultOptions, opts.options.pluginOptions);
 
-  const resolveUrlLoader = {
-    loader: require.resolve('resolve-url-loader'),
-    options: options.resolveUrl[constantEnv],
-  };
+    const styleLoader = {
+      loader: require.resolve('style-loader'),
+      options: options.style,
+    };
 
-  const postCssLoader = {
-    loader: require.resolve('postcss-loader'),
-    options: hasPostCssConfig()
-      ? undefined
-      : Object.assign({}, options.postcss[constantEnv], {
-          plugins: () => options.postcss.plugins,
-        }),
-  };
+    const cssLoader = {
+      loader: require.resolve('css-loader'),
+      options: options.css[constantEnv],
+    };
 
-  const lessLoader = {
-    loader: require.resolve('less-loader'),
-    options: Object.assign({}, options.less[constantEnv]),
-  };
+    const resolveUrlLoader = {
+      loader: require.resolve('resolve-url-loader'),
+      options: options.resolveUrl[constantEnv],
+    };
 
-  config.module.rules = [
-    ...config.module.rules,
-    {
-      test: /\.less$/,
-      use: isServer
-        ? [
-            {
-              loader: require.resolve('css-loader'),
-              options: Object.assign({}, options.css[constantEnv], {
-                onlyLocals: true,
-              }),
-            },
-            resolveUrlLoader,
-            postCssLoader,
-            lessLoader,
-          ]
-        : [
-            dev ? styleLoader : MiniCssExtractPlugin.loader,
-            cssLoader,
-            postCssLoader,
-            resolveUrlLoader,
-            lessLoader,
-          ],
-    },
-  ];
+    const postCssLoader = {
+      loader: require.resolve('postcss-loader'),
+      options: hasPostCssConfig()
+        ? undefined
+        : Object.assign({}, options.postcss[constantEnv], {
+            plugins: () => options.postcss.plugins,
+          }),
+    };
 
-  return config;
+    const lessLoader = {
+      loader: require.resolve('less-loader'),
+      options: Object.assign({}, options.less[constantEnv]),
+    };
+
+    config.module.rules = [
+      ...config.module.rules,
+      {
+        test: /\.less$/,
+        use: isServer
+          ? [
+              {
+                loader: require.resolve('css-loader'),
+                options: Object.assign({}, options.css[constantEnv], {
+                  onlyLocals: true,
+                }),
+              },
+              resolveUrlLoader,
+              postCssLoader,
+              lessLoader,
+            ]
+          : [
+              opts.env.dev ? styleLoader : MiniCssExtractPlugin.loader,
+              cssLoader,
+              postCssLoader,
+              resolveUrlLoader,
+              lessLoader,
+            ],
+      },
+    ];
+
+    return config;
+  }
 };

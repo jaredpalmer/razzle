@@ -15,6 +15,11 @@ function loadPlugin(plugin) {
     return [plugin.func, plugin.options];
   }
 
+  if (typeof plugin.object === 'object') {
+    // Used for writing plugin tests
+    return [plugin.object, plugin.options];
+  }
+
   const completePluginName = `razzle-plugin-${plugin.name}`;
 
   // Try to find the plugin in node_modules
