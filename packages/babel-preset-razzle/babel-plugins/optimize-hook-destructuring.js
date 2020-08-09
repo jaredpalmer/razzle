@@ -6,8 +6,8 @@ const isHook = /^use[A-Z]/
 // matches only built-in hooks provided by React et al
 const isBuiltInHook = /^use(Callback|Context|DebugValue|Effect|ImperativeHandle|LayoutEffect|Memo|Reducer|Ref|State)$/
 
-module.exports = function (opts) => {
-  const t = opts.types:
+module.exports = function (opts) {
+  const t = opts.types;
   const visitor = {
     CallExpression: function (path, state) {
       const onlyBuiltIns = state.opts.onlyBuiltIns
