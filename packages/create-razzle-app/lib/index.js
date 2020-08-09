@@ -19,6 +19,9 @@ const prop = key => obj => obj[key];
 const officialExamplesApiUrl =
   'https://api.github.com/repos/jaredpalmer/razzle/contents/examples';
 
+const branch = 'canary'; // this line auto updates when yarn update-examples is run
+const razzlePkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
+
 const getOfficialExamples = () => {
   if (typeof process.env.CI === 'undefined') {
     return axios
@@ -110,8 +113,8 @@ function installWithMessageFactory(opts, isExample = false) {
       projectName: projectName,
       projectPath: projectPath,
       packages: isExample
-        ? ['razzle']
-        : ['react', 'react-dom', 'react-router-dom', 'razzle', 'express'],
+        ? [razzlePkg]
+        : ['react', 'react-dom', 'react-router-dom', razzlePkg, 'express'],
     })
       .then(function() {
         console.log(messages.start(projectName));
