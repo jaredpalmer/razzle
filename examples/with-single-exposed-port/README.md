@@ -58,6 +58,33 @@ module.exports = {
 
 A bit more complex on a subpath behind a reverse nginx proxy:
 
+
+```js
+'use strict';
+
+module.exports = {
+  modify(config, { target, dev }, webpack) {
+    const appConfig = config; // stay immutable here
+
+    if (target === 'web' && dev) {
+      appConfig.devServer.public = 'localhost:8080' // or 80 or 443
+      appConfig.devServer.proxy = {
+        context: () => true,
+        target: 'http://localhost:3000'
+      };
+      appConfig.devServer.sockPath = '/razzle-dev/sockjs-node';
+    }
+
+    return appConfig;
+  },
+};
+
+```
+
+```bash
+CLIENT_PUBLIC_PATH=http://localhost:8080/razzle-dev/ yarn start
+```
+
 ```nginxconf
 http {
 
@@ -81,26 +108,4 @@ http {
         }
     }
 }
-```
-
-```js
-'use strict';
-
-module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
-
-    if (target === 'web' && dev) {
-      appConfig.devServer.public = 'localhost:8080' // or 80 or 443
-      appConfig.devServer.proxy = {
-        context: () => true,
-        target: 'http://localhost:3000'
-      };
-      appConfig.devServer.sockPath = '/razzle-dev/sockjs-node';
-    }
-
-    return appConfig;
-  },
-};
-
 ```
