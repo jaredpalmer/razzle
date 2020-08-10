@@ -55,3 +55,52 @@ module.exports = {
   },
 };
 ```
+
+A bit more complex on a subpath behind a reverse nginx proxy:
+
+```nginxconf
+http {
+
+    server {
+        listen       8080; # or 80 or 443
+        server_name  _;
+        location /razzle-dev { # no /, no regex
+            return 302 /razzle-dev/; # a /
+        }
+        location /razzle-dev/ { # no regex
+            proxy_pass   http://127.0.0.1:3001/; # a /
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+        location /razzle-dev/sockjs-node/ { # no regex
+            proxy_pass   http://127.0.0.1:3001; # no /
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+    }
+}
+```
+
+```js
+'use strict';
+
+module.exports = {
+  modify(config, { target, dev }, webpack) {
+    const appConfig = config; // stay immutable here
+
+    if (target === 'web' && dev) {
+      appConfig.devServer.public = 'localhost:8080' // or 80 or 443
+      appConfig.devServer.proxy = {
+        context: () => true,
+        target: 'http://localhost:3000'
+      };
+      appConfig.devServer.sockPath = '/razzle-dev/sockjs-node';
+    }
+
+    return appConfig;
+  },
+};
+
+```
