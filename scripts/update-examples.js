@@ -71,15 +71,15 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout
       })
   })
 
-  const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';
-  fs.readFile(loadExamplePath).then(content => {
-    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
-    return fs.writeFile(loadExamplePath, updated);
-  })
+  const branchUpdateDocs = [
+    path.join(rootDir, 'packages/create-razzle-app/lib/utils/load-example.js'),
+    path.join(rootDir, 'packages/create-razzle-app/lib/index.js'),
+  ];
 
-  const  installExamplePath = 'packages/create-razzle-app/lib/index.js';
-  fs.readFile(installExamplePath).then(content => {
-    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
-    return fs.writeFile(installExamplePath, updated);
-  })
+  for (let branchUpdateDoc of branchUpdateDocs) {
+    fs.readFile(branchUpdateDoc).then(content => {
+      const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
+      return fs.writeFile(branchUpdateDoc, updated);
+    })
+  }
 });
