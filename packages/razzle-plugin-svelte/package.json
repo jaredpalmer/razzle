@@ -1,0 +1,13 @@
+{
+  "name": "razzle-plugin-svelte",
+  "license": "MIT",
+  "version": "3.1.6",
+  "main": "index.js",
+  "dependencies": {
+    "css-loader": "3.5.3",
+    "razzle-dev-utils": "^3.1.6",
+    "svelte": "^3.24.1",
+    "svelte-loader": "^2.13.6",
+    "svelte-preprocess": "^4.0.10"
+  }
+}
