@@ -344,9 +344,17 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 ## Experimental
 
-Razzle has support for some experimental features. Currently razzle has experimental support for [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) and static export. More features may be added in the future and may become fully supported features.
+Razzle has support for some experimental features. Currently razzle has experimental support for:
 
-To enable react-refresh:
+* [React refresh](#to-enable-react-refresh) - [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin)
+* [Static export](#to-enable-static-export)
+* [New babel loader](#to-enable-the-new-babel-loader)
+* [New externals resolution](#to-enable-the-new-externals-resolution)
+* [New splitChunks configuration](#to-enable-the-new-split-chunks-configuration)
+
+More features may be added in the future and may become fully supported features.
+
+### To enable react refresh:
 
 ```js
 // razzle.config.js
@@ -358,7 +366,7 @@ module.exports = {
 };
 ```
 
-To enable static export:
+### To enable static export:
 
 Add `export` to your `package.json`'s scripts like so:
 
@@ -399,10 +407,46 @@ module.exports = {
     static_export: {
       routes_export: 'routes',
       render_export: 'render',
-      script_replacement: '<!-- razzle_static_js -->',
       script_inline: false,
-      window_variable: 'RAZZLE_STATIC_ROUTES'
+      window_routes_variable: 'RAZZLE_STATIC_ROUTES',
+      window_routes_data_variable: 'RAZZLE_STATIC_DATA_ROUTES'
     },
+  },
+};
+```
+
+### To enable the new babel loader:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    newBabel: true,
+  },
+};
+```
+
+### To enable the new externals resolution:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    newExternals: true,
+  },
+};
+```
+
+### To enable the new splitChunks configuration:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    newSplitChunks: true,
   },
 };
 ```

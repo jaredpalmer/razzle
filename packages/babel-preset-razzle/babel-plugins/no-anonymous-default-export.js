@@ -68,7 +68,7 @@ module.exports = function (opts) {
           }
           default: {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const _: never = def
+            const never = def
           }
         }
       },

@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
+const crypto = require('crypto');
 const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -50,6 +51,103 @@ const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions;
 const webpackDevClientEntry = require.resolve(
   'razzle-dev-utils/webpackHotDevClient'
 );
+
+const isModuleCSS = (module) => {
+  return (
+    // mini-css-extract-plugin
+    module.type === `css/mini-extract` ||
+    // extract-css-chunks-webpack-plugin (old)
+    module.type === `css/extract-chunks` ||
+    // extract-css-chunks-webpack-plugin (new)
+    module.type === `css/extract-css-chunks`
+  )
+}
+// Contains various versions of the Webpack SplitChunksPlugin used in different build types
+const splitChunksConfigs = {
+  dev: {
+    cacheGroups: {
+      default: false,
+      vendors: false,
+      // In webpack 5 vendors was renamed to defaultVendors
+      defaultVendors: false,
+    },
+  },
+  prodGranular: {
+    chunks: 'all',
+    cacheGroups: {
+      default: false,
+      vendors: false,
+      // In webpack 5 vendors was renamed to defaultVendors
+      defaultVendors: false,
+      framework: {
+        chunks: 'all',
+        name: 'framework',
+        // This regex ignores nested copies of framework libraries so they're
+        // bundled with their issuer.
+        // https://github.com/vercel/next.js/pull/9012
+        test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+        priority: 40,
+        // Don't let webpack eliminate this chunk (prevents this chunk from
+        // becoming a part of the commons chunk)
+        enforce: true,
+      },
+      lib: {
+        test: (module) => {
+          return (
+            module.size() > 160000 &&
+            /node_modules[/\\]/.test(module.identifier())
+          )
+        },
+        name: (module) => {
+          const hash = crypto.createHash('sha1')
+          if (isModuleCSS(module)) {
+            module.updateHash(hash)
+          } else {
+            if (!module.libIdent) {
+              throw new Error(
+                `Encountered unknown module type: ${module.type}. Please open an issue.`
+              )
+            }
+
+            hash.update(module.libIdent({ context: dir }))
+          }
+
+          return hash.digest('hex').substring(0, 8)
+        },
+        priority: 30,
+        minChunks: 1,
+        reuseExistingChunk: true,
+      },
+      // commons: {
+      //   name: 'commons',
+      //   minChunks: totalPages,
+      //   priority: 20,
+      // },
+      shared: {
+        name(module, chunks) {
+          return (
+            crypto
+              .createHash('sha1')
+              .update(
+                chunks.reduce(
+                  (acc, chunk) => {
+                    return acc + chunk.name
+                  },
+                  ''
+                )
+              )
+              .digest('hex') + (isModuleCSS(module) ? '_CSS' : '')
+          )
+        },
+        priority: 10,
+        minChunks: 2,
+        reuseExistingChunk: true,
+      },
+    },
+    maxInitialRequests: 25,
+    minSize: 20000,
+  },
+};
 
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
@@ -256,8 +354,13 @@ module.exports = (
     }
 
     if (IS_WEB) {
-      if (IS_DEV) {}
+      if (IS_DEV) {
+        webpackOptions.splitChunksConfig = splitChunksConfigs.dev;
+      }
       else {
+
+        webpackOptions.splitChunksConfig = splitChunksConfigs.prodGranular;
+
         webpackOptions.terserPluginOptions = {
           terserOptions: {
             parse: {
@@ -402,7 +505,7 @@ module.exports = (
               babelPresetPlugins: (experimental.newBabel || {}).plugins || [],
               hasModern: !!(experimental.newBabel || {}).modern,
               development: IS_DEV,
-              hasReactRefresh: shouldUseReactRefresh
+              hasReactRefresh: !IS_NODE && shouldUseReactRefresh
             },
           }
         ] : [
@@ -716,7 +819,9 @@ module.exports = (
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
         ].filter(x => x);
 
-        config.optimization = {
+        config.optimization = Object.assign(experimental.newSplitChunks ? {
+          splitChunks: webpackOptions.splitChunksConfig
+        } : {}, {
           // @todo automatic vendor bundle
           // Automatically split vendor and commons
           // https://twitter.com/wSokra/status/969633336732905474
@@ -726,7 +831,7 @@ module.exports = (
           // Keep the runtime chunk seperated to enable long term caching
           // https://twitter.com/wSokra/status/969679223278505985
           // runtimeChunk: true,
-        };
+        });
       } else {
         // Specify production entry point (/client/index.js)
         config.entry = {
@@ -757,7 +862,9 @@ module.exports = (
           new webpack.optimize.AggressiveMergingPlugin(),
         ];
 
-        config.optimization = {
+        config.optimization = Object.assign(experimental.newSplitChunks ? {
+          splitChunks: webpackOptions.splitChunksConfig
+        } : {}, {
           minimize: true,
           minimizer: [
             new TerserPlugin(webpackOptions.terserPluginOptions),
@@ -776,7 +883,7 @@ module.exports = (
               },
             }),
           ],
-        };
+        });
       }
 
       if (clientOnly) {

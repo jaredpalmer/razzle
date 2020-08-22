@@ -159,7 +159,7 @@ module.exports = babelLoader.custom(function (babel) {
         options.plugins.unshift(reactRefreshPlugin)
         if (!isServer) {
           const noAnonymousDefaultExportPlugin = babel.createConfigItem(
-            [require('babel-preset-razzle/plugins/no-anonymous-default-export'), {}],
+            [require('babel-preset-razzle/babel-plugins/no-anonymous-default-export'), {}],
             { type: 'plugin' }
           )
           options.plugins.unshift(noAnonymousDefaultExportPlugin)
