@@ -404,12 +404,12 @@ To enable static export with options:
 
 module.exports = {
   experimental: {
-    static_export: {
-      routes_export: 'routes',
-      render_export: 'render',
-      script_inline: false,
-      window_routes_variable: 'RAZZLE_STATIC_ROUTES',
-      window_routes_data_variable: 'RAZZLE_STATIC_DATA_ROUTES'
+    staticExport: {
+      routesExport: 'routes',
+      renderExport: 'render',
+      scriptInline: false,
+      windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
+      windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
     },
   },
 };

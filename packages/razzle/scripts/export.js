@@ -65,7 +65,7 @@ loadRazzleConfig(webpack).then(
 
     async function static_export(previousFileSizes) {
       const options =
-        (razzle.experimental && razzle.experimental.static_export) || {};
+        (razzle.experimental && razzle.experimental.staticExport) || {};
 
       if (!fs.existsSync(paths.appBuildStaticExport)) {
         console.log(chalk.red('Failed to export static.\n'));
@@ -83,16 +83,16 @@ loadRazzleConfig(webpack).then(
       const static_export_entrypoint = require(paths.appBuildStaticExport);
 
       const imported_render =
-        static_export_entrypoint[options.render_export || 'render'];
+        static_export_entrypoint[options.renderExport || 'render'];
 
       const imported_routes =
-        static_export_entrypoint[options.routes_export || 'routes'];
+        static_export_entrypoint[options.routesExport || 'routes'];
 
       if (!imported_routes) {
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
           'No ' +
-            routes_export +
+            options.routesExport || 'routes' +
             ' export found in ' +
             paths.appBuildStaticExport +
             '.\n' +
@@ -105,7 +105,7 @@ loadRazzleConfig(webpack).then(
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
           'No ' +
-            render_export +
+            options.renderExport || 'render' +
             ' export found in ' +
             paths.appBuildStaticExport +
             '.\n' +
@@ -134,7 +134,7 @@ loadRazzleConfig(webpack).then(
           fs.ensureDirSync(outputDir);
           fs.outputFileSync(
             htmlFile,
-            !options.script_inline
+            !options.scriptInline
               ? html.replace(insertScriptRe, insertScript)
               : html
           );
@@ -162,17 +162,17 @@ loadRazzleConfig(webpack).then(
         .map(info => info.pathname);
 
       const insertScriptCode =
-        `window.${options.window_routes_variable || 'RAZZLE_STATIC_ROUTES'}` +
+        `window.${options.windowRoutesVariable || 'RAZZLE_STATIC_ROUTES'}` +
         ` =  ${JSON.stringify(
           routes.map(route => route.replace(/^\/|\/$/g, ''))
         )};\n` +
-        `window.${options.window_routes_data_variable ||
+        `window.${options.windowRoutesDataVariable ||
           'RAZZLE_STATIC_DATA_ROUTES'}` +
         ` =  ${JSON.stringify(
           exportDataRoutes.map(route => route.replace(/^\/|\/$/g, ''))
         )};\n`;
 
-      if (!options.script_inline) {
+      if (!options.scriptInline) {
         await fs.writeFile(paths.appBuildStaticExportRoutes, insertScriptCode);
       } else {
         const insertScriptInline = `\$1<script>${insertScriptCode}</script>`;
