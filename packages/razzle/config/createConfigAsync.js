@@ -178,7 +178,7 @@ module.exports = (
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
-    const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
+    const shouldUseReactRefresh = IS_WEB && IS_DEV && experimental.reactRefresh ? true : false;
 
     let webpackOptions = {};
 
@@ -505,7 +505,7 @@ module.exports = (
               babelPresetPlugins: (experimental.newBabel || {}).plugins || [],
               hasModern: !!(experimental.newBabel || {}).modern,
               development: IS_DEV,
-              hasReactRefresh: !IS_NODE && shouldUseReactRefresh
+              hasReactRefresh: shouldUseReactRefresh
             },
           }
         ] : [
