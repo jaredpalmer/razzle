@@ -532,7 +532,7 @@ module.exports = (
             exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${razzleOptions.mediaPrefix}/[name].[hash:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -544,7 +544,7 @@ module.exports = (
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${razzleOptions.mediaPrefix}/[name].[hash:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -844,8 +844,8 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${razzleOptions.jsPrefix}/bundle.[chunkhash:8].js`,
-          chunkFilename: `${razzleOptions.jsPrefix}/[name].[chunkhash:8].chunk.js`,
+          filename: `${razzleOptions.jsPrefix}/bundle.[contenthash:8].js`,
+          chunkFilename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`,
           libraryTarget: 'var',
         };
 
