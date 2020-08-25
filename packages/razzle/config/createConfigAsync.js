@@ -300,6 +300,12 @@ module.exports = (
          if (baseRes !== res) {
            return callback()
          }
+
+         // This is the @babel/plugin-transform-runtime "helpers: true" option
+         if (res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)) {
+           return callback()
+         }
+         
          // Anything else that is standard JavaScript within `node_modules`
          // can be externalized.
          if (res.match(/node_modules[/\\].*\.js$/)) {
