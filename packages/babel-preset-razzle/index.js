@@ -29,6 +29,7 @@ var preset = {
         absoluteRuntime: path.dirname(
           require.resolve("@babel/runtime/package.json")
         ),
+        version: require('@babel/runtime/package.json').version
       },
     ],
   ],
