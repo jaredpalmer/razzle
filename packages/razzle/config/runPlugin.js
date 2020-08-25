@@ -1,5 +1,8 @@
 'use strict';
 
+const resolve = require('resolve')
+const paths = require('./paths')
+
 function runPlugin(plugin, config, { target, dev }, webpack) {
   if (typeof plugin === 'string') {
     // Apply the plugin with default options if passing only a string
@@ -18,7 +21,7 @@ function runPlugin(plugin, config, { target, dev }, webpack) {
   const completePluginName = `razzle-plugin-${plugin.name}`;
 
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(completePluginName);
+  const razzlePlugin = require(resolve.sync(completePluginName, { basedir: paths.appRazzleConfig }));
   if (!razzlePlugin) {
     throw new Error(`Unable to find '${completePluginName}`);
   }
