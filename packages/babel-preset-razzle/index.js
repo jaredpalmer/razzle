@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require("path")
+
 var preset = {
   presets: [
     [require.resolve('@babel/preset-env'), { modules: false }],
@@ -21,7 +23,14 @@ var preset = {
     // Adds syntax support for import()
     require.resolve('@babel/plugin-syntax-dynamic-import'),
     // Add support for async/await
-    require.resolve('@babel/plugin-transform-runtime'),
+    [
+      require.resolve("@babel/plugin-transform-runtime"),
+      {
+        absoluteRuntime: path.dirname(
+          require.resolve("@babel/runtime/package.json")
+        ),
+      },
+    ],
   ],
 };
 
