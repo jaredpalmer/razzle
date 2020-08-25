@@ -40,18 +40,18 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
-    if (target === 'web' && dev) {
-      appConfig.devServer.proxy = {
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.proxy = {
         context: () => true,
         target: 'http://localhost:3000'
       };
-      appConfig.devServer.index = '';
+      config.devServer.index = '';
     }
 
-    return appConfig;
+    return config;
   },
 };
 ```
@@ -63,22 +63,22 @@ A bit more complex on a subpath behind a reverse nginx proxy:
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+
 
     if (target === 'web' && dev) {
-      appConfig.devServer.public = 'localhost:8080' // or 80 or 443
-      appConfig.devServer.proxy = {
+      config.devServer.public = 'localhost:8080' // or 80 or 443
+      config.devServer.proxy = {
         context: () => true,
         target: 'http://localhost:3000'
       };
-      appConfig.devServer.sockPath = '/razzle-dev/sockjs-node';
+      config.devServer.sockPath = '/razzle-dev/sockjs-node';
     }
 
-    return appConfig;
+    return config;
   },
 };
-
 ```
 
 ```bash

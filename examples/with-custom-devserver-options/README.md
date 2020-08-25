@@ -38,19 +38,15 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
-
-    if (target === 'web' && dev) {
-      appConfig.devServer.port = 3002;
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.port = 3002;
       // If behind a proxy on a public domain
-      // appConfig.devServer.public = 'example.com:8080';
+      // config.devServer.public = 'example.com:8080';
     }
 
-    return appConfig;
+    return config;
   },
 };
-
-
-
 ```

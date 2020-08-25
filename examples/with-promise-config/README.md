@@ -38,20 +38,19 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
     return new Promise((resolve) => {
       setTimeout(() => {
         // Change the name of the server output file in production
-        if (target === 'node' && !dev) {
-          appConfig.output.filename = 'custom.js';
+        if (opts.env.target === 'node' && !opts.env.dev) {
+          config.output.filename = 'custom.js';
         }
-        resolve(appConfig);
+        resolve(config);
       }, 10);
     });
   },
 };
-
 
 ```
