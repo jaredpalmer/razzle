@@ -22,6 +22,8 @@ module.exports = {
 };
 ```
 
+See full configuration in the [typescript example project](https://github.com/jaredpalmer/razzle/tree/master/examples/with-typescript).
+
 ### With custom options:
 
 ```js
