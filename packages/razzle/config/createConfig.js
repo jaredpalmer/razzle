@@ -286,10 +286,10 @@ module.exports = (
     if (IS_DEV) {
       // Use watch mode
       config.watch = true;
-      config.entry.unshift('webpack/hot/poll?300');
+      config.entry.unshift(`${require.resolve('webpack/hot/poll')}?300`);
 
       // Pretty format server errors
-      config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
+      config.entry.unshift(require.resolve('razzle-dev-utils/prettyNodeErrors'));
 
       const nodeArgs = ['-r', require.resolve('source-map-support/register')];
 
