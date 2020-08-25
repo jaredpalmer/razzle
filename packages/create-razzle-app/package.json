@@ -1,6 +1,6 @@
 {
   "name": "create-razzle-app",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "CLI tool to bootstrap Razzle applications with no configuration",
   "main": "index.js",
   "license": "MIT",
