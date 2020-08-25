@@ -17,6 +17,7 @@ const getClientEnv = require('./env').getClientEnv;
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
 const modules = require('./modules');
 
 const postCssOptions = {
@@ -113,9 +114,17 @@ module.exports = (
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
       },
+      plugins: [
+        // TODO: Remove when using webpack 5
+        PnpWebpackPlugin,
+      ],
     },
     resolveLoader: {
       modules: [paths.appNodeModules, paths.ownNodeModules],
+      plugins: [
+        // TODO: Remove when using webpack 5
+        PnpWebpackPlugin.moduleLoader(module),
+      ],
     },
     module: {
       strictExportPresence: true,
