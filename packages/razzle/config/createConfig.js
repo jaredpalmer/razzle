@@ -291,7 +291,7 @@ module.exports = (
       // Pretty format server errors
       config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
 
-      const nodeArgs = ['-r', 'source-map-support/register'];
+      const nodeArgs = ['-r', require.resolve('source-map-support/register')];
 
       // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
       if (process.env.INSPECT_BRK) {
