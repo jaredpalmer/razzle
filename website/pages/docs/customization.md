@@ -351,6 +351,8 @@ Razzle has support for some experimental features. Currently razzle has experime
 * [New babel loader](#to-enable-the-new-babel-loader)
 * [New externals resolution](#to-enable-the-new-externals-resolution)
 * [New splitChunks configuration](#to-enable-the-new-split-chunks-configuration)
+* [New contentHash configuration](#to-enable-the-new-content-hash-configuration)
+* [New mainFields configuration](#to-enable-the-new-main-fields-configuration)
 
 More features may be added in the future and may become fully supported features.
 
@@ -447,6 +449,30 @@ module.exports = {
 module.exports = {
   experimental: {
     newSplitChunks: true,
+  },
+};
+```
+
+### To enable the new contentHash configuration:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    newContentHash: true,
+  },
+};
+```
+
+### To enable the new mainFields configuration:
+
+```js
+// razzle.config.js
+
+module.exports = {
+  experimental: {
+    newMainFields: true,
   },
 };
 ```

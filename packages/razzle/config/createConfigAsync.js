@@ -473,6 +473,7 @@ module.exports = (
       // We need to tell webpack how to resolve both Razzle's node_modules and
       // the users', so we use resolve and resolveLoader.
       resolve: {
+        mainFields: experimental.newMainFields ? IS_NODE ? ['main', 'module'] : ['browser', 'module', 'main'] : undefined,
         modules: ['node_modules', paths.appNodeModules].concat(
           additionalModulePaths
         ),
@@ -532,7 +533,7 @@ module.exports = (
             exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[${experimental.newContentHash ? 'contenthash' : 'hash'}:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -544,7 +545,7 @@ module.exports = (
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[${experimental.newContentHash ? 'contenthash' : 'hash'}:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -844,8 +845,8 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${razzleOptions.jsPrefix}/bundle.[contenthash:8].js`,
-          chunkFilename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`,
+          filename: `${razzleOptions.jsPrefix}/bundle.[${experimental.newContentHash ? 'contenthash' : 'chunkhash'}:8].js`,
+          chunkFilename: `${razzleOptions.jsPrefix}/[name].[${experimental.newContentHash ? 'contenthash' : 'chunkhash'}:8].chunk.js`,
           libraryTarget: 'var',
         };
 
@@ -855,8 +856,8 @@ module.exports = (
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
           // Extract our CSS into files.
           new MiniCssExtractPlugin({
-            filename: `${razzleOptions.cssPrefix}/bundle.[contenthash:8].css`,
-            chunkFilename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`,
+            filename: `${razzleOptions.cssPrefix}/bundle.[${experimental.newContentHash ? 'contenthash' : 'chunkhash'}:8].css`,
+            chunkFilename: `${razzleOptions.cssPrefix}/[name].[${experimental.newContentHash ? 'contenthash' : 'chunkhash'}:8].chunk.css`,
           }),
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
