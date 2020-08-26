@@ -118,8 +118,10 @@ function main() {
 
   // Create a new instance of Webpack-dev-server for our client assets.
   // This will actually run on a different port than the users app.
-  const clientDevServer = new devServer(clientCompiler,
-    Object.assign(clientConfig.devServer, { verbose: verbose }));
+  const clientDevServer = new devServer(
+    clientCompiler,
+    Object.assign(clientConfig.devServer, { verbose: verbose })
+  );
 
   // Start Webpack-dev-server
   clientDevServer.listen(port, err => {
@@ -156,7 +158,6 @@ function formatInspectFlag(cliArgs, flag) {
   // When passed as `--inspect=[port]` or `--inspect=[host:port]`
   return '--' + flag + '=' + value.toString();
 }
-
 
 setPorts()
   .then(main)

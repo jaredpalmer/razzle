@@ -192,7 +192,7 @@ module.exports = (
                     importLoaders: 1,
                     modules: {
                       auto: true,
-                      localIdentName: '[name]__[local]___[hash:base64:5]'
+                      localIdentName: '[name]__[local]___[hash:base64:5]',
                     },
                     onlyLocals: true,
                   },
@@ -207,8 +207,8 @@ module.exports = (
                     importLoaders: 1,
                     modules: {
                       auto: true,
-                      localIdentName: '[name]__[local]___[hash:base64:5]'
-                    }
+                      localIdentName: '[name]__[local]___[hash:base64:5]',
+                    },
                   },
                 },
                 {
@@ -224,8 +224,8 @@ module.exports = (
                     importLoaders: 1,
                     modules: {
                       auto: true,
-                      localIdentName: '[name]__[local]___[hash:base64:5]'
-                    }
+                      localIdentName: '[name]__[local]___[hash:base64:5]',
+                    },
                   },
                 },
                 {
@@ -343,7 +343,9 @@ module.exports = (
           const entries = [...entrypoints];
           const entryArrayManifest = entries.reduce((acc, entry) => {
             const name =
-              (entry.options || {}).name || (entry.runtimeChunk || {}).name || entry.id;
+              (entry.options || {}).name ||
+              (entry.runtimeChunk || {}).name ||
+              entry.id;
             const files = []
               .concat(
                 ...(entry.chunks || []).map(chunk =>

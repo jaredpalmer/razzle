@@ -12,7 +12,7 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 - Works with [React](https://github.com/facebook/react), [Preact](https://github.com/developit/preact), [Elm](http://elm-lang.org/), [Reason-React](https://github.com/jaredpalmer/razzle/tree/master/examples/with-reason-react), [Inferno](https://github.com/infernojs), and [Rax](https://github.com/alibaba/rax) as well as [Angular](https://github.com/angular/angular) and [Vue](https://github.com/vuejs/vue) if that's your thing
 - Escape hatches for customization via `.babelrc` and `razzle.config.js`
 - [Jest](https://github.com/facebook/jest) test runner setup with sensible defaults via `razzle test`
-- :rocket: SPA mode, build client side apps with razzle 
+- :rocket: SPA mode, build client side apps with razzle
 
 ## Quick Start
 
@@ -104,7 +104,7 @@ If your application is running, and you need to manually restart your server, yo
     - [What other `.env` files are can be used?](#what-other-env-files-are-can-be-used)
 - [How Razzle works (the secret sauce)](#how-razzle-works-the-secret-sauce)
 - [Inspiration](#inspiration)
-    - [Author](#author)
+  - [Author](#author)
 - [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -265,18 +265,18 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 **The following environment variables are embedded during the build time.**
 
-* `process.env.RAZZLE_PUBLIC_DIR`: Absolute path to the public directory in the server's filesystem.
-* `process.env.RAZZLE_CHUNKS_MANIFEST`: Path to a file containing compiled chunk outputs
-* `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
-* `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
-* `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
-* `process.env.PORT`: The `BUILD_TARGET=server` build listens on this port for all NODE_ENVs. default is `3000`
-* `process.env.HOST`: The IP address that the server will bind to. default is `0.0.0.0`, for INADDR_ANY
-* `process.env.NODE_ENV`: `'development'` or `'production'`
-* `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
-* `process.env.BUILD_TARGET`: either `'client'` or `'server'`
-* `process.env.PUBLIC_PATH`: Only used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
-* `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`
+- `process.env.RAZZLE_PUBLIC_DIR`: Absolute path to the public directory in the server's filesystem.
+- `process.env.RAZZLE_CHUNKS_MANIFEST`: Path to a file containing compiled chunk outputs
+- `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
+- `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
+- `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
+- `process.env.PORT`: The `BUILD_TARGET=server` build listens on this port for all NODE_ENVs. default is `3000`
+- `process.env.HOST`: The IP address that the server will bind to. default is `0.0.0.0`, for INADDR_ANY
+- `process.env.NODE_ENV`: `'development'` or `'production'`
+- `process.env.BUILD_TYPE`: `'iso'` for isomorphic/universal applications or `'spa'` for single page applications. The default is `'iso'`. This is set by CLI arguments.
+- `process.env.BUILD_TARGET`: either `'client'` or `'server'`
+- `process.env.PUBLIC_PATH`: Only used in `razzle build`. You can alter the `webpack.config.output.publicPath` of the client assets (bundle, css, and images). This is useful if you plan to serve your assets from a CDN. Make sure to _include_ a trailing slash (e.g. `PUBLIC_PATH=https://cdn.example.com/`). If you are using React and altering the public path, make sure to also [include the `crossorigin` attribute](https://reactjs.org/docs/cdn-links.html#why-the-crossorigin-attribute) on your `<script>` tag in `src/server.js`.
+- `process.env.CLIENT_PUBLIC_PATH`: The `NODE_ENV=development` build's `BUILD_TARGET=client` has a different `PUBLIC_PATH` than `BUILD_TARGET=server`. Default is `http://${process.env.HOST}:${process.env.PORT + 1}/`
 
 You can create your own custom environment variables that will be inlined during the build. They must start
 with `RAZZLE_`. Any other variables except the ones listed above will be ignored to avoid accidentally exposing a private key on the machine that could have the same name. Changing any environment variables will require you to restart the development server if it is running.

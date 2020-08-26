@@ -42,16 +42,16 @@ const defaultOptions = {
       importLoaders: 1,
       modules: {
         auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
     prod: {
       sourceMap: false,
       importLoaders: 1,
       modules: {
         auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
+        localIdentName: '[name]__[local]___[hash:base64:5]',
+      },
     },
   },
   style: {},
@@ -124,7 +124,7 @@ module.exports = (
             resolveUrlLoader,
             sassLoader,
           ],
-    }
+    },
   ];
 
   return config;

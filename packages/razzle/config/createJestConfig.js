@@ -40,7 +40,7 @@ module.exports = (resolve, rootDir) => {
       ),
     },
     transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$'],
-    moduleDirectories: ["node_modules"],
+    moduleDirectories: ['node_modules'],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
     },
