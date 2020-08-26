@@ -129,7 +129,6 @@ module.exports = function(api, options) {
           options['transform-runtime'] || {}
         ),
       ],
-      require('./babel-plugins/amp-attributes'),
       isProduction && [
         require('babel-plugin-transform-react-remove-prop-types'),
         {
