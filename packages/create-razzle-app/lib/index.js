@@ -20,7 +20,7 @@ const officialExamplesApiUrl =
   'https://api.github.com/repos/jaredpalmer/razzle/contents/examples';
 
 const branch = 'next-awesome'; // this line auto updates when yarn update-examples is run
-const razzlePkg = `razzle${branch == 'canary' ? '@' + branch : '' }`;
+const razzlePkg = `razzle${branch == 'canary' ? '@' + branch : ''}`;
 
 const getOfficialExamples = () => {
   if (typeof process.env.CI === 'undefined') {

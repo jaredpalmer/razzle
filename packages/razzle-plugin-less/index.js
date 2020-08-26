@@ -70,16 +70,18 @@ const defaultOptions = {
   },
 };
 
-
 module.exports = {
   modifyWebpackConfig(opts) {
-
     const isServer = opts.env.target !== 'web';
     const constantEnv = opts.env.dev ? 'dev' : 'prod';
 
     const config = Object.assign({}, opts.webpackConfig);
 
-    const options = Object.assign({}, defaultOptions, opts.options.pluginOptions);
+    const options = Object.assign(
+      {},
+      defaultOptions,
+      opts.options.pluginOptions
+    );
 
     const styleLoader = {
       loader: require.resolve('style-loader'),
@@ -137,5 +139,5 @@ module.exports = {
     ];
 
     return config;
-  }
+  },
 };

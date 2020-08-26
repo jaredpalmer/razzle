@@ -7,6 +7,6 @@ function resolveRequest(req, issuer) {
       ? issuer
       : path.dirname(issuer);
   return resolve.sync(req, { basedir });
-};
+}
 
 module.exports = resolveRequest;

@@ -1,36 +1,41 @@
 'use strict';
 
-const PluginItem = require('@babel/core').PluginItem
-const env = process.env.NODE_ENV
-const isProduction = env === 'production'
-const isDevelopment = env === 'development'
-const isTest = env === 'test'
-
+const PluginItem = require('@babel/core').PluginItem;
+const env = process.env.NODE_ENV;
+const isProduction = env === 'production';
+const isDevelopment = env === 'development';
+const isTest = env === 'test';
 
 // Taken from https://github.com/babel/babel/commit/d60c5e1736543a6eac4b549553e107a9ba967051#diff-b4beead8ad9195361b4537601cc22532R158
-const supportsStaticESM = function (caller) {
-  return !!caller && caller.supportsStaticESM
-}
+const supportsStaticESM = function(caller) {
+  return !!caller && caller.supportsStaticESM;
+};
 
+module.exports = function(api, options) {
+  options = options || {};
 
-module.exports = function (api, options) {
-  options = options || {}
-
-  const supportsESM = api.caller(supportsStaticESM)
-  const isServer = api.caller(function (caller) { return !!caller && caller.isServer})
-  const isModern = api.caller(function (caller) { return !!caller && caller.isModern})
+  const supportsESM = api.caller(supportsStaticESM);
+  const isServer = api.caller(function(caller) {
+    return !!caller && caller.isServer;
+  });
+  const isModern = api.caller(function(caller) {
+    return !!caller && caller.isModern;
+  });
 
   const isLaxModern =
     isModern ||
     ((options['preset-env'] || {}).targets &&
-      options['preset-env'].targets.esmodules === true)
+      options['preset-env'].targets.esmodules === true);
 
-  const presetEnvConfig = Object.assign({
-    // In the test environment `modules` is often needed to be set to true, babel figures that out by itself using the `'auto'` option
-    // In production/development this option is set to `false` so that webpack can handle import/export with tree-shaking
-    modules: 'auto',
-    exclude: ['transform-typeof-symbol'],
-    }, options['preset-env'] || {})
+  const presetEnvConfig = Object.assign(
+    {
+      // In the test environment `modules` is often needed to be set to true, babel figures that out by itself using the `'auto'` option
+      // In production/development this option is set to `false` so that webpack can handle import/export with tree-shaking
+      modules: 'auto',
+      exclude: ['transform-typeof-symbol'],
+    },
+    options['preset-env'] || {}
+  );
 
   // When transpiling for the server or tests, target the current Node version
   // if not explicitly specified:
@@ -46,12 +51,12 @@ module.exports = function (api, options) {
       // Targets the current process' version of Node. This requires apps be
       // built and deployed on the same version of Node.
       node: 'current',
-    }
+    };
   }
 
   // specify a preset to use instead of @babel/preset-env
   const customModernPreset =
-    isLaxModern && options['experimental-modern-preset']
+    isLaxModern && options['experimental-modern-preset'];
 
   return {
     sourceType: 'unambiguous',
@@ -62,16 +67,22 @@ module.exports = function (api, options) {
       ],
       [
         require('@babel/preset-react'),
-        Object.assign({
-          // This adds @babel/plugin-transform-react-jsx-source and
-          // @babel/plugin-transform-react-jsx-self automatically in development
-          development: isDevelopment || isTest,
-          pragma: '__jsx',
-          }, options['preset-react'] || {}),
+        Object.assign(
+          {
+            // This adds @babel/plugin-transform-react-jsx-source and
+            // @babel/plugin-transform-react-jsx-self automatically in development
+            development: isDevelopment || isTest,
+            pragma: '__jsx',
+          },
+          options['preset-react'] || {}
+        ),
       ],
       [
         require('@babel/preset-typescript'),
-        Object.assign({ allowNamespaces: true, }, options['preset-typescript'] || {}),
+        Object.assign(
+          { allowNamespaces: true },
+          options['preset-typescript'] || {}
+        ),
       ],
     ],
     plugins: [
@@ -107,13 +118,16 @@ module.exports = function (api, options) {
       ],
       !isServer && [
         require('@babel/plugin-transform-runtime'),
-        Object.assign({
-          corejs: false,
-          helpers: true,
-          regenerator: true,
-          useESModules: supportsESM && presetEnvConfig.modules !== 'commonjs',
-          absoluteRuntime: process.versions.pnp ? __dirname : undefined,
-          }, options['transform-runtime'] || {}),
+        Object.assign(
+          {
+            corejs: false,
+            helpers: true,
+            regenerator: true,
+            useESModules: supportsESM && presetEnvConfig.modules !== 'commonjs',
+            absoluteRuntime: process.versions.pnp ? __dirname : undefined,
+          },
+          options['transform-runtime'] || {}
+        ),
       ],
       require('./babel-plugins/amp-attributes'),
       isProduction && [
@@ -133,5 +147,5 @@ module.exports = function (api, options) {
         plugins: [require('@babel/plugin-proposal-numeric-separator').default],
       },
     ],
-  }
-}
+  };
+};

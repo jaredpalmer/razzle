@@ -52,5 +52,5 @@ module.exports = {
     }
 
     return config;
-  }
+  },
 };

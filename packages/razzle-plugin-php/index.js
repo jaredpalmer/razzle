@@ -2,7 +2,6 @@
 
 const makeLoaderFinder = require('razzle-dev-utils/makeLoaderFinder');
 
-
 module.exports = {
   modifyWebpackConfig(opts) {
     const config = Object.assign({}, opts.webpackConfig);
@@ -23,7 +22,8 @@ module.exports = {
     // making sure to ignore .babelrc
     config.module.rules.push({
       test: /\.php$/,
-      include: config.module.rules.find(makeLoaderFinder('babel-loader')).include,
+      include: config.module.rules.find(makeLoaderFinder('babel-loader'))
+        .include,
       use: [
         {
           loader: 'babel-loader',
@@ -36,5 +36,5 @@ module.exports = {
     });
 
     return config;
-  }
+  },
 };

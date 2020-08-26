@@ -18,10 +18,13 @@ const defaultOptions = {
 
 module.exports = {
   modifyWebpackConfig(opts) {
-
     const config = Object.assign({}, opts.webpackConfig);
 
-    const options = Object.assign({}, defaultOptions, opts.options.pluginOptions);
+    const options = Object.assign(
+      {},
+      defaultOptions,
+      opts.options.pluginOptions
+    );
 
     config.resolve.extensions = [...config.resolve.extensions, '.ts', '.tsx'];
 
@@ -87,5 +90,5 @@ module.exports = {
     }
 
     return config;
-  }
+  },
 };

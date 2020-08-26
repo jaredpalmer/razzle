@@ -1,38 +1,38 @@
 'use strict';
 
-module.exports = function (opts) {
+module.exports = function(opts) {
   const t = opts.types;
   return {
     inherits: require('babel-plugin-syntax-jsx'),
     visitor: {
       JSXElement: (_path, state) => {
-        state.set('jsx', true)
+        state.set('jsx', true);
       },
 
       // Fragment syntax is still JSX since it compiles to createElement(),
       // but JSXFragment is not a JSXElement
       JSXFragment: (_path, state) => {
-        state.set('jsx', true)
+        state.set('jsx', true);
       },
 
       Program: {
         exit: (path, state) => {
           if (state.get('jsx')) {
-            const pragma = t.identifier(state.opts.pragma)
-            let importAs = pragma
+            const pragma = t.identifier(state.opts.pragma);
+            let importAs = pragma;
 
             // if there's already a React in scope, use that instead of adding an import
             const existingBinding =
               state.opts.reuseImport !== false &&
               state.opts.importAs &&
-              path.scope.getBinding(state.opts.importAs)
+              path.scope.getBinding(state.opts.importAs);
 
             // var _jsx = _pragma.createElement;
             if (state.opts.property) {
               if (state.opts.importAs) {
-                importAs = t.identifier(state.opts.importAs)
+                importAs = t.identifier(state.opts.importAs);
               } else {
-                importAs = path.scope.generateUidIdentifier('pragma')
+                importAs = path.scope.generateUidIdentifier('pragma');
               }
 
               const mapping = t.variableDeclaration('var', [
@@ -43,11 +43,11 @@ module.exports = function (opts) {
                     t.identifier(state.opts.property)
                   )
                 ),
-              ])
+              ]);
 
               // if the React binding came from a require('react'),
               // make sure that our usage comes after it.
-              let newPath
+              let newPath;
               if (
                 existingBinding &&
                 t.isVariableDeclarator(existingBinding.path.node) &&
@@ -55,16 +55,16 @@ module.exports = function (opts) {
                 t.isIdentifier(existingBinding.path.node.init.callee) &&
                 existingBinding.path.node.init.callee.name === 'require'
               ) {
-                ;[newPath] = existingBinding.path.parentPath.insertAfter(
+                [newPath] = existingBinding.path.parentPath.insertAfter(
                   mapping
-                )
+                );
               } else {
                 // @ts-ignore
-                ;[newPath] = path.unshiftContainer('body', mapping)
+                [newPath] = path.unshiftContainer('body', mapping);
               }
 
               for (const declar of newPath.get('declarations')) {
-                path.scope.registerBinding(newPath.node.kind, declar)
+                path.scope.registerBinding(newPath.node.kind, declar);
               }
             }
 
@@ -83,16 +83,16 @@ module.exports = function (opts) {
                       t.importDefaultSpecifier(importAs),
                 ],
                 t.stringLiteral(state.opts.module || 'react')
-              )
+              );
 
-              const [newPath] = path.unshiftContainer('body', importSpecifier)
+              const [newPath] = path.unshiftContainer('body', importSpecifier);
               for (const specifier of newPath.get('specifiers')) {
-                path.scope.registerBinding('module', specifier)
+                path.scope.registerBinding('module', specifier);
               }
             }
           }
         },
       },
     },
-  }
-}
+  };
+};

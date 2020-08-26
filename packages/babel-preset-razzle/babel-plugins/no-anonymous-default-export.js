@@ -1,22 +1,22 @@
 const chalk = require('chalk');
 
-module.exports = function (opts) {
+module.exports = function(opts) {
   const t = opts.types;
-  let onWarning = null
-  opts.caller((caller) => {
-    onWarning = caller.onWarning
-    return '' // Intentionally empty to not invalidate cache
-  })
+  let onWarning = null;
+  opts.caller(caller => {
+    onWarning = caller.onWarning;
+    return ''; // Intentionally empty to not invalidate cache
+  });
 
   if (typeof onWarning !== 'function') {
-    return { visitor: {} }
+    return { visitor: {} };
   }
 
-  const warn = onWarning
+  const warn = onWarning;
   return {
     visitor: {
-      ExportDefaultDeclaration: function (path) {
-        const def = path.node.declaration
+      ExportDefaultDeclaration: function(path) {
+        const def = path.node.declaration;
 
         if (
           !(
@@ -24,7 +24,7 @@ module.exports = function (opts) {
             def.type === 'FunctionDeclaration'
           )
         ) {
-          return
+          return;
         }
 
         switch (def.type) {
@@ -43,11 +43,11 @@ module.exports = function (opts) {
                 chalk.cyan('const Named = () => <div />;'),
                 chalk.cyan('export default Named;'),
               ].join('\n')
-            )
-            break
+            );
+            break;
           }
           case 'FunctionDeclaration': {
-            const isAnonymous = !Boolean(def.id)
+            const isAnonymous = !Boolean(def.id);
             if (isAnonymous) {
               warn(
                 [
@@ -62,16 +62,16 @@ module.exports = function (opts) {
                   chalk.bold('After'),
                   chalk.cyan('export default function Named() { /* ... */ }'),
                 ].join('\n')
-              )
+              );
             }
-            break
+            break;
           }
           default: {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const never = def
+            const never = def;
           }
         }
       },
     },
-  }
-}
+  };
+};

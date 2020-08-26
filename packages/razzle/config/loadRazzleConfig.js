@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const merge = require('deepmerge')
+const merge = require('deepmerge');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 

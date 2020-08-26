@@ -91,12 +91,12 @@ loadRazzleConfig(webpack).then(
       if (!imported_routes) {
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
-          'No ' +
-            options.routesExport || 'routes' +
-            ' export found in ' +
-            paths.appBuildStaticExport +
-            '.\n' +
-            '\n'
+          'No ' + options.routesExport ||
+            'routes' +
+              ' export found in ' +
+              paths.appBuildStaticExport +
+              '.\n' +
+              '\n'
         );
         process.exit(1);
       }
@@ -104,12 +104,12 @@ loadRazzleConfig(webpack).then(
       if (!imported_render) {
         console.log(chalk.red('Failed to export static.\n'));
         console.log(
-          'No ' +
-            options.renderExport || 'render' +
-            ' export found in ' +
-            paths.appBuildStaticExport +
-            '.\n' +
-            '\n'
+          'No ' + options.renderExport ||
+            'render' +
+              ' export found in ' +
+              paths.appBuildStaticExport +
+              '.\n' +
+              '\n'
         );
         process.exit(1);
       }
@@ -121,7 +121,7 @@ loadRazzleConfig(webpack).then(
 
       const insertScript = `\$1<script src="${process.env.PUBLIC_PATH ||
         '/'}static_routes.js" defer crossorigin></script>`;
-      const insertScriptRe = /(<body.*?>)/mis;
+      const insertScriptRe = /(<body.*?>)/ims;
 
       const render_static_export = async pathname => {
         let htmlFile, hasData;
@@ -191,8 +191,7 @@ loadRazzleConfig(webpack).then(
           });
         };
 
-        const exportHtmlFiles = rendersInfo
-          .map(info => info.htmlFile);
+        const exportHtmlFiles = rendersInfo.map(info => info.htmlFile);
 
         await asyncPool(
           Math.min(options.paralell || 5, exportHtmlFiles.lenght),

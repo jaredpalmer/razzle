@@ -334,7 +334,7 @@ module.exports = (
     }
 
     config.entry = {
-      server: [paths.appServerIndexJs]
+      server: [paths.appServerIndexJs],
     };
 
     if (IS_PROD) {
@@ -365,10 +365,11 @@ module.exports = (
         // Add hot module replacement
         new webpack.HotModuleReplacementPlugin(),
         // Supress errors to console (we use our own logger)
-        !disableStartServer && new StartServerPlugin({
-          name: 'server.js',
-          nodeArgs,
-        }),
+        !disableStartServer &&
+          new StartServerPlugin({
+            name: 'server.js',
+            nodeArgs,
+          }),
         // Ignore assets.json and chunks.json to avoid infinite recompile bug
         new webpack.WatchIgnorePlugin([
           paths.appAssetsManifest,

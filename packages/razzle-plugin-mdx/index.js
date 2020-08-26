@@ -5,13 +5,15 @@ const path = require('path');
 
 const defaultOptions = {};
 
-
 module.exports = {
   modifyWebpackConfig(opts) {
-
     const config = Object.assign({}, opts.webpackConfig);
 
-    const options = Object.assign({}, defaultOptions, opts.options.pluginOptions);
+    const options = Object.assign(
+      {},
+      defaultOptions,
+      opts.options.pluginOptions
+    );
 
     config.resolve.modules = [
       ...config.resolve.modules,
@@ -49,5 +51,5 @@ module.exports = {
     config.module.rules.push(mdxLoader);
 
     return config;
-  }
+  },
 };

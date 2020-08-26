@@ -6,5 +6,5 @@ module.exports = {
       'Not yet implemented. Help out at https://github.com/jaredpalmer/razzle'
     );
     return config;
-  }
+  },
 };

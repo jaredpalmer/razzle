@@ -5,7 +5,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const Helpers = new WebpackConfigHelpers(process.cwd());
 
-
 module.exports = {
   modifyWebpackConfig(opts) {
     const config = Object.assign({}, opts.webpackConfig);
@@ -38,5 +37,5 @@ module.exports = {
     config.plugins.push(new VueLoaderPlugin());
 
     return config;
-  }
+  },
 };

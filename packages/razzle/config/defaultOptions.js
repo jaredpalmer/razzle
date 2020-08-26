@@ -3,5 +3,5 @@
 module.exports = {
   cssPrefix: 'static/css',
   jsPrefix: 'static/js',
-  mediaPrefix: 'static/media'
+  mediaPrefix: 'static/media',
 };

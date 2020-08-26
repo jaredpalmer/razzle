@@ -4,10 +4,13 @@ const loadRazzleConfig = require('./loadRazzleConfig');
 
 module.exports = (target, env, razzleConfig, clientOnly = false) => {
   return new Promise(async resolve => {
-    const { razzle, razzleoptions, webpackObject, plugins, paths } = await loadRazzleConfig(
-      webpack,
-      razzleConfig
-    );
+    const {
+      razzle,
+      razzleoptions,
+      webpackObject,
+      plugins,
+      paths,
+    } = await loadRazzleConfig(webpack, razzleConfig);
     createConfig(
       target,
       env,
