@@ -18,6 +18,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config');
 const resolveRequest = require('razzle-dev-utils/resolveRequest');
@@ -492,9 +493,17 @@ module.exports = (
           },
           additionalAliases
         ),
+        plugins: [
+          // TODO: Remove when using webpack 5
+          PnpWebpackPlugin,
+        ],
       },
       resolveLoader: {
         modules: [paths.appNodeModules, paths.ownNodeModules],
+        plugins: [
+          // TODO: Remove when using webpack 5
+          PnpWebpackPlugin.moduleLoader(module),
+        ],
       },
       module: {
         strictExportPresence: true,
@@ -671,12 +680,12 @@ module.exports = (
       if (IS_DEV) {
         // Use watch mode
         config.watch = true;
-        config.entry.server.unshift('webpack/hot/poll?300');
+        config.entry.server.unshift(`${require.resolve('webpack/hot/poll')}?300`);
 
         // Pretty format server errors
-        config.entry.server.unshift('razzle-dev-utils/prettyNodeErrors');
+        config.entry.server.unshift(require.resolve('razzle-dev-utils/prettyNodeErrors'));
 
-        const nodeArgs = ['-r', 'source-map-support/register'];
+        const nodeArgs = ['-r', require.resolve('source-map-support/register')];
 
         // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
         if (process.env.INSPECT_BRK) {
