@@ -57,6 +57,7 @@
     "url-loader": "^2.3.0",
     "webpack": "^4.42.0",
     "webpack-dev-server": "~3.10.3",
+    "pnp-webpack-plugin": "^1.6.4",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^4.0.0"

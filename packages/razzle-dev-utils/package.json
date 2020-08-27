@@ -24,6 +24,9 @@
     "resolve": "1.17.0",
     "strip-ansi": "6.0.0",
     "webpack-dev-server": "~3.10.3",
+    "sockjs-client": "~1.4.0",
+    "resolve": "1.17.0",
+    "react-error-overlay": "^6.0.7",
     "react-dev-utils": "10.2.0"
   }
 }

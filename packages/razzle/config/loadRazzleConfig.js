@@ -25,7 +25,7 @@ module.exports = (webpackObject, razzleConfig) => {
     }
 
     const plugins = Array.isArray(razzle.plugins)
-      ? loadPlugins(razzle.plugins)
+      ? loadPlugins(razzle.plugins, paths)
       : [];
 
     for (const [plugin, pluginOptions] of plugins) {
