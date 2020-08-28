@@ -13,6 +13,7 @@ module.exports = {
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
+    browserslist: undefined, // or what your apps package.json says
   },
 };
 ```

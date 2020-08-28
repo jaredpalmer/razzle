@@ -8,9 +8,10 @@ const defaultRazzleOptions = require('./defaultOptions');
 const setupEnvironment = require('./env').setupEnvironment;
 const loadPlugins = require('./loadPlugins');
 
-module.exports = (webpackObject, razzleConfig) => {
+module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
   return new Promise(async resolve => {
     let razzle = razzleConfig || {};
+    let packageJson = packageJsonIn || {};
     let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
     let paths = Object.assign({}, defaultPaths);
     // Check for razzle.config.js file
@@ -22,6 +23,19 @@ module.exports = (webpackObject, razzleConfig) => {
         logger.error('Invalid razzle.config.js file.', e);
         process.exit(1);
       }
+    }
+    if (fs.existsSync(paths.appPackageJson)) {
+      try {
+        packageJson = require(paths.appPackageJson);
+      } catch (e) {
+        clearConsole();
+        logger.error('Invalid package.json.', e);
+        process.exit(1);
+      }
+    }
+
+    if (packageJson.browserslist) {
+      razzleOptions.browserslist = razzleOptions.browserslist || packageJson.browserslist;
     }
 
     const plugins = Array.isArray(razzle.plugins)
@@ -77,6 +91,6 @@ module.exports = (webpackObject, razzleConfig) => {
 
     setupEnvironment(paths);
 
-    resolve({ razzle, razzleOptions, webpackObject, plugins, paths });
+    resolve({ razzle, razzleOptions, webpackObject, plugins, paths, packageJson });
   });
 };
