@@ -1,5 +1,24 @@
 # Customization
 
+## Options
+
+As of Razzle 3.2, you can modify some parts of Razzle with options.
+
+We show the default options here:
+
+```js
+//./razzle.config.js
+module.exports = {
+  options: {
+    cssPrefix: 'static/css',
+    jsPrefix: 'static/js',
+    mediaPrefix: 'static/media',
+  },
+};
+```
+
+More options will be added in the future, some options now in experimental will be moved here.
+
 ## Plugins
 
 As of Razzle 2.0, you can add your plugins to modify your setup.
