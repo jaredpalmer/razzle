@@ -5,13 +5,26 @@ import { renderToString } from "react-dom/server";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const scripts = Object.keys(assets).reduce((scripts, key) => {
-  return (
-    scripts + `<script src="${assets[key].js}" defer crossorigin></script>`
-  );
-}, "");
+const scripts = Object.keys(assets)
+  .map((key) => {
+    const script = assets[key].js;
 
-console.log(scripts);
+    if (typeof script === 'undefined' || script === null) {
+      return null;
+    }
+
+    if (Array.isArray(script)) {
+      return script
+        .map((item) => {
+          return `<script src="${item}"></script>`;
+        })
+        .join('');
+    }
+
+    return `<script src="${script}"></script>`;
+  })
+  .filter((a) => typeof a !== 'undefined' || a !== null);
+
 
 const server = express();
 
@@ -28,8 +41,8 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${scripts}
-    </head>
+        ${scripts.join('\n')}
+      </head>
     <body>
         <div id="root">${markup}</div>
     </body>
