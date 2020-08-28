@@ -201,10 +201,12 @@ loadRazzleConfig(webpack).then(
 
     // Helper function to copy public directory to build/public
     function copyPublicFolder() {
-      fs.copySync(paths.appPublic, paths.appBuildPublic, {
-        dereference: true,
-        filter: file => file !== paths.appHtml,
-      });
+      if (fs.existsSync(paths.appPublic)) {
+        fs.copySync(paths.appPublic, paths.appBuildPublic, {
+          dereference: true,
+          filter: file => file !== paths.appHtml,
+        });
+      }
     }
 
     // Wrap webpackcompile in a try catch.
