@@ -14,72 +14,72 @@ const hasPostCssConfig = () => {
   }
 };
 
-const defaultOptions = {
-  postcss: {
-    dev: {
-      sourceMap: true,
-      ident: 'postcss',
-    },
-    prod: {
-      sourceMap: false,
-      ident: 'postcss',
-    },
-    plugins: [
-      PostCssFlexBugFixes,
-      autoprefixer({
-        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-        flexbox: 'no-2009',
-      }),
-    ],
-  },
-  sass: {
-    dev: {
-      sassOptions: {
-        sourceMap: true,
-        includePaths: [paths.appNodeModules],
-      },
-    },
-    prod: {
-      sassOptions: {
-        // XXX Source maps are required for the resolve-url-loader to properly
-        // function. Disable them in later stages if you do not want source maps.
-        sourceMap: true,
-        sourceMapContents: false,
-        includePaths: [paths.appNodeModules],
-      },
-    },
-  },
-  css: {
-    dev: {
-      sourceMap: true,
-      importLoaders: 1,
-      modules: {
-        auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
-      },
-    },
-    prod: {
-      sourceMap: false,
-      importLoaders: 1,
-      modules: {
-        auto: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]',
-      },
-    },
-  },
-  style: {},
-  resolveUrl: {
-    dev: {},
-    prod: {},
-  },
-};
-
 module.exports = {
   modifyWebpackConfig(opts) {
     const isServer = opts.env.target !== 'web';
     const constantEnv = opts.env.dev ? 'dev' : 'prod';
 
     const config = Object.assign({}, opts.webpackConfig);
+
+    const defaultOptions = {
+      postcss: {
+        dev: {
+          sourceMap: true,
+          ident: 'postcss',
+        },
+        prod: {
+          sourceMap: false,
+          ident: 'postcss',
+        },
+        plugins: [
+          PostCssFlexBugFixes,
+          autoprefixer({
+            browsers: opts.options.razzleOptions.browserslist || ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+            flexbox: 'no-2009',
+          }),
+        ],
+      },
+      sass: {
+        dev: {
+          sassOptions: {
+            sourceMap: true,
+            includePaths: [paths.appNodeModules],
+          },
+        },
+        prod: {
+          sassOptions: {
+            // XXX Source maps are required for the resolve-url-loader to properly
+            // function. Disable them in later stages if you do not want source maps.
+            sourceMap: true,
+            sourceMapContents: false,
+            includePaths: [paths.appNodeModules],
+          },
+        },
+      },
+      css: {
+        dev: {
+          sourceMap: true,
+          importLoaders: 1,
+          modules: {
+            auto: true,
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+          },
+        },
+        prod: {
+          sourceMap: false,
+          importLoaders: 1,
+          modules: {
+            auto: true,
+            localIdentName: '[name]__[local]___[hash:base64:5]',
+          },
+        },
+      },
+      style: {},
+      resolveUrl: {
+        dev: {},
+        prod: {},
+      },
+    };
 
     const options = Object.assign(
       {},

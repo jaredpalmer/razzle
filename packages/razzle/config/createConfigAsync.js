@@ -26,20 +26,7 @@ const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('razzle/config/paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 
-const defaultPostCssOptions = {
-  ident: 'postcss',
-  plugins: () => [
-    require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
-      autoprefixer: {
-        flexbox: 'no-2009',
-      },
-      stage: 3,
-    }),
-  ],
-};
-
-const hasPostCssConfig = () => {
+const hasPostCssConfigTest = () => {
   try {
     return !!postcssLoadConfig.sync();
   } catch (_error) {
@@ -47,7 +34,7 @@ const hasPostCssConfig = () => {
   }
 };
 
-const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions;
+const hasPostCssConfig = hasPostCssConfigTest();
 
 const webpackDevClientEntry = require.resolve(
   'razzle-dev-utils/webpackHotDevClient'
@@ -180,6 +167,22 @@ module.exports = (
       IS_WEB && IS_DEV && experimental.reactRefresh ? true : false;
 
     let webpackOptions = {};
+
+    const defaultPostCssOptions = {
+      ident: 'postcss',
+      plugins: () => [
+        require('postcss-flexbugs-fixes'),
+        require('postcss-preset-env')({
+          autoprefixer: {
+            browsers: razzleOptions.browserslist,
+            flexbox: 'no-2009',
+          },
+          stage: 3,
+        }),
+      ],
+    };
+
+    const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
 
     const mainBabelOptions = {
       babelrc: true,
