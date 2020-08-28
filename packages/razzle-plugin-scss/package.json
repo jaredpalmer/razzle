@@ -15,6 +15,7 @@
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-scss": "^1.0.5",
     "resolve-url-loader": "^2.3.0",
+    "razzle-dev-utils": "^3.1.5",
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
