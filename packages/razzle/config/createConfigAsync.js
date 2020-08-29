@@ -900,16 +900,14 @@ module.exports = (
           }),
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
-          new CopyPlugin({
-            patterns: [
+          new CopyPlugin([
               {
                 from: paths.appPublic + '/**/*',
                 to: paths.appBuild,
-                context: paths.appPath,
-                noErrorOnMissing: true
-             },
+                context: paths.appPath
+              },
             ],
-          }),
+          ),
         ];
 
         config.optimization = Object.assign(
