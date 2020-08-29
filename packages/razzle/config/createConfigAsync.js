@@ -18,6 +18,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config');
@@ -899,6 +900,11 @@ module.exports = (
           }),
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
+          new CopyPlugin({
+            patterns: [
+              { from: 'public/*.*', to: paths.appBuild, noErrorOnMissing: true, context: paths.appPath  },
+            ],
+          }),
         ];
 
         config.optimization = Object.assign(

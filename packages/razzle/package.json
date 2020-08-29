@@ -27,6 +27,7 @@
     "babel-plugin-transform-define": "2.0.0",
     "babel-preset-razzle": "^3.1.5",
     "chalk": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.4",
     "css-loader": "3.5.3",
     "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
@@ -38,6 +39,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "mri": "^1.1.4",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "pnp-webpack-plugin": "^1.6.4",
     "postcss-flexbugs-fixes": "^4.2.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
@@ -57,7 +59,6 @@
     "url-loader": "^2.3.0",
     "webpack": "^4.42.0",
     "webpack-dev-server": "~3.10.3",
-    "pnp-webpack-plugin": "^1.6.4",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^4.0.0"
