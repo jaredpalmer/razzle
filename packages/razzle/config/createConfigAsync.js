@@ -902,7 +902,12 @@ module.exports = (
           new webpack.optimize.AggressiveMergingPlugin(),
           new CopyPlugin({
             patterns: [
-              { from: 'public/*.*', to: paths.appBuild, noErrorOnMissing: true, context: paths.appPath  },
+              {
+                from: paths.appPublic + '/**/*',
+                to: paths.appBuild,
+                context: paths.appPath,
+                noErrorOnMissing: true
+             },
             ],
           }),
         ];
