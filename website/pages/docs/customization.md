@@ -13,6 +13,7 @@ module.exports = {
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
+    serverLess: false, // set to true to bundle all externals server-side
     browserslist: undefined, // or what your apps package.json says
   },
 };

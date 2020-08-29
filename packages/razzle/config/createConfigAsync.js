@@ -647,7 +647,7 @@ module.exports = (
       };
 
       // We need to tell webpack what to bundle into our Node bundle.
-      config.externals = [nodeExternalsFunc];
+      config.externals = !razzleOptions.serverLess ? [nodeExternalsFunc] : [];
 
       // Specify webpack Node.js output path and filename
       config.output = {
