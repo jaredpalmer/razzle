@@ -113,6 +113,8 @@ module.exports = (
     console.log('Using .babelrc defined in your app root');
   }
 
+  const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
+
   const dotenv = getClientEnv(
     target,
     { clearConsole, host, port, shouldUseReactRefresh },
@@ -313,7 +315,7 @@ module.exports = (
     config.output = {
       path: paths.appBuild,
       publicPath: clientPublicPath,
-      filename: 'server.js',
+      filename: '[name].js',
       libraryTarget: 'commonjs2',
     };
     // Add some plugins...
@@ -331,15 +333,23 @@ module.exports = (
       );
     }
 
-    config.entry = [paths.appServerIndexJs];
+    config.entry = {
+      server: [paths.appServerIndexJs],
+    };
+
+    if (IS_PROD) {
+      if (hasStaticExportJs) {
+        config.entry.static_export = [paths.appStaticExportJs];
+      }
+    }
 
     if (IS_DEV) {
       // Use watch mode
       config.watch = true;
-      config.entry.unshift('webpack/hot/poll?300');
+      config.entry.server.unshift('webpack/hot/poll?300');
 
       // Pretty format server errors
-      config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
+      config.entry.server.unshift('razzle-dev-utils/prettyNodeErrors');
 
       const nodeArgs = ['-r', 'source-map-support/register'];
 
@@ -394,7 +404,9 @@ module.exports = (
           const entries = [...entrypoints];
           const entryArrayManifest = entries.reduce((acc, entry) => {
             const name =
-              (entry.options || {}).name || (entry.runtimeChunk || {}).name || entry.id;
+              (entry.options || {}).name ||
+              (entry.runtimeChunk || {}).name ||
+              entry.id;
             const files = []
               .concat(
                 ...(entry.chunks || []).map(chunk =>

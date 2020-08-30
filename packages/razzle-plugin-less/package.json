@@ -14,6 +14,7 @@
     "node-less-chokidar": "^0.4.1",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-less": "^3.1.4",
+    "razzle-dev-utils": "^3.1.5",
     "resolve-url-loader": "^2.3.0"
   },
   "devDependencies": {

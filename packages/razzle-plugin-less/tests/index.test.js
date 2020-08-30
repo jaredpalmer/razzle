@@ -2,7 +2,7 @@
 
 const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
 
-const pluginFunc = require('../index');
+const plugin = require('../index');
 const {
   cssLoaderFinder,
   postCssLoaderFinder,
@@ -89,7 +89,7 @@ describe('razzle-less-plugin', () => {
 
       beforeAll(async () => {
         config = await createRazzleTestConfig('web', 'dev', {
-          plugins: [{ func: pluginFunc }],
+          plugins: [{ object: plugin }],
         });
       });
 
@@ -113,7 +113,7 @@ describe('razzle-less-plugin', () => {
 
       beforeAll(async () => {
         config = await createRazzleTestConfig('web', 'prod', {
-          plugins: [{ func: pluginFunc }],
+          plugins: [{ object: plugin }],
         });
       });
 
@@ -138,7 +138,7 @@ describe('razzle-less-plugin', () => {
 
     beforeAll(async () => {
       config = await createRazzleTestConfig('node', 'prod', {
-        plugins: [{ func: pluginFunc }],
+        plugins: [{ object: plugin }],
       });
     });
 

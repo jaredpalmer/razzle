@@ -4,8 +4,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
 module.exports = {
-  modify(config, { target }) {
-    if (target === 'web') {
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+    if (opts.env.target === 'web') {
       config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
     }
 

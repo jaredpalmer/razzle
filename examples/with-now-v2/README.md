@@ -35,6 +35,34 @@ Open the link written in the console.
 
 Take a look at `now.json`. We are uploading the result of the razzle build, and setting up the routes for the app entry point and all static resources.
 
+```json
+{
+    "version": 2,
+    "name": "example",
+    "builds": [
+        {
+            "src": "build/public/**",
+            "use": "@now/static"
+        },
+        {
+            "src": "build/server.js",
+            "use": "@now/node-server"
+        }
+    ],
+    "routes": [
+        { "src": "/assets.json", "dest": "build/assets.json" },
+        { "src": "/favicon.ico", "dest": "build/public/favicon.ico" },
+        { "src": "/robots.txt", "dest": "build/public/robots.txt" },
+        { "src": "/static/(.*)", "dest": "build/public/static/$1" },
+        { "src": "/(.*)", "dest": "build/server.js" }
+
+    ],
+    "env": {
+      "NODE_ENV": "production"
+    }
+}
+```
+
 We are also setting the `NODE_ENV` environment variable. Most likely, your app will use other environment variables, beware you should not commit secrets like api keys and others into your repository. Take a look at now's documentation to understand what you should do in such cases.
 
 ## Documentation

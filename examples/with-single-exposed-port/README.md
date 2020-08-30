@@ -31,18 +31,72 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
-    if (target === 'web' && dev) {
-      appConfig.devServer.proxy = {
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.proxy = {
         context: () => true,
         target: 'http://localhost:3000'
       };
-      appConfig.devServer.index = '';
+      config.devServer.index = '';
     }
 
-    return appConfig;
+    return config;
   },
 };
+```
+
+A bit more complex on a subpath behind a reverse nginx proxy:
+
+
+```js
+'use strict';
+
+module.exports = {
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+
+
+    if (target === 'web' && dev) {
+      config.devServer.public = 'localhost:8080' // or 80 or 443
+      config.devServer.proxy = {
+        context: () => true,
+        target: 'http://localhost:3000'
+      };
+      config.devServer.sockPath = '/razzle-dev/sockjs-node';
+    }
+
+    return config;
+  },
+};
+```
+
+```bash
+CLIENT_PUBLIC_PATH=http://localhost:8080/razzle-dev/ yarn start
+```
+
+```nginxconf
+http {
+
+    server {
+        listen       8080; # or 80 or 443
+        server_name  _;
+        location /razzle-dev { # no /, no regex
+            return 302 /razzle-dev/; # a /
+        }
+        location /razzle-dev/ { # no regex
+            proxy_pass   http://127.0.0.1:3001/; # a /
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+        location /razzle-dev/sockjs-node/ { # no regex
+            proxy_pass   http://127.0.0.1:3001; # no /
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+    }
+}
 ```

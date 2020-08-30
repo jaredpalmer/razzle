@@ -1,9 +1,11 @@
 'use strict';
 
-function loadPlugin(plugin) {
+const resolve = require('resolve');
+
+function loadPlugin(plugin, paths) {
   if (typeof plugin === 'string') {
     // Apply the plugin with default options if passing only a string
-    return loadPlugin({ name: plugin });
+    return loadPlugin({ name: plugin }, paths);
   }
 
   if (typeof plugin === 'function') {
@@ -15,10 +17,17 @@ function loadPlugin(plugin) {
     return [plugin.func, plugin.options];
   }
 
+  if (typeof plugin.object === 'object') {
+    // Used for writing plugin tests
+    return [plugin.object, plugin.options];
+  }
+
   const completePluginName = `razzle-plugin-${plugin.name}`;
 
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(completePluginName);
+  const razzlePlugin = require(resolve.sync(completePluginName, {
+    basedir: paths.appDir,
+  }));
   if (!razzlePlugin) {
     throw new Error(`Unable to find '${completePluginName}`);
   }
@@ -26,8 +35,10 @@ function loadPlugin(plugin) {
   return [razzlePlugin, plugin.options];
 }
 
-function loadPlugins(plugins) {
-  return plugins.map(loadPlugin);
+function loadPlugins(plugins, paths) {
+  return plugins.map(function(plugin) {
+    return loadPlugin(plugin, paths);
+  });
 }
 
 module.exports = loadPlugins;

@@ -37,6 +37,9 @@ describe('razzle start', () => {
             kill(child.pid);
           }
         });
+        child.stderr.on('data', data => {
+          console.log(data);
+        });
       });
       return run.then(test => expect(test).toBeTruthy());
     });
@@ -62,6 +65,9 @@ describe('razzle start', () => {
             kill(child.pid);
           }
         });
+        child.stderr.on('data', data => {
+          console.log(data);
+        });
       });
       return run.then(test => expect(test).toBeTruthy());
     });
@@ -83,6 +89,9 @@ describe('razzle start', () => {
             outputTest = output.stdout.includes('200');
             kill(child.pid);
           }
+        });
+        child.stderr.on('data', data => {
+          console.log(data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());

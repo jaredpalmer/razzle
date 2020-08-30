@@ -1,17 +1,17 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
-    if (target === 'web' && dev) {
-      appConfig.devServer.proxy = {
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.proxy = {
         context: () => true,
         target: 'http://localhost:3000'
       };
-      appConfig.devServer.index = '';
+      config.devServer.index = '';
     }
 
-    return appConfig;
+    return config;
   },
 };

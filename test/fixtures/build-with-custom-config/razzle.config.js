@@ -1,8 +1,9 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    if (target === 'node' && !dev) {
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+    if (opts.env.target === 'node' && !opts.env.dev) {
       config.output.filename = 'custom.js';
     }
 

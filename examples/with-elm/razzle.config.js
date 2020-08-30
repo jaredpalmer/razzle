@@ -1,16 +1,16 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
-    appConfig.module.rules[2].exclude.push(/\.(elm)$/);
+    config.module.rules[2].exclude.push(/\.(elm)$/);
 
-    appConfig.module.noParse = [/.elm$/];
-    appConfig.resolve.extensions.push('.elm');
+    config.module.noParse = [/.elm$/];
+    config.resolve.extensions.push('.elm');
 
-    if (dev) {
-      appConfig.module.rules.push({
+    if (opts.env.dev) {
+      config.module.rules.push({
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         use: [
@@ -27,7 +27,7 @@ module.exports = {
       });
     } else {
       // Production
-      appConfig.module.rules.push({
+      config.module.rules.push({
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         use: [
@@ -41,6 +41,6 @@ module.exports = {
       });
     }
 
-    return appConfig;
+    return config;
   },
 };

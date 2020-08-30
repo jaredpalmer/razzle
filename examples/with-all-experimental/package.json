@@ -1,0 +1,23 @@
+{
+  "name": "razzle-examples-all-experimental",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "export": "razzle export",
+    "test": "razzle test --env=jsdom",
+    "start:static": "serve -s build/public",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "razzle": "latest",
+    "serve": "^11.3.0"
+  }
+}

@@ -19,7 +19,7 @@ const loadRazzleConfig = require('../config/loadRazzleConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
-const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+const FileSizeReporter = require('razzle-dev-utils/FileSizeReporter');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -36,7 +36,7 @@ process.env.BUILD_TYPE = cliArgs.type;
 const verbose = cliArgs.verbose || false;
 
 loadRazzleConfig(webpack).then(
-  async ({ razzle, webpackObject, plugins, paths }) => {
+  async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic)
@@ -44,9 +44,6 @@ loadRazzleConfig(webpack).then(
         // Remove all content but keep the directory so that
         // if you're in it, you don't end up in Trash
         fs.emptyDirSync(paths.appBuild);
-
-        // Merge with the public folder
-        copyPublicFolder();
 
         // Start the webpack build
         return build(previousFileSizes);
@@ -101,7 +98,8 @@ loadRazzleConfig(webpack).then(
           webpackObject,
           clientOnly,
           paths,
-          plugins
+          plugins,
+          razzleOptions
         );
 
         if (!clientOnly) {
@@ -112,7 +110,8 @@ loadRazzleConfig(webpack).then(
             webpackObject,
             clientOnly,
             paths,
-            plugins
+            plugins,
+            razzleOptions
           );
         }
 
@@ -194,14 +193,6 @@ loadRazzleConfig(webpack).then(
             });
           }
         });
-      });
-    }
-
-    // Helper function to copy public directory to build/public
-    function copyPublicFolder() {
-      fs.copySync(paths.appPublic, paths.appBuildPublic, {
-        dereference: true,
-        filter: file => file !== paths.appHtml,
       });
     }
 

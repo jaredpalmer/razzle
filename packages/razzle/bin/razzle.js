@@ -32,6 +32,13 @@ prog
   });
 
 prog
+  .command('export')
+  .describe('Export a static version of the application in production mode.')
+  .action(() => {
+    runCommand('export');
+  });
+
+prog
   .command('test')
   .describe('Runs the test watcher in an interactive mode.')
   .action(() => {
