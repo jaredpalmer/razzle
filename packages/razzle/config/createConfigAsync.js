@@ -684,10 +684,14 @@ module.exports = (
       if (IS_DEV) {
         // Use watch mode
         config.watch = true;
-        config.entry.server.unshift(`${require.resolve('webpack/hot/poll')}?300`);
+        config.entry.server.unshift(
+          `${require.resolve('webpack/hot/poll')}?300`
+        );
 
         // Pretty format server errors
-        config.entry.server.unshift(require.resolve('razzle-dev-utils/prettyNodeErrors'));
+        config.entry.server.unshift(
+          require.resolve('razzle-dev-utils/prettyNodeErrors')
+        );
 
         const nodeArgs = ['-r', require.resolve('source-map-support/register')];
 
@@ -735,8 +739,9 @@ module.exports = (
             const noChunkFiles = new Set();
             files.forEach(file => {
               if (file.isChunk) {
-                const groups = ((file.chunk || {})._groups || [])
-                  .forEach(group => entrypoints.add(group));
+                const groups = (
+                  (file.chunk || {})._groups || []
+                ).forEach(group => entrypoints.add(group));
               } else {
                 noChunkFiles.add(file);
               }
@@ -744,37 +749,39 @@ module.exports = (
             const entries = [...entrypoints];
             const entryArrayManifest = entries.reduce((acc, entry) => {
               const name =
-              (entry.options || {}).name ||
-              (entry.runtimeChunk || {}).name ||
-              entry.id;
+                (entry.options || {}).name ||
+                (entry.runtimeChunk || {}).name ||
+                entry.id;
               const files = []
-              .concat(
-                ...(entry.chunks || []).map(chunk =>
-                  chunk.files.map(path => config.output.publicPath + path)
+                .concat(
+                  ...(entry.chunks || []).map(chunk =>
+                    chunk.files.map(path => config.output.publicPath + path)
+                  )
                 )
-              )
-              .filter(Boolean);
+                .filter(Boolean);
 
               const filesByType = files.reduce((types, file) => {
-                const fileType = file.slice(file.lastIndexOf('.')+1);
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
                 types[fileType] = types[fileType] || [];
-                types[fileType].push(file)
+                types[fileType].push(file);
                 return types;
               }, {});
 
               return name
-              ? {
-                ...acc,
-                [name]: filesByType,
-              }
-              : acc;
+                ? {
+                    ...acc,
+                    [name]: filesByType,
+                  }
+                : acc;
             }, seed);
-            entryArrayManifest['noentry'] = [...noChunkFiles].map(file=>file.path).reduce((types, file) => {
-              const fileType = file.slice(file.lastIndexOf('.')+1);
-              types[fileType] = types[fileType] || [];
-              types[fileType].push(file)
-              return types;
-            }, {});
+            entryArrayManifest['noentry'] = [...noChunkFiles]
+              .map(file => file.path)
+              .reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file);
+                return types;
+              }, {});
             return entryArrayManifest;
           },
         }),
@@ -954,13 +961,12 @@ module.exports = (
           new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
           new CopyPlugin([
-              {
-                from: paths.appPublic + '/**/*',
-                to: paths.appBuild,
-                context: paths.appPath
-              },
-            ],
-          ),
+            {
+              from: paths.appPublic + '/**/*',
+              to: paths.appBuild,
+              context: paths.appPath,
+            },
+          ]),
         ];
 
         config.optimization = Object.assign(

@@ -25,7 +25,9 @@ function loadPlugin(plugin, paths) {
   const completePluginName = `razzle-plugin-${plugin.name}`;
 
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(resolve.sync(completePluginName, { basedir: paths.appDir }));
+  const razzlePlugin = require(resolve.sync(completePluginName, {
+    basedir: paths.appDir,
+  }));
   if (!razzlePlugin) {
     throw new Error(`Unable to find '${completePluginName}`);
   }
@@ -34,7 +36,9 @@ function loadPlugin(plugin, paths) {
 }
 
 function loadPlugins(plugins, paths) {
-  return plugins.map(function(plugin) { return loadPlugin(plugin, paths); });
+  return plugins.map(function(plugin) {
+    return loadPlugin(plugin, paths);
+  });
 }
 
 module.exports = loadPlugins;

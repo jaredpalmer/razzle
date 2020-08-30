@@ -35,7 +35,8 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
     }
 
     if (packageJson.browserslist) {
-      razzleOptions.browserslist = razzleOptions.browserslist || packageJson.browserslist;
+      razzleOptions.browserslist =
+        razzleOptions.browserslist || packageJson.browserslist;
     }
 
     const plugins = Array.isArray(razzle.plugins)
@@ -91,6 +92,13 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
 
     setupEnvironment(paths);
 
-    resolve({ razzle, razzleOptions, webpackObject, plugins, paths, packageJson });
+    resolve({
+      razzle,
+      razzleOptions,
+      webpackObject,
+      plugins,
+      paths,
+      packageJson,
+    });
   });
 };

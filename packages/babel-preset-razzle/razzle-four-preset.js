@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require("path")
+const path = require('path');
 const PluginItem = require('@babel/core').PluginItem;
 const env = process.env.NODE_ENV;
 const isProduction = env === 'production';
@@ -126,7 +126,7 @@ module.exports = function(api, options) {
             regenerator: true,
             useESModules: supportsESM && presetEnvConfig.modules !== 'commonjs',
             absoluteRuntime: path.dirname(
-              require.resolve("@babel/runtime/package.json")
+              require.resolve('@babel/runtime/package.json')
             ),
             version: require('@babel/runtime/package.json').version,
           },
