@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "3.2.0-canary.4",
+  "version": "3.3.0-canary.0",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,8 +14,8 @@
     "node-sass-chokidar": "1.5.0",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-scss": "^1.0.5",
-    "resolve-url-loader": "^2.3.0",
     "razzle-dev-utils": "^3.1.5",
+    "resolve-url-loader": "^2.3.0",
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
