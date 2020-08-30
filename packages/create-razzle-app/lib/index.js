@@ -18,8 +18,9 @@ const prop = key => obj => obj[key];
 
 const branch = 'canary'; // this line auto updates when yarn update-examples is run
 const razzlePkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
-const officialExamplesApiUrl =
-  `https://api.github.com/repos/jaredpalmer/razzle/contents/examples${branch == 'master' ? '' : '?ref=' + branch}`;
+const officialExamplesApiUrl = `https://api.github.com/repos/jaredpalmer/razzle/contents/examples${
+  branch == 'master' ? '' : '?ref=' + branch
+}`;
 
 const getOfficialExamples = () => {
   if (typeof process.env.CI === 'undefined') {

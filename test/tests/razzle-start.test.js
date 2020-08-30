@@ -24,7 +24,7 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
+        const child = shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
@@ -50,7 +50,7 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'with-custom-devserver-options');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
+        const child = shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
@@ -77,7 +77,7 @@ describe('razzle start', () => {
     it('should build and run', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec(`${path.join('./node_modules/.bin/razzle')} build`);
+      shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} build`);
       const run = new Promise(resolve => {
         const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);
