@@ -725,6 +725,59 @@ module.exports = (
           path: paths.appBuild,
           filename: 'assets.json',
         }),
+        // Output all files in a manifest file called assets-manifest.json
+        // in the build directory.
+        new ManifestPlugin({
+          fileName: path.join(paths.appBuild, 'assets-manifest.json'),
+          writeToFileEmit: true,
+          generate: (seed, files) => {
+            const entrypoints = new Set();
+            const noChunkFiles = new Set();
+            files.forEach(file => {
+              if (file.isChunk) {
+                const groups = ((file.chunk || {})._groups || [])
+                  .forEach(group => entrypoints.add(group));
+              } else {
+                noChunkFiles.add(file);
+              }
+            });
+            const entries = [...entrypoints];
+            const entryArrayManifest = entries.reduce((acc, entry) => {
+              const name =
+              (entry.options || {}).name ||
+              (entry.runtimeChunk || {}).name ||
+              entry.id;
+              const files = []
+              .concat(
+                ...(entry.chunks || []).map(chunk =>
+                  chunk.files.map(path => config.output.publicPath + path)
+                )
+              )
+              .filter(Boolean);
+
+              const filesByType = files.reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.')+1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file)
+                return types;
+              }, {});
+
+              return name
+              ? {
+                ...acc,
+                [name]: filesByType,
+              }
+              : acc;
+            }, seed);
+            entryArrayManifest['noentry'] = [...noChunkFiles].map(file=>file.path).reduce((types, file) => {
+              const fileType = file.slice(file.lastIndexOf('.')+1);
+              types[fileType] = types[fileType] || [];
+              types[fileType].push(file)
+              return types;
+            }, {});
+            return entryArrayManifest;
+          },
+        }),
         // Output our JS and CSS files in a manifest file called chunks.json
         // in the build directory.
         // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
