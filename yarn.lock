@@ -76,7 +76,7 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@^7.8.7", "@babel/core@^7.9.0":
+"@babel/core@^7.9.0":
   version "7.11.4"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.11.4.tgz#4301dfdfafa01eeb97f1896c5501a3f0655d4229"
   integrity sha512-5deljj5HlqRXN+5oJTY7Zs37iH3z3b++KjiKtIsJy1NrjOOVSEaJHEetLBhyu0aQOSNNZ/0IuEAan9GzRuDXHg==
@@ -3930,25 +3930,6 @@ babel-preset-razzle@^3.1.5:
     babel-plugin-dynamic-import-node "2.3.0"
     babel-plugin-transform-react-remove-prop-types "0.4.24"
 
-babel-preset-razzle@^3.2.0-canary.4:
-  version "3.2.0-canary.4"
-  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-3.2.0-canary.4.tgz#ae596b1d74242af4992bab7d4abf417436f52201"
-  integrity sha512-fA33LmFNeVj4ngPVyjOX/VtWQ5KGM+jC2uROslmIeuifUz2fJzgAM5NWvpRX3XWxE90anGVaM1SX089mfCPQOg==
-  dependencies:
-    "@babel/core" "^7.9.0"
-    "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@babel/plugin-proposal-object-rest-spread" "^7.9.5"
-    "@babel/plugin-syntax-dynamic-import" "^7.8.3"
-    "@babel/plugin-transform-modules-commonjs" "^7.9.0"
-    "@babel/plugin-transform-react-jsx-source" "^7.9.0"
-    "@babel/plugin-transform-runtime" "^7.9.0"
-    "@babel/preset-env" "^7.9.5"
-    "@babel/preset-react" "^7.9.4"
-    "@babel/preset-typescript" "^7.9.0"
-    "@babel/runtime" "^7.9.2"
-    babel-plugin-dynamic-import-node "2.3.0"
-    babel-plugin-transform-react-remove-prop-types "0.4.24"
-
 babel-register@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-register/-/babel-register-6.26.0.tgz#6ed021173e2fcb486d7acb45c6009a856f647071"
@@ -4291,16 +4272,6 @@ browserify-zlib@^0.2.0:
   integrity sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   dependencies:
     pako "~1.0.5"
-
-browserslist@4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.10.0.tgz#f179737913eaf0d2b98e4926ac1ca6a15cbcc6a9"
-  integrity sha512-TpfK0TDgv71dzuTsEAlQiHeWQ/tiPqgNZVdv046fvNtBZrjbv2O3TsWCDU0AWGJJKCF/KsjNdLzR9hXOsh/CfA==
-  dependencies:
-    caniuse-lite "^1.0.30001035"
-    electron-to-chromium "^1.3.378"
-    node-releases "^1.1.52"
-    pkg-up "^3.1.0"
 
 browserslist@4.8.6:
   version "4.8.6"
@@ -4646,11 +4617,6 @@ caniuse-lite@^1.0.30001023:
   version "1.0.30001111"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001111.tgz#dd0ce822c70eb6c7c068e4a55c22e19ec1501298"
   integrity sha512-xnDje2wchd/8mlJu8sXvWxOGvMgv+uT3iZ3bkIAynKOzToCssWCmkz/ZIkQBs/2pUB4uwnJKVORWQ31UkbVjOg==
-
-caniuse-lite@^1.0.30001035:
-  version "1.0.30001120"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001120.tgz#cd21d35e537214e19f7b9f4f161f7b0f2710d46c"
-  integrity sha512-JBP68okZs1X8D7MQTY602jxMYBmXEKOFkzTBaNSkubooMPFOAv2TXWaKle7qgHpjLDhUzA/TMT0qsNleVyXGUQ==
 
 capitalize@1.0.0:
   version "1.0.0"
@@ -6402,11 +6368,6 @@ electron-to-chromium@^1.3.341:
   version "1.3.523"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.523.tgz#494080b318ba929614eebd04405b94c359ea9333"
   integrity sha512-D4/3l5DpciddD92IDRtpLearQSGzly8FwBJv+nITvLH8YJrFabpDFe4yuiOJh2MS4/EsXqyQTXyw1toeYPtshQ==
-
-electron-to-chromium@^1.3.378:
-  version "1.3.555"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.555.tgz#a096716ff77cf8da9a608eb628fd6927869503d2"
-  integrity sha512-/55x3nF2feXFZ5tdGUOr00TxnUjUgdxhrn+eCJ1FAcoAt+cKQTjQkUC5XF4frMWE1R5sjHk+JueuBalimfe5Pg==
 
 electron-to-chromium@^1.3.413, electron-to-chromium@^1.3.47:
   version "1.3.432"
@@ -12349,7 +12310,7 @@ node-notifier@^6.0.0:
     shellwords "^0.1.1"
     which "^1.3.1"
 
-node-releases@^1.1.47, node-releases@^1.1.52:
+node-releases@^1.1.47:
   version "1.1.60"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.60.tgz#6948bdfce8286f0b5d0e5a88e8384e954dfe7084"
   integrity sha512-gsO4vjEdQaTusZAEebUWp2a5d7dF5DYoIpDG7WySnk7BuZDW+GPpHXoXXuYawRBr/9t5q54tirPz79kFIWg4dA==
@@ -13488,7 +13449,7 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pkg-up@3.1.0, pkg-up@^3.1.0:
+pkg-up@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/pkg-up/-/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
   integrity sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==
@@ -14567,31 +14528,40 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-razzle-dev-utils@^3.2.0-canary.4:
-  version "3.2.0-canary.4"
-  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-3.2.0-canary.4.tgz#1e81d2a74d799924ccd0ebafb7b6614ffb0b66e9"
-  integrity sha512-92DAFMFXufuFtGqVntBEIIqw0D+l2xRiJV3OgNsA0Ko4rpUvvCYlEm6p4wx2bH2ozmji/kCLt/UhP2b9q3vsZw==
+razzle-dev-utils@canary:
+  version "3.3.0-canary.0"
+  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-3.3.0-canary.0.tgz#611287ea2b6e60e3cc15df1ada905474c1fc5f2c"
+  integrity sha512-4VMWYyBadBpfPd4q2Yx5yZ0uqIGJdwLQ/cKVE+IpFpZwnyZmdAPoJCfUFtilx4yB0bpAWEJFnFtVcL0d+N6YiA==
   dependencies:
     "@babel/code-frame" "^7.8.3"
     chalk "3.0.0"
     jest-message-util "^24.9.0"
-    react-dev-utils "^10.2.0"
+    react-dev-utils "10.2.0"
+    react-error-overlay "^6.0.7"
+    resolve "1.17.0"
+    sockjs-client "~1.4.0"
     strip-ansi "6.0.0"
+    webpack-dev-server "~3.10.3"
 
-razzle@^3.2.0-canary.4:
-  version "3.2.0-canary.4"
-  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.2.0-canary.4.tgz#4a7638edcd74a0a6c5bc7c85504c81cf13805e71"
-  integrity sha512-p6FWE/gMsgTsdZJTK/Y+E12im8AihfxkMzeRmuVdO3Up7UK6lb1tEjqdAfChNShJPxG0ztCpq3y4MDAeU6N6WQ==
+razzle@canary:
+  version "3.3.0-canary.2"
+  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.3.0-canary.2.tgz#bea116c67c78b6fc7863174efa080a022046a727"
+  integrity sha512-g1q18wE6xT5EEOi/FkEmi1E2L6L0dP351JGrm/Oep3QRofc3Ged2jCQVI9lThuIDNRDPyFMfKPdsm5oZMGRlXQ==
   dependencies:
-    "@babel/core" "^7.8.7"
+    "@babel/core" "7.11.1"
+    "@babel/plugin-syntax-bigint" "7.8.3"
     "@pmmmwh/react-refresh-webpack-plugin" "0.3.0"
     assets-webpack-plugin "^3.9.10"
     babel-core "^7.0.0-bridge.0"
     babel-jest "^24.9.0"
     babel-loader "^8.0.6"
-    babel-preset-razzle "^3.2.0-canary.4"
+    babel-plugin-syntax-jsx "6.18.0"
+    babel-plugin-transform-define "2.0.0"
+    babel-preset-razzle "^3.1.5"
     chalk "^3.0.0"
+    copy-webpack-plugin "5.1.1"
     css-loader "3.5.3"
+    deepmerge "4.2.2"
     dotenv "8.2.0"
     dotenv-expand "5.1.0"
     file-loader "^4.3.0"
@@ -14601,20 +14571,23 @@ razzle@^3.2.0-canary.4:
     mini-css-extract-plugin "^0.9.0"
     mri "^1.1.4"
     optimize-css-assets-webpack-plugin "^5.0.3"
+    pnp-webpack-plugin "^1.6.4"
     postcss-flexbugs-fixes "^4.2.0"
     postcss-loader "^3.0.0"
     postcss-preset-env "^6.7.0"
     postcss-safe-parser "^4.0.2"
-    razzle-dev-utils "^3.2.0-canary.4"
-    react-dev-utils "^10.2.0"
+    razzle-dev-utils canary
+    react-dev-utils "10.2.0"
     react-error-overlay "^6.0.6"
     react-refresh "^0.8.1"
     resolve "1.17.0"
     sade "^1.4.2"
     source-map-support "^0.5.16"
     start-server-webpack-plugin "^2.2.5"
+    string-hash "1.1.3"
     style-loader "^1.1.3"
     terser-webpack-plugin "^2.3.5"
+    tiny-async-pool "^1.1.0"
     url-loader "^2.3.0"
     webpack "^4.42.0"
     webpack-dev-server "~3.10.3"
@@ -14657,36 +14630,6 @@ react-dev-utils@10.2.0:
     open "^7.0.2"
     pkg-up "3.1.0"
     react-error-overlay "^6.0.6"
-    recursive-readdir "2.2.2"
-    shell-quote "1.7.2"
-    strip-ansi "6.0.0"
-    text-table "0.2.0"
-
-react-dev-utils@^10.2.0:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"
-  integrity sha512-XxTbgJnYZmxuPtY3y/UV0D8/65NKkmaia4rXzViknVnZeVlklSh8u6TnaEYPfAi/Gh1TP4mEOXHI6jQOPbeakQ==
-  dependencies:
-    "@babel/code-frame" "7.8.3"
-    address "1.1.2"
-    browserslist "4.10.0"
-    chalk "2.4.2"
-    cross-spawn "7.0.1"
-    detect-port-alt "1.1.6"
-    escape-string-regexp "2.0.0"
-    filesize "6.0.1"
-    find-up "4.1.0"
-    fork-ts-checker-webpack-plugin "3.1.1"
-    global-modules "2.0.0"
-    globby "8.0.2"
-    gzip-size "5.1.1"
-    immer "1.10.0"
-    inquirer "7.0.4"
-    is-root "2.1.0"
-    loader-utils "1.2.3"
-    open "^7.0.2"
-    pkg-up "3.1.0"
-    react-error-overlay "^6.0.7"
     recursive-readdir "2.2.2"
     shell-quote "1.7.2"
     strip-ansi "6.0.0"
