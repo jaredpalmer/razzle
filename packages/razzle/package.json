@@ -6,7 +6,7 @@
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "version": "3.3.0-canary.2",
   "bin": {
-    "razzle": "canary"
+    "razzle": "./bin/razzle.js"
   },
   "files": [
     "babel.js",
