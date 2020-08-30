@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "fork-ts-checker-webpack-plugin": "^3.1.1",
-    "razzle-dev-utils": "^3.1.5",
+    "razzle-dev-utils": "canary",
     "ts-loader": "^5.2.1"
   },
   "devDependencies": {
-    "razzle": "^3.2.0-canary.4",
+    "razzle": "canary",
     "tslint": "^6.1.2",
     "typescript": ">=2.4.1"
   },

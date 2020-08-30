@@ -12,9 +12,9 @@
   "dependencies": {
     "@mdx-js/loader": "^0.15.0-0",
     "@mdx-js/mdx": "^0.15.0-0",
-    "razzle-dev-utils": "^3.1.5"
+    "razzle-dev-utils": "canary"
   },
   "devDependencies": {
-    "razzle": "^3.2.0-canary.4"
+    "razzle": "canary"
   }
 }

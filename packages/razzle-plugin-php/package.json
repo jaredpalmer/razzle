@@ -5,6 +5,6 @@
   "license": "MIT",
   "dependencies": {
     "babel-preset-php": "^1.2.0",
-    "razzle-dev-utils": "^3.3.0-canary.0"
+    "razzle-dev-utils": "canary"
   }
 }

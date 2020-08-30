@@ -6,7 +6,7 @@
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "version": "3.3.0-canary.0",
   "bin": {
-    "razzle": "./bin/razzle.js"
+    "razzle": "canary"
   },
   "files": [
     "babel.js",
@@ -44,7 +44,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-safe-parser": "^4.0.2",
-    "razzle-dev-utils": "^3.1.5",
+    "razzle-dev-utils": "canary",
     "react-dev-utils": "10.2.0",
     "react-error-overlay": "^6.0.6",
     "react-refresh": "^0.8.1",
