@@ -9,7 +9,9 @@ const kill = require("../utils/psKill");
 const path = require("path");
 const fs = require("fs");
 
-shell.config.silent = true;
+const silent = true;
+shell.config.verbose = !silent;
+shell.config.silent = silent;
 
 const stageName = 'stage-start-spa';
 

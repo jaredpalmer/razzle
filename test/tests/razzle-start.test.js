@@ -8,7 +8,9 @@ const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
 
-shell.config.silent = true;
+const silent = true;
+shell.config.verbose = !silent;
+shell.config.silent = silent;
 
 const stageName = 'stage-start';
 

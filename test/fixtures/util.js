@@ -5,8 +5,9 @@ const path = require('path');
 const rootDir = process.cwd();
 const fs = require('fs-extra');
 
-
-// shell.config.silent = true;
+const silent = true;
+shell.config.verbose = !silent;
+shell.config.silent = silent;
 
 module.exports = {
 
