@@ -3932,6 +3932,25 @@ babel-preset-razzle@^3.1.5:
     babel-plugin-dynamic-import-node "2.3.0"
     babel-plugin-transform-react-remove-prop-types "0.4.24"
 
+babel-preset-razzle@canary:
+  version "3.3.0-canary.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-razzle/-/babel-preset-razzle-3.3.0-canary.0.tgz#ecf0dde71869ebb326263d7ca7a858370379840e"
+  integrity sha512-4P8wlJBztQyGeDVeYOFurRxYq1djNFnz9aHWQdJpCEykP/XK4f14tMcE3muhTWtO1nFsSb35FiJ15POJHxP9TQ==
+  dependencies:
+    "@babel/core" "7.11.1"
+    "@babel/plugin-proposal-class-properties" "^7.8.3"
+    "@babel/plugin-proposal-object-rest-spread" "^7.9.5"
+    "@babel/plugin-syntax-dynamic-import" "^7.8.3"
+    "@babel/plugin-transform-modules-commonjs" "^7.9.0"
+    "@babel/plugin-transform-react-jsx-source" "^7.9.0"
+    "@babel/plugin-transform-runtime" "^7.9.0"
+    "@babel/preset-env" "^7.9.5"
+    "@babel/preset-react" "^7.9.4"
+    "@babel/preset-typescript" "^7.9.0"
+    "@babel/runtime" "^7.9.2"
+    babel-plugin-dynamic-import-node "2.3.0"
+    babel-plugin-transform-react-remove-prop-types "0.4.24"
+
 babel-register@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-register/-/babel-register-6.26.0.tgz#6ed021173e2fcb486d7acb45c6009a856f647071"
