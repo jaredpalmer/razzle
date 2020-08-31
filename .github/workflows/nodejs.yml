@@ -33,7 +33,7 @@ jobs:
         key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install and bootstrap packages
-      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
     - name: Set webpack version output
       id: set-webpack
