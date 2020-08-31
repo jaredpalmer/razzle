@@ -14,7 +14,7 @@ const Promise = require('promise');
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const branch = 'canary'; // this line auto updates when yarn update-examples is run
+  const branch = 'next'; // this line auto updates when yarn update-examples is run
   const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/' + branch;
 
   const id = new UUID(4).format();

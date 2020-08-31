@@ -17,7 +17,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "canary",
+    "razzle": "latest",
     "serve": "^11.3.0"
   }
 }

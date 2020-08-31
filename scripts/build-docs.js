@@ -33,13 +33,13 @@ function matchesEndContributors(line) {
 }
 
 
-function updatePackageJson(example, packageJson, branch) {
+function updatePackageJson(example, packageJson, branch, items) {
   fs.pathExists(packageJson).then(exists => {
     if (exists) {
       fs.readFile(packageJson).then(content => {
         const tag = branch === 'canary' ? `canary` : 'latest';
         const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-dev-utils)?": ")(.*?)(")/g, '$1' + tag + '$4');
+        const updated = contentString.replace(new RegExp(`"(${items.join('|')})": "[^\/]*?"`, 'g'), '"$1": "' + tag + '"');
         return fs.writeFile(packageJson, updated);
       })
     }
@@ -92,12 +92,13 @@ for (let contributorsDoc of contributorsDocs) {
 execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
   const branch = stdout.split('\n')[0];
   fs.readdir(path.join(rootDir, 'packages'), {withFileTypes: true}).then(items => {
-    return items
-      .filter(item => item.isDirectory())
-      .map(item => {
-        updatePackageJson(
-          item.name, path.join(rootDir, 'packages', item.name, 'package.json'), branch);
-      })
+    const dirItems = items.filter(item => item.isDirectory())
+      .map(item => item.name);
+
+    return dirItems.map(item=>updatePackageJson(
+      item, path.join(rootDir, 'packages', item, 'package.json'), branch, dirItems)
+    )
+
   })
 
   const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
