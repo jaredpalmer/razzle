@@ -55,6 +55,10 @@ module.exports = {
       );
     }
     if (yarnlink) {
+      fs.ensureSymlinkSync(
+        path.join(rootDir, 'node_modules', '.bin'),
+        path.join(stagePath, 'node_modules', '.bin')
+      );
       const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
         .filter(dirent=>dirent.isDirectory()).map(dir=>dir.name);
       for (const packageName of dirs) {
