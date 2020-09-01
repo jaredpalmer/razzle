@@ -164,6 +164,7 @@ module.exports = (
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
+
     const shouldUseReactRefresh =
       IS_WEB && IS_DEV && experimental.reactRefresh ? true : false;
 

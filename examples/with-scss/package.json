@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "razzle": "latest",
+    "razzle-dev-utils": "latest",
     "razzle-plugin-scss": "latest"
   }
 }

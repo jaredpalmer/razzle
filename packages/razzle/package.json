@@ -44,7 +44,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-safe-parser": "^4.0.2",
-    "razzle-dev-utils": "latest",
     "react-dev-utils": "10.2.0",
     "react-error-overlay": "^6.0.6",
     "react-refresh": "^0.8.1",
@@ -62,6 +61,9 @@
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^4.0.0"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "latest"
   },
   "keywords": [
     "inferno",

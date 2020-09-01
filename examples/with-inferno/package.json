@@ -19,6 +19,7 @@
   "devDependencies": {
     "babel-plugin-inferno": "6.1.0",
     "inferno-devtools": "7.4.2",
-    "razzle": "latest"
+    "razzle": "latest",
+    "razzle-dev-utils": "latest"
   }
 }

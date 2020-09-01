@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "razzle": "latest",
+    "razzle-dev-utils": "latest",
     "serve": "^11.3.0"
   }
 }

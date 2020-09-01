@@ -6,8 +6,6 @@ const rootDir = process.cwd();
 const fs = require('fs-extra');
 
 const silent = true;
-shell.config.verbose = !silent;
-shell.config.silent = silent;
 
 module.exports = {
 
@@ -35,13 +33,19 @@ module.exports = {
   setupStageWithExample: (
     stageName,
     exampleName,
-    symlink=true,
-    yarnlink=false,
+    symlink=false,
+    yarnlink=true,
     install=false,
     test=false
   ) => {
     const stagePath = path.join(rootDir, stageName);
     const packagesPath = path.join(rootDir, 'packages');
+
+    let silentState = shell.config.silent; // save old silent state
+    let verboseState = shell.config.verbose; // save old silent state
+
+    shell.config.verbose = !silent;
+    shell.config.silent = silent;
 
     fs.copySync(path.join(rootDir, 'examples', exampleName), stagePath);
     if (symlink) {
@@ -55,10 +59,6 @@ module.exports = {
       );
     }
     if (yarnlink) {
-      fs.ensureSymlinkSync(
-        path.join(rootDir, 'node_modules', '.bin'),
-        path.join(stagePath, 'node_modules', '.bin')
-      );
       const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
         .filter(dirent=>dirent.isDirectory()).map(dir=>dir.name);
       for (const packageName of dirs) {
@@ -67,7 +67,7 @@ module.exports = {
         shell.exec(`yarn link`);
         shell.cd(stagePath);
         shell.exec(`yarn link ${packageName}`);
-        console.log(`Linked ${packageName} to ${stagePath}`);
+        if (!silent) console.log(`Linked ${packageName} to ${stagePath}`);
       }
     }
     shell.cd(stagePath);
@@ -77,6 +77,10 @@ module.exports = {
     if (test) {
       shell.exec("CI=true yarn run test");
     }
+
+    shell.config.verbose = verboseState;
+    shell.config.silent = silentState;
+
     return stagePath;
   },
 

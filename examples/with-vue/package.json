@@ -17,6 +17,7 @@
   "devDependencies": {
     "eslint-plugin-vue": "^6.2.2",
     "razzle": "latest",
+    "razzle-dev-utils": "latest",
     "razzle-plugin-vue": "latest"
   }
 }

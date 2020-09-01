@@ -18,6 +18,8 @@ const prop = key => obj => obj[key];
 
 const branch = 'next'; // this line auto updates when yarn update-examples is run
 const razzlePkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
+const razzleDevUtilsPkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
+
 const officialExamplesApiUrl = `https://api.github.com/repos/jaredpalmer/razzle/contents/examples${
   branch == 'master' ? '' : '?ref=' + branch
 }`;
@@ -113,8 +115,8 @@ function installWithMessageFactory(opts, isExample = false) {
       projectName: projectName,
       projectPath: projectPath,
       packages: isExample
-        ? [razzlePkg]
-        : ['react', 'react-dom', 'react-router-dom', razzlePkg, 'express'],
+        ? [razzlePkg, razzleDevUtilsPkg]
+        : ['react', 'react-dom', 'react-router-dom', razzlePkg, razzleDevUtilsPkg, 'express'],
     })
       .then(function() {
         console.log(messages.start(projectName));

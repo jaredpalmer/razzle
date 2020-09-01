@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "babel-preset-rax": "^0.6.5",
-    "razzle": "latest"
+    "razzle": "latest",
+    "razzle-dev-utils": "latest"
   }
 }

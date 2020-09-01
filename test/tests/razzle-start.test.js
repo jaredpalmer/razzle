@@ -12,6 +12,8 @@ const silent = true;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
+const spew = false;
+
 const stageName = 'stage-start';
 
 describe('razzle start', () => {
@@ -26,21 +28,23 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
+        const child = shell.exec(`${path.join('../node_modules/.bin/razzle')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
+          if (!silent) console.log(data);
           if (data.includes('Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/bundle.js'
             );
+            if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes('React');
             kill(child.pid);
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());
@@ -52,15 +56,17 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'with-custom-devserver-options');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`${path.join('./node_modules/.bin/razzle')} start --verbose`, () => {
+        const child = shell.exec(`${path.join('../node_modules/.bin/razzle')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
+          if (!silent) console.log(data);
           if (data.includes('Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3002/static/js/bundle.js'
             );
+            if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:3002'
             );
@@ -68,7 +74,7 @@ describe('razzle start', () => {
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());
@@ -79,21 +85,23 @@ describe('razzle start', () => {
     it('should build and run', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec(`${path.join('./node_modules/.bin/razzle')} build`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build`);
       const run = new Promise(resolve => {
         const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
+          if (!silent) console.log(data);
           if (data.includes('> Started on port 3000')) {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
+            if (spew) console.log('serverOutput:' + output.stdout);
             outputTest = output.stdout.includes('200');
             kill(child.pid);
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());

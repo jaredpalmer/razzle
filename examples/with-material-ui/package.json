@@ -15,6 +15,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "latest"
+    "razzle": "latest",
+    "razzle-dev-utils": "latest"
   }
 }

@@ -14,7 +14,8 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "razzle": "^3.0.0"
+    "razzle": "^3.0.0",
+    "razzle-dev-utils": "latest",
   },
   "license": "MIT"
 }

@@ -18,6 +18,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "latest"
+    "razzle": "latest",
+    "razzle-dev-utils": "latest"
   }
 }

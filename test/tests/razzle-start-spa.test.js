@@ -13,6 +13,7 @@ const silent = true;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
+const spew = false;
 
 const stageName = 'stage-start-spa';
 
@@ -30,20 +31,25 @@ describe('razzle start', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          `${path.join('./node_modules/.bin/razzle')} start --type=spa --verbose`,
+          `${path.join('../node_modules/.bin/razzle')} start --type=spa --verbose`,
           () => {
             resolve(outputTest);
           }
         );
         child.stdout.on('data', data => {
+          if (!silent) console.log(data);
           if (data.includes('> SPA Started on port 3000')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3000/static/js/bundle.js'
             );
+            if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes("React");
             kill(child.pid);
           }
+        });
+        child.stderr.on('data', data => {
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then((test) => expect(test).toBeTruthy());
@@ -54,22 +60,27 @@ describe('razzle start', () => {
     it('should build and run in spa mode', () => {
       util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec(`${path.join('./node_modules/.bin/razzle')} build --type=spa`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build --type=spa`);
       const run = new Promise(resolve => {
         const child = shell.exec(
-          `${path.join('./node_modules/.bin/serve')} -s ${path.join('build/public')}`,
+          `${path.join('../node_modules/.bin/serve')} -s ${path.join('build/public')}`,
           () => {
             resolve(outputTest);
           }
         );
         child.stdout.on('data', data => {
+          if (!silent) console.log(data);
           if (data.includes('http://localhost:5000')) {
             shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
             const output = shell.exec("curl -I localhost:5000");
+            if (spew) console.log('serverOutput:' + output.stdout);
             outputTest = output.stdout.includes("200");
             kill(child.pid);
           }
+        });
+        child.stderr.on('data', data => {
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then((test) => expect(test).toBeTruthy());

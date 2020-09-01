@@ -34,6 +34,8 @@ const verbose = cliArgs.verbose || false;
 const clientOnly = cliArgs.type === 'spa';
 
 function main() {
+  console.log(`PORTINFO: PORT: ${process.env.PORT} PORT_DEV: ${process.env.PORT_DEV} clientOnly: ${clientOnly}`)
+
   return new Promise(async (resolve, reject) => {
     loadRazzleConfig(webpack).then(
       async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
@@ -170,6 +172,7 @@ function formatInspectFlag(cliArgs, flag) {
   // When passed as `--inspect=[port]` or `--inspect=[host:port]`
   return '--' + flag + '=' + value.toString();
 }
+console.log(`PORTINFO: PORT: ${process.env.PORT} PORT_DEV: ${process.env.PORT_DEV} clientOnly: ${clientOnly}`)
 
 setPorts(clientOnly)
   .then(main)

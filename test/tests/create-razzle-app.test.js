@@ -7,7 +7,9 @@ const shell = require('shelljs');
 const util = require('../fixtures/util');
 const path = require("path");
 
-shell.config.silent = false;
+const silent = true;
+shell.config.verbose = !silent;
+shell.config.silent = silent;
 
 const stageName = 'stage-cra';
 const craPath = path.join('../node_modules/.bin/create-razzle-app');

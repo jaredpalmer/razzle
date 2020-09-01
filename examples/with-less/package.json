@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "razzle": "^3.0.0",
+    "razzle-dev-utils": "latest",
     "razzle-plugin-less": "^3.0.0"
   }
 }
