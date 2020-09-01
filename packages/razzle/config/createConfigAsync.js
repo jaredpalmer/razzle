@@ -329,6 +329,7 @@ module.exports = (
           return callback();
         }
       : nodeExternals({
+          additionalModuleDirs: additionalModulePaths,
           whitelist: [
             IS_DEV ? 'webpack/hot/poll?300' : null,
             /\.(eot|woff|woff2|ttf|otf)$/,
