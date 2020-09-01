@@ -44,3 +44,4 @@ jobs:
       if: steps.set-webpack.outputs.webpack == '5' && matrix.node-version != '8.x' || steps.set-webpack.outputs.webpack == '4'
       env:
         CI: true
+        WARNINGS_ERRORS_DISABLE: true
