@@ -4,8 +4,6 @@ const { choosePort } = require('react-dev-utils/WebpackDevServerUtils');
 module.exports = clientOnly => {
   return new Promise(async resolve => {
 
-    console.log(`PORTINFO: PORT: ${process.env.PORT} PORT_DEV: ${process.env.PORT_DEV} clientOnly: ${clientOnly}`)
-
     const port = (process.env.PORT && parseInt(process.env.PORT)) || 3000;
     const portDev =
       (process.env.PORT_DEV && parseInt(process.env.PORT_DEV)) ||
