@@ -133,6 +133,7 @@ loadRazzleConfig(webpack).then(
             return reject(new Error(clientMessages.errors.join('\n\n')));
           }
           if (
+            !process.env.WARNINGS_ERRORS_DISABLE &&
             process.env.CI &&
             (typeof process.env.CI !== 'string' ||
               process.env.CI.toLowerCase() !== 'false') &&
@@ -167,6 +168,7 @@ loadRazzleConfig(webpack).then(
                 return reject(new Error(serverMessages.errors.join('\n\n')));
               }
               if (
+                !process.env.WARNINGS_ERRORS_DISABLE &&
                 process.env.CI &&
                 (typeof process.env.CI !== 'string' ||
                   process.env.CI.toLowerCase() !== 'false') &&
