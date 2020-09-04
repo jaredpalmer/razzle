@@ -56,7 +56,7 @@ module.exports = {
     }
     if (yarnlink) {
       const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
-        .filter(dirent=>dirent.isDirectory()).map(dir=>dir.name);
+        .map(dir=>{ return dir.isDirectory ? dir.name: dir });
       for (const packageName of dirs) {
         const packagePath = path.join(packagesPath, packageName);
         shell.cd(packagePath);
