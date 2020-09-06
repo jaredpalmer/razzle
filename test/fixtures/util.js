@@ -19,6 +19,7 @@ module.exports = {
     const stagePath = path.join(rootDir, stageName);
 
     fs.copySync(path.join(rootDir, 'test', 'fixtures', fixtureName), stagePath);
+
     fs.ensureSymlinkSync(
       path.join(rootDir, 'node_modules'),
       path.join(stagePath, 'node_modules')
@@ -48,6 +49,10 @@ module.exports = {
     shell.config.silent = silent;
 
     fs.copySync(path.join(rootDir, 'examples', exampleName), stagePath);
+    shell.cd(stagePath);
+    if (install) {
+      shell.exec("NODE_ENV=development yarn install");
+    }
     if (symlink) {
       fs.ensureSymlinkSync(
         path.join(rootDir, 'node_modules'),
@@ -69,10 +74,6 @@ module.exports = {
         shell.exec(`yarn link ${packageName}`);
         if (!silent) console.log(`Linked ${packageName} to ${stagePath}`);
       }
-    }
-    shell.cd(stagePath);
-    if (install) {
-      shell.exec("NODE_ENV=development yarn install");
     }
     if (test) {
       shell.exec("CI=true yarn run test");

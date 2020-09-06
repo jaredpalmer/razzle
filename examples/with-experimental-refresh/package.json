@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "razzle": "^3.0.0",
-    "razzle-dev-utils": "latest",
-  },
-  "license": "MIT"
+    "razzle-dev-utils": "latest"
+  }
 }
