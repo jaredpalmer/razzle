@@ -13,8 +13,11 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "latest",
-    "razzle-dev-utils": "latest",
-    "serve": "^11.3.0"
+    "razzle": "4.0.0-finch.0",
+    "razzle-dev-utils": "4.0.0-finch.0",
+    "serve": "^11.3.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.44.1",
+    "babel-preset-razzle": "4.0.0-finch.0"
   }
 }
