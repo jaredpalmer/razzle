@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-mdx",
-  "version": "3.3.0-canary.2",
+  "version": "3.3.0-canary.5",
   "description": "Use mdx with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
