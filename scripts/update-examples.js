@@ -22,12 +22,13 @@ function matchesEndInstall(line) {
   return (/<!-- END install /).test(line);
 }
 
-function updateInstallSection(example, readme, branch) {
+function updateInstallSection(example, readme, branch, releaseBranches, preReleaseBranches) {
   fs.readFile(readme).then(content => {
     let update = '';
-    if (['master', 'canary'].includes(branch)) {
-      const tag = branch === 'canary' ? `@canary` : '';
-      const info = branch === 'canary' ? '\nThis is the canary release documentation for this example\n\n' : '';
+    if (releaseBranches.includes(branch)) {
+      const preReleaseBranch = preReleaseBranches.includes(branch);
+      const tag = preReleaseBranch ? `@${branch}` : '';
+      const info = preReleaseBranch ? `\nThis is the ${branch} release documentation for this example\n\n` : '';
       update = `${info}Create and start the example:\n\n`;
       update += `\`\`\`bash\nnpx create-razzle-app${tag} --example ${example} ${example}\n\n`;
       update += `cd ${example}\nyarn start\n\`\`\`\n`;
@@ -87,12 +88,16 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
   ))).map(item=>([item.name, lernaJson.version])));
 
   const dependencyVersions = {...exampleDependencyVersions, ...packageVersions};
+
+  const releaseBranches = lernaJson.command.publish.allowBranch;
+  const preReleaseBranches = releaseBranches.filter(b=>b!=='master');
+
   fs.readdir(path.join(rootDir, 'examples'), {withFileTypes: true}).then(items => {
     return items
       .filter(item => item.isDirectory())
       .map(item => {
-        // updateInstallSection(
-        //   item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch);
+        updateInstallSection(
+          item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch, releaseBranches, preReleaseBranches);
         updatePackageJson(
           item.name, path.join(rootDir, 'examples', item.name, 'package.json'), branch, dependencyVersions, lernaJson.version);
     })
@@ -109,7 +114,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
     return fs.writeFile(loadExamplePath, updated);
   })
 
-  const  installExamplePath = 'packages/create-razzle-app/lib/index.js';
+  const installExamplePath = 'packages/create-razzle-app/lib/index.js';
   fs.readFile(installExamplePath).then(content => {
     const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
     return fs.writeFile(installExamplePath, updated);

@@ -42,7 +42,8 @@
     "build-docs": "node ./scripts/build-docs.js",
     "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
-    "git-clean": "git clean -d -x -e node_modules -e packages -f"
+    "git-clean": "git clean -d -x -e node_modules -e packages -f",
+    "version": "yarn update-examples && yarn build-docs"
   },
   "husky": {
     "hooks": {
