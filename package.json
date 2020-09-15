@@ -38,6 +38,7 @@
     "clean": "lerna clean --yes",
     "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
     "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre",
+    "publish-finch": "lerna version prerelease --preid finch --force-publish && release --pre",
     "publish-stable": "lerna version --force-publish && release && node ./scripts/release-notes.js",
     "build-docs": "node ./scripts/build-docs.js",
     "update-examples": "node ./scripts/update-examples.js",
