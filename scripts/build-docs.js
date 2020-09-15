@@ -59,7 +59,7 @@ function updatePackageJson(packageJson, branch, dependencyVersions, version) {
       packageJsonData['version'] = version;
 
       console.log(JSON.stringify(newPackageJsonData, null, '  '));
-      //return fs.writeFile(packageJson, JSON.stringify(JSON.stringify(newPackageJsonData, null, '  ')));
+      return fs.writeFile(packageJson, JSON.stringify(newPackageJsonData, null, '  '));
     }
   })
 }

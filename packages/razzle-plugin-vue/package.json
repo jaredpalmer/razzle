@@ -1,14 +1,16 @@
 {
   "name": "razzle-plugin-vue",
   "license": "MIT",
-  "version": "3.3.0-canary.2",
+  "version": "3.3.0-canary.4",
   "main": "index.js",
   "dependencies": {
     "css-loader": "3.5.3",
-    "razzle-dev-utils": "latest",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "3.3.0-canary.4"
   }
 }

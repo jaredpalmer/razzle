@@ -1,11 +1,13 @@
 {
   "name": "razzle-plugin-elm",
-  "version": "3.3.0-canary.2",
+  "version": "3.3.0-canary.4",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "4.5.0",
-    "razzle-dev-utils": "latest"
+    "elm-webpack-loader": "4.5.0"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "3.3.0-canary.4"
   }
 }
