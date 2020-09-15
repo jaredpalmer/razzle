@@ -124,15 +124,18 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
 
   const dependencyVersions = {...internalPeerDependencyVersions, ...internalPackages};
 
+  const releaseBranches = lernaJson.command.publish.allowBranch;
+  const preReleaseBranches = releaseBranches.filter(b=>b!=='master');
+
   packageJsons.map(item=>updatePackageJson(item, branch, dependencyVersions, lernaJson.version))
 
-  const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
+  const docSite = branch == 'master' ? 'https://razzlejs.org/' : `https://razzle-git-${branch}.jared.vercel.app/`;
   const readmePath = path.join(rootDir, 'packages', 'razzle', 'README.md');
   fs.readFile(readmePath).then(content => {
     const updated = content.toString().replace(/https:\/\/razzle.*?(\.org|\.app)\//g, docSite);
     return fs.writeFile(readmePath, updated);
   })
-  const npxCmd = 'npx create-razzle-app' + ( branch == 'canary' ? '@' + branch : '');
+  const npxCmd = 'npx create-razzle-app' + ( preReleaseBranches.includes(branch) ? `@${branch}` : '');
   const startedPath = path.join(rootDir, 'website/pages/getting-started.mdx');
   fs.readFile(startedPath).then(content => {
     const updated = content.toString().replace(/npx create-razzle-app@?[^\s]*/g, npxCmd);

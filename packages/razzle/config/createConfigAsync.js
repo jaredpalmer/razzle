@@ -81,7 +81,6 @@ module.exports = (
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
 
-
     // Contains various versions of the Webpack SplitChunksPlugin used in different build types
     const splitChunksConfigs = {
       dev: {
