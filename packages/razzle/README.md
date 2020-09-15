@@ -34,13 +34,12 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- START contributors generated instructions please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn build-docs TO UPDATE -->
-
 - **Jared Palmer** - [@jaredpalmer](http://jaredpalmer.com)
   - **Contributions:** question, code, design, doc, example, ideas, review, test, tool
 - **Nima Arefi** - [@Nimaa77](https://github.com/Nimaa77)
   - **Contributions:** question, code, doc, example, ideas, review, test, tool
 - **Øyvind Saltvik** - [@fivethreeo](https://github.com/fivethreeo/)
-  - **Contributions:** question, code, doc, example, ideas, review, test, tool
+  - **Contributions:** question, code, example, ideas, review, test, tool
 - **Jari Zwarts** - [@jariz](https://jari.io)
   - **Contributions:** question, code, ideas, plugin, review
 - **Dan Abramov** - [@gaearon](http://twitter.com/dan_abramov)
@@ -53,7 +52,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
   - **Contributions:** code, example, plugin
 - **Ray Andrew** - [@rayandrews](https://www.linkedin.com/in/ray-andrew/)
   - **Contributions:** code, example, plugin
-    <!-- END contributors generated instructions please keep comment here to allow auto update -->
+<!-- END contributors generated instructions please keep comment here to allow auto update -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
 

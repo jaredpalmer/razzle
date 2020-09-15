@@ -47,27 +47,27 @@ function updateInstallSection(example, readme, branch) {
   })
 }
 
-function updatePackageJson(example, packageJson, branch, dependencyVersions) {
+function updatePackageJson(example, packageJson, branch, dependencyVersions, version) {
   fs.pathExists(packageJson).then(async exists => {
     if (exists) {
       const packageJsonData = JSON.parse(await fs.readFile(packageJson));
-        const newPackageJsonData = ["dependencies", "devDependencies"].reduce((acc, depType) => {
-            if (acc[depType]) {
-              acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
-                if (dependencyVersions[dep]) {
-                  depsAcc[dep] = dependencyVersions[dep];
-                }
-
-                return depsAcc;
-              }, acc[depType]);
+      const newPackageJsonData = ["dependencies", "devDependencies"].reduce((acc, depType) => {
+        if (acc[depType]) {
+          acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+            if (dependencyVersions[dep]) {
+              depsAcc[dep] = dependencyVersions[dep];
             }
-            return acc;
-        }, packageJsonData);
 
-        packageJsonData['version'] = dependencyVersions['razzle'];
+            return depsAcc;
+          }, acc[depType]);
+        }
+        return acc;
+      }, packageJsonData);
 
-        console.log(JSON.stringify(newPackageJsonData, null, '  '));
-        //return fs.writeFile(packageJson, JSON.stringify(JSON.stringify(newPackageJsonData, null, '  ')));
+      packageJsonData['version'] = version;
+
+      console.log(JSON.stringify(newPackageJsonData, null, '  '));
+      //return fs.writeFile(packageJson, JSON.stringify(JSON.stringify(newPackageJsonData, null, '  ')));
     }
   })
 }
@@ -84,7 +84,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
 
   const packageVersions = Object.fromEntries((await Promise.all(packageJsons.map(async item =>
     JSON.parse(await fs.readFile(item))
-  ))).map(item=>([item.name, item.version])));
+  ))).map(item=>([item.name, lernaJson.version])));
 
   const dependencyVersions = {...exampleDependencyVersions, ...packageVersions};
   fs.readdir(path.join(rootDir, 'examples'), {withFileTypes: true}).then(items => {
@@ -94,14 +94,14 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
         // updateInstallSection(
         //   item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch);
         updatePackageJson(
-          item.name, path.join(rootDir, 'examples', item.name, 'package.json'), branch, dependencyVersions);
+          item.name, path.join(rootDir, 'examples', item.name, 'package.json'), branch, dependencyVersions, lernaJson.version);
     })
   })
 
   updatePackageJson(
     'default',
     path.join(rootDir, 'packages', 'create-razzle-app', 'templates', 'default', 'package.json'),
-    branch, dependencyVersions);
+    branch, dependencyVersions, lernaJson.version);
 
   const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';
   fs.readFile(loadExamplePath).then(content => {

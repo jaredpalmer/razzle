@@ -1,6 +1,8 @@
 'use strict';
 
 const execa = require('execa');
+const util = require('util');
+const glob = util.promisify(require('glob'));
 const updateSection = require('update-section');
 const transform = require('doctoc/lib/transform');
 const fs = require('fs-extra');
@@ -33,18 +35,35 @@ function matchesEndContributors(line) {
 }
 
 
-function updatePackageJson(example, packageJson, branch, items) {
-  fs.pathExists(packageJson).then(exists => {
+function updatePackageJson(packageJson, branch, dependencyVersions, version) {
+  fs.pathExists(packageJson).then(async exists => {
     if (exists) {
-      fs.readFile(packageJson).then(content => {
-        const tag = branch === 'canary' ? `canary` : 'latest';
-        const contentString = content.toString();
-        const updated = contentString.replace(new RegExp(`"(${items.join('|')})": "[^\/]*?"`, 'g'), '"$1": "' + tag + '"');
-        return fs.writeFile(packageJson, updated);
-      })
+      const packageJsonData = JSON.parse(await fs.readFile(packageJson));
+      const newPackageJsonData = ["dependencies", "devDependencies", "peerDependencies"].reduce((acc, depType) => {
+        if (acc[depType]) {
+          acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+            if (dependencyVersions[dep] && depType == "dependencies") {
+              delete depsAcc[dep]
+              if (!acc.peerDependencies) acc.peerDependencies = {};
+              acc.peerDependencies[dep] = dependencyVersions[dep];
+            } else if (dependencyVersions[dep]) {
+              depsAcc[dep] = dependencyVersions[dep];
+            }
+
+            return depsAcc;
+          }, acc[depType]);
+        }
+        return acc;
+      }, packageJsonData);
+
+      packageJsonData['version'] = version;
+
+      console.log(JSON.stringify(newPackageJsonData, null, '  '));
+      //return fs.writeFile(packageJson, JSON.stringify(JSON.stringify(newPackageJsonData, null, '  ')));
     }
   })
 }
+
 const tocDocs = [
   path.join(rootDir, '.github', 'CODE_OF_CONDUCT.md'),
   path.join(rootDir, '.github', 'CONTRIBUTING.md'),
@@ -89,17 +108,23 @@ for (let contributorsDoc of contributorsDocs) {
   })
 }
 
-execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
+execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({stdout}) => {
   const branch = stdout.split('\n')[0];
-  fs.readdir(path.join(rootDir, 'packages'), {withFileTypes: true}).then(items => {
-    const dirItems = items.filter(item => item.isDirectory())
-      .map(item => item.name);
+  const lernaJson = JSON.parse(await fs.readFile(path.join(rootDir, 'lerna.json')));
+  const internalPeerDependencyVersions = JSON.parse(await fs.readFile(
+    path.join(rootDir, 'scripts', 'internalPeerDependencyVersions.json')));
 
-    return dirItems.map(item=>updatePackageJson(
-      item, path.join(rootDir, 'packages', item, 'package.json'), branch, dirItems)
-    )
+  const packageJsons = (await Promise.all(lernaJson.packages.map(item =>
+    glob(item+'/package.json'))
+  )).flat();
 
-  })
+  const internalPackages = Object.fromEntries((await Promise.all(packageJsons.map(async item =>
+    JSON.parse(await fs.readFile(item))
+  ))).map(item=>([item.name, lernaJson.version])));
+
+  const dependencyVersions = {...internalPeerDependencyVersions, ...internalPackages};
+
+  packageJsons.map(item=>updatePackageJson(item, branch, dependencyVersions, lernaJson.version))
 
   const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
   const readmePath = path.join(rootDir, 'packages', 'razzle', 'README.md');

@@ -17,7 +17,8 @@
       "npmClient": "npm",
       "allowBranch": [
         "master",
-        "canary"
+        "canary",
+        "finch"
       ],
       "registry": "https://registry.npmjs.org/"
     }
