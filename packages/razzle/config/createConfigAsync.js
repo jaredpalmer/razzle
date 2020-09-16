@@ -167,27 +167,16 @@ module.exports = (
     };
 
     const shouldUseReactRefresh =
-      IS_WEB && IS_DEV && experimental.reactRefresh ? true : false;
+      IS_WEB && IS_DEV && razzleOptions.useReactRefresh ? true : false;
 
     let webpackOptions = {};
 
-    const defaultPostCssOptions = {
-      ident: 'postcss',
-      plugins: () => [
-        require('postcss-flexbugs-fixes'),
-        require('postcss-preset-env')({
-          autoprefixer: {
-            browsers: razzleOptions.browserslist,
-            flexbox: 'no-2009',
-          },
-          stage: 3,
-        }),
-      ],
-    };
 
-    const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
 
-    const mainBabelOptions = {
+    webpackOptions.modern = razzleOptions.modern;
+    webpackOptions.babelPlugins = razzleOptions.babelPlugins;
+
+    webpackOptions.mainBabelOptions = {
       babelrc: true,
       cacheDirectory: true,
       presets: [],
@@ -199,30 +188,21 @@ module.exports = (
     const hasBabelRc = fs.existsSync(paths.appBabelRc);
 
     if (!hasBabelRc) {
-      mainBabelOptions.presets.push(require.resolve('../babel'));
+      webpackOptions.mainBabelOptions.presets.push(require.resolve('../babel'));
       // Make sure we have a unique cache identifier, erring on the
       // side of caution.
       // We remove this when the user ejects because the default
       // is sane and uses Babel options. Instead of options, we use
       // the razzle-dev-utils and babel-preset-razzle versions.
-      mainBabelOptions.cacheIdentifier = getCacheIdentifier(
+      webpackOptions.mainBabelOptions.cacheIdentifier = getCacheIdentifier(
         (IS_PROD ? 'production' : IS_DEV && 'development') +
           '_' +
           (IS_NODE ? 'nodebuild' : IS_WEB && 'webbuild'),
         ['babel-preset-razzle', 'react-dev-utils', 'razzle-dev-utils']
       );
       if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
-        mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
+        webpackOptions.mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
       }
-    }
-
-    // Allow app to override babel options
-    const babelOptions = modifyBabelOptions
-      ? modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
-      : mainBabelOptions;
-
-    if (!experimental.newBabel && hasBabelRc && babelOptions.babelrc) {
-      console.log('Using .babelrc defined in your app root');
     }
 
     const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
@@ -426,6 +406,8 @@ module.exports = (
       );
     }
 
+    webpackOptions.browserslist = razzleOptions.browserslist;
+
     for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
@@ -456,6 +438,27 @@ module.exports = (
       });
     }
 
+    const defaultPostCssOptions = {
+      ident: 'postcss',
+      plugins: () => [
+        require('postcss-flexbugs-fixes'),
+        require('postcss-preset-env')({
+          autoprefixer: {
+            browsers: webpackOptions.browserslist || [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9',
+            ],
+            flexbox: 'no-2009',
+          },
+          stage: 3,
+        }),
+      ],
+    };
+
+    const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
+    
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
@@ -508,9 +511,8 @@ module.exports = (
               isServer: IS_NODE,
               cwd: paths.appPath,
               cache: true,
-              babelPresetPlugins:
-              (experimental.newBabel || {}).plugins || [],
-              hasModern: !!(experimental.newBabel || {}).modern,
+              babelPresetPlugins: webpackOptions.babelPlugins || [],
+              hasModern: !!webpackOptions.modern,
               development: IS_DEV,
               hasReactRefresh: shouldUseReactRefresh,
             },
@@ -519,9 +521,7 @@ module.exports = (
             exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${razzleOptions.mediaPrefix}/[name].[${
-                experimental.newContentHash ? 'contenthash' : 'hash'
-              }:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -533,9 +533,7 @@ module.exports = (
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${razzleOptions.mediaPrefix}/[name].[${
-                experimental.newContentHash ? 'contenthash' : 'hash'
-              }:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
