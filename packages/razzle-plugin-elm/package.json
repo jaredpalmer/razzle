@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "4.5.0"
+    "elm-webpack-loader": "5.0.0"
   },
   "peerDependencies": {
     "razzle-dev-utils": "3.3.0-canary.4"

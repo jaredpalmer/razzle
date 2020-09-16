@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.6.11",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "3.3.0-canary.4"
+    "babel-preset-razzle": "3.3.0-canary.4",
+    "webpack-dev-server": "^3.11.0"
   }
 }

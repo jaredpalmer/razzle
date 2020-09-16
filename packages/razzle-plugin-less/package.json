@@ -9,12 +9,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "autoprefixer": "^8.6.2",
+    "autoprefixer": "10.0.0",
     "less-loader": "^5.0.0",
     "node-less-chokidar": "^0.4.1",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-less": "^3.1.4",
-    "resolve-url-loader": "^2.3.0"
+    "resolve-url-loader": "3.1.1"
   },
   "devDependencies": {
     "jest": "^23.1.0",

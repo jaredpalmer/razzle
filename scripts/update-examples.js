@@ -65,6 +65,8 @@ function updatePackageJson(example, packageJson, branch, dependencyVersions, ver
         return acc;
       }, packageJsonData);
 
+      // packageJsonData['devDependencies']['webpack-dev-server'] = '';
+
       packageJsonData['version'] = version;
 
       console.log(JSON.stringify(newPackageJsonData, null, '  '));
@@ -106,6 +108,11 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({
   updatePackageJson(
     'default',
     path.join(rootDir, 'packages', 'create-razzle-app', 'templates', 'default', 'package.json'),
+    branch, dependencyVersions, lernaJson.version);
+
+  updatePackageJson(
+    'default',
+    path.join(rootDir, 'package.json'),
     branch, dependencyVersions, lernaJson.version);
 
   const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';

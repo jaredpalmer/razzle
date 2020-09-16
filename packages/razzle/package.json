@@ -19,7 +19,7 @@
     "@babel/core": "7.11.1",
     "@babel/plugin-syntax-bigint": "7.8.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.3.0",
-    "assets-webpack-plugin": "^3.9.10",
+    "assets-webpack-plugin": "5.1.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
@@ -54,15 +54,15 @@
     "terser-webpack-plugin": "^2.3.5",
     "tiny-async-pool": "^1.1.0",
     "url-loader": "^2.3.0",
-    "webpack-dev-server": "~3.10.3",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "3.3.0-canary.4",
+    "webpack-dev-server": "^3.11.0",
     "babel-preset-razzle": "3.3.0-canary.4",
-    "mini-css-extract-plugin": "^0.9.0"
+    "mini-css-extract-plugin": "^0.9.0",
+    "razzle-dev-utils": "3.3.0-canary.4"
   },
   "keywords": [
     "inferno",

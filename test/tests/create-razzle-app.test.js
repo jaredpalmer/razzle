@@ -37,23 +37,23 @@ describe('create-razzle-app', () => {
 
     expect(output.code).toBe(0);
   });
-
-  it('should create app from default template and install packages', () => {
-    util.setupStage(stageName);
-    const output = shell.exec(
-      `${craPath} cra`
-    );
-    expect(shell.test('-d', 'cra/node_modules')).toBeTruthy();
-
-    expect(shell.test('-f', 'cra/yarn.lock')).toBeTruthy();
-
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
-
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
-
-    expect(output.code).toBe(0);
-  });
+  //
+  // it('should create app from default template and install packages', () => {
+  //   util.setupStage(stageName);
+  //   const output = shell.exec(
+  //     `${craPath} cra`
+  //   );
+  //   expect(shell.test('-d', 'cra/node_modules')).toBeTruthy();
+  //
+  //   expect(shell.test('-f', 'cra/yarn.lock')).toBeTruthy();
+  //
+  //   expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+  //
+  //   expect(shell.test('-d', 'cra/src')).toBeTruthy();
+  //   expect(shell.ls('cra/src/index.js').code).toBe(0);
+  //
+  //   expect(output.code).toBe(0);
+  // });
 
   it('should create app from official example', () => {
     util.setupStage(stageName);

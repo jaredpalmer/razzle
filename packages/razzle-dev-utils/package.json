@@ -25,7 +25,9 @@
     "react-error-overlay": "^6.0.7",
     "resolve": "1.17.0",
     "sockjs-client": "~1.4.0",
-    "strip-ansi": "6.0.0",
-    "webpack-dev-server": "~3.10.3"
+    "strip-ansi": "6.0.0"
+  },
+  "peerDependencies": {
+    "webpack-dev-server": "^3.11.0"
   }
 }

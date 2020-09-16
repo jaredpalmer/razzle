@@ -10,8 +10,8 @@
     "start:prod": "set NODE_ENV=production&&node build/server.js"
   },
   "dependencies": {
-    "elm-static-html-lib": "^0.0.8-alpha.2",
-    "express": "^4.17.1"
+     "elm-static-html-lib": "^0.1.0",
+     "express": "^4.17.1"
   },
   "devDependencies": {
     "elm-hot-loader": "^0.5.4",
@@ -20,6 +20,7 @@
     "razzle-dev-utils": "3.3.0-canary.4",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "3.3.0-canary.4"
+    "babel-preset-razzle": "3.3.0-canary.4",
+    "webpack-dev-server": "^3.11.0"
   }
 }

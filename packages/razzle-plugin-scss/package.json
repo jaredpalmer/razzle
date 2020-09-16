@@ -10,11 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "autoprefixer": "^8.6.2",
+    "autoprefixer": "10.0.0",
     "node-sass-chokidar": "1.5.0",
     "postcss-flexbugs-fixes": "^3.3.1",
-    "postcss-scss": "^1.0.5",
-    "resolve-url-loader": "^2.3.0",
+    "postcss-scss": "1.0.5",
+    "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
