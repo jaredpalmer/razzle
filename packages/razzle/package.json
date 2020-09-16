@@ -38,8 +38,8 @@
     "mri": "^1.1.4",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "pnp-webpack-plugin": "^1.6.4",
-    "postcss-flexbugs-fixes": "^4.2.0",
-    "postcss-loader": "^3.0.0",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-loader": "4.0.2",
     "postcss-preset-env": "^6.7.0",
     "postcss-safe-parser": "^4.0.2",
     "react-dev-utils": "10.2.0",
@@ -59,10 +59,10 @@
     "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
-    "webpack-dev-server": "^3.11.0",
     "babel-preset-razzle": "3.3.0-canary.4",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "3.3.0-canary.4"
+    "razzle-dev-utils": "3.3.0-canary.4",
+    "webpack-dev-server": "^3.11.0"
   },
   "keywords": [
     "inferno",

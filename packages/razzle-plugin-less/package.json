@@ -12,8 +12,9 @@
     "autoprefixer": "10.0.0",
     "less-loader": "^5.0.0",
     "node-less-chokidar": "^0.4.1",
-    "postcss-flexbugs-fixes": "^3.3.1",
-    "postcss-less": "^3.1.4",
+    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss-less": "3.1.4",
+    "postcss-load-config": "2.1.0",
     "resolve-url-loader": "3.1.1"
   },
   "devDependencies": {

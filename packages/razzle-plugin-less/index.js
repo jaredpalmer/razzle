@@ -34,7 +34,7 @@ module.exports = {
         plugins: [
           PostCssFlexBugFixes,
           autoprefixer({
-            browsers: opts.options.razzleOptions.browserslist || [
+            overrideBrowserslist: opts.options.razzleOptions.browserslist || [
               '>1%',
               'last 4 versions',
               'Firefox ESR',
@@ -107,9 +107,9 @@ module.exports = {
       loader: require.resolve('postcss-loader'),
       options: hasPostCssConfig()
         ? undefined
-        : Object.assign({}, options.postcss[constantEnv], {
+        : { postcssOptions: Object.assign({}, options.postcss[constantEnv], {
             plugins: () => options.postcss.plugins,
-          }),
+          })},
     };
 
     const lessLoader = {
