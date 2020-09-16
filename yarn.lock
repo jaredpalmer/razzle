@@ -1294,10 +1294,10 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@fivethreeo/start-server-webpack-plugin@3.0.0-rc4":
-  version "3.0.0-rc4"
-  resolved "https://registry.yarnpkg.com/@fivethreeo/start-server-webpack-plugin/-/start-server-webpack-plugin-3.0.0-rc4.tgz#57de24fdd5f0b186abb360366c023a57267b4cd0"
-  integrity sha512-ssSpw25ZRSMQaOU3tAgXeXRgUB4AALX6KgZTeaABe/ItKvTmazOwRClIqxBF293FOQsTMyIdFJn35U1S5JvvEQ==
+"@fivethreeo/start-server-webpack-plugin@3.0.0-rc5":
+  version "3.0.0-rc5"
+  resolved "https://registry.yarnpkg.com/@fivethreeo/start-server-webpack-plugin/-/start-server-webpack-plugin-3.0.0-rc5.tgz#8b16350a451d3d1a0f90d01747361f5664bfea22"
+  integrity sha512-+YtDRRt3JIWwzN82TyJCqWxgmaxtT31KnkmdxW9kmpf8ncyfBlTpoedBq+ikkei2/IVvadqJRWQMzSP2ibZVyg==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.0.0"
