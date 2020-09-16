@@ -458,7 +458,7 @@ module.exports = (
     };
 
     const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
-    
+
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
@@ -620,8 +620,7 @@ module.exports = (
 
       if (webpackMajor === 5) {
         config.output.library = {
-          type: 'commonjs2',
-          name: 'server',
+          type: 'commonjs2'
         };
       }
 
@@ -679,6 +678,7 @@ module.exports = (
           !disableStartServer &&
             new StartServerPlugin({
               name: 'server.js',
+              entryName: 'server',
               nodeArgs,
             }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
@@ -701,7 +701,7 @@ module.exports = (
         }),
         // Output all files in a manifest file called assets-manifest.json
         // in the build directory.
-        new ManifestPlugin({
+        experimental.newAssetsManifest ? new ManifestPlugin({
           fileName: path.join(paths.appBuild, 'assets-manifest.json'),
           writeToFileEmit: true,
           generate: (seed, files) => {
@@ -754,7 +754,7 @@ module.exports = (
               }, {});
             return entryArrayManifest;
           },
-        }),
+        }) : null,
         // Output our JS and CSS files in a manifest file called chunks.json
         // in the build directory.
         // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
@@ -809,7 +809,7 @@ module.exports = (
             return entryArrayManifest;
           },
         }),
-      ];
+      ].filter(x=>x);
 
       if (IS_DEV) {
         // Setup Webpack Dev Server on port 3001 and
