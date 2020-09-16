@@ -15,7 +15,9 @@
     "makeLoaderFinder.js",
     "WebpackConfigHelpers.js",
     "prettyNodeErrors.js",
-    "resolveRequest.js"
+    "resolveRequest.js",
+    "webpackMajor.js",
+    "formatWebpackMessages.js"
   ],
   "dependencies": {
     "@babel/code-frame": "^7.8.3",

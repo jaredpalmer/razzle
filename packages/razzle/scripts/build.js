@@ -20,8 +20,8 @@ const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('razzle-dev-utils/FileSizeReporter');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const measureFileSizesBeforeBuild =
+ const formatWebpackMessages = require('razzle-dev-utils/formatWebpackMessages');
+ const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
@@ -124,7 +124,7 @@ loadRazzleConfig(webpack).then(
         // the server compiler.
         compile(clientConfig, (err, clientStats) => {
           if (err) {
-            reject(err);
+            return reject(err);
           }
           const clientMessages = formatWebpackMessages(
             clientStats.toJson({}, true)
@@ -159,7 +159,7 @@ loadRazzleConfig(webpack).then(
             console.log('Compiling server...');
             compile(serverConfig, (err, serverStats) => {
               if (err) {
-                reject(err);
+                return reject(err);
               }
               const serverMessages = formatWebpackMessages(
                 serverStats.toJson({}, true)

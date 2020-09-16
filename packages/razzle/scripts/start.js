@@ -99,7 +99,7 @@ function main() {
         let logged = false;
 
         // Start our server webpack instance in watch mode after assets compile
-        clientCompiler.plugin('done', () => {
+        clientCompiler.hooks.done.tap('razzle', () => { 
           // If we've already started the server watcher, bail early.
           if (watching) {
             return;
