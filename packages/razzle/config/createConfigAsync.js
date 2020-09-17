@@ -171,40 +171,6 @@ module.exports = (
 
     let webpackOptions = {};
 
-
-
-    webpackOptions.modern = razzleOptions.modern;
-    webpackOptions.babelPlugins = razzleOptions.babelPlugins;
-
-    webpackOptions.mainBabelOptions = {
-      babelrc: true,
-      cacheDirectory: true,
-      presets: [],
-      plugins: [],
-    };
-
-    // First we check to see if the user has a custom .babelrc file, otherwise
-    // we just use babel-preset-razzle.
-    const hasBabelRc = fs.existsSync(paths.appBabelRc);
-
-    if (!hasBabelRc) {
-      webpackOptions.mainBabelOptions.presets.push(require.resolve('../babel'));
-      // Make sure we have a unique cache identifier, erring on the
-      // side of caution.
-      // We remove this when the user ejects because the default
-      // is sane and uses Babel options. Instead of options, we use
-      // the razzle-dev-utils and babel-preset-razzle versions.
-      webpackOptions.mainBabelOptions.cacheIdentifier = getCacheIdentifier(
-        (IS_PROD ? 'production' : IS_DEV && 'development') +
-          '_' +
-          (IS_NODE ? 'nodebuild' : IS_WEB && 'webbuild'),
-        ['babel-preset-razzle', 'react-dev-utils', 'razzle-dev-utils']
-      );
-      if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
-        webpackOptions.mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
-      }
-    }
-
     const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
 
     const dotenv = getClientEnv(
@@ -408,6 +374,21 @@ module.exports = (
 
     webpackOptions.browserslist = razzleOptions.browserslist;
 
+    webpackOptions.babelRule = {
+      test: /\.(js|jsx|mjs|ts|tsx)$/,
+      include: [paths.appSrc].concat(additionalIncludes),
+      loader: require.resolve('./babel/razzle-babel-loader'),
+      options: {
+        isServer: IS_NODE,
+        cwd: paths.appPath,
+        cache: true,
+        babelPresetPlugins: razzleOptions.babelPresetPlugins || [],
+        hasModern: !!razzleOptions.modern,
+        development: IS_DEV,
+        hasReactRefresh: shouldUseReactRefresh,
+      },
+    };
+
     for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
@@ -503,20 +484,7 @@ module.exports = (
       module: {
         strictExportPresence: true,
         rules: [
-          {
-            test: /\.(js|jsx|mjs|ts|tsx)$/,
-            include: [paths.appSrc].concat(additionalIncludes),
-            loader: require.resolve('./babel/razzle-babel-loader'),
-            options: {
-              isServer: IS_NODE,
-              cwd: paths.appPath,
-              cache: true,
-              babelPresetPlugins: webpackOptions.babelPlugins || [],
-              hasModern: !!webpackOptions.modern,
-              development: IS_DEV,
-              hasReactRefresh: shouldUseReactRefresh,
-            },
-          },
+          webpackOptions.babelRule,
           {
             exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),

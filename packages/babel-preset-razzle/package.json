@@ -8,7 +8,6 @@
   "license": "MIT",
   "files": [
     "index.js",
-    "razzle-four-preset.js",
     "babel-plugins/amp-attributes.js",
     "babel-plugins/commonjs.js",
     "babel-plugins/jsx-pragma.js",

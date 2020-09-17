@@ -38,7 +38,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -55,7 +55,7 @@ describe('create-razzle-app', () => {
   //   expect(fileExists('cra/package.json')).toBeTruthy();
   //
   //   expect(directoryExists('cra/src')).toBeTruthy();
-  //   expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+  //   expect(fileExists('cra/src/index.js')).toBeTruthy();
   //
   //   expect(output.code).toBe(0);
   // });
@@ -68,7 +68,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -81,7 +81,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -94,7 +94,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -107,7 +107,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -120,7 +120,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -133,7 +133,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -146,7 +146,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -159,7 +159,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -172,7 +172,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -185,7 +185,7 @@ describe('create-razzle-app', () => {
     expect(fileExists('cra/package.json')).toBeTruthy();
 
     expect(directoryExists('cra/src')).toBeTruthy();
-    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -198,7 +198,7 @@ describe('create-razzle-app', () => {
       expect(fileExists('cra/package.json')).toBeTruthy();
 
       expect(directoryExists('cra/src')).toBeTruthy();
-      expect(fileExists('cra/src/index.js')).toBeTruthy(0);
+      expect(fileExists('cra/src/index.js')).toBeTruthy();
 
       expect(output.code).toBe(0);
     });

@@ -9,7 +9,7 @@ const join = path.join;
 // increment 'm' to invalidate cache
 // eslint-disable-razzle-line no-useless-concat
 const cacheKey = 'babel-cache-' + 'm' + '-';
-const razzleBabelPreset = require('babel-preset-razzle/razzle-four-preset');
+const razzleBabelPreset = require('babel-preset-razzle');
 
 const getModernOptions = function(babelOptions) {
   babelOptions = babelOptions || {};

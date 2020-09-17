@@ -11,7 +11,7 @@ We show the default options here:
 module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
-    buildType: 'iso', // or 'spa' and 'serverless' 
+    buildType: 'iso', // or 'spa' and 'serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
@@ -216,21 +216,53 @@ module.exports = {
 
 ## Customizing Babel Config
 
-Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
+Razzle includes the `razzle/babel` preset to your app, it includes everything needed to compile React applications and server-side code. But if you want to extend the default Babel configs, it's also possible.
 
-```js
+To start, you only need to define a `.babelrc` file at the top of your app, if such file is found, we're going to consider it the _source of truth_, therefore it needs to define what Razzle needs as well, which is the `razzle/babel` preset.
+
+Here's an example `.babelrc` file:
+
+```json
 {
-  "presets": [
-    "razzle/babel", // NEEDED
-    "stage-0"
-   ],
-   "plugins": [
-     // additional plugins
-   ]
+  "presets": ["razzle/babel"],
+  "plugins": []
 }
 ```
 
-A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
+You can [take a look at this file](https://github.com/jaredpalmer/razzle/blob/next/packages/babel-preset-razzle/index.js) to learn about the presets included by `razzle/babel`.
+
+To add presets/plugins **without configuring them**, you can do it this way:
+
+```json
+{
+  "presets": ["razzle/babel"],
+  "plugins": ["@babel/plugin-proposal-do-expressions"]
+}
+```
+
+To add presets/plugins **with custom configuration**, do it on the `razzle/babel` preset like so:
+
+```json
+{
+  "presets": [
+    [
+      "razzle/babel",
+      {
+        "preset-env": {},
+        "transform-runtime": {},
+        "class-properties": {}
+      }
+    ]
+  ],
+  "plugins": []
+}
+```
+
+To learn more about the available options for each config, visit their documentation site.
+
+> Razzle uses the **current** Node.js version for server-side compilations.
+
+> The `modules` option on `"preset-env"` should be kept to `false`, otherwise webpack code splitting is turned off.
 
 ## Extending Webpack
 
