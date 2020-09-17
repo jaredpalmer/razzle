@@ -10,9 +10,9 @@ const defaultOptions = {
     experimentalWatchApi: true,
   },
   forkTsChecker: {
-    tsconfig: './tsconfig.json',
-    tslint: './tslint.json',
-    watch: ['./src'],
+    eslint: {
+      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+    }
   },
 };
 
