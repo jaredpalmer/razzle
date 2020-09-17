@@ -677,6 +677,7 @@ module.exports = (
           // Supress errors to console (we use our own logger)
           !disableStartServer &&
             new StartServerPlugin({
+              verbose: false,
               name: 'server.js',
               entryName: 'server',
               nodeArgs,
