@@ -38,7 +38,7 @@ describe('razzle start', () => {
         );
         child.stdout.on('data', data => {
           if (!silent) console.log(data);
-          if (data.includes('> SPA Started on port 3000')) {
+          if (data.includes('> SPA Started on port 3000') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3000/static/js/bundle.js'
@@ -70,7 +70,7 @@ describe('razzle start', () => {
         );
         child.stdout.on('data', data => {
           if (!silent) console.log(data);
-          if (data.includes('http://localhost:5000')) {
+          if (data.includes('http://localhost:5000') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             // we use serve package and it will run in prot 5000
             const output = shell.exec("curl -I localhost:5000");
