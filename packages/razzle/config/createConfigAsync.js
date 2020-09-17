@@ -900,7 +900,7 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${razzleOptions.jsPrefix}/bundle.[contenthash:8].js`,
+          filename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].js`,
           chunkFilename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`,
           libraryTarget: 'var',
         };

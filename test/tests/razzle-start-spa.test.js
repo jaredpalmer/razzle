@@ -9,7 +9,7 @@ const kill = require("../utils/psKill");
 const path = require("path");
 const fs = require("fs");
 
-const silent = true;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
@@ -31,7 +31,7 @@ describe('razzle start', () => {
       let outputTest;
       const run = new Promise(resolve => {
         const child = shell.exec(
-          `${path.join('../node_modules/.bin/razzle')} start --type=spa --verbose`,
+          `${path.join('../node_modules/.bin/razzle')} start`,
           () => {
             resolve(outputTest);
           }
@@ -60,7 +60,7 @@ describe('razzle start', () => {
     it('should build and run in spa mode', () => {
       util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec(`${path.join('../node_modules/.bin/razzle')} build --type=spa`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build`);
       const run = new Promise(resolve => {
         const child = shell.exec(
           `${path.join('../node_modules/.bin/serve')} -s ${path.join('build/public')}`,

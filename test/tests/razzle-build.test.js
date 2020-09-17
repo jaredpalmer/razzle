@@ -8,11 +8,14 @@ const fs = require('fs-extra');
 const shell = require('shelljs');
 const util = require('../fixtures/util');
 
-const silent = true;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
 const stageName = 'stage-build';
+
+const directoryExists = (dirPath) => fs.existsSync(dirPath) && fs.lstatSync(dirPath).isDirectory();
+const fileExists = (dirPath) => fs.existsSync(dirPath);
 
 describe('razzle build', () => {
   beforeAll(() => {
@@ -23,29 +26,29 @@ describe('razzle build', () => {
     util.setupStageWithFixture(stageName, 'build-default');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Create server.js
-    expect(shell.test('-f', 'build/server.js')).toBeTruthy();
-    expect(shell.test('-f', 'build/server.js.map')).toBeTruthy();
+    expect(fileExists('build/server.js')).toBeTruthy();
+    expect(fileExists('build/server.js.map')).toBeTruthy();
 
     // Should copy static assets from src/public directory
-    expect(shell.test('-f', 'build/public/nothing.txt')).toBeTruthy();
+    expect(fileExists('build/public/nothing.txt')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(directoryExists('build/public/static/js')).toBeTruthy();
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
 
     // should compile client image assets to media directory
-    expect(shell.test('-d', 'build/public/static/media')).toBeTruthy();
+    expect(directoryExists('build/public/static/media')).toBeTruthy();
     expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
+    expect(directoryExists('build/public/static/css')).toBeTruthy();
     expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
@@ -55,29 +58,29 @@ describe('razzle build', () => {
     util.setupStageWithFixture(stageName, 'build-with-babelrc');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Create server.js
-    expect(shell.test('-f', 'build/server.js')).toBeTruthy();
-    expect(shell.test('-f', 'build/server.js.map')).toBeTruthy();
+    expect(fileExists('build/server.js')).toBeTruthy();
+    expect(fileExists('build/server.js.map')).toBeTruthy();
 
     // Should copy static assets from src/public directory
-    expect(shell.test('-f', 'build/public/nothing.txt')).toBeTruthy();
+    expect(fileExists('build/public/nothing.txt')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(directoryExists('build/public/static/js')).toBeTruthy();
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
 
     // should compile client image assets to media directory
-    expect(shell.test('-d', 'build/public/static/media')).toBeTruthy();
+    expect(directoryExists('build/public/static/media')).toBeTruthy();
     expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
+    expect(directoryExists('build/public/static/css')).toBeTruthy();
     expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
@@ -87,26 +90,26 @@ describe('razzle build', () => {
     util.setupStageWithFixture(stageName, 'build-with-custom-config');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // We modify the default server output filename -> custom.js
-    expect(shell.test('-f', 'build/custom.js')).toBeTruthy();
-    expect(shell.test('-f', 'build/custom.js.map')).toBeTruthy();
+    expect(fileExists('build/custom.js')).toBeTruthy();
+    expect(fileExists('build/custom.js.map')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(directoryExists('build/public/static/js')).toBeTruthy();
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
 
     // should compile client image assets to media directory
-    expect(shell.test('-d', 'build/public/static/media')).toBeTruthy();
+    expect(directoryExists('build/public/static/media')).toBeTruthy();
     expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
+    expect(directoryExists('build/public/static/css')).toBeTruthy();
     expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
@@ -116,18 +119,18 @@ describe('razzle build', () => {
     util.setupStageWithExample(stageName, 'with-scss');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(directoryExists('build/public/static/js')).toBeTruthy();
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
+    expect(directoryExists('build/public/static/css')).toBeTruthy();
     expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
@@ -137,32 +140,32 @@ describe('razzle build', () => {
     util.setupStageWithFixture(stageName, 'build-default-spa');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Create index.html
-    expect(shell.test('-f', 'build/public/index.html')).toBeTruthy();
+    expect(fileExists('build/public/index.html')).toBeTruthy();
 
     // SHOULD NOT Create server.js
-    expect(shell.test('-f', 'build/server.js')).toBeFalsy();
-    expect(shell.test('-f', 'build/server.js.map')).toBeFalsy();
+    expect(fileExists('build/server.js')).toBeFalsy();
+    expect(fileExists('build/server.js.map')).toBeFalsy();
 
     // Should copy static assets from src/public directory
-    expect(shell.test('-f', 'build/public/nothing.txt')).toBeTruthy();
+    expect(fileExists('build/public/nothing.txt')).toBeTruthy();
 
     // Should compile client bundle to js directory
-    expect(shell.test('-d', 'build/public/static/js')).toBeTruthy();
-    expect(shell.ls('build/public/static/js/bundle.*.js').code).toBe(0);
-    expect(shell.ls('build/public/static/js/bundle.*.js.map').code).toBe(0);
+    expect(directoryExists('build/public/static/js')).toBeTruthy();
+    expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
+    expect(shell.ls('build/public/static/js/client.*.js.map').code).toBe(0);
 
     // should compile client image assets to media directory
-    expect(shell.test('-d', 'build/public/static/media')).toBeTruthy();
+    expect(directoryExists('build/public/static/media')).toBeTruthy();
     expect(shell.ls('build/public/static/media/logo.*.png').code).toBe(0);
 
     // should compile client css to css directory
-    expect(shell.test('-d', 'build/public/static/css')).toBeTruthy();
+    expect(directoryExists('build/public/static/css')).toBeTruthy();
     expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
@@ -172,10 +175,10 @@ describe('razzle build', () => {
     const stagePath = util.setupStageWithExample(stageName, 'with-scss-options');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
     const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.css));
@@ -189,14 +192,14 @@ describe('razzle build', () => {
     const stagePath = util.setupStageWithExample(stageName, 'with-promise-config');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // We modify the default server output filename -> custom.js
-    expect(shell.test('-f', 'build/custom.js')).toBeTruthy();
-    expect(shell.test('-f', 'build/custom.js.map')).toBeTruthy();
+    expect(fileExists('build/custom.js')).toBeTruthy();
+    expect(fileExists('build/custom.js.map')).toBeTruthy();
 
     expect(output.code).toBe(0);
   });
@@ -205,10 +208,10 @@ describe('razzle build', () => {
     const stagePath = util.setupStageWithExample(stageName, 'with-jsconfig-paths');
     const output = shell.exec('yarn build');
     // Create asset manifest
-    expect(shell.test('-f', 'build/assets.json')).toBeTruthy();
+    expect(fileExists('build/assets.json')).toBeTruthy();
 
     // Create chunk manifest
-    expect(shell.test('-f', 'build/chunks.json')).toBeTruthy();
+    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
     const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js));

@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "razzle build --type=spa"
+    "build": "razzle build"
   },
   "name": "build-default-spa",
   "license": "MIT"

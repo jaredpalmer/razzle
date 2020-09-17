@@ -27,12 +27,12 @@ function main() {
   return new Promise(async (resolve, reject) => {
     loadRazzleConfig(webpack).then(
       async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
-        
+
         process.env.BUILD_TYPE = razzleOptions.buildType;
         const verbose = razzleOptions.verbose;
         const clientOnly = razzleOptions.buildType=='spa';
 
-        setPorts(razzleOptions.buildType=='spa')
+        setPorts(clientOnly)
         .then(async () => {
           // Optimistically, we make the console look exactly like the output of our
           // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.

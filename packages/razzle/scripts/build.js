@@ -31,13 +31,14 @@ const cliArgs = mri(argv);
 loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
 
-    process.env.BUILD_TYPE = razzleOptions.buildType;
     const verbose = razzleOptions.verbose;
-    
+    const clientOnly = razzleOptions.buildType=='spa';
+    process.env.BUILD_TYPE = razzleOptions.buildType;
+
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic)
-      .then(previousFileSizes => {
+      .then(async previousFileSizes => {
         // Remove all content but keep the directory so that
         // if you're in it, you don't end up in Trash
         fs.emptyDirSync(paths.appBuild);
@@ -85,6 +86,7 @@ loadRazzleConfig(webpack).then(
       }
 
       return new Promise(async (resolve, reject) => {
+
         let serverConfig;
         let clientConfig;
         // Create our production webpack configurations and pass in razzle options.

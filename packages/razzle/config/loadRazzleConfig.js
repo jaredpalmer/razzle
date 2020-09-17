@@ -12,7 +12,6 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
   return new Promise(async resolve => {
     let razzle = razzleConfig || {};
     let packageJson = packageJsonIn || {};
-    let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
     let paths = Object.assign({}, defaultPaths);
     // Check for razzle.config.js file
     if (fs.existsSync(paths.appRazzleConfig)) {
@@ -33,6 +32,8 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
         process.exit(1);
       }
     }
+    
+    let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
 
     if (packageJson.browserslist) {
       razzleOptions.browserslist =

@@ -4,10 +4,12 @@
 'use strict';
 
 const shell = require('shelljs');
+const fs = require('fs');
+
 const util = require('../fixtures/util');
 const path = require("path");
 
-const silent = true;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
@@ -15,6 +17,9 @@ const stageName = 'stage-cra';
 const craPath = path.join('../node_modules/.bin/create-razzle-app');
 const testPackage = 'razzle-example-basic';
 const testRepo = 'https://github.com/fivethreeo/razzle-example-basic';
+
+const directoryExists = (dirPath) => fs.existsSync(dirPath) && fs.lstatSync(dirPath).isDirectory();
+const fileExists = (dirPath) => fs.existsSync(dirPath);
 
 describe('create-razzle-app', () => {
   beforeAll(() => {
@@ -26,14 +31,14 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --no-install`
     );
-    expect(shell.test('-d', 'cra/node_modules')).toBeFalsy();
+    expect(directoryExists('cra/node_modules')).toBeFalsy();
 
-    expect(shell.test('-f', 'cra/yarn.lock')).toBeFalsy();
+    expect(fileExists('cra/yarn.lock')).toBeFalsy();
 
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -43,14 +48,14 @@ describe('create-razzle-app', () => {
   //   const output = shell.exec(
   //     `${craPath} cra`
   //   );
-  //   expect(shell.test('-d', 'cra/node_modules')).toBeTruthy();
+  //   expect(directoryExists('cra/node_modules')).toBeTruthy();
   //
-  //   expect(shell.test('-f', 'cra/yarn.lock')).toBeTruthy();
+  //   expect(fileExists('cra/yarn.lock')).toBeTruthy();
   //
-  //   expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+  //   expect(fileExists('cra/package.json')).toBeTruthy();
   //
-  //   expect(shell.test('-d', 'cra/src')).toBeTruthy();
-  //   expect(shell.ls('cra/src/index.js').code).toBe(0);
+  //   expect(directoryExists('cra/src')).toBeTruthy();
+  //   expect(fileExists('cra/src/index.js')).toBeTruthy(0);
   //
   //   expect(output.code).toBe(0);
   // });
@@ -60,10 +65,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=basic --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -73,10 +78,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testPackage} --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -86,10 +91,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testPackage}@latest --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -99,10 +104,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testPackage}:subexample --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -112,10 +117,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testRepo} --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -125,10 +130,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testRepo}@master --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -138,10 +143,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=${testRepo}:subexample --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -151,10 +156,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=git+${testRepo}.git --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -164,10 +169,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=git+${testRepo}.git@master --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -177,10 +182,10 @@ describe('create-razzle-app', () => {
     const output = shell.exec(
       `${craPath} cra --example=git+${testRepo}.git:subexample --no-install`
     );
-    expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-    expect(shell.test('-d', 'cra/src')).toBeTruthy();
-    expect(shell.ls('cra/src/index.js').code).toBe(0);
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
     expect(output.code).toBe(0);
   });
@@ -190,10 +195,10 @@ describe('create-razzle-app', () => {
       const output = shell.exec(
         `${craPath} cra --example=file:../examples/basic --no-install`
       );
-      expect(shell.test('-f', 'cra/package.json')).toBeTruthy();
+      expect(fileExists('cra/package.json')).toBeTruthy();
 
-      expect(shell.test('-d', 'cra/src')).toBeTruthy();
-      expect(shell.ls('cra/src/index.js').code).toBe(0);
+      expect(directoryExists('cra/src')).toBeTruthy();
+      expect(fileExists('cra/src/index.js')).toBeTruthy(0);
 
       expect(output.code).toBe(0);
     });

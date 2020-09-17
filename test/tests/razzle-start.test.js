@@ -8,7 +8,7 @@ const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
 
-const silent = true;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 

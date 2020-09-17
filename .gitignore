@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 .DS_Store
 stage-*
+example/
 # Runtime data
 pids
 *.pid
