@@ -27,16 +27,13 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
-// Set the default build mode to isomorphic
-cliArgs.type = cliArgs.type || 'iso';
-const clientOnly = cliArgs.type === 'spa';
-// Capture the type (isomorphic or single-page) as an environment variable
-process.env.BUILD_TYPE = cliArgs.type;
-
-const verbose = cliArgs.verbose || false;
 
 loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
+
+    process.env.BUILD_TYPE = razzleOptions.buildType;
+    const verbose = razzleOptions.verbose;
+    
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic)
