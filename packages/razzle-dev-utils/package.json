@@ -22,7 +22,6 @@
   "dependencies": {
     "@babel/code-frame": "^7.8.3",
     "chalk": "3.0.0",
-    "jest-message-util": "^24.9.0",
     "react-dev-utils": "10.2.0",
     "react-error-overlay": "^6.0.7",
     "resolve": "1.17.0",
