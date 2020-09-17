@@ -92,7 +92,7 @@ describe('razzle start', () => {
         });
         child.stdout.on('data', data => {
           if (!silent) console.log(data);
-          if (data.includes('> Started on port 3000') typeof outputTest == 'undefined') {
+          if (data.includes('> Started on port 3000') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
             if (spew) console.log('serverOutput:' + output.stdout);
