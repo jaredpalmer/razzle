@@ -33,7 +33,7 @@ describe('razzle start', () => {
         });
         child.stdout.on('data', data => {
           if (!silent) console.log(data);
-          if (data.includes('Server-side HMR Enabled!')) {
+          if (data.includes('Server-side HMR Enabled!') && !outputTest) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/bundle.js'
@@ -61,7 +61,7 @@ describe('razzle start', () => {
         });
         child.stdout.on('data', data => {
           if (!silent) console.log(data);
-          if (data.includes('Server-side HMR Enabled!')) {
+          if (data.includes('Server-side HMR Enabled!') && !outputTest) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3002/static/js/bundle.js'
