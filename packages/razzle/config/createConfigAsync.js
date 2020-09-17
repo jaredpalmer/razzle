@@ -440,11 +440,11 @@ module.exports = (
 
     const defaultPostCssOptions = {
       ident: 'postcss',
-      plugins: () => [
+      plugins: [
         require('postcss-flexbugs-fixes'),
         require('postcss-preset-env')({
           autoprefixer: {
-            browsers: webpackOptions.browserslist || [
+            overrideBrowserslist: webpackOptions.browserslist || [
               '>1%',
               'last 4 versions',
               'Firefox ESR',
@@ -457,7 +457,7 @@ module.exports = (
       ],
     };
 
-    const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
+    const postCssOptions = hasPostCssConfig ? undefined : { postcssOptions: defaultPostCssOptions };
 
     // This is our base webpack config.
     let config = {

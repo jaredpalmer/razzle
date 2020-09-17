@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "razzle build"
+  },
+  "name": "build-default",
+  "license": "MIT"
+}
