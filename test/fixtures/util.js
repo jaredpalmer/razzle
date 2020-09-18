@@ -132,7 +132,6 @@ module.exports = {
     install=false,
     test=false
   ) => {
-    const stagePath = path.join(process.cwd(), stageName);
     const packagesPath = path.join(rootDir, 'packages');
 
     let silentState = shell.config.silent; // save old silent state
@@ -141,7 +140,7 @@ module.exports = {
     shell.config.verbose = !silent;
     shell.config.silent = silent;
 
-    copyExample(exampleName, stageName);
+    const stagePath = copyExample(exampleName, stageName);
 
     shell.cd(stagePath);
     if (install) {
