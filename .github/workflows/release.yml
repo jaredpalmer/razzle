@@ -31,7 +31,8 @@ jobs:
             echo "Did not publish finch"
           fi
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}      - name: Potentially publish canary to npm
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Potentially publish canary to npm
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
