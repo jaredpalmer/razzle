@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "4.0.0-finch.1",
+  "version": "4.0.0-finch.2",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -20,7 +20,7 @@
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
-    "razzle": "4.0.0-finch.1"
+    "razzle": "^4.0.0-finch.2"
   },
   "peerDependencies": {
     "mini-css-extract-plugin": "^0.9.0",
