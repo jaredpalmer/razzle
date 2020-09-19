@@ -14,12 +14,12 @@
     "ts-loader": "^5.2.1"
   },
   "devDependencies": {
-    "razzle": "^4.0.0-finch.1",
+    "razzle": "4.0.0-finch.1",
     "tslint": "^6.1.2",
     "typescript": ">=2.4.1"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-finch.0",
+    "razzle-dev-utils": "4.0.0-finch.1",
     "tslint": "^6.1.2",
     "typescript": ">=2.4.1"
   }

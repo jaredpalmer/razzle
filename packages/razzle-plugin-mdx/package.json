@@ -14,9 +14,9 @@
     "@mdx-js/mdx": "^0.15.0-0"
   },
   "devDependencies": {
-    "razzle": "^4.0.0-finch.1"
+    "razzle": "4.0.0-finch.1"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-finch.0"
+    "razzle-dev-utils": "4.0.0-finch.1"
   }
 }

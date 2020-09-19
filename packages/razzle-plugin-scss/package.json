@@ -20,10 +20,10 @@
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
-    "razzle": "^4.0.0-finch.1"
+    "razzle": "4.0.0-finch.1"
   },
   "peerDependencies": {
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "4.0.0-finch.0"
+    "razzle-dev-utils": "4.0.0-finch.1"
   }
 }

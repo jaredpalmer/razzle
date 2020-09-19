@@ -8,6 +8,6 @@
     "elm-webpack-loader": "5.0.0"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-finch.0"
+    "razzle-dev-utils": "4.0.0-finch.1"
   }
 }

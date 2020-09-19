@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-rax",
-  "version": "4.0.0-finch.0",
+  "version": "4.0.0-finch.1",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -19,11 +19,11 @@
   },
   "devDependencies": {
     "babel-preset-rax": "^0.6.5",
-    "razzle": "4.0.0-finch.0",
-    "razzle-dev-utils": "4.0.0-finch.0",
+    "razzle": "4.0.0-finch.1",
+    "razzle-dev-utils": "4.0.0-finch.1",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-finch.0",
+    "babel-preset-razzle": "4.0.0-finch.1",
     "webpack-dev-server": "^3.11.0"
   }
 }
