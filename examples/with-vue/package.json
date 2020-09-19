@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-vue",
-  "version": "3.3.0-canary.4",
+  "version": "4.0.0-finch.0",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,12 +16,12 @@
   },
   "devDependencies": {
     "eslint-plugin-vue": "^6.2.2",
-    "razzle": "3.3.0-canary.4",
-    "razzle-dev-utils": "3.3.0-canary.4",
-    "razzle-plugin-vue": "3.3.0-canary.4",
+    "razzle": "4.0.0-finch.0",
+    "razzle-dev-utils": "4.0.0-finch.0",
+    "razzle-plugin-vue": "4.0.0-finch.0",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "3.3.0-canary.4",
+    "babel-preset-razzle": "4.0.0-finch.0",
     "webpack-dev-server": "^3.11.0"
   }
 }

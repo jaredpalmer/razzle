@@ -7,6 +7,6 @@
     "babel-preset-php": "^1.2.0"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "3.3.0-canary.4"
+    "razzle-dev-utils": "4.0.0-finch.0"
   }
 }

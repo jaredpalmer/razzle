@@ -11,6 +11,6 @@
     "vue-template-compiler": "^2.5.16"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "3.3.0-canary.4"
+    "razzle-dev-utils": "4.0.0-finch.0"
   }
 }

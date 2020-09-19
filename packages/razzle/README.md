@@ -6,11 +6,11 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 ## Getting Started
 
-Visit <a aria-label="razzle getting started" href="https://razzle-git-next.jared.vercel.app/getting-started">https://razzle-git-next.jared.vercel.app/getting-started</a> to get started with Razzle.
+Visit <a aria-label="razzle getting started" href="https://razzle-git-finch.jared.vercel.app/getting-started">https://razzle-git-finch.jared.vercel.app/getting-started</a> to get started with Razzle.
 
 ## Documentation
 
-Visit <a aria-label="razzle docs" href="https://razzle-git-next.jared.vercel.app/">https://razzle-git-next.jared.vercel.app/</a> to view the documentation.
+Visit <a aria-label="razzle docs" href="https://razzle-git-finch.jared.vercel.app/">https://razzle-git-finch.jared.vercel.app/</a> to view the documentation.
 
 ## Contributing
 
