@@ -127,8 +127,8 @@ module.exports = {
   setupStageWithExample: (
     stageName,
     exampleName,
-    symlink=false,
-    yarnlink=true,
+    symlink=true,
+    yarnlink=false,
     install=false,
     test=false
   ) => {
@@ -150,6 +150,10 @@ module.exports = {
       fs.ensureSymlinkSync(
         path.join(rootDir, 'node_modules'),
         path.join(stagePath, 'node_modules')
+      );
+      fs.ensureSymlinkSync(
+        path.join(rootDir, 'node_modules', '.bin'),
+        path.join(stagePath, 'node_modules', '.bin')
       );
       fs.ensureSymlinkSync(
         packagesPath,
