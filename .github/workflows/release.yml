@@ -20,7 +20,18 @@ jobs:
       - name: Potentially save npm token
         run: |
           ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc) || echo "Did not write npm token"
-      - name: Potentially publish canary to npm
+      - name: Potentially publish finch to npm
+        run: |
+          if \
+            ls ~/.npmrc >/dev/null 2>&1 && \
+            [[ $(git describe --exact-match 2> /dev/null || :) =~ -finch ]]; \
+          then
+            yarn run lerna publish from-git --npm-tag finch --yes
+          else
+            echo "Did not publish finch"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}      - name: Potentially publish canary to npm
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
