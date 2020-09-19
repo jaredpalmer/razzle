@@ -19,7 +19,6 @@
     "got": "^11.0.2",
     "husky": "^4.2.3",
     "jest": "^26.4.2",
-    "jest-message-util": "^26.3.0",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.0.8",
@@ -48,7 +47,7 @@
     "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f",
-    "version": "yarn update-examples && yarn build-docs"
+    "yalc-publish-all": "node ./scripts/yalc-publish-all.js"
   },
   "husky": {
     "hooks": {
