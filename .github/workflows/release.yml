@@ -48,7 +48,7 @@ jobs:
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
+            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-finch ]]; \
           then
             yarn run lerna publish from-git --yes
           else
