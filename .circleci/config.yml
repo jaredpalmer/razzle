@@ -31,14 +31,6 @@ defaults: &defaults
         paths: .
 
 jobs:
-  test-node8:
-    <<: *defaults
-    docker:
-      - image: circleci/node:8
-  test-node9:
-    <<: *defaults
-    docker:
-      - image: circleci/node:9
   test-node10:
     <<: *defaults
     docker:
@@ -51,14 +43,12 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/node:12
-    
+
 
 workflows:
   version: 2
   test-deploy:
     jobs:
-      - test-node8
-      - test-node9
       - test-node10
       - test-node11
       - test-node12
