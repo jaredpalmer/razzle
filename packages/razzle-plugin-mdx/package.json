@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@mdx-js/loader": "^0.15.0-0",
-    "@mdx-js/mdx": "^0.15.0-0"
+    "@mdx-js/loader": "^1.6.18",
+    "@mdx-js/mdx": "^1.6.18"
   },
   "devDependencies": {
     "razzle": "4.0.0-finch.5"
