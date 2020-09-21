@@ -52,6 +52,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
   - **Contributions:** code, example, plugin
 - **Ray Andrew** - [@rayandrews](https://www.linkedin.com/in/ray-andrew/)
   - **Contributions:** code, example, plugin
+- **Heithem Moumni** - [@heithemmoumni](https://www.linkedin.com/in/heithemmoumni/)
+  - **Contributions:** code, example, plugin
 <!-- END contributors generated instructions please keep comment here to allow auto update -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
