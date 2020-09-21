@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-less",
-  "version": "4.0.0-finch.4",
+  "version": "4.0.0-finch.5",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Ryan Yang <orange881217@gmail.com>",
@@ -18,10 +18,10 @@
     "resolve-url-loader": "3.1.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-finch.4"
+    "razzle": "4.0.0-finch.5"
   },
   "peerDependencies": {
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "4.0.0-finch.4"
+    "razzle-dev-utils": "4.0.0-finch.5"
   }
 }

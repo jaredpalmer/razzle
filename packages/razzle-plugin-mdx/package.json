@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-mdx",
-  "version": "4.0.0-finch.4",
+  "version": "4.0.0-finch.5",
   "description": "Use mdx with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,9 +14,9 @@
     "@mdx-js/mdx": "^0.15.0-0"
   },
   "devDependencies": {
-    "razzle": "4.0.0-finch.4"
+    "razzle": "4.0.0-finch.5"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-finch.4"
+    "razzle-dev-utils": "4.0.0-finch.5"
   }
 }
