@@ -80,5 +80,6 @@
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
-  ]
+  ],
+  "version": "4.0.0-finch.3"
 }
