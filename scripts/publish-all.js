@@ -34,6 +34,8 @@ let argv = yargs
         const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
         await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
         await execa(`git reset --soft HEAD~1`, {shell: true, stdio: 'inherit' });
+        await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
+        await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
       });
     }
   })
