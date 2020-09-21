@@ -377,19 +377,22 @@ module.exports = (
     webpackOptions.babelRule = {
       test: /\.(js|jsx|mjs|ts|tsx)$/,
       include: [paths.appSrc].concat(additionalIncludes),
-      loader: require.resolve('./babel/razzle-babel-loader'),
-      options: {
-        isServer: IS_NODE,
-        cwd: paths.appPath,
-        cache: true,
-        babelPresetPlugins: razzleOptions.babelPresetPlugins || [],
-        hasModern: !!razzleOptions.modern,
-        development: IS_DEV,
-        hasReactRefresh: shouldUseReactRefresh,
-      },
-    };
+      use: [{
+        loader: require.resolve('./babel-loader/razzle-babel-loader'),
+        options: {
+          isServer: IS_NODE,
+          cwd: paths.appPath,
+          cache: true,
+          babelPresetPlugins: razzleOptions.babelPresetPlugins || [],
+          hasModern: !!razzleOptions.modern,
+          development: IS_DEV,
+          hasReactRefresh: shouldUseReactRefresh,
+        },
+      }
+    ]
+  };
 
-    for (const [plugin, pluginOptions] of plugins) {
+  for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
       if (plugin.modifyWebpackOptions) {
