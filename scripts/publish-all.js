@@ -37,6 +37,8 @@ let argv = yargs
         await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
         await execa(`git commit -am "published ${latestTag}"`, {shell: true, stdio: 'inherit' });
         await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
+        await execa(`git push origin`, {shell: true, stdio: 'inherit' });
+        await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
       });
     }
   })
