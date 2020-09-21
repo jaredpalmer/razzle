@@ -22,14 +22,19 @@ function loadPlugin(plugin, paths) {
     return [plugin.object, plugin.options];
   }
 
-  const completePluginName = `razzle-plugin-${plugin.name}`;
+  const completePluginNames = [`razzle-plugin-${plugin.name}`, `${plugin.name}/razzle-plugin`];
 
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(resolve.sync(completePluginName, {
-    basedir: paths.appDir,
-  }));
+  let razzlePlugin = null;
+  for (const completePluginName of completePluginNames) {
+    razzlePlugin = require(completePluginName);
+    if (razzlePlugin) {
+      break;
+    }
+  }
+
   if (!razzlePlugin) {
-    throw new Error(`Unable to find '${completePluginName}`);
+    throw new Error(`Unable to find '${completePluginName[0]}' or '${completePluginName[1]}'`);
   }
 
   return [razzlePlugin, plugin.options];
