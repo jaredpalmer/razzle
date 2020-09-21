@@ -1,8 +1,8 @@
 'use strict';
 
-const createConfig = require('razzle/config/createConfig');
+const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
 
-const pluginFunc = require('../index');
+const plugin = require('../index');
 const {
   gqlLoaderFinder
 } = require('../helpers');
@@ -31,13 +31,14 @@ const nodeLoaderTests = [
 describe('razzle-plugin-graphql', () => {
   describe('when creating web config', () => {
     describe('when environment set to development', () => {
-      let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'dev', {
-          plugins: [{ func: pluginFunc }],
+      let config;
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'dev', {
+          plugins: [{ object: plugin }],
         });
       });
+
 
       webDevLoaderTests.forEach(test => {
         if (test.status === 'falsy') {
@@ -57,11 +58,12 @@ describe('razzle-plugin-graphql', () => {
     describe('when environment set to production', () => {
       let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'prod', {
-          plugins: [{ func: pluginFunc }],
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'prod', {
+          plugins: [{ object: plugin }],
         });
       });
+
 
       webProdLoaderTests.forEach(test => {
         if (test.status === 'falsy') {
@@ -80,13 +82,14 @@ describe('razzle-plugin-graphql', () => {
   });
 
   describe('when creating a node config', () => {
-    let config;
 
-    beforeAll(() => {
-      config = createConfig('node', 'prod', {
-        plugins: [{ func: pluginFunc }],
+    let config;
+    beforeAll(async () => {
+      config = await createRazzleTestConfig('node', 'prod', {
+        plugins: [{ object: plugin }],
       });
     });
+
 
     nodeLoaderTests.forEach(test => {
       if (test.status === 'falsy') {

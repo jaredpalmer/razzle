@@ -1,37 +1,25 @@
 'use strict';
 
-const paths = require('razzle/config/paths');
+module.exports = {
+  modifyWebpackOptions(opts) {
+    const options = Object.assign({}, opts.options.webpackOptions);    // Add .graphql to exlude
+    options.fileLoaderExlude = [/\.graphql|gql?$/, ...options.fileLoaderExlude];
+    return options;
+  },
+  modifyWebpackConfig(opts) {
+    const config = Object.assign({}, opts.webpackConfig);
 
-const defaultOptions = {};
+      const graphqlLoader = {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        use: ['graphql-tag/loader']
+      };
 
-module.exports = (
-  defaultConfig,
-  { target, dev },
-  webpack,
-  userOptions = {}
-) => {
-
-  const config = Object.assign({}, defaultConfig);
-
-  const graphqlLoader = {
-    test: /\.(graphql|gql)$/,
-    exclude: /node_modules/,
-    use: ['graphql-tag/loader']
-  };
-
-  config.module.rules = [
-    ...config.module.rules,
-    graphqlLoader
-  ];
-
-  return rewireFileLoader(config)
-};
-
-function rewireFileLoader(config) {
-  //Exclude .graphql files from the file-loader
-  config.module.rules
-    .find(conf => conf.loader && conf.loader.includes('file-loader'))
-    .exclude.push(/\.(graphql|gql)/);
+      config.module.rules = [
+        ...config.module.rules,
+        graphqlLoader
+      ];
 
     return config;
-}
+  },
+};
