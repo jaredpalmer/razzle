@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-devserver-options",
-  "version": "4.0.0-finch.7",
+  "version": "4.0.0-finch.8",
   "license": "MIT",
   "scripts": {
     "start": "razzle start --verbose",
@@ -14,11 +14,11 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-finch.7",
-    "razzle-dev-utils": "4.0.0-finch.7",
+    "razzle": "4.0.0-finch.8",
+    "razzle-dev-utils": "4.0.0-finch.8",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-finch.7",
+    "babel-preset-razzle": "4.0.0-finch.8",
     "webpack-dev-server": "^3.11.0"
   }
 }

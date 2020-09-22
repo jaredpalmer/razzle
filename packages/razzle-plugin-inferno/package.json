@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-inferno",
-  "version": "4.0.0-finch.7",
+  "version": "4.0.0-finch.8",
   "main": "index.js",
   "license": "MIT"
 }
