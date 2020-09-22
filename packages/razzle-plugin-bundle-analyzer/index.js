@@ -5,7 +5,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const defaultOptions = {
   target: 'web',
   env: 'production',
-  bundleAnalyzerConfig: {},
+  bundleAnalyzerConfig: {
+    analyzerMode: "static",
+    reportFilename: "report.html",
+  },
 };
 
 module.exports = {
@@ -17,7 +20,7 @@ module.exports = {
       defaultOptions,
       opts.options.pluginOptions
     );
-    
+
     if (opts.env.target === options.target && options.env !== 'production' === opts.env.dev) {
       config.plugins.push(
         new BundleAnalyzerPlugin(
