@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-inferno",
-  "version": "4.0.0-finch.6",
+  "version": "4.0.0-finch.7",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "eslint-plugin-inferno": "^7.14.3",
-    "express": "4.17.1",
+    "express": "^4.17.1",
     "inferno": "7.4.2",
     "inferno-component": "7.4.2",
     "inferno-hydrate": "^7.4.2",
@@ -19,11 +19,11 @@
   "devDependencies": {
     "babel-plugin-inferno": "6.1.0",
     "inferno-devtools": "7.4.2",
-    "razzle": "4.0.0-finch.6",
-    "razzle-dev-utils": "4.0.0-finch.6",
+    "razzle": "4.0.0-finch.7",
+    "razzle-dev-utils": "4.0.0-finch.7",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-finch.6",
+    "babel-preset-razzle": "4.0.0-finch.7",
     "webpack-dev-server": "^3.11.0"
   }
 }
