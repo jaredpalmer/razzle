@@ -32,7 +32,7 @@ loadRazzleConfig(webpack).then(
   async ({ razzle, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
-    measureFileSizesBeforeBuild(paths.appBuildPublic + '/')
+    measureFileSizesBeforeBuild(paths.appBuildPublic + path.sep)
       .then(previousFileSizes => {
         if (!fs.existsSync(paths.appBuildStaticExport)) {
           console.log(chalk.red('Failed to export static.\n'));
@@ -200,7 +200,7 @@ loadRazzleConfig(webpack).then(
         );
       }
 
-      const stats = await getFileNamesAsStat(paths.appBuildPublic + '/');
+      const stats = await getFileNamesAsStat(paths.appBuildPublic + path.sep);
       return { stats, previousFileSizes };
     }
   }
