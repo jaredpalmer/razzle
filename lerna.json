@@ -15,10 +15,7 @@
     },
     "publish": {
       "npmClient": "npm",
-      "allowBranch": [
-        "master",
-        "next"
-      ],
+      "allowBranch": ["master", "next"],
       "registry": "https://registry.npmjs.org/"
     }
   },
@@ -34,5 +31,5 @@
     },
     "cacheDir": ".changelog"
   },
-  "version": "3.1.7"
+  "version": "3.1.8"
 }
