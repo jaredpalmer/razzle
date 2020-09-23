@@ -428,6 +428,7 @@ To enable static export with options:
 module.exports = {
   experimental: {
     staticExport: {
+      parallel: 5, // how many pages to render at a time
       routesExport: 'routes',
       renderExport: 'render',
       scriptInline: false,

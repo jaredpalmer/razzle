@@ -194,7 +194,7 @@ loadRazzleConfig(webpack).then(
         const exportHtmlFiles = rendersInfo.map(info => info.htmlFile);
 
         await asyncPool(
-          Math.min(options.paralell || 5, exportHtmlFiles.lenght),
+          Math.min(options.parallel || 5, exportHtmlFiles.lenght),
           exportHtmlFiles,
           updateFile
         );
