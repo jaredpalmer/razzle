@@ -224,7 +224,10 @@ module.exports = (
       console.log('Using .babelrc defined in your app root');
     }
 
-    const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
+    const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js') ||
+      fs.existsSync(paths.appStaticExportJs + '.jsx') ||
+      fs.existsSync(paths.appStaticExportJs + '.ts') ||
+      fs.existsSync(paths.appStaticExportJs + '.tsx');
 
     const dotenv = getClientEnv(
       target,
