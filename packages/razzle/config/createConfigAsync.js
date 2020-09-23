@@ -170,7 +170,10 @@ module.exports = (
 
     let webpackOptions = {};
 
-    const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
+    const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js') ||
+      fs.existsSync(paths.appStaticExportJs + '.jsx') ||
+      fs.existsSync(paths.appStaticExportJs + '.ts') ||
+      fs.existsSync(paths.appStaticExportJs + '.tsx');
 
     const dotenv = getClientEnv(
       target,
