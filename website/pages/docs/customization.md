@@ -271,6 +271,8 @@ You can also extend the underlying webpack config. Create a file called `razzle.
 
 All the hook functions supported in plugins is also supported here. We show only one function here for brevity.
 
+In Razzle 3.3 `modify` was deprecated. In Razzle 4.0 it was replaced with `modifyWebpackConfig`.
+
 ```js
 // razzle.config.js
 
