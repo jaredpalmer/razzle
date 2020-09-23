@@ -32,7 +32,7 @@ module.exports = (
 
     // TODO: I don't know if it's safe or not to just use / as path separator
     // in Jest configs. We need help from somebody with Windows to determine this.
-    const config =
+    let config =
     {
       collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
 
