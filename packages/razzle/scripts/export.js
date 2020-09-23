@@ -29,7 +29,7 @@ const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
 
 loadRazzleConfig(webpack).then(
-  async ({ razzle, webpackObject, plugins, paths }) => {
+  async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic + '/')
@@ -64,8 +64,7 @@ loadRazzleConfig(webpack).then(
       );
 
     async function static_export(previousFileSizes) {
-      const options =
-        (razzle.experimental && razzle.experimental.staticExport) || {};
+      const options = razzleOptions.staticExport || {};
 
       if (!fs.existsSync(paths.appBuildStaticExport)) {
         console.log(chalk.red('Failed to export static.\n'));
@@ -194,7 +193,7 @@ loadRazzleConfig(webpack).then(
         const exportHtmlFiles = rendersInfo.map(info => info.htmlFile);
 
         await asyncPool(
-          Math.min(options.paralell || 5, exportHtmlFiles.lenght),
+          Math.min(options.parallel || 5, exportHtmlFiles.lenght),
           exportHtmlFiles,
           updateFile
         );

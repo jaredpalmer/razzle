@@ -16,6 +16,14 @@ module.exports = {
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
     useReactRefresh: false,
+    staticExport: {
+      parallel: 5, // how many pages to render at a time
+      routesExport: 'routes',
+      renderExport: 'render',
+      scriptInline: false,
+      windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
+      windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
+    },
     browserslist: undefined, // or what your apps package.json says
   },
 };
