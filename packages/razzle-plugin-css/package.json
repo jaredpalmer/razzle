@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-css",
-  "version": "4.0.0-finch.9",
+  "version": "4.0.0-finch.10",
   "main": "index.js",
   "license": "MIT"
 }

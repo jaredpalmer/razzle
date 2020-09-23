@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "4.0.0-finch.9",
+  "version": "4.0.0-finch.10",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,12 +14,12 @@
     "ts-loader": "^5.2.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-finch.9",
+    "razzle": "4.0.0-finch.10",
     "tslint": "^6.1.2",
     "typescript": ">=2.4.1"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-finch.9",
+    "razzle-dev-utils": "4.0.0-finch.10",
     "tslint": "^6.1.2",
     "typescript": ">=2.4.1"
   }

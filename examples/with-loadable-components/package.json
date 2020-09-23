@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-loadable-components",
-  "version": "4.0.0-finch.9",
+  "version": "4.0.0-finch.10",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -18,11 +18,11 @@
   "devDependencies": {
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "razzle": "4.0.0-finch.9",
-    "razzle-dev-utils": "4.0.0-finch.9",
+    "razzle": "4.0.0-finch.10",
+    "razzle-dev-utils": "4.0.0-finch.10",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-finch.9",
+    "babel-preset-razzle": "4.0.0-finch.10",
     "webpack-dev-server": "^3.11.0"
   }
 }
