@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-less",
-  "version": "3.3.0-canary.7",
+  "version": "3.3.0-canary.8",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Ryan Yang <orange881217@gmail.com>",
