@@ -152,7 +152,7 @@ loadRazzleConfig(webpack).then(
       };
 
       const rendersInfo = await asyncPool(
-        Math.min(options.paralell || 5, routes.lenght),
+        Math.min(options.parallel || 5, routes.length),
         routes,
         render_static_export
       );
@@ -194,7 +194,7 @@ loadRazzleConfig(webpack).then(
         const exportHtmlFiles = rendersInfo.map(info => info.htmlFile);
 
         await asyncPool(
-          Math.min(options.parallel || 5, exportHtmlFiles.lenght),
+          Math.min(options.parallel || 5, exportHtmlFiles.length),
           exportHtmlFiles,
           updateFile
         );
