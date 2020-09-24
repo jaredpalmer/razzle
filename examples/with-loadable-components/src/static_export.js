@@ -1,7 +1,7 @@
 import { renderApp } from './server';
 
-export const render = (req, res) => {
-  const { html } = renderApp(req, res);
+export const render = async (req, res) => {
+  const { html } = await renderApp(req, res);
 
   res.json({ html });
 };
