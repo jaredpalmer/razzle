@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "3.3.0-canary.8",
+  "version": "3.3.0-canary.9",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
