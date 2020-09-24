@@ -82,7 +82,7 @@ function printFileSizesAfterBuild(
       '  ' +
         (isLarge ? chalk.yellow(sizeLabel) : sizeLabel) +
         '  ' +
-        chalk.dim(asset.folder + path.sep) +
+        chalk.dim(asset.folder + (/[\/\\]$/.test(asset.folder) ? '':path.sep)) +
         chalk.cyan(asset.name)
     );
   });
