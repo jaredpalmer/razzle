@@ -238,7 +238,7 @@ Here's an example `.babelrc` file:
 }
 ```
 
-You can [take a look at this file](https://github.com/jaredpalmer/razzle/blob/next/packages/babel-preset-razzle/index.js) to learn about the presets included by `razzle/babel`.
+You can [take a look at this file](https://github.com/jaredpalmer/razzle/blob/finch/packages/babel-preset-razzle/index.js) to learn about the presets included by `razzle/babel`.
 
 To add presets/plugins **without configuring them**, you can do it this way:
 
