@@ -39,7 +39,7 @@ function updatePackageJson(example, packageJson, branch) {
       fs.readFile(packageJson).then(content => {
         const tag = branch === 'canary' ? `canary` : 'latest';
         const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-dev-utils)?": ")(.*?)(")/g, '$1' + tag + '$4');
+        const updated = contentString.replace(/("razzle(-dev-utils)?": ")([\/]*?)(")/g, '$1' + tag + '$4');
         return fs.writeFile(packageJson, updated);
       })
     }
