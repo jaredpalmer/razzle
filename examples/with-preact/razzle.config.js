@@ -5,13 +5,18 @@ const Prefresh = require('@prefresh/webpack');
 module.exports = {
   modify(config, { target, dev }, webpack) {
     if (target !== 'node' && dev) {
-      const babelLoader = config.module.rules.find(loaderEntry =>
+      const jsRule = config.module.rules.find(loaderEntry =>
         String(loaderEntry.test).includes('(js|jsx|mjs)')
       );
-      if (babelLoader.use[0].options.plugins) {
-        babelLoader.use[0].options.plugins.unshift('@prefresh/babel-plugin');
+
+      const babelLoader = jsRule.use.find(useEntry =>
+        useEntry.loader.includes('babel-loader')
+      );
+
+      if (babelLoader.options.plugins) {
+        babelLoader.options.plugins.unshift('@prefresh/babel-plugin');
       } else {
-        babelLoader.use[0].options.plugins = ['@prefresh/babel-plugin'];
+        babelLoader.options.plugins = ['@prefresh/babel-plugin'];
       }
 
       config.plugins.unshift(new Prefresh());

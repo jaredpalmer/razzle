@@ -1,5 +1,5 @@
-import { h, hydrate } from "preact";
-import App from "./App";
+import { h, hydrate } from 'preact';
+import App from './App';
 /** @jsx h */
 
 let root;
@@ -10,7 +10,3 @@ function renderApp() {
 
 // Initial render.
 renderApp();
-
-if (module.hot) {
-  module.hot.accept("./App", renderApp);
-}

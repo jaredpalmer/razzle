@@ -1,17 +1,19 @@
-import { h, Component } from "preact";
-import PreactLogo from "./preact.svg";
+import { h } from 'preact';
+import { useState } from 'preact/hooks';
+import PreactLogo from './preact.svg';
 /** @jsx h */
 
-class App extends Component {
-  // Preact!
-  render(props, state) {
-    return (
-      <div class="Preact">
-        <img src={PreactLogo} alt="Preact Logo" />
-        Hello Preact!
-      </div>
-    );
-  }
-}
+const App = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <main class="Preact">
+      <img src={PreactLogo} alt="Preact Logo" />
+      Hello Preact!
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </main>
+  );
+};
 
 export default App;
