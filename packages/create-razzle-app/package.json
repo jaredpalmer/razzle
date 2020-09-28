@@ -1,6 +1,6 @@
 {
   "name": "create-razzle-app",
-  "version": "3.1.8",
+  "version": "3.3.0-canary.9",
   "description": "CLI tool to bootstrap Razzle applications with no configuration",
   "main": "index.js",
   "license": "MIT",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "ansi-escapes": "^4.3.1",
+    "axios": "^0.19.2",
     "chalk": "^3.0.0",
     "commander": "^5.0.0",
     "cross-spawn": "^7.0.1",
@@ -26,7 +27,10 @@
     "ms": "^2.1.2",
     "mz": "^2.7.0",
     "ora": "^4.0.3",
-    "promise": "^8.1.0"
+    "pacote": "^11.1.8",
+    "promise": "^8.1.0",
+    "pure-uuid": "^1.6.0",
+    "tar": "^6.0.2"
   },
   "keywords": [
     "razzle",

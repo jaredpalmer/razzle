@@ -1,8 +1,9 @@
-# Contributor Covenant Code of Conduct
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
 
+# Contributor Covenant Code of Conduct
+
+<!-- INSERT doctoc generated TOC please keep comment here to allow auto update -->
+<!-- START doctoc generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn build-docs TO UPDATE -->
 - [Contributor Covenant Code of Conduct](#contributor-covenant-code-of-conduct)
   - [Our Pledge](#our-pledge)
   - [Our Standards](#our-standards)
@@ -10,8 +11,7 @@
   - [Scope](#scope)
   - [Enforcement](#enforcement)
   - [Attribution](#attribution)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- END doctoc generated instructions please keep comment here to allow auto update -->
 
 ## Our Pledge
 
@@ -21,6 +21,7 @@ our community a harassment-free experience for everyone, regardless of age, body
 size, disability, ethnicity, gender identity and expression, level of experience,
 nationality, personal appearance, race, religion, or sexual identity and
 orientation.
+
 
 ## Our Standards
 

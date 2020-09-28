@@ -2,29 +2,31 @@
 
 ## How to use
 
-### Using `create-razzle-app`
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
 
-Execute [`create-razzle-app`](https://github.com/jaredpalmer/razzle/tree/master/packages/create-razzle-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-razzle-app --example with-react-router my-razzle-react-router-app
-```
-
-### Download manually
-
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-react-router
+npx create-razzle-app@canary --example with-react-router with-react-router
+
 cd with-react-router
-```
-
-Install it and run:
-
-```bash
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
+
+This example can also be exported as a static website.
+
+To try it out:
+
+```bash
+yarn build
+yarn export
+yarn start:static
+```
+
+Then open up http://localhost:5000/ in your browser.
 
 ## Idea behind the example
 

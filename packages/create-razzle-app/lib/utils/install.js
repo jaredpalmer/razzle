@@ -28,7 +28,13 @@ module.exports = function install(opts) {
     execa(installCmd, installArgs)
       .then(function() {
         // Confirm that all dependencies were installed
-        return execa(installCmd, ['install']);
+        // ignore-engines for node 9.x
+        return execa(
+          installCmd,
+          ['install', installCmd === 'yarn' ? '--ignore-engines' : null].filter(
+            x => x
+          )
+        );
       })
       .then(function() {
         stopInstallSpinner();
@@ -49,6 +55,6 @@ function getInstallArgs(cmd, packages) {
     return args.concat(packages, ['--verbose']);
   } else if (cmd === 'yarn') {
     const args = ['add'];
-    return args.concat(packages);
+    return args.concat(packages, ['--ignore-engines']);
   }
 }

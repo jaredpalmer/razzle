@@ -1,8 +1,8 @@
 'use strict';
 
-const createConfig = require('razzle/config/createConfig');
+const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
 
-const pluginFunc = require('../index');
+const plugin = require('../index');
 const {
   cssLoaderFinder,
   postCssLoaderFinder,
@@ -87,9 +87,9 @@ describe('razzle-scss-plugin', () => {
     describe('when environment set to development', () => {
       let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'dev', {
-          plugins: [{ func: pluginFunc }],
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'dev', {
+          plugins: [{ object: plugin }],
         });
       });
 
@@ -111,9 +111,9 @@ describe('razzle-scss-plugin', () => {
     describe('when environment set to production', () => {
       let config;
 
-      beforeAll(() => {
-        config = createConfig('web', 'prod', {
-          plugins: [{ func: pluginFunc }],
+      beforeAll(async () => {
+        config = await createRazzleTestConfig('web', 'prod', {
+          plugins: [{ object: plugin }],
         });
       });
 
@@ -136,9 +136,9 @@ describe('razzle-scss-plugin', () => {
   describe('when creating a node config', () => {
     let config;
 
-    beforeAll(() => {
-      config = createConfig('node', 'prod', {
-        plugins: [{ func: pluginFunc }],
+    beforeAll(async () => {
+      config = await createRazzleTestConfig('node', 'prod', {
+        plugins: [{ object: plugin }],
       });
     });
 

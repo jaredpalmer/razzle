@@ -11,16 +11,20 @@ const StartServerPlugin = require('start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const paths = require('./paths');
 const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const modules = require('./modules');
+const postcssLoadConfig = require('postcss-load-config');
+const logger = require('razzle-dev-utils/logger');
+const loadPlugins = require('./loadPlugins');
+const razzlePaths = require('razzle/config/paths');
 
-const postCssOptions = {
-  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+const defaultPostCssOptions = {
+  ident: 'postcss',
   plugins: () => [
     require('postcss-flexbugs-fixes'),
     require('postcss-preset-env')({
@@ -32,6 +36,20 @@ const postCssOptions = {
   ],
 };
 
+const hasPostCssConfig = () => {
+  try {
+    return !!postcssLoadConfig.sync();
+  } catch (_error) {
+    return false;
+  }
+};
+
+const postCssOptions = hasPostCssConfig() ? undefined : defaultPostCssOptions;
+
+const webpackDevClientEntry = require.resolve(
+  'razzle-dev-utils/webpackHotDevClient'
+);
+
 // This is the Webpack configuration factory. It's the juice!
 module.exports = (
   target = 'web',
@@ -40,19 +58,34 @@ module.exports = (
     clearConsole = true,
     host = 'localhost',
     port = 3000,
-    modify,
-    plugins,
-    modifyBabelOptions,
+    modify = null,
+    modifyBabelOptions = null,
+    experimental = {},
+    disableStartServer = false,
+    plugins = [],
   },
   webpackObject,
-  clientOnly = false
+  clientOnly = false,
+  paths = razzlePaths
 ) => {
+  // In next major release remove this module or rename createConfigAsync to createConfig.
+  // Keep createConfigAsync and createConfig in sync until then.
+
+  console.warn(
+    'Using createConfig in plugin tests is deprecated.\n' +
+      'Update plugin tests to use createRazzleTestConfig that is async.'
+  );
+
   // Define some useful shorthands.
   const IS_NODE = target === 'node';
   const IS_WEB = target === 'web';
   const IS_PROD = env === 'prod';
   const IS_DEV = env === 'dev';
   process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
+
+  const loadedPlugins = loadPlugins(plugins);
+
+  const shouldUseReactRefresh = experimental.reactRefresh ? true : false;
 
   // First we check to see if the user has a custom .babelrc file, otherwise
   // we just use babel-preset-razzle.
@@ -61,10 +94,14 @@ module.exports = (
     babelrc: true,
     cacheDirectory: true,
     presets: [],
+    plugins: [],
   };
 
   if (!hasBabelRc) {
     mainBabelOptions.presets.push(require.resolve('../babel'));
+    if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
+      mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
+    }
   }
 
   // Allow app to override babel options
@@ -76,11 +113,18 @@ module.exports = (
     console.log('Using .babelrc defined in your app root');
   }
 
-  const dotenv = getClientEnv(target, { clearConsole, host, port });
+  const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js');
+
+  const dotenv = getClientEnv(
+    target,
+    { clearConsole, host, port, shouldUseReactRefresh },
+    paths
+  );
 
   const portOffset = clientOnly ? 0 : 1;
 
   const devServerPort =
+    (process.env.PORT_DEV && parseInt(process.env.PORT_DEV)) ||
     (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
     3000 + portOffset;
 
@@ -88,6 +132,11 @@ module.exports = (
   const clientPublicPath =
     dotenv.raw.CLIENT_PUBLIC_PATH ||
     (IS_DEV ? `http://${dotenv.raw.HOST}:${devServerPort}/` : '/');
+
+  const modulesConfig = modules(paths);
+  const additionalModulePaths = modulesConfig.additionalModulePaths || [];
+  const additionalAliases = modulesConfig.additionalAliases || {};
+  const additionalIncludes = modulesConfig.additionalIncludes || [];
 
   // This is our base webpack config.
   let config = {
@@ -103,16 +152,19 @@ module.exports = (
     // the users', so we use resolve and resolveLoader.
     resolve: {
       modules: ['node_modules', paths.appNodeModules].concat(
-        modules.additionalModulePaths || []
+        additionalModulePaths
       ),
-      extensions: ['.mjs', '.js', '.jsx', '.json'],
-      alias: {
-        // This is required so symlinks work during development.
-        'webpack/hot/poll': require.resolve('webpack/hot/poll'),
-        // Support React Native Web
-        // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-        'react-native': 'react-native-web',
-      },
+      extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
+      alias: Object.assign(
+        {
+          // This is required so symlinks work during development.
+          'webpack/hot/poll': require.resolve('webpack/hot/poll'),
+          // Support React Native Web
+          // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+          'react-native': 'react-native-web',
+        },
+        additionalAliases
+      ),
     },
     resolveLoader: {
       modules: [paths.appNodeModules, paths.ownNodeModules],
@@ -130,8 +182,8 @@ module.exports = (
         },
         // Transform ES6 with Babel
         {
-          test: /\.(js|jsx|mjs)$/,
-          include: [paths.appSrc],
+          test: /\.(js|jsx|mjs|ts|tsx)$/,
+          include: [paths.appSrc].concat(additionalIncludes),
           use: [
             {
               loader: require.resolve('babel-loader'),
@@ -263,7 +315,7 @@ module.exports = (
     config.output = {
       path: paths.appBuild,
       publicPath: clientPublicPath,
-      filename: 'server.js',
+      filename: '[name].js',
       libraryTarget: 'commonjs2',
     };
     // Add some plugins...
@@ -281,15 +333,23 @@ module.exports = (
       );
     }
 
-    config.entry = [paths.appServerIndexJs];
+    config.entry = {
+      server: [paths.appServerIndexJs],
+    };
+
+    if (IS_PROD) {
+      if (hasStaticExportJs) {
+        config.entry.static_export = [paths.appStaticExportJs];
+      }
+    }
 
     if (IS_DEV) {
       // Use watch mode
       config.watch = true;
-      config.entry.unshift('webpack/hot/poll?300');
+      config.entry.server.unshift('webpack/hot/poll?300');
 
       // Pretty format server errors
-      config.entry.unshift('razzle-dev-utils/prettyNodeErrors');
+      config.entry.server.unshift('razzle-dev-utils/prettyNodeErrors');
 
       const nodeArgs = ['-r', 'source-map-support/register'];
 
@@ -305,16 +365,17 @@ module.exports = (
         // Add hot module replacement
         new webpack.HotModuleReplacementPlugin(),
         // Supress errors to console (we use our own logger)
-        new StartServerPlugin({
-          name: 'server.js',
-          nodeArgs,
-        }),
+        !disableStartServer &&
+          new StartServerPlugin({
+            name: 'server.js',
+            nodeArgs,
+          }),
         // Ignore assets.json and chunks.json to avoid infinite recompile bug
         new webpack.WatchIgnorePlugin([
           paths.appAssetsManifest,
           paths.appChunksManifest,
         ]),
-      ];
+      ].filter(x => x);
     }
   }
 
@@ -354,6 +415,10 @@ module.exports = (
               )
               .filter(Boolean);
 
+            const chunkIds = [].concat(
+              ...(entry.chunks || []).map(chunk => chunk.ids)
+            );
+
             const cssFiles = files
               .map(item => (item.indexOf('.css') !== -1 ? item : null))
               .filter(Boolean);
@@ -368,6 +433,7 @@ module.exports = (
                   [name]: {
                     css: cssFiles,
                     js: jsFiles,
+                    chunks: chunkIds,
                   },
                 }
               : acc;
@@ -382,9 +448,9 @@ module.exports = (
       // specify our client entry point /client/index.js
       config.entry = {
         client: [
-          require.resolve('razzle-dev-utils/webpackHotDevClient'),
+          !shouldUseReactRefresh ? webpackDevClientEntry : null,
           paths.appClientIndexJs,
-        ],
+        ].filter(x => x),
       };
 
       // Configure our client bundles output. Not the public path is to 3001.
@@ -432,8 +498,15 @@ module.exports = (
           // set this true will break HtmlWebpackPlugin
           multiStep: !clientOnly,
         }),
+        shouldUseReactRefresh
+          ? new ReactRefreshWebpackPlugin({
+              overlay: {
+                entry: webpackDevClientEntry,
+              },
+            })
+          : null,
         new webpack.DefinePlugin(dotenv.stringified),
-      ];
+      ].filter(x => x);
 
       config.optimization = {
         // @todo automatic vendor bundle
@@ -584,20 +657,21 @@ module.exports = (
     ];
   }
 
-  // Apply razzle plugins, if they are present in razzle.config.js
-  if (Array.isArray(plugins)) {
-    plugins.forEach(plugin => {
+  for (const [plugin, options] of loadedPlugins) {
+    // Check if plugin is a function.
+    // If it is, call it on the configs we created.
+    if (typeof plugin === 'function') {
       config = runPlugin(
         plugin,
         config,
         { target, dev: IS_DEV },
-        webpackObject
+        webpackObject,
+        options
       );
-    });
+    }
   }
-
-  // Check if razzle.config has a modify function. If it does, call it on the
-  // configs we created.
+  // Check if razzle.config.js has a modify function.
+  // If it does, call it on the configs we created.
   if (modify) {
     config = modify(config, { target, dev: IS_DEV }, webpackObject);
   }

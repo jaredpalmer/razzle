@@ -2,19 +2,19 @@
 
 ## How to use
 
-- Download the example [or clone the whole project][razzle-repo]:
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
 
-```sh
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-koa
+Create and start the example:
+
+```bash
+npx create-razzle-app@canary --example with-koa with-koa
+
 cd with-koa
-```
-
-- Install it and run:
-
-```sh
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
 

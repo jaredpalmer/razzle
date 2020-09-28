@@ -1,17 +1,18 @@
 'use strict';
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const createConfig = require('razzle/config/createConfig');
-const pluginFunc = require('../index');
+const createRazzleTestConfig = require('razzle/config/createRazzleTestConfig');
+const plugin = require('../index');
 const { babelLoaderFinder, tsLoaderFinder } = require('../helpers');
 
 describe('razzle-typescript-plugin', () => {
   describe('with useBabel=false', () => {
     let config;
-    beforeAll(() => {
-      config = createConfig('web', 'dev', {
-        plugins: [{ func: pluginFunc, options: { useBabel: false } }],
+    beforeAll(async done => {
+      config = await createRazzleTestConfig('web', 'dev', {
+        plugins: [{ object: plugin, options: { useBabel: false } }],
       });
+      done();
     });
 
     it('should add .ts and .tsx to extensions', () => {
@@ -40,10 +41,11 @@ describe('razzle-typescript-plugin', () => {
 
   describe('with useBabel=true', () => {
     let config;
-    beforeAll(() => {
-      config = createConfig('web', 'dev', {
-        plugins: [{ func: pluginFunc, options: { useBabel: true } }],
+    beforeAll(async done => {
+      config = await createRazzleTestConfig('web', 'dev', {
+        plugins: [{ object: plugin, options: { useBabel: true } }],
       });
+      done();
     });
 
     it('should keep babel-loader', () => {
@@ -61,10 +63,12 @@ describe('razzle-typescript-plugin', () => {
 
   describe('when creating a server config', () => {
     let config;
-    beforeAll(() => {
-      config = createConfig('node', 'dev', {
-        plugins: [{ func: pluginFunc }],
+    beforeAll(async done => {
+      config = await createRazzleTestConfig('node', 'dev', {
+        disableStartServer: true,
+        plugins: [{ object: plugin, options: {} }],
       });
+      done();
     });
 
     it('should not add fork-ts-checker-webpack-plugin', () => {

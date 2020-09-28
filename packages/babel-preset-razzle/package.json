@@ -1,16 +1,22 @@
 {
   "name": "babel-preset-razzle",
-  "version": "3.1.8",
+  "version": "3.3.0-canary.9",
   "description": "Babel presets for Razzle",
   "main": "index.js",
   "author": "jaredpalmer",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "license": "MIT",
   "files": [
-    "index.js"
+    "index.js",
+    "razzle-four-preset.js",
+    "babel-plugins/amp-attributes.js",
+    "babel-plugins/commonjs.js",
+    "babel-plugins/jsx-pragma.js",
+    "babel-plugins/no-anonymous-default-export.js",
+    "babel-plugins/optimize-hook-destructuring.js"
   ],
   "dependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "7.11.1",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -19,6 +25,7 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "babel-plugin-dynamic-import-node": "2.3.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24"

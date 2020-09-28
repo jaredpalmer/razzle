@@ -1,8 +1,10 @@
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 module.exports = {
-  modify: (config, { target }) => {
-    if (target === 'web') {
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+
+    if (opts.env.target === 'web') {
       return {
         ...config,
         plugins: [

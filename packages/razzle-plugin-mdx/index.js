@@ -5,46 +5,51 @@ const path = require('path');
 
 const defaultOptions = {};
 
-function modify(baseConfig, params, webpack, userOptions = {}) {
-  const options = Object.assign({}, defaultOptions, userOptions);
-  const config = Object.assign({}, baseConfig);
+module.exports = {
+  modifyWebpackConfig(opts) {
+    const config = Object.assign({}, opts.webpackConfig);
 
-  config.resolve.modules = [
-    ...config.resolve.modules,
-    path.join(__dirname, './node_modules'),
-  ];
-  config.resolve.extensions = [...config.resolve.extensions, '.md', '.mdx'];
+    const options = Object.assign(
+      {},
+      defaultOptions,
+      opts.options.pluginOptions
+    );
 
-  // Safely locate Babel-Loader in Razzle's webpack internals
-  const babelLoader = config.module.rules.find(babelLoaderFinder);
-  if (!babelLoader) {
-    throw new Error(`'babel-loader' required for nice 'MDX loader' work`);
-  }
+    config.resolve.modules = [
+      ...config.resolve.modules,
+      path.join(__dirname, './node_modules'),
+    ];
+    config.resolve.extensions = [...config.resolve.extensions, '.md', '.mdx'];
 
-  // Don't import md and mdx files with file-loader
-  const fileLoader = config.module.rules.find(fileLoaderFinder);
-  fileLoader.exclude = [/\.mdx?$/, ...fileLoader.exclude];
+    // Safely locate Babel-Loader in Razzle's webpack internals
+    const babelLoader = config.module.rules.find(babelLoaderFinder);
+    if (!babelLoader) {
+      throw new Error(`'babel-loader' required for nice 'MDX loader' work`);
+    }
 
-  // Get the correct `include` option, since that hasn't changed.
-  // This tells Razzle which directories to transform.
-  const { include } = babelLoader;
+    // Don't import md and mdx files with file-loader
+    const fileLoader = config.module.rules.find(fileLoaderFinder);
+    fileLoader.exclude = [/\.mdx?$/, ...fileLoader.exclude];
 
-  // Configure @mdx-js/loader
-  const mdxLoader = {
-    include,
-    test: /\.mdx?$/,
-    use: [
-      ...babelLoader.use,
-      {
-        loader: require.resolve('@mdx-js/loader'),
-        options: Object.assign({}, options),
-      },
-    ],
-  };
+    // Get the correct `include` option, since that hasn't changed.
+    // This tells Razzle which directories to transform.
+    const { include } = babelLoader;
 
-  config.module.rules.push(mdxLoader);
+    // Configure @mdx-js/loader
+    const mdxLoader = {
+      include,
+      test: /\.mdx?$/,
+      use: [
+        ...babelLoader.use,
+        {
+          loader: require.resolve('@mdx-js/loader'),
+          options: Object.assign({}, options),
+        },
+      ],
+    };
 
-  return config;
-}
+    config.module.rules.push(mdxLoader);
 
-module.exports = modify;
+    return config;
+  },
+};

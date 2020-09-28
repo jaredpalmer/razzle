@@ -1,26 +1,27 @@
 # Razzle Preact Example
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
+
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-preact
+npx create-razzle-app@canary --example with-preact with-preact
+
 cd with-preact
-```
-
-Install it and run:
-
-```bash
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
-This shows how to setup [Preact](https://github.com/developit/preact) with Razzle. 
+This shows how to setup [Preact](https://github.com/developit/preact) with Razzle.
 
 Here is a list of changes from Razzle's base template:
 
-  1. Install `babel-plugin-transform-react-jsx` as a devDependency. 
+  1. Install `babel-plugin-transform-react-jsx` as a devDependency.
   2. Extend Razzle's babel config with a custom `.babelrc`
   3. Install `preact` and `preact-render-to-string`
   4. Remove `react`, `react-dom`, `react-router-dom` entirely

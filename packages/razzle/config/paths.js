@@ -34,11 +34,20 @@ function getServedPath(appPackageJson) {
 
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
+// We support resolving modules according to `NODE_PATH`.
+// This lets you use absolute paths in imports inside large monorepos:
+// https://github.com/facebookincubator/create-react-app/issues/253.
+// It works similar to `NODE_PATH` in Node itself:
+// https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders
+// Note that unlike in Node, only *relative* paths from `NODE_PATH` are honored.
+// Otherwise, we risk importing Node.js core modules into an app instead of Webpack shims.
+// https://github.com/facebookincubator/create-react-app/issues/1023#issuecomment-265344421
+// We also resolve them to make sure all tools using them work consistently.
 const nodePaths = (process.env.NODE_PATH || '')
-  .split(process.platform === 'win32' ? ';' : ':')
-  .filter(Boolean)
-  .filter(folder => !path.isAbsolute(folder))
-  .map(resolveApp);
+  .split(path.delimiter)
+  .filter(folder => folder && !path.isAbsolute(folder))
+  .map(folder => path.resolve(appDirectory, folder))
+  .join(path.delimiter);
 
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -47,13 +56,17 @@ module.exports = {
   appBuildPublic: resolveApp('build/public'),
   appAssetsManifest: resolveApp('build/assets.json'),
   appChunksManifest: resolveApp('build/chunks.json'),
+  appBuildStaticExport: resolveApp('build/static_export.js'),
+  appBuildStaticExportRoutes: resolveApp('build/public/static_routes.js'),
   appPublic: resolveApp('public'),
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp('src'),
   appHtml: resolveApp('public/index.html'), // client only
   appPackageJson: resolveApp('package.json'),
+  appServerJs: resolveApp('src/server'),
   appServerIndexJs: resolveApp('src'),
   appClientIndexJs: resolveApp('src/client'),
+  appStaticExportJs: resolveApp('src/static_export'),
   tsTestsSetup: resolveApp('src/setupTests.ts'),
   jsTestsSetup: resolveApp('src/setupTests.js'),
   appBabelRc: resolveApp('.babelrc'),

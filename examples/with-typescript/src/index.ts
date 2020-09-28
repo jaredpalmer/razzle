@@ -1,7 +1,5 @@
 import express from 'express';
 
-// this require is necessary for server HMR to recover from error
-// tslint:disable-next-line:no-var-requires
 let app = require('./server').default;
 
 if (module.hot) {
@@ -25,5 +23,5 @@ export default express()
       console.error(err);
       return;
     }
-    console.log(`> Started on port ${port}`);
+    console.log(`> App started http://localhost:${port}`)
   });

@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  plugins: ['typescript'],
+  plugins: ['less'],
 };

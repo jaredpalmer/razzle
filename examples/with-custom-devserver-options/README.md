@@ -1,19 +1,20 @@
 # Razzle Custom Webpack Configuration Example
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
+
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-custom-devserver-options
-cd with-custom-webpack-config
-```
+npx create-razzle-app@canary --example with-custom-devserver-options with-custom-devserver-options
 
-Install it and run:
-
-```bash
-yarn install
+cd with-custom-devserver-options
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
 This example demonstrates how to use a `razzle.config.js` file to modify Razzle's
@@ -28,19 +29,15 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
-    const appConfig = config; // stay immutable here
-
-    if (target === 'web' && dev) {
-      appConfig.devServer.port = 3002;
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.port = 3002;
       // If behind a proxy on a public domain
-      // appConfig.devServer.public = 'example.com:8080';
+      // config.devServer.public = 'example.com:8080';
     }
 
-    return appConfig;
+    return config;
   },
 };
-
-
-
 ```

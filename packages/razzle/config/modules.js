@@ -2,19 +2,17 @@
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('./paths');
-const logger = require('razzle-dev-utils/logger');
 const resolve = require('resolve');
-const nodePath = require('./env').nodePath;
+const logger = require('razzle-dev-utils/logger');
 
-function getAdditionalModulePaths(options = {}) {
+function getAdditionalModulePaths(options = {}, paths) {
   const baseUrl = options.baseUrl;
 
   // We need to explicitly check for null and undefined (and not a falsy value) because
   // TypeScript treats an empty string as `.`.
   if (baseUrl == null) {
     // If there's no baseUrl set we respect NODE_PATH
-    return nodePath.split(path.delimiter).filter(Boolean);
+    return paths.nodePaths.split(path.delimiter).filter(Boolean);
   }
 
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
@@ -25,7 +23,7 @@ function getAdditionalModulePaths(options = {}) {
     return null;
   }
 
-  // Allow the user set the `baseUrl` to `appSrc`.
+  // Allow the user set the `baseUrl` to `appSrc`.-
   if (path.relative(paths.appSrc, baseUrlResolved) === '') {
     return [paths.appSrc];
   }
@@ -39,7 +37,37 @@ function getAdditionalModulePaths(options = {}) {
   );
 }
 
-function getModules() {
+function getAdditionalAliases(options = {}, paths) {
+  const baseUrl = options.baseUrl;
+  let aliases = {};
+
+  // We need to explicitly check for null and undefined (and not a falsy value) because
+  // TypeScript treats an empty string as `.`.
+  if (baseUrl == null) {
+    // If there's no baseUrl we have no aliases
+    return {};
+  }
+
+  const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
+
+  Object.keys(options.paths || {}).forEach(item => {
+    const name = item.replace(/\/\*$/, '');
+    // webpack5 allows arrays here, fix later
+    const value = path.resolve(
+      baseUrlResolved,
+      options.paths[item][0].replace(/\/\*$/, '')
+    );
+    aliases[name] = value;
+  });
+
+  return aliases;
+}
+
+function getAdditionalIncludes(additionalAliases) {
+  return Object.values(additionalAliases);
+}
+
+function getModules(paths) {
   // Check if TypeScript is setup
   const hasTsConfig = fs.existsSync(paths.appTsConfig);
   const hasJsConfig = fs.existsSync(paths.appJsConfig);
@@ -69,11 +97,15 @@ function getModules() {
   config = config || {};
   const options = config.compilerOptions || {};
 
-  const additionalModulePaths = getAdditionalModulePaths(options);
+  const additionalModulePaths = getAdditionalModulePaths(options, paths);
+  const additionalAliases = getAdditionalAliases(options, paths);
+  const additionalIncludes = getAdditionalIncludes(additionalAliases);
 
   return {
     additionalModulePaths: additionalModulePaths,
+    additionalAliases: additionalAliases,
+    additionalIncludes: additionalIncludes,
   };
 }
 
-module.exports = getModules();
+module.exports = getModules;

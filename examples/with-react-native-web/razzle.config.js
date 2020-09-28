@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = {
-  modify(config, { target, dev }, webpack) {
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
     // Since RN web takes care of CSS, we should remove it for a #perf boost
     config.module.rules = config.module.rules
       .filter(

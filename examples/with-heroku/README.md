@@ -2,19 +2,19 @@
 
 ## How to use
 
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
+
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-heroku
+npx create-razzle-app@canary --example with-heroku with-heroku
+
 cd with-heroku
-```
-
-### Install it and run locally:
-
-```bash
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ### Deploy to Heroku:
 

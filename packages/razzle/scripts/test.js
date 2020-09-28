@@ -37,17 +37,30 @@ if (
   argv.push('--watch');
 }
 
+const webpack = require('webpack');
+const loadRazzleConfig = require('../config/loadRazzleConfig');
 const createJestConfig = require('../config/createJestConfig');
 const path = require('path');
-const paths = require('../config/paths');
-argv.push(
-  '--config',
-  JSON.stringify(
-    createJestConfig(
-      relativePath => path.resolve(__dirname, '..', relativePath),
-      path.resolve(paths.appSrc, '..')
-    )
-  )
-);
+const fs = require('fs-extra');
+const defaultPaths = require('../config/paths');
 
-jest.run(argv);
+loadRazzleConfig(webpack, defaultPaths).then(
+  async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
+    argv.push(
+      '--config',
+      JSON.stringify(
+        await createJestConfig(
+          relativePath => path.resolve(__dirname, '..', relativePath),
+          path.resolve(paths.appSrc, '..'),
+          razzle,
+          razzleOptions,
+          webpackObject,
+          plugins,
+          paths
+        )
+      )
+    );
+
+    jest.run(argv);
+  }
+);

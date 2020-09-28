@@ -1,19 +1,20 @@
 # Razzle with Vendor Bundling
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
+
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-vendor-bundle
+npx create-razzle-app@canary --example with-vendor-bundle with-vendor-bundle
+
 cd with-vendor-bundle
-```
-
-Install it and run:
-
-```bash
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
 This example demonstrates how to use a `razzle.config.js` file to modify Razzle's
@@ -27,42 +28,41 @@ First create a file called `razzle.config.js` in your root directory. I won't go
 'use strict';
 
 module.exports = {
-  modify(defaultConfig, { target, dev }, webpack) {
-    const config = defaultConfig; // stay immutable here
+  modifyWebpackConfig(opts) {
+    const config = opts.webpackConfig;
 
     // Change the name of the server output file in production
-    if (target === 'web') {
+    if (opts.env.target === 'web') {
       // modify filenaming to account for multiple entry files
-      config.output.filename = dev
+      config.output.filename = opts.env.dev
         ? 'static/js/[name].js'
         : 'static/js/[name].[hash:8].js';
 
       // add another entry point called vendor
       config.entry.vendor = [
-        // now that React has moved, we need to Razzle's polyfills because 
-        // vendor.js will be loaded before our other entry. Razzle looks for 
-        // process.env.REACT_BUNDLE_PATH and will exclude the polyfill from our normal entry,
-        // so we don't need to worry about including it twice.
-        require.resolve('razzle/polyfills'),
         require.resolve('react'),
         require.resolve('react-dom'),
         // ... add any other vendor packages with require.resolve('xxx')
       ];
 
-      // Chunk splitting optimiztion
-      config.optimization.splitChunks.chunks = 'all';
-
-      // Switch off name generation, otherwise files would be invalidated
-      // when more chunks with the same vendors are added
-      config.optimization.splitChunks.name = false;
+      config.optimization = {
+        splitChunks: {
+          // Chunk splitting optimiztion
+          chunks: 'all',
+          // Switch off name generation, otherwise files would be invalidated
+          // when more chunks with the same vendors are added
+          name: false,
+        },
+      };
     }
 
     return config;
   },
 };
+
 ```
 
-In `server.js`, we modify our HTML template with our extra js files. 
+In `server.js`, we modify our HTML template with our extra js files.
 
 ```jsx
 // server.js
@@ -120,4 +120,3 @@ yarn start
 ```
 
 Congrats! Your website bundles its JS like m.twitter.com does. In fact, since m.twitter.com doesn't server render...you might even say this setup your build tooling is more advanced!
-

@@ -1,19 +1,20 @@
 # Razzle JSXStyle Example
 
 ## How to use
-Download the example [or clone the whole project](https://github.com/jaredpalmer/razzle.git):
+
+<!-- START install generated instructions please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the canary release documentation for this example
+
+Create and start the example:
 
 ```bash
-curl https://codeload.github.com/jaredpalmer/razzle/tar.gz/master | tar -xz --strip=2 razzle-master/examples/with-jsxstyle
+npx create-razzle-app@canary --example with-jsxstyle with-jsxstyle
+
 cd with-jsxstyle
-```
-
-Install it and run:
-
-```bash
-yarn install
 yarn start
 ```
+<!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
 This is demo shows how to use [JSXXtyle](https://github.com/smyte/jsxstyle) and the new server rendering API

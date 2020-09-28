@@ -5,6 +5,7 @@
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
+    "export": "razzle export",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
@@ -18,6 +19,6 @@
   "devDependencies": {
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "razzle": "latest"
+    "razzle": "canary"
   }
 }

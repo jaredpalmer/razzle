@@ -5,10 +5,18 @@ const path = require('path');
 const rootDir = process.cwd();
 const fs = require('fs-extra');
 
-
-// shell.config.silent = true;
+const silent = true;
+shell.config.verbose = !silent;
+shell.config.silent = silent;
 
 module.exports = {
+
+  setupStage: (stageName) => {
+    const stagePath = path.join(rootDir, stageName);
+    fs.ensureDirSync(stagePath);
+    shell.cd(stagePath);
+  },
+
   setupStageWithFixture: (stageName, fixtureName) => {
     const stagePath = path.join(rootDir, stageName);
 
@@ -47,12 +55,8 @@ module.exports = {
       );
     }
     if (yarnlink) {
-      fs.ensureSymlinkSync(
-        path.join(rootDir, 'node_modules', '.bin'),
-        path.join(stagePath, 'node_modules', '.bin')
-      );
       const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
-        .filter(dirent=>dirent.isDirectory()).map(dir=>dir.name);
+        .map(dir=>{ return dir.isDirectory ? dir.name: dir });
       for (const packageName of dirs) {
         const packagePath = path.join(packagesPath, packageName);
         shell.cd(packagePath);
@@ -69,8 +73,8 @@ module.exports = {
     if (test) {
       shell.exec("CI=true yarn run test");
     }
+    return stagePath;
   },
-
 
   teardownStage: stageName => {
     shell.cd(rootDir);
