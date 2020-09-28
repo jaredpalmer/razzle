@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-inferno",
-  "version": "3.3.0-canary.9",
+  "version": "3.3.0",
   "main": "index.js",
   "license": "MIT"
 }
