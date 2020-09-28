@@ -13,7 +13,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "canary",
+    "razzle": "latest",
     "serve": "^11.3.0"
   }
 }

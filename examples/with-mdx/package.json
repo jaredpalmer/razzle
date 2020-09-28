@@ -14,7 +14,7 @@
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
-    "razzle": "canary",
-    "razzle-plugin-mdx": "canary"
+    "razzle": "latest",
+    "razzle-plugin-mdx": "latest"
   }
 }

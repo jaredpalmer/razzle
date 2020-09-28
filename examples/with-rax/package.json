@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "babel-preset-rax": "^0.6.5",
-    "razzle": "canary"
+    "razzle": "latest"
   }
 }

@@ -3,13 +3,10 @@
 ## How to use
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
-This is the canary release documentation for this example
-
-Create and start the example:
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example with-promise-config with-promise-config
+npx create-razzle-app --example with-promise-config with-promise-config
 
 cd with-promise-config
 yarn start

@@ -20,6 +20,6 @@
   "devDependencies": {
     "bs-platform": "^7.2.2",
     "concurrently": "^5.2.0",
-    "razzle": "canary"
+    "razzle": "latest"
   }
 }
