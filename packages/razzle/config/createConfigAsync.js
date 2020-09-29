@@ -520,7 +520,7 @@ module.exports = (
               {
                 test: /\.(js|jsx|mjs|ts|tsx)$/,
                 include: [paths.appSrc].concat(additionalIncludes),
-                loader: require.resolve('./babel/razzle-babel-loader'),
+                loader: require.resolve('./babel-loader/razzle-babel-loader'),
                 options: {
                   isServer: IS_NODE,
                   cwd: paths.appPath,
