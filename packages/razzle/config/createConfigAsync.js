@@ -899,7 +899,7 @@ module.exports = (
           new CopyPlugin({
             patterns: [
               {
-                from: paths.appPublic + '/**/*',
+                from: paths.appPublic.replace(/\\/g, '/') + '/**/*',
                 to: paths.appBuild,
                 context: paths.appPath,
               },
