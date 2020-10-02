@@ -3294,16 +3294,6 @@ assets-webpack-plugin@3.9.12:
     lodash "4.17.15"
     mkdirp "0.5.3"
 
-assets-webpack-plugin@^3.9.10:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/assets-webpack-plugin/-/assets-webpack-plugin-3.10.0.tgz#d803404177c327e6a6fa3144acb618ab6b43066f"
-  integrity sha512-r72GzN3TvYyOcyNmhRx3qR3LNFsfNHgqTdSeYuxpGmciSpwBpXSVGoU3PXUMKRd8aodcpE6fZlsvyOgimwUxdA==
-  dependencies:
-    camelcase "6.0.0"
-    escape-string-regexp "4.0.0"
-    lodash "4.17.15"
-    mkdirp "1.0.4"
-
 assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
@@ -4360,11 +4350,6 @@ camelcase@5.3.1, camelcase@^5.0.0, camelcase@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-
-camelcase@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.0.0.tgz#5259f7c30e35e278f1bdc2a4d91230b37cad981e"
-  integrity sha512-8KMDF1Vz2gzOq54ONPJS65IvTUaB1cHJ2DMM7MbPmLZljDH1qpzzLsWdiN9pHh6qvkRVDTi/07+eNGch/oLU4w==
 
 camelcase@^1.2.1:
   version "1.2.1"
@@ -6416,11 +6401,6 @@ escape-string-regexp@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
   integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
-
-escape-string-regexp@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
-  integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
 escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -11874,7 +11854,7 @@ mkdirp-then@^1.2.0:
     any-promise "^1.1.0"
     mkdirp "^0.5.0"
 
-mkdirp@*, mkdirp@1.0.4, mkdirp@^1.0.3, mkdirp@^1.0.4:
+mkdirp@*, mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
@@ -14391,15 +14371,30 @@ razzle-dev-utils@canary:
     strip-ansi "6.0.0"
     webpack-dev-server "~3.10.3"
 
-razzle@canary:
-  version "3.3.0-canary.4"
-  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.3.0-canary.4.tgz#45f1d97ba494ca3376a241b07407befc7a510093"
-  integrity sha512-o4cydcawJ5Frp2VMUTRs0veeGe7i1h2C6/u3B7AMRr2dNO8mJChTQOr3RwUtNIDOPd4xwINpV9tF7kFxhm5h2A==
+razzle-dev-utils@latest:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/razzle-dev-utils/-/razzle-dev-utils-3.3.2.tgz#0c3b556098c667861a4216939374550d80491d55"
+  integrity sha512-EhA0Y0UX8XynU95a1nROd7n2YGyT/0fvnukLIx4TcE3yln6iCg6ZdF/X8C3+fwwtLhQ7kkuntEcwr1ty0TxeuQ==
+  dependencies:
+    "@babel/code-frame" "^7.8.3"
+    chalk "3.0.0"
+    jest-message-util "^24.9.0"
+    react-dev-utils "10.2.0"
+    react-error-overlay "^6.0.7"
+    resolve "1.17.0"
+    sockjs-client "~1.4.0"
+    strip-ansi "6.0.0"
+    webpack-dev-server "~3.10.3"
+
+razzle@latest:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/razzle/-/razzle-3.3.2.tgz#06a56eafd5fd272e6d0d7551c762ca0b978559a6"
+  integrity sha512-F45yQgvx7MDObf2AbnpzHWt9t+oyl981OZD6pCcf3NhUjqwe9gIeG4COchQXNtkdVLrl2grRgUYq3wnBYUhLGg==
   dependencies:
     "@babel/core" "7.11.1"
     "@babel/plugin-syntax-bigint" "7.8.3"
     "@pmmmwh/react-refresh-webpack-plugin" "0.3.0"
-    assets-webpack-plugin "^3.9.10"
+    assets-webpack-plugin "3.9.12"
     babel-core "^7.0.0-bridge.0"
     babel-jest "^24.9.0"
     babel-loader "^8.0.6"

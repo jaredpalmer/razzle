@@ -40,6 +40,8 @@ function main() {
         // Optimistically, we make the console look exactly like the output of our
         // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
         // clearConsole();
+        await setPorts(clientOnly);
+
         logger.start('Compiling...');
 
         let clientConfig;
@@ -171,6 +173,4 @@ function formatInspectFlag(cliArgs, flag) {
   return '--' + flag + '=' + value.toString();
 }
 
-setPorts(clientOnly)
-  .then(main)
-  .catch(console.error);
+main()
