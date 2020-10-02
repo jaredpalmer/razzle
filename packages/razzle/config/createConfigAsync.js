@@ -520,17 +520,19 @@ module.exports = (
               {
                 test: /\.(js|jsx|mjs|ts|tsx)$/,
                 include: [paths.appSrc].concat(additionalIncludes),
-                loader: require.resolve('./babel-loader/razzle-babel-loader'),
-                options: {
-                  isServer: IS_NODE,
-                  cwd: paths.appPath,
-                  cache: true,
-                  babelPresetPlugins:
-                    (experimental.newBabel || {}).plugins || [],
-                  hasModern: !!(experimental.newBabel || {}).modern,
-                  development: IS_DEV,
-                  hasReactRefresh: shouldUseReactRefresh,
-                },
+                use: [{
+                  loader: require.resolve('./babel-loader/razzle-babel-loader'),
+                  options: {
+                    isServer: IS_NODE,
+                    cwd: paths.appPath,
+                    cache: true,
+                    babelPresetPlugins:
+                      (experimental.newBabel || {}).plugins || [],
+                    hasModern: !!(experimental.newBabel || {}).modern,
+                    development: IS_DEV,
+                    hasReactRefresh: shouldUseReactRefresh,
+                  },
+                }]
               },
             ]
           : [
