@@ -896,13 +896,15 @@ module.exports = (
           }),
           webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
-          new CopyPlugin([
-            {
-              from: paths.appPublic + '/**/*',
-              to: paths.appBuild,
-              context: paths.appPath,
-            },
-          ]),
+          new CopyPlugin({
+            patterns: [
+              {
+                from: paths.appPublic + '/**/*',
+                to: paths.appBuild,
+                context: paths.appPath,
+              },
+            ]
+          }),
         ].filter(x => x);
 
         config.optimization = {
