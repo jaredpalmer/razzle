@@ -27,7 +27,7 @@
     "babel-plugin-transform-define": "2.0.0",
     "babel-preset-razzle": "canary",
     "chalk": "^3.0.0",
-    "copy-webpack-plugin": "5.1.1",
+    "copy-webpack-plugin": "5.1.2",
     "css-loader": "3.5.3",
     "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
