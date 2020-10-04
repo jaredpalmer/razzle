@@ -1,14 +1,16 @@
 version: 2
 
 defaults: &defaults
+  environment:
+   CACHE_VERSION: 1.0
   working_directory: ~/repo
   steps:
     - checkout
     - restore_cache:
         keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
+          - v1-dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-dependencies-{{ .Environment.CACHE_VERSION }}
     - run:
         name: Install elm globally
         command: yarn global add elm
@@ -51,7 +53,7 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/node:12
-    
+
 
 workflows:
   version: 2
