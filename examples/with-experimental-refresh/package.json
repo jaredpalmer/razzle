@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-experimental-refresh",
-  "version": "3.0.0",
+  "version": "4.0.0-finch.11",
   "license": "MIT",
   "scripts": {
     "start": "razzle start --verbose",
@@ -9,12 +9,16 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "express": "^4.15.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "^3.0.0"
-  },
-  "license": "MIT"
+    "razzle": "4.0.0-finch.11",
+    "razzle-dev-utils": "4.0.0-finch.11",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.44.1",
+    "babel-preset-razzle": "4.0.0-finch.11",
+    "webpack-dev-server": "^3.11.0"
+  }
 }

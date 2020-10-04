@@ -1,6 +1,6 @@
 {
   "name": "my-razzle-app",
-  "version": "1.0.0",
+  "version": "4.0.0-finch.11",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,6 +14,11 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "canary"
+    "razzle": "4.0.0-finch.11",
+    "babel-preset-razzle": "4.0.0-finch.11",
+    "razzle-dev-utils": "4.0.0-finch.11",
+    "webpack": "^4.44.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

@@ -3,10 +3,13 @@
 ## How to use
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->Create and start the example:
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
+This is the finch release documentation for this example
+
+Create and start the example:
 
 ```bash
-npx create-razzle-app --example with-polka with-polka
+npx create-razzle-app@finch --example with-polka with-polka
 
 cd with-polka
 yarn start

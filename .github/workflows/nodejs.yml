@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x, 13.x, 14.x]
+        node-version: [10.x, 12.x, 13.x, 14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }}
@@ -33,7 +33,7 @@ jobs:
         key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install and bootstrap packages
-      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 30000
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
     - name: Set webpack version output
       id: set-webpack

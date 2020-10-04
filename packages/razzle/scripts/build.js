@@ -20,27 +20,25 @@ const printErrors = require('razzle-dev-utils/printErrors');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('razzle-dev-utils/FileSizeReporter');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const measureFileSizesBeforeBuild =
+ const formatWebpackMessages = require('razzle-dev-utils/formatWebpackMessages');
+ const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
 const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
-// Set the default build mode to isomorphic
-cliArgs.type = cliArgs.type || 'iso';
-const clientOnly = cliArgs.type === 'spa';
-// Capture the type (isomorphic or single-page) as an environment variable
-process.env.BUILD_TYPE = cliArgs.type;
-
-const verbose = cliArgs.verbose || false;
 
 loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
+
+    const verbose = razzleOptions.verbose;
+    const clientOnly = razzleOptions.buildType=='spa';
+    process.env.BUILD_TYPE = razzleOptions.buildType;
+
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     measureFileSizesBeforeBuild(paths.appBuildPublic)
-      .then(previousFileSizes => {
+      .then(async previousFileSizes => {
         // Remove all content but keep the directory so that
         // if you're in it, you don't end up in Trash
         fs.emptyDirSync(paths.appBuild);
@@ -88,6 +86,7 @@ loadRazzleConfig(webpack).then(
       }
 
       return new Promise(async (resolve, reject) => {
+
         let serverConfig;
         let clientConfig;
         // Create our production webpack configurations and pass in razzle options.
@@ -124,7 +123,7 @@ loadRazzleConfig(webpack).then(
         // the server compiler.
         compile(clientConfig, (err, clientStats) => {
           if (err) {
-            reject(err);
+            return reject(err);
           }
           const clientMessages = formatWebpackMessages(
             clientStats.toJson({}, true)
@@ -159,7 +158,7 @@ loadRazzleConfig(webpack).then(
             console.log('Compiling server...');
             compile(serverConfig, (err, serverStats) => {
               if (err) {
-                reject(err);
+                return reject(err);
               }
               const serverMessages = formatWebpackMessages(
                 serverStats.toJson({}, true)

@@ -6,11 +6,11 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 ## Getting Started
 
-Visit <a aria-label="razzle getting started" href="https://razzlejs.org/getting-started">https://razzlejs.org/getting-started</a> to get started with Razzle.
+Visit <a aria-label="razzle getting started" href="https://razzle-git-finch.jared.vercel.app/getting-started">https://razzle-git-finch.jared.vercel.app/getting-started</a> to get started with Razzle.
 
 ## Documentation
 
-Visit <a aria-label="razzle docs" href="https://razzlejs.org/">https://razzlejs.org/</a> to view the documentation.
+Visit <a aria-label="razzle docs" href="https://razzle-git-finch.jared.vercel.app/">https://razzle-git-finch.jared.vercel.app/</a> to view the documentation.
 
 ## Contributing
 
@@ -51,6 +51,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 - **Lucas Terra** - [@lucasterra](https://www.linkedin.com/in/lucasterra7/)
   - **Contributions:** code, example, plugin
 - **Ray Andrew** - [@rayandrews](https://www.linkedin.com/in/ray-andrew/)
+  - **Contributions:** code, example, plugin
+- **Heithem Moumni** - [@heithemmoumni](https://www.linkedin.com/in/heithemmoumni/)
   - **Contributions:** code, example, plugin
 <!-- END contributors generated instructions please keep comment here to allow auto update -->
 

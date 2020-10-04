@@ -15,20 +15,24 @@
     "all-contributors-cli": "^6.14.2",
     "doctoc": "^1.4.0",
     "eslint": "^6.8.0",
+    "glob": "^7.1.6",
     "got": "^11.0.2",
     "husky": "^4.2.3",
-    "jest": "^25.1.0",
+    "jest": "^26.4.2",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.0.8",
+    "mini-css-extract-plugin": "^0.9.0",
     "prettier": "^1.19.1",
     "ps-tree": "1.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "release": "^6.1.0",
     "semver": "7.1.3",
-    "serve": "^11.3.0",
-    "shelljs": "^0.8.3"
+    "serve": "^11.3.2",
+    "shelljs": "^0.8.3",
+    "webpack": "^4.44.1",
+    "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
     "test": "yarn test:e2e",
@@ -36,12 +40,16 @@
     "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes",
     "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
-    "publish-canary": "lerna version prerelease --preid canary --force-publish && release --pre",
-    "publish-stable": "lerna version --force-publish && release && node ./scripts/release-notes.js",
+    "publish-all": "node ./scripts/publish-all.js",
+    "publish-all-stable": "yarn publish-all && release && node ./scripts/release-notes.js",
+    "publish-all-canary": "yarn publish-all -r canary && release --pre",
+    "publish-all-finch": "yarn publish-all -r finch && release --pre",
+    "pre-publish-all": "yarn build-docs && yarn update-examples",
     "build-docs": "node ./scripts/build-docs.js",
     "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
-    "git-clean": "git clean -d -x -e node_modules -e packages -f"
+    "git-clean": "git clean -d -x -e node_modules -e packages -f",
+    "yalc-publish-all": "node ./scripts/yalc-publish-all.js"
   },
   "husky": {
     "hooks": {
@@ -53,7 +61,6 @@
       "yarn format"
     ]
   },
-  "dependencies": {},
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>/coverage/",
@@ -76,5 +83,6 @@
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
-  ]
+  ],
+  "version": "4.0.0-finch.11"
 }

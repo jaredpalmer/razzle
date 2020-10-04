@@ -1,6 +1,8 @@
 'use strict';
 
 const execa = require('execa');
+const util = require('util');
+const glob = util.promisify(require('glob'));
 const updateSection = require('update-section');
 const transform = require('doctoc/lib/transform');
 const fs = require('fs-extra');
@@ -33,18 +35,35 @@ function matchesEndContributors(line) {
 }
 
 
-function updatePackageJson(example, packageJson, branch) {
-  fs.pathExists(packageJson).then(exists => {
+function updatePackageJson(packageJson, branch, dependencyVersions, version) {
+  fs.pathExists(packageJson).then(async exists => {
     if (exists) {
-      fs.readFile(packageJson).then(content => {
-        const tag = branch === 'canary' ? `canary` : 'latest';
-        const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-dev-utils)?": ")([^\/]*?)(")/g, '$1' + tag + '$4');
-        return fs.writeFile(packageJson, updated);
-      })
+      const packageJsonData = JSON.parse(await fs.readFile(packageJson));
+      const newPackageJsonData = ["dependencies", "devDependencies", "peerDependencies"].reduce((acc, depType) => {
+        if (acc[depType]) {
+          acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+            if (dependencyVersions[dep] && depType == "dependencies") {
+              delete depsAcc[dep]
+              if (!acc.peerDependencies) acc.peerDependencies = {};
+              acc.peerDependencies[dep] = dependencyVersions[dep];
+            } else if (dependencyVersions[dep]) {
+              depsAcc[dep] = dependencyVersions[dep];
+            }
+
+            return depsAcc;
+          }, acc[depType]);
+        }
+        return acc;
+      }, packageJsonData);
+
+      packageJsonData['version'] = version;
+
+      console.log(JSON.stringify(newPackageJsonData, null, '  '));
+      return fs.writeFile(packageJson, JSON.stringify(newPackageJsonData, null, '  '));
     }
   })
 }
+
 const tocDocs = [
   path.join(rootDir, '.github', 'CODE_OF_CONDUCT.md'),
   path.join(rootDir, '.github', 'CONTRIBUTING.md'),
@@ -89,24 +108,34 @@ for (let contributorsDoc of contributorsDocs) {
   })
 }
 
-execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
+execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(async ({stdout}) => {
   const branch = stdout.split('\n')[0];
-  fs.readdir(path.join(rootDir, 'packages'), {withFileTypes: true}).then(items => {
-    return items
-      .filter(item => item.isDirectory())
-      .map(item => {
-        updatePackageJson(
-          item.name, path.join(rootDir, 'packages', item.name, 'package.json'), branch);
-      })
-  })
+  const lernaJson = JSON.parse(await fs.readFile(path.join(rootDir, 'lerna.json')));
+  const internalPeerDependencyVersions = JSON.parse(await fs.readFile(
+    path.join(rootDir, 'scripts', 'internalPeerDependencyVersions.json')));
 
-  const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
+  const packageJsons = (await Promise.all(lernaJson.packages.map(item =>
+    glob(item+'/package.json'))
+  )).flat();
+
+  const internalPackages = Object.fromEntries((await Promise.all(packageJsons.map(async item =>
+    JSON.parse(await fs.readFile(item))
+  ))).map(item=>([item.name, lernaJson.version])));
+
+  const dependencyVersions = {...internalPeerDependencyVersions, ...internalPackages};
+
+  const releaseBranches = lernaJson.command.publish.allowBranch;
+  const preReleaseBranches = releaseBranches.filter(b=>b!=='master');
+
+  packageJsons.map(item=>updatePackageJson(item, branch, dependencyVersions, lernaJson.version))
+
+  const docSite = branch == 'master' ? 'https://razzlejs.org/' : `https://razzle-git-${branch}.jared.vercel.app/`;
   const readmePath = path.join(rootDir, 'packages', 'razzle', 'README.md');
   fs.readFile(readmePath).then(content => {
     const updated = content.toString().replace(/https:\/\/razzle.*?(\.org|\.app)\//g, docSite);
     return fs.writeFile(readmePath, updated);
   })
-  const npxCmd = 'npx create-razzle-app' + ( branch == 'canary' ? '@' + branch : '');
+  const npxCmd = 'npx create-razzle-app' + ( preReleaseBranches.includes(branch) ? `@${branch}` : '');
   const startedPath = path.join(rootDir, 'website/pages/getting-started.mdx');
   fs.readFile(startedPath).then(content => {
     const updated = content.toString().replace(/npx create-razzle-app@?[^\s]*/g, npxCmd);

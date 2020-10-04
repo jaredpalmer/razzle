@@ -1,11 +1,13 @@
 {
   "name": "razzle-plugin-elm",
-  "version": "3.3.3",
+  "version": "4.0.0-finch.11",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "4.5.0",
-    "razzle-dev-utils": "latest"
+    "elm-webpack-loader": "5.0.0"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "4.0.0-finch.11"
   }
 }

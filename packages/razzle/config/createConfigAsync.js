@@ -8,11 +8,10 @@ const TerserPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-const StartServerPlugin = require('start-server-webpack-plugin');
+const StartServerPlugin = require('@fivethreeo/start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const runPlugin = require('./runPlugin');
 const getClientEnv = require('./env').getClientEnv;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
@@ -26,6 +25,7 @@ const resolveRequest = require('razzle-dev-utils/resolveRequest');
 const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('razzle/config/paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
+const webpackMajor = require('razzle-dev-utils/webpackMajor');
 
 const hasPostCssConfigTest = () => {
   try {
@@ -166,63 +166,9 @@ module.exports = (
     };
 
     const shouldUseReactRefresh =
-      IS_WEB && IS_DEV && experimental.reactRefresh ? true : false;
+      IS_WEB && IS_DEV && razzleOptions.useReactRefresh ? true : false;
 
     let webpackOptions = {};
-
-    const defaultPostCssOptions = {
-      ident: 'postcss',
-      plugins: () => [
-        require('postcss-flexbugs-fixes'),
-        require('postcss-preset-env')({
-          autoprefixer: {
-            browsers: razzleOptions.browserslist,
-            flexbox: 'no-2009',
-          },
-          stage: 3,
-        }),
-      ],
-    };
-
-    const postCssOptions = hasPostCssConfig ? undefined : defaultPostCssOptions;
-
-    const mainBabelOptions = {
-      babelrc: true,
-      cacheDirectory: true,
-      presets: [],
-      plugins: [],
-    };
-
-    // First we check to see if the user has a custom .babelrc file, otherwise
-    // we just use babel-preset-razzle.
-    const hasBabelRc = fs.existsSync(paths.appBabelRc);
-
-    if (!hasBabelRc) {
-      mainBabelOptions.presets.push(require.resolve('../babel'));
-      // Make sure we have a unique cache identifier, erring on the
-      // side of caution.
-      // We remove this when the user ejects because the default
-      // is sane and uses Babel options. Instead of options, we use
-      // the razzle-dev-utils and babel-preset-razzle versions.
-      mainBabelOptions.cacheIdentifier = getCacheIdentifier(
-        (IS_PROD ? 'production' : IS_DEV && 'development') +
-          '_' +
-          (IS_NODE ? 'nodebuild' : IS_WEB && 'webbuild'),
-        ['babel-preset-razzle', 'react-dev-utils', 'razzle-dev-utils']
-      );
-      if (IS_DEV && IS_WEB && shouldUseReactRefresh) {
-        mainBabelOptions.plugins.push(require.resolve('react-refresh/babel'));
-      }
-    }
-
-    // Allow app to override babel options
-    const babelOptions = modifyBabelOptions
-      ? modifyBabelOptions(mainBabelOptions, { target, dev: IS_DEV })
-      : mainBabelOptions;
-
-    if (!experimental.newBabel && hasBabelRc && babelOptions.babelrc) {
-      console.log('Using .babelrc defined in your app root');
-    }
 
     const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js') ||
       fs.existsSync(paths.appStaticExportJs + '.jsx') ||
@@ -252,94 +198,84 @@ module.exports = (
     const additionalAliases = modulesConfig.additionalAliases || {};
     const additionalIncludes = modulesConfig.additionalIncludes || [];
 
-    const nodeExternalsFunc = experimental.newExternals
-      ? (context, request, callback) => {
-          if (
-            (experimental.newExternals.notExternalModules || []).indexOf(
-              request
-            ) !== -1
-          ) {
-            return callback();
-          }
+    const nodeExternalsFunc = (context, request, callback) => {
+      if (
+        (razzleOptions.notExternalModules || []).indexOf(
+          request
+        ) !== -1
+      ) {
+        return callback();
+      }
 
-          const isLocal =
-            request.startsWith('.') ||
-            // Always check for unix-style path, as webpack sometimes
-            // normalizes as posix.
-            path.posix.isAbsolute(request) ||
-            // When on Windows, we also want to check for Windows-specific
-            // absolute paths.
-            (process.platform === 'win32' && path.win32.isAbsolute(request));
+      const isLocal =
+      request.startsWith('.') ||
+      // Always check for unix-style path, as webpack sometimes
+      // normalizes as posix.
+      path.posix.isAbsolute(request) ||
+      // When on Windows, we also want to check for Windows-specific
+      // absolute paths.
+      (process.platform === 'win32' && path.win32.isAbsolute(request));
 
-          // Relative requires don't need custom resolution, because they
-          // are relative to requests we've already resolved here.
-          // Absolute requires (require('/foo')) are extremely uncommon, but
-          // also have no need for customization as they're already resolved.
-          if (isLocal) {
-            return callback();
-          }
+      // Relative requires don't need custom resolution, because they
+      // are relative to requests we've already resolved here.
+      // Absolute requires (require('/foo')) are extremely uncommon, but
+      // also have no need for customization as they're already resolved.
+      if (isLocal) {
+        return callback();
+      }
 
-          let res;
-          try {
-            res = resolveRequest(request, `${context}/`);
-          } catch (err) {
-            // If the request cannot be resolved, we need to tell webpack to
-            // "bundle" it so that webpack shows an error (that it cannot be
-            // resolved).
-            return callback();
-          }
-          // Same as above, if the request cannot be resolved we need to have
-          // webpack "bundle" it so it surfaces the not found error.
-          if (!res) {
-            return callback();
-          }
-          // This means we need to make sure its request resolves to the same
-          // package that'll be available at runtime. If it's not identical,
-          // we need to bundle the code (even if it _should_ be external).
-          let baseRes = null;
-          try {
-            baseRes = resolveRequest(request, `${paths.appPath}/`);
-          } catch (err) {
-            baseRes = null;
-          }
+      let res;
+      try {
+        res = resolveRequest(request, `${context}/`);
+      } catch (err) {
+        // If the request cannot be resolved, we need to tell webpack to
+        // "bundle" it so that webpack shows an error (that it cannot be
+        // resolved).
+        return callback();
+      }
+      // Same as above, if the request cannot be resolved we need to have
+      // webpack "bundle" it so it surfaces the not found error.
+      if (!res) {
+        return callback();
+      }
+      // This means we need to make sure its request resolves to the same
+      // package that'll be available at runtime. If it's not identical,
+      // we need to bundle the code (even if it _should_ be external).
+      let baseRes = null;
+      try {
+        baseRes = resolveRequest(request, `${paths.appPath}/`);
+      } catch (err) {
+        baseRes = null;
+      }
 
-          // Same as above: if the package, when required from the root,
-          // would be different from what the real resolution would use, we
-          // cannot externalize it.
-          if (baseRes !== res) {
-            return callback();
-          }
+      // Same as above: if the package, when required from the root,
+      // would be different from what the real resolution would use, we
+      // cannot externalize it.
+      if (baseRes !== res) {
+        return callback();
+      }
 
-          // This is the @babel/plugin-transform-runtime "helpers: true" option
-          if (res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)) {
-            return callback();
-          }
+      // This is the @babel/plugin-transform-runtime "helpers: true" option
+      if (res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)) {
+        return callback();
+      }
 
-          // Anything else that is standard JavaScript within `node_modules`
-          // can be externalized.
-          if (res.match(/node_modules[/\\].*\.js$/)) {
-            const externalRequest = path.posix.join(
-              paths.appPath,
-              path
-                .relative(paths.appPath, res)
-                // Windows path normalization
-                .replace(/\\/g, '/')
-            );
-            return callback(undefined, `commonjs ${externalRequest}`);
-          }
+      // Anything else that is standard JavaScript within `node_modules`
+      // can be externalized.
+      if (res.match(/node_modules[/\\].*\.js$/)) {
+        const externalRequest = path.posix.join(
+          paths.appPath,
+          path
+          .relative(paths.appPath, res)
+          // Windows path normalization
+          .replace(/\\/g, '/')
+        );
+        return callback(undefined, `commonjs ${externalRequest}`);
+      }
 
-          // Default behavior: bundle the code!
-          return callback();
-        }
-      : nodeExternals({
-          whitelist: [
-            IS_DEV ? 'webpack/hot/poll?300' : null,
-            /\.(eot|woff|woff2|ttf|otf)$/,
-            /\.(svg|png|jpg|jpeg|gif|ico)$/,
-            /\.(mp4|mp3|ogg|swf|webp)$/,
-            /\.(css|scss|sass|sss|less)$/,
-          ].filter(x => x),
-        });
+      // Default behavior: bundle the code!
+      return callback();
+    };
 
     webpackOptions.fileLoaderExlude = [
       /\.html$/,
@@ -371,7 +307,6 @@ module.exports = (
         webpackOptions.splitChunksConfig = splitChunksConfigs.dev;
       } else {
         webpackOptions.splitChunksConfig = splitChunksConfigs.prodGranular;
-
         webpackOptions.terserPluginOptions = {
           terserOptions: {
             parse: {
@@ -439,7 +374,27 @@ module.exports = (
       );
     }
 
-    for (const [plugin, pluginOptions] of plugins) {
+    webpackOptions.browserslist = razzleOptions.browserslist;
+
+    webpackOptions.babelRule = {
+      test: /\.(js|jsx|mjs|ts|tsx)$/,
+      include: [paths.appSrc].concat(additionalIncludes),
+      use: [{
+        loader: require.resolve('./babel-loader/razzle-babel-loader'),
+        options: {
+          isServer: IS_NODE,
+          cwd: paths.appPath,
+          cache: true,
+          babelPresetPlugins: [],
+          hasModern: false,
+          development: IS_DEV,
+          hasReactRefresh: shouldUseReactRefresh,
+        },
+      }
+    ]
+  };
+
+  for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
       if (plugin.modifyWebpackOptions) {
@@ -469,6 +424,27 @@ module.exports = (
       });
     }
 
+    const defaultPostCssOptions = {
+      ident: 'postcss',
+      plugins: [
+        require('postcss-flexbugs-fixes'),
+        require('postcss-preset-env')({
+          autoprefixer: {
+            overrideBrowserslist: webpackOptions.browserslist || [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9',
+            ],
+            flexbox: 'no-2009',
+          },
+          stage: 3,
+        }),
+      ],
+    };
+
+    const postCssOptions = hasPostCssConfig ? undefined : { postcssOptions: defaultPostCssOptions };
+
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
@@ -482,11 +458,8 @@ module.exports = (
       // We need to tell webpack how to resolve both Razzle's node_modules and
       // the users', so we use resolve and resolveLoader.
       resolve: {
-        mainFields: experimental.newMainFields
-          ? IS_NODE
-            ? ['main', 'module']
-            : ['browser', 'module', 'main']
-          : undefined,
+        mainFields: IS_NODE ? ['main', 'module']
+        : ['browser', 'module', 'main'],
         modules: ['node_modules', paths.appNodeModules].concat(
           additionalModulePaths
         ),
@@ -515,55 +488,13 @@ module.exports = (
       },
       module: {
         strictExportPresence: true,
-        rules: (experimental.newBabel
-          ? [
-              {
-                test: /\.(js|jsx|mjs|ts|tsx)$/,
-                include: [paths.appSrc].concat(additionalIncludes),
-                use: [{
-                  loader: require.resolve('./babel-loader/razzle-babel-loader'),
-                  options: {
-                    isServer: IS_NODE,
-                    cwd: paths.appPath,
-                    cache: true,
-                    babelPresetPlugins:
-                      (experimental.newBabel || {}).plugins || [],
-                    hasModern: !!(experimental.newBabel || {}).modern,
-                    development: IS_DEV,
-                    hasReactRefresh: shouldUseReactRefresh,
-                  },
-                }]
-              },
-            ]
-          : [
-              // Disable require.ensure as it's not a standard language feature.
-              // { parser: { requireEnsure: false } },
-              // Avoid "require is not defined" errors
-              {
-                test: /\.mjs$/,
-                include: /node_modules/,
-                type: 'javascript/auto',
-              },
-              // Transform ES6 with Babel
-              {
-                test: /\.(js|jsx|mjs|ts|tsx)$/,
-                include: [paths.appSrc].concat(additionalIncludes),
-                use: [
-                  {
-                    loader: require.resolve('babel-loader'),
-                    options: babelOptions,
-                  },
-                ],
-              },
-            ]
-        ).concat([
+        rules: [
+          webpackOptions.babelRule,
           {
             exclude: webpackOptions.fileLoaderExlude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${razzleOptions.mediaPrefix}/[name].[${
-                experimental.newContentHash ? 'contenthash' : 'hash'
-              }:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -575,9 +506,7 @@ module.exports = (
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${razzleOptions.mediaPrefix}/[name].[${
-                experimental.newContentHash ? 'contenthash' : 'hash'
-              }:8].[ext]`,
+              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
               emitFile: IS_WEB,
             },
           },
@@ -592,68 +521,67 @@ module.exports = (
           {
             test: /\.css$/,
             use: IS_NODE
-              ? // Style-loader does not work in Node.js without some crazy
-                // magic. Luckily we just need css-loader.
-                [
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                      modules: { auto: true },
-                      onlyLocals: true,
-                    },
+            ? // Style-loader does not work in Node.js without some crazy
+            // magic. Luckily we just need css-loader.
+            [
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                  modules: { auto: true },
+                  onlyLocals: true,
+                },
+              },
+            ]
+            : IS_DEV
+            ? [
+              require.resolve('style-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                  modules: {
+                    auto: true,
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
-                ]
-              : IS_DEV
-              ? [
-                  require.resolve('style-loader'),
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                      modules: {
-                        auto: true,
-                        localIdentName: '[name]__[local]___[hash:base64:5]',
-                      },
-                    },
+                },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: postCssOptions,
+              },
+            ]
+            : [
+              MiniCssExtractPlugin.loader,
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                  modules: {
+                    auto: true,
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ]
-              : [
-                  MiniCssExtractPlugin.loader,
-                  {
-                    loader: require.resolve('css-loader'),
-                    options: {
-                      importLoaders: 1,
-                      modules: {
-                        auto: true,
-                        localIdentName: '[name]__[local]___[hash:base64:5]',
-                      },
-                    },
-                  },
-                  {
-                    loader: require.resolve('postcss-loader'),
-                    options: postCssOptions,
-                  },
-                ],
+                },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: postCssOptions,
+              },
+            ],
           },
-        ]),
+        ],
       },
     };
 
     if (IS_NODE) {
       // We want to uphold node's __filename, and __dirname.
       config.node = {
-        __console: false,
         __dirname: false,
         __filename: false,
       };
 
       // We need to tell webpack what to bundle into our Node bundle.
-      config.externals = [nodeExternalsFunc];
+      config.externals = razzleOptions.buildType !== 'serverless' ? [nodeExternalsFunc] : [];
 
       // Specify webpack Node.js output path and filename
       config.output = {
@@ -662,6 +590,13 @@ module.exports = (
         filename: '[name].js',
         libraryTarget: 'commonjs2',
       };
+
+      if (webpackMajor === 5) {
+        config.output.library = {
+          type: 'commonjs2'
+        };
+      }
+
       // Add some plugins...
       config.plugins = [
         // We define environment variables that can be accessed globally in our
@@ -715,14 +650,17 @@ module.exports = (
           // Supress errors to console (we use our own logger)
           !disableStartServer &&
             new StartServerPlugin({
+              verbose: false,
               name: 'server.js',
+              entryName: 'server',
               nodeArgs,
             }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
-          new webpack.WatchIgnorePlugin([
-            paths.appAssetsManifest,
-            paths.appChunksManifest,
-          ]),
+          new webpack.WatchIgnorePlugin(
+            webpackMajor === 5
+              ? { paths: [paths.appAssetsManifest, paths.appChunksManifest] }
+              : [paths.appAssetsManifest, paths.appChunksManifest]
+          ),
         ].filter(x => x);
       }
     }
@@ -735,6 +673,62 @@ module.exports = (
           path: paths.appBuild,
           filename: 'assets.json',
         }),
+        // Output all files in a manifest file called assets-manifest.json
+        // in the build directory.
+        experimental.newAssetsManifest ? new ManifestPlugin({
+          fileName: path.join(paths.appBuild, 'assets-manifest.json'),
+          writeToFileEmit: true,
+          generate: (seed, files) => {
+            const entrypoints = new Set();
+            const noChunkFiles = new Set();
+            files.forEach(file => {
+              if (file.isChunk) {
+                const groups = (
+                  (file.chunk || {})._groups || []
+                ).forEach(group => entrypoints.add(group));
+              } else {
+                noChunkFiles.add(file);
+              }
+            });
+            const entries = [...entrypoints];
+            const entryArrayManifest = entries.reduce((acc, entry) => {
+              const name =
+                (entry.options || {}).name ||
+                (entry.runtimeChunk || {}).name ||
+                entry.id;
+              const files = []
+                .concat(
+                  ...(entry.chunks || []).map(chunk =>
+                    chunk.files.map(path => config.output.publicPath + path)
+                  )
+                )
+                .filter(Boolean);
+
+              const filesByType = files.reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file);
+                return types;
+              }, {});
+
+              return name
+                ? {
+                    ...acc,
+                    [name]: filesByType,
+                  }
+                : acc;
+            }, seed);
+            entryArrayManifest['noentry'] = [...noChunkFiles]
+              .map(file => file.path)
+              .reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file);
+                return types;
+              }, {});
+            return entryArrayManifest;
+          },
+        }) : null,
         // Output our JS and CSS files in a manifest file called chunks.json
         // in the build directory.
         // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
@@ -789,7 +783,7 @@ module.exports = (
             return entryArrayManifest;
           },
         }),
-      ];
+      ].filter(x=>x);
 
       if (IS_DEV) {
         // Setup Webpack Dev Server on port 3001 and
@@ -812,6 +806,14 @@ module.exports = (
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
         };
+
+        if (webpackMajor === 5) {
+          config.output.library = {
+            type: 'var',
+            name: 'client',
+          };
+        }
+
         // Configure webpack-dev-server to serve our client-side bundle from
         // http://${dotenv.raw.HOST}:3001
         config.devServer = {
@@ -856,24 +858,9 @@ module.exports = (
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
         ].filter(x => x);
 
-        config.optimization = Object.assign(
-          experimental.newSplitChunks
-            ? {
-                splitChunks: webpackOptions.splitChunksConfig,
-              }
-            : {},
-          {
-            // @todo automatic vendor bundle
-            // Automatically split vendor and commons
-            // https://twitter.com/wSokra/status/969633336732905474
-            // splitChunks: {
-            //   chunks: 'all',
-            // },
-            // Keep the runtime chunk seperated to enable long term caching
-            // https://twitter.com/wSokra/status/969679223278505985
-            // runtimeChunk: true,
-          }
-        );
+        config.optimization = {
+          splitChunks: webpackOptions.splitChunksConfig,
+        };
       } else {
         // Specify production entry point (/client/index.js)
         config.entry = {
@@ -886,14 +873,17 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${razzleOptions.jsPrefix}/bundle.[${
-            experimental.newContentHash ? 'contenthash' : 'chunkhash'
-          }:8].js`,
-          chunkFilename: `${razzleOptions.jsPrefix}/[name].[${
-            experimental.newContentHash ? 'contenthash' : 'chunkhash'
-          }:8].chunk.js`,
+          filename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].js`,
+          chunkFilename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`,
           libraryTarget: 'var',
         };
+
+        if (webpackMajor === 5) {
+          config.output.library = {
+            type: 'var',
+            name: 'client',
+          };
+        }
 
         config.plugins = [
           ...config.plugins,
@@ -901,51 +891,44 @@ module.exports = (
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
           // Extract our CSS into files.
           new MiniCssExtractPlugin({
-            filename: `${razzleOptions.cssPrefix}/bundle.[${
-              experimental.newContentHash ? 'contenthash' : 'chunkhash'
-            }:8].css`,
-            chunkFilename: `${razzleOptions.cssPrefix}/[name].[${
-              experimental.newContentHash ? 'contenthash' : 'chunkhash'
-            }:8].chunk.css`,
+            filename: `${razzleOptions.cssPrefix}/bundle.[contenthash:8].css`,
+            chunkFilename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`,
           }),
-          new webpack.HashedModuleIdsPlugin(),
+          webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
-          new CopyPlugin([
-            {
-              from: paths.appPublic + '/**/*',
-              to: paths.appBuild,
-              context: paths.appPath,
-            },
-          ]),
-        ];
+          new CopyPlugin({
+            patterns: [
+              {
+                from: paths.appPublic.replace(/\\/g, '/') + '/**/*',
+                to: paths.appBuild,
+                context: paths.appPath,
+              },
+            ]
+          }),
+        ].filter(x => x);
 
-        config.optimization = Object.assign(
-          experimental.newSplitChunks
-            ? {
-                splitChunks: webpackOptions.splitChunksConfig,
-              }
-            : {},
-          {
-            minimize: true,
-            minimizer: [
-              new TerserPlugin(webpackOptions.terserPluginOptions),
-              new OptimizeCSSAssetsPlugin({
-                cssProcessorOptions: {
-                  parser: safePostCssParser,
-                  // @todo add flag for sourcemaps
-                  map: {
-                    // `inline: false` forces the sourcemap to be output into a
-                    // separate file
-                    inline: false,
-                    // `annotation: true` appends the sourceMappingURL to the end of
-                    // the css file, helping the browser find the sourcemap
-                    annotation: true,
-                  },
+        config.optimization = {
+          splitChunks: webpackOptions.splitChunksConfig,
+          moduleIds: webpackMajor === 5 ? 'deterministic' : 'hashed',
+          minimize: true,
+          minimizer: [
+            new TerserPlugin(webpackOptions.terserPluginOptions),
+            new OptimizeCSSAssetsPlugin({
+              cssProcessorOptions: {
+                parser: safePostCssParser,
+                // @todo add flag for sourcemaps
+                map: {
+                  // `inline: false` forces the sourcemap to be output into a
+                  // separate file
+                  inline: false,
+                  // `annotation: true` appends the sourceMappingURL to the end of
+                  // the css file, helping the browser find the sourcemap
+                  annotation: true,
                 },
-              }),
-            ],
-          }
-        );
+              },
+            }),
+          ],
+        }
       }
 
       if (clientOnly) {
@@ -1003,31 +986,6 @@ module.exports = (
         },
         paths,
       });
-    }
-
-    for (const [plugin, options] of plugins) {
-      // Check if plugin is a function.
-      // If it is, call it on the configs we created.
-      if (typeof plugin === 'function') {
-        console.warn(
-          'Function only plugins are deprecated, use .modifyWebpackConfig'
-        );
-        config = await runPlugin(
-          plugin,
-          config,
-          { target, dev: IS_DEV },
-          webpackObject,
-          options
-        );
-      }
-    }
-    // Check if razzle.config.js has a modify function.
-    // If it does, call it on the configs we created.
-    if (modify) {
-      console.warn(
-        'razzle.modify is deprecated use razzle.modifyWebpackConfig.'
-      );
-      config = await modify(config, { target, dev: IS_DEV }, webpackObject);
     }
 
     resolve(config);

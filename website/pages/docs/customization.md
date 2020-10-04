@@ -10,9 +10,20 @@ We show the default options here:
 //./razzle.config.js
 module.exports = {
   options: {
+    verbose: false, // set to true to get more info/error output
+    buildType: 'iso', // or 'spa' and 'serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
+    useReactRefresh: false,
+    staticExport: {
+      parallel: 5, // how many pages to render at a time
+      routesExport: 'routes',
+      renderExport: 'render',
+      scriptInline: false,
+      windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
+      windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
+    },
     browserslist: undefined, // or what your apps package.json says
   },
 };
@@ -214,27 +225,61 @@ module.exports = {
 
 ## Customizing Babel Config
 
-Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
+Razzle includes the `razzle/babel` preset to your app, it includes everything needed to compile React applications and server-side code. But if you want to extend the default Babel configs, it's also possible.
 
-```js
+To start, you only need to define a `.babelrc` file at the top of your app, if such file is found, we're going to consider it the _source of truth_, therefore it needs to define what Razzle needs as well, which is the `razzle/babel` preset.
+
+Here's an example `.babelrc` file:
+
+```json
 {
-  "presets": [
-    "razzle/babel", // NEEDED
-    "stage-0"
-   ],
-   "plugins": [
-     // additional plugins
-   ]
+  "presets": ["razzle/babel"],
+  "plugins": []
 }
 ```
 
-A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
+You can [take a look at this file](https://github.com/jaredpalmer/razzle/blob/finch/packages/babel-preset-razzle/index.js) to learn about the presets included by `razzle/babel`.
+
+To add presets/plugins **without configuring them**, you can do it this way:
+
+```json
+{
+  "presets": ["razzle/babel"],
+  "plugins": ["@babel/plugin-proposal-do-expressions"]
+}
+```
+
+To add presets/plugins **with custom configuration**, do it on the `razzle/babel` preset like so:
+
+```json
+{
+  "presets": [
+    [
+      "razzle/babel",
+      {
+        "preset-env": {},
+        "transform-runtime": {},
+        "class-properties": {}
+      }
+    ]
+  ],
+  "plugins": []
+}
+```
+
+To learn more about the available options for each config, visit their documentation site.
+
+> Razzle uses the **current** Node.js version for server-side compilations.
+
+> The `modules` option on `"preset-env"` should be kept to `false`, otherwise webpack code splitting is turned off.
 
 ## Extending Webpack
 
 You can also extend the underlying webpack config. Create a file called `razzle.config.js` in your project's root.
 
 All the hook functions supported in plugins is also supported here. We show only one function here for brevity.
+
+In Razzle 3.3 `modify` was deprecated. In Razzle 4.0 it was replaced with `modifyWebpackConfig`.
 
 ```js
 // razzle.config.js
@@ -364,154 +409,4 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 ## Experimental
 
-Razzle has support for some experimental features. Currently razzle has experimental support for:
-
-* [React refresh](#to-enable-react-refresh) - [react-refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin)
-* [Static export](#to-enable-static-export)
-* [New babel loader](#to-enable-the-new-babel-loader)
-* [New externals resolution](#to-enable-the-new-externals-resolution)
-* [New splitChunks configuration](#to-enable-the-new-split-chunks-configuration)
-* [New contentHash configuration](#to-enable-the-new-content-hash-configuration)
-* [New mainFields configuration](#to-enable-the-new-main-fields-configuration)
-
-More features may be added in the future and may become fully supported features.
-
-### Razzle 4.0
-
-If you want to be ready for the Razzle 4.0 release you can enble some experimental features to be sure you build will work on 4.0.
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newBabel: true,
-    newExternals: true,
-    newSplitChunks: true,
-    newContentHash: true,
-    newMainFields: true,
-  }
-};
-```
-
-### To enable react refresh:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    reactRefresh: true,
-  },
-};
-```
-
-### To enable static export:
-
-Add `export` to your `package.json`'s scripts like so:
-
-```diff
-"scripts": {
-+  "export": "razzle export",
-}
-```
-
-Add a `static_export.js` to your src dir:
-
-```js
-import { renderApp } from './server';
-
-export const render = (req, res) => {
-  const { html } = renderApp(req, res);
-
-  res.json({ html });
-};
-
-export const routes = () => {
-  return ['/', '/about'];
-};
-```
-
-Run `npm export` or `yarn export`:
-
-Renders a static version of specified routes to the build folder based on the built production app.
-Your prerendered app is ready to be served!
-
-To enable static export with options:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    staticExport: {
-      parallel: 5, // how many pages to render at a time
-      routesExport: 'routes',
-      renderExport: 'render',
-      scriptInline: false,
-      windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
-      windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
-    },
-  },
-};
-```
-
-### To enable the new babel loader:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newBabel: true,
-  },
-};
-```
-
-### To enable the new externals resolution:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newExternals: true,
-  },
-};
-```
-
-### To enable the new splitChunks configuration:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newSplitChunks: true,
-  },
-};
-```
-
-### To enable the new contentHash configuration:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newContentHash: true,
-  },
-};
-```
-
-### To enable the new mainFields configuration:
-
-```js
-// razzle.config.js
-
-module.exports = {
-  experimental: {
-    newMainFields: true,
-  },
-};
-```
+Razzle has support for some experimental features. Coming soon.

@@ -1,0 +1,21 @@
+{
+  "name": "razzle-plugin-svelte",
+  "license": "MIT",
+  "version": "4.0.0-finch.11",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "css-loader": "3.5.3",
+    "svelte": "^3.24.1",
+    "svelte-loader": "^2.13.6",
+    "svelte-preprocess": "^4.0.10"
+  },
+  "devDependencies": {
+    "razzle": "4.0.0-finch.11"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "4.0.0-finch.11"
+  }
+}

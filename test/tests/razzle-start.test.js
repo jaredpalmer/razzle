@@ -8,9 +8,11 @@ const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
 const path = require('path');
 
-const silent = true;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
+
+const spew = false;
 
 const stageName = 'stage-start';
 
@@ -26,21 +28,23 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} start --verbose`, () => {
+        const child = shell.exec(`${path.join('../node_modules/.bin/razzle')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
-          if (data.includes('Server-side HMR Enabled!')) {
+          if (!silent) console.log(data);
+          if (data.includes('Server-side HMR Enabled!') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3001/static/js/bundle.js'
             );
+            if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes('React');
             kill(child.pid);
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());
@@ -52,15 +56,17 @@ describe('razzle start', () => {
       util.setupStageWithExample(stageName, 'with-custom-devserver-options');
       let outputTest;
       const run = new Promise(resolve => {
-        const child = shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} start --verbose`, () => {
+        const child = shell.exec(`${path.join('../node_modules/.bin/razzle')} start --verbose`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
-          if (data.includes('Server-side HMR Enabled!')) {
+          if (!silent) console.log(data);
+          if (data.includes('Server-side HMR Enabled!') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
               'curl -sb -o "" localhost:3002/static/js/bundle.js'
             );
+            if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:3002'
             );
@@ -68,7 +74,7 @@ describe('razzle start', () => {
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());
@@ -107,21 +113,23 @@ describe('razzle start', () => {
     it('should build and run', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec(`node ${path.join('./node_modules/razzle/bin/razzle.js')} build`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build`);
       const run = new Promise(resolve => {
         const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);
         });
         child.stdout.on('data', data => {
-          if (data.includes('> Started on port 3000')) {
+          if (!silent) console.log(data);
+          if (data.includes('> Started on port 3000') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const output = shell.exec('curl -I localhost:3000');
+            if (spew) console.log('serverOutput:' + output.stdout);
             outputTest = output.stdout.includes('200');
             kill(child.pid);
           }
         });
         child.stderr.on('data', data => {
-          console.log(data);
+          if (!silent) console.log('stderr:' + data);
         });
       });
       return run.then(test => expect(test).toBeTruthy());

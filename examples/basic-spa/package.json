@@ -1,10 +1,10 @@
 {
   "name": "razzle-examples-basic-spa",
-  "version": "1.0.0",
+  "version": "4.0.0-finch.11",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start --type=spa",
-    "build": "razzle build --type=spa",
+    "start": "razzle start",
+    "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "serve -s build/public"
   },
@@ -13,7 +13,12 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "latest",
-    "serve": "^11.3.0"
+    "razzle": "4.0.0-finch.11",
+    "razzle-dev-utils": "4.0.0-finch.11",
+    "serve": "^11.3.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.44.1",
+    "babel-preset-razzle": "4.0.0-finch.11",
+    "webpack-dev-server": "^3.11.0"
   }
 }
