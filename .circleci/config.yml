@@ -63,7 +63,6 @@ workflows:
   test-deploy:
     jobs:
       - test-node8
-      - test-node9
       - test-node10
       - test-node11
       - test-node12
