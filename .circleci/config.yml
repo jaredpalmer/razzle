@@ -44,10 +44,6 @@ jobs:
     <<: *defaults
     docker:
       - image: circleci/node:8
-  test-node9:
-    <<: *defaults
-    docker:
-      - image: circleci/node:9
   test-node10:
     <<: *defaults
     docker:
