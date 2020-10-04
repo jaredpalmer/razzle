@@ -4,12 +4,12 @@
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
-This is the finch release documentation for this example
+This is the canary release documentation for this example
 
 Create and start the example:
 
 ```bash
-npx create-razzle-app@finch --example with-custom-devserver-options with-custom-devserver-options
+npx create-razzle-app@canary --example with-custom-devserver-options with-custom-devserver-options
 
 cd with-custom-devserver-options
 yarn start

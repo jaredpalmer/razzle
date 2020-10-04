@@ -4,12 +4,12 @@
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
-This is the finch release documentation for this example
+This is the canary release documentation for this example
 
 Create and start the example:
 
 ```bash
-npx create-razzle-app@finch --example with-jsconfig-paths with-jsconfig-paths
+npx create-razzle-app@canary --example with-jsconfig-paths with-jsconfig-paths
 
 cd with-jsconfig-paths
 yarn start

@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-reason-react",
-  "version": "4.0.0-finch.11",
+  "version": "4.0.0-canary.0",
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"npm run js-watch\" \"npm run bsb-watch\"",
@@ -20,11 +20,11 @@
   "devDependencies": {
     "bs-platform": "^7.2.2",
     "concurrently": "^5.2.0",
-    "razzle": "4.0.0-finch.11",
-    "razzle-dev-utils": "4.0.0-finch.11",
+    "razzle": "4.0.0-canary.0",
+    "razzle-dev-utils": "4.0.0-canary.0",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-finch.11",
+    "babel-preset-razzle": "4.0.0-canary.0",
     "webpack-dev-server": "^3.11.0"
   }
 }
