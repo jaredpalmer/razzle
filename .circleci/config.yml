@@ -10,7 +10,7 @@ defaults: &defaults
         keys:
           - v1-dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-{{ .Environment.CACHE_VERSION }}
+          - v1-dependencies-{{ .Environment.CACHE_VERSION }}-
     - run:
         name: Install elm globally
         command: yarn global add elm
@@ -26,7 +26,7 @@ defaults: &defaults
     - save_cache:
         paths:
           - node_modules
-        key: v1-dependencies-{{ checksum "yarn.lock" }}
+        key: v1-dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
 
     - persist_to_workspace:
         root: ~/repo
