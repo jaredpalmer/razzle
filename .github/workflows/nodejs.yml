@@ -31,11 +31,12 @@ jobs:
 
     - name: Restore last run status
       id: last_run
-      uses: actions/cache@v2
+      uses: davidsbond/cache@v2
       with:
         path: |
           last_run_status
         key: ${{ env.GITHUB_SHA }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
+        update: "true"
 
     - name: Set last run status
       run: cat last_run_status
