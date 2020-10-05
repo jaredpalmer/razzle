@@ -11,8 +11,9 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 13.x, 14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
+        webpack: [webpack@4.44.2, webpack@5.0.0-rc.3]
 
-    name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }}
+    name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }} with ${{ matrix.webpack }}
 
     steps:
     - uses: actions/checkout@v1
@@ -25,23 +26,24 @@ jobs:
       run: yarn global add elm
 
     - name: Restore lerna
+      id: cache
       uses: actions/cache@v2
       with:
         path: |
           node_modules
           */*/node_modules
-        key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install and bootstrap packages
+      if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
-    - name: Set webpack version output
-      id: set-webpack
-      run: node -e "console.log('::set-output name=webpack::'+(/5\./.test(require('webpack').version)?'5':'4'));"
+    - name: Install webpack ${{ matrix.webpack }}
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
       run: yarn test --runInBand --coverage
-      if: steps.set-webpack.outputs.webpack == '5' && matrix.node-version != '8.x' || steps.set-webpack.outputs.webpack == '4'
       env:
         CI: true
         WARNINGS_ERRORS_DISABLE: true
