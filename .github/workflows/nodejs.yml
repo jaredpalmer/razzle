@@ -40,7 +40,7 @@ jobs:
 
     - name: Install ${{ matrix.webpack }}
       if: steps.cache.outputs.cache-hit != 'true'
-      run: yarn install ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
+      run: yarn add -W ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
       run: yarn test --runInBand --coverage
