@@ -38,7 +38,7 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
-    - name: Install webpack ${{ matrix.webpack }}
+    - name: Install ${{ matrix.webpack }}
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
