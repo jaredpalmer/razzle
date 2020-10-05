@@ -2,6 +2,8 @@
   "index": "Introduction",
   "getting-started": "Getting Started",
   "docs": "Documentation",
+  "static-export": "Static Site Generation",
+  "single-page-applications": "Single Page Applications",
   "change-log": "Change Log",
   "about": "About"
 }

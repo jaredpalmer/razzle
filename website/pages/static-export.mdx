@@ -1,8 +1,10 @@
-### What is Static Site Generation (SSG)?
+# Static Site Generation
+
+## What is Static Site Generation (SSG)?
 
 Think of a static site generator as a script which takes in data, content and templates, processes them, and outputs a folder full of all the resultant pages and assets.
 
-### How To Enable SSG:
+## How To Enable SSG:
 
 Add `export` to your `package.json`'s scripts like so:
 
@@ -35,11 +37,11 @@ Run `npm export` or `yarn export`:
 Renders a static version of specified routes to the build folder based on the built production app.
 Your prerendered app is ready to be served!
 
-### How Razzle SSG Wroks?
+## How Razzle SSG Wroks?
 
 basicly in SSG proccess we SSR the app and then we save result of the SSR into a html file, so if you enable SSR you can also have SSG.
 
-### Can I use Razzle SSG with X?
+## Can I use Razzle SSG with X?
 
 Razzle not only works with React, but also Reason, Elm, Vue, Angular, Svelte, and most importantly......whatever comes next
 
@@ -58,11 +60,11 @@ html file destination is relative to the `req.url`, for example if the url is `/
 you may also need to save the data that your page uses to rehydrate the app on the client side.
 you can also pass the `data` along the `html` to `res.json({ html, data })` and contents of data object will go inside the `page-data.json` file next to the html file.
 
-### TypeScript Support
+## TypeScript Support
 
 Static export comes with typescript support out of the box, in order to use typescript rename `static_export.js` to `static_export.ts` and you are good to go! 
 
-### Advanced Configuration
+## Advanced Configuration
 
 ```js
 // razzle.config.js

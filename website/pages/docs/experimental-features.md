@@ -1,4 +1,4 @@
-## Experimental
+# Experimental Features
 
 Razzle has support for some experimental features. Currently razzle has experimental support for:
 
@@ -12,7 +12,7 @@ Razzle has support for some experimental features. Currently razzle has experime
 
 More features may be added in the future and may become fully supported features.
 
-### Razzle 4.0
+## Razzle 4.0
 
 If you want to be ready for the Razzle 4.0 release you can enble some experimental features to be sure you build will work on 4.0.
 
