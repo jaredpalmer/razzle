@@ -43,7 +43,7 @@ jobs:
 
     - name: Restore lerna
       id: cache
-      uses: actions/cache@v2
+      uses: davidsbond/cache@v2
       with:
         path: |
           node_modules
