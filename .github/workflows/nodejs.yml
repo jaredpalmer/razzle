@@ -26,6 +26,20 @@ jobs:
     - name: Install elm globally
       run: yarn global add elm
 
+    - name: Set default run status
+      run: echo ::set-output name=last_run_status::default > last_run_status
+
+    - name: Restore last run status
+      id: last_run
+      uses: actions/cache@v2
+      with:
+        path: |
+          last_run_status
+        key: ${{ env.GITHUB_SHA }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
+
+    - name: Set last run status
+      run: cat last_run_status
+
     - name: Restore lerna
       id: cache
       uses: actions/cache@v2
@@ -44,7 +58,11 @@ jobs:
       run: yarn add -W ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
+      id: test_run
       run: yarn test --runInBand --coverage
       env:
         CI: true
         WARNINGS_ERRORS_DISABLE: true
+
+    - name: Save run status
+      run: echo ::set-output name=last_run_status::${{ steps.test_run.outcome }} > last_run_status
