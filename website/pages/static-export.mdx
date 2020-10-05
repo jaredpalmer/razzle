@@ -50,7 +50,7 @@ Razzle not only works with React, but also Reason, Elm, Vue, Angular, Svelte, an
 behind the scenes razzle calls `render` function that exposed from `static_export` module and saves `html` string that you pass to `res.json()` into a html file. for `req` object there is only one property that is `url` which contains the url that we are going to render and save it's result to the html file.
 html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
 
-you should call `renderToString()` (or what ever your framework gives you to do SSR) in this function send resonse to `res.json()`
+you should call `renderToString()` (or what ever your framework gives you to do SSR) in this function and then send result to `res.json()`
 
 ```js
 export const render = (req, res) => {
@@ -64,12 +64,12 @@ export const render = (req, res) => {
 };
 ```
 
-(you can re-export your ssr logic from server.js file and use it `static_export`)
+(you can re-export your SRR logic from server.js file and use it `static_export`)
 
 #### routes()
 
-you should also export a function called `routes` that returns an array of strings or a promise that will resolve array of strings. razzle will take the urls one by one and pass them one by one to `render`.
-you should get all paths that your app has from your CMS in this method and return it at the end:
+you should also export a function called `routes` that returns an array of strings or a promise that will resolve array of strings. razzle will take the urls and will pass them one by one to `render`.
+you should get all paths that your app has from your CMS in this method and then return it:
 
 ```js
 export const routes = async () => {
@@ -81,8 +81,8 @@ export const routes = async () => {
 
 #### page data
 
-you may also need to save the data that your page uses to rehydrate the app on the client side.
-you can also pass the `data` along the `html` to `res.json({ html, data })` and contents of data object will go inside the `page-data.json` file next to the html file.
+you may also need to save the data that your page uses to re-hydrate the app on the client side.
+you can pass the `data` along the `html` to `res.json({ html, data })` and contents of `data` object will get saved in the `page-data.json` next to the related `index.html` file.
 
 ```js
 export const render = async (req, res) => {
@@ -98,7 +98,7 @@ export const render = async (req, res) => {
 };
 ```
 
-(you should also change how your app fetches data on client-side, so it reads data from `page-data.json`)
+(NOTE: you should change how your app fetches data on client-side, to read data from `page-data.json`)
 
 ## TypeScript Support
 
