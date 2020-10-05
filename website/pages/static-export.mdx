@@ -48,21 +48,61 @@ Razzle not only works with React, but also Reason, Elm, Vue, Angular, Svelte, an
 #### render()
 
 behind the scenes razzle calls `render` function that exposed from `static_export` module and saves `html` string that you pass to `res.json()` into a html file. for `req` object there is only one property that is `url` which contains the url that we are going to render and save it's result to the html file.
+html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
+
+you should call `renderToString()` (or what ever your framework gives you to do SSR) in this function send resonse to `res.json()`
+
+```js
+export const render = (req, res) => {
+  const html = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  res.json({ html });
+};
+```
+
+(you can re-export your ssr logic from server.js file and use it `static_export`)
 
 #### routes()
 
 you should also export a function called `routes` that returns an array of strings or a promise that will resolve array of strings. razzle will take the urls one by one and pass them one by one to `render`.
+you should get all paths that your app has from your CMS in this method and return it at the end:
 
-html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
+```js
+export const routes = async () => {
+  // data should be an array of strings ["/", "/product/A", "/blog/1", "/blog/2"]
+  const { data } = await getAppPaths();
+  return data;
+};
+```
 
 #### page data
 
 you may also need to save the data that your page uses to rehydrate the app on the client side.
 you can also pass the `data` along the `html` to `res.json({ html, data })` and contents of data object will go inside the `page-data.json` file next to the html file.
 
+```js
+export const render = async (req, res) => {
+  const data = await getDataForRoute(req.url);
+
+  const html = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  res.json({ html, data });
+};
+```
+
+(you should also change how your app fetches data on client-side, so it reads data from `page-data.json`)
+
 ## TypeScript Support
 
-Static export comes with typescript support out of the box, in order to use typescript rename `static_export.js` to `static_export.ts` and you are good to go! 
+Static export comes with typescript support out of the box, in order to use typescript rename `static_export.js` to `static_export.ts` and you are good to go!
 
 ## Advanced Configuration
 
