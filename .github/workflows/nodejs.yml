@@ -32,10 +32,12 @@ jobs:
 
     - name: Set head sha
       id: head_sha
+      if: matrix.os != 'windows-latest'
       run: echo ::set-output name=head_sha::$(git rev-parse HEAD)
 
     - name: Set head sha on windows
       id: head_sha_win
+      if: matrix.os == 'windows-latest'
       run: echo ::set-output name=head_sha::$(git rev-parse HEAD | Out-String)
 
     - name: Restore last run status
