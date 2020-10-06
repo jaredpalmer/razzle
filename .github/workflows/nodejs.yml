@@ -28,7 +28,7 @@ jobs:
 
     - name: Set default run status
       id: last_run_status
-      run: echo ::set-output name=last_run_status::default > last_run_status
+      run: echo "::set-output name=last_run_status::default" > last_run_status
 
     - name: Set head sha
       id: head_sha
@@ -72,4 +72,4 @@ jobs:
         WARNINGS_ERRORS_DISABLE: true
 
     - name: Save run status
-      run: echo ::set-output name=last_run_status::${{ steps.test_run.outcome }} > last_run_status
+      run: echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status
