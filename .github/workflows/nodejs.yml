@@ -27,7 +27,6 @@ jobs:
       run: yarn global add elm
 
     - name: Set default run status
-      id: last_run_status
       run: echo "::set-output name=last_run_status::default" > last_run_status
 
     - name: Set head sha
@@ -40,12 +39,16 @@ jobs:
       with:
         path: |
           last_run_status
-        key: ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.run_id }}
+        key: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
         restore-keys: |
-          ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
+          ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
 
     - name: Set last run status
+      id: last_run_status
       run: cat last_run_status
+
+    - name: Log last run status
+      run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
 
     - name: Restore lerna
       id: cache
