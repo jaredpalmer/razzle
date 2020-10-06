@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "@babel/core": "7.11.1",
-    "@babel/plugin-syntax-bigint": "7.8.3",
     "@fivethreeo/start-server-webpack-plugin": "3.0.0-rc5",
     "@pmmmwh/react-refresh-webpack-plugin": "0.3.0",
     "assets-webpack-plugin": "5.1.1",
