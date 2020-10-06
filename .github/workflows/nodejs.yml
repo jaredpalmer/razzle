@@ -34,15 +34,19 @@ jobs:
       id: head_sha
       run: echo ::set-output name=head_sha::$(git rev-parse HEAD)
 
+    - name: Set head sha on windows
+      id: head_sha_win
+      run: echo ::set-output name=head_sha::$(git rev-parse HEAD | Out-String)
+
     - name: Restore last run status
       id: last_run
       uses: actions/cache@v2
       with:
         path: |
           last_run_status
-        key: ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.run_id }}
+        key: ${{ steps.head_sha.outputs.head_sha }}${{ steps.head_sha_win.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.run_id }}
         restore-keys: |
-          ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
+          ${{ steps.head_sha.outputs.head_sha }}${{ steps.head_sha_win.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
 
     - name: Set last run status
       run: cat last_run_status
