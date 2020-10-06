@@ -37,9 +37,9 @@ Run `npm export` or `yarn export`:
 Renders a static version of specified routes to the build folder based on the built production app.
 Your prerendered app is ready to be served!
 
-## How Razzle SSG Wroks?
+## How Razzle SSG Works?
 
-basicly in SSG proccess we SSR the app and then we save result of the SSR into a html file, so if you enable SSR you can also have SSG.
+Basically in the SSG proccess we SSR the app and then save result of the SSR into a html file, so if you enable SSR you can also have SSG.
 
 ## Can I use Razzle SSG with X?
 
@@ -47,10 +47,10 @@ Razzle not only works with React, but also Reason, Elm, Vue, Angular, Svelte, an
 
 #### render()
 
-behind the scenes razzle calls `render` function that exposed from `static_export` module and saves `html` string that you pass to `res.json()` into a html file. for `req` object there is only one property that is `url` which contains the url that we are going to render and save it's result to the html file.
-html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
+Behind the scenes razzle calls a `render` function that exposed from `static_export` module and saves a html string that you pass to `res.json()` into a html file. or `req` object there is only one property that is needed `url` which contains the url that we are going to render and save it's result to the html file.
+The html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
 
-you should call `renderToString()` (or what ever your framework gives you to do SSR) in this function and then send result to `res.json()`
+You should call `renderToString()` (or what ever your framework gives you to do SSR) in this function and then pass the result to `res.json()`
 
 ```js
 export const render = (req, res) => {
@@ -64,12 +64,12 @@ export const render = (req, res) => {
 };
 ```
 
-(you can re-export your SRR logic from server.js file and use it `static_export`)
+(You can re-export your SRR logic from server.js file and use it `static_export`)
 
 #### routes()
 
-you should also export a function called `routes` that returns an array of strings or a promise that will resolve array of strings. razzle will take the urls and will pass them one by one to `render`.
-you should get all paths that your app has from your CMS in this method and then return it:
+You should also export a function called `routes` that returns an array of strings or a promise that will resolve array of strings. razzle will take the urls and will pass them one by one to `render`.
+You should get all paths that your app has from your CMS in this method and then return it:
 
 ```js
 export const routes = async () => {
@@ -79,10 +79,10 @@ export const routes = async () => {
 };
 ```
 
-#### page data
+#### Page data
 
-you may also need to save the data that your page uses to re-hydrate the app on the client side.
-you can pass the `data` along the `html` to `res.json({ html, data })` and contents of `data` object will get saved in the `page-data.json` next to the related `index.html` file.
+You may also need to save the data that your page uses to re-hydrate the app on the client side.
+You can pass the `data` along the `html` to `res.json({ html, data })` and contents of `data` object will get saved in the `page-data.json` next to the related `index.html` file.
 
 ```js
 export const render = async (req, res) => {
@@ -98,7 +98,7 @@ export const render = async (req, res) => {
 };
 ```
 
-(NOTE: you should change how your app fetches data on client-side, to read data from `page-data.json`)
+(NOTE: You should change how your app fetches data on client-side, to read data from `page-data.json`)
 
 ## TypeScript Support
 
