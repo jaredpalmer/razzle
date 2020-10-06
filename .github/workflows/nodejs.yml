@@ -41,8 +41,8 @@ jobs:
         path: |
           last_run_status
         key: ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.run_id }}
-        restore-keys:
-          - ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
+        restore-keys: |
+          ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
 
     - name: Set last run status
       run: cat last_run_status
