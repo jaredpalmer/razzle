@@ -47,7 +47,7 @@ jobs:
 
     - uses: actions/checkout@v1
       if: steps.last_run_status.outputs.last_run_status != 'success'
-      
+
     - name: Use Node.js ${{ matrix.node-version }}
       if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/setup-node@v1
@@ -73,7 +73,7 @@ jobs:
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
     - name: Install ${{ matrix.webpack }}
-      if: steps.cache.outputs.cache-hit != 'true' steps.last_run_status.outputs.last_run_status != 'success'
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn add -W ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
