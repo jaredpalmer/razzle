@@ -46,16 +46,21 @@ jobs:
       run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
 
     - uses: actions/checkout@v1
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      
     - name: Use Node.js ${{ matrix.node-version }}
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install elm globally
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn global add elm
 
     - name: Restore lerna
       id: cache
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/cache@v2
       with:
         path: |
@@ -64,19 +69,21 @@ jobs:
         key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install and bootstrap packages
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
     - name: Install ${{ matrix.webpack }}
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn add -W ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
       id: test_run
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn test --runInBand --coverage
       env:
         CI: true
         WARNINGS_ERRORS_DISABLE: true
 
     - name: Save run status
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status
