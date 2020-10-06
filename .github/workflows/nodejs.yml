@@ -27,23 +27,29 @@ jobs:
       run: yarn global add elm
 
     - name: Set default run status
+      id: last_run_status
       run: echo ::set-output name=last_run_status::default > last_run_status
+
+    - name: Set head sha
+      id: head_sha
+      run: echo ::set-output name=head_sha::$(git rev-parse HEAD)
 
     - name: Restore last run status
       id: last_run
-      uses: davidsbond/cache@v2
+      uses: actions/cache@v2
       with:
         path: |
           last_run_status
-        key: ${{ env.GITHUB_SHA }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
-        update: "true"
+        key: ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.run_id }}
+        restore-keys:
+          - ${{ steps.head_sha.outputs.head_sha }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
 
     - name: Set last run status
       run: cat last_run_status
 
     - name: Restore lerna
       id: cache
-      uses: davidsbond/cache@v2
+      uses: actions/cache@v2
       with:
         path: |
           node_modules
