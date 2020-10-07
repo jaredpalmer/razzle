@@ -36,7 +36,7 @@ module.exports = {
   plugins: [
     new FriendlyErrorsPlugin({
         verbose: false,
-        target: 'web'
+        target: 'web',
         onSuccessMessage: `Your application is running at http://${process.env.HOST}:${process.env.PORT}`,
       }),
     // ...
