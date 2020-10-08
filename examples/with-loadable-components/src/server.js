@@ -7,7 +7,7 @@ import path from "path";
 
 const server = express();
 
-export const renderApp = async (req, res) => {
+export const renderApp = async (req) => {
   // We create an extractor from the statsFile
   const extractor = new ChunkExtractor({
     statsFile: path.resolve("build/loadable-stats.json"),
@@ -56,8 +56,8 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get("/*", async (req, res, next) => {
     try {
-      const { html } = await renderApp(request);
-      response.send(html);
+      const { html } = await renderApp(req);
+      res.send(html);
     } catch (error) {
       next(error);
     }
