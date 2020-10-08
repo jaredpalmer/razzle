@@ -11,7 +11,7 @@ const defaultOptions = {
   },
   forkTsChecker: {
     eslint: {
-      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+      files: './src/**/*.{ts,tsx,js,jsx}',
     }
   },
 };
