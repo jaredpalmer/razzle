@@ -1,6 +1,8 @@
 {
   "customization": "Customization",
   "environment-variables": "Environment Variables",
-  "how-it-works": "How Razzle Works",
-  "experimental-features": "Experimental Features"
+  "single-page-applications": "Single Page Applications",
+  "static-export": "Static Site Generation",
+  "experimental-features": "Experimental Features",
+  "how-it-works": "How Razzle Works"
 }
