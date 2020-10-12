@@ -5,6 +5,20 @@ import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets.entrypoints[entrypoint] ? assets.entrypoints[entrypoint].css ?
+  assets.entrypoints[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${asset}">`
+  ).join('') : '' : '';
+};
+};
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets.entrypoints[entrypoint] ? assets.entrypoints[entrypoint].js ?
+  assets.entrypoints[entrypoint].js.map(asset=>
+    `<script src="${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
+
 export const renderApp = (req, res) => {
   const markup = renderToString(<App />);
 
@@ -17,15 +31,11 @@ export const renderApp = (req, res) => {
       <meta charSet='utf-8' />
       <title>Welcome to Razzle</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      ${
-      assets.client.css
-        ? `<link rel="stylesheet" href="${assets.client.css}">`
-        : ''
-      }
+      ${cssLinksFromAssets(assets, 'client')}
   </head>
   <body>
       <div id="root">${markup}</div>
-      <script src="${assets.client.js}" defer crossorigin></script>
+      ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
   </body>
 </html>`;
 
