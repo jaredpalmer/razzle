@@ -28,9 +28,6 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
 
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
-
     // Create server.js
     expect(fileExists('build/server.js')).toBeTruthy();
     expect(fileExists('build/server.js.map')).toBeTruthy();
@@ -59,9 +56,6 @@ describe('razzle build', () => {
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
-
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Create server.js
     expect(fileExists('build/server.js')).toBeTruthy();
@@ -92,9 +86,6 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
 
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
-
     // We modify the default server output filename -> custom.js
     expect(fileExists('build/custom.js')).toBeTruthy();
     expect(fileExists('build/custom.js.map')).toBeTruthy();
@@ -121,9 +112,6 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
 
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
-
     // Should compile client bundle to js directory
     expect(directoryExists('build/public/static/js')).toBeTruthy();
     expect(shell.ls('build/public/static/js/client.*.js').code).toBe(0);
@@ -141,9 +129,6 @@ describe('razzle build', () => {
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
-
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     // Create index.html
     expect(fileExists('build/public/index.html')).toBeTruthy();
@@ -177,9 +162,6 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
 
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
-
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
     const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.css));
 
@@ -194,9 +176,6 @@ describe('razzle build', () => {
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
 
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
-
     // We modify the default server output filename -> custom.js
     expect(fileExists('build/custom.js')).toBeTruthy();
     expect(fileExists('build/custom.js.map')).toBeTruthy();
@@ -209,9 +188,6 @@ describe('razzle build', () => {
     const output = shell.exec('yarn build');
     // Create asset manifest
     expect(fileExists('build/assets.json')).toBeTruthy();
-
-    // Create chunk manifest
-    expect(fileExists('build/chunks.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
     const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js));

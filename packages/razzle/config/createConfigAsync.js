@@ -5,9 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const crypto = require('crypto');
 const TerserPlugin = require('terser-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const AssetsPlugin = require('assets-webpack-plugin');
 const StartServerPlugin = require('@fivethreeo/start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const safePostCssParser = require('postcss-safe-parser');
@@ -16,7 +14,7 @@ const getClientEnv = require('./env').getClientEnv;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const ManifestPlugin = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const modules = require('./modules');
@@ -669,119 +667,11 @@ module.exports = (
       config.plugins = [
         // Output our JS and CSS files in a manifest file called assets.json
         // in the build directory.
-        new AssetsPlugin({
-          path: paths.appBuild,
-          filename: 'assets.json',
-        }),
-        // Output all files in a manifest file called assets-manifest.json
-        // in the build directory.
-        experimental.newAssetsManifest ? new ManifestPlugin({
-          fileName: path.join(paths.appBuild, 'assets-manifest.json'),
-          writeToFileEmit: true,
-          generate: (seed, files) => {
-            const entrypoints = new Set();
-            const noChunkFiles = new Set();
-            files.forEach(file => {
-              if (file.isChunk) {
-                const groups = (
-                  (file.chunk || {})._groups || []
-                ).forEach(group => entrypoints.add(group));
-              } else {
-                noChunkFiles.add(file);
-              }
-            });
-            const entries = [...entrypoints];
-            const entryArrayManifest = entries.reduce((acc, entry) => {
-              const name =
-                (entry.options || {}).name ||
-                (entry.runtimeChunk || {}).name ||
-                entry.id;
-              const files = []
-                .concat(
-                  ...(entry.chunks || []).map(chunk =>
-                    chunk.files.map(path => config.output.publicPath + path)
-                  )
-                )
-                .filter(Boolean);
-
-              const filesByType = files.reduce((types, file) => {
-                const fileType = file.slice(file.lastIndexOf('.') + 1);
-                types[fileType] = types[fileType] || [];
-                types[fileType].push(file);
-                return types;
-              }, {});
-
-              return name
-                ? {
-                    ...acc,
-                    [name]: filesByType,
-                  }
-                : acc;
-            }, seed);
-            entryArrayManifest['noentry'] = [...noChunkFiles]
-              .map(file => file.path)
-              .reduce((types, file) => {
-                const fileType = file.slice(file.lastIndexOf('.') + 1);
-                types[fileType] = types[fileType] || [];
-                types[fileType].push(file);
-                return types;
-              }, {});
-            return entryArrayManifest;
-          },
-        }) : null,
-        // Output our JS and CSS files in a manifest file called chunks.json
-        // in the build directory.
-        // based on https://github.com/danethurber/webpack-manifest-plugin/issues/181#issuecomment-467907737
         new ManifestPlugin({
-          fileName: path.join(paths.appBuild, 'chunks.json'),
-          writeToFileEmit: true,
-          filter: item => item.isChunk,
-          generate: (seed, files) => {
-            const entrypoints = new Set();
-            files.forEach(file =>
-              ((file.chunk || {})._groups || []).forEach(group =>
-                entrypoints.add(group)
-              )
-            );
-            const entries = [...entrypoints];
-            const entryArrayManifest = entries.reduce((acc, entry) => {
-              const name =
-                (entry.options || {}).name ||
-                (entry.runtimeChunk || {}).name ||
-                entry.id;
-              const files = []
-                .concat(
-                  ...(entry.chunks || []).map(chunk =>
-                    chunk.files.map(path => config.output.publicPath + path)
-                  )
-                )
-                .filter(Boolean);
-
-              const chunkIds = [].concat(
-                ...(entry.chunks || []).map(chunk => chunk.ids)
-              );
-
-              const cssFiles = files
-                .map(item => (item.indexOf('.css') !== -1 ? item : null))
-                .filter(Boolean);
-
-              const jsFiles = files
-                .map(item => (item.indexOf('.js') !== -1 ? item : null))
-                .filter(Boolean);
-
-              return name
-                ? {
-                    ...acc,
-                    [name]: {
-                      css: cssFiles,
-                      js: jsFiles,
-                      chunks: chunkIds,
-                    },
-                  }
-                : acc;
-            }, seed);
-            return entryArrayManifest;
-          },
+          output: path.join(paths.appBuild, 'assets.json'),
+          writeToDisk: true,
+          publicPath: true,
+          entrypoints: true,
         }),
       ].filter(x=>x);
 
