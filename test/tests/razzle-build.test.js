@@ -163,7 +163,7 @@ describe('razzle build', () => {
     expect(fileExists('build/assets.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
-    const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.css));
+    const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.entrypoints.client.css[0]));
 
     expect(css.toString().includes("razzle-scss-prepend")).toBeTruthy();
 
