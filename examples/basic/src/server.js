@@ -11,7 +11,7 @@ const cssLinksFromAssets = (assets, entrypoint) => {
     `<link rel="stylesheet" href="${asset}">`
   ).join('') : '' : '';
 };
-};
+
 const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
   return assets.entrypoints[entrypoint] ? assets.entrypoints[entrypoint].js ?
   assets.entrypoints[entrypoint].js.map(asset=>
