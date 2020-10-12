@@ -190,7 +190,7 @@ describe('razzle build', () => {
     expect(fileExists('build/assets.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
-    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js));
+    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.entrypoints.client.js[0]));
 
     expect(js.toString().includes("Something Extra")).toBeTruthy();
 
