@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "3.3.4",
+  "version": "3.3.5",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
