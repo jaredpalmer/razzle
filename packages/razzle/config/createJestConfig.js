@@ -35,8 +35,8 @@ module.exports = (
     let config =
     {
       collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
-
       testMatch: [
+        '<rootDir>/src/**/*(*.)@(spec|test).(ts|js)?(x)',
         '<rootDir>/src/**/__tests__/**/*(*.)@(spec|test).(ts|js)?(x)',
         '<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)',
       ],
