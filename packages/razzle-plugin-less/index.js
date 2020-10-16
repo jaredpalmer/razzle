@@ -34,7 +34,7 @@ module.exports = {
         plugins: [
           PostCssFlexBugFixes,
           autoprefixer({
-            browsers: opts.options.razzleOptions.browserslist || [
+            overrideBrowserslist: opts.options.razzleOptions.browserslist || [
               '>1%',
               'last 4 versions',
               'Firefox ESR',

@@ -176,7 +176,12 @@ module.exports = (
         require('postcss-flexbugs-fixes'),
         require('postcss-preset-env')({
           autoprefixer: {
-            browsers: razzleOptions.browserslist,
+            overrideBrowserslist: razzleOptions.browserslist || [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9',
+            ],
             flexbox: 'no-2009',
           },
           stage: 3,
