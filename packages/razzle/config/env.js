@@ -64,7 +64,7 @@ function getClientEnvironment(target, options, paths) {
         // variable available to users.
         RAZZLE_PUBLIC_DIR:
           process.env.NODE_ENV === 'production'
-            ? paths.appBuildPublic
+            ? path.relative(paths.appPath, paths.appBuildPublic)
             : paths.appPublic,
         // Whether or not react-refresh is enabled.
         // react-refresh is not 100% stable at this time,
