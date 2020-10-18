@@ -25,7 +25,7 @@ module.exports = {
 
     config.module.rules = [
       {
-        test: /\.(js|jsx|mjs)$/,
+        test: /\.(js|mjs|jsx|ts|tsx)$/,
         enforce: 'pre',
         loader: require.resolve('eslint-loader'),
         options: mainEslintOptions,
