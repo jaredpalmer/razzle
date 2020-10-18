@@ -36,7 +36,7 @@ module.exports = {
     {
       name: 'mdx',
       options: {
-        mdPlugins: [images, emoji],
+        remarkPlugins: [images, emoji],
       },
     },
   ],
