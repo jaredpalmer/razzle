@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "css-loader": "3.5.3",
+    "css-loader": "5.0.0",
     "svelte": "^3.24.1",
     "svelte-loader": "^2.13.6",
     "svelte-preprocess": "^4.0.10"
