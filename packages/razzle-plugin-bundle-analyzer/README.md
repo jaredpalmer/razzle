@@ -1,4 +1,4 @@
-## razzle-plugin-bundle-analyzer
+# razzle-plugin-bundle-analyzer
 
 This package contains a plugin for using webpack-bundle-analyzer with Razzle
 

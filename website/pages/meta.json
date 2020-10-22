@@ -2,5 +2,6 @@
   "index": "Introduction",
   "getting-started": "Getting Started",
   "docs": "Documentation",
+  "plugins": "Razzle plugins",
   "change-log": "Change Log"
 }
