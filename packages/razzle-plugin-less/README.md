@@ -18,8 +18,6 @@ module.exports = {
 };
 ```
 
----
-
 ### With custom options
 
 ```js
@@ -128,7 +126,6 @@ Set `prod` to add config to postcss in `production`.
 
 See [css loader options](https://github.com/webpack-contrib/css-loader#options) to override configs.
 
----
 
 #### style: _object_
 
