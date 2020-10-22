@@ -9,6 +9,9 @@ module.exports = (pluginOptions = {
 
   return Object.assign({}, nextConfig, {
     webpack(config, options) {
+      
+      config.resolve.symlinks = false
+
       config.module.rules.push({
         test: extension,
         use: [

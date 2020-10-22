@@ -46,7 +46,7 @@ Array such as postcss.plugins **WILL NOT BE EXTENDED OR CONCATED**, it will over
 
 ---
 
-### postcss: _object_
+### postcss
 
 default
 
@@ -75,9 +75,8 @@ Set `prod` to add config to postcss in `production`.
 
 See [postcss loader options](https://github.com/postcss/postcss-loader#options) to override configs.
 
----
 
-### less: _object_
+### less
 
 default
 
@@ -101,7 +100,7 @@ See [less loader options](https://github.com/webpack-contrib/less-loader) to ove
 
 ---
 
-### css: _object_
+### css
 
 default
 
@@ -127,7 +126,7 @@ Set `prod` to add config to postcss in `production`.
 See [css loader options](https://github.com/webpack-contrib/css-loader#options) to override configs.
 
 
-#### style: _object_
+#### style
 
 default
 
@@ -140,7 +139,7 @@ Style loader only used in `development` environment.
 
 See [style loader options](https://github.com/webpack-contrib/style-loader#options) to override configs.
 
-#### resolveUrl: _object_
+#### resolveUrl
 
 default
 
