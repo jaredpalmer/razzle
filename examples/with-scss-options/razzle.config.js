@@ -9,10 +9,10 @@ module.exports = {
       options: {
         sass: {
           dev: {
-            prependData: `@import "${path.resolve(__dirname, './src/prepend.scss').replace(/\\/g, '/')}";`,
+            additionalData: `@import "${path.resolve(__dirname, './src/prepend.scss').replace(/\\/g, '/')}";`,
           },
           prod: {
-            prependData: `@import "${path.resolve(__dirname, './src/prepend.scss').replace(/\\/g, '/')}";`,
+            additionalData: `@import "${path.resolve(__dirname, './src/prepend.scss').replace(/\\/g, '/')}";`,
           },
         },
       },

@@ -1,6 +1,7 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const merge = require('deepmerge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
 const paths = require('razzle/config/paths');
@@ -125,8 +126,10 @@ module.exports = {
           ? [
               {
                 loader: require.resolve('css-loader'),
-                options: Object.assign({}, options.css[constantEnv], {
-                  onlyLocals: true,
+                options: merge(options.css[constantEnv], {
+                  modules: {
+                    exportOnlyLocals: true,
+                  }
                 }),
               },
               resolveUrlLoader,

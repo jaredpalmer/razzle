@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "autoprefixer": "10.0.1",
+    "deepmerge": "4.2.2",
     "node-sass-chokidar": "1.5.0",
     "postcss-flexbugs-fixes": "4.2.1",
     "postcss-load-config": "3.0.0",

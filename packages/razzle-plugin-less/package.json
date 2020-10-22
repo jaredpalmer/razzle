@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "autoprefixer": "10.0.1",
+    "deepmerge": "4.2.2",
     "less-loader": "7.0.2",
     "node-less-chokidar": "0.4.1",
     "postcss-flexbugs-fixes": "4.2.1",
