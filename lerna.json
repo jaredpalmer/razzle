@@ -2,6 +2,7 @@
   "lerna": "3.20.2",
   "packages": [
     "packages/razzle",
+    "packages/razzle-start-server-webpack-plugin",
     "packages/babel-preset-razzle",
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
