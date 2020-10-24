@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-heroku",
-  "version": "4.0.0-canary.5",
+  "version": "4.0.0-canary.6",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "razzle": "4.0.0-canary.5",
-    "razzle-dev-utils": "4.0.0-canary.5",
+    "razzle": "4.0.0-canary.6",
+    "razzle-dev-utils": "4.0.0-canary.6",
     "razzle-heroku": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.5"
+    "babel-preset-razzle": "4.0.0-canary.6"
   }
 }
