@@ -12,6 +12,10 @@ Visit <a aria-label="razzle getting started" href="https://razzle-git-canary.jar
 
 Visit <a aria-label="razzle docs" href="https://razzle-git-canary.jared.vercel.app/">https://razzle-git-canary.jared.vercel.app/</a> to view the documentation.
 
+## Getting help
+
+If you get stuck, check out Razzle's [GitHub Discussions](https://github.com/jaredpalmer/razzle/discussions). In addition, #razzle-afterjs on [Formium Community Discord Server](https://discord.gg/pJSg287) is a great way to get help quickly too.
+
 ## Contributing
 
 Please see our [CONTRIBUTING.md](/.github/CONTRIBUTING.md).
