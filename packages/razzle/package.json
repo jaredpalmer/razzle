@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "version": "4.0.0-canary.4",
+  "version": "4.0.0-canary.5",
   "bin": {
     "razzle": "./bin/razzle.js"
   },
@@ -18,7 +18,6 @@
   "dependencies": {
     "@babel/core": "7.11.1",
     "@pmmmwh/react-refresh-webpack-plugin": "0.3.0",
-    "razzle-start-server-webpack-plugin": "4.0.0-canary.4",
     "babel-jest": "26.3.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-syntax-jsx": "6.18.0",
@@ -57,10 +56,11 @@
     "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
-    "babel-preset-razzle": "4.0.0-canary.4",
+    "babel-preset-razzle": "4.0.0-canary.5",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "4.0.0-canary.4",
-    "webpack-dev-server": "^3.11.0"
+    "razzle-dev-utils": "4.0.0-canary.5",
+    "webpack-dev-server": "^3.11.0",
+    "razzle-start-server-webpack-plugin": "4.0.0-canary.5"
   },
   "keywords": [
     "inferno",
