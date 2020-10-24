@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-devserver-options",
-  "version": "4.0.0-canary.3",
+  "version": "4.0.0-canary.4",
   "license": "MIT",
   "scripts": {
     "start": "CLIENT_PUBLIC_PATH=http://localhost:3002/ razzle start",
@@ -15,11 +15,11 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.3",
-    "razzle-dev-utils": "4.0.0-canary.3",
+    "razzle": "4.0.0-canary.4",
+    "razzle-dev-utils": "4.0.0-canary.4",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.3",
+    "babel-preset-razzle": "4.0.0-canary.4",
     "webpack-dev-server": "^3.11.0"
   }
 }
