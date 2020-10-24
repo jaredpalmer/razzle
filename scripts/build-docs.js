@@ -42,11 +42,7 @@ function updatePackageJson(packageJson, branch, dependencyVersions, version) {
       const newPackageJsonData = ["dependencies", "devDependencies", "peerDependencies"].reduce((acc, depType) => {
         if (acc[depType]) {
           acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
-            if (dependencyVersions[dep] && depType == "dependencies") {
-              delete depsAcc[dep]
-              if (!acc.peerDependencies) acc.peerDependencies = {};
-              acc.peerDependencies[dep] = dependencyVersions[dep];
-            } else if (dependencyVersions[dep]) {
+            if (dependencyVersions[dep]) {
               depsAcc[dep] = dependencyVersions[dep];
             }
 
