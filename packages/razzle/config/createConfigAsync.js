@@ -391,6 +391,8 @@ module.exports = (
       }
     ]
   };
+  
+  webpackOptions.watchIgnorePaths = [paths.appAssetsManifest, paths.appChunksManifest];
 
   for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
@@ -658,8 +660,8 @@ module.exports = (
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
           new webpack.WatchIgnorePlugin(
             webpackMajor === 5
-              ? { paths: [paths.appAssetsManifest, paths.appChunksManifest] }
-              : [paths.appAssetsManifest, paths.appChunksManifest]
+              ? { paths: webpackOptions.watchIgnorePaths }
+              : webpackOptions.watchIgnorePaths
           ),
         ].filter(x => x);
       }
