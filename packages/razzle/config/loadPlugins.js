@@ -12,6 +12,11 @@ function loadPlugin(plugin, paths) {
     return [plugin, {}];
   }
 
+  // Support for not released plugins
+  if (typeof plugin === 'object') {
+    return [plugin, {}];
+  }
+
   if (typeof plugin.func === 'function') {
     // Used for writing plugin tests
     return [plugin.func, plugin.options];
@@ -36,7 +41,7 @@ function loadPlugin(plugin, paths) {
 }
 
 function loadPlugins(plugins, paths) {
-  return plugins.map(function(plugin) {
+  return plugins.map(function (plugin) {
     return loadPlugin(plugin, paths);
   });
 }
