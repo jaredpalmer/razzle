@@ -18,7 +18,7 @@ Please see our [CONTRIBUTING.md](/.github/CONTRIBUTING.md).
 
 ## Getting help
 
-If you get stuck, check out Razzle's [GitHub Discussions](https://github.com/jaredpalmer/razzle/discussions). In addition, #razzle-afterjs on [Formium Community Discord Server](https://discord.gg/pJSg287) is a great way to get help quickly too.
+If you get stuck, check out Razzle's [GitHub Discussions](https://github.com/jaredpalmer/razzle/discussions). In addition, #razzle-afterjs on the [Formium Community Discord Server](https://discord.gg/pJSg287) is a great way to get help quickly too.
 
 ## Inspiration
 
