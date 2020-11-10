@@ -12,6 +12,11 @@ function loadPlugin(plugin, paths) {
     return [plugin, {}];
   }
 
+  // Support for not released plugins
+  if (typeof plugin === 'object') {
+    return [plugin, {}];
+  }
+
   if (typeof plugin.func === 'function') {
     // Used for writing plugin tests
     return [plugin.func, plugin.options];
