@@ -12,8 +12,9 @@ function loadPlugin(plugin, paths) {
     return [plugin, {}];
   }
 
-  // Support for not released plugins
-  if (typeof plugin === 'object') {
+  // Support for not released plugins without options
+  // Use plugin.object if you need options
+  if (typeof plugin === 'object' && !plugin.name && !plugin.object) {
     return [plugin, {}];
   }
 
