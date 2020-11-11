@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "autoprefixer": "^8.6.2",
+    "css-loader": "3.5.3",
     "less-loader": "^5.0.0",
     "node-less-chokidar": "^0.4.1",
     "postcss-flexbugs-fixes": "^3.3.1",
