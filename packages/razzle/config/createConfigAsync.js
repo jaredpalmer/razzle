@@ -61,7 +61,7 @@ module.exports = (
     modify = null,
     modifyWebpackOptions = null,
     modifyWebpackConfig = null,
-    modifyBabelOptions = null,
+    modifyBabelPreset = null,
     experimental = {},
     disableStartServer = false,
   },
@@ -391,7 +391,7 @@ module.exports = (
       }
     ]
   };
-  
+
   webpackOptions.watchIgnorePaths = [paths.appAssetsManifest, paths.appChunksManifest];
 
   for (const [plugin, pluginOptions] of plugins) {
@@ -423,6 +423,20 @@ module.exports = (
         paths,
       });
     }
+
+    webpackOptions.babelRule.use[0].options.razzleContext = {
+      plugins,
+      modifyBabelPreset,
+      configContext: {
+        env: { target, dev: IS_DEV },
+        webpackObject: webpackObject,
+        options: {
+          razzleOptions,
+          webpackOptions,
+        },
+        paths,
+      }
+    };
 
     const defaultPostCssOptions = {
       ident: 'postcss',

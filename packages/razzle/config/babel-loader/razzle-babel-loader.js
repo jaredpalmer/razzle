@@ -3,6 +3,7 @@
 const babelLoader = require('babel-loader');
 const hash = require('string-hash');
 const path = require('path');
+const merge = require('deepmerge');
 const basename = path.basename;
 const join = path.join;
 
@@ -65,6 +66,7 @@ module.exports = babelLoader.custom(function(babel) {
         babelPresetPlugins: opts.babelPresetPlugins,
         development: opts.development,
         hasReactRefresh: opts.hasReactRefresh,
+        razzleContext: opts.razzleContext,
       };
       const filename = join(opts.cwd, 'noop.js');
       const loader = Object.assign(
@@ -102,6 +104,7 @@ module.exports = babelLoader.custom(function(babel) {
       delete loader.babelPresetPlugins;
       delete loader.development;
       delete loader.hasReactRefresh;
+      delete loader.razzleContext;
       return { loader, custom };
     },
     config: function(cfg, cfgOpts) {
@@ -113,9 +116,10 @@ module.exports = babelLoader.custom(function(babel) {
       const babelPresetPlugins = customOptions.babelPresetPlugins;
       const development = customOptions.development;
       const hasReactRefresh = customOptions.hasReactRefresh;
+      const razzleContext = customOptions.razzleContext;
 
       const filename = this.resourcePath;
-      const options = Object.assign({}, cfg.options);
+      const presetOptions = Object.assign({}, cfg.options);
 
       if (cfg.hasFilesystemConfig()) {
         for (const file of [cfg.babelrc, cfg.config]) {
@@ -127,18 +131,18 @@ module.exports = babelLoader.custom(function(babel) {
         }
       } else {
         // Add our default preset if the no "babelrc" found.
-        options.presets = (options.presets || []).concat([presetItem]);
+        presetOptions.presets = (presetOptions.presets || []).concat([presetItem]);
       }
 
-      options.caller.isServer = isServer;
-      options.caller.isModern = isModern;
-      options.caller.isDev = development;
+      presetOptions.caller.isServer = isServer;
+      presetOptions.caller.isModern = isModern;
+      presetOptions.caller.isDev = development;
 
       const emitWarning = this.emitWarning.bind(this);
-      Object.defineProperty(options.caller, 'onWarning', {
+      Object.defineProperty(presetOptions.caller, 'onWarning', {
         enumerable: false,
         writable: false,
-        value: (options.caller.onWarning = function(reason) {
+        value: (presetOptions.caller.onWarning = function(reason) {
           if (!(reason instanceof Error)) {
             reason = new Error(reason);
           }
@@ -146,14 +150,14 @@ module.exports = babelLoader.custom(function(babel) {
         }),
       });
 
-      options.plugins = options.plugins || [];
+      presetOptions.plugins = presetOptions.plugins || [];
 
       if (hasReactRefresh) {
         const reactRefreshPlugin = babel.createConfigItem(
           [require('react-refresh/babel'), { skipEnvCheck: true }],
           { type: 'plugin' }
         );
-        options.plugins.unshift(reactRefreshPlugin);
+        presetOptions.plugins.unshift(reactRefreshPlugin);
         if (!isServer) {
           const noAnonymousDefaultExportPlugin = babel.createConfigItem(
             [
@@ -162,16 +166,16 @@ module.exports = babelLoader.custom(function(babel) {
             ],
             { type: 'plugin' }
           );
-          options.plugins.unshift(noAnonymousDefaultExportPlugin);
+          presetOptions.plugins.unshift(noAnonymousDefaultExportPlugin);
         }
       }
 
       if (isModern) {
-        const razzlePreset = options.presets.find(
+        const razzlePreset = presetOptions.presets.find(
           preset => preset && preset.value === razzleBabelPreset
         ) || { options: {} };
 
-        const additionalPresets = options.presets.filter(
+        const additionalPresets = presetOptions.presets.filter(
           preset => preset !== razzlePreset
         );
 
@@ -182,16 +186,16 @@ module.exports = babelLoader.custom(function(babel) {
           }
         );
 
-        options.presets = (additionalPresets || []).concat([presetItemModern]);
+        presetOptions.presets = (additionalPresets || []).concat([presetItemModern]);
       }
 
       // If the file has `module.exports` we have to transpile commonjs because Babel adds `import` statements
       // That break webpack, since webpack doesn't support combining commonjs and esmodules
       if (!hasModern && source.indexOf('module.exports') !== -1) {
-        options.plugins.push(applyCommonJs);
+        presetOptions.plugins.push(applyCommonJs);
       }
 
-      options.plugins.push([
+      presetOptions.plugins.push([
         require.resolve('babel-plugin-transform-define'),
         {
           'process.env.NODE_ENV': development ? 'development' : 'production',
@@ -202,7 +206,7 @@ module.exports = babelLoader.custom(function(babel) {
       ]);
 
       // As lib has stateful modules we have to transpile commonjs
-      options.overrides = options.overrides || [];
+      presetOptions.overrides = presetOptions.overrides || [];
       // .concat([
       //   {
       //     test: [
@@ -212,14 +216,28 @@ module.exports = babelLoader.custom(function(babel) {
       //   },
       // ])
 
-      for (const plugin of babelPresetPlugins) {
-        require(join(plugin.dir, 'src', 'babel-preset-build.js'))(
-          options,
-          plugin.config || {}
+      for (const [plugin, pluginOptions] of razzleContext.plugins) {
+        // Check if .modifyBabelPreset is a function.
+        // If it is, call it on the configs we created.
+        if (plugin.modifyBabelPreset) {
+          presetOptions = plugin.modifyBabelPreset(
+            merge(razzleContext.configContext, {
+              options: { pluginOptions, presetOptions }
+            })
+          );
+        }
+      }
+      // Check if razzle.config.js has a modifyBabelPreset function.
+      // If it does, call it on the configs we created.
+      if (razzleContext.modifyBabelPreset) {
+        presetOptions = razzleContext.modifyBabelPreset(
+          merge(razzleContext.configContext, {
+            options: { pluginOptions, presetOptions }
+          })
         );
       }
 
-      return options;
+      return presetOptions;
     },
   };
 });
