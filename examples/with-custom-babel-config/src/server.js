@@ -8,15 +8,15 @@ import { renderToString } from 'react-dom/server';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const cssLinksFromAssets = (assets, entrypoint) => {
-  return assets.entrypoints[entrypoint] ? assets.entrypoints[entrypoint].css ?
-  assets.entrypoints[entrypoint].css.map(asset=>
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  assets[entrypoint].css.map(asset=>
     `<link rel="stylesheet" href="${asset}">`
   ).join('') : '' : '';
 };
 
 const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
-  return assets.entrypoints[entrypoint] ? assets.entrypoints[entrypoint].js ?
-  assets.entrypoints[entrypoint].js.map(asset=>
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  assets[entrypoint].js.map(asset=>
     `<script src="${asset}"${extra}></script>`
   ).join('') : '' : '';
 };

@@ -53,7 +53,7 @@
     "terser-webpack-plugin": "^2.3.5",
     "tiny-async-pool": "^1.1.0",
     "url-loader": "^2.3.0",
-    "webpack-assets-manifest": "3.1.1",
+    "webpack-manifest-plugin": "3.0.0-rc.0",
     "webpackbar": "^4.0.0"
   },
   "peerDependencies": {

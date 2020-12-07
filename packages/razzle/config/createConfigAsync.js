@@ -14,7 +14,7 @@ const getClientEnv = require('./env').getClientEnv;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
-const ManifestPlugin = require('webpack-assets-manifest');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const modules = require('./modules');
@@ -89,77 +89,13 @@ module.exports = (
           defaultVendors: false,
         },
       },
-      prodGranular: {
-        chunks: 'all',
+      prod: {
         cacheGroups: {
           default: false,
           vendors: false,
           // In webpack 5 vendors was renamed to defaultVendors
           defaultVendors: false,
-          framework: {
-            chunks: 'all',
-            name: 'framework',
-            // This regex ignores nested copies of framework libraries so they're
-            // bundled with their issuer.
-            // https://github.com/vercel/next.js/pull/9012
-            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
-            priority: 40,
-            // Don't let webpack eliminate this chunk (prevents this chunk from
-            // becoming a part of the commons chunk)
-            enforce: true,
-          },
-          lib: {
-            test: module => {
-              return (
-                module.size() > 160000 &&
-                /node_modules[/\\]/.test(module.identifier())
-              );
-            },
-            name: module => {
-              const hash = crypto.createHash('sha1');
-              if (isModuleCSS(module)) {
-                module.updateHash(hash);
-              } else {
-                if (!module.libIdent) {
-                  throw new Error(
-                    `Encountered unknown module type: ${module.type}. Please open an issue.`
-                  );
-                }
-
-                hash.update(module.libIdent({ context: paths.appPath }));
-              }
-
-              return hash.digest('hex').substring(0, 8);
-            },
-            priority: 30,
-            minChunks: 1,
-            reuseExistingChunk: true,
-          },
-          // commons: {
-          //   name: 'commons',
-          //   minChunks: totalPages,
-          //   priority: 20,
-          // },
-          shared: {
-            name(module, chunks) {
-              return (
-                crypto
-                  .createHash('sha1')
-                  .update(
-                    chunks.reduce((acc, chunk) => {
-                      return acc + chunk.name;
-                    }, '')
-                  )
-                  .digest('hex') + (isModuleCSS(module) ? '_CSS' : '')
-              );
-            },
-            priority: 10,
-            minChunks: 2,
-            reuseExistingChunk: true,
-          },
         },
-        maxInitialRequests: 25,
-        minSize: 20000,
       },
     };
 
@@ -275,7 +211,7 @@ module.exports = (
       return callback();
     };
 
-    webpackOptions.fileLoaderExlude = [
+    webpackOptions.fileLoaderExclude = [
       /\.html$/,
       /\.(js|jsx|mjs)$/,
       /\.(ts|tsx)$/,
@@ -304,7 +240,7 @@ module.exports = (
       if (IS_DEV) {
         webpackOptions.splitChunksConfig = splitChunksConfigs.dev;
       } else {
-        webpackOptions.splitChunksConfig = splitChunksConfigs.prodGranular;
+        webpackOptions.splitChunksConfig = splitChunksConfigs.prod;
         webpackOptions.terserPluginOptions = {
           terserOptions: {
             parse: {
@@ -392,7 +328,7 @@ module.exports = (
     ]
   };
 
-  webpackOptions.watchIgnorePaths = [paths.appAssetsManifest, paths.appChunksManifest];
+  webpackOptions.watchIgnorePaths = [paths.appAssetsManifest];
 
   for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
@@ -505,7 +441,7 @@ module.exports = (
         rules: [
           webpackOptions.babelRule,
           {
-            exclude: webpackOptions.fileLoaderExlude,
+            exclude: webpackOptions.fileLoaderExclude,
             loader: require.resolve('file-loader'),
             options: {
               name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
@@ -683,14 +619,73 @@ module.exports = (
 
     if (IS_WEB) {
       config.plugins = [
-        // Output our JS and CSS files in a manifest file called assets.json
+        // Output all files in a manifest file called assets-manifest.json
         // in the build directory.
         new ManifestPlugin({
-          output: path.join(paths.appBuild, 'assets.json'),
-          writeToDisk: true,
-          publicPath: true,
-          entrypoints: true,
-        }),
+          fileName: path.join(paths.appBuild, 'assets.json'),
+          writeToFileEmit: true,
+          generate: (seed, files) => {
+            const entrypoints = new Set();
+            const noChunkFiles = new Set();
+            const noLongTermCacheFiles = new Set();
+            files.forEach(file => {
+              if (file.isChunk) {
+                const groups = (
+                  (file.chunk || {})._groups || []
+                ).forEach(group => entrypoints.add(group));
+              } else {
+                noChunkFiles.add(file);
+              }
+              console.log(file)
+              if (file.path.indexOf(file.name) !== -1) {
+                noLongTermCacheFiles.add(file);
+              }
+            });
+            const entries = [...entrypoints];
+            const entryArrayManifest = entries.reduce((acc, entry) => {
+              const name =
+                (entry.options || {}).name ||
+                (entry.runtimeChunk || {}).name ||
+                entry.id;
+              const allFiles = []
+                .concat(
+                  ...(entry.chunks || []).map(chunk =>
+                    chunk.files.map(path => config.output.publicPath + path)
+                  )
+                )
+                .filter(Boolean);
+
+              const filesByType = allFiles.reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file);
+                return types;
+              }, {});
+
+              const chunkIds = [].concat(
+                ...(entry.chunks || []).map(chunk => chunk.ids)
+              );
+
+              return name
+                ? {
+                    ...acc,
+                    [name]:  { ...filesByType, chunks: chunkIds },
+                  }
+                : acc;
+            }, seed);
+            entryArrayManifest['noentry'] = [...noChunkFiles]
+              .map(file => file.path)
+              .reduce((types, file) => {
+                const fileType = file.slice(file.lastIndexOf('.') + 1);
+                types[fileType] = types[fileType] || [];
+                types[fileType].push(file);
+                return types;
+              }, {});
+              entryArrayManifest['nocache'] = [...noLongTermCacheFiles]
+                .map(file => file.path);
+            return entryArrayManifest;
+          },
+        })
       ].filter(x=>x);
 
       if (IS_DEV) {
@@ -709,7 +704,7 @@ module.exports = (
           publicPath: clientPublicPath,
           pathinfo: true,
           libraryTarget: 'var',
-          filename: `${razzleOptions.jsPrefix}/bundle.js`,
+          filename: `${razzleOptions.jsPrefix}/[name].js`,
           chunkFilename: `${razzleOptions.jsPrefix}/[name].chunk.js`,
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
@@ -799,7 +794,7 @@ module.exports = (
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
           // Extract our CSS into files.
           new MiniCssExtractPlugin({
-            filename: `${razzleOptions.cssPrefix}/bundle.[contenthash:8].css`,
+            filename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].css`,
             chunkFilename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`,
           }),
           webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),

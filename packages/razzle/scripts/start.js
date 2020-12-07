@@ -61,9 +61,8 @@ function main() {
             }
           }
 
-          // Delete assets.json and chunks.json to always have a manifest up to date
+          // Delete assets.json to always have a manifest up to date
           fs.removeSync(paths.appAssetsManifest);
-          fs.removeSync(paths.appChunksManifest);
 
           const clientCompiler = compile(clientConfig);
 

@@ -46,7 +46,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(directoryExists('build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -75,7 +75,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(directoryExists('build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -101,7 +101,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(directoryExists('build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -119,7 +119,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(directoryExists('build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -151,7 +151,7 @@ describe('razzle build', () => {
 
     // should compile client css to css directory
     expect(directoryExists('build/public/static/css')).toBeTruthy();
-    expect(shell.ls('build/public/static/css/bundle.*.css').code).toBe(0);
+    expect(shell.ls('build/public/static/css/client.*.css').code).toBe(0);
 
     expect(output.code).toBe(0);
   });
@@ -163,7 +163,7 @@ describe('razzle build', () => {
     expect(fileExists('build/assets.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
-    const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.entrypoints.client.css[0]));
+    const css = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.css[0]));
 
     expect(css.toString().includes("razzle-scss-prepend")).toBeTruthy();
 
@@ -190,7 +190,7 @@ describe('razzle build', () => {
     expect(fileExists('build/assets.json')).toBeTruthy();
 
     const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
-    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.entrypoints.client.js[1]));
+    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js[0]));
 
     expect(js.toString().includes("Something Extra")).toBeTruthy();
 

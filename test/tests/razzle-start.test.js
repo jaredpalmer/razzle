@@ -36,7 +36,7 @@ describe('razzle start', () => {
           if (data.includes('Server-side HMR Enabled!') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
-              'curl -sb -o "" localhost:3001/static/js/bundle.js'
+              'curl -sb -o "" localhost:3001/static/js/client.js'
             );
             if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes('React');
@@ -64,7 +64,7 @@ describe('razzle start', () => {
           if (data.includes('Server-side HMR Enabled!') && typeof outputTest == 'undefined') {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
-              'curl -sb -o "" localhost:3002/static/js/bundle.js'
+              'curl -sb -o "" localhost:3002/static/js/client.js'
             );
             if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes(
@@ -93,7 +93,7 @@ describe('razzle start', () => {
           if (data.includes('Server-side HMR Enabled!')) {
             shell.exec('sleep 5');
             const devServerOutput = shell.exec(
-              'curl -sb -o "" localhost:4001/static/js/bundle.js'
+              'curl -sb -o "" localhost:4001/static/js/client.js'
             );
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:4001'
