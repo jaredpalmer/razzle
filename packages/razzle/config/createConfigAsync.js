@@ -346,7 +346,7 @@ module.exports = (
           ].filter(x => x),
         });
 
-    webpackOptions.fileLoaderExlude = [
+    webpackOptions.fileLoaderExclude = [
       /\.html$/,
       /\.(js|jsx|mjs)$/,
       /\.(ts|tsx)$/,
@@ -563,7 +563,7 @@ module.exports = (
             ]
         ).concat([
           {
-            exclude: webpackOptions.fileLoaderExlude,
+            exclude: webpackOptions.fileLoaderExclude,
             loader: require.resolve('file-loader'),
             options: {
               name: `${razzleOptions.mediaPrefix}/[name].[${
