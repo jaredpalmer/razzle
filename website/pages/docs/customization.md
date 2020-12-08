@@ -383,6 +383,40 @@ import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 ```
 
+## Absolute Imports
+
+You can configure your application to support importing modules using absolute paths. This can be done by configuring a jsconfig.json or tsconfig.json file in the root of your project. If you're using TypeScript in your project, you will already have a tsconfig.json file.
+
+Below is an example jsconfig.json file for a JavaScript project (or tsconfig.json if you're using TypeScript). You can create the file if it doesn't already exist:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
+  "include": ["src"]
+}
+```
+
+To make the Jest test runner work with absolute imports, you'll need to add a `jest` configuration option to your package.json:
+
+```jsonc
+{
+  "name": "my-razzle-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  /* ...dependencies, etc... */
+  "jest": {
+    "moduleDirectories": ["node_modules", "src"]
+  }
+}
+```
+
+Now that you've configured your project to support absolute imports, if you want to import a module located at src/components/Button.js, you can import the module like so:
+```js
+import Button from 'components/Button';
+```
+
 ## Experimental
 
 Razzle has support for some experimental features. Coming soon.
