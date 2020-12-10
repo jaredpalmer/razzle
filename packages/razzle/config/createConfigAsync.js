@@ -228,18 +228,43 @@ module.exports = (
 
     webpackOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
 
+    webpackOptions.fileLoaderOutputName = `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`;
+
+    webpackOptions.urlLoaderOutputName = `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`;
+
+    webpackOptions.cssTest = [/\.css(\.map)?$/];
+
+    webpackOptions.cssOutputFilename = `${razzleOptions.cssPrefix}/[name].[contenthash:8].css`;
+
+    webpackOptions.cssOutputChunkFilename = `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`;
+
+    webpackOptions.jsTest = [/\.js(\.map)?$/];
+
     webpackOptions.definePluginOptions = dotenv.stringified;
 
     if (IS_NODE) {
+
+      webpackOptions.jsOutputFilename = `[name].js`;
+      webpackOptions.jsOutputChunkFilename = `[name].chunk.js`;
+
       if (IS_DEV) {
       } else {
       }
     }
 
     if (IS_WEB) {
+
       if (IS_DEV) {
+
+        webpackOptions.jsOutputFilename = `${razzleOptions.jsPrefix}/[name].js`;
+        webpackOptions.jsOutputChunkFilename = `${razzleOptions.jsPrefix}/[name].chunk.js`;
+
         webpackOptions.splitChunksConfig = splitChunksConfigs.dev;
       } else {
+
+        webpackOptions.jsOutputFilename = `${razzleOptions.jsPrefix}/[name].[contenthash:8].js`;
+        webpackOptions.jsOutputChunkFilename = `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`;
+
         webpackOptions.splitChunksConfig = splitChunksConfigs.prod;
         webpackOptions.terserPluginOptions = {
           terserOptions: {
@@ -444,7 +469,7 @@ module.exports = (
             exclude: webpackOptions.fileLoaderExclude,
             loader: require.resolve('file-loader'),
             options: {
-              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
+              name: webpackOptions.fileLoaderOutputName,
               emitFile: IS_WEB,
             },
           },
@@ -456,7 +481,7 @@ module.exports = (
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: `${razzleOptions.mediaPrefix}/[name].[contenthash:8].[ext]`,
+              name: webpackOptions.urlLoaderOutputName,
               emitFile: IS_WEB,
             },
           },
@@ -539,7 +564,8 @@ module.exports = (
       config.output = {
         path: paths.appBuild,
         publicPath: clientPublicPath,
-        filename: '[name].js',
+        filename: webpackOptions.jsOutputFilename,
+        chunkFilename: webpackOptions.jsOutputChunkFilename,
         libraryTarget: 'commonjs2',
       };
 
@@ -627,7 +653,6 @@ module.exports = (
           generate: (seed, files) => {
             const entrypoints = new Set();
             const noChunkFiles = new Set();
-            const noLongTermCacheFiles = new Set();
             files.forEach(file => {
               if (file.isChunk) {
                 const groups = (
@@ -635,10 +660,6 @@ module.exports = (
                 ).forEach(group => entrypoints.add(group));
               } else {
                 noChunkFiles.add(file);
-              }
-              console.log(file)
-              if (file.path.indexOf(file.name) !== -1) {
-                noLongTermCacheFiles.add(file);
               }
             });
             const entries = [...entrypoints];
@@ -681,8 +702,6 @@ module.exports = (
                 types[fileType].push(file);
                 return types;
               }, {});
-              entryArrayManifest['nocache'] = [...noLongTermCacheFiles]
-                .map(file => file.path);
             return entryArrayManifest;
           },
         })
@@ -704,8 +723,8 @@ module.exports = (
           publicPath: clientPublicPath,
           pathinfo: true,
           libraryTarget: 'var',
-          filename: `${razzleOptions.jsPrefix}/[name].js`,
-          chunkFilename: `${razzleOptions.jsPrefix}/[name].chunk.js`,
+          filename: webpackOptions.jsOutputFilename,
+          chunkFilename: webpackOptions.jsOutputChunkFilename,
           devtoolModuleFilenameTemplate: info =>
             path.resolve(info.resourcePath).replace(/\\/g, '/'),
         };
@@ -776,8 +795,8 @@ module.exports = (
         config.output = {
           path: paths.appBuildPublic,
           publicPath: dotenv.raw.PUBLIC_PATH || '/',
-          filename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].js`,
-          chunkFilename: `${razzleOptions.jsPrefix}/[name].[contenthash:8].chunk.js`,
+          filename: webpackOptions.jsOutputFilename,
+          chunkFilename: webpackOptions.jsOutputChunkFilename,
           libraryTarget: 'var',
         };
 
