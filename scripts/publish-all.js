@@ -29,16 +29,18 @@ let argv = yargs
       const lernaCmd = releaseTag == 'latest' ?
         `lerna version ${semverKeyword} --force-publish --no-push` :
         `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push`;
-      execa(lernaCmd, {shell: true, stdio: 'inherit' }).then(async ()=>{
-        const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
-        const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
-        await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
-        await execa(`git reset --soft HEAD~1`, {shell: true, stdio: 'inherit' });
-        await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
-        await execa(`git commit -am "published ${latestTag}"`, {shell: true, stdio: 'inherit' });
-        await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
-        await execa(`git push origin`, {shell: true, stdio: 'inherit' });
-        await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
+      execa(lernaCmd, {shell: true, stdio: 'inherit' }).then(async ({exitCode})=>{
+        if (exitCode===0) {
+          const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
+          const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
+          await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
+          await execa(`git reset --soft HEAD~1`, {shell: true, stdio: 'inherit' });
+          await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
+          await execa(`git commit -am "published ${latestTag}"`, {shell: true, stdio: 'inherit' });
+          await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
+          await execa(`git push origin`, {shell: true, stdio: 'inherit' });
+          await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
+        }
       });
     }
   })
