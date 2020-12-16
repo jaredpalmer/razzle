@@ -49,7 +49,8 @@
     "update-examples": "node ./scripts/update-examples.js",
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f",
-    "yalc-publish-all": "node ./scripts/yalc-publish-all.js"
+    "yalc-publish-all": "node ./scripts/yalc-publish-all.js",
+    "yalc-try-example": "node ./scripts/yalc-try-example.js"
   },
   "husky": {
     "hooks": {

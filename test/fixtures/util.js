@@ -85,6 +85,7 @@ module.exports = {
     shell.config.verbose = !silent;
     shell.config.silent = silent;
 
+    yalcPublishAll();
     const stagePath = copyExample(exampleName, stageName);
     removeWorkspacePackages(stagePath);
 
