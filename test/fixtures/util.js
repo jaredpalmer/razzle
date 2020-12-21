@@ -62,6 +62,64 @@ const yalcAddAll = () => {
   return getWorkspacePackages().map(pkg=>shell.exec(`yalc add ${pkg}`))
 };
 
+const setupStageWithExample = (
+  stageName,
+  exampleName,
+  symlink=true,
+  yarnlink=false,
+  install=false,
+  test=false
+) => {
+  const packagesPath = path.join(rootDir, 'packages');
+
+  let silentState = shell.config.silent; // save old silent state
+  let verboseState = shell.config.verbose; // save old silent state
+
+  shell.config.verbose = !silent;
+  shell.config.silent = silent;
+
+  const stagePath = copyExample(exampleName, stageName);
+
+  shell.cd(stagePath);
+  if (install) {
+    shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
+  }
+  if (symlink) {
+    fs.ensureSymlinkSync(
+      path.join(rootDir, 'node_modules'),
+      path.join(stagePath, 'node_modules')
+    );
+    fs.ensureSymlinkSync(
+      path.join(rootDir, 'node_modules', '.bin'),
+      path.join(stagePath, 'node_modules', '.bin')
+    );
+    fs.ensureSymlinkSync(
+      packagesPath,
+      path.join(stagePath, 'packages')
+    );
+  }
+  if (yarnlink) {
+    const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
+      .map(dir=>{ return dir.isDirectory ? dir.name: dir });
+    for (const packageName of dirs) {
+      const packagePath = path.join(packagesPath, packageName);
+      shell.cd(packagePath);
+      shell.exec(`yarn link`);
+      shell.cd(stagePath);
+      shell.exec(`yarn link ${packageName}`);
+      if (!silent) console.log(`Linked ${packageName} to ${stagePath}`);
+    }
+  }
+  if (test) {
+    shell.exec("yarn run test", { env: Object.assign(process.env, {CI:"true"}) });
+  }
+
+  shell.config.verbose = verboseState;
+  shell.config.silent = silentState;
+
+  return stagePath;
+};
+
 module.exports = {
 
   getWorkspaceDirs: getWorkspaceDirs,
@@ -82,8 +140,8 @@ module.exports = {
     let silentState = shell.config.silent; // save old silent state
     let verboseState = shell.config.verbose; // save old silent state
 
-    shell.config.verbose = !silent;
-    shell.config.silent = silent;
+    shell.config.verbose = true;
+    shell.config.silent = false;
 
     yalcPublishAll();
     const stagePath = copyExample(exampleName, stageName);
@@ -100,6 +158,7 @@ module.exports = {
 
     return stagePath;
   },
+
 
   copyExample: copyExample,
 
@@ -125,63 +184,7 @@ module.exports = {
     shell.cd(stagePath);
   },
 
-  setupStageWithExample: (
-    stageName,
-    exampleName,
-    symlink=true,
-    yarnlink=false,
-    install=false,
-    test=false
-  ) => {
-    const packagesPath = path.join(rootDir, 'packages');
-
-    let silentState = shell.config.silent; // save old silent state
-    let verboseState = shell.config.verbose; // save old silent state
-
-    shell.config.verbose = !silent;
-    shell.config.silent = silent;
-
-    const stagePath = copyExample(exampleName, stageName);
-
-    shell.cd(stagePath);
-    if (install) {
-      shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
-    }
-    if (symlink) {
-      fs.ensureSymlinkSync(
-        path.join(rootDir, 'node_modules'),
-        path.join(stagePath, 'node_modules')
-      );
-      fs.ensureSymlinkSync(
-        path.join(rootDir, 'node_modules', '.bin'),
-        path.join(stagePath, 'node_modules', '.bin')
-      );
-      fs.ensureSymlinkSync(
-        packagesPath,
-        path.join(stagePath, 'packages')
-      );
-    }
-    if (yarnlink) {
-      const dirs = fs.readdirSync(packagesPath, { withFileTypes:true })
-        .map(dir=>{ return dir.isDirectory ? dir.name: dir });
-      for (const packageName of dirs) {
-        const packagePath = path.join(packagesPath, packageName);
-        shell.cd(packagePath);
-        shell.exec(`yarn link`);
-        shell.cd(stagePath);
-        shell.exec(`yarn link ${packageName}`);
-        if (!silent) console.log(`Linked ${packageName} to ${stagePath}`);
-      }
-    }
-    if (test) {
-      shell.exec("yarn run test", { env: Object.assign(process.env, {CI:"true"}) });
-    }
-
-    shell.config.verbose = verboseState;
-    shell.config.silent = silentState;
-
-    return stagePath;
-  },
+  setupStageWithExample: setupStageWithExample,
 
   teardownStage: stageName => {
     shell.cd(rootDir);

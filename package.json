@@ -50,7 +50,7 @@
     "git-reset": "git reset --hard HEAD",
     "git-clean": "git clean -d -x -e node_modules -e packages -f",
     "yalc-publish-all": "node ./scripts/yalc-publish-all.js",
-    "yalc-try-example": "node ./scripts/yalc-try-example.js"
+    "try-example": "node ./scripts/try-example.js"
   },
   "husky": {
     "hooks": {
