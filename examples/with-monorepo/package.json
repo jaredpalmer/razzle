@@ -1,0 +1,19 @@
+{
+  "name": "razzle-examples-with-monorepo",
+  "version": "4.0.0-canary.8",
+  "license": "MIT",
+  "scripts": {
+    "start-1": "RAZZLE_APP_PATH=basic-1 razzle start",
+    "build-1": "RAZZLE_APP_PATH=basic-1 razzle build",
+    "test-1": "RAZZLE_APP_PATH=basic-1 razzle test --env=jsdom",
+    "start:prod-1": "RAZZLE_APP_PATH=basic-1 NODE_ENV=production node basic-1/build/server.js",
+    "start-2": "RAZZLE_APP_PATH=basic-2 razzle start",
+    "build-2": "RAZZLE_APP_PATH=basic-2 razzle build",
+    "test-2": "RAZZLE_APP_PATH=basic-2 razzle test --env=jsdom",
+    "start:prod-2": "RAZZLE_APP_PATH=basic-2 NODE_ENV=production node basic-2/build/server.js"
+  },
+  "workspaces": [
+    "basic-1",
+    "basic-2"
+  ]
+}
