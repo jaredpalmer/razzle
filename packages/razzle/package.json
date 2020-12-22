@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
   "repository": "git@github.com:jaredpalmer/razzle.git",
-  "version": "4.0.0-canary.8",
+  "version": "4.0.0-canary.9",
   "bin": {
     "razzle": "./bin/razzle.js"
   },
@@ -41,7 +41,7 @@
     "postcss-loader": "4.0.4",
     "postcss-preset-env": "^6.7.0",
     "postcss-safe-parser": "^4.0.2",
-    "razzle-start-server-webpack-plugin": "4.0.0-canary.8",
+    "razzle-start-server-webpack-plugin": "^4.0.0-canary.9",
     "react-dev-utils": "10.2.0",
     "react-error-overlay": "^6.0.6",
     "react-refresh": "^0.8.1",
