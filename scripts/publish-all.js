@@ -33,13 +33,21 @@ let argv = yargs
         if (exitCode===0) {
           const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
           const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
+          console.log(`deleting tag ${latestTag}`);
           await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
+          console.log(`soft resetting head one rev`);
           await execa(`git reset --soft HEAD~1`, {shell: true, stdio: 'inherit' });
+          console.log(`running pre-publish-all`);
           await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
+          console.log(`comitting pre-publish-all changes`);
           await execa(`git commit -am "published ${latestTag}"`, {shell: true, stdio: 'inherit' });
+          console.log(`retagging release`);
           await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
+          console.log(`pushing to origin`);
           await execa(`git push origin`, {shell: true, stdio: 'inherit' });
+          console.log(`pushing tags to origin`);
           await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
+          console.log(`done`);
         }
       });
     }
