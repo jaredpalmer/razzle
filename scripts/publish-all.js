@@ -27,8 +27,8 @@ let argv = yargs
         : argv.semverKeyword;
 
       const lernaCmd = releaseTag == 'latest' ?
-        `lerna version ${semverKeyword} --force-publish --no-push` :
-        `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push`;
+        `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
+        `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push --no-commit-hooks`;
       execa(lernaCmd, {shell: true, stdio: 'inherit' }).then(async ({exitCode})=>{
         if (exitCode===0) {
           const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
