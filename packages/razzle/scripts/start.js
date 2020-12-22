@@ -64,7 +64,7 @@ function main() {
           // Delete assets.json to always have a manifest up to date
           fs.removeSync(paths.appAssetsManifest);
 
-          const clientCompiler = compile(clientConfig);
+          const clientCompiler = compile(clientConfig, verbose);
 
           let serverCompiler;
           let serverConfig;
@@ -79,7 +79,7 @@ function main() {
               plugins,
               razzleOptions
             );
-            serverCompiler = compile(serverConfig);
+            serverCompiler = compile(serverConfig, verbose);
           }
 
           const port = razzle.port || clientConfig.devServer.port;
@@ -143,7 +143,7 @@ function main() {
 }
 
 // Webpack compile in a try-catch
-function compile(config) {
+function compile(config, verbose) {
   let compiler;
   try {
     compiler = webpack(config);
