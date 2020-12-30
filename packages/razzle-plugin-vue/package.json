@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-vue",
   "license": "MIT",
-  "version": "3.3.8",
+  "version": "3.3.9",
   "main": "index.js",
   "dependencies": {
     "css-loader": "3.5.3",
