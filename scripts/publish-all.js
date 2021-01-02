@@ -30,7 +30,6 @@ let argv = yargs
         `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
         `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push --no-commit-hooks`;
       execa(lernaCmd, {shell: true, stdio: 'inherit' }).then(async ({exitCode})=>{
-        if (exitCode===0) {
           const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
           const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
           console.log(`deleting tag ${latestTag}`);
@@ -48,7 +47,6 @@ let argv = yargs
           console.log(`pushing tags to origin`);
           await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
           console.log(`done`);
-        }
       });
     }
   })
