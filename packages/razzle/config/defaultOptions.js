@@ -2,6 +2,7 @@
 
 module.exports = {
   verbose: false,
+  debug: {},
   buildType: 'iso',
   cssPrefix: 'static/css',
   jsPrefix: 'static/js',

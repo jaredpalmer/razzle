@@ -11,6 +11,7 @@ We show the default options here:
 module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
+    debug: {}, // debug flags
     buildType: 'iso', // or 'spa' and 'serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',

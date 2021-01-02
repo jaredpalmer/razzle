@@ -75,6 +75,7 @@ module.exports = (
     // Define some useful shorthands.
     const IS_NODE = target === 'node';
     const IS_WEB = target === 'web';
+    const IS_SERVERLESS = /serverless/.test(razzleOptions.buildType);
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
     process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
@@ -132,84 +133,6 @@ module.exports = (
     const additionalAliases = modulesConfig.additionalAliases || {};
     const additionalIncludes = modulesConfig.additionalIncludes || [];
 
-    const nodeExternalsFunc = (context, request, callback) => {
-      if (
-        (razzleOptions.notExternalModules || []).indexOf(
-          request
-        ) !== -1
-      ) {
-        return callback();
-      }
-
-      const isLocal =
-      request.startsWith('.') ||
-      // Always check for unix-style path, as webpack sometimes
-      // normalizes as posix.
-      path.posix.isAbsolute(request) ||
-      // When on Windows, we also want to check for Windows-specific
-      // absolute paths.
-      (process.platform === 'win32' && path.win32.isAbsolute(request));
-
-      // Relative requires don't need custom resolution, because they
-      // are relative to requests we've already resolved here.
-      // Absolute requires (require('/foo')) are extremely uncommon, but
-      // also have no need for customization as they're already resolved.
-      if (isLocal) {
-        return callback();
-      }
-
-      let res;
-      try {
-        res = resolveRequest(request, `${context}/`);
-      } catch (err) {
-        // If the request cannot be resolved, we need to tell webpack to
-        // "bundle" it so that webpack shows an error (that it cannot be
-        // resolved).
-        return callback();
-      }
-      // Same as above, if the request cannot be resolved we need to have
-      // webpack "bundle" it so it surfaces the not found error.
-      if (!res) {
-        return callback();
-      }
-      // This means we need to make sure its request resolves to the same
-      // package that'll be available at runtime. If it's not identical,
-      // we need to bundle the code (even if it _should_ be external).
-      let baseRes = null;
-      try {
-        baseRes = resolveRequest(request, `${paths.appPath}/`);
-      } catch (err) {
-        baseRes = null;
-      }
-
-      // Same as above: if the package, when required from the root,
-      // would be different from what the real resolution would use, we
-      // cannot externalize it.
-      if (baseRes !== res) {
-        return callback();
-      }
-
-      // This is the @babel/plugin-transform-runtime "helpers: true" option
-      if (res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)) {
-        return callback();
-      }
-
-      // Anything else that is standard JavaScript within `node_modules`
-      // can be externalized.
-      if (res.match(/node_modules[/\\].*\.js$/)) {
-        const externalRequest = path.posix.join(
-          paths.appPath,
-          path
-          .relative(paths.appPath, res)
-          // Windows path normalization
-          .replace(/\\/g, '/')
-        );
-        return callback(undefined, `commonjs ${externalRequest}`);
-      }
-
-      // Default behavior: bundle the code!
-      return callback();
-    };
 
     webpackOptions.fileLoaderExclude = [
       /\.html$/,
@@ -336,31 +259,36 @@ module.exports = (
     webpackOptions.browserslist = razzleOptions.browserslist;
 
     webpackOptions.babelRule = {
-      test: /\.(js|jsx|mjs|ts|tsx)$/,
-      include: [paths.appSrc].concat(additionalIncludes),
-      use: [{
-        loader: require.resolve('./babel-loader/razzle-babel-loader'),
-        options: {
-          isServer: IS_NODE,
-          cwd: paths.appPath,
-          cache: true,
-          babelPresetPlugins: [],
-          hasModern: false,
-          development: IS_DEV,
-          hasReactRefresh: shouldUseReactRefresh,
-        },
-      }
-    ]
-  };
+        test: /\.(js|jsx|mjs|ts|tsx)$/,
+        include: [paths.appSrc].concat(additionalIncludes),
+        use: [{
+          loader: require.resolve('./babel-loader/razzle-babel-loader'),
+          options: {
+            isServer: IS_NODE,
+            cwd: paths.appPath,
+            cache: true,
+            babelPresetPlugins: [],
+            hasModern: false,
+            development: IS_DEV,
+            hasReactRefresh: shouldUseReactRefresh,
+          },
+        }
+      ]
+    };
 
-  webpackOptions.watchIgnorePaths = [paths.appAssetsManifest];
+    webpackOptions.watchIgnorePaths = [paths.appAssetsManifest];
 
-  for (const [plugin, pluginOptions] of plugins) {
+    webpackOptions.notNodeExternalResMatch = null;
+
+    webpackOptions.nodeExternals = [];
+    webpackOptions.clientExternals = [];
+
+    for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
       if (plugin.modifyWebpackOptions) {
         webpackOptions = await plugin.modifyWebpackOptions({
-          env: { target, dev: IS_DEV },
+          env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
           webpackObject: webpackObject,
           options: {
             pluginOptions,
@@ -375,7 +303,7 @@ module.exports = (
     // If it does, call it on the configs we created.
     if (modifyWebpackOptions) {
       webpackOptions = await modifyWebpackOptions({
-        env: { target, dev: IS_DEV },
+        env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
         webpackObject: webpackObject,
         options: {
           razzleOptions,
@@ -389,7 +317,7 @@ module.exports = (
       plugins,
       modifyBabelPreset,
       configContext: {
-        env: { target, dev: IS_DEV },
+        env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
         webpackObject: webpackObject,
         options: {
           razzleOptions,
@@ -397,6 +325,109 @@ module.exports = (
         },
         paths,
       }
+    };
+
+    const debugNodeExternals = razzleOptions.debug.nodeExternals;
+
+    const nodeExternalsFunc = (context, request, callback) => {
+      if (webpackOptions.notNodeExternalResMatch &&
+        webpackOptions.notNodeExternalResMatch(request)
+      ) {
+        if (debugNodeExternals) {
+          console.log(`Not externalizing ${request} (using notNodeExternalResMatch)`);
+        }
+        return callback();
+      }
+
+      const isLocal =
+      request.startsWith('.') ||
+      // Always check for unix-style path, as webpack sometimes
+      // normalizes as posix.
+      path.posix.isAbsolute(request) ||
+      // When on Windows, we also want to check for Windows-specific
+      // absolute paths.
+      (process.platform === 'win32' && path.win32.isAbsolute(request));
+
+      // Relative requires don't need custom resolution, because they
+      // are relative to requests we've already resolved here.
+      // Absolute requires (require('/foo')) are extremely uncommon, but
+      // also have no need for customization as they're already resolved.
+      if (isLocal) {
+        if (debugNodeExternals) {
+          console.log(`Not externalizing ${request} (relative require)`);
+        }
+        return callback();
+      }
+
+      let res;
+      try {
+        res = resolveRequest(request, `${context}/`);
+      } catch (err) {
+        // If the request cannot be resolved, we need to tell webpack to
+        // "bundle" it so that webpack shows an error (that it cannot be
+        // resolved).
+        if (debugNodeExternals) {
+          console.log(`Not externalizing ${request} (cannot resolve)`);
+        }
+        return callback();
+      }
+      // Same as above, if the request cannot be resolved we need to have
+      // webpack "bundle" it so it surfaces the not found error.
+      if (!res) {
+        if (debugNodeExternals) {
+          console.log(`Not externalizing ${request} (cannot resolve)`);
+        }
+        return callback();
+      }
+      // This means we need to make sure its request resolves to the same
+      // package that'll be available at runtime. If it's not identical,
+      // we need to bundle the code (even if it _should_ be external).
+      let baseRes = null;
+      try {
+        baseRes = resolveRequest(request, `${paths.appPath}/`);
+      } catch (err) {
+        baseRes = null;
+      }
+
+      // Same as above: if the package, when required from the root,
+      // would be different from what the real resolution would use, we
+      // cannot externalize it.
+      if (baseRes !== res) {
+        if (debugNodeExternals) {
+          console.log(`Not externalizing ${request} (real resolution differs)`);
+        }
+        return callback();
+      }
+
+      // This is the @babel/plugin-transform-runtime "helpers: true" option
+      if (res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)) {
+        if (debugNodeExternals) {
+          console.log(`Not externalizing @babel/plugin-transform-runtime`);
+        }
+        return callback();
+      }
+
+      // Anything else that is standard JavaScript within `node_modules`
+      // can be externalized.
+      if (res.match(/node_modules[/\\].*\.js$/)) {
+        const externalRequest = path.posix.join(
+          paths.appPath,
+          path
+          .relative(paths.appPath, res)
+          // Windows path normalization
+          .replace(/\\/g, '/')
+        );
+        if (debugNodeExternals) {
+          console.log(`Externalizing ${request} as ${externalRequest}`);
+        }
+        return callback(undefined, `commonjs ${externalRequest}`);
+      }
+
+      if (debugNodeExternals) {
+        console.log(`Not externalizing ${request} (default)`);
+      }
+      // Default behavior: bundle the code!
+      return callback();
     };
 
     const defaultPostCssOptions = {
@@ -557,8 +588,11 @@ module.exports = (
         __filename: false,
       };
 
+      const nodeExternals = Array.isArray(webpackOptions.nodeExternals)
+        ? webpackOptions.nodeExternals : [webpackOptions.nodeExternals];
+
       // We need to tell webpack what to bundle into our Node bundle.
-      config.externals = razzleOptions.buildType !== 'serverless' ? [nodeExternalsFunc] : [];
+      config.externals = (!IS_SERVERLESS ? [nodeExternalsFunc] : []).concat(webpackOptions.nodeExternals);
 
       // Specify webpack Node.js output path and filename
       config.output = {
@@ -789,6 +823,12 @@ module.exports = (
           client: paths.appClientIndexJs,
         };
 
+        const clientExternals = Array.isArray(webpackOptions.clientExternals)
+          ? webpackOptions.clientExternals : [webpackOptions.clientExternals];
+
+        // We need to tell webpack what to bundle into our client bundle.
+        config.externals = webpackOptions.clientExternals;
+
         // Specify the client output directory and paths. Notice that we have
         // changed the publiPath to just '/' from http://localhost:3001. This is because
         // we will only be using one port in production.
@@ -883,7 +923,7 @@ module.exports = (
       // If it is, call it on the configs we created.
       if (plugin.modifyWebpackConfig) {
         config = await plugin.modifyWebpackConfig({
-          env: { target, dev: IS_DEV },
+          env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
           webpackConfig: config,
           webpackObject: webpackObject,
           options: {
@@ -899,7 +939,7 @@ module.exports = (
     // If it does, call it on the configs we created.
     if (modifyWebpackConfig) {
       config = await modifyWebpackConfig({
-        env: { target, dev: IS_DEV },
+        env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
         webpackConfig: config,
         webpackObject: webpackObject,
         options: {
