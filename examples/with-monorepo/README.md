@@ -9,9 +9,9 @@ This is the canary release documentation for this example
 Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example basic basic
+npx create-razzle-app@canary --example with-monorepo with-monorepo
 
-cd basic
+cd with-monorepo
 yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->
