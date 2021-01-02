@@ -331,7 +331,7 @@ module.exports = (
 
     const nodeExternalsFunc = (context, request, callback) => {
       if (webpackOptions.notNodeExternalResMatch &&
-        webpackOptions.notNodeExternalResMatch(request)
+        webpackOptions.notNodeExternalResMatch(request, context)
       ) {
         if (debugNodeExternals) {
           console.log(`Not externalizing ${request} (using notNodeExternalResMatch)`);
