@@ -410,17 +410,10 @@ module.exports = (
       // Anything else that is standard JavaScript within `node_modules`
       // can be externalized.
       if (res.match(/node_modules[/\\].*\.js$/)) {
-        const externalRequest = path.posix.join(
-          paths.appPath,
-          path
-          .relative(paths.appPath, res)
-          // Windows path normalization
-          .replace(/\\/g, '/')
-        );
         if (debugNodeExternals) {
-          console.log(`Externalizing ${request} as ${externalRequest}`);
+          console.log(`Externalizing ${request} (node_modules)`);
         }
-        return callback(undefined, `commonjs ${externalRequest}`);
+        return callback(undefined, `commonjs ${request}`);
       }
 
       if (debugNodeExternals) {
