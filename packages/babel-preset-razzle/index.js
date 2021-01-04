@@ -87,7 +87,7 @@ module.exports = function(api, options) {
       ],
     ],
     plugins: [
-      [
+      (options['preset-env'] || {}).runtime !== 'automatic' && [
         require('./babel-plugins/jsx-pragma'),
         {
           // This produces the following injected import for modules containing JSX:
