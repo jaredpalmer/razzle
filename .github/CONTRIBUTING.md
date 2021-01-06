@@ -40,7 +40,7 @@ machine and make a new branch for your feature/bug/patch etc. It's a good idea t
 git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
 cd razzle
 git checkout -B <my-branch>
-yarn
+NODE_ENV=development yarn install ---ignore-engines
 ```
 
 This will install all `node_modules` in all the packages and all the examples and symlink
