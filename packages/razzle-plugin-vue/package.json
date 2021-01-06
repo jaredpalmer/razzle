@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-vue",
   "license": "MIT",
-  "version": "4.0.0-canary.12",
+  "version": "4.0.0-canary.13",
   "main": "index.js",
   "dependencies": {
     "css-loader": "5.0.0",
@@ -11,6 +11,6 @@
     "vue-template-compiler": "^2.5.16"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-canary.12"
+    "razzle-dev-utils": "4.0.0-canary.13"
   }
 }
