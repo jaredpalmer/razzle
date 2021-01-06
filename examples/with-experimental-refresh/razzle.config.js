@@ -1,5 +1,5 @@
 module.exports = {
-  experimental: {
-    reactRefresh: true,
+  opt: {
+    useReactRefresh: true,
   },
 }
