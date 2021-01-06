@@ -1,5 +1,5 @@
 module.exports = {
-  opt: {
+  options: {
     useReactRefresh: true,
   },
 }
