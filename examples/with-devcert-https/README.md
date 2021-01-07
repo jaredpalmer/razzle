@@ -9,9 +9,9 @@ This is the canary release documentation for this example
 Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example with-promise-config with-promise-config
+npx create-razzle-app@canary --example with-devcert-https with-devcert-https
 
-cd with-promise-config
+cd with-devcert-https
 yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->
@@ -29,18 +29,30 @@ Node.js-compatible JavaScript.
 'use strict';
 
 module.exports = {
+  modifyWebpackOptions(opts) {
+    const options = opts.webpackOptions;
+    return new Promise(async (resolve) => {
+      const httpsCredentials = await devcert.certificateFor('localhost');
+      const stringHttpsCredentials = {
+        key: httpsCredentials.key.toString(),
+        cert: httpsCredentials.cert.toString()
+      };
+      if (opts.env.target === 'node' && opts.env.dev) {
+        options.definePluginOptions.HTTPS_CREDENTIALS = JSON.stringify(stringHttpsCredentials);
+      }
+      if (opts.env.target === 'web' && opts.env.dev) {
+        options.HTTPS_CREDENTIALS = httpsCredentials;
+      }
+      resolve(options);
+    });
+  },
   modifyWebpackConfig(opts) {
     const config = opts.webpackConfig;
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Change the name of the server output file in production
-        if (opts.env.target === 'node' && !opts.env.dev) {
-          config.output.filename = 'custom.js';
-        }
-        resolve(config);
-      }, 10);
-    });
+    const options = opts.webpackOptions;
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.https = options.HTTPS_CREDENTIALS;
+    }
+    return config;
   },
 };
 
