@@ -1,13 +1,16 @@
 'use strict';
 
 module.exports = {
-  modifyWebpackConfig(opts) {
+  modifyWebpackOptions(opts) {
     const options = opts.webpackOptions;
-
     return new Promise(async (resolve) => {
       const httpsCredentials = await devcert.certificateFor('localhost');
+      const stringHttpsCredentials = {
+        key: httpsCredentials.key.toString(),
+        cert: httpsCredentials.cert.toString()
+      };
       if (opts.env.target === 'node' && opts.env.dev) {
-        options.definePluginOptions.HTTPS_CREDENTIALS = JSON.stringify(httpsCredentials);
+        options.definePluginOptions.HTTPS_CREDENTIALS = JSON.stringify(stringHttpsCredentials);
       }
       if (opts.env.target === 'web' && opts.env.dev) {
         options.HTTPS_CREDENTIALS = httpsCredentials;
