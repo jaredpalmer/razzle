@@ -32,7 +32,7 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
         process.exit(1);
       }
     }
-    
+
     let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
 
     if (packageJson.browserslist) {
@@ -48,7 +48,7 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
       // Check if plugin.modifyOptions is a function.
       // If it is, call it on the configs we created.
       if (plugin.modifyOptions) {
-        paths = await plugin.modifyOptions({
+        razzleOptions = await plugin.modifyOptions({
           options: {
             razzleOptions,
             pluginOptions,
