@@ -105,7 +105,7 @@ function main() {
               // Otherwise, create a new watcher for our server code.
               watching = serverCompiler.watch(
                 {
-                  quiet: true,
+                  quiet: !verbose,
                   stats: 'none',
                 },
                 /* eslint-disable no-unused-vars */
