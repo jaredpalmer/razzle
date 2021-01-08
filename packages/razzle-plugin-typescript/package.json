@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "3.3.9",
+  "version": "3.3.10",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",

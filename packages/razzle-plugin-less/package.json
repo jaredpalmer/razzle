@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-less",
-  "version": "3.3.9",
+  "version": "3.3.10",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Ryan Yang <orange881217@gmail.com>",
