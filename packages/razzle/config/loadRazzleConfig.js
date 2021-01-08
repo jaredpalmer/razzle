@@ -33,6 +33,8 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
       }
     }
 
+    setupEnvironment(paths);
+
     let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
 
     if (packageJson.browserslist) {
@@ -90,8 +92,6 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
         paths,
       });
     }
-
-    setupEnvironment(paths);
 
     resolve({
       razzle,
