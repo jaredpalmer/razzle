@@ -149,9 +149,9 @@ module.exports = {
 
     shell.cd(stagePath);
 
-    shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
-
     yalcAddAll();
+
+    shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
 
     shell.config.verbose = verboseState;
     shell.config.silent = silentState;
