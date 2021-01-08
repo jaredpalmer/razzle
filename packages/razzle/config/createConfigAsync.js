@@ -776,6 +776,7 @@ module.exports = (
             disableDotRule: true,
           },
           host: dotenv.raw.HOST,
+          publicPath: clientPublicPath,
           hot: true,
           noInfo: true,
           overlay: false,
@@ -890,7 +891,6 @@ module.exports = (
         if (IS_DEV) {
           config.devServer.contentBase = paths.appPublic;
           config.devServer.watchContentBase = true;
-          config.devServer.publicPath = '/';
         }
 
         config.plugins = [
