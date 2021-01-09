@@ -190,22 +190,27 @@ class StartServerPlugin {
 
     const execArgv = this._getExecArgv();
 
+    const extScriptArgs = ['--color', '--ansi', ...scriptArgs];
+
     if (this.options.verbose) {
-      const cmdline = [...execArgv, scriptFile, '--', ...scriptArgs].join(' ');
+      const cmdline = [...execArgv, scriptFile, '--', ...extScriptArgs].join(' ');
 
       this._info(`running \`node ${cmdline}\``);
     }
 
-    const worker = _child_process.default.fork(scriptFile, scriptArgs, {
+    const worker = _child_process.default.fork(scriptFile, extScriptArgs, {
       execArgv,
-      silent: true
+      silent: true,
+      env: Object.assign(process.env, {
+        FORCE_COLOR: 3
+      })
     });
 
     worker.once('exit', this._handleChildExit);
     worker.once('error', this._handleChildError);
     worker.on('message', this._handleChildMessage);
-    worker.stdout.on('data', data => this._worker_info(data));
-    worker.stderr.on('data', data => this._worker_error(data));
+    worker.stdout.on('data', this._worker_info);
+    worker.stderr.on('data', this._worker_error);
     this.worker = worker;
     if (callback) callback();
   }

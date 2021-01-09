@@ -105,7 +105,6 @@ export default class StartServerPlugin {
     const {path} = compilation.outputOptions;
     return sysPath.resolve(path, entryScript);
   }
-
   _getExecArgv() {
     const {options} = this;
     const execArgv = (options.nodeArgs || []).concat(process.execArgv);
@@ -156,21 +155,23 @@ export default class StartServerPlugin {
     } = this;
 
     const execArgv = this._getExecArgv();
+    const extScriptArgs = ['--color', '--ansi', ...scriptArgs];
 
     if (this.options.verbose) {
-      const cmdline = [...execArgv, scriptFile, '--', ...scriptArgs].join(' ');
+      const cmdline = [...execArgv, scriptFile, '--', ...extScriptArgs].join(' ');
       this._info(`running \`node ${cmdline}\``);
     }
 
-    const worker = childProcess.fork(scriptFile, scriptArgs, {
+    const worker = childProcess.fork(scriptFile, extScriptArgs, {
       execArgv,
       silent: true,
+      env: Object.assign(process.env, { FORCE_COLOR: 3 })
     });
     worker.once('exit', this._handleChildExit);
     worker.once('error', this._handleChildError);
     worker.on('message', this._handleChildMessage);
-    worker.stdout.on('data', (data) => this._worker_info(data));
-    worker.stderr.on('data', (data) => this._worker_error(data));
+    worker.stdout.on('data', this._worker_info);
+    worker.stderr.on('data', this._worker_error);
     this.worker = worker;
 
     if (callback) callback();
