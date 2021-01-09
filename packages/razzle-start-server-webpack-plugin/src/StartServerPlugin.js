@@ -57,11 +57,11 @@ export default class StartServerPlugin {
   }
 
   _worker_error(msg, ...args) {
-    console.error(msg);
+    process.stderr.write(msg);
   }
 
   _worker_info(msg, ...args) {
-    console.log(msg);
+    process.stdout.write(msg);
   }
 
   _enableRestarting() {
@@ -169,8 +169,8 @@ export default class StartServerPlugin {
     worker.once('exit', this._handleChildExit);
     worker.once('error', this._handleChildError);
     worker.on('message', this._handleChildMessage);
-    worker.stdout.on('data', (data) => this._worker_info(data.toString()));
-    worker.stderr.on('data', (data) => this._worker_error(data.toString()));
+    worker.stdout.on('data', (data) => this._worker_info(data));
+    worker.stderr.on('data', (data) => this._worker_error(data));
     this.worker = worker;
 
     if (callback) callback();
