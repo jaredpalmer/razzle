@@ -33,6 +33,7 @@ loadRazzleConfig(webpack).then(
 
     const verbose = razzleOptions.verbose;
     const clientOnly = razzleOptions.buildType=='spa';
+    const debugCompile = razzleOptions.debug.compile || false;
     process.env.BUILD_TYPE = razzleOptions.buildType;
 
     // First, read the current file sizes in build directory.
@@ -203,7 +204,12 @@ loadRazzleConfig(webpack).then(
       try {
         compiler = webpackObject(config);
       } catch (e) {
-        printErrors('Failed to compile.', [e], verbose);
+        if (debugCompile) {
+          console.log('Failed to compile.')
+          throw e;
+        } else {
+          printErrors('Failed to compile.', [e], verbose);
+        }
         process.exit(1);
       }
       compiler.run((err, stats) => {

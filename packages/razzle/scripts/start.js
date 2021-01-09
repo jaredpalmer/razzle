@@ -30,6 +30,7 @@ function main() {
 
         process.env.BUILD_TYPE = razzleOptions.buildType;
         const verbose = razzleOptions.verbose;
+        const debugCompile = razzleOptions.debug.compile || false;
         const clientOnly = razzleOptions.buildType=='spa';
 
         setPorts(clientOnly)
@@ -64,7 +65,7 @@ function main() {
           // Delete assets.json to always have a manifest up to date
           fs.removeSync(paths.appAssetsManifest);
 
-          const clientCompiler = compile(clientConfig, verbose);
+          const clientCompiler = compile(clientConfig, verbose, debugCompile);
 
           let serverCompiler;
           let serverConfig;
@@ -79,7 +80,7 @@ function main() {
               plugins,
               razzleOptions
             );
-            serverCompiler = compile(serverConfig, verbose);
+            serverCompiler = compile(serverConfig, verbose, debugCompile);
           }
 
           const port = razzle.port || clientConfig.devServer.port;
@@ -143,12 +144,17 @@ function main() {
 }
 
 // Webpack compile in a try-catch
-function compile(config, verbose) {
+function compile(config, verbose, debug) {
   let compiler;
   try {
     compiler = webpack(config);
   } catch (e) {
-    printErrors('Failed to compile.', [e], verbose);
+    if (debug) {
+      console.log('Failed to compile.')
+      throw e;
+    } else {
+      printErrors('Failed to compile.', [e], verbose);
+    }
     process.exit(1);
   }
   return compiler;
