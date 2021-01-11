@@ -48,6 +48,30 @@ const removeWorkspacePackages = (fromPath) => {
   }
 };
 
+const resolutionsYalc = (fromPath) => {
+  const stagePath = fromPath || process.cwd();
+  const packageJson = path.join(stagePath, 'package.json');
+
+  if (fs.existsSync(packageJson)) {
+    const packageJsonData = JSON.parse(fs.readFileSync(packageJson));
+
+    const newPackageJsonData = ["dependencies", "devDependencies"].reduce((acc, depType) => {
+      acc.resolutions = acc.resolutions || {};
+      if (acc[depType]) {
+        Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+          if (acc[depType][dep].indexOf('.yalc') !== -1) {
+            acc.resolutions[dep] = acc[depType][dep];
+          }
+          return depsAcc;
+        }, acc[depType]);
+      }
+      return acc;
+    }, packageJsonData);
+
+    return fs.writeFileSync(packageJson, JSON.stringify(newPackageJsonData, null, '  '));
+  }
+};
+
 const copyExample = (exampleName, stageName) => {
   const stagePath = path.join(process.cwd(), stageName);
   fs.copySync(path.join(rootDir, 'examples', exampleName), stagePath);
@@ -150,6 +174,8 @@ module.exports = {
     shell.cd(stagePath);
 
     yalcAddAll();
+
+    resolutionsYalc(stagePath);
 
     shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
 
