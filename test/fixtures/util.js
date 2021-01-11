@@ -72,6 +72,17 @@ const resolutionsYalc = (fromPath) => {
   }
 };
 
+const scriptsYalc = (fromPath) => {
+  const stagePath = fromPath || process.cwd();
+  const packageJson = path.join(stagePath, 'package.json');
+
+  if (fs.existsSync(packageJson)) {
+    const packageJsonData = JSON.parse(fs.readFileSync(packageJson));
+    packageJsonData.scripts = packageJsonData.scripts || {};
+    packageJsonData.scripts['updateyalc'] = `cd ${rootDir} && yarn yalc-publish-all`;
+    return fs.writeFileSync(packageJson, JSON.stringify(packageJsonData, null, '  '));
+  }
+};
 const copyExample = (exampleName, stageName) => {
   const stagePath = path.join(process.cwd(), stageName);
   fs.copySync(path.join(rootDir, 'examples', exampleName), stagePath);
@@ -80,6 +91,10 @@ const copyExample = (exampleName, stageName) => {
 
 const yalcPublishAll = () => {
   return getWorkspaceDirs().map(dir=>shell.exec(`yalc publish ${dir}`))
+};
+
+const yalcPublishPushAll = () => {
+  return getWorkspaceDirs().map(dir=>shell.exec(`yalc publish --push ${dir}`))
 };
 
 const yalcAddAll = () => {
@@ -154,6 +169,8 @@ module.exports = {
 
   yalcPublishAll: yalcPublishAll,
 
+  yalcPublishPushAll: yalcPublishPushAll,
+
   yalcAddAll: yalcAddAll,
 
   yalcSetupStageWithExample: (
@@ -176,6 +193,8 @@ module.exports = {
     yalcAddAll();
 
     resolutionsYalc(stagePath);
+
+    scriptsYalc(stagePath);
 
     shell.exec("yarn install", { env: Object.assign(process.env, {NODE_ENV:"development"}) });
 
