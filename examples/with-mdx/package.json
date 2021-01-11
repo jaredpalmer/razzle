@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
