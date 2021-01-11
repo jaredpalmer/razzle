@@ -1,0 +1,26 @@
+{
+  "name": "razzle-examples-with-flight",
+  "version": "4.0.0-canary.17",
+  "license": "MIT",
+  "scripts": {
+    "start": "razzle start",
+    "build": "razzle build",
+    "test": "razzle test --env=jsdom",
+    "start:prod": "NODE_ENV=production node build/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "webpack-stats-plugin": "^1.0.3",
+    "razzle": "4.0.0-canary.17",
+    "razzle-dev-utils": "4.0.0-canary.17",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.44.1",
+    "babel-preset-razzle": "4.0.0-canary.17",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
