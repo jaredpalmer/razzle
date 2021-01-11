@@ -34,6 +34,10 @@ module.exports = {
       ]);
     }
 
+    if (opts.env.target === 'web' && opts.env.dev) {
+      config.devServer.writeToDisk = true;
+    }
+
     return config;
   },
 }
