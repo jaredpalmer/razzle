@@ -1,12 +1,12 @@
 {
   "name": "razzle-plugin-php",
-  "version": "4.0.0-canary.16",
+  "version": "4.0.0-canary.17",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "babel-preset-php": "^1.2.0"
   },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-canary.16"
+    "razzle-dev-utils": "4.0.0-canary.17"
   }
 }
