@@ -230,31 +230,31 @@ module.exports = (
       }
     }
 
-    if (clientOnly) {
-      webpackOptions.htmlWebpackPluginOptions = Object.assign(
-        {},
-        {
-          inject: true,
-          template: paths.appHtml,
+    webpackOptions.enableHtmlWebpackPlugin = clientOnly;
+
+    webpackOptions.htmlWebpackPluginOptions = Object.assign(
+      {},
+      {
+        inject: true,
+        template: paths.appHtml,
+      },
+      IS_PROD
+      ? {
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
         },
-        IS_PROD
-          ? {
-              minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true,
-                useShortDoctype: true,
-                removeEmptyAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                keepClosingSlash: true,
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true,
-              },
-            }
-          : {}
-      );
-    }
+      }
+      : {}
+    );
 
     webpackOptions.browserslist = razzleOptions.browserslist;
 
@@ -529,7 +529,8 @@ module.exports = (
                   importLoaders: 1,
                   modules: {
                     auto: true,
-                    exportOnlyLocals: true
+                    exportOnlyLocals: true,
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
                 },
               },
@@ -892,7 +893,9 @@ module.exports = (
           config.devServer.contentBase = paths.appPublic;
           config.devServer.watchContentBase = true;
         }
+      }
 
+      if (webpackOptions.enableHtmlWebpackPlugin) {
         config.plugins = [
           ...config.plugins,
           // Generates an `index.html` file with the <script> injected.
