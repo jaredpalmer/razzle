@@ -83,6 +83,7 @@ const scriptsYalc = (fromPath) => {
     return fs.writeFileSync(packageJson, JSON.stringify(packageJsonData, null, '  '));
   }
 };
+
 const copyExample = (exampleName, stageName) => {
   const stagePath = path.join(process.cwd(), stageName);
   fs.copySync(path.join(rootDir, 'examples', exampleName), stagePath);
@@ -98,7 +99,7 @@ const yalcPublishPushAll = () => {
 };
 
 const yalcAddAll = () => {
-  return getWorkspacePackages().map(pkg=>shell.exec(`yalc add ${pkg}`))
+  return getWorkspacePackages().map(pkg=>shell.exec(`yalc add --no-pure ${pkg}`))
 };
 
 const setupStageWithExample = (
