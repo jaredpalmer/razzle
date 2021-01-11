@@ -232,7 +232,7 @@ module.exports = babelLoader.custom(function(babel) {
       if (razzleContext.modifyBabelPreset) {
         presetOptions = razzleContext.modifyBabelPreset(
           merge(razzleContext.configContext, {
-            options: { pluginOptions, presetOptions }
+            options: { presetOptions }
           })
         );
       }
