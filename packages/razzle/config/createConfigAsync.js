@@ -172,6 +172,7 @@ module.exports = (
 
       if (IS_DEV) {
       } else {
+        webpackOptions.terserPluginOptions = {};
       }
     }
 
@@ -608,21 +609,26 @@ module.exports = (
         // We define environment variables that can be accessed globally in our
         new webpack.DefinePlugin(webpackOptions.definePluginOptions),
       ];
-      // in dev mode emitting one huge server file on every save is very slow
-      if (IS_PROD) {
-        // Prevent creating multiple chunks for the server
-        config.plugins.push(
-          new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1,
-          })
-        );
-      }
 
       config.entry = {
         server: [paths.appServerIndexJs],
       };
 
       if (IS_PROD) {
+        // Prevent creating multiple chunks for the server
+        // in dev mode emitting one huge server file on every save is very slow
+
+        config.plugins.push(
+          new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1,
+          })
+        );
+        config.optimization = {
+          minimize: true,
+          minimizer: [
+            new TerserPlugin(webpackOptions.terserPluginOptions)
+          ],
+        }
         if (hasStaticExportJs) {
           config.entry.static_export = [paths.appStaticExportJs];
         }
