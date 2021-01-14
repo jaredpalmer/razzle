@@ -33,7 +33,6 @@ loadRazzleConfig(webpack).then(
 
     const verbose = razzleOptions.verbose;
     const clientOnly = razzleOptions.buildType=='spa';
-    const debugCompile = razzleOptions.debug.compile || false;
     process.env.BUILD_TYPE = razzleOptions.buildType;
 
     // First, read the current file sizes in build directory.
@@ -70,9 +69,7 @@ loadRazzleConfig(webpack).then(
           console.log();
         },
         err => {
-          console.log(chalk.red('Failed to compile.\n'));
-          console.log((err.message || err) + '\n');
-          process.exit(1);
+          printErrors('Failed to compile.', err, verbose);
         }
       );
 
@@ -124,13 +121,11 @@ loadRazzleConfig(webpack).then(
         // the server compiler.
         compile(clientConfig, (err, clientStats) => {
           if (err) {
-            return reject(err);
+             return reject(err);
           }
-          const clientMessages = formatWebpackMessages(
-            clientStats.toJson({}, true)
-          );
+          const clientMessages = clientStats.toJson({}, true);
           if (clientMessages.errors.length) {
-            return reject(new Error(clientMessages.errors.join('\n\n')));
+            return reject(clientMessages.errors);
           }
           if (
             !process.env.WARNINGS_ERRORS_DISABLE &&
@@ -145,7 +140,7 @@ loadRazzleConfig(webpack).then(
                   'Most CI servers set it automatically.\n'
               )
             );
-            return reject(new Error(clientMessages.warnings.join('\n\n')));
+            return reject(clientMessages.warnings);
           }
 
           console.log(chalk.green('Compiled client successfully.'));
@@ -161,11 +156,9 @@ loadRazzleConfig(webpack).then(
               if (err) {
                 return reject(err);
               }
-              const serverMessages = formatWebpackMessages(
-                serverStats.toJson({}, true)
-              );
+              const serverMessages =  serverStats.toJson({}, true);
               if (serverMessages.errors.length) {
-                return reject(new Error(serverMessages.errors.join('\n\n')));
+                return reject(serverMessages.errors);
               }
               if (
                 !process.env.WARNINGS_ERRORS_DISABLE &&
@@ -180,17 +173,15 @@ loadRazzleConfig(webpack).then(
                       'Most CI servers set it automatically.\n'
                   )
                 );
-                return reject(new Error(serverMessages.warnings.join('\n\n')));
+                return reject(serverMessages.warnings);
               }
               console.log(chalk.green('Compiled server successfully.'));
               return resolve({
                 stats: clientStats,
                 previousFileSizes,
-                warnings: Object.assign(
-                  {},
-                  clientMessages.warnings,
-                  serverMessages.warnings
-                ),
+                warnings: []
+                  .concat(clientMessages.warnings)
+                  .concat(serverMessages.warnings)
               });
             });
           }
@@ -204,12 +195,7 @@ loadRazzleConfig(webpack).then(
       try {
         compiler = webpackObject(config);
       } catch (e) {
-        if (debugCompile) {
-          console.log('Failed to compile.')
-          throw e;
-        } else {
-          printErrors('Failed to compile.', [e], verbose);
-        }
+        printErrors('Failed to compile.', [e], verbose);
         process.exit(1);
       }
       compiler.run((err, stats) => {
