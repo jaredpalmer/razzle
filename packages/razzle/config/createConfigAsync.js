@@ -119,8 +119,8 @@ module.exports = (
     const portOffset = clientOnly ? 0 : 1;
 
     const devServerPort =
-      (process.env.PORT_DEV && parseInt(process.env.PORT_DEV)) ||
-      (process.env.PORT && parseInt(process.env.PORT) + portOffset) ||
+      (process.env.PORT_DEV && parseInt(process.env.PORT_DEV, 10)) ||
+      (process.env.PORT && parseInt(process.env.PORT, 10) + portOffset) ||
       3000 + portOffset;
 
     // VMs, Docker containers might not be available at localhost:3001. CLIENT_PUBLIC_PATH can override.
