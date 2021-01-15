@@ -679,6 +679,10 @@ module.exports = (
 
     if (IS_WEB) {
       config.plugins = [
+        webpackMajor === 5 && new webpack.ProvidePlugin({
+          Buffer: [require.resolve('buffer'), 'Buffer'],
+          process: [require.resolve('process')],
+        }),
         // Output all files in a manifest file called assets-manifest.json
         // in the build directory.
         new ManifestPlugin({
