@@ -414,8 +414,30 @@ To make the Jest test runner work with absolute imports, you'll need to add a `j
 ```
 
 Now that you've configured your project to support absolute imports, if you want to import a module located at src/components/Button.js, you can import the module like so:
+
 ```js
 import Button from 'components/Button';
+```
+
+## Aliased Paths/ Modules
+
+You can configure your application to support importing modules using aliased paths. This can be done by configuring a jsconfig.json or tsconfig.json file in the root of your project. If you're using TypeScript in your project, you will already have a tsconfig.json file.
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@extra/*": ["../extra/*"]
+    }
+  }
+}
+```
+
+Now that you've configured your project to support aliased imports, if you want to import a module located at extra/components/Button.js, you can import the module like so:
+
+```js
+import Button from '@extra/components/Button';
 ```
 
 ## Experimental
