@@ -475,16 +475,14 @@ module.exports = (
           additionalAliases
         ),
         plugins: [
-          // TODO: Remove when using webpack 5
-          PnpWebpackPlugin,
-        ],
+          webpackMajor !== 5 && PnpWebpackPlugin,
+        ].filter(x => x),
       },
       resolveLoader: {
         modules: [paths.appNodeModules, paths.ownNodeModules],
         plugins: [
-          // TODO: Remove when using webpack 5
-          PnpWebpackPlugin.moduleLoader(module),
-        ],
+          webpackMajor !== 5 && PnpWebpackPlugin.moduleLoader(module),
+        ].filter(x => x),
       },
       module: {
         strictExportPresence: true,
@@ -587,7 +585,7 @@ module.exports = (
         ? webpackOptions.nodeExternals : [webpackOptions.nodeExternals];
 
       // We need to tell webpack what to bundle into our Node bundle.
-      config.externals = (!IS_SERVERLESS ? [nodeExternalsFunc] : []).concat(webpackOptions.nodeExternals);
+      config.externals = (!IS_SERVERLESS ? [nodeExternalsFunc] : []).concat(nodeExternals);
 
       // Specify webpack Node.js output path and filename
       config.output = {
@@ -832,7 +830,7 @@ module.exports = (
           ? webpackOptions.clientExternals : [webpackOptions.clientExternals];
 
         // We need to tell webpack what to bundle into our client bundle.
-        config.externals = webpackOptions.clientExternals;
+        config.externals = clientExternals;
 
         // Specify the client output directory and paths. Notice that we have
         // changed the publiPath to just '/' from http://localhost:3001. This is because
