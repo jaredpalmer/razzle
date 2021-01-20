@@ -1,5 +1,5 @@
 module.exports = {
   options: {
-    enableReactRefresh: true,
+    verbose: true
   },
 }

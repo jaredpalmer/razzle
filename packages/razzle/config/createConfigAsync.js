@@ -101,7 +101,7 @@ module.exports = (
     };
 
     const shouldUseReactRefresh =
-      IS_WEB && IS_DEV && razzleOptions.useReactRefresh ? true : false;
+      IS_WEB && IS_DEV && razzleOptions.enableReactRefresh ? true : false;
 
     let webpackOptions = {};
 
@@ -265,13 +265,14 @@ module.exports = (
         use: [{
           loader: require.resolve('./babel-loader/razzle-babel-loader'),
           options: {
+            verbose: razzleOptions.verbose,
             isServer: IS_NODE,
             cwd: paths.appPath,
             cache: true,
-            babelPresetPlugins: [],
+            configFile: razzleOptions.enableTargetBabelrc ? path.resolve(paths.appPath, `.babelrc.${target}`) : undefined,
             hasModern: false,
             development: IS_DEV,
-            hasReactRefresh: shouldUseReactRefresh,
+            shouldUseReactRefresh: shouldUseReactRefresh,
           },
         }
       ]
@@ -313,20 +314,6 @@ module.exports = (
         paths,
       });
     }
-
-    webpackOptions.babelRule.use[0].options.razzleContext = {
-      plugins,
-      modifyBabelPreset,
-      configContext: {
-        env: { target, dev: IS_DEV, serverless: IS_SERVERLESS },
-        webpackObject: webpackObject,
-        options: {
-          razzleOptions,
-          webpackOptions,
-        },
-        paths,
-      }
-    };
 
     const debugNodeExternals = razzleOptions.debug.nodeExternals;
 

@@ -60,13 +60,12 @@ module.exports = babelLoader.custom(function(babel) {
   return {
     customOptions: function(opts) {
       const custom = {
+        verbose: opts.verbose,
         isServer: opts.isServer,
         isModern: opts.isModern,
         hasModern: opts.hasModern,
-        babelPresetPlugins: opts.babelPresetPlugins,
         development: opts.development,
-        hasReactRefresh: opts.hasReactRefresh,
-        razzleContext: opts.razzleContext,
+        shouldUseReactRefresh: opts.shouldUseReactRefresh,
       };
       const filename = join(opts.cwd, 'noop.js');
       const loader = Object.assign(
@@ -96,27 +95,25 @@ module.exports = babelLoader.custom(function(babel) {
         opts
       );
 
+      delete loader.verbose;
       delete loader.isServer;
       delete loader.cache;
       delete loader.distDir;
       delete loader.isModern;
       delete loader.hasModern;
-      delete loader.babelPresetPlugins;
       delete loader.development;
-      delete loader.hasReactRefresh;
-      delete loader.razzleContext;
+      delete loader.shouldUseReactRefresh;
       return { loader, custom };
     },
     config: function(cfg, cfgOpts) {
       const source = cfgOpts.source;
       const customOptions = cfgOpts.customOptions;
+      const verbose = customOptions.verbose;
       const isServer = customOptions.isServer;
       const isModern = customOptions.isModern;
       const hasModern = customOptions.hasModern;
-      const babelPresetPlugins = customOptions.babelPresetPlugins;
       const development = customOptions.development;
-      const hasReactRefresh = customOptions.hasReactRefresh;
-      const razzleContext = customOptions.razzleContext;
+      const shouldUseReactRefresh = customOptions.shouldUseReactRefresh;
 
       const filename = this.resourcePath;
       const presetOptions = Object.assign({}, cfg.options);
@@ -124,9 +121,9 @@ module.exports = babelLoader.custom(function(babel) {
       if (cfg.hasFilesystemConfig()) {
         for (const file of [cfg.babelrc, cfg.config]) {
           // We only log for client compilation otherwise there will be double output
-          if (file && !isServer && !configs.has(file)) {
-            configs.add(file);
-            console.info(`Using external babel configuration from ${file}`);
+          if (file && verbose && !configs.has(`${file}.${isServer ? 'node' : 'web'}`)) {
+            configs.add(`${file}.${isServer ? 'node' : 'web'}`);
+            console.info(`Using external babel configuration from ${file} for ${isServer ? 'node' : 'web'} build`);
           }
         }
       } else {
@@ -152,7 +149,7 @@ module.exports = babelLoader.custom(function(babel) {
 
       presetOptions.plugins = presetOptions.plugins || [];
 
-      if (hasReactRefresh) {
+      if (shouldUseReactRefresh) {
         const reactRefreshPlugin = babel.createConfigItem(
           [require('react-refresh/babel'), { skipEnvCheck: true }],
           { type: 'plugin' }
@@ -215,27 +212,6 @@ module.exports = babelLoader.custom(function(babel) {
       //     plugins: [commonJsItem],
       //   },
       // ])
-
-      for (const [plugin, pluginOptions] of razzleContext.plugins) {
-        // Check if .modifyBabelPreset is a function.
-        // If it is, call it on the configs we created.
-        if (plugin.modifyBabelPreset) {
-          presetOptions = plugin.modifyBabelPreset(
-            merge(razzleContext.configContext, {
-              options: { pluginOptions, presetOptions }
-            })
-          );
-        }
-      }
-      // Check if razzle.config.js has a modifyBabelPreset function.
-      // If it does, call it on the configs we created.
-      if (razzleContext.modifyBabelPreset) {
-        presetOptions = razzleContext.modifyBabelPreset(
-          merge(razzleContext.configContext, {
-            options: { presetOptions }
-          })
-        );
-      }
 
       return presetOptions;
     },

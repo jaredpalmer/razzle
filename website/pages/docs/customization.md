@@ -16,7 +16,8 @@ module.exports = {
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
-    useReactRefresh: false,
+    enableReactRefresh: false,
+    enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
     staticExport: {
       parallel: 5, // how many pages to render at a time
       routesExport: 'routes',

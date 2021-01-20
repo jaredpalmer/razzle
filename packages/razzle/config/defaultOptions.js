@@ -6,6 +6,7 @@ module.exports = {
   buildType: 'iso',
   cssPrefix: 'static/css',
   jsPrefix: 'static/js',
-  useReactRefresh: false,
+  enableReactRefresh: false,
+  enableTargetBabelrc: false,
   mediaPrefix: 'static/media',
 };
