@@ -1,5 +1,32 @@
 # Upgrade guide from 3.x to 4.x
 
+## Dependencies
+
+Update/add razzle core dependencies
+
+```bash
+yarn add razzle razzle-dev-utils babel-preset-razzle --dev
+```
+
+Update/add razzle peerdependencies
+
+```bash
+yarn add webpack-dev-server@3.11.0 mini-css-extract-plugin@0.9.0 --dev
+```
+
+Choose your webpack version
+
+```bash
+yarn add webpack@5.16.0 --dev
+# or
+yarn add webpack@4.46.0 --dev
+```
+
+Update/add razzle plugins if you use any
+
+```bash
+yarn add razzle-plugin-scss --dev
+```
 
 ## Spa apps
 

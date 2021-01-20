@@ -12,7 +12,7 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 13.x, 14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        webpack: [webpack@4.44.2, webpack@5.11.1]
+        webpack: [webpack@4.46.0, webpack@5.16.0]
 
     name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }} with ${{ matrix.webpack }}
 
