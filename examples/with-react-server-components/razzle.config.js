@@ -4,6 +4,10 @@ const path = require('path');
 const { StatsWriterPlugin } = require("webpack-stats-plugin")
 
 module.exports = {
+  options: {
+    verbose: true,
+    enableTargetBabelrc: true
+  },
   modifyPaths(opts) {
     const paths = opts.paths;
     paths.appServerJs = path.join(paths.appPath, 'src/cli.server');

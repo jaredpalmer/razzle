@@ -696,7 +696,7 @@ module.exports = (
               const allFiles = []
                 .concat(
                   ...(entry.chunks || []).map(chunk =>
-                    chunk.files.map(path => config.output.publicPath + path)
+                    chunk.files.map(path => !path.startsWith('/.') && config.output.publicPath + path)
                   )
                 )
                 .filter(Boolean);
@@ -720,8 +720,10 @@ module.exports = (
                 : acc;
             }, seed);
             entryArrayManifest['noentry'] = [...noChunkFiles]
-              .map(file => file.path)
+              .map(file => !file.path.includes('/.') && file.path)
+              .filter(Boolean)
               .reduce((types, file) => {
+                console.log(file);
                 const fileType = file.slice(file.lastIndexOf('.') + 1);
                 types[fileType] = types[fileType] || [];
                 types[fileType].push(file);
