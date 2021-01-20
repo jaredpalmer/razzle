@@ -74,7 +74,7 @@ function getClientEnvironment(target, is_dev, options, paths) {
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = Object.keys(raw).reduce((env, key) => {
-    if (!is_dev && !options.forceRuntimeEnvVars.includes(key)) {
+    if (!options.forceRuntimeEnvVars.includes(key) || is_dev) {
       env[`process.env.${key}`] = JSON.stringify(raw[key]);
     }
     return env;
