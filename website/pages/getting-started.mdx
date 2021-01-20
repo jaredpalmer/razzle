@@ -63,6 +63,24 @@ If your application is running, and you need to manually restart your server, yo
   alt="Razzle Hot Restart"
 />
 
+## Dependencies
+
+To make sure razzle is installed properly make sure razzle peerdependencies are installed, run:
+
+```bash
+yarn add razzle razzle-dev-utils babel-preset-razzle webpack-dev-server@3.11.0 mini-css-extract-plugin@0.9.0 --dev
+```
+
+Choose your webpack version
+
+```bash
+yarn add webpack@5.16.0 --dev
+# or
+yarn add webpack@4.46.0 --dev
+```
+
+Also if there are issues, try adding specific package versions to resolutions in `package.json`.
+
 ## Debugging with Inspector
 
 - `npm start --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
