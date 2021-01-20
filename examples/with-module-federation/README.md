@@ -1,4 +1,4 @@
-# Razzle Monorepo Example
+# Razzle Module Federation Example
 
 ## How to use
 
@@ -9,14 +9,14 @@ This is the canary release documentation for this example
 Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example with-monorepo with-monorepo
+npx create-razzle-app@canary --example with-module-federation with-module-federation
 
-cd with-monorepo
+cd with-module-federation
 yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->
 
 
 ## Idea behind the example
-This is a basic, bare-bones example of how to use razzle in a monorepo. It satisfies the entry points
-`src/index.js` for the server and `src/client.js` for the browser in both apps.
+This is a basic, bare-bones example of how to use razzle with-module-federation. It satisfies the entry point
+ `src/client.js` for the browser.
