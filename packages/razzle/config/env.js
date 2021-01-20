@@ -37,7 +37,7 @@ function setupEnvironment(paths) {
 // injected into the application via DefinePlugin in Webpack configuration.
 const RAZZLE = /^RAZZLE_/i;
 
-function getClientEnvironment(target, options, paths) {
+function getClientEnvironment(target, is_dev, options, paths) {
   const raw = Object.keys(process.env)
     .filter(key => RAZZLE.test(key))
     .reduce(
@@ -74,7 +74,9 @@ function getClientEnvironment(target, options, paths) {
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = Object.keys(raw).reduce((env, key) => {
-    env[`process.env.${key}`] = JSON.stringify(raw[key]);
+    if (!is_dev && !options.forceRuntimeEnvVars.includes(key)) {
+      env[`process.env.${key}`] = JSON.stringify(raw[key]);
+    }
     return env;
   }, {});
 

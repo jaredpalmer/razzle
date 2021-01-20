@@ -8,5 +8,6 @@ module.exports = {
   jsPrefix: 'static/js',
   enableReactRefresh: false,
   enableTargetBabelrc: false,
+  forceRuntimeEnvVars: [],
   mediaPrefix: 'static/media',
 };

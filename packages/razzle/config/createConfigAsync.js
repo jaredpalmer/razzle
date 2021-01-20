@@ -113,8 +113,8 @@ module.exports = (
       fs.existsSync(paths.appStaticExportJs + '.tsx');
 
     const dotenv = getClientEnv(
-      target,
-      { clearConsole, host, port, shouldUseReactRefresh },
+      target, IS_DEV,
+      { clearConsole, host, port, shouldUseReactRefresh, forceRuntimeEnvVars: razzleOptions.forceRuntimeEnvVars },
       paths
     );
 
