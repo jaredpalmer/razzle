@@ -105,6 +105,8 @@ module.exports = (
 
     let webpackOptions = {};
 
+    const hasPublicDir = fs.existsSync(paths.appPublic);
+
     const hasStaticExportJs = fs.existsSync(paths.appStaticExportJs + '.js') ||
       fs.existsSync(paths.appStaticExportJs + '.jsx') ||
       fs.existsSync(paths.appStaticExportJs + '.ts') ||
@@ -848,7 +850,7 @@ module.exports = (
           }),
           webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
-          new CopyPlugin({
+          hasPublicDir && new CopyPlugin({
             patterns: [
               {
                 from: paths.appPublic.replace(/\\/g, '/') + '/**/*',

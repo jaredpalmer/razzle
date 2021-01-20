@@ -120,10 +120,10 @@ module.exports = babelLoader.custom(function(babel) {
 
       if (cfg.hasFilesystemConfig()) {
         for (const file of [cfg.babelrc, cfg.config]) {
-          // We only log for client compilation otherwise there will be double output
+          // We only log for first compilation otherwise there will be double output
           if (file && verbose && !configs.has(`${file}.${isServer ? 'node' : 'web'}`)) {
             configs.add(`${file}.${isServer ? 'node' : 'web'}`);
-            console.info(`Using external babel configuration from ${file} for ${isServer ? 'node' : 'web'} build`);
+            console.info(`Using external babel configuration from ${file} for "${isServer ? 'node' : 'web'}" build`);
           }
         }
       } else {
