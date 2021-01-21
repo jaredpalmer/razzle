@@ -270,7 +270,7 @@ module.exports = (
             verbose: razzleOptions.verbose,
             isServer: IS_NODE,
             cwd: paths.appPath,
-            cache: true,
+            cache: razzleOptions.enableBabelCache,
             configFile: razzleOptions.enableTargetBabelrc ? path.resolve(paths.appPath, `.babelrc.${target}`) : undefined,
             hasModern: false,
             development: IS_DEV,

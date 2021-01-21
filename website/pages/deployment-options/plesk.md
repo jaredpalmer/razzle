@@ -1,1 +1,1 @@
-# plesk
+# Deploy Razzle on Plesk

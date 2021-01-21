@@ -18,7 +18,8 @@ module.exports = {
     mediaPrefix: 'static/media',
     enableReactRefresh: false,
     enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
-    forceRuntimeEnvVars: [], // force env vars to be read from env e.g. ['HOST', 'PORT'] 
+    enableBabelCache: true,
+    forceRuntimeEnvVars: [], // force env vars to be read from env e.g. ['HOST', 'PORT']
     staticExport: {
       parallel: 5, // how many pages to render at a time
       routesExport: 'routes',
