@@ -124,6 +124,7 @@ export default class StartServerPlugin {
 
     if (signal && signal !== 'SIGTERM'){
       this._error('script exited after signal', signal);
+      process.exit()
       return;
     }
     if (!this.workerLoaded) {

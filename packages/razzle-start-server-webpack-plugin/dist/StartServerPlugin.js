@@ -150,10 +150,9 @@ class StartServerPlugin {
     this.worker = null;
 
     if (signal && signal !== 'SIGTERM') {
-      process.stdin.removeAllListeners('data');
-
       this._error('script exited after signal', signal);
 
+      process.exit();
       return;
     }
 
