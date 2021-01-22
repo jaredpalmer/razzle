@@ -40,7 +40,9 @@ export default class StartServerPlugin {
     this.apply = this.apply.bind(this);
     this._handleChildError = this._handleChildError.bind(this);
     this._handleChildExit = this._handleChildExit.bind(this);
+    this._handleChildQuit = this._handleChildQuit.bind(this);
     this._handleChildMessage = this._handleChildMessage.bind(this);
+    this._handleWebpackExit = this._handleWebpackExit.bind(this);
 
     this.worker = null;
     if (this.options.restartable && !options.once) {
@@ -111,13 +113,19 @@ export default class StartServerPlugin {
     return execArgv;
   }
 
+  _handleChildQuit() {
+    this.worker = null;
+  }
+
   _handleChildExit(code, signal) {
     if (code) this._error('script exited with code', code);
-    if (signal && signal !== 'SIGTERM')
-      this._error('script exited after signal', signal);
 
     this.worker = null;
 
+    if (signal && signal !== 'SIGTERM'){
+      this._error('script exited after signal', signal);
+      return;
+    }
     if (!this.workerLoaded) {
       this._error('Script did not load, or HMR failed; not restarting');
       return;
@@ -129,6 +137,12 @@ export default class StartServerPlugin {
 
     this.workerLoaded = false;
     this._runWorker();
+  }
+
+  _handleWebpackExit() {
+    if (this.worker) {
+      process.kill(this.worker.pid, 'SIGINT');
+    }
   }
 
   _handleChildError(err) {
@@ -167,11 +181,15 @@ export default class StartServerPlugin {
       silent: true,
       env: Object.assign(process.env, { FORCE_COLOR: 3 })
     });
-    worker.once('exit', this._handleChildExit);
-    worker.once('error', this._handleChildError);
+    worker.on('exit', this._handleChildExit);
+    worker.on('quit', this._handleChildQuit);
+    worker.on('error', this._handleChildError);
     worker.on('message', this._handleChildMessage);
     worker.stdout.on('data', this._worker_info);
     worker.stderr.on('data', this._worker_error);
+
+    process.on('SIGINT', this._handleWebpackExit);
+
     this.worker = worker;
 
     if (callback) callback();

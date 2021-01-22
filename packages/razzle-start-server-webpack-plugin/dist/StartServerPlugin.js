@@ -61,6 +61,7 @@ class StartServerPlugin {
     this.apply = this.apply.bind(this);
     this._handleChildError = this._handleChildError.bind(this);
     this._handleChildExit = this._handleChildExit.bind(this);
+    this._handleChildQuit = this._handleChildQuit.bind(this);
     this._handleChildMessage = this._handleChildMessage.bind(this);
     this._handleWebpackExit = this._handleWebpackExit.bind(this);
     this.worker = null;
@@ -140,11 +141,17 @@ class StartServerPlugin {
     return execArgv;
   }
 
+  _handleChildQuit() {
+    this.worker = null;
+  }
+
   _handleChildExit(code, signal) {
     if (code) this._error('script exited with code', code);
     this.worker = null;
 
     if (signal && signal !== 'SIGTERM') {
+      process.stdin.removeAllListeners('data');
+
       this._error('script exited after signal', signal);
 
       return;
@@ -219,6 +226,7 @@ class StartServerPlugin {
     });
 
     worker.on('exit', this._handleChildExit);
+    worker.on('quit', this._handleChildQuit);
     worker.on('error', this._handleChildError);
     worker.on('message', this._handleChildMessage);
     worker.stdout.on('data', this._worker_info);
