@@ -133,6 +133,13 @@ function main() {
               logger.error(err);
             }
           });
+
+          ['SIGINT', 'SIGTERM'].forEach(sig => {
+            process.on(sig, () => {
+              clientDevServer.close();
+            });
+          });
+          
           resolve();
         }
       );
