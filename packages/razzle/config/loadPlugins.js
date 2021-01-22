@@ -28,7 +28,11 @@ function loadPlugin(plugin, paths) {
     return [plugin.object, plugin.options];
   }
 
-  const completePluginNames = [`razzle-plugin-${plugin.name}`, `${plugin.name}/razzle-plugin`];
+  const completePluginNames = [
+    `razzle-plugin-${plugin.name}`,
+    `${plugin.name}/razzle-plugin`,
+    plugin.name.includes('/') && plugin.name
+  ].filter(Boolean);
 
   // Try to find the plugin in node_modules
   let razzlePlugin = null;
