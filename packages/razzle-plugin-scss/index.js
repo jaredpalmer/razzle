@@ -113,7 +113,7 @@ module.exports = {
       options: hasPostCssConfig()
         ? undefined
         : { postcssOptions: Object.assign({}, options.postcss[constantEnv], {
-            plugins: () => options.postcss.plugins,
+            plugins: options.postcss.plugins,
           })},
     };
 
