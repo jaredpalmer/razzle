@@ -1,5 +1,6 @@
 {
-  "vercel": "Vercel",
   "aws": "AWS",
-  "plesk": "Plesk"
+  "azure": "Azure",
+  "plesk": "Plesk",
+  "vercel": "Vercel"
 }
