@@ -118,26 +118,22 @@ export default class StartServerPlugin {
   }
 
   _handleChildExit(code, signal) {
-    if (code) this._error('script exited with code', code);
-
+    this._error(`Script exited with ${signal ? `signal ${signal}` : `code ${code}`}`);
     this.worker = null;
 
-    if (signal && signal !== 'SIGTERM'){
-      this._error('script exited after signal', signal);
-      process.exit()
-      return;
-    }
-    if (!this.workerLoaded) {
-      this._error('Script did not load, or HMR failed; not restarting');
-      return;
-    }
-    if (this.options.once) {
-      this._info('Only running script once, as requested');
-      return;
-    }
+    if (code === 143 || signal === 'SIGTERM') {
+      if (!this.workerLoaded) {
+        this._error('Script did not load, or HMR failed; not restarting');
+        return;
+      }
+      if (this.options.once) {
+        this._info('Only running script once, as requested');
+        return;
+      }
 
-    this.workerLoaded = false;
-    this._runWorker();
+      this.workerLoaded = false;
+      this._runWorker();
+    }
   }
 
   _handleWebpackExit() {

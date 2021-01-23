@@ -53,6 +53,7 @@
     "source-map-support": "^0.5.16",
     "string-hash": "1.1.3",
     "style-loader": "2.0.0",
+    "terminate": "2.1.2",
     "terser-webpack-plugin": "^2.3.5",
     "tiny-async-pool": "^1.1.0",
     "url-loader": "^2.3.0",
