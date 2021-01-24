@@ -113,7 +113,7 @@ az webapp config appsettings set --name $webappname --resource-group myResourceG
 creds=($(az webapp deployment list-publishing-profiles --name $webappname --resource-group myResourceGroup \
 --query "[?contains(publishMethod, 'ZipDeploy')].[publishUrl,userName,userPWD]" --output tsv))
 
-# Use cURL to perform FTP upload. You can use any FTP tool to do this instead.
+# Use cURL to perform http zip upload. You can use any http tool to do this instead.
 curl -X POST -u ${creds[1]}:${creds[2]} --data-binary @"site.zip" https://${creds[0]}/api/zipdeploy
 
 # Copy the result of the following command into a browser to see the static HTML site.
