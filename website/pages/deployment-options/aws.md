@@ -6,6 +6,25 @@ Add dependencies
 yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
 ```
 
+Add razzle config.
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  options: {
+    buildType: 'serverless'
+  }
+};
+```
+
+Add this to `src/index.js`
+
+```js
+export const handler = app;
+```
+
 Add this to `package.json`
 
 ```json
