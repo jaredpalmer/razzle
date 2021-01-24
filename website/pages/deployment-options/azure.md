@@ -2,11 +2,25 @@
 
 [Install the Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 
+Add razzle config
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  options: {
+    forceRuntimeEnvVars: ['HOST', 'PORT']
+  }
+};
+```
+
 Create web.config
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+     web.config
      This configuration file is required if iisnode is used to run node processes behind
      IIS or IIS Express.  For more information, visit:
      https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/web.config
@@ -66,10 +80,10 @@ Create web.config
 </configuration>
 ```
 
-Build the Razzle project
+Zip the Razzle project
 
 ```bash
-yarn build
+zip -r site.zip * -x "build/*" "node_modules/*"
 ```
 
 Login to Azure
@@ -87,18 +101,21 @@ webappname=myRazzle$RANDOM
 az group create --location westeurope --name myResourceGroup
 
 # Create an App Service plan in `FREE` tier.
-az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE
+az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE --is-linux
 
 # Create a web app.
-az webapp create --name $webappname --resource-group myResourceGroup --plan myAppServicePlan
+az webapp create --name $webappname --resource-group myResourceGroup --plan myAppServicePlan --runtime "node|12-lts"
+
+# Enable building with zip deploy
+az webapp config appsettings set --name $webappname --resource-group myResourceGroup --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
 
 # Get FTP publishing profile and query for publish URL and credentials
 creds=($(az webapp deployment list-publishing-profiles --name $webappname --resource-group myResourceGroup \
---query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" --output tsv))
+--query "[?contains(publishMethod, 'ZipDeploy')].[publishUrl,userName,userPWD]" --output tsv))
 
 # Use cURL to perform FTP upload. You can use any FTP tool to do this instead.
-curl -T index.html -u ${creds[1]}:${creds[2]} ${creds[0]}/
+curl -X POST -u ${creds[1]}:${creds[2]} --data-binary @"site.zip" https://${creds[0]}/api/zipdeploy
 
 # Copy the result of the following command into a browser to see the static HTML site.
-echo http://$webappname.azurewebsites.net
+echo https://$webappname.azurewebsites.net
 ```
