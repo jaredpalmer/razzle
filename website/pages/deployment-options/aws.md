@@ -1,7 +1,41 @@
 # Deploy Razzle on AWS
 
+Add dependencies
+
+```bash
+yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
+```
+
+```jsonc
+// cdk.json
+{
+  "app": "npx ts-node --prefer-ts-exts bin/cdk.ts",
+  "context": {
+    "@aws-cdk/core:enableStackNameDuplicates": "true",
+    "aws-cdk:enableDiffNoFail": "true",
+    "@aws-cdk/core:stackRelativeExports": "true",
+    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
+    "@aws-cdk/aws-secretsmanager:parseOwnedSecretName": true,
+    "@aws-cdk/aws-kms:defaultKeyPolicies": true,
+    "@aws-cdk/aws-s3:grantWriteWithoutAcl": true
+  }
+}
+```
+
+
 ```typescript
-// helpers.ts
+// bin/cdk.ts
+#!/usr/bin/env node
+import 'source-map-support/register';
+import * as cdk from '@aws-cdk/core';
+import { RazzleStack } from '../lib/RazzleStack';
+
+const app = new cdk.App();
+new RazzleStack(app, 'RazzleStack', {name:'basic'});
+```
+
+```typescript
+// lib/helpers.ts
 import * as SSM from '@aws-cdk/aws-ssm';
 import * as CDK from '@aws-cdk/core';
 
@@ -16,7 +50,7 @@ export interface ConfigProps extends CDK.StackProps {
 export class ModeStack extends CDK.Stack {
   public readonly mode: string = this.node.tryGetContext('mode') || 'development';
   public readonly Mode: string =
-    this.node.tryGetContext('mode').replace(/^\w/, (c: string) => c.toUpperCase()) || 'Development';
+    this.mode.replace(/^\w/, (c: string) => c.toUpperCase());
 
   constructor(scope: CDK.Construct, id: string, props?: ConfigProps) {
     super(scope, id, props);
@@ -25,7 +59,7 @@ export class ModeStack extends CDK.Stack {
 ```
 
 ```typescript
-//  RazzleStack.ts
+// lib/RazzleStack.ts
 import * as CDK from '@aws-cdk/core';
 import * as S3 from '@aws-cdk/aws-s3';
 import * as S3Deployment from '@aws-cdk/aws-s3-deployment';
