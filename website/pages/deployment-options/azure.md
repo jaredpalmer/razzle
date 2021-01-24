@@ -98,23 +98,41 @@ Deploy the Razzle project to Azure
 webappname=myRazzle$RANDOM
 
 # Create a resource group.
-az group create --location westeurope --name myResourceGroup
+az group create \
+  --location westeurope \
+  --name myResourceGroup
 
 # Create an App Service plan in `FREE` tier.
-az appservice plan create --name myAppServicePlan --resource-group myResourceGroup --sku FREE --is-linux
+az appservice plan create --name myAppServicePlan \
+  --resource-group myResourceGroup \
+  --sku FREE \
+  --is-linux
 
 # Create a web app.
-az webapp create --name $webappname --resource-group myResourceGroup --plan myAppServicePlan --runtime "node|12-lts"
+az webapp create \
+  --name $webappname \
+  --resource-group myResourceGroup \
+  --plan myAppServicePlan \
+  --runtime "node|12-lts"
 
 # Enable building with zip deploy
-az webapp config appsettings set --name $webappname --resource-group myResourceGroup --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+az webapp config appsettings set \
+  --name $webappname \
+  --resource-group myResourceGroup \
+  --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
 
-# Get FTP publishing profile and query for publish URL and credentials
-creds=($(az webapp deployment list-publishing-profiles --name $webappname --resource-group myResourceGroup \
---query "[?contains(publishMethod, 'ZipDeploy')].[publishUrl,userName,userPWD]" --output tsv))
+# Get ZipDeploy publishing profile and query for publish URL and credentials
+creds=($(az webapp deployment list-publishing-profiles \
+  --name $webappname \
+  --resource-group myResourceGroup \
+  --query "[?contains(publishMethod, 'ZipDeploy')].[publishUrl,userName,userPWD]" \
+  --output tsv))
 
 # Use cURL to perform http zip upload. You can use any http tool to do this instead.
-curl -X POST -u ${creds[1]}:${creds[2]} --data-binary @"site.zip" https://${creds[0]}/api/zipdeploy
+curl -X POST \
+  -u ${creds[1]}:${creds[2]} \
+  --data-binary @"site.zip" \
+  https://${creds[0]}/api/zipdeploy
 
 # Copy the result of the following command into a browser to see the static HTML site.
 echo https://$webappname.azurewebsites.net
