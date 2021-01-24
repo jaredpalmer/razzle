@@ -6,6 +6,18 @@ Add dependencies
 yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
 ```
 
+Add this to `package.json`
+
+```json
+{
+  "scripts": {
+    "cdk": "cdk"
+  }
+}
+```
+
+Add `cdk.json`
+
 ```jsonc
 // cdk.json
 {
@@ -21,6 +33,8 @@ yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @a
   }
 }
 ```
+
+Add `tsconfig.json`
 
 ```jsonc
 // tsconfig.json
@@ -49,6 +63,7 @@ yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @a
 }
 ```
 
+Add `bin/cdk.ts`
 
 ```typescript
 // bin/cdk.ts
@@ -60,6 +75,8 @@ import { RazzleStack } from '../lib/RazzleStack';
 const app = new cdk.App();
 new RazzleStack(app, 'RazzleStack', {name:'basic'});
 ```
+
+Add `lib/helpers.ts`
 
 ```typescript
 // lib/helpers.ts
@@ -84,6 +101,8 @@ export class ModeStack extends CDK.Stack {
   }
 }
 ```
+
+Add `lib/RazzleStack.ts`
 
 ```typescript
 // lib/RazzleStack.ts
