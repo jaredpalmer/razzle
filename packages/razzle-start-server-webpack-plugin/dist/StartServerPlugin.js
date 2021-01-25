@@ -41,7 +41,13 @@ class StartServerPlugin {
       signal: false,
       // Send a signal instead of a message
       // Only listen on keyboard in development, so the server doesn't hang forever
-      restartable: process.env.NODE_ENV === 'development'
+      restartable: process.env.NODE_ENV === 'development',
+      killOnExit: true,
+      // issue SIGKILL on child process exit
+      killOnError: true,
+      // issue SIGKILL on child process error
+      killTimeout: 1000 // timeout before SIGKILL in milliseconds
+
     }, options);
 
     if (this.options.args) {
@@ -64,6 +70,7 @@ class StartServerPlugin {
     this._handleChildQuit = this._handleChildQuit.bind(this);
     this._handleChildMessage = this._handleChildMessage.bind(this);
     this._handleWebpackExit = this._handleWebpackExit.bind(this);
+    this._handleProcessKill = this._handleProcessKill.bind(this);
     this.worker = null;
 
     if (this.options.restartable && !options.once) {
@@ -166,6 +173,12 @@ class StartServerPlugin {
       this.workerLoaded = false;
 
       this._runWorker();
+
+      return;
+    }
+
+    if (this.options.killOnExit) {
+      this._handleProcessKill();
     }
   }
 
@@ -176,7 +189,23 @@ class StartServerPlugin {
   }
 
   _handleChildError(err) {
+    this._error('Script errored');
+
     this.worker = null;
+
+    if (this.options.killOnError) {
+      this._handleProcessKill();
+    }
+  }
+
+  _handleProcessKill() {
+    const pKill = () => process.kill(process.pid, 'SIGKILL');
+
+    if (!isNaN(this.options.killTimeout)) {
+      setTimeout(pKill, this.options.killTimeout);
+    } else {
+      pKill();
+    }
   }
 
   _handleChildMessage(message) {
