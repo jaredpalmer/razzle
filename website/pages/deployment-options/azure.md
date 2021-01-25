@@ -103,7 +103,8 @@ az group create \
   --name myResourceGroup
 
 # Create an App Service plan in `FREE` tier.
-az appservice plan create --name myAppServicePlan \
+az appservice plan create \
+  --name myAppServicePlan \
   --resource-group myResourceGroup \
   --sku FREE \
   --is-linux

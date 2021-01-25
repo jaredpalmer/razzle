@@ -10,14 +10,36 @@ Add razzle config.
 module.exports = {
   options: {
     buildType: 'serverless'
+  },
+  modifyPaths({
+    webpackObject,
+    options: {
+      razzleOptions,
+    },
+    paths,
+  }) {
+    if (process.env.NODE_ENV === 'production') {
+      paths.appServerIndexJs = path.join(paths.appSrc, 'index.prod');
+    }
+    return paths;
   }
 };
 ```
 
-Add this to `src/index.js`
+Add this to `src/index.prod.js`
 
 ```js
-export const handler = app;
+const serverless = require('serverless-http');
+
+module.exports = {
+  handler: serverless(require('./server').default)
+};
+```
+
+Add serverless-http dependency
+
+```bash
+yarn add serverless-http
 ```
 
 Build the Razzle project
@@ -138,10 +160,6 @@ export class RazzleCdkStack extends ModeStack {
      */
     const environmentKeys = [
       'NODE_ENV',
-      'RAZZLE_GRAPHQL_URL',
-      'RAZZLE_MAPBOX_ACCESS_TOKEN',
-      'RAZZLE_GOOGLE_RECAPTCHA_SITE',
-      'RAZZLE_GA_ID',
     ];
 
     const environmentSecret = SecretsManager.Secret.fromSecretAttributes(
@@ -208,9 +226,13 @@ Bootstrap and deploy
 
 ```bash
 aws configure
-aws secretsmanager create-secret --name MyRazzleAppSecretsArnDevelopment \
+echo '{"NODE_ENV": "development" }' | jq '.' > mycreds.json
+aws secretsmanager create-secret --name MyRazzleAppEnvironmentSecretDevelopment \
     --description "My Development secrets created with the CLI" \
-    --secret-string file://mycreds.json
+    --secret-string file://mycreds.json > arn.json
+arn=($(cat arn.json | jq --raw-output '.ARN'))
+echo $arn
+aws ssm put-parameter --name=MyRazzleAppSecretsArnDevelopment --value=$arn
 yarn cdk bootstrap
 yarn cdk deploy
 ```
