@@ -26,6 +26,27 @@ module.exports = {
 };
 ```
 
+Modify `src/server.js` like so:
+
+```js
+const public_bucket_domain = process.env.PUBLIC_BUCKET_DOMAIN || '';
+const public_bucket_url = public_bucket_domain ? `https://${public_bucket_domain}` : '';
+
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  assets[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${public_bucket_url}${asset}">`
+  ).join('') : '' : '';
+};
+
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  assets[entrypoint].js.map(asset=>
+    `<script src="${public_bucket_url}${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
+```
+
 Add this to `src/index.prod.js`
 
 ```js
@@ -174,6 +195,8 @@ export class RazzleCdkStack extends ModeStack {
     for (const key of environmentKeys) {
       environment[key] = environmentSecret.secretValueFromJson(key).toString();
     }
+
+    environment['PUBLIC_BUCKET_DOMAIN'] = bucketPublicFiles.bucketRegionalDomainName;
 
     /**
      * Razzle SSR Function
