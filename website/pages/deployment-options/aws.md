@@ -1,10 +1,5 @@
 # Deploy Razzle on AWS
 
-Add dependencies
-
-```bash
-yarn add ts-node typescript @types/node aws-cdk @aws-cdk/core @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
-```
 
 Add razzle config.
 
@@ -25,77 +20,41 @@ Add this to `src/index.js`
 export const handler = app;
 ```
 
-Add this to `package.json`
+Build the Razzle project
 
-```json
-{
-  "scripts": {
-    "cdk": "cdk"
-  }
-}
+```bash
+yarn build
 ```
 
-Add `cdk.json`
+Init cdk app
 
-```jsonc
-// cdk.json
-{
-  "app": "npx ts-node --prefer-ts-exts bin/cdk.ts",
-  "context": {
-    "@aws-cdk/core:enableStackNameDuplicates": "true",
-    "aws-cdk:enableDiffNoFail": "true",
-    "@aws-cdk/core:stackRelativeExports": "true",
-    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
-    "@aws-cdk/aws-secretsmanager:parseOwnedSecretName": true,
-    "@aws-cdk/aws-kms:defaultKeyPolicies": true,
-    "@aws-cdk/aws-s3:grantWriteWithoutAcl": true
-  }
-}
+```bash
+mkdir razzle-cdk
+cd razzle-cdk
+
+cdk init app --language typescript
 ```
 
-Add `tsconfig.json`
+Add dependencies
 
-```jsonc
-// tsconfig.json
-{
-  "compilerOptions": {
-    "target": "ES2018",
-    "module": "commonjs",
-    "lib": ["es2018"],
-    "declaration": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": false,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "typeRoots": ["./node_modules/@types"]
-  },
-  "exclude": ["cdk.out"]
-}
+```bash
+yarn add @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
 ```
 
-Add `bin/cdk.ts`
+Add `razzle-cdk/bin/razzle-cdk.ts`
 
 ```typescript
 // bin/cdk.ts
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
-import { RazzleStack } from '../lib/RazzleStack';
+import { RazzleCdkStack } from '../lib/razzle-cdk-stack';
 
 const app = new cdk.App();
-new RazzleStack(app, 'RazzleStack', {name:'basic'});
+new RazzleCdkStack(app, 'RazzleCdkStack', {name:'basic'});
 ```
 
-Add `lib/helpers.ts`
+Add `razzle-cdk/lib/helpers.ts`
 
 ```typescript
 // lib/helpers.ts
@@ -121,7 +80,7 @@ export class ModeStack extends CDK.Stack {
 }
 ```
 
-Add `lib/RazzleStack.ts`
+Add `razzle-cdk/lib/razzle-cdk-stack.ts`
 
 ```typescript
 // lib/RazzleStack.ts
@@ -135,7 +94,7 @@ import * as SecretsManager from '@aws-cdk/aws-secretsmanager';
 
 import { ConfigProps, getParam, ModeStack } from './helpers';
 
-export class RazzleStack extends ModeStack {
+export class RazzleCdkStack extends ModeStack {
   constructor(app: CDK.App, id: string, props: ConfigProps) {
     super(app, id, props);
 
@@ -170,7 +129,7 @@ export class RazzleStack extends ModeStack {
      * Deploy public folder of build to `my-razzle-app-bucket-public-files-${this.mode}` bucket
      */
     new S3Deployment.BucketDeployment(this, `${publicBucketName}-deploy`, {
-      sources: [S3Deployment.Source.asset('./build/public')],
+      sources: [S3Deployment.Source.asset('../build/public')],
       destinationBucket: bucketPublicFiles,
     });
 
@@ -203,7 +162,7 @@ export class RazzleStack extends ModeStack {
      */
     const myRazzleAppSsrFunction = new Lambda.Function(this, `MyRazzleAppSSRFunction${this.Mode}`, {
       description: `Lambda Function that runs My Razzle App SSR on ${this.Mode}`,
-      code: Lambda.Code.fromAsset('./build', {
+      code: Lambda.Code.fromAsset('../build', {
         exclude: ['public', 'static', '*.json'],
       }),
       handler: 'server.handler',
@@ -243,4 +202,11 @@ export class RazzleStack extends ModeStack {
     });
   }
 }
+```
+
+Bootstrap and deploy
+
+```bash
+yarn cdk bootstrap
+yarn cdk deploy
 ```
