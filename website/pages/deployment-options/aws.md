@@ -207,6 +207,7 @@ export class RazzleCdkStack extends ModeStack {
 Bootstrap and deploy
 
 ```bash
+aws configure
 yarn cdk bootstrap
 yarn cdk deploy
 ```
