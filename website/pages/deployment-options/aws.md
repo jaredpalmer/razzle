@@ -35,7 +35,7 @@ cd razzle-cdk
 cdk init app --language typescript
 ```
 
-Add dependencies
+Add `razzle-cdk` dependencies
 
 ```bash
 yarn add @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
