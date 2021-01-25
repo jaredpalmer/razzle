@@ -286,6 +286,26 @@ module.exports = (
 
     webpackOptions.nodeExternals = [];
     webpackOptions.clientExternals = [];
+    webpackOptions.clientExternals = [];
+
+    webpackOptions.postCssOptions = {
+      ident: 'postcss',
+      plugins: [
+        require('postcss-flexbugs-fixes'),
+        [require('postcss-preset-env'), {
+          autoprefixer: {
+            overrideBrowserslist: razzleOptions.browserslist || [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9',
+            ],
+            flexbox: 'no-2009',
+          },
+          stage: 3,
+        }],
+      ],
+    };
 
     for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
@@ -413,26 +433,7 @@ module.exports = (
       return callback();
     };
 
-    const defaultPostCssOptions = {
-      ident: 'postcss',
-      plugins: [
-        require('postcss-flexbugs-fixes'),
-        require('postcss-preset-env')({
-          autoprefixer: {
-            overrideBrowserslist: webpackOptions.browserslist || [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9',
-            ],
-            flexbox: 'no-2009',
-          },
-          stage: 3,
-        }),
-      ],
-    };
-
-    const postCssOptions = hasPostCssConfig ? undefined : { postcssOptions: defaultPostCssOptions };
+    const postCssOptions = hasPostCssConfig ? undefined : { postcssOptions: webpackOptions.postCssOptions };
 
     // This is our base webpack config.
     let config = {

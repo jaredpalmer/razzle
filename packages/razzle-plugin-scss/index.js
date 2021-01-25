@@ -34,7 +34,7 @@ module.exports = {
         },
         plugins: [
           PostCssFlexBugFixes,
-          autoprefixer({
+          [autoprefixer, {
             overrideBrowserslist: opts.options.razzleOptions.browserslist || [
               '>1%',
               'last 4 versions',
@@ -42,7 +42,7 @@ module.exports = {
               'not ie < 9',
             ],
             flexbox: 'no-2009',
-          }),
+          }],
         ],
       },
       sass: {
