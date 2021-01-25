@@ -1,4 +1,4 @@
-# Razzle Basic Example
+# Razzle With React Server Components Example
 
 ## How to use
 
@@ -18,5 +18,5 @@ yarn start
 
 
 ## Idea behind the example
-This is a basic, bare-bones example of how to use razzle. It satisfies the entry points
+This is a basic, bare-bones example of how to use razzle With react server components. It satisfies the entry points
 `src/index.js` for the server and and `src/client.js` for the browser.

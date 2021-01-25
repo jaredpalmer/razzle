@@ -78,7 +78,7 @@ cd razzle-cdk
 cdk init app --language typescript
 ```
 
-Add `razzle-cdk` dependencies
+Add `razzle-cdk` dependencies in `razzle-cdk` directory
 
 ```bash
 yarn add @aws-cdk/aws-s3 @aws-cdk/aws-s3-deployment @aws-cdk/aws-lambda @aws-cdk/aws-apigateway @aws-cdk/aws-ssm @aws-cdk/aws-secretsmanager --dev
@@ -100,7 +100,7 @@ new RazzleCdkStack(app, 'RazzleCdkStack', {name:'basic'});
 Add `razzle-cdk/lib/helpers.ts`
 
 ```typescript
-// lib/helpers.ts
+// razzle-cdk/lib/helpers.ts
 import * as SSM from '@aws-cdk/aws-ssm';
 import * as CDK from '@aws-cdk/core';
 
@@ -126,7 +126,7 @@ export class ModeStack extends CDK.Stack {
 Add `razzle-cdk/lib/razzle-cdk-stack.ts`
 
 ```typescript
-// lib/RazzleStack.ts
+// razzle-cdk/lib/razzle-cdk-stack.ts
 import * as CDK from '@aws-cdk/core';
 import * as S3 from '@aws-cdk/aws-s3';
 import * as S3Deployment from '@aws-cdk/aws-s3-deployment';

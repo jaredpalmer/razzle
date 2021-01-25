@@ -19,4 +19,4 @@ yarn start
 
 ## Idea behind the example
 This is a basic, bare-bones example of how to use razzle with-module-federation. It satisfies the entry point
- `src/client.js` for the browser.
+ `src/client.js` for the browser in both apps..
