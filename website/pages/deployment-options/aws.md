@@ -12,17 +12,26 @@ module.exports = {
     buildType: 'serverless'
   },
   modifyPaths({
-    webpackObject,
-    options: {
-      razzleOptions,
-    },
     paths,
   }) {
-    if (process.env.NODE_ENV === 'production') {
-      paths.appServerIndexJs = path.join(paths.appSrc, 'index.prod');
-    }
+    paths.prodAppServerIndexJs = path.join(paths.appSrc, 'index.prod');
     return paths;
-  }
+  },
+  modifyWebpackConfig({
+    env: {
+      target,
+      dev,
+    },
+    webpackConfig,
+    paths,
+  }) {
+    if (target === 'node') {
+      if (!dev) {
+        webpackConfig.entry.server = [paths.prodAppServerIndexJs];
+      }
+    }
+    return webpackConfig;
+  },
 };
 ```
 
