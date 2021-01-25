@@ -724,7 +724,6 @@ module.exports = (
               .map(file => !file.path.includes('/.') && file.path)
               .filter(Boolean)
               .reduce((types, file) => {
-                console.log(file);
                 const fileType = file.slice(file.lastIndexOf('.') + 1);
                 types[fileType] = types[fileType] || [];
                 types[fileType].push(file);
