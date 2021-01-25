@@ -208,6 +208,9 @@ Bootstrap and deploy
 
 ```bash
 aws configure
+aws secretsmanager create-secret --name MyRazzleAppSecretsArnDevelopment \
+    --description "My Development secrets created with the CLI" \
+    --secret-string file://mycreds.json
 yarn cdk bootstrap
 yarn cdk deploy
 ```
