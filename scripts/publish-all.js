@@ -10,7 +10,7 @@ const glob = util.promisify(require('glob'));
 const rootDir = process.cwd();
 
 let argv = yargs
-  .usage('$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit]')
+  .usage('$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] ')
   .command({
     command: '*',
     builder: yargs => {
@@ -33,6 +33,12 @@ let argv = yargs
           type: 'boolean',
           default: false,
         })
+        .option('u', {
+          alias: 'untag',
+          describe: 'untag current version',
+          type: 'boolean',
+          default: false,
+        })
         .option('c', {
           alias: 'commit',
           describe: 'add git commit',
@@ -42,87 +48,89 @@ let argv = yargs
     },
     handler: async argv => {
       console.log(argv);
-
       const preId = argv.preId;
       const semverKeyword =
-        preId !== 'latest'
-          ? argv.semverKeyword == 'patch'
-            ? 'prerelease'
-            : argv.semverKeyword
-          : argv.semverKeyword;
+      preId !== 'latest'
+      ? argv.semverKeyword == 'patch'
+      ? 'prerelease'
+      : argv.semverKeyword
+      : argv.semverKeyword;
 
       let packageJsonData = JSON.parse(
         await fs.readFile(path.join(rootDir, 'package.json'))
       );
 
-      if (preId !== 'latest') {
-        packageJsonData.version = semver.inc(
-          packageJsonData.version,
-          semverKeyword,
-          preId
+      if (!argv.untag) {
+        if (preId !== 'latest') {
+          packageJsonData.version = semver.inc(
+            packageJsonData.version,
+            semverKeyword,
+            preId
+          );
+        } else {
+          packageJsonData.version = semver.inc(
+            packageJsonData.version,
+            semverKeyword
+          );
+        }
+        console.log(packageJsonData);
+
+        const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**');
+
+        const packageJsons = (
+          await Promise.all(
+            packageJsonGlobs.map(item => glob(item + '/package.json'))
+          )
+        ).flat().concat('lerna.json').concat('package.json');
+
+        console.log(packageJsons);
+
+        const packageVersions = (
+          await Promise.all(
+            packageJsons.map(async item => JSON.parse(await fs.readFile(item)))
+          )
+        ).map(item => [item.name, item.version, packageJsonData.version]);
+
+        const packageNames = packageVersions.map(item => item[0]);
+
+        console.log(
+          Object.fromEntries(packageVersions.map(item => [item[0], item[2]]))
         );
+
+        packageJsons.map(async item => {
+          let json = JSON.parse(await fs.readFile(item));
+          json.version = packageJsonData.version;
+          let newJson = [
+            'dependencies',
+            'devDependencies',
+            'peerDependencies',
+          ].reduce((acc, depType) => {
+            if (acc[depType]) {
+              acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+                if (packageNames.includes(dep)) {
+                  depsAcc[dep] = packageJsonData.version;
+                }
+
+                return depsAcc;
+              }, acc[depType]);
+            }
+            return acc;
+          }, json);
+          console.log(newJson);
+          return fs.writeFile(item, JSON.stringify(json, null, '  ') + "\n");
+        });
+
+        if (argv.commit) {
+          await execa(`git commit -am "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
+        }
+        if (argv.commit && argv.tag) {
+          await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
+        }
+
+        console.log("Check that everything is ok and push to origin");
       } else {
-        packageJsonData.version = semver.inc(
-          packageJsonData.version,
-          semverKeyword
-        );
+        await execa(`git tag -d v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
       }
-      console.log(packageJsonData);
-
-      const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**');
-
-      const packageJsons = (
-        await Promise.all(
-          packageJsonGlobs.map(item => glob(item + '/package.json'))
-        )
-      ).flat().concat('lerna.json');
-
-      console.log(packageJsons);
-
-      const packageVersions = (
-        await Promise.all(
-          packageJsons.map(async item => JSON.parse(await fs.readFile(item)))
-        )
-      ).map(item => [item.name, item.version, packageJsonData.version]);
-
-      const packageNames = packageVersions.map(item => item[0]);
-
-      console.log(
-        Object.fromEntries(packageVersions.map(item => [item[0], item[2]]))
-      );
-
-      packageJsons.map(async item => {
-        let json = JSON.parse(await fs.readFile(item));
-        json.version = packageJsonData.version;
-        let newJson = [
-          'dependencies',
-          'devDependencies',
-          'peerDependencies',
-        ].reduce((acc, depType) => {
-          if (acc[depType]) {
-            acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
-              if (packageNames.includes(dep)) {
-                depsAcc[dep] = packageJsonData.version;
-              }
-
-              return depsAcc;
-            }, acc[depType]);
-          }
-          return acc;
-        }, json);
-        console.log(newJson);
-        return fs.writeFile(item, JSON.stringify(json, null, '  '));
-      });
-
-      if (argv.commit) {
-        await execa(`git commit -am "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
-      }
-      if (argv.commit && argv.tag) {
-        await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
-      }
-
-      console.log("Check that everything is ok and push to origin");
-
       // const lernaCmd = releaseTag == 'latest' ?
       //   `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
       //   `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push --no-commit-hooks`;
