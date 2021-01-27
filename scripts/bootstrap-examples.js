@@ -38,6 +38,11 @@ let argv = yargs
         });
     },
     handler: async argv => {
+
+      const packageJsonData = JSON.parse(
+        await fs.readFile(path.join(rootDir, 'package.json'))
+      );
+
       const packageMetaData = JSON.parse(
         await fs.readFile(path.join(rootDir, 'package.meta.json'))
       );
@@ -65,6 +70,18 @@ let argv = yargs
           .filter(x => Boolean(x));
         console.log(`${missing.join(', ')} not found in ${rootDir}`);
       }
+      packageJsonData.workspaces = packageJsonData.workspaces.concat(exampleNames);
+      const jsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
+      if (jsonString) {
+        try {
+          return fs.writeFileSync(path.join(rootDir, 'package.json'), jsonString);
+        } catch {
+          console.log(`failed to write json ${item}`);
+        }
+      } else {
+        console.log(`not writing empty json ${item}`);
+      }
+      packageJsonData.workspaces = packageMetaData.workspaces;
     },
   })
   .help().argv;
