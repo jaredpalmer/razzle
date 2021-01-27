@@ -41,20 +41,26 @@ git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
 cd razzle
 git checkout -B <my-branch>
 NODE_ENV=development yarn install ---ignore-engines
+# optionally install add-dependencies
+sudo npm install add-dependencies -g
 ```
 
 This will install all `node_modules` in all the packages and all the examples and symlink
 inter-dependencies. Thus when you make local changes in any of the packages you can try them
-immediately in all the examples.
+immediately in all the examples. `add-dependencies` can be used to just add packages to `package.json`.
 
 ### Commands
 
-- `yarn run clean`: Clean up all `node_modules` and remove all symlinks from packages and examples.
-- `yarn run bootstrap`: Run `yarn` on all examples and packages. Automatically symlinks inter-dependent modules.
-- `yarn run test`: Runs all tests
-- `yarn run test:packages`: Runs tests for packages
-- `yarn run test:e2e`: Runs end-to-end tests
-- `yarn run build-docs`: Builds docs/ updates doc TOC
+- `yarn clean`: Clean up all `node_modules` and remove all symlinks from packages and examples.
+- `yarn bootstrap`: Run `yarn` on all packages. Automatically symlinks inter-dependent modules.
+- `yarn test`: Runs all tests
+- `yarn test:packages`: Runs tests for packages
+- `yarn test:e2e`: Runs end-to-end tests
+- `yarn build-docs`: Builds docs/ updates doc TOC
+- `yarn bootstrap-examples`: Run `yarn` with specific examples as workspaces. Automatically symlinks inter-dependent modules. Run `yarn restrap` in the example to reinstall.
+- `yarn new-example`: Creates a new example from another example. `yarn new-example basic new-example`.
+- `yarn publish-all-stable`: Does a a stable release
+- `yarn publish-all-canary`: Does a `razzle@canary` release.
 
 ### Updating your fork
 
@@ -68,7 +74,7 @@ git pull origin master
 ## Adding examples
 
 ### Use `examples/basic` as template
-If you'd like to add an example, I suggest you duplicate the `examples/basic` folder and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap`. This will make sure that your new example is using your local version of all the `packages`.
+If you'd like to add an example, I suggest you duplicate the `examples/basic` folder `yarn new-example basic your-example`and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap-examples your-example`. This will make sure that your new example is using your local version of all the `packages`.
 
 ### Naming examples
 
