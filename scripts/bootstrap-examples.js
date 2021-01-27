@@ -70,7 +70,7 @@ let argv = yargs
             }
             return false;
           })
-          .filter(x => Boolean(x));          console.log(missing);
+          .filter(x => Boolean(x));
 
           if (missing.length) {
             console.log(`${missing.join(', ')} not found in ${rootDir}`);

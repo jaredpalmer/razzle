@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "razzle-examples-with-monorepo",
+  "name": "razzle-examples-with-module-federation",
   "version": "4.0.0-canary.24",
   "license": "MIT",
   "scripts": {

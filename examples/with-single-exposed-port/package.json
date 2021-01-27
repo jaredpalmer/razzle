@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-with-custom-devserver-options",
+  "name": "razzle-examples-with-single-exposed-port",
   "version": "4.0.0-canary.24",
   "license": "MIT",
   "scripts": {

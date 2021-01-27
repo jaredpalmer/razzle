@@ -1,5 +1,5 @@
 {
-  "name": "razzle-examples-with-custom-webpack-config",
+  "name": "razzle-examples-with-promise-config",
   "version": "4.0.0-canary.24",
   "license": "MIT",
   "scripts": {
