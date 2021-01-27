@@ -11,7 +11,7 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
     - [Commands](#commands)
     - [Updating your fork](#updating-your-fork)
   - [Adding examples](#adding-examples)
-    - [Use `examples/basic` as template](#use-examplesbasic-as-template)
+    - [Use `examples/basic` as template](#use-examples-basic-as-template)
     - [Naming examples](#naming-examples)
     - [How to get your example merged](#how-to-get-your-example-merged)
     - [Guidelines](#guidelines)
