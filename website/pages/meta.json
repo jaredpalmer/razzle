@@ -4,5 +4,6 @@
   "docs": { "title": "Documentation", "open": true },
   "deployment-options": "Deployment Options",
   "plugins": "Razzle plugins",
-  "change-log": "Change Log"
+  "change-log": "Change Log",
+  "contributing": "Contributing"
 }
