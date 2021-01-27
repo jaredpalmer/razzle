@@ -157,44 +157,27 @@ let argv = yargs
           await execa(commitCmd, { shell: true, stdio: 'inherit' });
         } else {
           console.log(`Not running: ${commitCmd}`);
+          console.log(`Run ${commitCmd} to commit.`);
         }
         if (argv.commit && argv.tag) {
           console.log(`Running: ${tagCmd}`);
+          console.log(`Run git push origin refs/tags/v${packageJsonData.version} to tag in remote.`);
           await execa(tagCmd, { shell: true, stdio: 'inherit' });
         } else {
           console.log(`Not running: ${tagCmd}`);
+          console.log(`Run ${tagCmd} to tag.`);
+          console.log(`Run git push origin refs/tags/v${packageJsonData.version} to tag in remote.`);
         }
 
         console.log('Check that everything is ok and push to origin');
       } else {
         console.log(`Running: ${unTagCmd}`);
+        console.log(`Run git push origin :refs/tags/v${packageJsonData.version} to untag in remote.`);
         await execa(unTagCmd, {
           shell: true,
           stdio: 'inherit',
         });
       }
-      // const lernaCmd = releaseTag == 'latest' ?
-      //   `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
-      //   `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push --no-commit-hooks`;
-      // execa(lernaCmd, {shell: true, stdio: 'inherit' }).then(async ({exitCode})=>{
-      //     const latestTagId = (await execa('git rev-list --tags --max-count=1', {shell: true})).stdout;
-      //     const latestTag = (await execa(`git describe --tags ${latestTagId}`, {shell: true})).stdout;
-      //     console.log(`deleting tag ${latestTag}`);
-      //     await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
-      //     console.log(`soft resetting head one rev`);
-      //     await execa(`git reset --soft HEAD~1`, {shell: true, stdio: 'inherit' });
-      //     console.log(`running pre-publish-all`);
-      //     await execa(`yarn pre-publish-all`, {shell: true, stdio: 'inherit' });
-      //     console.log(`comitting pre-publish-all changes`);
-      //     await execa(`git commit -am "published ${latestTag}"`, {shell: true, stdio: 'inherit' });
-      //     console.log(`retagging release`);
-      //     await execa(`git tag -am "${latestTag}" ${latestTag}`, {shell: true, stdio: 'inherit' });
-      //     console.log(`pushing to origin`);
-      //     await execa(`git push origin`, {shell: true, stdio: 'inherit' });
-      //     console.log(`pushing tags to origin`);
-      //     await execa(`git push --tags origin`, {shell: true, stdio: 'inherit' });
-      //     console.log(`done`);
-      // });
     },
   })
   .help().argv;
