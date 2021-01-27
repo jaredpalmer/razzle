@@ -63,6 +63,7 @@ let argv = yargs
       );
 
       const unTagCmd = `git tag -d v${packageJsonData.version}`;
+      const unTagRemoteCmd = `git push origin :refs/tags/v${packageJsonData.version}`;
 
       if (!argv.untag) {
         if (preId !== 'latest') {
@@ -80,6 +81,7 @@ let argv = yargs
 
         const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
         const tagCmd = `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`;
+        const tagRemoteCmd = `git push origin refs/tags/v${packageJsonData.version}`;
 
         console.log(packageJsonData);
 
@@ -161,18 +163,17 @@ let argv = yargs
         }
         if (argv.commit && argv.tag) {
           console.log(`Running: ${tagCmd}`);
-          console.log(`Run git push origin refs/tags/v${packageJsonData.version} to tag in remote.`);
+          console.log(`Run ${tagRemoteCmd} to tag in remote.`);
           await execa(tagCmd, { shell: true, stdio: 'inherit' });
         } else {
           console.log(`Not running: ${tagCmd}`);
           console.log(`Run ${tagCmd} to tag.`);
-          console.log(`Run git push origin refs/tags/v${packageJsonData.version} to tag in remote.`);
+          console.log(`Run ${tagRemoteCmd} to tag in remote.`);
         }
-
         console.log('Check that everything is ok and push to origin');
       } else {
         console.log(`Running: ${unTagCmd}`);
-        console.log(`Run git push origin :refs/tags/v${packageJsonData.version} to untag in remote.`);
+        console.log(`Run ${unTagRemoteCmd} to untag in remote.`);
         await execa(unTagCmd, {
           shell: true,
           stdio: 'inherit',
