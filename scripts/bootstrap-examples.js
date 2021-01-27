@@ -55,33 +55,53 @@ let argv = yargs
         .filter(item => item.isDirectory())
         .map(item => item.name);
 
-      const exampleNames = argv.all
+      const exampleNames = (argv.all
         ? [defaultExample].concat(examples)
-        : argv._;
+        : argv._).map(example => {
+          return example.includes('/') ? example : `examples/${example}`;
+        });
+
       if (exampleNames && !argv.all) {
         const missing = exampleNames
-          .map(example => {
-            const inProjectPath = example.includes('/') ? example : `examples/${example}`;
-            if (!fs.existsSync(path.join(rootDir, inProjectPath))) {
-              return inProjectPath;
+          .map(example => {        console.log(example);
+
+            if (!fs.existsSync(path.join(rootDir, example, 'package.json'))) {
+              return example;
             }
             return false;
           })
-          .filter(x => Boolean(x));
-        console.log(`${missing.join(', ')} not found in ${rootDir}`);
+          .filter(x => Boolean(x));          console.log(missing);
+
+          if (missing.length) {
+            console.log(`${missing.join(', ')} not found in ${rootDir}`);
+          }
       }
       packageJsonData.workspaces = packageJsonData.workspaces.concat(exampleNames);
       const jsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
       if (jsonString) {
         try {
-          return fs.writeFileSync(path.join(rootDir, 'package.json'), jsonString);
+          fs.writeFileSync(path.join(rootDir, 'package.json'), jsonString);
         } catch {
           console.log(`failed to write json ${item}`);
         }
       } else {
         console.log(`not writing empty json ${item}`);
       }
+
+      await execa("yarn install --no-lockfile", { shell: true, stdio: 'inherit' });
+
       packageJsonData.workspaces = packageMetaData.workspaces;
+      const resetJsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
+      if (resetJsonString) {
+        try {
+          fs.writeFileSync(path.join(rootDir, 'package.json'), resetJsonString);
+        } catch {
+          console.log(`failed to write json ${item}`);
+        }
+      } else {
+        console.log(`not writing empty json ${item}`);
+      }
+
     },
   })
   .help().argv;
