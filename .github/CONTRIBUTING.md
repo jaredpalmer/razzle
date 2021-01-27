@@ -73,7 +73,7 @@ git pull origin master
 
 ## Adding examples
 
-### Use `examples/basic` as template
+### Use examples/basic as template
 If you'd like to add an example, I suggest you duplicate the `examples/basic` folder `yarn new-example basic your-example`and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap-examples your-example`. This will make sure that your new example is using your local version of all the `packages`.
 
 ### Naming examples
