@@ -3,7 +3,7 @@ const execa = require('execa');
 const fs = require('fs-extra');
 const path = require('path');
 
-const rootDir = process.cwd();
+const rootDir =  path.resolve(__dirname, '..');
 const defaultExample = 'packages/create-razzle-app/templates/default';
 
 let argv = yargs
@@ -55,15 +55,17 @@ let argv = yargs
         .filter(item => item.isDirectory())
         .map(item => item.name);
 
-      const exampleNames = (argv.all
+      const exampleNamesMap = (argv.all
         ? [defaultExample].concat(examples)
         : argv._).map(example => {
-          return example.includes('/') ? example : `examples/${example}`;
+          return [example, example.includes('/') ? example : `examples/${example}`];
         });
 
-      if (exampleNames && !argv.all) {
-        const missing = exampleNames
-          .map(example => {        console.log(example);
+      const exampleDirs = exampleNamesMap.map(example =>example[1]);
+
+      if (exampleDirs) {
+        const missing = exampleDirs
+          .map(example => {
 
             if (!fs.existsSync(path.join(rootDir, example, 'package.json'))) {
               return example;
@@ -74,9 +76,10 @@ let argv = yargs
 
           if (missing.length) {
             console.log(`${missing.join(', ')} not found in ${rootDir}`);
+            process.exit(1);
           }
       }
-      packageJsonData.workspaces = packageJsonData.workspaces.concat(exampleNames);
+      packageJsonData.workspaces = packageJsonData.workspaces.concat(exampleDirs);
       const jsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
       if (jsonString) {
         try {
@@ -89,6 +92,15 @@ let argv = yargs
       }
 
       await execa("yarn install --no-lockfile", { shell: true, stdio: 'inherit' });
+      exampleDirs
+        .map(example => {
+          fs.writeFileSync(path.join(rootDir, example, 'node_modules', '.bin', 'restrap'), `#!/usr/bin/env node
+'use strict';
+const execa = require('execa');
+execa("cd ${rootDir} && yarn bootstrap-examples ${example}", { shell: true, stdio: 'inherit' });`);
+      fs.chmodSync(path.join(rootDir, example, 'node_modules', '.bin', 'restrap'), 0o775)
+        })
+
 
       packageJsonData.workspaces = packageMetaData.workspaces;
       const resetJsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
