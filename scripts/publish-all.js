@@ -115,12 +115,13 @@ let argv = yargs
       });
 
       if (argv.commit) {
-        await execa(`git commit -m "bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
+        await execa(`git commit -am "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
       }
       if (argv.commit && argv.tag) {
         await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
       }
-      //     await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
+
+      console.log("Check that everything is ok and push to origin");
 
       // const lernaCmd = releaseTag == 'latest' ?
       //   `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
