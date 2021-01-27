@@ -57,9 +57,11 @@ let argv = yargs
       }
       console.log(packageJsonData);
 
+      const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**')
+
       const packageJsons = (
         await Promise.all(
-          packageJsonData.workspaces.map(item => glob(item + '/package.json'))
+          packageJsonGlobs.map(item => glob(item + '/package.json'))
         )
       ).flat();
 
@@ -71,6 +73,8 @@ let argv = yargs
         )
       ).map(item => [item.name, item.version, packageJsonData.version]);
 
+      const packageNames = packageVersions.map(item => item[0]);
+
       console.log(
         Object.fromEntries(packageVersions.map(item => [item[0], item[2]]))
       );
@@ -78,7 +82,22 @@ let argv = yargs
       packageJsons.map(async item => {
         let json = JSON.parse(await fs.readFile(item));
         json.version = packageJsonData.version;
-        console.log(json);
+        let newJson = ['dependencies', 'devDependencies', 'peerDependencies'].reduce(
+          (acc, depType) => {
+            if (acc[depType]) {
+              acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+                if (packageNames.includes(dep)) {
+                  depsAcc[dep] = packageJsonData.version;
+                }
+
+                return depsAcc;
+              }, acc[depType]);
+            }
+            return acc;
+          },
+          json
+        );
+        console.log(newJson);
         // return fs.writeFile(item, JSON.stringify(json, null, '  '));
       });
       // const lernaCmd = releaseTag == 'latest' ?
