@@ -1,0 +1,24 @@
+{
+  "name": "razzle-plugin-typescript",
+  "version": "4.0.0-canary.24",
+  "description": "Use TypeScript with Razzle",
+  "main": "index.js",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Lucas Terra <lucasterra7@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "fork-ts-checker-webpack-plugin": "^5.2.0",
+    "ts-loader": "^8.0.4"
+  },
+  "devDependencies": {
+    "razzle": "4.0.0-canary.24",
+    "typescript": ">=4.0.3"
+  },
+  "peerDependencies": {
+    "razzle-dev-utils": "4.0.0-canary.24",
+    "typescript": ">=4.0.3"
+  }
+}

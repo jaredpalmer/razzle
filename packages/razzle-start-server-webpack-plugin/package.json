@@ -1,0 +1,55 @@
+{
+  "name": "razzle-start-server-webpack-plugin",
+  "version": "4.0.0-canary.24",
+  "description": "Automatically start your server once Webpack's build completes.",
+  "main": "dist/StartServerPlugin.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "babel src -d dist",
+    "release": "github-semantic-version --bump --changelog --push --publish",
+    "prepublishOnly": "yarn run build",
+    "pretest": "yarn run build",
+    "test-project": "sh test/test-project.sh test-project",
+    "test-project-hmr": "sh test/test-project.sh test-project-hmr",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredpalmer/razzle.git"
+  },
+  "keywords": [
+    "webpack",
+    "server",
+    "start",
+    "watch",
+    "restart",
+    "express"
+  ],
+  "author": "Eric Clemmons <eric@smarterspam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "homepage": "https://github.com/jaredpalmer/razzle",
+  "gsv": {
+    "majorLabel": "Version: Major",
+    "minorLabel": "Version: Minor",
+    "patchLabel": "Version: Patch"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/register": "^7.8.6",
+    "expect": "^22.4.0",
+    "express": "^4.17.1",
+    "github-semantic-version": "^7.1.0",
+    "mocha": "^5.0.1",
+    "rimraf": "^2.6.2",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
