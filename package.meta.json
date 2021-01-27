@@ -1,0 +1,24 @@
+{
+  "exampleDependencyVersions": {
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "serve": "^11.3.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack": "^4.44.1"
+  },
+  "internalPeerDependencyVersions": {
+    "webpack-dev-server": "^3.11.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.0.0 || ^5.0.0"
+  },
+  "workspaces": [
+    "packages/razzle",
+    "packages/razzle-start-server-webpack-plugin",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*"
+  ]
+}
