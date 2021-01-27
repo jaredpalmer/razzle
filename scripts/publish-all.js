@@ -75,7 +75,7 @@ let argv = yargs
         await Promise.all(
           packageJsonGlobs.map(item => glob(item + '/package.json'))
         )
-      ).flat();
+      ).flat().concat('lerna.json');
 
       console.log(packageJsons);
 
