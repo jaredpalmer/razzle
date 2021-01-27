@@ -106,7 +106,7 @@ let argv = yargs
             }
           })
           .map(item => [
-            item.name || 'lerna',
+            item.name || 'it-is-lerna',
             item.version,
             packageJsonData.version,
           ]);
