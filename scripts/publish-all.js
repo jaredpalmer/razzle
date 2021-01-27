@@ -62,6 +62,8 @@ let argv = yargs
         fs.readFileSync(path.join(rootDir, 'package.json'))
       );
 
+      const unTagCmd = `git tag -d v${packageJsonData.version}`;
+
       if (!argv.untag) {
         if (preId !== 'latest') {
           packageJsonData.version = semver.inc(
@@ -75,6 +77,10 @@ let argv = yargs
             semverKeyword
           );
         }
+
+        const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
+        const tagCmd = `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`;
+
         console.log(packageJsonData);
 
         const packageJsonGlobs = packageJsonData.workspaces.concat(
@@ -147,22 +153,22 @@ let argv = yargs
         });
 
         if (argv.commit) {
-          await execa(
-            `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`,
-            { shell: true, stdio: 'inherit' }
-          );
+          console.log(`Running: ${commitCmd}`);
+          await execa(commitCmd, { shell: true, stdio: 'inherit' });
+        } else {
+          console.log(`Not running: ${commitCmd}`);
         }
-
         if (argv.commit && argv.tag) {
-          await execa(
-            `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`,
-            { shell: true, stdio: 'inherit' }
-          );
+          console.log(`Running: ${tagCmd}`);
+          await execa(tagCmd, { shell: true, stdio: 'inherit' });
+        } else {
+          console.log(`Not running: ${tagCmd}`);
         }
 
         console.log('Check that everything is ok and push to origin');
       } else {
-        await execa(`git tag -d v${packageJsonData.version}`, {
+        console.log(`Running: ${unTagCmd}`);
+        await execa(unTagCmd, {
           shell: true,
           stdio: 'inherit',
         });
