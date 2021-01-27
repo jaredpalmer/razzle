@@ -10,7 +10,7 @@ const glob = util.promisify(require('glob'));
 const rootDir = process.cwd();
 
 let argv = yargs
-  .usage('$0 [-r|--release-tag] [-s|--semver-keyword]')
+  .usage('$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit]')
   .command({
     command: '*',
     builder: yargs => {
@@ -26,6 +26,18 @@ let argv = yargs
           describe: 'the semver keyword',
           default: 'patch',
           type: 'string',
+        })
+        .option('t', {
+          alias: 'tag',
+          describe: 'add git tag',
+          type: 'boolean',
+          default: false,
+        })
+        .option('c', {
+          alias: 'commit',
+          describe: 'add git commit',
+          type: 'boolean',
+          default: false,
         });
     },
     handler: async argv => {
@@ -57,7 +69,7 @@ let argv = yargs
       }
       console.log(packageJsonData);
 
-      const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**')
+      const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**');
 
       const packageJsons = (
         await Promise.all(
@@ -82,24 +94,34 @@ let argv = yargs
       packageJsons.map(async item => {
         let json = JSON.parse(await fs.readFile(item));
         json.version = packageJsonData.version;
-        let newJson = ['dependencies', 'devDependencies', 'peerDependencies'].reduce(
-          (acc, depType) => {
-            if (acc[depType]) {
-              acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
-                if (packageNames.includes(dep)) {
-                  depsAcc[dep] = packageJsonData.version;
-                }
+        let newJson = [
+          'dependencies',
+          'devDependencies',
+          'peerDependencies',
+        ].reduce((acc, depType) => {
+          if (acc[depType]) {
+            acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+              if (packageNames.includes(dep)) {
+                depsAcc[dep] = packageJsonData.version;
+              }
 
-                return depsAcc;
-              }, acc[depType]);
-            }
-            return acc;
-          },
-          json
-        );
+              return depsAcc;
+            }, acc[depType]);
+          }
+          return acc;
+        }, json);
         console.log(newJson);
-        // return fs.writeFile(item, JSON.stringify(json, null, '  '));
+        return fs.writeFile(item, JSON.stringify(json, null, '  '));
       });
+
+      if (argv.commit) {
+        await execa(`git commit -m "bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
+      }
+      if (argv.commit && argv.tag) {
+        await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
+      }
+      //     await execa(`git tag -d ${latestTag}`, {shell: true, stdio: 'inherit' });
+
       // const lernaCmd = releaseTag == 'latest' ?
       //   `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :
       //   `lerna version ${semverKeyword} --preid ${releaseTag} --force-publish --no-push --no-commit-hooks`;
