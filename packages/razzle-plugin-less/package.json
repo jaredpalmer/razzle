@@ -1,0 +1,30 @@
+{
+  "name": "razzle-plugin-less",
+  "version": "4.0.0-canary.23",
+  "main": "index.js",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "author": "Ryan Yang <orange881217@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "autoprefixer": "10.0.1",
+    "css-loader": "5.0.0",
+    "deepmerge": "4.2.2",
+    "less-loader": "7.0.2",
+    "node-less-chokidar": "0.4.1",
+    "postcss-flexbugs-fixes": "5.0.2",
+    "postcss-less": "4.0.0",
+    "postcss-load-config": "3.0.0",
+    "postcss-loader": "4.2.0",
+    "resolve-url-loader": "3.1.2"
+  },
+  "devDependencies": {
+    "razzle": "4.0.0-canary.23"
+  },
+  "peerDependencies": {
+    "mini-css-extract-plugin": "^0.9.0",
+    "razzle-dev-utils": "4.0.0-canary.23"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-basic-2",
-  "version": "4.0.0-canary.16",
+  "version": "4.0.0-canary.23",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",

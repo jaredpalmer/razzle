@@ -1,0 +1,35 @@
+{
+  "name": "razzle-dev-utils",
+  "version": "4.0.0-canary.23",
+  "description": "Utilities and helpers for Razzle",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "license": "MIT",
+  "files": [
+    "logger.js",
+    "printErrors.js",
+    "FriendlyErrorsPlugin.js",
+    "FileSizeReporter.js",
+    "webpackHotDevClient.js",
+    "setPorts.js",
+    "makeLoaderFinder.js",
+    "WebpackConfigHelpers.js",
+    "prettyNodeErrors.js",
+    "resolveRequest.js",
+    "webpackMajor.js",
+    "formatWebpackMessages.js"
+  ],
+  "dependencies": {
+    "@babel/code-frame": "^7.8.3",
+    "chalk": "3.0.0",
+    "jest-message-util": "26.3.0",
+    "react-dev-utils": "10.2.0",
+    "react-error-overlay": "^6.0.7",
+    "resolve": "1.17.0",
+    "sockjs-client": "~1.4.0",
+    "strip-ansi": "6.0.0"
+  },
+  "peerDependencies": {
+    "webpack-dev-server": "^3.11.0"
+  }
+}
