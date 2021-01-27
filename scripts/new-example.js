@@ -16,7 +16,21 @@ let argv = yargs
     const templatePath = path.join(rootDir, `examples/${argv._[0]}`);
     const projectPath = path.join(rootDir, `examples/${argv._[1]}`);
     fs.copy(templatePath, projectPath)
-    .then(function() {
+    .then(async function() {
+          const packageJsonData = JSON.parse(
+            await fs.readFile(path.join(projectPath, 'package.json'))
+          );
+          packageJsonData.name = `razzle-examples-${argv._[1]}`
+          const jsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
+            if (jsonString) {
+              try {
+                fs.writeFileSync(path.join(projectPath, 'package.json'), jsonString);
+              } catch {
+                console.log(`failed to write json ${item}`);
+              }
+            } else {
+              console.log(`not writing empty json ${item}`);
+            }
     })
   },
 })
