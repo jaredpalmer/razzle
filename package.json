@@ -40,6 +40,7 @@
     "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
     "clean": "lerna clean --yes",
     "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
+    "publish-all": "node ./scripts/publish-all.js",
     "publish-all-stable": "yarn publish-all -c -t && release && node ./scripts/release-notes.js",
     "publish-all-canary": "yarn publish-all -r canary -c -t && release --pre",
     "publish-all-finch": "yarn publish-all -r finch -c -t && release --pre",
@@ -86,5 +87,5 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
   ],
-  "version": "4.0.0-canary.24"
+  "version": "4.0.0-canary.25"
 }
