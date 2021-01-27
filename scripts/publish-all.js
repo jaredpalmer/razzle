@@ -10,7 +10,9 @@ const glob = util.promisify(require('glob'));
 const rootDir = process.cwd();
 
 let argv = yargs
-  .usage('$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] ')
+  .usage(
+    '$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] '
+  )
   .command({
     command: '*',
     builder: yargs => {
@@ -50,14 +52,14 @@ let argv = yargs
       console.log(argv);
       const preId = argv.preId;
       const semverKeyword =
-      preId !== 'latest'
-      ? argv.semverKeyword == 'patch'
-      ? 'prerelease'
-      : argv.semverKeyword
-      : argv.semverKeyword;
+        preId !== 'latest'
+          ? argv.semverKeyword == 'patch'
+            ? 'prerelease'
+            : argv.semverKeyword
+          : argv.semverKeyword;
 
       let packageJsonData = JSON.parse(
-        await fs.readFile(path.join(rootDir, 'package.json'))
+        fs.readFileSync(path.join(rootDir, 'package.json'))
       );
 
       if (!argv.untag) {
@@ -75,21 +77,33 @@ let argv = yargs
         }
         console.log(packageJsonData);
 
-        const packageJsonGlobs = packageJsonData.workspaces.concat('examples/**');
+        const packageJsonGlobs = packageJsonData.workspaces.concat(
+          'examples/**'
+        );
 
         const packageJsons = (
           await Promise.all(
             packageJsonGlobs.map(item => glob(item + '/package.json'))
           )
-        ).flat().concat('lerna.json').concat('package.json');
+        )
+          .flat()
+          .concat(['lerna.json', 'package.json']);
 
         console.log(packageJsons);
 
-        const packageVersions = (
-          await Promise.all(
-            packageJsons.map(async item => JSON.parse(await fs.readFile(item)))
-          )
-        ).map(item => [item.name, item.version, packageJsonData.version]);
+        const packageVersions = packageJsons
+          .map(item => {
+            try {
+              return JSON.parse(fs.readFileSync(item));
+            } catch {
+              console.log(`failed to parse json ${item}`);
+            }
+          })
+          .map(item => [
+            item.name || 'lerna',
+            item.version,
+            packageJsonData.version,
+          ]);
 
         const packageNames = packageVersions.map(item => item[0]);
 
@@ -97,8 +111,8 @@ let argv = yargs
           Object.fromEntries(packageVersions.map(item => [item[0], item[2]]))
         );
 
-        packageJsons.map(async item => {
-          let json = JSON.parse(await fs.readFile(item));
+        packageJsons.map(item => {
+          let json = JSON.parse(fs.readFileSync(item));
           json.version = packageJsonData.version;
           let newJson = [
             'dependencies',
@@ -106,30 +120,52 @@ let argv = yargs
             'peerDependencies',
           ].reduce((acc, depType) => {
             if (acc[depType]) {
-              acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
-                if (packageNames.includes(dep)) {
-                  depsAcc[dep] = packageJsonData.version;
-                }
+              acc[depType] = Object.keys(acc[depType]).reduce(
+                (depsAcc, dep) => {
+                  if (packageNames.includes(dep)) {
+                    depsAcc[dep] = packageJsonData.version;
+                  }
 
-                return depsAcc;
-              }, acc[depType]);
+                  return depsAcc;
+                },
+                acc[depType]
+              );
             }
             return acc;
           }, json);
           console.log(newJson);
-          return fs.writeFile(item, JSON.stringify(json, null, '  ') + "\n");
+          const jsonString = JSON.stringify(json, null, '  ') + '\n';
+          if (jsonString) {
+            try {
+              return fs.writeFileSync(item, jsonString);
+            } catch {
+              console.log(`failed to write json ${item}`);
+            }
+          } else {
+            console.log(`not writing empty json ${item}`);
+          }
         });
 
         if (argv.commit) {
-          await execa(`git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
-        }
-        if (argv.commit && argv.tag) {
-          await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
+          await execa(
+            `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`,
+            { shell: true, stdio: 'inherit' }
+          );
         }
 
-        console.log("Check that everything is ok and push to origin");
+        if (argv.commit && argv.tag) {
+          await execa(
+            `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`,
+            { shell: true, stdio: 'inherit' }
+          );
+        }
+
+        console.log('Check that everything is ok and push to origin');
       } else {
-        await execa(`git tag -d v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
+        await execa(`git tag -d v${packageJsonData.version}`, {
+          shell: true,
+          stdio: 'inherit',
+        });
       }
       // const lernaCmd = releaseTag == 'latest' ?
       //   `lerna version ${semverKeyword} --force-publish --no-push --no-commit-hooks` :

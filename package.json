@@ -1,0 +1,91 @@
+{
+  "private": true,
+  "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredpalmer/razzle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "resolutions": {
+    "**/**/node-gyp": "7.0.0"
+  },
+  "devDependencies": {
+    "all-contributors-cli": "^6.14.2",
+    "doctoc": "^1.4.0",
+    "eslint": "^6.8.0",
+    "glob": "^7.1.6",
+    "got": "^11.0.2",
+    "husky": "^4.2.3",
+    "jest": "^26.4.2",
+    "lerna": "4.0.0-canary.23",
+    "lerna-changelog": "^1.0.1",
+    "lint-staged": "^10.0.8",
+    "mini-css-extract-plugin": "^0.9.0",
+    "prettier": "^1.19.1",
+    "ps-tree": "1.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "release": "^6.1.0",
+    "semver": "7.1.3",
+    "serve": "^11.3.2",
+    "shelljs": "^0.8.3",
+    "webpack": "^4.44.1",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "test": "yarn test:e2e",
+    "test:packages": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
+    "test:e2e": "jest --config ./test/jest.config.json --verbose --no-cache ",
+    "clean": "lerna clean --yes",
+    "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
+    "publish-all": "node ./scripts/publish-all.js",
+    "publish-all-stable": "yarn publish-all && release && node ./scripts/release-notes.js",
+    "publish-all-canary": "yarn publish-all -r canary && release --pre",
+    "publish-all-finch": "yarn publish-all -r finch && release --pre",
+    "pre-publish-all": "yarn build-docs && yarn update-examples",
+    "build-docs": "node ./scripts/build-docs.js",
+    "update-examples": "node ./scripts/update-examples.js",
+    "git-reset": "git reset --hard HEAD",
+    "git-clean": "git clean -d -x -e node_modules -e packages -f",
+    "yalc-publish-all": "node ./scripts/yalc-publish-all.js",
+    "try-example": "node ./scripts/try-example.js",
+    "bootstrap-examples": "node ./scripts/bootstrap-examples.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx}": [
+      "yarn format"
+    ]
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/coverage/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/examples/"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/packages/*/node_modules/",
+      "<rootDir>/examples/",
+      "<rootDir>/coverage/"
+    ]
+  },
+  "workspaces": [
+    "packages/razzle",
+    "packages/razzle-start-server-webpack-plugin",
+    "packages/babel-preset-razzle",
+    "packages/create-razzle-app",
+    "packages/razzle-dev-utils",
+    "packages/razzle-plugin-*"
+  ],
+  "version": "4.0.0-canary.23"
+}
