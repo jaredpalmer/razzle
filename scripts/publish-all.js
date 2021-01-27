@@ -121,7 +121,7 @@ let argv = yargs
         });
 
         if (argv.commit) {
-          await execa(`git commit -am "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
+          await execa(`git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`, {shell: true, stdio: 'inherit' });
         }
         if (argv.commit && argv.tag) {
           await execa(`git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`, {shell: true, stdio: 'inherit' });
