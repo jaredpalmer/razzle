@@ -9,7 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "autoprefixer": "10.0.1",
+    "autoprefixer": "10.2.3",
     "css-loader": "5.0.0",
     "deepmerge": "4.2.2",
     "less-loader": "7.0.2",
