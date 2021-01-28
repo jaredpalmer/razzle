@@ -54,12 +54,18 @@ module.exports = function createRazzleApp(opts) {
       loadGitHubExample({
         projectName: projectName,
         example: opts.example,
-      }).then(installWithMessageFactory(opts, true));
+      }).then(installWithMessageFactory(opts, true))
+        .catch(function(err) {
+          throw err;
+        });
     } else if (/^git\+/.test(opts.example)) {
       loadGitExample({
         projectName: projectName,
         example: opts.example,
-      }).then(installWithMessageFactory(opts, true));
+      }).then(installWithMessageFactory(opts, true))
+        .catch(function(err) {
+          throw err;
+        });
     } else if (/^file:/.test(opts.example)) {
       const examplePath = path.resolve(
         path.join(process.cwd(), opts.example.slice(5))
@@ -69,19 +75,28 @@ module.exports = function createRazzleApp(opts) {
         templatePath: examplePath,
         projectPath: projectPath,
         projectName: projectName,
-      }).then(installWithMessageFactory(opts, true));
+      }).then(installWithMessageFactory(opts, true))
+        .catch(function(err) {
+          throw err;
+        });
     } else {
       getOfficialExamples().then(officialExamples => {
         if (officialExamples.includes(opts.example)) {
           loadExample({
             projectName: projectName,
             example: opts.example,
-          }).then(installWithMessageFactory(opts, true));
+          }).then(installWithMessageFactory(opts, true))
+            .catch(function(err) {
+              throw err;
+            });
         } else {
           loadNpmExample({
             projectName: projectName,
             example: opts.example,
-          }).then(installWithMessageFactory(opts, true));
+          }).then(installWithMessageFactory(opts, true))
+            .catch(function(err) {
+              throw err;
+            });
         }
       });
     }
