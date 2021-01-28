@@ -75,27 +75,27 @@ exports.start = function(projectName) {
   const cmd = getInstallCmd();
 
   const commands = {
-    install: cmd === 'npm' ? 'npm install' : 'yarn',
-    build: cmd === 'npm' ? 'npm run build' : 'yarn build',
-    start: cmd === 'npm' ? 'npm run start:prod' : 'yarn start:prod',
-    dev: cmd === 'npm' ? 'npm start' : 'yarn start',
+    install: cmd.cmd === 'npm' ? 'npm install' : 'yarn',
+    build: cmd.cmd === 'npm' ? 'npm run build' : 'yarn build',
+    start: cmd.cmd === 'npm' ? 'npm run start:prod' : 'yarn start:prod',
+    dev: cmd.cmd === 'npm' ? 'npm start' : 'yarn start',
   };
 
   return `
   ${chalk.green('Awesome!')} You're now ready to start coding.
-  
+
   I already ran ${output.cmd(commands.install)} for you, so your next steps are:
     ${output.cmd(`cd ${projectName}`)}
-  
+
   To start a local server for development:
     ${output.cmd(commands.dev)}
-  
+
   To build a version for production:
     ${output.cmd(commands.build)}
 
   To run the server in production:
     ${output.cmd(commands.start)}
-    
+
   Questions? Feedback? Please let me know!
   ${chalk.green('https://github.com/jaredpalmer/razzle/issues')}
 `;

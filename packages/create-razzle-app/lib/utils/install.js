@@ -30,8 +30,8 @@ module.exports = function install(opts) {
         // Confirm that all dependencies were installed
         // ignore-engines for node 9.x
         return execa(
-          installCmd,
-          ['install', installCmd === 'yarn' ? '--ignore-engines' : null].filter(
+          installCmd.cmd,
+          ['install', installCmd.cmd === 'yarn' ? parseInt(cmd.version[0]) !== 2 ? ['--ignore-engines'] : [] : null].filter(
             x => x
           )
         );
@@ -44,17 +44,18 @@ module.exports = function install(opts) {
       .catch(function() {
         stopInstallSpinner();
         console.log(messages.installError(packages));
-        return reject(new Error(`${installCmd} installation failed`));
+        return reject(new Error(`${installCmd.cmd} installation failed`));
       });
   });
 };
 
 function getInstallArgs(cmd, packages) {
-  if (cmd === 'npm') {
+  if (cmd.cmd === 'npm') {
     const args = ['install', '--save', '--save-exact'];
     return args.concat(packages, ['--verbose']);
-  } else if (cmd === 'yarn') {
+  } else if (cmd.cmd === 'yarn') {
     const args = ['add'];
-    return args.concat(packages, ['--ignore-engines']);
+    return args.concat(packages,
+      parseInt(cmd.version[0]) !== 2 ? ['--ignore-engines'] : []);
   }
 }
