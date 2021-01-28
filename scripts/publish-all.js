@@ -101,7 +101,7 @@ let argv = yargs
           )
         )
           .flat()
-          .concat(['lerna.json', 'package.json']);
+          .concat(['lerna.json', 'package.json', 'packages/create-razzle-app/templates/default/package.json']);
 
         console.log(packageJsons);
 
