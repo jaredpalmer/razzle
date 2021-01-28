@@ -51,13 +51,7 @@ By default, runs tests related to files changed since the last commit.
 
 ### npm export
 
-Exports a static version of the application in production mode (must add `export` command below to `package.json`'s scripts). See [Static Site Generation](https://razzlejs.org/docs/static-export/) for more details.
-
-```diff
-"scripts": {
-+  "export": "razzle export",
-}
-```
+Exports a static version of the application in production mode. Must add the `export` command to `package.json`'s scripts along with a `static_export.js` file in the `src` directory. See [Static Site Generation](https://razzlejs.org/docs/static-export/) for more details.
 
 ### rs
 
