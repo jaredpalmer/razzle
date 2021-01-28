@@ -52,7 +52,7 @@ immediately in all the examples. `add-dependencies` can be used to just add pack
 ### Commands
 
 - `yarn clean`: Clean up all `node_modules` and remove all symlinks from packages and examples.
-- `yarn test`: Runs all tests
+- `yarn test --runInBand`: Runs all tests
 - `yarn test:packages`: Runs tests for packages
 - `yarn test:e2e`: Runs end-to-end tests
 - `yarn build-docs`: Builds docs/ updates doc TOC
