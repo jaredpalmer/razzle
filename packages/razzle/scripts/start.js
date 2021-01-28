@@ -28,9 +28,12 @@ function main() {
     loadRazzleConfig(webpack).then(
       async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
 
-        process.env.BUILD_TYPE = razzleOptions.buildType;
         const verbose = razzleOptions.verbose;
-        const clientOnly = razzleOptions.buildType=='spa';
+
+        const clientOnly = /spa|single-page-application/.test(razzleOptions.buildType);
+        const serverOnly = /serveronly|server-only/.test(razzleOptions.buildType);
+
+        process.env.BUILD_TYPE = razzleOptions.buildType;
 
         setPorts(clientOnly)
         .then(async () => {
@@ -139,7 +142,7 @@ function main() {
               clientDevServer.close();
             });
           });
-          
+
           resolve();
         }
       );

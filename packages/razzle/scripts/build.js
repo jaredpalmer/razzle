@@ -32,7 +32,10 @@ loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
 
     const verbose = razzleOptions.verbose;
-    const clientOnly = razzleOptions.buildType=='spa';
+
+    const clientOnly = /spa|single-page-application/.test(razzleOptions.buildType);
+    const serverOnly = /serveronly|server-only/.test(razzleOptions.buildType);
+
     process.env.BUILD_TYPE = razzleOptions.buildType;
 
     // First, read the current file sizes in build directory.
