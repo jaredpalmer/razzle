@@ -45,7 +45,7 @@ NODE_ENV=development yarn install ---ignore-engines
 sudo npm install add-dependencies -g
 ```
 
-This will install all `node_modules` in all the packages and all the examples and symlink
+This will install all `node_modules` in all the packages and symlink
 inter-dependencies. Thus when you make local changes in any of the packages you can try them
 immediately in all the examples. `add-dependencies` can be used to just add packages to `package.json`.
 
