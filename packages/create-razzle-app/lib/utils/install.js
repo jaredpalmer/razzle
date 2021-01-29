@@ -24,16 +24,16 @@ module.exports = function install(opts) {
 
   return new Promise(function(resolve, reject) {
     const stopInstallSpinner = output.wait('Installing modules');
-
-    execa(installCmd, installArgs)
+    execa(installCmd.cmd, installArgs, { cwd: projectPath, stdio: 'inherit' })
       .then(function() {
         // Confirm that all dependencies were installed
         // ignore-engines for node 9.x
+
         return execa(
           installCmd.cmd,
-          ['install', installCmd.cmd === 'yarn' ? parseInt(cmd.version[0]) !== 2 ? ['--ignore-engines'] : [] : null].filter(
+          ['install', installCmd.cmd === 'yarn' && parseInt(cmd.version[0]) !== 2 ? '--ignore-engines' : null].filter(
             x => x
-          )
+          ), { cwd: projectPath, stdio: 'inherit'  }
         );
       })
       .then(function() {
@@ -41,7 +41,7 @@ module.exports = function install(opts) {
         output.success(`Installed dependencies for ${projectName}`);
         resolve();
       })
-      .catch(function() {
+      .catch(function(res) {
         stopInstallSpinner();
         console.log(messages.installError(packages));
         return reject(new Error(`${installCmd.cmd} installation failed`));
