@@ -51,6 +51,6 @@
     "rimraf": "^2.6.2"
   },
   "peerDependencies": {
-    "webpack": "4 || 5"
+    "webpack": "~4||~5"
   }
 }
