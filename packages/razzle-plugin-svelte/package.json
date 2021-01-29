@@ -12,10 +12,8 @@
     "svelte-loader": "^2.13.6",
     "svelte-preprocess": "^4.0.10"
   },
-  "devDependencies": {
-    "razzle": "4.0.0-canary.25"
-  },
   "peerDependencies": {
+    "razzle": "4.0.0-canary.25",
     "razzle-dev-utils": "4.0.0-canary.25"
   }
 }

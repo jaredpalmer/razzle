@@ -10,6 +10,7 @@ describe('razzle-svelte-plugin', () => {
     config = await createRazzleTestConfig('web', 'dev', {
       plugins: [{ object: plugin }],
     });
+    console.log(config);
   });
 
   it('should add .svelte', () => {
