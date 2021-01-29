@@ -56,9 +56,8 @@
     "terser-webpack-plugin": "^2.3.5",
     "tiny-async-pool": "^1.1.0",
     "url-loader": "^2.3.0",
-    "webpack": "4 || 5",
     "webpack-manifest-plugin": "3.0.0-rc.0",
-    "webpackbar": "4 || 5"
+    "webpackbar": "~4||~5"
   },
   "peerDependencies": {
     "babel-preset-razzle": "4.0.0-canary.25",

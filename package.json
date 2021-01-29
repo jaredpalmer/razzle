@@ -9,8 +9,7 @@
     "url": "https://github.com/jaredpalmer/razzle/issues"
   },
   "resolutions": {
-    "**/**/node-gyp": "7.0.0",
-    "webpack": "4.44.1"
+    "**/**/node-gyp": "7.0.0"
   },
   "devDependencies": {
     "all-contributors-cli": "^6.14.2",

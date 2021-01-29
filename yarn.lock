@@ -16405,7 +16405,7 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-"webpack@4 || 5", webpack@4.44.1:
+webpack@4.44.1:
   version "4.44.1"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.44.1.tgz#17e69fff9f321b8f117d1fda714edfc0b939cc21"
   integrity sha512-4UOGAohv/VGUNQJstzEywwNxqX417FnjZgZJpJQegddzPmTvph37eBIRbRTfdySXzVtJXLJfbMN3mMYhM6GdmQ==
@@ -16434,7 +16434,7 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     watchpack "^1.7.4"
     webpack-sources "^1.4.1"
 
-"webpackbar@4 || 5":
+webpackbar@~4||~5:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/webpackbar/-/webpackbar-4.0.0.tgz#ee7a87f16077505b5720551af413c8ecd5b1f780"
   integrity sha512-k1qRoSL/3BVuINzngj09nIwreD8wxV4grcuhHTD8VJgUbGcy8lQSPqv+bM00B7F+PffwIsQ8ISd4mIwRbr23eQ==
