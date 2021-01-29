@@ -88,6 +88,8 @@ let argv = yargs
         const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
         const tagCmd = `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`;
         const tagRemoteCmd = `git push origin refs/tags/v${packageJsonData.version}`;
+        const pushCmd = `git push origin`;
+        const pullCmd = `git pull origin`;
 
         console.log(packageJsonData);
 
@@ -171,13 +173,15 @@ let argv = yargs
           console.log(`Running: '${tagCmd}'`);
           await execa(tagCmd, { shell: true, stdio: 'inherit' });
           if (argv.push) {
-            console.log(`Running: 'git push origin'`);
-            await execa(`git 'push origin'`, { shell: true, stdio: 'inherit' });
+            console.log(`Running: '${pushCmd}'`);
+            await execa(`git '${pushCmd}'`, { shell: true, stdio: 'inherit' });
+            console.log(`Running: '${pullCmd}'`);
+            await execa(`git '${pullCmd}'`, { shell: true, stdio: 'inherit' });
             console.log(`Running: '${tagRemoteCmd}'`);
             await execa(tagRemoteCmd, { shell: true, stdio: 'inherit' });
           } else {
-            console.log(`Not running: 'git push origin'`);
-            console.log(`Run 'git push origin' to push to origin.`);
+            console.log(`Not running: '${pushCmd}'`);
+            console.log(`Run '${pushCmd}' to push to origin.`);
             console.log(`Not running: '${tagRemoteCmd}'`);
             console.log(`Run '${tagRemoteCmd}' to tag in remote.`);
           }
