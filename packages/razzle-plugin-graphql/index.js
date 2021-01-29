@@ -3,7 +3,7 @@
 module.exports = {
   modifyWebpackOptions(opts) {
     const options = Object.assign({}, opts.options.webpackOptions);    // Add .graphql to exlude
-    options.fileLoaderExlude = [/\.graphql|gql?$/, ...options.fileLoaderExlude];
+    options.fileLoaderExclude = [/\.graphql|gql?$/, ...options.fileLoaderExclude];
     return options;
   },
   modifyWebpackConfig(opts) {

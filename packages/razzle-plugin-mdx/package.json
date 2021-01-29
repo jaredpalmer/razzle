@@ -13,10 +13,8 @@
     "@mdx-js/loader": "^1.6.18",
     "@mdx-js/mdx": "^1.6.18"
   },
-  "devDependencies": {
-    "razzle": "4.0.0-canary.25"
-  },
   "peerDependencies": {
+    "razzle": "4.0.0-canary.25",
     "razzle-dev-utils": "4.0.0-canary.25"
   }
 }

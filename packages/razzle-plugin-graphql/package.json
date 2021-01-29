@@ -12,10 +12,9 @@
   "dependencies": {
     "graphql-tag": "^2.11.0"
   },
-  "devDependencies": {
-    "razzle": "4.0.0-canary.25"
-  },
   "peerDependencies": {
+    "graphql": "^15.5.0",
+    "razzle": "4.0.0-canary.25",
     "razzle-dev-utils": "4.0.0-canary.25"
   }
 }
