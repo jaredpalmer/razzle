@@ -94,7 +94,7 @@ let argv = yargs
         console.log(packageJsonData);
 
         const packageJsonGlobs = packageJsonData.workspaces.concat(
-          'examples/**'
+          'examples/*'
         );
 
         const packageJsons = (
@@ -126,7 +126,6 @@ let argv = yargs
         console.log(
           Object.fromEntries(packageVersions.map(item => [item[0], item[2]]))
         );
-
         packageJsons.map(item => {
           let json = JSON.parse(fs.readFileSync(item));
           json.version = packageJsonData.version;
