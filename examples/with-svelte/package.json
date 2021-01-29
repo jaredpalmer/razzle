@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-svelte",
-  "version": "4.0.0-canary.26",
+  "version": "4.0.0-canary.27",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "razzle-plugin-svelte": "4.0.0-canary.26",
+    "razzle-plugin-svelte": "4.0.0-canary.27",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.26",
-    "razzle-dev-utils": "4.0.0-canary.26",
+    "razzle": "4.0.0-canary.27",
+    "razzle-dev-utils": "4.0.0-canary.27",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.26",
+    "babel-preset-razzle": "4.0.0-canary.27",
     "webpack-dev-server": "^3.11.0"
   }
 }

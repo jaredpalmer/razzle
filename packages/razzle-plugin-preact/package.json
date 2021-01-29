@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-preact",
-  "version": "4.0.0-canary.26",
+  "version": "4.0.0-canary.27",
   "main": "index.js",
   "license": "MIT"
 }

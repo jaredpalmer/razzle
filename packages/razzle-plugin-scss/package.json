@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "4.0.0-canary.26",
+  "version": "4.0.0-canary.27",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -22,8 +22,8 @@
     "sass-loader": "10.0.3"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.26",
+    "razzle": "4.0.0-canary.27",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "4.0.0-canary.26"
+    "razzle-dev-utils": "4.0.0-canary.27"
   }
 }

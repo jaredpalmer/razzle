@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-bundle-analyzer",
-  "version": "4.0.0-canary.26",
+  "version": "4.0.0-canary.27",
   "description": "Use webpack bundle analyzer with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -13,6 +13,6 @@
     "webpack-bundle-analyzer": "^3.9.0"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.26"
+    "razzle": "4.0.0-canary.27"
   }
 }
