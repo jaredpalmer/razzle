@@ -24,7 +24,7 @@
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-plugin-transform-define": "2.0.0",
     "buffer": "6.0.3",
-    "chalk": "^3.0.0",
+    "chalk": "^4.1.0",
     "copy-webpack-plugin": "6.1.1",
     "css-loader": "5.0.0",
     "deepmerge": "4.2.2",
