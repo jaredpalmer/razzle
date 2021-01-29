@@ -68,9 +68,6 @@ let argv = yargs
         fs.readFileSync(path.join(rootDir, 'package.json'))
       );
 
-      const unTagCmd = `git tag -d v${packageJsonData.version}`;
-      const unTagRemoteCmd = `git push origin :refs/tags/v${packageJsonData.version}`;
-
       if (!argv.untag) {
         if (preId !== 'latest') {
           packageJsonData.version = semver.inc(
@@ -88,6 +85,8 @@ let argv = yargs
         const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
         const tagCmd = `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`;
         const tagRemoteCmd = `git push origin refs/tags/v${packageJsonData.version}`;
+        const unTagCmd = `git tag -d v${packageJsonData.version}`;
+        const unTagRemoteCmd = `git push origin :refs/tags/v${packageJsonData.version}`;
         const pushCmd = `git push origin`;
         const pullCmd = `git pull origin`;
 
