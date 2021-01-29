@@ -8,6 +8,7 @@
     "elm-webpack-loader": "5.0.0"
   },
   "peerDependencies": {
+    "elm": "^0.19.1-5",
     "razzle-dev-utils": "4.0.0-canary.25"
   }
 }

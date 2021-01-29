@@ -12,10 +12,7 @@
   "dependencies": {
     "webpack-bundle-analyzer": "^3.9.0"
   },
-  "devDependencies": {
-    "razzle": "4.0.0-canary.25"
-  },
   "peerDependencies": {
-    "razzle-dev-utils": "4.0.0-canary.25"
+    "razzle": "4.0.0-canary.25"
   }
 }
