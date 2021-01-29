@@ -162,38 +162,38 @@ let argv = yargs
         });
 
         if (argv.commit) {
-          console.log(`Running: '${commitCmd}'`);
+          console.log(`\nRunning: '${commitCmd}'`);
           await execa(commitCmd, { shell: true, stdio: 'inherit' });
         } else {
-          console.log(`Not running: '${commitCmd}'`);
+          console.log(`\nNot running: '${commitCmd}'`);
           console.log(`Run '${commitCmd}' to commit.`);
         }
         if (argv.commit && argv.tag) {
-          console.log(`Running: '${tagCmd}'`);
+          console.log(`\nRunning: '${tagCmd}'`);
           console.log(`Run '${unTagCmd}' to untag.`);
           await execa(tagCmd, { shell: true, stdio: 'inherit' });
           if (argv.push) {
-            console.log(`Running: '${pushCmd}'`);
-            await execa(`git '${pushCmd}'`, { shell: true, stdio: 'inherit' });
-            console.log(`Running: '${tagRemoteCmd}'`);
+            console.log(`\nRunning: '${pushCmd}'`);
+            await execa(pushCmd, { shell: true, stdio: 'inherit' });
+            console.log(`\nRunning: '${tagRemoteCmd}'`);
             await execa(tagRemoteCmd, { shell: true, stdio: 'inherit' });
             console.log(`Run '${unTagRemoteCmd}' to untag in remote.`);
-            console.log(`Running: '${pullCmd}'`);
-            await execa(`git '${pullCmd}'`, { shell: true, stdio: 'inherit' });
+            console.log(`\nRunning: '${pullCmd}'`);
+            await execa(pullCmd, { shell: true, stdio: 'inherit' });
           } else {
-            console.log(`Not running: '${pushCmd}'`);
+            console.log(`\nNot running: '${pushCmd}'`);
             console.log(`Run '${pushCmd}' to push to origin.`);
-            console.log(`Not running: '${tagRemoteCmd}'`);
+            console.log(`\nNot running: '${tagRemoteCmd}'`);
             console.log(`Run '${tagRemoteCmd}' to tag in remote.`);
           }
         } else {
-          console.log(`Not running: '${tagCmd}'`);
+          console.log(`\nNot running: '${tagCmd}'`);
           console.log(`Run '${tagCmd}' to tag.`);
           console.log(`Run '${tagRemoteCmd}' to tag in remote.`);
         }
         console.log('Check that everything is ok and push to origin');
       } else {
-        console.log(`Running: '${unTagCmd}'`);
+        console.log(`\nRunning: '${unTagCmd}'`);
         console.log(`Run '${unTagRemoteCmd}' to untag in remote.`);
         await execa(unTagCmd, {
           shell: true,
