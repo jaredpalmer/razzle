@@ -11,7 +11,7 @@ const rootDir = process.cwd();
 
 let argv = yargs
   .usage(
-    '$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] [-p|--push] '
+    '$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] [--push]p'
   )
   .command({
     command: '*',
@@ -47,7 +47,7 @@ let argv = yargs
           type: 'boolean',
           default: false,
         })
-        .option('p', {
+        .option('pu', {
           alias: 'push',
           describe: 'push changes and tag',
           type: 'boolean',
@@ -171,14 +171,16 @@ let argv = yargs
         }
         if (argv.commit && argv.tag) {
           console.log(`Running: '${tagCmd}'`);
+          console.log(`Run '${unTagCmd}' to untag.`);
           await execa(tagCmd, { shell: true, stdio: 'inherit' });
           if (argv.push) {
             console.log(`Running: '${pushCmd}'`);
             await execa(`git '${pushCmd}'`, { shell: true, stdio: 'inherit' });
-            console.log(`Running: '${pullCmd}'`);
-            await execa(`git '${pullCmd}'`, { shell: true, stdio: 'inherit' });
             console.log(`Running: '${tagRemoteCmd}'`);
             await execa(tagRemoteCmd, { shell: true, stdio: 'inherit' });
+            console.log(`Run '${unTagRemoteCmd}' to untag in remote.`);
+            console.log(`Running: '${pullCmd}'`);
+            await execa(`git '${pullCmd}'`, { shell: true, stdio: 'inherit' });
           } else {
             console.log(`Not running: '${pushCmd}'`);
             console.log(`Run '${pushCmd}' to push to origin.`);

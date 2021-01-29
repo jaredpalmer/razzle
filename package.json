@@ -14,7 +14,7 @@
   "devDependencies": {
     "all-contributors-cli": "^6.14.2",
     "doctoc": "^1.4.0",
-    "eslint": "^6.8.0",
+    "eslint": "4.0.0-canary.26",
     "glob": "^7.1.6",
     "got": "^11.0.2",
     "husky": "^4.2.3",
@@ -28,10 +28,10 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "release": "^6.1.0",
-    "semver": "7.1.3",
+    "semver": "4.0.0-canary.26",
     "serve": "^11.3.2",
     "shelljs": "^0.8.3",
-    "webpack": "4.44.1",
+    "webpack": "4.0.0-canary.26",
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
@@ -41,9 +41,9 @@
     "clean": "lerna clean --yes",
     "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
     "publish-all": "node ./scripts/publish-all.js",
-    "publish-all-stable": "yarn publish-all -c -t -p && release && node ./scripts/release-notes.js",
-    "publish-all-canary": "yarn publish-all -r canary -c -t -p && release --pre",
-    "publish-all-finch": "yarn publish-all -r finch -c -t -p && release --pre",
+    "publish-all-stable": "yarn publish-all -c -t --push && release && node ./scripts/release-notes.js",
+    "publish-all-canary": "yarn publish-all -p canary -c -t --push && release --pre",
+    "publish-all-finch": "yarn publish-all -p finch -c -t --push && release --pre",
     "pre-publish-all": "yarn build-docs && yarn update-examples",
     "build-docs": "node ./scripts/build-docs.js",
     "update-examples": "node ./scripts/update-examples.js",
@@ -88,5 +88,5 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
   ],
-  "version": "4.0.0-canary.25"
+  "version": "4.0.0-canary.26"
 }
