@@ -12,6 +12,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
+    "bs-platform": "^8.4.2",
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

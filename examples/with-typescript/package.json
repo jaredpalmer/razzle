@@ -16,6 +16,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.3",
     "@testing-library/user-event": "^10.1.0",
@@ -26,12 +27,12 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
+    "babel-preset-razzle": "4.0.0-canary.28",
+    "mini-css-extract-plugin": "^0.9.0",
     "razzle": "4.0.0-canary.28",
     "razzle-dev-utils": "4.0.0-canary.28",
     "typescript": "^4.0.3",
-    "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.28",
     "webpack-dev-server": "^3.11.0"
   }
 }

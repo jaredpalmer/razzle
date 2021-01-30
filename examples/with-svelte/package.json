@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "razzle-plugin-svelte": "4.0.0-canary.28",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "razzle-plugin-svelte": "4.0.0-canary.28",
     "razzle": "4.0.0-canary.28",
     "razzle-dev-utils": "4.0.0-canary.28",
     "mini-css-extract-plugin": "^0.9.0",
