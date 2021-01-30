@@ -7,6 +7,8 @@ const pkg = require('../package.json');
 const prog = sade('razzle');
 prog.version(pkg.version);
 
+const argv = process.argv.slice(3);
+
 prog
   .command('build')
   .describe('Build the application')
@@ -16,7 +18,7 @@ prog
     'iso'
   )
   .action(() => {
-    runCommand('build');
+    runCommand('build', [], argv);
   });
 
 prog
@@ -28,27 +30,27 @@ prog
     'iso'
   )
   .action(() => {
-    runCommand('start');
+    runCommand('start', [], argv);
   });
 
 prog
   .command('export')
   .describe('Export a static version of the application in production mode.')
   .action(() => {
-    runCommand('export');
+    runCommand('export', [], argv);
   });
 
 prog
   .command('test')
   .describe('Runs the test watcher in an interactive mode.')
   .action(() => {
-    runCommand('test');
+    runCommand('test', argv.filter(x=>x.includes('--inspect')), argv.filter(x=>!x.includes('--inspect')));
   });
 
-function runCommand(script) {
+function runCommand(script, node_args, script_args) {
   const result = spawn.sync(
     'node',
-    [require.resolve('../scripts/' + script)].concat(process.argv.slice(3)),
+    node_args.concat([require.resolve('../scripts/' + script)]).concat(script_args),
     { stdio: 'inherit' }
   );
   if (result.signal) {
