@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-react-router",
-  "version": "4.0.0-canary.28",
+  "version": "4.0.0-canary.29",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,12 +17,12 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.28",
-    "razzle-dev-utils": "4.0.0-canary.28",
+    "razzle": "4.0.0-canary.29",
+    "razzle-dev-utils": "4.0.0-canary.29",
     "serve": "^11.3.2",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.28",
+    "babel-preset-razzle": "4.0.0-canary.29",
     "webpack-dev-server": "^3.11.0"
   }
 }

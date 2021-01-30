@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-svelte",
   "license": "MIT",
-  "version": "4.0.0-canary.28",
+  "version": "4.0.0-canary.29",
   "main": "index.js",
   "scripts": {
     "test": "jest"
@@ -13,7 +13,7 @@
     "svelte-preprocess": "^4.0.10"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.28",
-    "razzle-dev-utils": "4.0.0-canary.28"
+    "razzle": "4.0.0-canary.29",
+    "razzle-dev-utils": "4.0.0-canary.29"
   }
 }
