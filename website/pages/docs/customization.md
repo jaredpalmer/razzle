@@ -29,6 +29,7 @@ module.exports = {
       windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
     },
     browserslist: undefined, // or what your apps package.json says
+    writeCssDev: false, // add stylesheet link tag in header in development build
   },
 };
 ```
