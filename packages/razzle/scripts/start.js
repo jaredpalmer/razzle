@@ -13,6 +13,15 @@ const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 const chalk = require('chalk');
+const terminate = require('terminate');
+
+process.once('SIGINT', () => {
+  console.error(chalk.bgRedBright(' SIGINT '), chalk.redBright('exiting...'));
+  terminate(process.pid, 'SIGINT', { timeout: 1000 }, () => {
+    console.error(chalk.bgGreen(' Goodbye '));
+    terminate(process.pid);
+  });
+});
 
 process.noDeprecation = true; // turns off that loadQuery clutter.
 
@@ -140,6 +149,9 @@ function main() {
           ['SIGINT', 'SIGTERM'].forEach(sig => {
             process.on(sig, () => {
               clientDevServer.close();
+              if (watching) {
+                watching.close();
+              }
             });
           });
 

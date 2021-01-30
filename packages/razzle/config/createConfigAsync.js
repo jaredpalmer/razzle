@@ -653,6 +653,8 @@ module.exports = (
               verbose: razzleOptions.verbose,
               name: 'server.js',
               entryName: 'server',
+              killOnExit: false,
+              killOnError: false,
               nodeArgs,
             }),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
