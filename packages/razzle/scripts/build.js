@@ -73,6 +73,7 @@ loadRazzleConfig(webpack).then(
         },
         err => {
           printErrors('Failed to compile.', err, verbose);
+          process.exit(1);
         }
       );
 
