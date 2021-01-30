@@ -11,4 +11,5 @@ module.exports = {
   enableBabelCache: true,
   forceRuntimeEnvVars: [],
   mediaPrefix: 'static/media',
+  writeCssDev: false,
 };

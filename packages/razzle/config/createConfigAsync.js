@@ -526,7 +526,8 @@ module.exports = (
             ]
             : IS_DEV
             ? [
-              require.resolve('style-loader'),
+              razzleOptions.writeCssDev
+                ?  MiniCssExtractPlugin.loader : require.resolve('style-loader'),
               {
                 loader: require.resolve('css-loader'),
                 options: {
@@ -666,6 +667,12 @@ module.exports = (
     }
 
     if (IS_WEB) {
+      // Extract our CSS into files.
+      const miniCssExtractPlugin = new MiniCssExtractPlugin({
+        filename: webpackOptions.cssOutputFilename,
+        chunkFilename: webpackOptions.cssOutputChunkFilename,
+      });
+
       config.plugins = [
         webpackMajor === 5 && new webpack.ProvidePlugin({
           Buffer: [require.resolve('buffer'), 'Buffer'],
@@ -806,6 +813,7 @@ module.exports = (
               })
             : null,
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
+          razzleOptions.writeCssDev ? miniCssExtractPlugin : null,
         ].filter(x => x);
 
         config.optimization = {
@@ -845,11 +853,7 @@ module.exports = (
           ...config.plugins,
           // Define production environment vars
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
-          // Extract our CSS into files.
-          new MiniCssExtractPlugin({
-            filename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].css`,
-            chunkFilename: `${razzleOptions.cssPrefix}/[name].[contenthash:8].chunk.css`,
-          }),
+          miniCssExtractPlugin,
           webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
           new webpack.optimize.AggressiveMergingPlugin(),
           hasPublicDir && new CopyPlugin({
