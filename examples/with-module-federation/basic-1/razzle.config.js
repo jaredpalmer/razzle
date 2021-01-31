@@ -16,10 +16,10 @@ module.exports = {
 
     config.plugins.push(
       new ModuleFederationPlugin({
-        name: "app2",
+        name: "app1",
         filename: "remoteEntry.js",
         remotes: {
-          app1: `app1@${url}remoteEntry.js`,
+          app2: `app2@${url}remoteEntry.js`,
         },
         exposes: {
           "./Button": "./src/Button",
