@@ -107,8 +107,6 @@ module.exports = function(api, options) {
         },
       ],
       require('@babel/plugin-syntax-dynamic-import'),
-      options['typescript-metadata'] &&
-        require('babel-plugin-transform-typescript-metadata'),
       options['decorators'] && [
         require('@babel/plugin-proposal-decorators'),
         options['decorators']
