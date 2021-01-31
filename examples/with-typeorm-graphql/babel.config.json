@@ -1,7 +1,9 @@
 {
   "presets": [
     ["razzle/babel", {
+      "preset-typescript": { "onlyRemoveTypeImports": true },
       "decorators": { "legacy": true },
+      "parameter-decorator": true,
       "class-properties": { "loose": true },
     }]
   ]
