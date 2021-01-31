@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-redux",
-  "version": "4.0.0-canary.29",
+  "version": "4.0.0-canary.30",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -20,11 +20,11 @@
     "serialize-javascript": "^3.0.0"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.29",
-    "razzle-dev-utils": "4.0.0-canary.29",
+    "razzle": "4.0.0-canary.30",
+    "razzle-dev-utils": "4.0.0-canary.30",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.29",
+    "babel-preset-razzle": "4.0.0-canary.30",
     "webpack-dev-server": "^3.11.0"
   }
 }
