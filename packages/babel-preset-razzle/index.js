@@ -111,6 +111,7 @@ module.exports = function(api, options) {
         require('@babel/plugin-proposal-decorators'),
         options['decorators']
       ],
+      options['parameter-decorator'] && require('babel-plugin-parameter-decorator'),
       [
         require('@babel/plugin-proposal-class-properties'),
         options['class-properties'] || {},
