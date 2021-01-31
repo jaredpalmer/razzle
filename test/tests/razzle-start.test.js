@@ -40,7 +40,7 @@ describe('razzle start', () => {
             );
             if (spew) console.log('devServerOutput:' + devServerOutput.stdout);
             outputTest = devServerOutput.stdout.includes('React');
-            kill(child.pid);
+            kill(child.pid, 'SIGINT');
           }
         });
         child.stderr.on('data', data => {
@@ -70,7 +70,7 @@ describe('razzle start', () => {
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:3002'
             );
-            kill(child.pid);
+            kill(child.pid, 'SIGINT');
           }
         });
         child.stderr.on('data', data => {
@@ -98,7 +98,7 @@ describe('razzle start', () => {
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:4001'
             );
-            kill(child.pid);
+            kill(child.pid, 'SIGINT');
           }
         });
         child.stderr.on('data', data => {
@@ -126,7 +126,7 @@ describe('razzle start', () => {
             outputTest = devServerOutput.stdout.includes(
               'index.js?http://localhost:3001'
             );
-            kill(child.pid);
+            kill(child.pid, 'SIGINT');
           }
         });
         child.stderr.on('data', data => {
@@ -153,7 +153,7 @@ describe('razzle start', () => {
             const output = shell.exec('curl -I localhost:3000');
             if (spew) console.log('serverOutput:' + output.stdout);
             outputTest = output.stdout.includes('200');
-            kill(child.pid);
+            kill(child.pid, 'SIGINT');
           }
         });
         child.stderr.on('data', data => {
