@@ -1,0 +1,8 @@
+{
+  "presets": [
+    ["razzle/babel", {
+      "decorators": { "legacy": true },
+      "class-properties": { "loose": true },
+    }]
+  ]
+}

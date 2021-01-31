@@ -1,4 +1,10 @@
+import 'reflect-metadata';
+import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import { buildSchema } from 'type-graphql';
+import { init_db } from './database/init_db';
+import { Resolvers } from './schema/Resolvers';
+
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
@@ -12,8 +18,20 @@ const syncLoadAssets = () => {
 };
 syncLoadAssets();
 
-const server = express()
-  .disable('x-powered-by')
+const createserver = async() => {
+  await init_db();
+  console.log('Database created.');
+
+  const schema = await buildSchema({
+    resolvers: [ Resolvers ],
+  });
+
+  const apolloServer = new ApolloServer({ schema });
+  let server: express.Application = express()
+    .disable('x-powered-by')
+  apolloServer.applyMiddleware({ app: server});
+
+  server = server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get('/*', (req: express.Request, res: express.Response) => {
     const context = {};
@@ -44,8 +62,10 @@ const server = express()
     <body>
         <div id="root">${markup}</div>
     </body>
-</html>`
+  </html>`
     );
   });
+  return server;
+};
 
-export default server;
+export default createserver();

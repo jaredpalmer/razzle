@@ -107,6 +107,10 @@ module.exports = function(api, options) {
         },
       ],
       require('@babel/plugin-syntax-dynamic-import'),
+      options['decorators'] && [
+        require('@babel/plugin-proposal-decorators'),
+        options['decorators']
+      ],
       [
         require('@babel/plugin-proposal-class-properties'),
         options['class-properties'] || {},
