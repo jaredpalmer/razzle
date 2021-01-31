@@ -20,5 +20,6 @@ module.exports = {
 
     }
     return webpackConfig;
-  }
+  },
+  plugins: ['typescript']
 };
