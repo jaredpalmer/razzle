@@ -3,9 +3,8 @@
   "version": "4.0.0-canary.33",
   "license": "MIT",
   "scripts": {
-    "start:tsc": "tsc -b -w --preserveWatchOutput",
-    "start": "yarn start:tsc & razzle start",
-    "build": "tsc -b && razzle build",
+    "start": "razzle start",
+    "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
