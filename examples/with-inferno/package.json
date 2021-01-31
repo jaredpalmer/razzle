@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-inferno",
-  "version": "4.0.0-canary.32",
+  "version": "4.0.0-canary.33",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -21,11 +21,11 @@
     "eslint-plugin-inferno": "^7.20.1",
     "babel-plugin-inferno": "6.1.0",
     "inferno-devtools": "7.4.2",
-    "razzle": "4.0.0-canary.32",
-    "razzle-dev-utils": "4.0.0-canary.32",
+    "razzle": "4.0.0-canary.33",
+    "razzle-dev-utils": "4.0.0-canary.33",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.32",
+    "babel-preset-razzle": "4.0.0-canary.33",
     "webpack-dev-server": "^3.11.0"
   }
 }
