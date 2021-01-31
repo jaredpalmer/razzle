@@ -22,7 +22,7 @@ module.exports = {
           app1: `app1@${url}remoteEntry.js`,
         },
         exposes: {
-          "./Button": "./src/Button",
+          "./Button": "./basic-2/src/Button",
         },
         shared: [
           {
