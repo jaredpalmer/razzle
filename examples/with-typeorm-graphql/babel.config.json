@@ -4,7 +4,6 @@
       "preset-typescript": { "onlyRemoveTypeImports": true },
       "decorators": { "legacy": true },
       "parameter-decorator": true,
-      "typescript-metadata": true,
       "class-properties": { "loose": true },
     }]
   ]
