@@ -16,6 +16,8 @@ module.exports = {
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
+    staticCssInDev: false, // static css in development build (incompatible with css hot reloading)
+    browserslist: undefined, // or what your apps package.json says
     enableReactRefresh: false,
     enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
     enableBabelCache: true,
@@ -28,8 +30,6 @@ module.exports = {
       windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
       windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
     },
-    browserslist: undefined, // or what your apps package.json says
-    writeCssDev: false, // add stylesheet link tag in header in development build
   },
 };
 ```

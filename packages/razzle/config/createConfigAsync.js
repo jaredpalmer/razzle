@@ -526,7 +526,7 @@ module.exports = (
             ]
             : IS_DEV
             ? [
-              razzleOptions.writeCssDev
+              razzleOptions.staticCssInDev
                 ?  MiniCssExtractPlugin.loader : require.resolve('style-loader'),
               {
                 loader: require.resolve('css-loader'),
@@ -815,7 +815,7 @@ module.exports = (
               })
             : null,
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
-          razzleOptions.writeCssDev ? miniCssExtractPlugin : null,
+          razzleOptions.staticCssInDev ? miniCssExtractPlugin : null,
         ].filter(x => x);
 
         config.optimization = {
