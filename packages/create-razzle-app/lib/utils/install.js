@@ -31,7 +31,7 @@ module.exports = function install(opts) {
 
         return execa(
           installCmd.cmd,
-          ['install', installCmd.cmd === 'yarn' && parseInt(cmd.version[0]) !== 2 ? '--ignore-engines' : null].filter(
+          ['install'].filter(
             x => x
           ), { cwd: projectPath, stdio: 'inherit'  }
         );
