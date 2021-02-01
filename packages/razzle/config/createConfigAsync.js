@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
 const crypto = require('crypto');
+const util = require('util');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StartServerPlugin = require('razzle-start-server-webpack-plugin');
@@ -337,6 +338,11 @@ module.exports = (
       });
     }
 
+    if (razzleOptions.debug.options) {
+      console.log(`Printing webpack options for ${target} target`);
+      console.log(util.inspect(webpackOptions, {depth: null}));
+    }
+    
     const debugNodeExternals = razzleOptions.debug.nodeExternals;
 
     const nodeExternalsFunc = (context, request, callback) => {
@@ -950,7 +956,10 @@ module.exports = (
         paths,
       });
     }
-
+    if (razzleOptions.debug.config) {
+      console.log(`Printing webpack config for ${target} target`);
+      console.log(util.inspect(webpackConfig, {depth: null}));
+    }
     resolve(config);
   });
 };
