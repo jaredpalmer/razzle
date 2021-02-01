@@ -317,7 +317,7 @@ class StartServerPlugin {
   }
 
   apply(compiler) {
-    const inject = this.opions.inject; // webpack v4+
+    const inject = this.options.inject; // webpack v4+
 
     if (webpackMajorVersion >= 4) {
       const plugin = {
