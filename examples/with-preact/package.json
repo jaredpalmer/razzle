@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-preact",
-  "version": "4.0.0-canary.33",
+  "version": "4.0.0-canary.34",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -19,10 +19,10 @@
     "@prefresh/webpack": "^2.0.0",
     "@babel/core": "^7.12.10",
     "@babel/plugin-transform-react-jsx": "^7.9.4",
-    "babel-preset-razzle": "4.0.0-canary.33",
+    "babel-preset-razzle": "4.0.0-canary.34",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.0.0-canary.33",
-    "razzle-dev-utils": "4.0.0-canary.33",
+    "razzle": "4.0.0-canary.34",
+    "razzle-dev-utils": "4.0.0-canary.34",
     "webpack": "^5.19.0",
     "webpack-dev-server": "^3.11.0"
   }

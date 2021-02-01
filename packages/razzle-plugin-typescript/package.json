@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "4.0.0-canary.33",
+  "version": "4.0.0-canary.34",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -15,8 +15,8 @@
     "typescript": ">=4.0.3"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.33",
-    "razzle-dev-utils": "4.0.0-canary.33",
+    "razzle": "4.0.0-canary.34",
+    "razzle-dev-utils": "4.0.0-canary.34",
     "webpack": "~4||~5"
   }
 }
