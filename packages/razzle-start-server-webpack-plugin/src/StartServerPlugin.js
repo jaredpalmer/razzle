@@ -23,6 +23,7 @@ export default class StartServerPlugin {
         signal: false, // Send a signal instead of a message
         // Only listen on keyboard in development, so the server doesn't hang forever
         restartable: process.env.NODE_ENV === 'development',
+        inject: true, // inject monitor to script
         killOnExit: true, // issue SIGKILL on child process exit
         killOnError: true, // issue SIGKILL on child process error
         killTimeout: 1000, // timeout before SIGKILL in milliseconds
@@ -267,28 +268,35 @@ export default class StartServerPlugin {
   }
 
   apply(compiler) {
+    const inject = this.options.inject;
     // webpack v4+
     if (webpackMajorVersion >= 4) {
       const plugin = {name: 'StartServerPlugin'};
       // webpack v5+
       if (webpackMajorVersion >= 5) {
-        compiler.hooks.make.tap(plugin, (compilation) => {
-          compilation.addEntry(
-            compilation.compiler.context,
-            webpack.EntryPlugin.createDependency(this._getMonitor(), {
-              name: this.options.entryName,
-            }),
-            this.options.entryName,
-            () => {}
-          );
-        });
+        if (inject) {
+          compiler.hooks.make.tap(plugin, (compilation) => {
+            compilation.addEntry(
+              compilation.compiler.context,
+              webpack.EntryPlugin.createDependency(this._getMonitor(), {
+                name: this.options.entryName,
+              }),
+              this.options.entryName,
+              () => {}
+            );
+          });
+        }
       } else {
-        compiler.options.entry = this._amendEntry(compiler.options.entry);
+        if (inject) {
+          compiler.options.entry = this._amendEntry(compiler.options.entry);
+        }
       }
       compiler.hooks.afterEmit.tapAsync(plugin, this.afterEmit);
     } else {
       // webpack v3-
-      compiler.options.entry = this._amendEntry(compiler.options.entry);
+      if (inject) {
+        compiler.options.entry = this._amendEntry(compiler.options.entry);
+      }
       compiler.plugin('after-emit', this.afterEmit);
     }
   }

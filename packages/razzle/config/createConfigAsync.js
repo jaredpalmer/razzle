@@ -174,6 +174,15 @@ module.exports = (
       webpackOptions.jsOutputChunkFilename = `[name].chunk.js`;
 
       if (IS_DEV) {
+        const nodeArgs = ['-r', require.resolve('source-map-support/register')];
+        webpackOptions.startServerOptions = {
+          verbose: razzleOptions.verbose,
+          name: 'server.js',
+          entryName: 'server',
+          killOnExit: false,
+          killOnError: false,
+          nodeArgs,
+        };
       } else {
         webpackOptions.terserPluginOptions = {};
       }
@@ -342,7 +351,7 @@ module.exports = (
       console.log(`Printing webpack options for ${target} target`);
       console.log(util.inspect(webpackOptions, {depth: null}));
     }
-    
+
     const debugNodeExternals = razzleOptions.debug.nodeExternals;
 
     const nodeExternalsFunc = (context, request, callback) => {
@@ -641,8 +650,6 @@ module.exports = (
           require.resolve('razzle-dev-utils/prettyNodeErrors')
         );
 
-        const nodeArgs = ['-r', require.resolve('source-map-support/register')];
-
         // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
         if (process.env.INSPECT_BRK) {
           nodeArgs.push(process.env.INSPECT_BRK);
@@ -650,20 +657,14 @@ module.exports = (
           nodeArgs.push(process.env.INSPECT);
         }
 
+
         config.plugins = [
           ...config.plugins,
           // Add hot module replacement
           new webpack.HotModuleReplacementPlugin(),
           // Supress errors to console (we use our own logger)
           !disableStartServer &&
-            new StartServerPlugin({
-              verbose: razzleOptions.verbose,
-              name: 'server.js',
-              entryName: 'server',
-              killOnExit: false,
-              killOnError: false,
-              nodeArgs,
-            }),
+            new StartServerPlugin(webpackOptions.startServerOptions),
           // Ignore assets.json and chunks.json to avoid infinite recompile bug
           new webpack.WatchIgnorePlugin(
             webpackMajor === 5
