@@ -64,6 +64,7 @@ module.exports = babelLoader.custom(function(babel) {
         isServer: opts.isServer,
         isModern: opts.isModern,
         hasModern: opts.hasModern,
+        supportsStaticESM: opts.supportsStaticESM,
         development: opts.development,
         shouldUseReactRefresh: opts.shouldUseReactRefresh,
       };
@@ -101,6 +102,7 @@ module.exports = babelLoader.custom(function(babel) {
       delete loader.distDir;
       delete loader.isModern;
       delete loader.hasModern;
+      delete loader.supportsStaticESM;
       delete loader.development;
       delete loader.shouldUseReactRefresh;
       return { loader, custom };
@@ -112,6 +114,7 @@ module.exports = babelLoader.custom(function(babel) {
       const isServer = customOptions.isServer;
       const isModern = customOptions.isModern;
       const hasModern = customOptions.hasModern;
+      const supportsStaticESM = customOptions.supportsStaticESM;
       const development = customOptions.development;
       const shouldUseReactRefresh = customOptions.shouldUseReactRefresh;
 
@@ -134,6 +137,7 @@ module.exports = babelLoader.custom(function(babel) {
       presetOptions.caller.isServer = isServer;
       presetOptions.caller.isModern = isModern;
       presetOptions.caller.isDev = development;
+      presetOptions.caller.supportsStaticESM = supportsStaticESM;
 
       const emitWarning = this.emitWarning.bind(this);
       Object.defineProperty(presetOptions.caller, 'onWarning', {
