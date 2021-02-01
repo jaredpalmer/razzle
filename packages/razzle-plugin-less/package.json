@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-less",
-  "version": "4.0.0-canary.35",
+  "version": "4.0.0-canary.36",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
   "author": "Ryan Yang <orange881217@gmail.com>",
@@ -24,8 +24,8 @@
     "less": "^4.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss": "^8.2.4",
-    "razzle": "4.0.0-canary.35",
-    "razzle-dev-utils": "4.0.0-canary.35",
+    "razzle": "4.0.0-canary.36",
+    "razzle-dev-utils": "4.0.0-canary.36",
     "style-loader": "^2.0.0",
     "webpack": "~4||~5"
   }
