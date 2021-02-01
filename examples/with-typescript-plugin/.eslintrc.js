@@ -1,6 +1,7 @@
 module.exports =
 {
   "env": {
+    "node": true,
     "browser": true,
     "es6": true
   },
@@ -21,6 +22,8 @@ module.exports =
     "plugin:react/recommended",
     "airbnb",
     "plugin:prettier/recommended",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
