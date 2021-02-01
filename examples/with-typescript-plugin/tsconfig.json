@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["es6", "es2015", "es2017", "dom"],
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -17,10 +17,10 @@
     "noUnusedLocals": false,
     "sourceMap": true,
     "strictNullChecks": true,
-    "strict": true,
+    "strict": false,
     "pretty": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2016"
+    "target": "esnext"
   },
   "exclude": [
     "node_modules",
