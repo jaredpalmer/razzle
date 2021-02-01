@@ -1,8 +1,8 @@
 {
   "presets": [
-    "razzle/babel",
+    ["razzle/babel",
     {
-      "preset-env": { "modules": false }
-    }
+      "preset-env": {}
+    }]
   ]
 }

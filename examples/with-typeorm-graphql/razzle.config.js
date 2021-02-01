@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = {
   options: {
     verbose: true,
@@ -20,10 +19,15 @@ module.exports = {
     paths, // the modified paths that will be used by Razzle.
   }) {
     if (target === 'node') {
-      // webpackConfig.output.library = {
-      //   type: 'umd'
-      // };
+      //  webpackConfig.output.library = {
+      //    type: 'var'
+      //  };
       // webpackConfig.output.libraryTarget = 'var';
+      // webpackConfig.target = 'es6';
+      // webpackConfig.output.module = true;
+      // webpackConfig.experiments = {
+      //   outputModule: true
+      // };
       // webpackConfig.optimization.minimize = false;
     }
     return webpackConfig;
@@ -40,9 +44,10 @@ module.exports = {
     },
     paths, // the modified paths that will be used by Razzle.
   }) {
-    // webpackOptions.jsOutputFilename = `[name].mjs`;
-    // webpackOptions.jsOutputChunkFilename = `[name].chunk.mjs`;
-    //webpackOptions.terserPluginOptions.terserOptions.compress.ecma = 6;
+    // webpackOptions.jsOutputFilename = `[name].js`;
+    // webpackOptions.jsOutputChunkFilename = `[name].chunk.js`;
+    // // webpackOptions.babelRule.use[0].options. = true;
+    // //webpackOptions.terserPluginOptions.terserOptions.compress.ecma = 6;
     return webpackOptions;
   },
   plugins: [{name:'typescript',options: {useBabel:true}}]
