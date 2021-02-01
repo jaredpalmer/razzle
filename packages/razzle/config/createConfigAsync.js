@@ -454,8 +454,8 @@ module.exports = (
     let config = {
       // Set webpack mode:
       mode: IS_DEV ? 'development' : 'production',
-      // Set webpack context to the current command's directory
-      context: process.cwd(),
+      // Set webpack context to the current apps directory
+      context: paths.appPath,
       // Specify target (either 'node' or 'web')
       target: target,
       // Controversially, decide on sourcemaps.
