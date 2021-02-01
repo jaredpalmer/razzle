@@ -4,9 +4,9 @@ import Home from './Home';
 
 import './App.css';
 
-const App = () => (
+const App: React.FC = () => (
   <Switch>
-    <Route exact={true} path="/" component={Home} />
+    <Route exact path="/" component={Home} />
   </Switch>
 );
 
