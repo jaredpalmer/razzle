@@ -175,6 +175,14 @@ module.exports = (
 
       if (IS_DEV) {
         const nodeArgs = ['-r', require.resolve('source-map-support/register')];
+
+        // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
+        if (process.env.INSPECT_BRK) {
+          nodeArgs.push(process.env.INSPECT_BRK);
+        } else if (process.env.INSPECT) {
+          nodeArgs.push(process.env.INSPECT);
+        }
+        
         webpackOptions.startServerOptions = {
           verbose: razzleOptions.verbose,
           name: 'server.js',
@@ -649,14 +657,6 @@ module.exports = (
         config.entry.server.unshift(
           require.resolve('razzle-dev-utils/prettyNodeErrors')
         );
-
-        // Passthrough --inspect and --inspect-brk flags (with optional [host:port] value) to node
-        if (process.env.INSPECT_BRK) {
-          nodeArgs.push(process.env.INSPECT_BRK);
-        } else if (process.env.INSPECT) {
-          nodeArgs.push(process.env.INSPECT);
-        }
-
 
         config.plugins = [
           ...config.plugins,
