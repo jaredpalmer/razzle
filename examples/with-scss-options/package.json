@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-scss-options",
-  "version": "4.0.0-canary.36",
+  "version": "4.0.0-canary.37",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,12 +14,12 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.36",
-    "razzle-dev-utils": "4.0.0-canary.36",
-    "razzle-plugin-scss": "4.0.0-canary.36",
+    "razzle": "4.0.0-canary.37",
+    "razzle-dev-utils": "4.0.0-canary.37",
+    "razzle-plugin-scss": "4.0.0-canary.37",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.36",
+    "babel-preset-razzle": "4.0.0-canary.37",
     "webpack-dev-server": "^3.11.0"
   }
 }
