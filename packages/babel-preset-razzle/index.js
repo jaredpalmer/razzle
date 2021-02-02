@@ -78,14 +78,14 @@ module.exports = function(api, options) {
           options['preset-react'] || {}
         ),
       ],
-      [
+      options['preset-typescript'] !== false && [
         require('@babel/preset-typescript'),
         Object.assign(
           { allowNamespaces: true },
           options['preset-typescript'] || {}
         ),
       ],
-    ],
+    ].filter(Boolean),
     plugins: [
       (options['preset-env'] || {}).runtime !== 'automatic' && [
         require('./babel-plugins/jsx-pragma'),
@@ -111,12 +111,12 @@ module.exports = function(api, options) {
         require('@babel/plugin-proposal-decorators'),
         options['decorators']
       ],
-      options['parameter-decorator'] &&
-        require('babel-plugin-parameter-decorator'),
       [
         require('@babel/plugin-proposal-class-properties'),
         options['class-properties'] || {},
       ],
+      options['parameter-decorator'] &&
+      require('babel-plugin-parameter-decorator'),
       [
         require('@babel/plugin-proposal-object-rest-spread'),
         {
