@@ -20,12 +20,11 @@ module.exports = {
   }) {
     if (target === 'node') {
 
-       webpackConfig.mode = 'none';
 
       webpackConfig.output.library = 'RAZZLEAPP';
       webpackConfig.output.libraryTarget = 'var';
       webpackConfig.target = 'node14';
-      webpackConfig.resolve.mainFields = ['module', 'main'];
+      webpackConfig.resolve.mainFields = ['main', 'module'];
       webpackConfig.resolve.extensions= ['.ts', '.tsx', '.js'];
       webpackConfig.plugins.push({
         apply: (compiler) => {
@@ -67,9 +66,8 @@ module.exports = {
   }) {
     webpackOptions.jsOutputFilename = `[name].mjs`;
     webpackOptions.jsOutputChunkFilename = `[name].chunk.mjs`;
-    webpackOptions.babelRule.test = /\.(jis|jisx|mijs)$/;
     // //webpackOptions.terserPluginOptions.terserOptions.compress.ecma = 6;
     return webpackOptions;
   },
-  plugins: [{name:'typescript',options: {useBabel:true}}]
+  plugins: [{name:'typescript'}]
 };
