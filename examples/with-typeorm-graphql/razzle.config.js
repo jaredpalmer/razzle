@@ -19,16 +19,37 @@ module.exports = {
     paths, // the modified paths that will be used by Razzle.
   }) {
     if (target === 'node') {
-      //  webpackConfig.output.library = {
-      //    type: 'var'
-      //  };
-      // webpackConfig.output.libraryTarget = 'var';
-      // webpackConfig.target = 'es6';
-      // webpackConfig.output.module = true;
+
+       webpackConfig.mode = 'none';
+
+      webpackConfig.output.library = 'RAZZLEAPP';
+      webpackConfig.output.libraryTarget = 'var';
+      webpackConfig.target = 'node14';
+      webpackConfig.resolve.mainFields = ['module', 'main'];
+      webpackConfig.resolve.extensions= ['.ts', '.tsx', '.js'];
+      webpackConfig.plugins.push({
+        apply: (compiler) => {
+          const esmExports = `export default RAZZLEAPP;`;
+          const esmExportsn = ``;
+          const fakeRequire = `const require = (what) => { return import(what); }`;
+          compiler.hooks.thisCompilation.tap('AddESMExports', compilation => {
+            compilation.hooks.processAssets.tap({ name: 'AddESMExports', stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONS }, chunks => {
+              Object.keys(chunks).forEach(fileName => {
+                compilation.updateAsset(fileName, content => new compiler.webpack.sources.ConcatSource(fakeRequire, '\n', content, '\n', esmExportsn));
+              });
+            });
+          });
+        }
+      });
+      webpackConfig.optimization.minimize = false;
+      // webpackConfig.output.environment = {
+      //   module: true,
+      //   dynamicImport: true,
+      // };
       // webpackConfig.experiments = {
       //   outputModule: true
       // };
-      // webpackConfig.optimization.minimize = false;
+      // webpackConfig.output.module = true;
     }
     return webpackConfig;
   },
@@ -44,9 +65,9 @@ module.exports = {
     },
     paths, // the modified paths that will be used by Razzle.
   }) {
-    // webpackOptions.jsOutputFilename = `[name].js`;
-    // webpackOptions.jsOutputChunkFilename = `[name].chunk.js`;
-    // // webpackOptions.babelRule.use[0].options. = true;
+    webpackOptions.jsOutputFilename = `[name].mjs`;
+    webpackOptions.jsOutputChunkFilename = `[name].chunk.mjs`;
+    webpackOptions.babelRule.test = /\.(jis|jisx|mijs)$/;
     // //webpackOptions.terserPluginOptions.terserOptions.compress.ecma = 6;
     return webpackOptions;
   },

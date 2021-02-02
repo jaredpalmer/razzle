@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "sourceMap": true,
+    "target": "es2020",
+    "module": "es2020",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "noImplicitAny": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -14,7 +16,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react"
   },
   "include": ["src"]
