@@ -1,16 +1,11 @@
-import { Field, ObjectType } from 'type-graphql';
 import { BaseEntity, Entity, Index, ManyToOne } from 'typeorm';
 import { Abilities } from './Abilities';
 import { Pokemon } from './Pokemon';
 
 @Entity()
 @Index([ 'pokemon', 'ability' ], { unique: true })
-@ObjectType()
 export class PokemonAbilities extends BaseEntity {
-  @Field(() => Pokemon)
-  @ManyToOne(
-    type => Pokemon,
-    pokemon => pokemon,
+  @ManyToOne('Pokemon', 'pokemon',
     {
       primary: true,
       eager: true,
@@ -18,10 +13,7 @@ export class PokemonAbilities extends BaseEntity {
   )
   pokemon: Pokemon;
 
-  @Field(() => Abilities)
-  @ManyToOne(
-    type => Abilities,
-    abilities => abilities,
+  @ManyToOne('Abilities', 'abilities',
     {
       primary: true,
       eager: true,
