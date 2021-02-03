@@ -44,7 +44,7 @@ function loadPlugin(plugin, paths) {
   }
 
   if (!razzlePlugin) {
-    throw new Error(`Unable to find '${completePluginName[0]}' or '${completePluginName[1]}'`);
+    throw new Error(`Unable to find '${completePluginNames[0]}' or '${completePluginNames[1]}'`);
   }
 
   return [razzlePlugin, plugin.options];
