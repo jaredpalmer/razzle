@@ -1,8 +1,7 @@
-import { createConnection } from 'typeorm';
+
 import { Abilities, Pokemon, PokemonAbilities, Types } from '../models';
 
-export const init_db = async() => {
-  const connection = await createConnection();
+export const init_db = async(connection) => {
   await connection.dropDatabase();
   await connection.synchronize();
 

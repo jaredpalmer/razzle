@@ -15,9 +15,10 @@ function normalizeOptions(options = {}) {
     jsxPragma,
     onlyRemoveTypeImports,
     allowReflectMetaData,
-    allowClassDecorators,
+    allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
+    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   } = options;
@@ -29,26 +30,21 @@ function normalizeOptions(options = {}) {
       isTSX: "isTSX",
       jsxPragma: "jsxPragma",
       jsxPragmaFrag: "jsxPragmaFrag",
-      onlyRemoveTypeImports: "onlyRemoveTypeImports",
-      allowReflectMetaData: "allowReflectMetaData",
-      allowClassDecorators: "allowClassDecorators",
-      allowParameterDecorators: "allowParameterDecorators",
-      allowClassProperties: "allowClassProperties",
-      legacyDecorators: "legacyDecorators",
-      looseClassProperties: "looseClassProperties"
+      onlyRemoveTypeImports: "onlyRemoveTypeImports"
     };
     v.validateTopLevelOptions(options, TopLevelOptions);
     allowNamespaces = v.validateBooleanOption(TopLevelOptions.allowNamespaces, options.allowNamespaces, true);
     jsxPragma = v.validateStringOption(TopLevelOptions.jsxPragma, options.jsxPragma, "React");
-    onlyRemoveTypeImports = v.validateBooleanOption(TopLevelOptions.onlyRemoveTypeImports, options.onlyRemoveTypeImports, true);
-    allowReflectMetaData = v.validateBooleanOption(TopLevelOptions.allowReflectMetaData, options.allowReflectMetaData, true);
-    allowClassDecorators = v.validateBooleanOption(TopLevelOptions.allowClassDecorators, options.allowClassDecorators, true);
-    allowPropertyDecorators = v.validateBooleanOption(TopLevelOptions.allowPropertyDecorators, options.allowPropertyDecorators, true);
-    allowClassProperties = v.validateBooleanOption(TopLevelOptions.allowClassProperties, options.allowClassProperties, true);
-    legacyDecorators = v.validateBooleanOption(TopLevelOptions.legacyDecorators, options.legacyDecorators, true);
-    looseClassProperties = v.validateBooleanOption(TopLevelOptions.looseClassProperties, options.looseClassProperties, true);
+    onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   }
 
+  allowReflectMetaData = v.validateBooleanOption("allowReflectMetaData", options.allowReflectMetaData, true);
+  allowDecorators = v.validateBooleanOption("allowDecorators", options.allowDecorators, true);
+  allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, true);
+  allowClassProperties = v.validateBooleanOption("allowClassProperties", options.allowClassProperties, true);
+  decoratorsBeforeExport = v.validateBooleanOption("decoratorsBeforeExport", options.decoratorsBeforeExport, true);
+  legacyDecorators = v.validateBooleanOption("legacyDecorators", options.legacyDecorators, true);
+  looseClassProperties = v.validateBooleanOption("looseClassProperties", options.looseClassProperties, true);
   const jsxPragmaFrag = v.validateStringOption("jsxPragmaFrag", options.jsxPragmaFrag, "React.Fragment");
   const allExtensions = v.validateBooleanOption("allExtensions", options.allExtensions, false);
   const isTSX = v.validateBooleanOption("isTSX", options.isTSX, false);
@@ -65,9 +61,10 @@ function normalizeOptions(options = {}) {
     jsxPragmaFrag,
     onlyRemoveTypeImports,
     allowReflectMetaData,
-    allowClassDecorators,
+    allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
+    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   };

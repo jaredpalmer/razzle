@@ -3,7 +3,7 @@ import { declare } from "@babel/helper-plugin-utils";
 import transformTypeScript from "@babel/plugin-transform-typescript";
 
 import transformReflectMetaData from "babel-plugin-transform-typescript-metadata";
-import transformClassDecorators from "@babel/plugin-proposal-decorators";
+import transformDecorators from "@babel/plugin-proposal-decorators";
 import transformParameterDecorators from "babel-plugin-parameter-decorator";
 import transformClassProperties from "@babel/plugin-proposal-class-properties";
 
@@ -20,9 +20,10 @@ export default declare((api, opts) => {
     jsxPragmaFrag,
     onlyRemoveTypeImports,
     allowReflectMetaData,
-    allowClassDecorators,
+    allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
+    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   } = normalizeOptions(opts);
@@ -44,6 +45,11 @@ export default declare((api, opts) => {
         onlyRemoveTypeImports
       });
 
+  const decoratorOptions = {
+    legacy: legacyDecorators,
+    decoratorsBeforeExport: decoratorsBeforeExport
+  };
+  console.log(decoratorOptions);
   return {
     overrides: allExtensions
       ? [
@@ -51,15 +57,12 @@ export default declare((api, opts) => {
             plugins: [
               [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowClassDecorators && [
-                transformClassDecorators,
-                legacyDecorators ? { legacy: true } : {}
-              ],
-              allowParameterDecorators && transformParameterDecorators,
+              allowDecorators && [transformDecorators, decoratorOptions],
               allowClassProperties && [
                 transformClassProperties,
                 looseClassProperties ? { loose: true } : {}
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators
             ].filter(Boolean)
           }
         ]
@@ -69,17 +72,15 @@ export default declare((api, opts) => {
             // Babel is being called`
             test: /\.ts$/,
             plugins: [
-              [transformTypeScript, pluginOptions(false)],
+              [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowClassDecorators && [
-                transformClassDecorators,
-                legacyDecorators ? { legacy: true } : {}
-              ],
+              allowDecorators && [transformDecorators, decoratorOptions],
               allowParameterDecorators && transformParameterDecorators,
-              allowClassDecorators && [
+              allowClassProperties && [
                 transformClassProperties,
                 looseClassProperties ? { loose: true } : {}
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators
             ].filter(Boolean)
           },
           {
@@ -89,15 +90,12 @@ export default declare((api, opts) => {
             plugins: [
               [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowClassDecorators && [
-                transformClassDecorators,
-                legacyDecorators ? { legacy: true } : {}
-              ],
-              allowParameterDecorators && transformParameterDecorators,
-              allowClassDecorators && [
+              allowDecorators && [transformDecorators, decoratorOptions],
+              allowClassProperties && [
                 transformClassProperties,
                 looseClassProperties ? { loose: true } : {}
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators
             ].filter(Boolean)
           }
         ]
