@@ -3,7 +3,9 @@ import { Abilities } from './Abilities';
 import { Pokemon } from './Pokemon';
 
 
-export @Entity() @Index([ 'pokemon', 'ability' ], { unique: true }) class PokemonAbilities extends BaseEntity {
+@Entity()
+@Index([ 'pokemon', 'ability' ], { unique: true })
+class PokemonAbilities extends BaseEntity {
   @ManyToOne('Pokemon', 'pokemon',
     {
       primary: true,
@@ -26,3 +28,5 @@ export @Entity() @Index([ 'pokemon', 'ability' ], { unique: true }) class Pokemo
     this.ability = ability;
   }
 }
+
+export { PokemonAbilities };

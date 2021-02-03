@@ -45,27 +45,29 @@ export default declare((api, opts) => {
         onlyRemoveTypeImports
       });
 
-    const decoratorOptions = {
-      legacy: legacyDecorators
-    };
-    const classPropertiesOptions = {
-      loose: looseClassProperties
-    };
+  const decoratorOptions = {
+    legacy: legacyDecorators
+  };
+  const classPropertiesOptions = {
+    loose: looseClassProperties
+  };
+
   console.log(decoratorOptions);
+
+  console.log(classPropertiesOptions);
   return {
     overrides: allExtensions
       ? [
           {
             plugins: [
-            [transformTypeScript, pluginOptions(true)],
+              [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowDecorators && [
-                transformDecorators, decoratorOptions
-              ],
-              allowClassProperties && [
-                transformClassProperties, classPropertiesOptions
-              ],
+              allowDecorators && [transformDecorators, decoratorOptions],
               allowParameterDecorators && transformParameterDecorators,
+              allowClassProperties && [
+                transformClassProperties,
+                classPropertiesOptions
+              ]
             ].filter(Boolean)
           }
         ]
@@ -75,16 +77,14 @@ export default declare((api, opts) => {
             // Babel is being called`
             test: /\.ts$/,
             plugins: [
-            [transformTypeScript, pluginOptions(true)],
+              [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowDecorators && [
-                transformDecorators, decoratorOptions
-              ],
+              allowDecorators && [transformDecorators, decoratorOptions],
+              allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
                 transformClassProperties,
-                 classPropertiesOptions
-              ],
-              allowParameterDecorators && transformParameterDecorators,
+                classPropertiesOptions
+              ]
             ].filter(Boolean)
           },
           {
@@ -92,15 +92,14 @@ export default declare((api, opts) => {
             // Babel is being called`
             test: /\.tsx$/,
             plugins: [
-            [transformTypeScript, pluginOptions(true)],
+              [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
-              allowDecorators && [
-                transformDecorators, decoratorOptions
-              ],
+              allowDecorators && [transformDecorators, decoratorOptions],
+              allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
-                transformClassProperties, classPropertiesOptions
-              ],
-              allowParameterDecorators && transformParameterDecorators
+                transformClassProperties,
+                classPropertiesOptions
+              ]
             ].filter(Boolean)
           }
         ]

@@ -18,7 +18,6 @@ function normalizeOptions(options = {}) {
     allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
-    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   } = options;
@@ -38,11 +37,11 @@ function normalizeOptions(options = {}) {
     onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   }
 
+  onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   allowReflectMetaData = v.validateBooleanOption("allowReflectMetaData", options.allowReflectMetaData, true);
   allowDecorators = v.validateBooleanOption("allowDecorators", options.allowDecorators, true);
-  allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, true);
+  allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, false);
   allowClassProperties = v.validateBooleanOption("allowClassProperties", options.allowClassProperties, true);
-  decoratorsBeforeExport = v.validateBooleanOption("decoratorsBeforeExport", options.decoratorsBeforeExport, false);
   legacyDecorators = v.validateBooleanOption("legacyDecorators", options.legacyDecorators, true);
   looseClassProperties = v.validateBooleanOption("looseClassProperties", options.looseClassProperties, true);
   const jsxPragmaFrag = v.validateStringOption("jsxPragmaFrag", options.jsxPragmaFrag, "React.Fragment");
@@ -64,7 +63,6 @@ function normalizeOptions(options = {}) {
     allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
-    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   };

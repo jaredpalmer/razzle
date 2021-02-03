@@ -59,20 +59,20 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
   const classPropertiesOptions = {
     loose: looseClassProperties
   };
-  console.log(decoratorOptions);
+  console.log(classPropertiesOptions);
   return {
     overrides: allExtensions ? [{
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowParameterDecorators && _babelPluginParameterDecorator.default, allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions]].filter(Boolean)
     }] : [{
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
       test: /\.ts$/,
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowParameterDecorators && _babelPluginParameterDecorator.default, allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions]].filter(Boolean)
     }, {
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
       test: /\.tsx$/,
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowParameterDecorators && _babelPluginParameterDecorator.default, allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions]].filter(Boolean)
     }]
   };
 });

@@ -8,7 +8,8 @@ import {
 import { Types } from './Types';
 
 
-export @Entity() class Pokemon extends BaseEntity {
+@Entity()
+class Pokemon extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number | null = null;
 
@@ -25,3 +26,5 @@ export @Entity() class Pokemon extends BaseEntity {
     this.type = type;
   }
 }
+
+export { Pokemon };

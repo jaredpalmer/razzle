@@ -10,7 +10,6 @@ export default function normalizeOptions(options = {}) {
     allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
-    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   } = options;
@@ -42,6 +41,11 @@ export default function normalizeOptions(options = {}) {
       true
     );
   }
+  onlyRemoveTypeImports = v.validateBooleanOption(
+    "onlyRemoveTypeImports",
+    options.onlyRemoveTypeImports,
+    true
+  );
   allowReflectMetaData = v.validateBooleanOption(
     "allowReflectMetaData",
     options.allowReflectMetaData,
@@ -55,17 +59,12 @@ export default function normalizeOptions(options = {}) {
   allowParameterDecorators = v.validateBooleanOption(
     "allowParameterDecorators",
     options.allowParameterDecorators,
-    true
+    false
   );
   allowClassProperties = v.validateBooleanOption(
     "allowClassProperties",
     options.allowClassProperties,
     true
-  );
-  decoratorsBeforeExport = v.validateBooleanOption(
-    "decoratorsBeforeExport",
-    options.decoratorsBeforeExport,
-    false
   );
   legacyDecorators = v.validateBooleanOption(
     "legacyDecorators",
@@ -107,7 +106,6 @@ export default function normalizeOptions(options = {}) {
     allowDecorators,
     allowParameterDecorators,
     allowClassProperties,
-    decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
   };
