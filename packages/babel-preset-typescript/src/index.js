@@ -4,7 +4,7 @@ import normalizeOptions from "./normalize-options.js";
 
 export default declare((api, opts) => {
   api.assertVersion(7);
-
+  console.log("using razzles typescript preset");
   const {
     allExtensions,
     allowNamespaces,

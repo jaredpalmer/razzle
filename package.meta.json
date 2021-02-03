@@ -19,6 +19,7 @@
     "packages/babel-preset-razzle",
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
-    "packages/razzle-plugin-*"
+    "packages/razzle-plugin-*",
+    "packages/babel-preset-typescript"
   ]
 }
