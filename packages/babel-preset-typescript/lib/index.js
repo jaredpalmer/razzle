@@ -67,7 +67,7 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
       test: /\.ts$/,
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowParameterDecorators && _babelPluginParameterDecorator.default, allowClassProperties && [_pluginProposalClassProperties.default, looseClassProperties ? {
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, looseClassProperties ? {
         loose: true
       } : {}], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
     }, {
