@@ -63,13 +63,25 @@ let argv = yargs
 
       const exampleDirs = exampleNamesMap.map(example =>example[1]);
 
+      let extraWorkspaceDirs = [];
+
       if (exampleDirs) {
         const missing = exampleDirs
           .map(example => {
-
-            if (!fs.existsSync(path.join(rootDir, example, 'package.json'))) {
+            const examplePackageJson = path.join(rootDir, example, 'package.json');
+            if (!fs.existsSync(examplePackageJson)) {
               return example;
             }
+            let examplePackageJsonData = {};
+            try {
+              examplePackageJsonData = JSON.parse(fs.readFileSync(examplePackageJson));
+            } catch {
+              console.log(`failed to read json ${examplePackageJson}`);
+              process.exit(1);
+            }
+            extraWorkspaceDirs = extraWorkspaceDirs
+              .concat([example])
+              .concat((examplePackageJsonData.razzle || {}).extraWorkspacedirs || []);
             return false;
           })
           .filter(x => Boolean(x));
@@ -79,7 +91,7 @@ let argv = yargs
             process.exit(1);
           }
       }
-      packageJsonData.workspaces = packageJsonData.workspaces.concat(exampleDirs);
+      packageJsonData.workspaces = packageJsonData.workspaces.concat(extraWorkspaceDirs);
       const jsonString = JSON.stringify(packageJsonData, null, '  ') + '\n';
       if (jsonString) {
         try {
