@@ -49,7 +49,7 @@ export default declare((api, opts) => {
       ? [
           {
             plugins: [
-              [transformTypeScript, pluginOptions(false)],
+              [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
               allowClassDecorators && [
                 transformClassDecorators,
@@ -87,7 +87,17 @@ export default declare((api, opts) => {
             // Babel is being called`
             test: /\.tsx$/,
             plugins: [
-              [transformTypeScript, pluginOptions(false)]
+              [transformTypeScript, pluginOptions(true)],
+              allowReflectMetaData && transformReflectMetaData,
+              allowClassDecorators && [
+                transformClassDecorators,
+                legacyDecorators ? { legacy: true } : {}
+              ],
+              allowParameterDecorators && transformParameterDecorators,
+              allowClassDecorators && [
+                transformClassProperties,
+                looseClassProperties ? { loose: true } : {}
+              ]
             ].filter(Boolean)
           }
         ]
