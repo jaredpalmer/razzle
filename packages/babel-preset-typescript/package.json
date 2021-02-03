@@ -20,7 +20,7 @@
     "typescript"
   ],
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.10.4",
+    "@babel/helper-plugin-utils": "^7.12.13",
     "@babel/helper-validator-option": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.13",

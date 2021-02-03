@@ -3,7 +3,7 @@
 module.exports = {
   options: {
     verbose: true,
-    enableTargetBabelrc: true
+    // enableTargetBabelrc: true
   },
   modifyWebpackConfig({
     env: {
@@ -69,5 +69,5 @@ module.exports = {
     // //webpackOptions.terserPluginOptions.terserOptions.compress.ecma = 6;
     return webpackOptions;
   },
-  plugins: [{name:'typescript'}]
+  //plugins: [{name:'typescript'}]
 };

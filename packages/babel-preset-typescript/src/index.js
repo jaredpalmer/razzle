@@ -1,3 +1,5 @@
+import { declare } from "@babel/helper-plugin-utils";
+
 import transformTypeScript from "@babel/plugin-transform-typescript";
 
 import transformReflectMetaData from "babel-plugin-transform-typescript-metadata";
@@ -58,7 +60,7 @@ export default declare((api, opts) => {
                 transformClassProperties,
                 looseClassProperties ? { loose: true } : {}
               ]
-            ].filter(Booolean)
+            ].filter(Boolean)
           }
         ]
       : [
@@ -78,25 +80,15 @@ export default declare((api, opts) => {
                 transformClassProperties,
                 looseClassProperties ? { loose: true } : {}
               ]
-            ].filter(Booolean)
+            ].filter(Boolean)
           },
           {
             // Only set 'test' if explicitly requested, since it requires that
             // Babel is being called`
             test: /\.tsx$/,
             plugins: [
-              [transformTypeScript, pluginOptions(false)],
-              allowReflectMetaData && transformReflectMetaData,
-              allowClassDecorators && [
-                transformClassDecorators,
-                legacyDecorators ? { legacy: true } : {}
-              ],
-              allowParameterDecorators && transformParameterDecorators,
-              allowClassDecorators && [
-                transformClassProperties,
-                looseClassProperties ? { loose: true } : {}
-              ]
-            ].filter(Booolean)
+              [transformTypeScript, pluginOptions(false)]
+            ].filter(Boolean)
           }
         ]
   };

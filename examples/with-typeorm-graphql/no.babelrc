@@ -1,0 +1,12 @@
+{
+  "presets": [
+    ["razzle/babel",
+    {
+      "preset-env": {},
+      "preset-typescript": { "isTsx": true },
+      "decorators": { "legacy": true },
+      "class-properties": { "loose": true },
+      "parameter-decorator": true
+    }]
+  ]
+}
