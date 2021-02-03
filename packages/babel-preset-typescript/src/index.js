@@ -1,5 +1,10 @@
-import { declare } from "@babel/helper-plugin-utils";
 import transformTypeScript from "@babel/plugin-transform-typescript";
+
+import transformReflectMetaData from "babel-plugin-transform-typescript-metadata";
+import transformClassDecorators from "@babel/plugin-proposal-decorators";
+import transformParameterDecorators from "babel-plugin-parameter-decorator";
+import transformClassProperties from "@babel/plugin-proposal-class-properties";
+
 import normalizeOptions from "./normalize-options.js";
 
 export default declare((api, opts) => {
@@ -12,6 +17,12 @@ export default declare((api, opts) => {
     jsxPragma,
     jsxPragmaFrag,
     onlyRemoveTypeImports,
+    allowReflectMetaData,
+    allowClassDecorators,
+    allowParameterDecorators,
+    allowClassProperties,
+    legacyDecorators,
+    looseClassProperties
   } = normalizeOptions(opts);
 
   const pluginOptions = process.env.BABEL_8_BREAKING
@@ -20,7 +31,7 @@ export default declare((api, opts) => {
         isTSX,
         jsxPragma,
         jsxPragmaFrag,
-        onlyRemoveTypeImports,
+        onlyRemoveTypeImports
       })
     : isTSX => ({
         allowDeclareFields: opts.allowDeclareFields,
@@ -28,29 +39,65 @@ export default declare((api, opts) => {
         isTSX,
         jsxPragma,
         jsxPragmaFrag,
-        onlyRemoveTypeImports,
+        onlyRemoveTypeImports
       });
 
   return {
     overrides: allExtensions
       ? [
           {
-            plugins: [[transformTypeScript, pluginOptions(isTSX)]],
-          },
+            plugins: [
+              [transformTypeScript, pluginOptions(false)],
+              allowReflectMetaData && transformReflectMetaData,
+              allowClassDecorators && [
+                transformClassDecorators,
+                legacyDecorators ? { legacy: true } : {}
+              ],
+              allowParameterDecorators && transformParameterDecorators,
+              allowClassProperties && [
+                transformClassProperties,
+                looseClassProperties ? { loose: true } : {}
+              ]
+            ].filter(Booolean)
+          }
         ]
       : [
           {
             // Only set 'test' if explicitly requested, since it requires that
             // Babel is being called`
             test: /\.ts$/,
-            plugins: [[transformTypeScript, pluginOptions(false)]],
+            plugins: [
+              [transformTypeScript, pluginOptions(false)],
+              allowReflectMetaData && transformReflectMetaData,
+              allowClassDecorators && [
+                transformClassDecorators,
+                legacyDecorators ? { legacy: true } : {}
+              ],
+              allowParameterDecorators && transformParameterDecorators,
+              allowClassDecorators && [
+                transformClassProperties,
+                looseClassProperties ? { loose: true } : {}
+              ]
+            ].filter(Booolean)
           },
           {
             // Only set 'test' if explicitly requested, since it requires that
             // Babel is being called`
             test: /\.tsx$/,
-            plugins: [[transformTypeScript, pluginOptions(true)]],
-          },
-        ],
+            plugins: [
+              [transformTypeScript, pluginOptions(false)],
+              allowReflectMetaData && transformReflectMetaData,
+              allowClassDecorators && [
+                transformClassDecorators,
+                legacyDecorators ? { legacy: true } : {}
+              ],
+              allowParameterDecorators && transformParameterDecorators,
+              allowClassDecorators && [
+                transformClassProperties,
+                looseClassProperties ? { loose: true } : {}
+              ]
+            ].filter(Booolean)
+          }
+        ]
   };
 });

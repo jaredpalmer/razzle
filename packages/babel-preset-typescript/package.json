@@ -12,21 +12,24 @@
     "access": "public"
   },
   "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib --plugins @babel/plugin-transform-modules-commonjs"
+  },
   "keywords": [
     "babel-preset",
     "typescript"
   ],
   "dependencies": {
-    "@babel/helper-plugin-utils": "workspace:^7.10.4",
-    "@babel/helper-validator-option": "workspace:^7.12.1",
-    "@babel/plugin-transform-typescript": "workspace:^7.12.1"
+    "@babel/helper-plugin-utils": "^7.10.4",
+    "@babel/helper-validator-option": "^7.12.1",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-proposal-decorators": "^7.12.13",
+    "@babel/plugin-transform-typescript": "^7.12.1",
+    "babel-plugin-parameter-decorator": "^1.0.16",
+    "babel-plugin-transform-typescript-metadata": "^0.3.1"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
-  },
-  "devDependencies": {
-    "@babel/core": "workspace:*",
-    "@babel/helper-plugin-test-runner": "workspace:*"
   },
   "homepage": "https://babel.dev/docs/en/next/babel-preset-typescript",
   "bugs": "https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22area%3A%20typescript%22+is%3Aopen"
