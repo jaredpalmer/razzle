@@ -54,29 +54,25 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
     onlyRemoveTypeImports
   });
   const decoratorOptions = {
-    legacy: legacyDecorators,
-    decoratorsBeforeExport: decoratorsBeforeExport
+    legacy: legacyDecorators
+  };
+  const classPropertiesOptions = {
+    loose: looseClassProperties
   };
   console.log(decoratorOptions);
   return {
     overrides: allExtensions ? [{
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, looseClassProperties ? {
-        loose: true
-      } : {}], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
     }] : [{
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
       test: /\.ts$/,
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, looseClassProperties ? {
-        loose: true
-      } : {}], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
     }, {
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
       test: /\.tsx$/,
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, looseClassProperties ? {
-        loose: true
-      } : {}], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions], allowParameterDecorators && _babelPluginParameterDecorator.default].filter(Boolean)
     }]
   };
 });

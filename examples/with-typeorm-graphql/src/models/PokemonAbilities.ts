@@ -2,9 +2,8 @@ import { BaseEntity, Entity, Index, ManyToOne } from 'typeorm';
 import { Abilities } from './Abilities';
 import { Pokemon } from './Pokemon';
 
-@Entity()
-@Index([ 'pokemon', 'ability' ], { unique: true })
-export class PokemonAbilities extends BaseEntity {
+
+export @Entity() @Index([ 'pokemon', 'ability' ], { unique: true }) class PokemonAbilities extends BaseEntity {
   @ManyToOne('Pokemon', 'pokemon',
     {
       primary: true,

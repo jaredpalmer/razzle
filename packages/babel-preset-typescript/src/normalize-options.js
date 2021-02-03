@@ -65,7 +65,7 @@ export default function normalizeOptions(options = {}) {
   decoratorsBeforeExport = v.validateBooleanOption(
     "decoratorsBeforeExport",
     options.decoratorsBeforeExport,
-    true
+    false
   );
   legacyDecorators = v.validateBooleanOption(
     "legacyDecorators",

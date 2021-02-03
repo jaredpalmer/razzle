@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 import { Types } from './Types';
 
-@Entity()
-export class Pokemon extends BaseEntity {
+
+export @Entity() class Pokemon extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number | null = null;
 
