@@ -18,7 +18,7 @@ export default declare((api, opts) => {
     isTSX,
     jsxPragma,
     jsxPragmaFrag,
-    onlyRemoveTypeImports,
+    onlyRemoveTypeImports, // on by default
     allowReflectMetaData,
     allowDecorators,
     allowParameterDecorators,
@@ -46,10 +46,10 @@ export default declare((api, opts) => {
       });
 
   const decoratorOptions = {
-    legacy: legacyDecorators
+    legacy: legacyDecorators // on by default
   };
   const classPropertiesOptions = {
-    loose: looseClassProperties
+    loose: looseClassProperties // on by default
   };
 
   console.log(decoratorOptions);
@@ -61,12 +61,11 @@ export default declare((api, opts) => {
           {
             plugins: [
               [transformTypeScript, pluginOptions(true)],
-              allowReflectMetaData && transformReflectMetaData,
-              allowDecorators && [transformDecorators, decoratorOptions],
-              allowParameterDecorators && transformParameterDecorators,
-              allowClassProperties && [
-                transformClassProperties,
-                classPropertiesOptions
+              allowReflectMetaData && transformReflectMetaData, // on by default
+              allowDecorators && [transformDecorators, decoratorOptions], // on by default
+              allowParameterDecorators && transformParameterDecorators, // off by default
+              allowClassProperties && [ // on by default
+                transformClassProperties, classPropertiesOptions
               ]
             ].filter(Boolean)
           }
@@ -82,8 +81,7 @@ export default declare((api, opts) => {
               allowDecorators && [transformDecorators, decoratorOptions],
               allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
-                transformClassProperties,
-                classPropertiesOptions
+                transformClassProperties, classPropertiesOptions
               ]
             ].filter(Boolean)
           },
@@ -97,8 +95,7 @@ export default declare((api, opts) => {
               allowDecorators && [transformDecorators, decoratorOptions],
               allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
-                transformClassProperties,
-                classPropertiesOptions
+                transformClassProperties, classPropertiesOptions
               ]
             ].filter(Boolean)
           }
