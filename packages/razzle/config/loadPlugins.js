@@ -42,9 +42,9 @@ function loadPlugin(plugin, paths) {
       break;
     }
   }
-
   if (!razzlePlugin) {
-    throw new Error(`Unable to find '${completePluginName[0]}' or '${completePluginName[1]}'`);
+    const last = completePluginNames.pop();
+    throw new Error(`Unable to find '${completePluginNames.join("', '")}' or ${last}'`);
   }
 
   return [razzlePlugin, plugin.options];
