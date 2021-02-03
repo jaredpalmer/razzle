@@ -1,7 +1,7 @@
 const commonjsPlugin = require('@babel/plugin-transform-modules-commonjs');
 
 module.exports = function() {
-  const commonjs = commonjsPlugin.apply(null, arguments);
+  const commonjs = commonjsPlugin.default(api, options, dirname);
   return {
     visitor: {
       Program: {
