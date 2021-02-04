@@ -22,6 +22,7 @@ const silent = !process.env.NOISY_TESTS;
 
 describe('test isomophic examples', () => {
   const examples = ['basic'];
+
   examples.forEach(example => {
     describe(`tests for ${example}`, () => {
 
@@ -34,8 +35,8 @@ describe('test isomophic examples', () => {
       });
 
       it(`should install packages for ${example}`, async () => {
-        await execa("yarn install", { shell: true, stdio: 'inherit', cwd: tempDir });
-        return true;
+        const result = await execa("yarn install", { shell: true, stdio: 'inherit', cwd: tempDir });
+        expect(result.exitCode).toEqual(0);
       });
 
       afterAll(async () => {
