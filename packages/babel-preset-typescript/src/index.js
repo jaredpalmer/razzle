@@ -26,7 +26,7 @@ export default declare((api, opts) => {
     decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
-  } = normalizeOptions(opts);
+  } = normalizeOptions(api.caller, opts);
 
   const pluginOptions = process.env.BABEL_8_BREAKING
     ? isTSX => ({
@@ -55,6 +55,8 @@ export default declare((api, opts) => {
   console.log(decoratorOptions);
 
   console.log(classPropertiesOptions);
+
+  console.log(allExtensions);
   return {
     overrides: allExtensions
       ? [

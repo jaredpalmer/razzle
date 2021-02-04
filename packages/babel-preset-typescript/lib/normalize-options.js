@@ -9,7 +9,7 @@ var _helperValidatorOption = require("@babel/helper-validator-option");
 
 const v = new _helperValidatorOption.OptionValidator("@babel/preset-typescript");
 
-function normalizeOptions(options = {}) {
+function normalizeOptions(caller, options = {}) {
   let {
     allowNamespaces,
     jsxPragma,
@@ -37,7 +37,6 @@ function normalizeOptions(options = {}) {
     onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   }
 
-  onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   allowReflectMetaData = v.validateBooleanOption("allowReflectMetaData", options.allowReflectMetaData, true);
   allowDecorators = v.validateBooleanOption("allowDecorators", options.allowDecorators, true);
   allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, false);
@@ -45,7 +44,7 @@ function normalizeOptions(options = {}) {
   legacyDecorators = v.validateBooleanOption("legacyDecorators", options.legacyDecorators, true);
   looseClassProperties = v.validateBooleanOption("looseClassProperties", options.looseClassProperties, true);
   const jsxPragmaFrag = v.validateStringOption("jsxPragmaFrag", options.jsxPragmaFrag, "React.Fragment");
-  const allExtensions = v.validateBooleanOption("allExtensions", options.allExtensions, false);
+  const allExtensions = v.validateBooleanOption("allExtensions", options.allExtensions, !/^@babel\//.test((caller || {}).name || ''));
   const isTSX = v.validateBooleanOption("isTSX", options.isTSX, false);
 
   if (isTSX) {

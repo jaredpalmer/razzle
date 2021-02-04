@@ -1,7 +1,7 @@
 import { OptionValidator } from "@babel/helper-validator-option";
 const v = new OptionValidator("@babel/preset-typescript");
 
-export default function normalizeOptions(options = {}) {
+export default function normalizeOptions(caller, options = {}) {
   let {
     allowNamespaces,
     jsxPragma,
@@ -41,11 +41,6 @@ export default function normalizeOptions(options = {}) {
       true
     );
   }
-  onlyRemoveTypeImports = v.validateBooleanOption(
-    "onlyRemoveTypeImports",
-    options.onlyRemoveTypeImports,
-    true
-  );
   allowReflectMetaData = v.validateBooleanOption(
     "allowReflectMetaData",
     options.allowReflectMetaData,
@@ -86,7 +81,7 @@ export default function normalizeOptions(options = {}) {
   const allExtensions = v.validateBooleanOption(
     "allExtensions",
     options.allExtensions,
-    false
+    !/^@babel\//.test((caller||{}).name||'')
   );
 
   const isTSX = v.validateBooleanOption("isTSX", options.isTSX, false);

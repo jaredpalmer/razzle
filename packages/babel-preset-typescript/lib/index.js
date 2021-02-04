@@ -31,6 +31,7 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
     jsxPragma,
     jsxPragmaFrag,
     onlyRemoveTypeImports,
+    // on by default
     allowReflectMetaData,
     allowDecorators,
     allowParameterDecorators,
@@ -38,7 +39,7 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
     decoratorsBeforeExport,
     legacyDecorators,
     looseClassProperties
-  } = (0, _normalizeOptions.default)(opts);
+  } = (0, _normalizeOptions.default)(api.caller, opts);
   const pluginOptions = process.env.BABEL_8_BREAKING ? isTSX => ({
     allowNamespaces,
     isTSX,
@@ -54,15 +55,23 @@ var _default = (0, _helperPluginUtils.declare)((api, opts) => {
     onlyRemoveTypeImports
   });
   const decoratorOptions = {
-    legacy: legacyDecorators
+    legacy: legacyDecorators // on by default
+
   };
   const classPropertiesOptions = {
-    loose: looseClassProperties
+    loose: looseClassProperties // on by default
+
   };
+  console.log(decoratorOptions);
   console.log(classPropertiesOptions);
+  console.log(allExtensions);
   return {
     overrides: allExtensions ? [{
-      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], allowParameterDecorators && _babelPluginParameterDecorator.default, allowClassProperties && [_pluginProposalClassProperties.default, classPropertiesOptions]].filter(Boolean)
+      plugins: [[_pluginTransformTypescript.default, pluginOptions(true)], allowReflectMetaData && _babelPluginTransformTypescriptMetadata.default, // on by default
+      allowDecorators && [_pluginProposalDecorators.default, decoratorOptions], // on by default
+      allowParameterDecorators && _babelPluginParameterDecorator.default, // off by default
+      allowClassProperties && [// on by default
+      _pluginProposalClassProperties.default, classPropertiesOptions]].filter(Boolean)
     }] : [{
       // Only set 'test' if explicitly requested, since it requires that
       // Babel is being called`
