@@ -35,7 +35,7 @@ export class Resolvers {
 
   @Query(() => [ PokemonAbilitiesUnion ])
   async getPokemonAbilities(@Arg('name') name: string): Promise<Array<typeof PokemonAbilitiesUnion>> {
-    const pokemon: Pokemon = <Pokemon>await Pokemon.findOne({ where: { name } });
+    const pokemon: Pokemon = await Pokemon.findOne({ where: { name } });
     const pokemonAbilities = await PokemonAbilities.find({ where: { pokemon } });
 
     return [ pokemon, ...pokemonAbilities ];

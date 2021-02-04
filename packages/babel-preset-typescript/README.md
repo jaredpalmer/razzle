@@ -17,3 +17,20 @@ or using yarn:
 ```sh
 yarn add @babel/preset-typescript --dev
 ```
+
+Babel config:
+
+```jsonc
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript"
+  ]
+}
+```
+
+Babel cli:
+
+```bash
+babel src --out-dir build --extensions ".ts,.tsx" --source-maps inline
+```
