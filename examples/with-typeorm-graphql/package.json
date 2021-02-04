@@ -5,7 +5,10 @@
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
-    "babel-build": "babel src --out-dir babel-build --extensions \".ts,.tsx\" --source-maps inline",
+    "babel-build": "babel ts-src --out-dir src --extensions \".ts,.tsx\" --source-maps inline --keep-file-extension --config-file ./.babelrc.cli && yarn renametsx && yarn renamets && yarn movestatic",
+    "renametsx": "renamer --find tsx --replace jsx \"src/**\"",
+    "renamets": "renamer --find ts --replace js \"src/**\"",
+    "movestatic": "find ts-src/ -type f -not -name \"*.tsx\" -not -name \"*.ts\" -exec bash -c 'echo \"${0##*/}\" \"${0##ts-src/}\" \"$0\"' {} \\; | xargs -l bash -c 'mkdir -p \"src/${1%$0}\" && cp \"$2\" \"src/$0\"'",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js --config ormconfig.json"
   },
@@ -53,6 +56,7 @@
     "razzle": "4.0.0-canary.37",
     "razzle-dev-utils": "4.0.0-canary.37",
     "razzle-plugin-typescript": "4.0.0-canary.37",
+    "renamer": "^2.0.1",
     "sqlite3": "^5.0.1",
     "typescript": "^4.0.3",
     "webpack": "^5.16.0",
