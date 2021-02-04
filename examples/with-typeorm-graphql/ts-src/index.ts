@@ -21,5 +21,6 @@ export default app.then(theapp=>{
   .use((req, res) => theapp.handle(req, res))
   .listen(port, () => {
     console.log(`> App started http://localhost:${port}`)
+    console.log(`> Graphql at http://localhost:${port}/graphql`)
   });
 });
