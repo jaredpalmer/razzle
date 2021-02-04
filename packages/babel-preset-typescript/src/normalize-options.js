@@ -54,7 +54,7 @@ export default function normalizeOptions(caller, options = {}) {
   allowParameterDecorators = v.validateBooleanOption(
     "allowParameterDecorators",
     options.allowParameterDecorators,
-    false
+    true
   );
   allowClassProperties = v.validateBooleanOption(
     "allowClassProperties",

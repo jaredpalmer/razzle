@@ -39,7 +39,7 @@ function normalizeOptions(caller, options = {}) {
 
   allowReflectMetaData = v.validateBooleanOption("allowReflectMetaData", options.allowReflectMetaData, true);
   allowDecorators = v.validateBooleanOption("allowDecorators", options.allowDecorators, true);
-  allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, false);
+  allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, true);
   allowClassProperties = v.validateBooleanOption("allowClassProperties", options.allowClassProperties, true);
   legacyDecorators = v.validateBooleanOption("legacyDecorators", options.legacyDecorators, true);
   looseClassProperties = v.validateBooleanOption("looseClassProperties", options.looseClassProperties, true);

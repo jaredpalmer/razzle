@@ -18,7 +18,7 @@ export default declare((api, opts) => {
     isTSX,
     jsxPragma,
     jsxPragmaFrag,
-    onlyRemoveTypeImports, // on by default
+    onlyRemoveTypeImports,
     allowReflectMetaData,
     allowDecorators,
     allowParameterDecorators,
@@ -51,12 +51,26 @@ export default declare((api, opts) => {
   const classPropertiesOptions = {
     loose: looseClassProperties // on by default
   };
+  console.log({
+    allExtensions,
+    allowNamespaces,
+    isTSX,
+    jsxPragma,
+    jsxPragmaFrag,
+    onlyRemoveTypeImports,
+    allowReflectMetaData,
+    allowDecorators,
+    allowParameterDecorators,
+    allowClassProperties,
+    decoratorsBeforeExport,
+    legacyDecorators,
+    looseClassProperties
+  });
 
   console.log(decoratorOptions);
 
   console.log(classPropertiesOptions);
 
-  console.log(allExtensions);
   return {
     overrides: allExtensions
       ? [
@@ -65,10 +79,10 @@ export default declare((api, opts) => {
               [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData, // on by default
               allowDecorators && [transformDecorators, decoratorOptions], // on by default
-              allowParameterDecorators && transformParameterDecorators, // off by default
               allowClassProperties && [ // on by default
                 transformClassProperties, classPropertiesOptions
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators // on by default
             ].filter(Boolean)
           }
         ]
@@ -81,10 +95,10 @@ export default declare((api, opts) => {
               [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
               allowDecorators && [transformDecorators, decoratorOptions],
-              allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
                 transformClassProperties, classPropertiesOptions
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators // on by default
             ].filter(Boolean)
           },
           {
@@ -95,10 +109,10 @@ export default declare((api, opts) => {
               [transformTypeScript, pluginOptions(true)],
               allowReflectMetaData && transformReflectMetaData,
               allowDecorators && [transformDecorators, decoratorOptions],
-              allowParameterDecorators && transformParameterDecorators,
               allowClassProperties && [
                 transformClassProperties, classPropertiesOptions
-              ]
+              ],
+              allowParameterDecorators && transformParameterDecorators // on by default
             ].filter(Boolean)
           }
         ]
