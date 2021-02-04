@@ -7,7 +7,7 @@ const PokemonAbilitiesUnion = createUnionType({
 });
 
 @Resolver()
-export class Resolvers {
+class Resolvers {
   @Query(() => [ Types ])
   async allTypes(): Promise<Types[]> {
     return await Types.find();
@@ -49,3 +49,4 @@ export class Resolvers {
     return pokemon;
   }
 }
+export { Resolvers };

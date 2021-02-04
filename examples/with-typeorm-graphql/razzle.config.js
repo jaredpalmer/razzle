@@ -40,9 +40,9 @@ module.exports = {
       // //     });
       // //   }
       // // });
-      // if (!dev) {
-      //   webpackConfig.optimization.minimize = false;
-      // }
+      if (!dev) {
+        webpackConfig.optimization.minimize = false;
+      }
       // // webpackConfig.output.environment = {
       // //   module: true,
       //   dynamicImport: true,
