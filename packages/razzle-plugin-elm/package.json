@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-elm",
-  "version": "3.3.12",
+  "version": "3.3.13",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
