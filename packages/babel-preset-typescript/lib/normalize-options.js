@@ -37,6 +37,7 @@ function normalizeOptions(caller, options = {}) {
     onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   }
 
+  onlyRemoveTypeImports = v.validateBooleanOption("onlyRemoveTypeImports", options.onlyRemoveTypeImports, true);
   allowReflectMetaData = v.validateBooleanOption("allowReflectMetaData", options.allowReflectMetaData, true);
   allowDecorators = v.validateBooleanOption("allowDecorators", options.allowDecorators, true);
   allowParameterDecorators = v.validateBooleanOption("allowParameterDecorators", options.allowParameterDecorators, true);

@@ -41,6 +41,11 @@ export default function normalizeOptions(caller, options = {}) {
       true
     );
   }
+  onlyRemoveTypeImports = v.validateBooleanOption(
+    "onlyRemoveTypeImports",
+    options.onlyRemoveTypeImports,
+    true
+  );
   allowReflectMetaData = v.validateBooleanOption(
     "allowReflectMetaData",
     options.allowReflectMetaData,
