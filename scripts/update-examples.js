@@ -126,7 +126,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { shell: true }).then(
         await Promise.all(
           packageJsons.map(async item => JSON.parse(await fs.readFile(item)))
         )
-      ).map(item => [item.name, lernaJson.version])
+      ).map(item => [item.name, item.version])
     );
 
     const dependencyVersions = {
