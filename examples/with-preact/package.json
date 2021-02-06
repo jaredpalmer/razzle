@@ -24,6 +24,6 @@
     "razzle": "4.0.0-canary.39",
     "razzle-dev-utils": "4.0.0-canary.39",
     "webpack": "^5.19.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }

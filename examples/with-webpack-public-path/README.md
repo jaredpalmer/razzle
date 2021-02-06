@@ -9,9 +9,9 @@ This is the canary release documentation for this example
 Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example with-svelte with-svelte
+npx create-razzle-app@canary --example with-webpack-public-path with-webpack-public-path
 
-cd with-svelte
+cd with-webpack-public-path
 yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->

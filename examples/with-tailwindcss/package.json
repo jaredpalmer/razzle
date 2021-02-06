@@ -19,7 +19,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
     "babel-preset-razzle": "4.0.0-canary.39",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.11.2",
     "postcss": "^8.2.4",
     "autoprefixer": "^10.2.3",
     "tailwindcss": "^2.0.2"

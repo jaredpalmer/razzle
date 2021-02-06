@@ -9,9 +9,9 @@ This is the canary release documentation for this example
 Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example with-typescript with-typescript
+npx create-razzle-app@canary --example with-typeorm-graphql with-typeorm-graphql
 
-cd with-typescript
+cd with-typeorm-graphql
 yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->

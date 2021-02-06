@@ -68,7 +68,6 @@ function updatePackageJson(
   packageJson,
   branch,
   dependencyVersions,
-  version
 ) {
   fs.pathExists(packageJson).then(async exists => {
     if (exists) {
@@ -89,14 +88,10 @@ function updatePackageJson(
         packageJsonData
       );
 
-      // packageJsonData['devDependencies']['webpack-dev-server'] = '';
 
-      packageJsonData['version'] = version;
-
-      console.log(JSON.stringify(newPackageJsonData, null, '  '));
       return fs.writeFile(
         packageJson,
-        JSON.stringify(newPackageJsonData, null, '  ')
+        JSON.stringify(newPackageJsonData, null, '  ') + "\n"
       );
     }
   });
@@ -153,8 +148,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { shell: true }).then(
               item.name,
               path.join(rootDir, 'examples', item.name, 'package.json'),
               branch,
-              dependencyVersions,
-              lernaJson.version
+              dependencyVersions
             );
           });
       }
@@ -171,16 +165,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { shell: true }).then(
         'package.json'
       ),
       branch,
-      dependencyVersions,
-      lernaJson.version
-    );
-
-    updatePackageJson(
-      'default',
-      path.join(rootDir, 'package.json'),
-      branch,
-      dependencyVersions,
-      lernaJson.version
+      dependencyVersions
     );
 
     const loadExamplePath =
