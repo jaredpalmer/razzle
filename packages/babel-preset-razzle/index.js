@@ -73,21 +73,21 @@ module.exports = function(api, options) {
             // This adds @babel/plugin-transform-react-jsx-source and
             // @babel/plugin-transform-react-jsx-self automatically in development
             development: isDevelopment || isTest,
-            pragma: '__jsx',
           },
+          (options['preset-react'] || {}).runtime !== 'automatic' ? { pragma: '__jsx' } : {},
           options['preset-react'] || {}
         ),
       ],
       options['preset-typescript'] !== false && [
         require('@babel/preset-typescript'),
         Object.assign(
-          { allowNamespaces: true },
+          { allowNamespaces: true, allExtensions: true, isTSX: true },
           options['preset-typescript'] || {}
         ),
       ],
     ].filter(Boolean),
     plugins: [
-      (options['preset-env'] || {}).runtime !== 'automatic' && [
+      (options['preset-react'] || {}).runtime !== 'automatic' && [
         require('./babel-plugins/jsx-pragma'),
         {
           // This produces the following injected import for modules containing JSX:
@@ -107,16 +107,10 @@ module.exports = function(api, options) {
         },
       ],
       require('@babel/plugin-syntax-dynamic-import'),
-      options['decorators'] && [
-        require('@babel/plugin-proposal-decorators'),
-        options['decorators']
-      ],
-      [
+      options['class-properties'] !== false && [
         require('@babel/plugin-proposal-class-properties'),
         options['class-properties'] || {},
       ],
-      options['parameter-decorator'] &&
-      require('babel-plugin-parameter-decorator'),
       [
         require('@babel/plugin-proposal-object-rest-spread'),
         {
@@ -149,12 +143,6 @@ module.exports = function(api, options) {
       require('@babel/plugin-proposal-nullish-coalescing-operator'),
       isServer && require('@babel/plugin-syntax-bigint'),
       [require('@babel/plugin-proposal-numeric-separator').default, false],
-    ].filter(Boolean),
-    overrides: [
-      {
-        test: /\.tsx?$/,
-        plugins: [require('@babel/plugin-proposal-numeric-separator').default],
-      },
-    ],
+    ].filter(Boolean)
   };
 };

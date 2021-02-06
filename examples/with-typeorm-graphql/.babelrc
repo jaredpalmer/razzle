@@ -6,7 +6,14 @@
     "babel-plugin-parameter-decorator"
   ],
   "presets": [
-    ["@babel/preset-env", { "targets": { "node": "14"}, "modules": false }],
-    "@babel/preset-typescript"
+    [
+      "razzle/babel",
+      {
+        "preset-env": {},
+        "preset-react": { "runtime" : "automatic" },
+        "transform-runtime": {},
+        "class-properties": false
+      }
+    ]
   ]
 }
