@@ -22,9 +22,11 @@ module.exports = function install(opts) {
   console.log(messages.installing(packages));
   process.chdir(projectPath);
 
+  const stdio = 'pipe';
+
   return new Promise(function(resolve, reject) {
     const stopInstallSpinner = output.wait('Installing modules');
-    execa(installCmd.cmd, installArgs, { cwd: projectPath, stdio: 'inherit' })
+    execa(installCmd.cmd, installArgs, { cwd: projectPath, stdio: stdio })
       .then(function() {
         // Confirm that all dependencies were installed
         // ignore-engines for node 9.x
@@ -33,7 +35,7 @@ module.exports = function install(opts) {
           installCmd.cmd,
           ['install'].filter(
             x => x
-          ), { cwd: projectPath, stdio: 'inherit'  }
+          ), { cwd: projectPath, stdio: stdio }
         );
       })
       .then(function() {

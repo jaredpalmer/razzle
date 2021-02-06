@@ -190,18 +190,18 @@ describe('create-razzle-app', () => {
     expect(output.code).toBe(0);
   });
 
-    it('should create app from file example', () => {
-      util.setupStage(stageName);
-      const output = shell.exec(
-        `${craPath} cra --example=file:../examples/basic --no-install`
-      );
-      expect(fileExists('cra/package.json')).toBeTruthy();
+  it('should create app from file example', () => {
+    util.setupStage(stageName);
+    const output = shell.exec(
+      `${craPath} cra --example=file:../examples/basic --no-install`
+    );
+    expect(fileExists('cra/package.json')).toBeTruthy();
 
-      expect(directoryExists('cra/src')).toBeTruthy();
-      expect(fileExists('cra/src/index.js')).toBeTruthy();
+    expect(directoryExists('cra/src')).toBeTruthy();
+    expect(fileExists('cra/src/index.js')).toBeTruthy();
 
-      expect(output.code).toBe(0);
-    });
+    expect(output.code).toBe(0);
+  });
 
   it('should exit with an error code when no project name is supplied', () => {
     util.setupStage(stageName);
