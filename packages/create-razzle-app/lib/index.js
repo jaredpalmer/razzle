@@ -68,7 +68,6 @@ module.exports = function createRazzleApp(opts) {
         });
     } else if (/^file:/.test(opts.example)) {
       const examplePath = opts.example.slice(5);
-      console.log(examplePath);
       copyDir({
         templatePath: examplePath,
         projectPath: projectPath,
