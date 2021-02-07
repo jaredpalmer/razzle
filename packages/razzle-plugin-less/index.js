@@ -3,7 +3,6 @@
 const autoprefixer = require('autoprefixer');
 const merge = require('deepmerge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
 const paths = require('razzle/config/paths');
 const postcssLoadConfig = require('postcss-load-config');
 
@@ -33,7 +32,6 @@ module.exports = {
           ident: 'postcss',
         },
         plugins: [
-          PostCssFlexBugFixes,
           [autoprefixer, {
             overrideBrowserslist: opts.options.razzleOptions.browserslist || [
               '>1%',

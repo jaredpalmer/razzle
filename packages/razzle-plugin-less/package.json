@@ -16,7 +16,7 @@
     "node-less-chokidar": "0.4.1",
     "postcss-less": "4.0.0",
     "postcss-load-config": "3.0.0",
-    "postcss-loader": "5.0.0",
+    "postcss-loader": "4.2.0",
     "resolve-url-loader": "3.1.2"
   },
   "peerDependencies": {
