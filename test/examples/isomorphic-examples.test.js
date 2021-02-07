@@ -71,8 +71,8 @@ describe(`tests for isomorphic examples`, () => {
       jest.setTimeout(300000);
 
       it(`should start devserver and exit`, function(done) {
-        execa("yarn", ["start"], {stdio: 'inherit', cwd: tempDir })
-        .then(({exitCode})=>{
+        const subprocess = execa("yarn", ["start"], {stdio: 'inherit', cwd: tempDir })
+        subprocess.then(({exitCode})=>{
           assert.equal(exitCode, 0)
           done();
         })

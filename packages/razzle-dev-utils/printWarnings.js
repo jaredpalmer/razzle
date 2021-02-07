@@ -15,11 +15,11 @@ function printWarnings(summary, warnings, verbose) {
     if (wrn.message) {
       console.warn(wrn.message);
     }
-    if (verbose ) {
+    if (verbose) {
       console.warn(wrn.stack || wrn);
-      if (wrn.details) {
-        console.warn(wrn.details);
-      }
+    }
+    if (wrn.details) {
+      console.warn(wrn.details);
     }
     console.log();
   });
