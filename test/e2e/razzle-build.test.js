@@ -8,7 +8,7 @@ const fs = require('fs-extra');
 const shell = require('shelljs');
 const util = require('../fixtures/util');
 
-const silent = false;
+const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
