@@ -28,16 +28,30 @@ function loadPlugin(plugin, paths) {
     return [plugin.object, plugin.options];
   }
 
+  const isScopedPlugin = plugin.name.startsWith('@') && plugin.name.includes('/');
+  let scope;
+  let scopedPluginName;
+  if (isScopedPlugin) {
+    const pluginNameParts = plugin.name.split("/");
+    scope = pluginNameParts[0];
+    scopedPluginName = pluginNameParts[1]
+  }
+
   const completePluginNames = [
+    isScopedPlugin && `${scope}/razzle-plugin-${scopedPluginName}`,
+    isScopedPlugin && plugin.name,
     `razzle-plugin-${plugin.name}`,
     `${plugin.name}/razzle-plugin`,
-    plugin.name.includes('/') && plugin.name
   ].filter(Boolean);
 
   // Try to find the plugin in node_modules
   let razzlePlugin = null;
   for (const completePluginName of completePluginNames) {
-    razzlePlugin = require(completePluginName);
+    try {
+      razzlePlugin = require(completePluginName);
+    // eslint-disable-next-line no-empty
+    } catch (error) {}
+    
     if (razzlePlugin) {
       break;
     }
