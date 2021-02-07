@@ -6,6 +6,7 @@ module.exports = {
   buildType: 'iso',
   cssPrefix: 'static/css',
   jsPrefix: 'static/js',
+  enableSourceMaps: true,
   enableReactRefresh: false,
   enableTargetBabelrc: false,
   enableBabelCache: true,

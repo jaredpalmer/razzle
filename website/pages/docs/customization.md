@@ -18,6 +18,7 @@ module.exports = {
     mediaPrefix: 'static/media',
     staticCssInDev: false, // static css in development build (incompatible with css hot reloading)
     browserslist: undefined, // or what your apps package.json says
+    enableSourceMaps: true,
     enableReactRefresh: false,
     enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
     enableBabelCache: true,

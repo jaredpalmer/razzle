@@ -245,7 +245,7 @@ module.exports = (
             },
           },
           // @todo add flag for sourcemaps
-          sourceMap: true,
+          sourceMap: razzleOptions.enableSourceMaps,
         };
       }
     }
@@ -878,13 +878,16 @@ module.exports = (
           minimizer: [
             new TerserPlugin(webpackOptions.terserPluginOptions),
             new CssMinimizerPlugin({
-              sourceMap: true,
-              minify: async (data, inputMap) => {
+              sourceMap: razzleOptions.enableSourceMaps,
+              minimizerOptions: {
+                sourceMap: razzleOptions.enableSourceMaps
+              },
+              minify: async (data, inputMap, minimizerOptions) => {
                 // eslint-disable-next-line global-require
                 const CleanCSS = require('clean-css');
 
                 const [[filename, input]] = Object.entries(data);
-                const minifiedCss = await new CleanCSS({ sourceMap: true }).minify({
+                const minifiedCss = await new CleanCSS({ sourceMap: minimizerOptions.sourceMap }).minify({
                   [filename]: {
                     styles: input,
                     sourceMap: inputMap,
