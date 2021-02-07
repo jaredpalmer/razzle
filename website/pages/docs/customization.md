@@ -213,6 +213,23 @@ module.exports = {
 };
 ```
 
+### Using scoped packages
+
+Razzle supports plugins using scoped packages.
+
+Name your plugin `@scope-name/razzle-plugin-<name>`
+
+And reference it in your `razzle.config.js` as follows
+
+```
+//./razzle.config.js
+module.exports = {
+  plugins: ['@scope-name/name'],
+};
+```
+
+Note that `razzle-plugin-` is omitted
+
 ## Customizing Babel Config
 
 Razzle includes the `razzle/babel` preset to your app, it includes everything needed to compile React applications and server-side code. But if you want to extend the default Babel configs, it's also possible.
