@@ -9,8 +9,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StartServerPlugin = require('razzle-start-server-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const safePostCssParser = require('postcss-safe-parser');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const getClientEnv = require('./env').getClientEnv;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
@@ -182,7 +181,7 @@ module.exports = (
         } else if (process.env.INSPECT) {
           nodeArgs.push(process.env.INSPECT);
         }
-        
+
         webpackOptions.startServerOptions = {
           verbose: razzleOptions.verbose,
           name: 'server.js',
@@ -309,18 +308,14 @@ module.exports = (
     webpackOptions.postCssOptions = {
       ident: 'postcss',
       plugins: [
-        require('postcss-flexbugs-fixes'),
-        [require('postcss-preset-env'), {
-          autoprefixer: {
-            overrideBrowserslist: razzleOptions.browserslist || [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9',
-            ],
-            flexbox: 'no-2009',
-          },
-          stage: 3,
+        [require('autoprefixer'), {
+          overrideBrowserslist: razzleOptions.browserslist || [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9',
+          ],
+          flexbox: 'no-2009',
         }],
       ],
     };
@@ -882,20 +877,7 @@ module.exports = (
           minimize: true,
           minimizer: [
             new TerserPlugin(webpackOptions.terserPluginOptions),
-            new OptimizeCSSAssetsPlugin({
-              cssProcessorOptions: {
-                parser: safePostCssParser,
-                // @todo add flag for sourcemaps
-                map: {
-                  // `inline: false` forces the sourcemap to be output into a
-                  // separate file
-                  inline: false,
-                  // `annotation: true` appends the sourceMappingURL to the end of
-                  // the css file, helping the browser find the sourcemap
-                  annotation: true,
-                },
-              },
-            }),
+
           ],
         }
       }

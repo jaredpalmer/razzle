@@ -17,6 +17,7 @@ const chalk = require('chalk');
 const createConfig = require('../config/createConfigAsync');
 const loadRazzleConfig = require('../config/loadRazzleConfig');
 const printErrors = require('razzle-dev-utils/printErrors');
+const printWarnings = require('razzle-dev-utils/printWarnings');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 const FileSizeReporter = require('razzle-dev-utils/FileSizeReporter');
@@ -52,8 +53,7 @@ loadRazzleConfig(webpack).then(
       .then(
         ({ stats, previousFileSizes, warnings }) => {
           if (warnings.length) {
-            console.log(chalk.yellow('Compiled with warnings.\n'));
-            console.log(warnings.join('\n\n'));
+            printWarnings('Compiled with warnings.', warnings, verbose);
             console.log(
               '\nSearch for the ' +
                 chalk.underline(chalk.yellow('keywords')) +
