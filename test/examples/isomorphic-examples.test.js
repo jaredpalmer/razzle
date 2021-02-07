@@ -22,41 +22,62 @@ const silent = !process.env.NOISY_TESTS;
 
 const examples = ['basic'];
 
-examples.forEach(example => {
-  describe(`tests for ${example}`, () => {
+describe(`tests for isomorphic examples`, () => {
 
-    let tempDir;
+  examples.forEach(example => {
+    describe(`tests for the ${example} example`, () => {
 
-    before(function(done) {
-      this.timeout(10000);
-      mkdtemp(mkdtempTpl, (err, directory) => {
-        tempDir = directory;
-        copy(path.join(rootDir, 'examples', example), tempDir, function(error, results) {
-          if (error) {
-            console.error('Copy failed: ' + error);
-          } else {
-            console.info('Copied ' + results.length + ' files');
-          }
+      let tempDir;
+
+      beforeAll(function(done) {
+        mkdtemp(mkdtempTpl, (err, directory) => {
+          tempDir = directory;
+          copy(path.join(rootDir, 'examples', example), tempDir, function(error, results) {
+            if (error) {
+              console.error('Copy failed: ' + error);
+            } else {
+              console.info('Copied ' + results.length + ' files');
+            }
+            done();
+          })
+        })
+      });
+
+      afterAll(function(done) {
+        fs.remove(tempDir, err => {
+          assert(!err)
+          done();
+        });
+      });
+
+      jest.setTimeout(300000);
+
+      it(`should install packages`, function(done) {
+        execa("yarn", ["install"], {stdio: 'inherit', cwd: tempDir })
+        .then(({exitCode})=>{
+          assert.equal(exitCode, 0)
           done();
         })
-      })
-    });
+      }, 300000);
 
-    after(function(done) {
-      fs.remove(tempDir, err => {
-        assert(!err)
-        done();
+      it(`should build successfully`, function(done) {
+        execa("yarn", ["build"], {stdio: 'inherit', cwd: tempDir })
+        .then(({exitCode})=>{
+          assert.equal(exitCode, 0)
+          done();
+        })
       });
+
+      jest.setTimeout(300000);
+
+      it(`should start devserver and exit`, function(done) {
+        execa("yarn", ["start"], {stdio: 'inherit', cwd: tempDir })
+        .then(({exitCode})=>{
+          assert.equal(exitCode, 0)
+          done();
+        })
+      }, 300000);
+
     });
-
-    it(`should install packages for the ${example} example`, function(done) {
-       this.timeout(300000);
-       execa("yarn", ["install"], {stdio: 'inherit', cwd: tempDir })
-      .then(({exitCode})=>{
-        assert.equal(exitCode, 0)
-        done();
-      })
-    })
   });
-
 });
