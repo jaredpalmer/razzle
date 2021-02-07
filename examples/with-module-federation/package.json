@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "razzle-examples-with-module-federation",
-  "version": "4.0.0-canary.42",
+  "version": "4.0.0-canary.43",
   "license": "MIT",
   "scripts": {
     "start-1": "cross-env RAZZLE_APP_PATH=basic-1 razzle start",
@@ -23,11 +23,11 @@
   "devDependencies": {
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
-    "razzle": "4.0.0-canary.42",
-    "razzle-dev-utils": "4.0.0-canary.42",
+    "razzle": "4.0.0-canary.43",
+    "razzle-dev-utils": "4.0.0-canary.43",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^5.16.0",
-    "babel-preset-razzle": "4.0.0-canary.42",
+    "babel-preset-razzle": "4.0.0-canary.43",
     "webpack-dev-server": "^3.11.2"
   }
 }

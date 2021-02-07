@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-mdx",
-  "version": "4.0.0-canary.42",
+  "version": "4.0.0-canary.43",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
@@ -14,12 +14,12 @@
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.42",
-    "razzle-dev-utils": "4.0.0-canary.42",
-    "razzle-plugin-mdx": "4.0.0-canary.42",
+    "razzle": "4.0.0-canary.43",
+    "razzle-dev-utils": "4.0.0-canary.43",
+    "razzle-plugin-mdx": "4.0.0-canary.43",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.42",
+    "babel-preset-razzle": "4.0.0-canary.43",
     "webpack-dev-server": "^3.11.2"
   }
 }
