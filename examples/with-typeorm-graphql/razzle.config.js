@@ -3,6 +3,7 @@
 module.exports = {
   options: {
     verbose: true,
+    enableSourceMaps: false
     // enableTargetBabelrc: true
   },
   modifyWebpackConfig({
@@ -37,7 +38,7 @@ module.exports = {
     },
     paths, // the modified paths that will be used by Razzle.
   }) {
-  
+
     return webpackOptions;
   },
   //plugins: [{name:'typescript'}]

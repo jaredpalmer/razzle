@@ -285,6 +285,7 @@ module.exports = (
           loader: require.resolve('./babel-loader/razzle-babel-loader'),
           options: {
             verbose: razzleOptions.verbose,
+            sourceMaps: razzleOptions.enableSourceMaps,
             isServer: IS_NODE,
             cwd: paths.appPath,
             cache: razzleOptions.enableBabelCache,
@@ -307,6 +308,7 @@ module.exports = (
 
     webpackOptions.postCssOptions = {
       ident: 'postcss',
+      sourceMap: razzleOptions.enableSourceMaps,
       plugins: [
         [require('autoprefixer'), {
           overrideBrowserslist: razzleOptions.browserslist || [
@@ -462,7 +464,7 @@ module.exports = (
       // Specify target (either 'node' or 'web')
       target: target,
       // Controversially, decide on sourcemaps.
-      devtool: IS_DEV ? 'cheap-module-source-map' : 'source-map',
+      devtool: IS_DEV ? 'cheap-module-source-map' : razzleOptions.enableSourceMaps ? 'source-map' : false,
       // We need to tell webpack how to resolve both Razzle's node_modules and
       // the users', so we use resolve and resolveLoader.
       resolve: {
@@ -566,6 +568,7 @@ module.exports = (
               {
                 loader: require.resolve('css-loader'),
                 options: {
+                  sourceMap: razzleOptions.enableSourceMaps,
                   importLoaders: 1,
                   modules: {
                     auto: true,
@@ -896,7 +899,7 @@ module.exports = (
 
                 return {
                   css: minifiedCss.styles,
-                  map: minifiedCss.sourceMap.toJSON(),
+                  map: minifiedCss.sourceMap ? minifiedCss.sourceMap.toJSON() : '',
                   warnings: minifiedCss.warnings,
                 };
               },

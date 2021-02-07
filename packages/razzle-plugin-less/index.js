@@ -19,6 +19,7 @@ module.exports = {
     const isServer = opts.env.target !== 'web';
     const constantEnv = opts.env.dev ? 'dev' : 'prod';
 
+    const razzleOptions = opts.options.razzleOptions;
     const config = Object.assign({}, opts.webpackConfig);
 
     const defaultOptions = {
@@ -28,7 +29,7 @@ module.exports = {
           ident: 'postcss',
         },
         prod: {
-          sourceMap: false,
+          sourceMap: razzleOptions.enableSourceMaps,
           ident: 'postcss',
         },
         plugins: [
@@ -51,7 +52,7 @@ module.exports = {
         prod: {
           // XXX Source maps are required for the resolve-url-loader to properly
           // function. Disable them in later stages if you do not want source maps.
-          sourceMap: true,
+          sourceMap: razzleOptions.enableSourceMaps,
           sourceMapContents: false,
           includePaths: [paths.appNodeModules],
         },
@@ -66,7 +67,7 @@ module.exports = {
           },
         },
         prod: {
-          sourceMap: false,
+          sourceMap: razzleOptions.enableSourceMaps,
           importLoaders: 1,
           modules: {
             auto: true,
