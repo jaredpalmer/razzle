@@ -877,7 +877,27 @@ module.exports = (
           minimize: true,
           minimizer: [
             new TerserPlugin(webpackOptions.terserPluginOptions),
+            new CssMinimizerPlugin({
+              sourceMap: true,
+              minify: async (data, inputMap) => {
+                // eslint-disable-next-line global-require
+                const CleanCSS = require('clean-css');
 
+                const [[filename, input]] = Object.entries(data);
+                const minifiedCss = await new CleanCSS({ sourceMap: true }).minify({
+                  [filename]: {
+                    styles: input,
+                    sourceMap: inputMap,
+                  },
+                });
+
+                return {
+                  css: minifiedCss.styles,
+                  map: minifiedCss.sourceMap.toJSON(),
+                  warnings: minifiedCss.warnings,
+                };
+              },
+            })
           ],
         }
       }
