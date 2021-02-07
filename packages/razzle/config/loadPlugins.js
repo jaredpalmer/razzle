@@ -28,7 +28,7 @@ function loadPlugin(plugin, paths) {
     return [plugin.object, plugin.options];
   }
 
-  const isScopedPlugin = plugin.name.includes('/');
+  const isScopedPlugin = plugin.name.startsWith('@') && plugin.name.includes('/');
   let scope;
   let scopedPluginName;
   if (isScopedPlugin) {
