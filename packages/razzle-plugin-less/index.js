@@ -52,7 +52,7 @@ module.exports = {
         prod: {
           // XXX Source maps are required for the resolve-url-loader to properly
           // function. Disable them in later stages if you do not want source maps.
-          sourceMap: razzleOptions.enableSourceMaps,
+          sourceMap: true,
           sourceMapContents: false,
           includePaths: [paths.appNodeModules],
         },
