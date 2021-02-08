@@ -7,7 +7,6 @@ const ReactServerWebpackPlugin = require('react-server-dom-webpack/plugin');
 module.exports = {
   options: {
     verbose: true,
-    // enableTargetBabelrc: true
   },
   modifyPaths(opts) {
     const paths = opts.paths;
