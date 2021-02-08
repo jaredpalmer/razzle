@@ -30,7 +30,6 @@ module.exports = {
       options.jsOutputFilename = `[name].server.js`;
       options.jsOutputChunkFilename = `[name].chunk.server.js`;
     }
-
     return options;
   },
   modifyWebpackConfig(opts) {
@@ -50,6 +49,9 @@ module.exports = {
       config.plugins = config.plugins.concat([
         new ReactServerWebpackPlugin({isServer: false})
       ]);
+      if (!opts.env.dev) {
+        config.optimization = {minimize: false};
+      }
     }
     if (opts.env.target === 'web' && opts.env.dev) {
       config.devServer.writeToDisk = true;

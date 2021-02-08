@@ -35,6 +35,6 @@
     "webpack-dev-server": "^3.11.2"
   },
   "razzle_meta": {
-    "nohoist": ["react","react-dom","react-fetch","react-fs","react-server-dom-webpack"]
+    "nohoist": ["react","react-dom","react-fetch","react-fs","react-server-dom-webpack","webpack"]
   }
 }
