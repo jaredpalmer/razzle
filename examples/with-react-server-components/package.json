@@ -6,7 +6,7 @@
     "start": "razzle start  --conditions=react-server server",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production node build/server.js --conditions=react-server server"
+    "start:prod": "NODE_ENV=production node --conditions react-server build/server.server.js"
   },
   "dependencies": {
     "better-sqlite3": "^7.1.2",

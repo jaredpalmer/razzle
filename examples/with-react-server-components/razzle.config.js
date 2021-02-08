@@ -2,6 +2,7 @@
 
 const path = require('path');
 const { StatsWriterPlugin } = require("webpack-stats-plugin")
+const ReactServerWebpackPlugin = require('react-server-dom-webpack/plugin');
 
 module.exports = {
   options: {
@@ -25,6 +26,10 @@ module.exports = {
     if (opts.env.target === 'node' && opts.env.dev) {
       options.startServerOptions.nodeArgs.push('--conditions react-server');
     }
+    if (opts.env.target === 'node') {
+      options.jsOutputFilename = `[name].server.js`;
+      options.jsOutputChunkFilename = `[name].chunk.server.js`;
+    }
 
     return options;
   },
@@ -41,6 +46,11 @@ module.exports = {
       ]);
     }
 
+    if (opts.env.target === 'node') {
+      config.plugins = config.plugins.concat([
+        new ReactServerWebpackPlugin({isServer: false})
+      ]);
+    }
     if (opts.env.target === 'web' && opts.env.dev) {
       config.devServer.writeToDisk = true;
     }

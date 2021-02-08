@@ -20,7 +20,7 @@ const path = require('path');
 const React = require('react');
 const ReactApp = require('./App.server').default;
 
-const { db } = require('db.server');
+const { db } = require('./db.server');
 
 const getapp = async function() {
 
