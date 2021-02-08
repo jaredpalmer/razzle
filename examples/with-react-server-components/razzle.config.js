@@ -6,7 +6,7 @@ const { StatsWriterPlugin } = require("webpack-stats-plugin")
 module.exports = {
   options: {
     verbose: true,
-    enableTargetBabelrc: true
+    // enableTargetBabelrc: true
   },
   modifyPaths(opts) {
     const paths = opts.paths;
@@ -22,6 +22,9 @@ module.exports = {
     if (opts.env.target === 'web') {
       options.enableHtmlWebpackPlugin = true;
     }
+    if (opts.env.target === 'node' && opts.env.dev) {
+      options.startServerOptions.nodeArgs.push('--conditions react-server');
+    }
 
     return options;
   },
@@ -33,7 +36,7 @@ module.exports = {
       config.plugins = config.plugins.concat([
         // Write out stats file to build directory.
         new StatsWriterPlugin({
-          filename: "../stats.json" // Default
+          filename: "../react-client-manifest.json" // Default
         })
       ]);
     }

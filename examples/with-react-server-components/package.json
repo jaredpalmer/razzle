@@ -3,15 +3,26 @@
   "version": "4.0.0-canary.44",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start",
+    "start": "razzle start  --conditions=react-server server",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production node build/server.js"
+    "start:prod": "NODE_ENV=production node build/server.js --conditions=react-server server"
   },
   "dependencies": {
+    "better-sqlite3": "^7.1.2",
     "express": "^4.17.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "0.0.0-experimental-3310209d0",
+    "react-dom": "0.0.0-experimental-3310209d0",
+    "react-error-boundary": "^3.1.0",
+    "react-fetch": "0.0.0-experimental-3310209d0",
+    "react-fs": "0.0.0-experimental-3310209d0",
+    "react-server-dom-webpack": "0.0.0-experimental-3310209d0",
+    "date-fns": "^2.16.1",
+    "excerpts": "^0.0.3",
+    "marked": "^1.2.5",
+    "resolve": "1.12.0",
+    "rimraf": "^3.0.2",
+    "sanitize-html": "^2.2.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
@@ -22,5 +33,8 @@
     "webpack": "^4.44.1",
     "babel-preset-razzle": "4.0.0-canary.44",
     "webpack-dev-server": "^3.11.2"
+  },
+  "razzle_meta": {
+    "nohoist": ["react","react-dom","react-fetch","react-fs","react-server-dom-webpack"]
   }
 }
