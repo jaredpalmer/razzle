@@ -23,7 +23,7 @@ module.exports = {
       options.enableHtmlWebpackPlugin = true;
     }
     if (opts.env.target === 'node' && opts.env.dev) {
-      options.startServerOptions.nodeArgs.push('--conditions react-server');
+      options.startServerOptions.nodeArgs.push('--conditions=react-server');
     }
     if (opts.env.target === 'node') {
       options.jsOutputFilename = `[name].server.js`;
@@ -37,6 +37,7 @@ module.exports = {
     // Enable StatsWriterPlugin
     if (opts.env.target === 'web') {
       config.plugins = config.plugins.concat([
+        new ReactServerWebpackPlugin({isServer: false}),
         // Write out stats file to build directory.
         new StatsWriterPlugin({
           filename: "../react-client-manifest.json" // Default
@@ -45,9 +46,6 @@ module.exports = {
     }
 
     if (opts.env.target === 'node') {
-      config.plugins = config.plugins.concat([
-        new ReactServerWebpackPlugin({isServer: false})
-      ]);
       if (!opts.env.dev) {
         config.optimization = {minimize: false};
       }

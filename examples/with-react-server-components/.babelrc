@@ -1,0 +1,6 @@
+{
+  "presets": [
+    ["react-app", { "runtime" : "automatic" }]
+  ],
+  "plugins": ["@babel/transform-modules-commonjs"]
+}

@@ -3,14 +3,15 @@
   "version": "4.0.0-canary.44",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start  --conditions=react-server server",
+    "start": "razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production node --conditions react-server build/server.server.js"
+    "start:prod": "NODE_ENV=production node --conditions=react-server build/server.server.js"
   },
   "dependencies": {
     "better-sqlite3": "^7.1.2",
     "express": "^4.17.1",
+    "babel-preset-react-app": "10.0.0",
     "react": "0.0.0-experimental-3310209d0",
     "react-dom": "0.0.0-experimental-3310209d0",
     "react-error-boundary": "^3.1.0",
