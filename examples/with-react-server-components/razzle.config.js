@@ -54,14 +54,14 @@ module.exports = {
             loader: require.resolve('./plugin/ReactFlightWebpackLoader'),
           }],...options.babelRule.use]
       })
-      if (!opts.env.dev) {
-        config.optimization = {minimize: false};
-      }
     }
     if (opts.env.target === 'web' && opts.env.dev) {
       config.devServer.writeToDisk = true;
     }
 
+    if (!opts.env.dev) {
+      config.optimization = {...config.optimization, ...{minimize: false}};
+    }
     return config;
   },
 }
