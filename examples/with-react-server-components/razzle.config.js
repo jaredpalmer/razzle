@@ -12,8 +12,7 @@ module.exports = {
   },
   modifyPaths(opts) {
     const paths = opts.paths;
-    paths.appServerJs = path.join(paths.appPath, 'src/cli.server');
-    paths.appServerIndexJs = path.join(paths.appPath, 'src/index.server');
+    paths.appServerIndexJs = path.join(paths.appPath, 'src/cli.server');
     paths.appClientIndexJs = path.join(paths.appPath, 'src/index.client');
     return paths;
   },

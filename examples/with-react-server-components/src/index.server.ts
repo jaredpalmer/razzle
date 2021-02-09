@@ -97,7 +97,7 @@ app.on('error', function (error) {
 async function waitForWebpack() {
   while (true) {
     try {
-      readFileSync(path.resolve(__dirname, '../build/index.html'));
+      readFileSync(path.resolve(__dirname, '../build/public/index.html'));
       return;
     } catch (err) {
       console.log(
