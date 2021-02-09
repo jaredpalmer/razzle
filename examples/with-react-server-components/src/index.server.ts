@@ -7,6 +7,17 @@ import path from 'path';
 import React from 'react';
 import ReactApp from './App.server';
 
+const { db } = require('./db.server');
+
+
+db.exec(`CREATE TABLE IF NOT EXISTS notes (
+  id SERIAL PRIMARY KEY,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  title TEXT,
+  body TEXT
+);`);
+
 const app = express();
 
 app.use(compress());
@@ -66,6 +77,73 @@ app.get('/react', function (req, res) {
   sendResponse(req, res, null);
 });
 
+const NOTES_PATH = path.resolve(__dirname, '../notes');
+
+app.post(
+  '/notes',
+  handleErrors(async function(req, res) {
+    const now = new Date();
+    const insert = db.prepare(
+      'INSERT INTO notes (title, body, created_at, updated_at) VALUES (?, ?, ?, ?)').bind(
+        req.body.title, req.body.body, now.toISOString().split('T')[0], now.toISOString().split('T')[0]
+      )
+      const getid = db.prepare('SELECT last_insert_rowid()')
+      const insertGetId = db.transaction(() => {
+        insert.run();
+        return getid.pluck().get();
+      })
+      const insertedId = insertGetId();
+      await writeFile(
+        path.resolve(NOTES_PATH, `${insertedId}.md`),
+        req.body.body,
+        'utf8'
+      );
+      sendResponse(req, res, insertedId);
+    })
+  );
+
+app.put(
+  '/notes/:id',
+  handleErrors(async function(req, res) {
+    const now = new Date();
+    const updatedId = Number(req.params.id);
+    const update = db.prepare(
+      'UPDATE notes set title = ?, body = ?, updated_at = ? WHERE id = ?').bind(
+        req.body.title, req.body.body, now.toISOString().split('T')[0], updatedId
+      ).run();
+      await writeFile(
+        path.resolve(NOTES_PATH, `${updatedId}.md`),
+        req.body.body,
+        'utf8'
+      );
+      sendResponse(req, res, null);
+    })
+  );
+
+app.delete(
+  '/notes/:id',
+  handleErrors(async function(req, res) {
+    db.prepare('DELETE FROM notes where id = ?').bind(req.params.id).run();
+    await unlink(path.resolve(NOTES_PATH, `${req.params.id}.md`));
+    sendResponse(req, res, null);
+  })
+);
+
+app.get(
+  '/notes',
+  handleErrors(async function(_req, res) {
+    const rows = db.prepare('SELECT * FROM notes ORDER BY id DESC').all();
+    res.json(rows);
+  })
+);
+
+app.get(
+  '/notes/:id',
+  handleErrors(async function(req, res) {
+    const row = db.prepare('SELECT * FROM notes WHERE id = ?').bind(req.params.id).get();;
+    res.json(row);
+  })
+);
 app.get('/sleep/:ms', function (req, res) {
   setTimeout(() => {
     res.json({ ok: true });
