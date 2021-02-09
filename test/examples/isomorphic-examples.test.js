@@ -211,10 +211,12 @@ describe(`tests for isomorphic examples`, () => {
       jest.setTimeout(300000);
 
       it(`should start devserver and exit`, async function(done) {
-        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir })
         await new Promise((r) => setTimeout(r, 5000));
+
+        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir })
+        await new Promise((r) => setTimeout(r, 10000));
         await page.goto('http://localhost:3000/');
-        await page.screenshot({ path: 'example.png' });
+        await page.screenshot({ path: `${example}.png` });
         await page.goto('https://google.com');
 
         terminate(subprocess.pid, 'SIGINT', { timeout: 1000 }, () => {
