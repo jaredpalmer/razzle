@@ -6,8 +6,7 @@
  *
  */
 
-import os from 'os'
 import path from 'path'
 import sqlite from 'better-sqlite3'
 
-export const db = sqlite(path.join(os.cwd(), 'db.sqlite3'))
+export const db = sqlite(path.join(process.cwd(), 'db.sqlite3'))

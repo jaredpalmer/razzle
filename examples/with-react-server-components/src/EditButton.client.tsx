@@ -1,16 +1,8 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
+import { unstable_useTransition } from 'react';
 
-import {unstable_useTransition} from 'react';
+import { useLocation } from './LocationContext.client';
 
-import {useLocation} from './LocationContext.client';
-
-export default function EditButton({noteId, children}) {
+export default function EditButton({ noteId, children }) {
   const [, setLocation] = useLocation();
   const [startTransition, isPending] = unstable_useTransition();
   const isDraft = noteId == null;
@@ -30,7 +22,8 @@ export default function EditButton({noteId, children}) {
           }));
         });
       }}
-      role="menuitem">
+      role="menuitem"
+    >
       {children}
     </button>
   );

@@ -6,12 +6,12 @@
  *
  */
 
-export default function Spinner({active = true}) {
+import TextWithMarkdown from './TextWithMarkdown';
+
+export default function NotePreview({ body }) {
   return (
-    <div
-      className={['spinner', active && 'spinner--active'].join(' ')}
-      role="progressbar"
-      aria-busy={active ? 'true' : 'false'}
-    />
+    <div className="note-preview">
+      <TextWithMarkdown text={body} />
+    </div>
   );
 }

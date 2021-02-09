@@ -20,10 +20,10 @@ const allowedAttributes = Object.assign(
   sanitizeHtml.defaults.allowedAttributes,
   {
     img: ['alt', 'src'],
-  }
+  },
 );
 
-export default function TextWithMarkdown({text}) {
+export default function TextWithMarkdown({ text }) {
   return (
     <div
       className="text-with-markdown"

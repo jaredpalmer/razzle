@@ -6,14 +6,14 @@
  *
  */
 
-import {useState, unstable_useTransition} from 'react';
-import {createFromReadableStream} from 'react-server-dom-webpack';
+import { useState, unstable_useTransition } from 'react';
+import { createFromReadableStream } from 'react-server-dom-webpack';
 
 import NotePreview from './NotePreview';
-import {useRefresh} from './Cache.client';
-import {useLocation} from './LocationContext.client';
+import { useRefresh } from './Cache.client';
+import { useLocation } from './LocationContext.client';
 
-export default function NoteEditor({noteId, initialTitle, initialBody}) {
+export default function NoteEditor({ noteId, initialTitle, initialBody }) {
   const refresh = useRefresh();
   const [title, setTitle] = useState(initialTitle);
   const [body, setBody] = useState(initialBody);
@@ -29,7 +29,7 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
   });
 
   async function handleSave() {
-    const payload = {title, body};
+    const payload = { title, body };
     const requestedLocation = {
       selectedId: noteId,
       isEditing: false,
@@ -66,7 +66,8 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
       <form
         className="note-editor-form"
         autoComplete="off"
-        onSubmit={(e) => e.preventDefault()}>
+        onSubmit={(e) => e.preventDefault()}
+      >
         <label className="offscreen" htmlFor="note-title-input">
           Enter a title for your note
         </label>
@@ -95,7 +96,8 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
             className="note-editor-done"
             disabled={isSaving || isNavigating}
             onClick={() => handleSave()}
-            role="menuitem">
+            role="menuitem"
+          >
             <img
               src="checkmark.svg"
               width="14px"
@@ -110,7 +112,8 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
               className="note-editor-delete"
               disabled={isDeleting || isNavigating}
               onClick={() => handleDelete()}
-              role="menuitem">
+              role="menuitem"
+            >
               <img
                 src="cross.svg"
                 width="10px"
@@ -132,7 +135,7 @@ export default function NoteEditor({noteId, initialTitle, initialBody}) {
   );
 }
 
-function useMutation({endpoint, method}) {
+function useMutation({ endpoint, method }) {
   const [isSaving, setIsSaving] = useState(false);
   const [didError, setDidError] = useState(false);
   const [error, setError] = useState(null);
@@ -146,7 +149,7 @@ function useMutation({endpoint, method}) {
     try {
       const response = await fetch(
         `${endpoint}?location=${encodeURIComponent(
-          JSON.stringify(requestedLocation)
+          JSON.stringify(requestedLocation),
         )}`,
         {
           method,
@@ -154,7 +157,7 @@ function useMutation({endpoint, method}) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error(await response.text());

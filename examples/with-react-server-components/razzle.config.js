@@ -2,11 +2,13 @@
 
 const path = require('path');
 const { StatsWriterPlugin } = require("webpack-stats-plugin")
-const ReactServerWebpackPlugin = require('react-server-dom-webpack/plugin');
+const ReactServerWebpackPlugin = require('./plugin/ReactFlightWebpackPlugin')
+  .default;
 
 module.exports = {
   options: {
     verbose: true,
+    enableBabelCache: false,
   },
   modifyPaths(opts) {
     const paths = opts.paths;
@@ -33,7 +35,7 @@ module.exports = {
   },
   modifyWebpackConfig(opts) {
     const config = opts.webpackConfig;
-
+    const options = opts.options.webpackOptions;
     // Enable StatsWriterPlugin
     if (opts.env.target === 'web') {
       config.plugins = config.plugins.concat([
@@ -46,6 +48,14 @@ module.exports = {
     }
 
     if (opts.env.target === 'node') {
+      config.module.rules.unshift({
+        ...options.babelRule,
+        test: /\.client.(js|jsx|ts|tsx)?$/,
+        use: [...[
+          {
+            loader: require.resolve('./plugin/ReactFlightWebpackLoader'),
+          }],...options.babelRule.use]
+      })
       if (!opts.env.dev) {
         config.optimization = {minimize: false};
       }

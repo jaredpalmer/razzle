@@ -6,21 +6,15 @@
  *
  */
 
-import {fetch} from 'react-fetch';
+import { fetch } from 'react-fetch';
 
-import {db} from './db.server';
+import { searchNotes } from './db.server';
 import SidebarNote from './SidebarNote';
 
-export default function NoteList({searchText}) {
+export default function NoteList({ searchText }) {
   // const notes = fetch('http://localhost:4000/notes').json();
 
-  // WARNING: This is for demo purposes only.
-  // We don't encourage this in real apps. There are far safer ways to access
-  // data in a real application!
-  const notes = db.query(
-    `select * from notes where title ilike $1 order by id desc`,
-    ['%' + searchText + '%']
-  ).rows;
+  const notes = searchNotes(searchText);
 
   // Now let's see how the Suspense boundary above lets us not block on this.
   // fetch('http://localhost:4000/sleep/3000');
