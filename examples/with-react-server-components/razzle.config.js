@@ -36,14 +36,13 @@ module.exports = {
   modifyWebpackConfig(opts) {
     const config = opts.webpackConfig;
     const options = opts.options.webpackOptions;
+
+    config.output.futureEmitAssets = true;
+
     // Enable StatsWriterPlugin
     if (opts.env.target === 'web') {
       config.plugins = config.plugins.concat([
-        new ReactServerWebpackPlugin({isServer: false}),
-        // Write out stats file to build directory.
-        new StatsWriterPlugin({
-          filename: "../react-client-manifest.json" // Default
-        })
+        new ReactServerWebpackPlugin({isServer: false})
       ]);
     }
 

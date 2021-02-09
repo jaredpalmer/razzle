@@ -27,7 +27,7 @@ app.get(
   handleErrors(async function (_req, res) {
     await waitForWebpack();
     const html = readFileSync(
-      path.resolve(__dirname, '../build/index.html'),
+      path.resolve(__dirname, '../build/public/index.html'),
       'utf8',
     );
 
@@ -41,7 +41,7 @@ app.get(
 async function renderReactTree(res, props) {
   await waitForWebpack();
   const manifest = readFileSync(
-    path.resolve(__dirname, '../build/react-client-manifest.json'),
+    path.resolve(__dirname, '../build/public/react-client-manifest.json'),
     'utf8',
   );
   const moduleMap = JSON.parse(manifest);
@@ -72,7 +72,7 @@ app.get('/sleep/:ms', function (req, res) {
   }, req.params.ms);
 });
 
-app.use(express.static('build'));
+app.use(express.static('build/public'));
 app.use(express.static('public'));
 
 app.on('error', function (error) {
