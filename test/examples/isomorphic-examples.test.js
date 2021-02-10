@@ -9,6 +9,7 @@ const terminate = require('terminate');
 const assert = require('assert');
 const os = require('os');
 const fs = require('fs-extra');
+const rfs = require('fs');
 const execa = require('execa');
 const util = require('util');
 const glob = util.promisify(require('glob'));
@@ -163,8 +164,10 @@ describe(`tests for isomorphic examples`, () => {
 
   examples.forEach(exampleinfo => {
     const example=exampleinfo.example;
-    describe(`tests for the ${example} example`, () => {
 
+
+
+    describe(`tests for the ${example} example`, () => {
       let tempDir;
 
       beforeAll(async function(done) {
@@ -182,7 +185,7 @@ describe(`tests for isomorphic examples`, () => {
         })
       });
 
-      afterAll(function(done) {
+      afterAll(async function(done) {
         fs.remove(tempDir, err => {
           assert(!err)
           done();
@@ -191,17 +194,19 @@ describe(`tests for isomorphic examples`, () => {
 
       jest.setTimeout(300000);
 
-      it(`should install packages`, function(done) {
-        execa("yarn", ["install"], {stdio: stdio, cwd: tempDir })
-        .then(({exitCode})=>{
+      it(`should install packages`,  async function(done) {
+        const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: true })
+        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-install.txt`))
+        subprocess.then(({exitCode})=>{
           assert.equal(exitCode, 0)
           done();
         })
       }, 300000);
 
       it(`should build successfully`, async function(done) {
-        execa("yarn", ["build"], {stdio: stdio, cwd: tempDir })
-        .then(({exitCode})=>{
+        const subprocess = execa("yarn", ["build"], {stdio: stdio, cwd: tempDir, all: true  })
+        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-build.txt`))
+        subprocess.then(({exitCode})=>{
           assert.equal(exitCode, 0)
 
           done();
@@ -213,7 +218,9 @@ describe(`tests for isomorphic examples`, () => {
       it(`should start devserver and exit`, async function(done) {
         await new Promise((r) => setTimeout(r, 5000));
 
-        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir })
+        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: true  })
+        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-start.txt`))
+
         await new Promise((r) => setTimeout(r, 10000));
         await page.goto('http://localhost:3000/');
         await page.screenshot({ path: `${example}.png` });
