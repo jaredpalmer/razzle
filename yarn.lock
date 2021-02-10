@@ -9948,6 +9948,15 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+leaked-handles@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/leaked-handles/-/leaked-handles-5.2.0.tgz#67228e90293b7e0ee36c4190e1f541cddece627f"
+  integrity sha1-ZyKOkCk7fg7jbEGQ4fVBzd7OYn8=
+  dependencies:
+    process "^0.10.0"
+    weakmap-shim "^1.1.0"
+    xtend "^4.0.0"
+
 lerna-changelog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/lerna-changelog/-/lerna-changelog-1.0.1.tgz#53090ab7f047730ec88d32087762164626269d3a"
@@ -12798,6 +12807,11 @@ process@0.11.10, process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
+
+process@^0.10.0:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/process/-/process-0.10.1.tgz#842457cc51cfed72dc775afeeafb8c6034372725"
+  integrity sha1-hCRXzFHP7XLcd1r+6vuMYDQ3JyU=
 
 progress@^2.0.0, progress@^2.0.1:
   version "2.0.3"
@@ -16261,6 +16275,11 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
+
+weakmap-shim@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/weakmap-shim/-/weakmap-shim-1.1.1.tgz#d65afd784109b2166e00ff571c33150ec2a40b49"
+  integrity sha1-1lr9eEEJshZuAP9XHDMVDsKkC0k=
 
 web-namespaces@^1.0.0:
   version "1.1.4"

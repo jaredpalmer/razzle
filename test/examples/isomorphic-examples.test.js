@@ -1,7 +1,19 @@
 /**
 * @jest-environment node
+*
+* Theese test checks that the examples installs with packages from npm,
+* that they build, the dev server runs as expected and is reachable at port 3000
 */
 'use strict';
+//
+//
+//
+// require('leaked-handles').set({
+//     fullStack: true, // use full stack traces
+//     timeout: 30000, // run every 30 seconds instead of 5.
+//     debugSockets: true // pretty print tcp thrown exceptions.
+// });
+
 
 const puppeteer = require('puppeteer');
 const terminate = require('terminate');
@@ -11,6 +23,7 @@ const os = require('os');
 const fs = require('fs-extra');
 const rfs = require('fs');
 const execa = require('execa');
+const killport = require('kill-port');
 const util = require('util');
 const glob = util.promisify(require('glob'));
 
@@ -23,14 +36,17 @@ const directoryExists = (dirPath) => fs.existsSync(dirPath) && fs.lstatSync(dirP
 const fileExists = (dirPath) => fs.existsSync(dirPath);
 
 const rootDir = path.join(path.resolve(__dirname), '..', '..');
+const testArtifactsDir = path.join(rootDir, 'test-artifacts');
 
 const silent = !process.env.NOISY_TESTS;
 const stdio = 'pipe';
 
+const writeLogs = false;
+
 let examples = [
       { example: 'basic', path: 'examples/basic' },
       { example: 'basic-spa', path: 'examples/basic-spa' },
-      { example: 'with-afterjs', path: 'examples/with-afterjs' },
+      // { example: 'with-afterjs', path: 'examples/with-afterjs' },
       {
         example: 'with-custom-babel-config',
         path: 'examples/with-custom-babel-config'
@@ -149,6 +165,7 @@ let page;
 beforeAll(async function(done) {
   browser = await puppeteer.launch();
   page = await browser.newPage();
+  await fs.ensureDir(testArtifactsDir);
   // const res = await glob('examples/*')
   // examples=res.map(ex=>({example: ex.split('/')[1], path: ex}))
   // console.log(examples)
@@ -165,20 +182,18 @@ describe(`tests for isomorphic examples`, () => {
   examples.forEach(exampleinfo => {
     const example=exampleinfo.example;
 
-
-
     describe(`tests for the ${example} example`, () => {
       let tempDir;
 
       beforeAll(async function(done) {
 
-          mkdtemp(mkdtempTpl, (err, directory) => {
+        mkdtemp(mkdtempTpl, (err, directory) => {
           tempDir = directory;
-          copy(path.join(rootDir, exampleinfo.path), tempDir, function(error, results) {
+          copy(path.join(rootDir, exampleinfo.path),  tempDir, { dot: true },function(error, results) {
             if (error) {
               console.error('Copy failed: ' + error);
             } else {
-              console.info('Copied ' + results.length + ' files');
+              // console.info('Copied ' + results.length + ' files');
             }
             done();
           })
@@ -186,6 +201,12 @@ describe(`tests for isomorphic examples`, () => {
       });
 
       afterAll(async function(done) {
+        await new Promise((r) => setTimeout(r, 3000));
+        execa.command(`lsof -i :3000 | awk '{print $2}' | xargs kill -2`, { shell: true })
+        execa.command(`lsof -i :3001 | awk '{print $2}' | xargs kill -2`, { shell: true })
+        execa.command(`lsof -i :3002 | awk '{print $2}' | xargs kill -2`, { shell: true })
+        execa.command(`lsof -i :3003 | awk '{print $2}' | xargs kill -2`, { shell: true })
+        await new Promise((r) => setTimeout(r, 3000));
         fs.remove(tempDir, err => {
           assert(!err)
           done();
@@ -195,57 +216,82 @@ describe(`tests for isomorphic examples`, () => {
       jest.setTimeout(300000);
 
       it(`should install packages`,  async function(done) {
-        const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: true })
-        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-install.txt`))
+        const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+
+        if (writeLogs) {
+          const write = rfs.createWriteStream(
+            path.join(testArtifactsDir, `${example}-yarn-install.txt`));
+          subprocess.all.pipe(write);
+        }
+
         subprocess.then(({exitCode})=>{
           assert.equal(exitCode, 0)
           done();
         })
+        await subprocess;
       }, 300000);
 
       it(`should build successfully`, async function(done) {
-        const subprocess = execa("yarn", ["build"], {stdio: stdio, cwd: tempDir, all: true  })
-        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-build.txt`))
+        const subprocess = execa("yarn", ["build"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+
+        if (writeLogs) {
+          const write = rfs.createWriteStream(
+            path.join(testArtifactsDir, `${example}-yarn-build.txt`));
+          subprocess.all.pipe(write);
+        }
+
         subprocess.then(({exitCode})=>{
           assert.equal(exitCode, 0)
-
           done();
         })
+        await subprocess;
       }, 300000);
 
       jest.setTimeout(300000);
 
       it(`should start devserver and exit`, async function(done) {
-        await new Promise((r) => setTimeout(r, 5000));
 
-        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: true  })
-        subprocess.all.pipe(rfs.createWriteStream(`${example}-yarn-start.txt`))
+        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: writeLogs })
 
-        await new Promise((r) => setTimeout(r, 10000));
-        await page.goto('http://localhost:3000/');
-        await page.screenshot({ path: `${example}.png` });
-        await page.goto('https://google.com');
+        if (writeLogs) {
+          const write = rfs.createWriteStream(
+            path.join(testArtifactsDir, `${example}-yarn-start.txt`));
+          subprocess.all.pipe(write);
+        }
 
-        terminate(subprocess.pid, 'SIGINT', { timeout: 1000 }, () => {
-          terminate(subprocess.pid);
-          done();
-        });
+        let resolved = false;
+        let timer;
 
-        // subprocess.then(({killed})=>{
-        //   assert.equal(killed, true)
-        // })
+        await new Promise(async (r) =>{
+          console.info(`yarn start for ${example} `);
+          const waitForData = data => {
+            if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
+              resolved = true;
+              subprocess.off('data', waitForData)
+              clearTimeout(timer);
+              r();
+            }
+          }
+          timer = setTimeout(function() {
+            if (!resolved) {
+              subprocess.off('data', waitForData)
+              r();
+            }
+          }, 15000)
+          subprocess.stdout.on('data', waitForData);
+          await subprocess;
+        })
+        assert.ok(resolved, `yarn start for ${example} failed`);
+
+        if (resolved) {
+          await new Promise((r) => setTimeout(r, 5000));
+          await page.goto('http://localhost:3000/');
+          await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
+        }
+        done();
+
       }, 300000);
 
-      jest.setTimeout(300000);
-      //
-      // it(`should start devserver and the page should load js`, async function(done) {
-
-      //   const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir })
-      //   subprocess.then(({exitCode})=>{
-      //     assert.equal(exitCode, 0)
-          // done();
-      //   })
-      // }, 300000);
     });
   });
 });

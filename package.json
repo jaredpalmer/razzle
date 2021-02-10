@@ -21,6 +21,7 @@
     "got": "^11.0.2",
     "husky": "^4.2.3",
     "jest": "^26.6.3",
+    "leaked-handles": "^5.2.0",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.0.8",

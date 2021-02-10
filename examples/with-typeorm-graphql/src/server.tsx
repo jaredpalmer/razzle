@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import path from 'path';
 import { createConnection } from 'typeorm';
 import { buildSchema } from 'type-graphql';
 import { init_db } from './database/init_db';
@@ -21,7 +22,7 @@ syncLoadAssets();
 const createserver = async() => {
   const connection = await createConnection({
     type: "sqlite",
-    database: "./db.sqlite3",
+    database: path.join(process.cwd(), 'db.sqlite3'),
     synchronize: true,
     entities: [Abilities, Pokemon, PokemonAbilities, Types]
   });

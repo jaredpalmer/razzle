@@ -15,7 +15,9 @@
     "rax-image": "^2.2.5",
     "rax-server-renderer": "^1.3.0",
     "rax-text": "^2.0.5",
-    "rax-view": "^2.0.4"
+    "rax-view": "^2.0.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "babel-preset-rax": "^0.6.5",
