@@ -23,7 +23,6 @@ const os = require('os');
 const fs = require('fs-extra');
 const rfs = require('fs');
 const execa = require('execa');
-const killport = require('kill-port');
 const util = require('util');
 const glob = util.promisify(require('glob'));
 
@@ -41,7 +40,7 @@ const testArtifactsDir = path.join(rootDir, 'test-artifacts');
 const silent = !process.env.NOISY_TESTS;
 const stdio = 'pipe';
 
-const writeLogs = false;
+const writeLogs = true;
 
 let examples = [
       { example: 'basic', path: 'examples/basic' },
