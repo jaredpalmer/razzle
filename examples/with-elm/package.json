@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-elm",
-  "version": "4.0.0-canary.45",
+  "version": "4.0.0-canary.46",
   "license": "MIT",
   "scripts": {
     "postinstall": "elm-package install -y",
@@ -17,11 +17,11 @@
   "devDependencies": {
     "elm-hot-loader": "^0.5.4",
     "elm-webpack-loader": "4.5.0",
-    "razzle": "4.0.0-canary.45",
-    "razzle-dev-utils": "4.0.0-canary.45",
+    "razzle": "4.0.0-canary.46",
+    "razzle-dev-utils": "4.0.0-canary.46",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.45",
+    "babel-preset-razzle": "4.0.0-canary.46",
     "webpack-dev-server": "^3.11.2"
   }
 }
