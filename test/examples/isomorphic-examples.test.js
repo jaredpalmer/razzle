@@ -162,7 +162,7 @@ let browser;
 let page;
 
 beforeAll(async function(done) {
-  browser = await puppeteer.launch();
+  browser = await puppeteer.launch({ headless: process.env.HEADLESS !== "false"  });
   page = await browser.newPage();
   await fs.ensureDir(testArtifactsDir);
   // const res = await glob('examples/*')
@@ -183,29 +183,25 @@ describe(`tests for isomorphic examples`, () => {
 
     describe(`tests for the ${example} example`, () => {
       let tempDir;
+      let razzleMeta;
 
       beforeAll(async function(done) {
 
         mkdtemp(mkdtempTpl, (err, directory) => {
           tempDir = directory;
-          copy(path.join(rootDir, exampleinfo.path),  tempDir, { dot: true },function(error, results) {
+          copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
             if (error) {
               console.error('Copy failed: ' + error);
             } else {
               // console.info('Copied ' + results.length + ' files');
             }
+            razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
             done();
           })
         })
       });
 
       afterAll(async function(done) {
-        await new Promise((r) => setTimeout(r, 3000));
-        execa.command(`lsof -i :3000 | awk '{print $2}' | xargs kill -2`, { shell: true })
-        execa.command(`lsof -i :3001 | awk '{print $2}' | xargs kill -2`, { shell: true })
-        execa.command(`lsof -i :3002 | awk '{print $2}' | xargs kill -2`, { shell: true })
-        execa.command(`lsof -i :3003 | awk '{print $2}' | xargs kill -2`, { shell: true })
-        await new Promise((r) => setTimeout(r, 3000));
         fs.remove(tempDir, err => {
           assert(!err)
           done();
@@ -286,8 +282,14 @@ describe(`tests for isomorphic examples`, () => {
           await new Promise((r) => setTimeout(r, 5000));
           await page.goto('http://localhost:3000/');
           await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
+          await new Promise((r) => setTimeout(r, 2000));
         }
-        done();
+
+
+        terminate(subprocess.pid, 'SIGINT', { timeout: 3000 }, () => {
+          terminate(subprocess.pid);
+          done();
+        });
 
       }, 300000);
 

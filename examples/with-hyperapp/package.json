@@ -11,6 +11,8 @@
   "dependencies": {
     "@hyperapp/render": "^2.1.0",
     "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "hyperapp": "^1.2.5"
   },
   "devDependencies": {

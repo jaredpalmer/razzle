@@ -47,14 +47,18 @@ module.exports = {
       less: {
         dev: {
           sourceMap: true,
-          includePaths: [paths.appNodeModules],
+          lessOptions: {
+            includePaths: [paths.appNodeModules],
+          },
         },
         prod: {
           // XXX Source maps are required for the resolve-url-loader to properly
           // function. Disable them in later stages if you do not want source maps.
           sourceMap: true,
           sourceMapContents: false,
-          includePaths: [paths.appNodeModules],
+          lessOptions: {
+            includePaths: [paths.appNodeModules],
+          },
         },
       },
       css: {
