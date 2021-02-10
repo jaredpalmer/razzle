@@ -55,7 +55,6 @@ module.exports = {
           // XXX Source maps are required for the resolve-url-loader to properly
           // function. Disable them in later stages if you do not want source maps.
           sourceMap: true,
-          sourceMapContents: false,
           lessOptions: {
             includePaths: [paths.appNodeModules],
           },
