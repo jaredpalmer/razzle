@@ -2,6 +2,12 @@
   "roots": ["<rootDir>/examples"],
   "collectCoverageFrom": ["**/*.js"],
   "testMatch": [
-      "<rootDir>/examples/**/*(*.)@(spec|test).(ts|js)?(x)"
-  ]
-}
+    "<rootDir>/examples/**/*(*.)@(spec|test).(ts|js)?(x)"
+  ],
+  "reporters": [
+    "default",
+    ["jest-html-reporter", {
+      "pageTitle": "Examples Test Report"
+      }]
+    ]
+  }

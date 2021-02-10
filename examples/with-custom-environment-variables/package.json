@@ -20,5 +20,8 @@
     "webpack": "^4.44.1",
     "babel-preset-razzle": "4.0.0-canary.46",
     "webpack-dev-server": "^3.11.2"
+  },
+  "razzle_meta": {
+    "port": "4000"
   }
 }

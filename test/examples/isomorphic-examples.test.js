@@ -173,6 +173,7 @@ beforeAll(async function(done) {
 
 afterAll(async function(done) {
   await browser.close();
+  await new Promise((r) => setTimeout(r, 3000));
   done();
 });
 
@@ -274,20 +275,18 @@ describe(`tests for isomorphic examples`, () => {
             }
           }, 15000)
           subprocess.stdout.on('data', waitForData);
-          await subprocess;
         })
-        assert.ok(resolved, `yarn start for ${example} failed`);
 
         if (resolved) {
-          await new Promise((r) => setTimeout(r, 5000));
-          await page.goto('http://localhost:3000/');
+          await page.goto(`http://localhost:${razzleMeta.port||'3000'}/`);
           await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
-          await new Promise((r) => setTimeout(r, 2000));
         }
 
+        await new Promise((r) => setTimeout(r, 2000));
 
-        terminate(subprocess.pid, 'SIGINT', { timeout: 3000 }, () => {
+        terminate(subprocess.pid, 'SIGINT', { timeout: 3000 }, async () => {
           terminate(subprocess.pid);
+          assert.ok(resolved, `yarn start for ${example} failed`);
           done();
         });
 
