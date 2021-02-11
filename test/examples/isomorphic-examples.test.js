@@ -276,9 +276,11 @@ describe(`tests for isomorphic examples`, () => {
           }, 15000)
           subprocess.stdout.on('data', waitForData);
         })
-
+        if (razzleMeta.yarnStartDelay) {
+          await new Promise((r) => setTimeout(r, razzleMeta.yarnStartDelay));
+        }
         if (resolved) {
-          await page.goto(`http://localhost:${razzleMeta.port||'3000'}/`);
+          await page.goto(`${razzleMeta.protocol||'http'}://localhost:${razzleMeta.port||'3000'}/`);
           await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
         }
 

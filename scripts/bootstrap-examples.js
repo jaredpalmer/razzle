@@ -111,6 +111,7 @@ let argv = yargs
       await execa("yarn install --no-lockfile", { shell: true, stdio: 'inherit' });
       exampleDirs
         .map(example => {
+          fs.ensureDirSync(path.join(rootDir, example, 'node_modules', '.bin'))
           fs.writeFileSync(path.join(rootDir, example, 'node_modules', '.bin', 'restrap'), `#!/usr/bin/env node
 'use strict';
 const execa = require('execa');
