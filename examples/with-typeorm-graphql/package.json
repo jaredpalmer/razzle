@@ -61,5 +61,8 @@
     "typescript": "^4.0.3",
     "webpack": "^5.16.0",
     "webpack-dev-server": "^3.11.2"
+  },
+  "razzle_meta": {
+    "yarnStartDelay": 5000
   }
 }
