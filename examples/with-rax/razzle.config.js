@@ -45,7 +45,7 @@ module.exports = {
     //   /rax/
     // ])
     webpackOptions.notNodeExternalResMatch = (request, context) => {
-      return request.contains('rax')
+      return request.indexOf('rax') !== -1
     };
     return webpackOptions;
   },
