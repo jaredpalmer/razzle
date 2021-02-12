@@ -322,6 +322,8 @@ module.exports = (
       ],
     };
 
+    webpackOptions.nullNodeCss = false;
+
     for (const [plugin, pluginOptions] of plugins) {
       // Check if .modifyWebpackConfig is a function.
       // If it is, call it on the configs we created.
@@ -532,7 +534,9 @@ module.exports = (
             ? // Style-loader does not work in Node.js without some crazy
             // magic. Luckily we just need css-loader.
             [
-              {
+              webpackOptions.nullNodeCss ? {
+                loader: require.resolve('null-loader')
+              } : {
                 loader: require.resolve('css-loader'),
                 options: {
                   importLoaders: 1,
