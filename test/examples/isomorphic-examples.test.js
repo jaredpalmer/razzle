@@ -42,10 +42,9 @@ const stdio = 'pipe';
 
 const writeLogs = true;
 
-let examples = [
+let examples = process.env.COMPLEX !== "true" ? [
       { example: 'basic', path: 'examples/basic' },
       { example: 'basic-spa', path: 'examples/basic-spa' },
-      // { example: 'with-afterjs', path: 'examples/with-afterjs' },
       {
         example: 'with-custom-babel-config',
         path: 'examples/with-custom-babel-config'
@@ -65,10 +64,6 @@ let examples = [
       {
         example: 'with-custom-webpack-config',
         path: 'examples/with-custom-webpack-config'
-      },
-      {
-        example: 'with-devcert-https',
-        path: 'examples/with-devcert-https'
       },
       { example: 'with-elm', path: 'examples/with-elm' },
       { example: 'with-eslint', path: 'examples/with-eslint' },
@@ -100,11 +95,6 @@ let examples = [
       },
       { example: 'with-material-ui', path: 'examples/with-material-ui' },
       { example: 'with-mdx', path: 'examples/with-mdx' },
-      {
-        example: 'with-module-federation',
-        path: 'examples/with-module-federation'
-      },
-      { example: 'with-monorepo', path: 'examples/with-monorepo' },
       { example: 'with-now', path: 'examples/with-now' },
       { example: 'with-now-v2', path: 'examples/with-now-v2' },
       { example: 'with-polka', path: 'examples/with-polka' },
@@ -113,7 +103,6 @@ let examples = [
         example: 'with-promise-config',
         path: 'examples/with-promise-config'
       },
-      { example: 'with-rax', path: 'examples/with-rax' },
       {
         example: 'with-react-native-web',
         path: 'examples/with-react-native-web'
@@ -123,7 +112,6 @@ let examples = [
         example: 'with-react-server-components',
         path: 'examples/with-react-server-components'
       },
-      { example: 'with-reason-react', path: 'examples/with-reason-react' },
       { example: 'with-redux', path: 'examples/with-redux' },
       { example: 'with-scss', path: 'examples/with-scss' },
       { example: 'with-scss-options', path: 'examples/with-scss-options' },
@@ -137,10 +125,6 @@ let examples = [
       },
       { example: 'with-svelte', path: 'examples/with-svelte' },
       { example: 'with-tailwindcss', path: 'examples/with-tailwindcss' },
-      {
-        example: 'with-typeorm-graphql',
-        path: 'examples/with-typeorm-graphql'
-      },
       { example: 'with-typescript', path: 'examples/with-typescript' },
       {
         example: 'with-typescript-plugin',
@@ -156,8 +140,22 @@ let examples = [
         example: 'with-webpack-public-path',
         path: 'examples/with-webpack-public-path'
       }
-    ];
-
+    ] : [
+    {
+      example: 'with-module-federation',
+      path: 'examples/with-module-federation'
+    },
+    { example: 'with-monorepo', path: 'examples/with-monorepo' },
+    { example: 'with-reason-react', path: 'examples/with-reason-react' },
+    {
+      example: 'with-typeorm-graphql',
+      path: 'examples/with-typeorm-graphql'
+    },
+    {
+      example: 'with-devcert-https',
+      path: 'examples/with-devcert-https'
+    }
+  ];
 let browser;
 let page;
 
