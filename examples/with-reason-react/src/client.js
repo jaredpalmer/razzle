@@ -1,9 +1,10 @@
-import './client.css';
 
 import React from 'react';
 import { render } from 'react-dom';
 
-import App from '../lib/es6_global/src/App'; // BuckleScript output directory
+import { make } from 'bs/App'; // BuckleScript output directory
+
+const App = make;
 
 render(
   <App title="Welcome to Razzle Reason React" />,

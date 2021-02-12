@@ -12,14 +12,16 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "bs-platform": "^8.4.2",
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "reason-react": "^0.8.0"
   },
   "devDependencies": {
-    "bs-platform": "^7.2.2",
+    "bs-platform": "7.1.1",
+    "@glennsl/bs-json": "^4.0.0",
+    "bs-fetch": "^0.5.0",
+    "bs-webapi": "^0.15.2",
     "concurrently": "^5.2.0",
     "razzle": "4.0.0-canary.46",
     "razzle-dev-utils": "4.0.0-canary.46",

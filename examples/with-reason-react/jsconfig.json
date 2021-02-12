@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "bs/*": ["../lib/es6_global/src/*"]
+    }
+  }
+}
