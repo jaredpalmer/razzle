@@ -70,10 +70,10 @@ immediately in all the examples. `add-dependencies` can be used to just add pack
 
 git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
 cd razzle
-git checkout -b my-feature-branch master
+git checkout -b my-feature-branch canary
 
 # or
-# git checkout -b my-feature-branch canary
+# git checkout -b my-feature-branch master
 # git checkout -b my-feature-branch three
 
 sudo npm install add-dependencies -g
