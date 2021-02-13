@@ -10,7 +10,6 @@
     "start:prod": "set NODE_ENV=production&&node build/server.js"
   },
   "dependencies": {
-    "elm": "^0.19.1-5",
     "elm-static-html-lib": "^0.1.0",
     "express": "^4.17.1"
   },

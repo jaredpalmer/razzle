@@ -42,7 +42,8 @@ const stdio = 'pipe';
 
 const writeLogs = true;
 
-let examples = process.env.COMPLEX !== "true" ? [
+let examples =
+    { simple: [
       { example: 'basic', path: 'examples/basic' },
       { example: 'basic-spa', path: 'examples/basic-spa' },
       {
@@ -57,6 +58,7 @@ let examples = process.env.COMPLEX !== "true" ? [
         example: 'with-custom-environment-variables',
         path: 'examples/with-custom-environment-variables'
       },
+      { example: 'with-elm', path: 'examples/with-elm' },
       {
         example: 'with-custom-target-babel-config',
         path: 'examples/with-custom-target-babel-config'
@@ -65,7 +67,6 @@ let examples = process.env.COMPLEX !== "true" ? [
         example: 'with-custom-webpack-config',
         path: 'examples/with-custom-webpack-config'
       },
-      { example: 'with-elm', path: 'examples/with-elm' },
       { example: 'with-eslint', path: 'examples/with-eslint' },
       {
         example: 'with-experimental-refresh',
@@ -140,12 +141,12 @@ let examples = process.env.COMPLEX !== "true" ? [
         example: 'with-webpack-public-path',
         path: 'examples/with-webpack-public-path'
       }
-    ] : [
+    ], complex: [
+    { example: 'with-monorepo', path: 'examples/with-monorepo' },
     {
       example: 'with-module-federation',
       path: 'examples/with-module-federation'
     },
-    { example: 'with-monorepo', path: 'examples/with-monorepo' },
     { example: 'with-reason-react', path: 'examples/with-reason-react' },
     {
       example: 'with-typeorm-graphql',
@@ -155,7 +156,9 @@ let examples = process.env.COMPLEX !== "true" ? [
       example: 'with-devcert-https',
       path: 'examples/with-devcert-https'
     }
-  ];
+  ]
+};
+
 let browser;
 let page;
 
@@ -174,124 +177,128 @@ afterAll(async function(done) {
   await new Promise((r) => setTimeout(r, 3000));
   done();
 });
+Object.keys(examples).forEach((exampleType) => {
 
-describe(`tests for isomorphic examples`, () => {
 
-  examples.forEach(exampleinfo => {
-    const example=exampleinfo.example;
+  describe(`tests for ${exampleType} isomorphic examples`, () => {
 
-    describe(`tests for the ${example} example`, () => {
-      let tempDir;
-      let razzleMeta;
+    examples[exampleType].forEach(exampleinfo => {
+      const example=exampleinfo.example;
 
-      beforeAll(async function(done) {
+      describe(`tests for the ${example} example`, () => {
+        let tempDir;
+        let razzleMeta;
 
-        mkdtemp(mkdtempTpl, (err, directory) => {
-          tempDir = directory;
-          copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
-            if (error) {
-              console.error('Copy failed: ' + error);
-            } else {
-              // console.info('Copied ' + results.length + ' files');
-            }
-            razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
+        beforeAll(async function(done) {
+
+          mkdtemp(mkdtempTpl, (err, directory) => {
+            tempDir = directory;
+            copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
+              if (error) {
+                console.error('Copy failed: ' + error);
+              } else {
+                // console.info('Copied ' + results.length + ' files');
+              }
+              razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
+              done();
+            })
+          })
+        });
+
+        afterAll(async function(done) {
+          fs.remove(tempDir, err => {
+            assert(!err)
+            done();
+          });
+        });
+
+        jest.setTimeout(300000);
+
+        it(`should install packages`,  async function(done) {
+          const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+
+          if (writeLogs) {
+            const write = rfs.createWriteStream(
+              path.join(testArtifactsDir, `${example}-yarn-install.txt`));
+            subprocess.all.pipe(write);
+          }
+
+          subprocess.then(({exitCode})=>{
+            assert.equal(exitCode, 0)
             done();
           })
-        })
-      });
+          await subprocess;
+        }, 300000);
 
-      afterAll(async function(done) {
-        fs.remove(tempDir, err => {
-          assert(!err)
-          done();
-        });
-      });
+        it(`should build successfully`, async function(done) {
+          const subprocess = execa("yarn", ["build"], {stdio: stdio, cwd: tempDir, all: writeLogs })
 
-      jest.setTimeout(300000);
-
-      it(`should install packages`,  async function(done) {
-        const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: writeLogs })
-
-        if (writeLogs) {
-          const write = rfs.createWriteStream(
-            path.join(testArtifactsDir, `${example}-yarn-install.txt`));
-          subprocess.all.pipe(write);
-        }
-
-        subprocess.then(({exitCode})=>{
-          assert.equal(exitCode, 0)
-          done();
-        })
-        await subprocess;
-      }, 300000);
-
-      it(`should build successfully`, async function(done) {
-        const subprocess = execa("yarn", ["build"], {stdio: stdio, cwd: tempDir, all: writeLogs })
-
-        if (writeLogs) {
-          const write = rfs.createWriteStream(
-            path.join(testArtifactsDir, `${example}-yarn-build.txt`));
-          subprocess.all.pipe(write);
-        }
-
-        subprocess.then(({exitCode})=>{
-          assert.equal(exitCode, 0)
-          done();
-        })
-        await subprocess;
-      }, 300000);
-
-      jest.setTimeout(300000);
-
-      it(`should start devserver and exit`, async function(done) {
-
-        const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: writeLogs })
-
-        if (writeLogs) {
-          const write = rfs.createWriteStream(
-            path.join(testArtifactsDir, `${example}-yarn-start.txt`));
-          subprocess.all.pipe(write);
-        }
-
-        let resolved = false;
-        let timer;
-
-        await new Promise(async (r) =>{
-          console.info(`yarn start for ${example} `);
-          const waitForData = data => {
-            if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
-              resolved = true;
-              subprocess.off('data', waitForData)
-              clearTimeout(timer);
-              r();
-            }
+          if (writeLogs) {
+            const write = rfs.createWriteStream(
+              path.join(testArtifactsDir, `${example}-yarn-build.txt`));
+            subprocess.all.pipe(write);
           }
-          timer = setTimeout(function() {
-            if (!resolved) {
-              subprocess.off('data', waitForData)
-              r();
+
+          subprocess.then(({exitCode})=>{
+            assert.equal(exitCode, 0)
+            done();
+          })
+          await subprocess;
+        }, 300000);
+
+        jest.setTimeout(300000);
+
+        it(`should start devserver and exit`, async function(done) {
+
+          const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+
+          if (writeLogs) {
+            const write = rfs.createWriteStream(
+              path.join(testArtifactsDir, `${example}-yarn-start.txt`));
+            subprocess.all.pipe(write);
+          }
+
+          let resolved = false;
+          let timer;
+
+          await new Promise(async (r) =>{
+            console.info(`yarn start for ${example} `);
+            const waitForData = data => {
+              if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
+                resolved = true;
+                subprocess.off('data', waitForData)
+                clearTimeout(timer);
+                r();
+              }
             }
-          }, 15000)
-          subprocess.stdout.on('data', waitForData);
-        })
-        if (razzleMeta.yarnStartDelay) {
-          await new Promise((r) => setTimeout(r, razzleMeta.yarnStartDelay));
-        }
-        if (resolved) {
-          await page.goto(`${razzleMeta.protocol||'http'}://localhost:${razzleMeta.port||'3000'}/`);
-          await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
-        }
+            timer = setTimeout(function() {
+              if (!resolved) {
+                subprocess.off('data', waitForData)
+                r();
+              }
+            }, 15000)
+            subprocess.stdout.on('data', waitForData);
+          })
+          if (razzleMeta.yarnStartDelay) {
+            await new Promise((r) => setTimeout(r, razzleMeta.yarnStartDelay));
+          }
+          if (resolved) {
+            await page.goto(`${razzleMeta.protocol||'http'}://localhost:${razzleMeta.port||'3000'}/`);
+            await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
+          }
 
-        await new Promise((r) => setTimeout(r, 2000));
+          await new Promise((r) => setTimeout(r, 2000));
 
-        terminate(subprocess.pid, 'SIGINT', { timeout: 3000 }, async () => {
-          terminate(subprocess.pid);
-          assert.ok(resolved, `yarn start for ${example} failed`);
-          done();
-        });
+          terminate(subprocess.pid, 'SIGINT', { timeout: 3000 }, async () => {
+            terminate(subprocess.pid);
+            assert.ok(resolved, `yarn start for ${example} failed`);
+            done();
+          });
 
-      }, 300000);
+        }, 300000);
 
+      });
     });
   });
+
 });
