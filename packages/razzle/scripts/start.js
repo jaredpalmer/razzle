@@ -34,87 +34,112 @@ process.env.INSPECT = formatInspectFlag(cliArgs, 'inspect');
 
 function main() {
   return new Promise(async (resolve, reject) => {
-    loadRazzleConfig(webpack).then(
-      async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
+    loadRazzleConfig(webpack)
+      .then(
+        async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
+          const verbose = razzleOptions.verbose;
 
-        const verbose = razzleOptions.verbose;
-
-        const clientOnly = /spa|single-page-application/.test(razzleOptions.buildType);
-        const serverOnly = /serveronly|server-only/.test(razzleOptions.buildType);
-
-        process.env.BUILD_TYPE = razzleOptions.buildType;
-
-        setPorts(clientOnly)
-        .then(async () => {
-          // Optimistically, we make the console look exactly like the output of our
-          // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
-          // clearConsole();
-          logger.start('Compiling...');
-
-          let clientConfig;
-          // Create dev configs using our config factory, passing in razzle file as
-          // options.
-          clientConfig = await createConfig(
-            'web',
-            'dev',
-            razzle,
-            webpackObject,
-            clientOnly,
-            paths,
-            plugins,
-            razzleOptions
+          const clientOnly = /spa|single-page-application/.test(
+            razzleOptions.buildType
           );
-          if (clientOnly) {
-            // Check for public/index.html file
-            if (!fs.existsSync(paths.appHtml)) {
-              clearConsole();
-              logger.error(`index.html dose not exists public folder.`);
-              process.exit(1);
+          const serverOnly = /serveronly|server-only/.test(
+            razzleOptions.buildType
+          );
+
+          process.env.BUILD_TYPE = razzleOptions.buildType;
+
+          setPorts(clientOnly).then(async () => {
+            // Optimistically, we make the console look exactly like the output of our
+            // FriendlyErrorsPlugin during compilation, so the user has immediate feedback.
+            // clearConsole();
+            logger.start('Compiling...');
+
+            let clientCompiler;
+            let clientConfig; // Create dev configs using our config factory, passing in razzle file as
+            // options.
+            if (!serverOnly) {
+              clientConfig = await createConfig(
+                'web',
+                'dev',
+                razzle,
+                webpackObject,
+                clientOnly,
+                paths,
+                plugins,
+                razzleOptions
+              );
+              if (clientOnly) {
+                // Check for public/index.html file
+                if (!fs.existsSync(paths.appHtml)) {
+                  clearConsole();
+                  logger.error(`index.html dose not exists public folder.`);
+                  process.exit(1);
+                }
+              }
+
+              // Delete assets.json to always have a manifest up to date
+              fs.removeSync(paths.appAssetsManifest);
+
+              clientCompiler = compile(clientConfig, verbose);
             }
-          }
-
-          // Delete assets.json to always have a manifest up to date
-          fs.removeSync(paths.appAssetsManifest);
-
-          const clientCompiler = compile(clientConfig, verbose);
-
-          let serverCompiler;
-          let serverConfig;
-          if (!clientOnly) {
-            serverConfig = await createConfig(
-              'node',
-              'dev',
-              razzle,
-              webpackObject,
-              clientOnly,
-              paths,
-              plugins,
-              razzleOptions
-            );
-            serverCompiler = compile(serverConfig, verbose);
-          }
-
-          const port = razzle.port || clientConfig.devServer.port;
-
-          // Compile our assets with webpack
-          // Instatiate a variable to track server watching
-          let watching;
-
-          // in SPA mode we want to give the user
-          // feedback about the port that app is running on
-          // this variable helps us to don't show
-          // the message multiple times ...
-          let logged = false;
-
-          // Start our server webpack instance in watch mode after assets compile
-          clientCompiler.hooks.done.tap('razzle', () => {
-            // If we've already started the server watcher, bail early.
-            if (watching) {
-              return;
+            let serverCompiler;
+            let serverConfig;
+            if (!clientOnly) {
+              serverConfig = await createConfig(
+                'node',
+                'dev',
+                razzle,
+                webpackObject,
+                clientOnly,
+                paths,
+                plugins,
+                razzleOptions
+              );
+              serverCompiler = compile(serverConfig, verbose);
             }
 
-            if (!clientOnly && serverCompiler) {
-              // Otherwise, create a new watcher for our server code.
+            const port =
+              ((clientConfig || {}).devServer || {}).port || process.env.PORT;
+
+            // Compile our assets with webpack
+            // Instatiate a variable to track server watching
+            let watching;
+            let clientDevServer;
+
+            // in SPA mode we want to give the user
+            // feedback about the port that app is running on
+            // this variable helps us to don't show
+            // the message multiple times ...
+            let logged = false;
+
+            // Start our server webpack instance in watch mode after assets compile
+            if (clientCompiler) {
+              clientCompiler.hooks.done.tap('razzle', () => {
+                // If we've already started the server watcher, bail early.
+                if (watching) {
+                  return;
+                }
+
+                if (!clientOnly && serverCompiler) {
+                  // Otherwise, create a new watcher for our server code.
+                  watching = serverCompiler.watch(
+                    {
+                      quiet: !verbose,
+                      stats: 'none',
+                    },
+                    /* eslint-disable no-unused-vars */
+                    stats => {}
+                  );
+                }
+
+                // in SPA mode we want to give the user
+                // feedback about the port that app is running on
+                if (clientOnly && !logged) {
+                  logged = true;
+                  console.log(chalk.green(`> SPA Started on port ${port}`));
+                }
+              });
+            } else {
               watching = serverCompiler.watch(
                 {
                   quiet: !verbose,
@@ -125,42 +150,37 @@ function main() {
               );
             }
 
-            // in SPA mode we want to give the user
-            // feedback about the port that app is running on
-            if (clientOnly && !logged) {
-              logged = true;
-              console.log(chalk.green(`> SPA Started on port ${port}`));
+            if (!serverOnly) {
+              // Create a new instance of Webpack-dev-server for our client assets.
+              // This will actually run on a different port than the users app.
+              clientDevServer = new devServer(
+                clientCompiler,
+                Object.assign(clientConfig.devServer, { verbose: verbose })
+              );
+              // Start Webpack-dev-server
+              clientDevServer.listen(port, err => {
+                if (err) {
+                  logger.error(err);
+                }
+              });
             }
-          });
 
-          // Create a new instance of Webpack-dev-server for our client assets.
-          // This will actually run on a different port than the users app.
-          const clientDevServer = new devServer(
-            clientCompiler,
-            Object.assign(clientConfig.devServer, { verbose: verbose })
-          );
-          // Start Webpack-dev-server
-          clientDevServer.listen(port, err => {
-            if (err) {
-              logger.error(err);
-            }
-          });
-
-          ['SIGINT', 'SIGTERM'].forEach(sig => {
-            process.on(sig, () => {
-              clientDevServer.close();
-              if (watching) {
-                watching.close();
-              }
+            ['SIGINT', 'SIGTERM'].forEach(sig => {
+              process.on(sig, () => {
+                if (clientDevServer) {
+                  clientDevServer.close();
+                }
+                if (watching) {
+                  watching.close();
+                }
+              });
             });
+
+            resolve();
           });
-
-          resolve();
         }
-      );
-
-    })
-    .catch(console.error);
+      )
+      .catch(console.error);
   });
 }
 

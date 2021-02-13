@@ -11,6 +11,7 @@ pids
 *.pid
 *.seed
 
+test-artifacts
 examples/*/cache
 examples/*/build
 *.sqlite3

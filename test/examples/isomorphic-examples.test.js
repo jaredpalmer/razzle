@@ -58,7 +58,6 @@ let examples =
         example: 'with-custom-environment-variables',
         path: 'examples/with-custom-environment-variables'
       },
-      { example: 'with-elm', path: 'examples/with-elm' },
       {
         example: 'with-custom-target-babel-config',
         path: 'examples/with-custom-target-babel-config'
@@ -142,20 +141,21 @@ let examples =
         path: 'examples/with-webpack-public-path'
       }
     ], complex: [
-    { example: 'with-monorepo', path: 'examples/with-monorepo' },
+    { example: 'with-monorepo', path: 'examples/with-monorepo' }, // test timing ssues
     {
-      example: 'with-module-federation',
+      example: 'with-module-federation',, // test timing ssues
       path: 'examples/with-module-federation'
     },
-    { example: 'with-reason-react', path: 'examples/with-reason-react' },
+    { example: 'with-reason-react', path: 'examples/with-reason-react' }, // test timing ssues
     {
-      example: 'with-typeorm-graphql',
+      example: 'with-typeorm-graphql', // test timing ssues
       path: 'examples/with-typeorm-graphql'
     },
-    {
-      example: 'with-devcert-https',
-      path: 'examples/with-devcert-https'
-    }
+    // { example: 'with-elm', path: 'examples/with-elm' }, // requires elm binary
+    // {
+    //   example: 'with-devcert-https', // may not be possible to test
+    //   path: 'examples/with-devcert-https'
+    // }
   ]
 };
 
