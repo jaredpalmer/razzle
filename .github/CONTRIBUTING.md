@@ -56,10 +56,62 @@ immediately in all the examples. `add-dependencies` can be used to just add pack
 - `yarn test:packages`: Runs tests for packages
 - `yarn test:e2e`: Runs end-to-end tests
 - `yarn build-docs`: Builds docs/ updates doc TOC
-- `yarn bootstrap-examples`: Run `yarn` with specific examples as workspaces. Automatically symlinks inter-dependent modules. Run `yarn restrap` in the example to reinstall.
-- `yarn new-example`: Creates a new example from another example. `yarn new-example basic new-example`.
-- `yarn publish-all-stable`: Does a a stable release
 - `yarn publish-all-canary`: Does a `razzle@canary` release.
+- `yarn publish-all-stable`: Does a a stable release(uses the npm version released of the packages)
+- `yarn new-example`: Creates a new example from another example. `yarn new-example basic new-example`.
+- `yarn bootstrap-examples`: Run `yarn` with specific examples as workspaces. Automatically symlinks inter-dependent modules. Run `yarn restrap` in the example to reinstall.
+- `yarn test:examples:simple`: Runs tests for all simple examples (uses the npm version released of the packages)
+- `yarn test:examples:complex`: Runs tests for all complex examples (uses the npm version released of the packages)
+- `yarn test:examples`: Runs tests for all examples (uses the npm version released of the packages)
+
+### Workflow for working on razzle core with examples
+
+```bash
+
+git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
+cd razzle
+git checkout <my-branch>
+NODE_ENV=development yarn install ---ignore-engines
+
+sudo npm install add-dependencies -g
+
+pwd
+# /home/oyvind/Documents/GitHub/razzle/
+
+yarn install
+
+# to make sure tests pass
+yarn test --runInBand
+
+# to add a new example
+yarn new-example existingexample with-somefeature
+
+# to work on a example
+cd examples/basic
+example="$(basename $PWD)"
+pushd ../..
+
+# if it is a example with webpack5 you need to do
+yarn add -W webpack@5.16.0
+
+# switch back to webpack4 later to work with webpack4
+yarn add -W webpack@4.46.0
+
+# then
+yarn bootstrap-examples $example
+popd
+yarn build
+
+# if you want to add dependencies to the example
+add-dependencies somedependency
+yarn restrap
+
+# if you make changes to startserver plugin
+pushd ../..
+cd packages/razzle-start-server-webpack-plugin
+yarn build
+popd
+```
 
 ### Updating your fork
 
