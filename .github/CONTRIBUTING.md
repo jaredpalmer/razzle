@@ -71,14 +71,13 @@ immediately in all the examples. `add-dependencies` can be used to just add pack
 git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
 cd razzle
 git checkout <my-branch>
-NODE_ENV=development yarn install ---ignore-engines
 
 sudo npm install add-dependencies -g
 
 pwd
 # /home/oyvind/Documents/GitHub/razzle/
 
-yarn install
+NODE_ENV=development yarn install ---ignore-engines
 
 # to make sure tests pass
 yarn test --runInBand
