@@ -9,6 +9,7 @@
     "start:prod": "NODE_ENV=production node build/custom.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "https": "^1.0.0",
     "react": "^17.0.1",
