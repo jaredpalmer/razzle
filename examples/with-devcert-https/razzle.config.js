@@ -1,5 +1,7 @@
 'use strict';
 
+const devcert = require('devcert');
+
 module.exports = {
   modifyOptions(opts) { // use modifyOptions so certificateFor is called once
     const options = opts.options.razzleOptions;
@@ -14,14 +16,15 @@ module.exports = {
     });
   },
   modifyWebpackOptions(opts) {
-    const options = opts.options.razzleOptions;
+    const razzleOptions = opts.options.razzleOptions;
+    const webpackOptions = opts.options.webpackOptions;
     if (opts.env.target === 'node' && opts.env.dev) {
-      options.definePluginOptions.HTTPS_CREDENTIALS = JSON.stringify(options.HTTPS_CREDENTIALS);
+      webpackOptions.definePluginOptions.HTTPS_CREDENTIALS = JSON.stringify(razzleOptions.HTTPS_CREDENTIALS);
     }
-    return options;
+    return webpackOptions;
   },
   modifyWebpackConfig(opts) {
-    const config = opts.options.webpackConfig;
+    const config = opts.webpackConfig;
     const options = opts.options.razzleOptions;
     if (opts.env.target === 'web' && opts.env.dev) {
       config.devServer.https = options.HTTPS_CREDENTIALS;

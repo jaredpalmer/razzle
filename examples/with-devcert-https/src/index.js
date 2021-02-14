@@ -1,4 +1,5 @@
 import express from 'express';
+import https from 'https';
 
 let app = require('./server').default;
 
@@ -18,8 +19,7 @@ const port = process.env.PORT || 3000;
 
 const credentials = HTTPS_CREDENTIALS || {};
 
-export default express.createServer(credentials)
-  .use((req, res) => app.handle(req, res))
+export default https.createServer(credentials,app)
   .listen(port, function(err) {
     if (err) {
       console.error(err);
