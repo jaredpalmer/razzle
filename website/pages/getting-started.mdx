@@ -91,6 +91,20 @@ yarn add webpack@4.46.0 --dev
 
 Also if there are issues, try adding specific package versions to resolutions in `package.json`.
 
+## Common problems
+
+If you have issues with css this might be related to postcss being resolved wrong.
+
+To fix this add:
+
+```json
+{
+  "postcss": "8.2.4"
+}
+```
+
+To resolutions in your package.json. For npm see [here]( https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
+
 ## Debugging with Inspector
 
 - `npm start -- --inspect=[host:port]` or `yarn start --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
