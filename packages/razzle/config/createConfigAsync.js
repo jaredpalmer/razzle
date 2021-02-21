@@ -78,8 +78,7 @@ module.exports = (
     const IS_SERVERLESS = /serverless/.test(razzleOptions.buildType);
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
-    process.env.NODE_ENV = IS_PROD ? 'production' : 'development';
-
+    
     // Contains various versions of the Webpack SplitChunksPlugin used in different build types
     const splitChunksConfigs = {
       dev: {

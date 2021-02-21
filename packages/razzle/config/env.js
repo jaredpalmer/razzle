@@ -62,7 +62,7 @@ function getClientEnvironment(target, is_dev, options, paths) {
         // The public dir changes between dev and prod, so we use an environment
         // variable available to users.
         RAZZLE_PUBLIC_DIR:
-          process.env.NODE_ENV === 'production'
+          process.env.NODE_ENV !== 'development'
             ? path.relative(paths.appPath, paths.appBuildPublic)
             : paths.appPublic,
         // Whether or not react-refresh is enabled.

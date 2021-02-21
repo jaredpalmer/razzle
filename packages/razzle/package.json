@@ -25,6 +25,7 @@
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-plugin-transform-define": "2.0.0",
     "buffer": "6.0.3",
+    "inquirer": "^7.3.3",
     "chalk": "^4.1.0",
     "clean-css": "^5.0.1",
     "copy-webpack-plugin": "6.1.1",

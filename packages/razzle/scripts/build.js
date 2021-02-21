@@ -1,7 +1,5 @@
 #! /usr/bin/env node
 'use strict';
-// Do this as the first thing so that any code reading it knows the right env.
-process.env.NODE_ENV = 'production';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -10,9 +8,19 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
-const webpack = require('webpack');
 const mri = require('mri');
+
+const argv = process.argv.slice(2);
+const cliArgs = mri(argv);
+
+const nodeEnv = cliArgs['node-env']||'production';
+
+// Do this as the first thing so that any code reading it knows the right env.
+process.env.NODE_ENV = /production|staging$/.test(nodeEnv) ? nodeEnv : 'production';
+
+const webpack = require('webpack');
 const fs = require('fs-extra');
+const inquirer = require('inquirer');
 const chalk = require('chalk');
 const createConfig = require('../config/createConfigAsync');
 const loadRazzleConfig = require('../config/loadRazzleConfig');
@@ -26,12 +34,24 @@ const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 
-const argv = process.argv.slice(2);
-const cliArgs = mri(argv);
 
 loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     const verbose = razzleOptions.verbose;
+
+    if (process.env.NODE_ENV === "production" && !cliArgs['noninteractive']) {
+      await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'run',
+          message: 'This runs the production build, are you sure you want to run it?\nAdd --noninteractive to remove this prompt.',
+        }
+      ]).then((answers) => {
+        if (answers.run === false) {
+          process.exit(1);
+        }
+      });
+    }
 
     const clientOnly = /spa|single\-page\-application/.test(
       razzleOptions.buildType
