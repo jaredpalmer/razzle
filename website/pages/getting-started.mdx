@@ -42,6 +42,12 @@ Builds the app for production to the build folder.
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
+By default this uses NODE_ENV=production and asks if you want to run it.
+
+If you nont want the confirmation add --noninteractive to your build command.
+
+If you want to use a different env file e.g. .env.something-staging file you can add --node-env=something-staging
+
 ### npm run start:prod
 
 Runs the compiled app in production.
