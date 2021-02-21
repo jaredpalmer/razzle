@@ -3,7 +3,7 @@ const execa = require('execa');
 const fs = require('fs-extra');
 const path = require('path');
 const semver = require('semver');
-
+const inquirer = require('inquirer');
 const util = require('util');
 const glob = util.promisify(require('glob'));
 
@@ -11,7 +11,7 @@ const rootDir = process.cwd();
 
 let argv = yargs
   .usage(
-    '$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] [--push]p'
+    '$0 [-p|--preid] [-s|--semver-keyword] [-t|--tag] [-c|--commit] [-u|--untag] [--push] [--noninteractive]'
   )
   .command({
     command: '*',
@@ -52,10 +52,16 @@ let argv = yargs
           describe: 'push changes and tag',
           type: 'boolean',
           default: false,
-        });;
+        })
+        .option('i', {
+          alias: 'noninteractive',
+          describe: `don't ask for confirmation`,
+          type: 'boolean',
+          default: false,
+        });
     },
     handler: async argv => {
-      console.log(argv);
+      
       const preId = argv.preId;
       const semverKeyword =
         preId !== 'latest'
@@ -80,6 +86,20 @@ let argv = yargs
             packageJsonData.version,
             semverKeyword
           );
+        }
+
+        if (!argv.noninteractive) {
+          await inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'publish',
+              message: `Are you sure you want to release v${packageJsonData.version}?`,
+            }
+          ]).then((answers) => {
+            if (answers.publish === false) {
+              process.exit(1);
+            }
+          });
         }
 
         const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
