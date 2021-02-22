@@ -8,6 +8,12 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 Visit <a aria-label="razzle getting started" href="https://razzle-git-canary.jared.vercel.app/getting-started">https://razzle-git-canary.jared.vercel.app/getting-started</a> to get started with Razzle.
 
+## Examples
+
+Razzle has many examples, we might have one that fits your needs
+
+See: [The examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
+
 ## Documentation
 
 Visit <a aria-label="razzle docs" href="https://razzle-git-canary.jared.vercel.app/">https://razzle-git-canary.jared.vercel.app/</a> to view the documentation.
