@@ -18,6 +18,7 @@ jobs:
       - run: yarn install --frozen-lockfile
         env:
           CI: true
+      - name: Potentially publish alpha to npm
         run: |
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
