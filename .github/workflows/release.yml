@@ -23,11 +23,11 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
           then
-            cat package.json | \
-              jq '.workspaces[]' | \
-              xargs -l -I {} bash -c "echo {}" | \
-              tr '\n' ' ' | \
-              xargs -l -d ' ' -I {} \
+            cat package.json |
+              jq '.workspaces[]' --raw-output | 
+              xargs -l -I {} bash -c "echo {}" |
+              tr '\n' ' ' |
+              xargs -l -d ' ' -I {}
               npm publish {} --tag alpha
           else
             echo "Did not publish alpha"
@@ -39,11 +39,11 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            cat package.json | \
-              jq '.workspaces[]' | \
-              xargs -l -I {} bash -c "echo {}" | \
-              tr '\n' ' ' | \
-              xargs -l -d ' ' -I {} \
+            cat package.json |
+              jq '.workspaces[]' --raw-output | 
+              xargs -l -I {} bash -c "echo {}" |
+              tr '\n' ' ' |
+              xargs -l -d ' ' -I {}
               npm publish {} --tag canary
           else
             echo "Did not publish canary"
@@ -55,11 +55,11 @@ jobs:
           if \
             [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-finch ]]; \
           then
-            cat package.json | \
-              jq '.workspaces[]' | \
-              xargs -l -I {} bash -c "echo {}" | \
-              tr '\n' ' ' | \
-              xargs -l -d ' ' -I {} \
+            cat package.json |
+              jq '.workspaces[]' --raw-output | 
+              xargs -l -I {} bash -c "echo {}" |
+              tr '\n' ' ' | 
+              xargs -l -d ' ' -I {}
               npm publish {}
           else
             echo "Did not publish"
