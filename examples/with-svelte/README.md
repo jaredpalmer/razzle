@@ -1,4 +1,4 @@
-# Razzle Basic Example
+# Razzle Example With Svelte - Incomplete, needs some love
 
 ## How to use
 
