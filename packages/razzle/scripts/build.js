@@ -39,7 +39,7 @@ loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     const verbose = razzleOptions.verbose;
 
-    if (process.env.NODE_ENV === "production" && !cliArgs['noninteractive']) {
+    if (process.env.NODE_ENV === "production" && (process.env.RAZZLE_NONINTERACTIVE !== "true" && !cliArgs['noninteractive'])) {
       await inquirer.prompt([
         {
           type: 'confirm',
