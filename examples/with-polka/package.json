@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-polka",
-  "version": "4.0.0-canary.52",
+  "version": "4.0.0-canary.53",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,11 +15,11 @@
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.52",
-    "razzle-dev-utils": "4.0.0-canary.52",
+    "razzle": "4.0.0-canary.53",
+    "razzle-dev-utils": "4.0.0-canary.53",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.52",
+    "babel-preset-razzle": "4.0.0-canary.53",
     "webpack-dev-server": "^3.11.2"
   }
 }
