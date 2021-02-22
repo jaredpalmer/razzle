@@ -1,5 +1,6 @@
 'use strict';
 
+const webpackMajor = require('./webpackMajor');
 const chalk = require('chalk');
 
 /**
@@ -12,7 +13,7 @@ function printWarnings(summary, warnings, verbose) {
   console.log(chalk.yellow(summary));
   console.log();
   warnings.forEach(wrn => {
-    if (typeof wrn === 'string') {
+    if (webpackMajor < 5) {
       // webpack 4
       console.warn(wrn);
     } else {
