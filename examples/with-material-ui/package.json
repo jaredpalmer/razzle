@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-material-ui",
-  "version": "4.0.0-canary.48",
+  "version": "4.0.0-canary.49",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,11 +16,11 @@
   },
   "devDependencies": {
     "@material-ui/styles": "^4.11.3",
-    "babel-preset-razzle": "4.0.0-canary.48",
+    "babel-preset-razzle": "4.0.0-canary.49",
     "mini-css-extract-plugin": "^0.9.0",
     "prop-types": "^15.7.2",
-    "razzle": "4.0.0-canary.48",
-    "razzle-dev-utils": "4.0.0-canary.48",
+    "razzle": "4.0.0-canary.49",
+    "razzle-dev-utils": "4.0.0-canary.49",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   }
