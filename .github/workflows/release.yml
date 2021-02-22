@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build, test, Publish
     steps:
       - uses: actions/checkout@v1
