@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-elm",
-  "version": "4.0.0-canary.51",
+  "version": "4.0.0-canary.52",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -9,6 +9,6 @@
   },
   "peerDependencies": {
     "elm": "^0.19.1-5",
-    "razzle-dev-utils": "4.0.0-canary.51"
+    "razzle-dev-utils": "4.0.0-canary.52"
   }
 }
