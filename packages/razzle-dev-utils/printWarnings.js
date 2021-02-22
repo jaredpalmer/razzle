@@ -12,14 +12,19 @@ function printWarnings(summary, warnings, verbose) {
   console.log(chalk.yellow(summary));
   console.log();
   warnings.forEach(wrn => {
-    if (wrn.message) {
-      console.warn(wrn.message);
-    }
-    if (verbose) {
-      console.warn(wrn.stack || wrn);
-    }
-    if (wrn.details) {
-      console.warn(wrn.details);
+    if (typeof wrn === 'string') {
+      // webpack 4
+      console.warn(wrn);
+    } else {
+      if (wrn.message) {
+        console.warn(wrn.message);
+      }
+      if (verbose) {
+        console.warn(wrn.stack || wrn);
+      }
+      if (wrn.details) {
+        console.warn(wrn.details);
+      }
     }
     console.log();
   });
