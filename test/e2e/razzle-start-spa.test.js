@@ -13,6 +13,8 @@ const silent = !process.env.NOISY_TESTS;
 shell.config.verbose = !silent;
 shell.config.silent = silent;
 
+process.env.RAZZLE_NONINTERACTIVE = "true";
+
 const spew = false;
 
 const stageName = 'stage-start-spa';
