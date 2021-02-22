@@ -1,10 +1,9 @@
 'use strict';
 
-const webpackMajor = require('./webpackMajor');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 function razzleFormatWebpackMessages(messages) {
-  return webpackMajor === 5
+  return WEBPACK_VERSION === 5
     ? formatWebpackMessages(
         ['errors', 'warnings'].reduce(
           function(result, item) {

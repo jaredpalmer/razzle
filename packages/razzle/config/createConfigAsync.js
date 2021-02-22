@@ -78,7 +78,7 @@ module.exports = (
     const IS_SERVERLESS = /serverless/.test(razzleOptions.buildType);
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
-    
+
     // Contains various versions of the Webpack SplitChunksPlugin used in different build types
     const splitChunksConfigs = {
       dev: {
@@ -113,7 +113,7 @@ module.exports = (
 
     const dotenv = getClientEnv(
       target, IS_DEV,
-      { clearConsole, host, port, shouldUseReactRefresh, forceRuntimeEnvVars: razzleOptions.forceRuntimeEnvVars },
+      { clearConsole, host, port, shouldUseReactRefresh, forceRuntimeEnvVars: razzleOptions.forceRuntimeEnvVars, webpackObject },
       paths
     );
 
@@ -677,6 +677,11 @@ module.exports = (
     }
 
     if (IS_WEB) {
+      //
+      // config.node = {
+      //   fs: 'empty',
+      // };
+
       // Extract our CSS into files.
       const miniCssExtractPlugin = new MiniCssExtractPlugin({
         filename: webpackOptions.cssOutputFilename,
