@@ -23,6 +23,7 @@
     "inquirer": "^7.3.3",
     "jest": "^26.6.3",
     "jest-html-reporters": "^2.1.2",
+    "jq": "^1.7.2",
     "leaked-handles": "^5.2.0",
     "lerna": "^3.20.2",
     "lerna-changelog": "^1.0.1",
