@@ -24,7 +24,7 @@ jobs:
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
           then
             cat package.json | \
-              node_modules/.bin/jq '.workspaces[]' | \
+              jq '.workspaces[]' | \
               xargs -l -I {} bash -c "echo {}" | \
               tr '\n' ' ' | \
               xargs -l -d ' ' -I {} \
@@ -40,7 +40,7 @@ jobs:
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
             cat package.json | \
-              node_modules/.bin/jq '.workspaces[]' | \
+              jq '.workspaces[]' | \
               xargs -l -I {} bash -c "echo {}" | \
               tr '\n' ' ' | \
               xargs -l -d ' ' -I {} \
@@ -56,7 +56,7 @@ jobs:
             [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-finch ]]; \
           then
             cat package.json | \
-              node_modules/.bin/jq '.workspaces[]' | \
+              jq '.workspaces[]' | \
               xargs -l -I {} bash -c "echo {}" | \
               tr '\n' ' ' | \
               xargs -l -d ' ' -I {} \
