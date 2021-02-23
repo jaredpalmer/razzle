@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-target-babel-config",
-  "version": "4.0.0-canary.75",
+  "version": "4.0.0-canary.76",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -18,10 +18,10 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-do-expressions": "^7.8.3",
-    "babel-preset-razzle": "4.0.0-canary.75",
+    "babel-preset-razzle": "4.0.0-canary.76",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.0.0-canary.75",
-    "razzle-dev-utils": "4.0.0-canary.75",
+    "razzle": "4.0.0-canary.76",
+    "razzle-dev-utils": "4.0.0-canary.76",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   }
