@@ -24,7 +24,6 @@ let argv = yargs
         });
     },
     handler: async argv => {
-			console.log(`${rootDir}`);
 
 			const packageJsonData = JSON.parse(
 				await fs.readFile(path.join(rootDir, 'package.json'))
@@ -35,8 +34,8 @@ let argv = yargs
 			).flat();
 
 			await Promise.all(packageDirs.map((item) => {
-				const publishCmd = `npm publish ${item} --tag ${argv.tag}`;
-				return execa(publishCmd, { stdio: 'inherit' });
+				const publishCmd = `npm publish --tag ${argv.tag}`;
+				return execa(publishCmd, { stdio: 'inherit', cwd: path.join(rootDir, item) });
 			}))
 
     },
