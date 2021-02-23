@@ -23,12 +23,7 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
           then
-            cat package.json |
-              jq '.workspaces[]' --raw-output | 
-              xargs -l -I {} bash -c "echo {}" |
-              tr '\n' ' ' |
-              xargs -l -d ' ' -I {}
-              npm publish {} --tag alpha
+            yarn publish-to-npm --tag alpha
           else
             echo "Did not publish alpha"
           fi
@@ -39,12 +34,7 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            cat package.json |
-              jq '.workspaces[]' --raw-output | 
-              xargs -l -I {} bash -c "echo {}" |
-              tr '\n' ' ' |
-              xargs -l -d ' ' -I {}
-              npm publish {} --tag canary
+            yarn publish-to-npm --tag canary
           else
             echo "Did not publish canary"
           fi
@@ -53,14 +43,9 @@ jobs:
       - name: Potentially publish stable to npm
         run: |
           if \
-            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-finch ]]; \
+            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-alpha ]]; \
           then
-            cat package.json |
-              jq '.workspaces[]' --raw-output | 
-              xargs -l -I {} bash -c "echo {}" |
-              tr '\n' ' ' | 
-              xargs -l -d ' ' -I {}
-              npm publish {}
+            yarn publish-to-npm
           else
             echo "Did not publish"
           fi
