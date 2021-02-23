@@ -34,7 +34,6 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            pwd
             yarn publish-to-npm --tag canary
           else
             echo "Did not publish canary"

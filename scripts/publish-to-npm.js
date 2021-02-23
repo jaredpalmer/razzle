@@ -24,6 +24,7 @@ let argv = yargs
         });
     },
     handler: async argv => {
+			console.log(`${rootDir}`);
 
 			const packageJsonData = JSON.parse(
 				await fs.readFile(path.join(rootDir, 'package.json'))
