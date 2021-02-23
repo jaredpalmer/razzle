@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-vue-router",
-  "version": "4.0.0-canary.66",
+  "version": "4.0.0-canary.67",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,14 +16,14 @@
     "vue-server-renderer": "^2.6.11"
   },
   "devDependencies": {
-    "babel-preset-razzle": "4.0.0-canary.66",
+    "babel-preset-razzle": "4.0.0-canary.67",
     "connect-history-api-fallback": "^1.6.0",
     "eslint": "^7.18.0",
     "eslint-plugin-vue": "^6.2.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.0.0-canary.66",
-    "razzle-dev-utils": "4.0.0-canary.66",
-    "razzle-plugin-vue": "4.0.0-canary.66",
+    "razzle": "4.0.0-canary.67",
+    "razzle-dev-utils": "4.0.0-canary.67",
+    "razzle-plugin-vue": "4.0.0-canary.67",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
