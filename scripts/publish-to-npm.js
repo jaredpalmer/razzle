@@ -35,7 +35,7 @@ let argv = yargs
 
 			await Promise.all(packageDirs.map((item) => {
 				const publishCmd = `yarn publish --tag ${argv.tag}`;
-				return execa(publishCmd, { stdio: 'inherit', cwd: path.join(rootDir, item) });
+				return execa(publishCmd, { shell: true, stdio: 'inherit', cwd: path.join(rootDir, item) });
 			}))
 
     },
