@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-vue",
   "license": "MIT",
-  "version": "4.0.0-canary.73",
+  "version": "4.0.0-canary.74",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
@@ -16,8 +16,8 @@
     "vue-template-compiler": "^2.5.16"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.73",
-    "razzle-dev-utils": "4.0.0-canary.73",
+    "razzle": "4.0.0-canary.74",
+    "razzle-dev-utils": "4.0.0-canary.74",
     "webpack": "~4||~5"
   }
 }
