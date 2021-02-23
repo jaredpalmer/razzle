@@ -34,7 +34,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USER: jaredpalmer
+          NPM_USERNAME: jaredpalmer
       - name: Potentially publish canary to npm
         run: |
           if \
@@ -47,7 +47,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USER: jaredpalmer
+          NPM_USERNAME: jaredpalmer
       - name: Potentially publish stable to npm
         run: |
           if \
@@ -60,4 +60,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USER: jaredpalmer
+          NPM_USERNAME: jaredpalmer
