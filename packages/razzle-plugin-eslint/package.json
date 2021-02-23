@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-eslint",
-  "version": "4.0.0-canary.57",
+  "version": "4.0.0-canary.58",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {

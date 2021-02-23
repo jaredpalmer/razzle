@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "4.0.0-canary.57",
+  "version": "4.0.0-canary.58",
   "license": "MIT",
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
@@ -27,10 +27,10 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
-    "babel-preset-razzle": "4.0.0-canary.57",
+    "babel-preset-razzle": "4.0.0-canary.58",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.0.0-canary.57",
-    "razzle-dev-utils": "4.0.0-canary.57",
+    "razzle": "4.0.0-canary.58",
+    "razzle-dev-utils": "4.0.0-canary.58",
     "typescript": "^4.0.3",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"

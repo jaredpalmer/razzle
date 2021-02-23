@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-loadable-components",
-  "version": "4.0.0-canary.57",
+  "version": "4.0.0-canary.58",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -20,10 +20,10 @@
     "@babel/core": "^7.12.10",
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "babel-preset-razzle": "4.0.0-canary.57",
+    "babel-preset-razzle": "4.0.0-canary.58",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.0.0-canary.57",
-    "razzle-dev-utils": "4.0.0-canary.57",
+    "razzle": "4.0.0-canary.58",
+    "razzle-dev-utils": "4.0.0-canary.58",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   }
