@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-firebase-functions",
-  "version": "4.0.0-canary.69",
+  "version": "4.0.0-canary.70",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,11 +17,11 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.69",
-    "razzle-dev-utils": "4.0.0-canary.69",
+    "razzle": "4.0.0-canary.70",
+    "razzle-dev-utils": "4.0.0-canary.70",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.69",
+    "babel-preset-razzle": "4.0.0-canary.70",
     "webpack-dev-server": "^3.11.2"
   }
 }
