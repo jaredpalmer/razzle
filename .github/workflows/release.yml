@@ -18,6 +18,9 @@ jobs:
       - run: yarn install --frozen-lockfile
         env:
           CI: true
+      - name: Read npm token from env
+        run: |
+          echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" >> ~/.npmrc)
       - name: Potentially publish alpha to npm
         run: |
           if \
