@@ -11,7 +11,7 @@ jobs:
     name: Build, test, Publish
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
@@ -21,7 +21,7 @@ jobs:
           CI: true
       - name: Read npm token from env
         run: |
-          cat $NPM_CONFIG_USERCONFIG
+          cat  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
           if \
