@@ -19,9 +19,6 @@ jobs:
       - run: yarn install --frozen-lockfile
         env:
           CI: true
-      - name: Read npm token from env
-        run: |
-          cat  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
           if \
