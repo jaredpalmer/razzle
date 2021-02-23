@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-graphql",
-  "version": "4.0.0-canary.60",
+  "version": "4.0.0-canary.61",
   "description": "Use .graphql and .gql files with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,7 +14,7 @@
   },
   "peerDependencies": {
     "graphql": "^15.5.0",
-    "razzle": "4.0.0-canary.60",
-    "razzle-dev-utils": "4.0.0-canary.60"
+    "razzle": "4.0.0-canary.61",
+    "razzle-dev-utils": "4.0.0-canary.61"
   }
 }
