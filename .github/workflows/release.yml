@@ -28,7 +28,7 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
           then
-            yarn publish-to-npm --tag alpha
+            yarn run lerna publish from-git --npm-tag alpha --yes
           else
             echo "Did not publish alpha"
           fi
@@ -39,7 +39,7 @@ jobs:
           if \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            yarn publish-to-npm --tag canary
+            yarn run lerna publish from-git --npm-tag canary --yes
           else
             echo "Did not publish canary"
           fi
@@ -50,7 +50,7 @@ jobs:
           if \
             [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-alpha ]]; \
           then
-            yarn publish-to-npm
+            yarn run lerna publish from-git --yes
           else
             echo "Did not publish"
           fi
