@@ -15,12 +15,12 @@ jobs:
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
+          always-auth: 'true'
       - run: yarn install --frozen-lockfile
         env:
           CI: true
       - name: Read npm token from env
         run: |
-          echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" >> ~/.npmrc
           cat  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
