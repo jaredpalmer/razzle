@@ -21,6 +21,7 @@ jobs:
       - name: Read npm token from env
         run: |
           echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" >> ~/.npmrc
+          cat  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
           if \

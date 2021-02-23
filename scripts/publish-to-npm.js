@@ -33,6 +33,8 @@ let argv = yargs
 				await Promise.all(packageJsonData.workspaces.map((item) => glob(item)))
 			).flat();
 
+      await execa(`npm profile get`, { shell: true, stdio: 'inherit' });
+
 			await Promise.all(packageDirs.map((item) => {
 				const publishCmd = `npm publish --tag ${argv.tag} --registry=https://registry.npmjs.org/ --access public`;
 				return execa(publishCmd, { shell: true, stdio: 'inherit', cwd: path.join(rootDir, item) });
