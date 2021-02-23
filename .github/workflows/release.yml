@@ -21,6 +21,7 @@ jobs:
           CI: true
       - name: Read npm token from env
         run: |
+          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> $NPM_CONFIG_USERCONFIG) || echo "Did not write npm token"
           cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
@@ -33,8 +34,6 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: jaredpalmer
       - name: Potentially publish canary to npm
         run: |
           if \
@@ -46,8 +45,6 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: jaredpalmer
       - name: Potentially publish stable to npm
         run: |
           if \
@@ -59,5 +56,3 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_USERNAME: jaredpalmer
