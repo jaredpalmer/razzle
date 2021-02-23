@@ -11,14 +11,17 @@ jobs:
     name: Build, test, Publish
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12.14.0
+          node-version: 12
           registry-url: 'https://registry.npmjs.org'
           always-auth: 'true'
       - run: yarn install --frozen-lockfile
         env:
           CI: true
+      - name: Read npm token from env
+        run: |
+          cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
           if \
