@@ -4,7 +4,11 @@
   "description": "Babel presets for Razzle",
   "main": "index.js",
   "author": "jaredpalmer",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/babel-preset-razzle"
+  },
   "license": "MIT",
   "files": [
     "index.js",

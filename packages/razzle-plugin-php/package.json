@@ -2,6 +2,11 @@
   "name": "razzle-plugin-php",
   "version": "4.0.0-canary.67",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-php"
+  },
   "license": "MIT",
   "dependencies": {
     "babel-preset-php": "^1.2.0"

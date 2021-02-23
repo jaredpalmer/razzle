@@ -3,7 +3,11 @@
   "description": "Create server-rendered universal JavaScript applications with no configuration",
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle"
+  },
   "version": "4.0.0-canary.67",
   "bin": {
     "razzle": "./bin/razzle.js"

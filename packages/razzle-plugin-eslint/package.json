@@ -2,6 +2,11 @@
   "name": "razzle-plugin-eslint",
   "version": "4.0.0-canary.67",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-eslint"
+  },
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.0.0",

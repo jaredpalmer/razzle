@@ -3,7 +3,11 @@
   "version": "4.0.0-canary.67",
   "description": "Use mdx with Razzle",
   "main": "index.js",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-mdx"
+  },
   "author": "Ivakhnenko Dmitry <jeetiss@ya.ru>",
   "license": "MIT",
   "scripts": {

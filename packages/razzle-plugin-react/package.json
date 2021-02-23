@@ -1,6 +1,11 @@
 {
   "name": "razzle-plugin-react",
   "version": "4.0.0-canary.67",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-react"
+  },
   "main": "index.js",
   "license": "MIT"
 }

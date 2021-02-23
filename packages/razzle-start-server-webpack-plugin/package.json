@@ -18,7 +18,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jaredpalmer/razzle.git"
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-start-server-webpack-plugin"
   },
   "keywords": [
     "webpack",
