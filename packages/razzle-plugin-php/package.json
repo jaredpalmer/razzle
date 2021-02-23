@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-php",
-  "version": "4.0.0-canary.71",
+  "version": "4.0.0-canary.72",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "babel-preset-php": "^1.2.0"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.71",
-    "razzle-dev-utils": "4.0.0-canary.71"
+    "razzle": "4.0.0-canary.72",
+    "razzle-dev-utils": "4.0.0-canary.72"
   }
 }
