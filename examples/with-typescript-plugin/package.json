@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "4.0.0-canary.62",
+  "version": "4.0.0-canary.63",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -34,9 +34,9 @@
     "eslint-plugin-react": "^7.22.0",
     "mini-css-extract-plugin": "^0.9.0",
     "prettier": "^2.2.1",
-    "razzle": "4.0.0-canary.62",
-    "razzle-dev-utils": "4.0.0-canary.62",
-    "razzle-plugin-typescript": "4.0.0-canary.62",
+    "razzle": "4.0.0-canary.63",
+    "razzle-dev-utils": "4.0.0-canary.63",
+    "razzle-plugin-typescript": "4.0.0-canary.63",
     "ts-jest": "^26.5.0",
     "typescript": "^4.1.3",
     "webpack": "^4.44.1",
