@@ -34,7 +34,7 @@ let argv = yargs
 			).flat();
 
 			await Promise.all(packageDirs.map((item) => {
-				const publishCmd = `npm publish --tag ${argv.tag}`;
+				const publishCmd = `npm publish --tag ${argv.tag} --registry=https://registry.npmjs.org/ `;
 				return execa(publishCmd, { shell: true, stdio: 'inherit', cwd: path.join(rootDir, item) });
 			}))
 
