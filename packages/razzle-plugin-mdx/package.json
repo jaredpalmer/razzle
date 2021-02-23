@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-mdx",
-  "version": "4.0.0-canary.59",
+  "version": "4.0.0-canary.60",
   "description": "Use mdx with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -14,7 +14,7 @@
     "@mdx-js/mdx": "^1.6.18"
   },
   "peerDependencies": {
-    "razzle": "4.0.0-canary.59",
-    "razzle-dev-utils": "4.0.0-canary.59"
+    "razzle": "4.0.0-canary.60",
+    "razzle-dev-utils": "4.0.0-canary.60"
   }
 }
