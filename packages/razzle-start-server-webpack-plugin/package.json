@@ -1,6 +1,6 @@
 {
   "name": "razzle-start-server-webpack-plugin",
-  "version": "4.0.0-canary.74",
+  "version": "4.0.0-canary.75",
   "description": "Automatically start your server once Webpack's build completes.",
   "main": "dist/StartServerPlugin.js",
   "files": [
