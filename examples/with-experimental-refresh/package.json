@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-experimental-refresh",
-  "version": "4.0.0-canary.80",
+  "version": "4.0.0-canary.81",
   "license": "MIT",
   "scripts": {
     "start": "razzle start --verbose",
@@ -14,11 +14,11 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "razzle": "4.0.0-canary.80",
-    "razzle-dev-utils": "4.0.0-canary.80",
+    "razzle": "4.0.0-canary.81",
+    "razzle-dev-utils": "4.0.0-canary.81",
     "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.0-canary.80",
+    "babel-preset-razzle": "4.0.0-canary.81",
     "webpack-dev-server": "^3.11.2"
   }
 }
