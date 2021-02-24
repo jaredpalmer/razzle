@@ -23,6 +23,7 @@ jobs:
         run: |
           ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> $NPM_CONFIG_USERCONFIG) || echo "Did not write npm token"
           cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
+          cat ~/.npmrc
       - name: Potentially publish alpha to npm
         run: |
           if \
