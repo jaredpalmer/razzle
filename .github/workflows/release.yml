@@ -21,7 +21,7 @@ jobs:
           CI: true
       - name: Read npm token from env
         run: |
-          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> $NPM_CONFIG_USERCONFIG) || echo "Did not write npm token"
+          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}) || echo "Did not write npm token"
           cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
           cat ~/.npmrc
       - name: Potentially publish alpha to npm
