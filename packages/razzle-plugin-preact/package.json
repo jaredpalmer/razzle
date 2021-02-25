@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-preact",
-  "version": "4.0.0-canary.84",
+  "version": "4.0.0-canary.50",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
