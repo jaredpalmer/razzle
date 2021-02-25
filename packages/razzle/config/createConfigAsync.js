@@ -589,6 +589,15 @@ module.exports = (
       },
     };
 
+    config.plugins = [
+      // Ignore assets.json and chunks.json to avoid infinite recompile bug
+      new webpack.WatchIgnorePlugin(
+        webpackMajor === 5
+        ? { paths: webpackOptions.watchIgnorePaths }
+        : webpackOptions.watchIgnorePaths
+      ),
+    ];
+
     if (IS_NODE) {
       // We want to uphold node's __filename, and __dirname.
       config.node = {
@@ -619,6 +628,7 @@ module.exports = (
 
       // Add some plugins...
       config.plugins = [
+        ...config.plugins,
         // We define environment variables that can be accessed globally in our
         new webpack.DefinePlugin(webpackOptions.definePluginOptions),
       ];
@@ -666,12 +676,6 @@ module.exports = (
           // Supress errors to console (we use our own logger)
           !disableStartServer &&
             new StartServerPlugin(webpackOptions.startServerOptions),
-          // Ignore assets.json and chunks.json to avoid infinite recompile bug
-          new webpack.WatchIgnorePlugin(
-            webpackMajor === 5
-              ? { paths: webpackOptions.watchIgnorePaths }
-              : webpackOptions.watchIgnorePaths
-          ),
         ].filter(x => x);
       }
     }
@@ -689,6 +693,7 @@ module.exports = (
       });
 
       config.plugins = [
+        ...config.plugins,
         webpackMajor === 5 && new webpack.ProvidePlugin({
           Buffer: [require.resolve('buffer'), 'Buffer'],
           process: [require.resolve('process')],

@@ -129,6 +129,8 @@ loadRazzleConfig(webpack).then(
                         previousFileSizes,
                         warnings: clientMessages.warnings,
                       });
+                    }, (err) => {
+                      return reject(err);
                     });
                   });
                 };
@@ -245,6 +247,8 @@ loadRazzleConfig(webpack).then(
                         stats: serverStats,
                         warnings: serverMessages.warnings,
                       });
+                    }, (err) => {
+                      return reject(err);
                     });
                   });
                 };
