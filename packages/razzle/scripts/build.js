@@ -14,6 +14,7 @@ const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
 
 const nodeEnv = cliArgs['node-env']||'production';
+const mode = cliArgs['--watch'] ? 'watch' : 'run';
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.NODE_ENV = /production|staging$/.test(nodeEnv) ? nodeEnv : 'production';
@@ -216,9 +217,7 @@ loadRazzleConfig(webpack).then(
                     );
 
                     console.log(`Compiling server ${buildName} build...\n`);
-                    // First compile the server. We need it to properly output assets.json (asset
-                    // manifest) and chunks.json (chunk manifest) files with the correct hashes on file names BEFORE we can start
-                    // the server compiler.
+                    
                     compile(serverConfig, (err, serverStats) => {
                       if (err) {
                         return reject(err);
