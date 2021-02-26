@@ -61,8 +61,8 @@ let argv = yargs
         });
     },
     handler: async argv => {
-      
-      const preId = argv.preId;
+
+      const preId = argv.preid;
       const semverKeyword =
         preId !== 'latest'
           ? argv.semverKeyword == 'patch'
