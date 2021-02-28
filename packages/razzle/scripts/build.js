@@ -39,7 +39,9 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 loadRazzleConfig(webpack).then(
   async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
     const verbose = razzleOptions.verbose;
-
+    if (!verbose) {
+      process.removeAllListeners('warning');
+    }
     if (!process.env.CI && process.env.NODE_ENV === "production" && (process.env.RAZZLE_NONINTERACTIVE !== "true" && !cliArgs['noninteractive'])) {
       await inquirer.prompt([
         {
@@ -217,7 +219,7 @@ loadRazzleConfig(webpack).then(
                     );
 
                     console.log(`Compiling server ${buildName} build...\n`);
-                    
+
                     compile(serverConfig, (err, serverStats) => {
                       if (err) {
                         return reject(err);

@@ -38,7 +38,9 @@ function main() {
       .then(
         async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
           const verbose = razzleOptions.verbose;
-
+          if (!verbose) {
+            process.removeAllListeners('warning');
+          }
           const clientOnly = /spa|single-page-application/.test(
             razzleOptions.buildType
           );
