@@ -44,3 +44,4 @@ build
 **/.idea
 
 .vercel
+test-artifacts/
