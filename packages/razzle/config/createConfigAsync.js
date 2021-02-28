@@ -21,7 +21,7 @@ const modules = require('./modules');
 const postcssLoadConfig = require('postcss-load-config');
 const resolveRequest = require('razzle-dev-utils/resolveRequest');
 const logger = require('razzle-dev-utils/logger');
-const razzlePaths = require('razzle/config/paths');
+const razzlePaths = require('./paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const webpackMajor = require('razzle-dev-utils/webpackMajor');
 
