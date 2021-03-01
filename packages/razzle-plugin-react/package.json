@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-react",
-  "version": "4.0.1-canary.1",
+  "version": "4.0.1-canary.2",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
