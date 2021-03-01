@@ -38,6 +38,7 @@
     "semver": "7.1.3",
     "serve": "^11.3.2",
     "shelljs": "^0.8.3",
+    "html-webpack-plugin": "5.2.0",
     "webpack": "5.24.0",
     "webpack-dev-server": "^3.11.0"
   },

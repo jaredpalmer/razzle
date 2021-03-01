@@ -74,7 +74,7 @@ jobs:
 
     - name: Install ${{ matrix.webpack }}
       if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
-      run: yarn add -W ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
+      run: yarn add -WD ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
       id: test_run
