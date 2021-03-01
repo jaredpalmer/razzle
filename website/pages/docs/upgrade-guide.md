@@ -17,9 +17,9 @@ yarn add webpack-dev-server@3.11.0 mini-css-extract-plugin@0.9.0 --dev
 Choose your webpack version
 
 ```bash
-yarn add webpack@5.16.0 --dev
+yarn add webpack@5.24.0 html-webpack-plugin@5.2.0 --dev
 # or
-yarn add webpack@4.46.0 --dev
+yarn add webpack@4.46.0 html-webpack-plugin@4.5.2 --dev
 ```
 
 Update/add razzle plugins if you use any
