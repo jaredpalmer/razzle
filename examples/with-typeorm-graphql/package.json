@@ -59,6 +59,7 @@
     "renamer": "^2.0.1",
     "sqlite3": "^5.0.1",
     "typescript": "^4.0.3",
+    "html-webpack-plugin": "^5.2.0",
     "webpack": "^5.16.0",
     "webpack-dev-server": "^3.11.2"
   },

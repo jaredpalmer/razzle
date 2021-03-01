@@ -13,4 +13,5 @@ module.exports = {
   forceRuntimeEnvVars: [],
   mediaPrefix: 'static/media',
   staticCssInDev: false,
+  emitOnErrors: false
 };

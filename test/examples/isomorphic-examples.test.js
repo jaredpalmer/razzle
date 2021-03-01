@@ -143,7 +143,7 @@ let examples =
     ], complex: [
     { example: 'with-monorepo', path: 'examples/with-monorepo' }, // test timing ssues
     {
-      example: 'with-module-federation',, // test timing ssues
+      example: 'with-module-federation', // test timing ssues
       path: 'examples/with-module-federation'
     },
     { example: 'with-reason-react', path: 'examples/with-reason-react' }, // test timing ssues

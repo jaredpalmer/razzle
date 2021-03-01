@@ -15,7 +15,7 @@ function printErrors(summary, errors, verbose) {
   errors.forEach(err => {
     if (webpackMajor < 5) {
       // webpack 4 format
-      console.error(err.join(''));
+      console.error(err);
     } else {
       if (err.message) {
         console.error(err.message);

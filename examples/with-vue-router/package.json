@@ -25,6 +25,7 @@
     "razzle-dev-utils": "4.0.1-canary.0",
     "razzle-plugin-vue": "4.0.1-canary.0",
     "vue-template-compiler": "^2.6.11",
+    "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   }

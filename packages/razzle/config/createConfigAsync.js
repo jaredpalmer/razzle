@@ -147,7 +147,7 @@ module.exports = (
       /\.bmp$/,
       /\.gif$/,
       /\.jpe?g$/,
-      /\.png$/,
+      /\.png$/
     ];
 
     webpackOptions.urlLoaderTest = [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/];
@@ -254,8 +254,8 @@ module.exports = (
     webpackOptions.htmlWebpackPluginOptions = Object.assign(
       {},
       {
-        inject: true,
-        template: paths.appHtml,
+        inject: false,
+        template: paths.appHtml
       },
       IS_PROD
       ? {
@@ -501,12 +501,15 @@ module.exports = (
           webpackOptions.babelRule,
           {
             exclude: webpackOptions.fileLoaderExclude,
-            loader: require.resolve('file-loader'),
-            options: {
-              name: webpackOptions.fileLoaderOutputName,
-              emitFile: IS_WEB,
+            use: (info) => {
+              return info.compiler !== 'HtmlWebpackCompiler' ? [{
+                loader: require.resolve('file-loader'),
+                options: {
+                  name: webpackOptions.fileLoaderOutputName,
+                  emitFile: IS_WEB,
+                }
+              }]:[]},
             },
-          },
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
@@ -651,6 +654,11 @@ module.exports = (
           minimizer: [
             new TerserPlugin(webpackOptions.terserPluginOptions)
           ],
+        }
+        if (webpackMajor === 5) {
+          config.optimization.emitOnErrors = razzleOptions.emitOnErrors;
+        } else {
+          config.optimization.noEmitOnErrors = !razzleOptions.emitOnErrors;
         }
         if (hasStaticExportJs) {
           config.entry.static_export = [paths.appStaticExportJs];
@@ -882,6 +890,9 @@ module.exports = (
                 from: paths.appPublic.replace(/\\/g, '/') + '/**/*',
                 to: paths.appBuild,
                 context: paths.appPath,
+                globOptions: {
+                  ignore: [paths.appPublic.replace(/\\/g, '/') + "/index.html"],
+                }
               },
             ]
           }),
@@ -918,6 +929,11 @@ module.exports = (
               },
             })
           ],
+        }
+        if (webpackMajor === 5) {
+          config.optimization.emitOnErrors = razzleOptions.emitOnErrors;
+        } else {
+          config.optimization.noEmitOnErrors = !razzleOptions.emitOnErrors;
         }
       }
 

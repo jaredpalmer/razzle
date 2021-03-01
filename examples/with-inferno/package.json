@@ -21,6 +21,7 @@
     "eslint-plugin-inferno": "^7.20.1",
     "babel-plugin-inferno": "6.1.0",
     "inferno-devtools": "7.4.2",
+    "html-webpack-plugin": "^4.5.2",
     "razzle": "4.0.1-canary.0",
     "razzle-dev-utils": "4.0.1-canary.0",
     "mini-css-extract-plugin": "^0.9.0",

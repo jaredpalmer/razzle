@@ -27,7 +27,6 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-define": "2.0.0",
     "buffer": "6.0.3",
-    "inquirer": "^7.3.3",
     "chalk": "^4.1.0",
     "clean-css": "^5.0.1",
     "copy-webpack-plugin": "6.1.1",
@@ -38,7 +37,7 @@
     "dotenv-expand": "5.1.0",
     "file-loader": "^4.3.0",
     "fs-extra": "9.1.0",
-    "html-webpack-plugin": "^4.0.4",
+    "inquirer": "^7.3.3",
     "jest": "26.4.2",
     "mri": "^1.1.4",
     "null-loader": "4.0.1",
@@ -67,6 +66,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "razzle-dev-utils": "4.0.1-canary.0",
     "webpack": "~4||~5",
+    "html-webpack-plugin": "~4||~5",
     "webpack-dev-server": "^3.11.0"
   },
   "keywords": [
