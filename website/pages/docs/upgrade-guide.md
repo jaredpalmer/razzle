@@ -5,27 +5,33 @@
 Update/add razzle core dependencies
 
 ```bash
-yarn add razzle razzle-dev-utils babel-preset-razzle --dev
+yarn add --dev \
+  webpack-dev-server@3.11.0 \
+  mini-css-extract-plugin@0.9.0 \
+  postcss@8.2.4
 ```
 
 Update/add razzle peerdependencies
 
 ```bash
-yarn add webpack-dev-server@3.11.0 mini-css-extract-plugin@0.9.0 --dev
+yarn add --dev \
+  webpack-dev-server@3.11.0 \
+  mini-css-extract-plugin@0.9.0 \
+  postcss@8.2.4
 ```
 
 Choose your webpack version
 
 ```bash
-yarn add webpack@5.24.0 html-webpack-plugin@5.2.0 --dev
+yarn add --dev webpack@5.24.0 html-webpack-plugin@5.2.0
 # or
-yarn add webpack@4.46.0 html-webpack-plugin@4.5.2 --dev
+yarn add --dev webpack@4.46.0 html-webpack-plugin@4.5.2
 ```
 
 Update/add razzle plugins if you use any
 
 ```bash
-yarn add razzle-plugin-scss --dev
+yarn add --dev razzle-plugin-scss
 ```
 
 ## Spa apps
