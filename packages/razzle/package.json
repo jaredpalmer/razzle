@@ -8,7 +8,7 @@
     "url": "https://github.com:jaredpalmer/razzle.git",
     "directory": "packages/razzle"
   },
-  "version": "4.0.1-canary.0",
+  "version": "4.0.1-canary.1",
   "bin": {
     "razzle": "./bin/razzle.js"
   },
@@ -46,7 +46,7 @@
     "postcss-load-config": "3.0.0",
     "postcss-loader": "4.2.0",
     "process": "0.11.10",
-    "razzle-start-server-webpack-plugin": "4.0.1-canary.0",
+    "razzle-start-server-webpack-plugin": "4.0.1-canary.1",
     "react-dev-utils": "10.2.1",
     "react-refresh": "0.9.0",
     "resolve": "1.17.0",
@@ -62,9 +62,9 @@
     "webpackbar": "~4||~5"
   },
   "peerDependencies": {
-    "babel-preset-razzle": "4.0.1-canary.0",
+    "babel-preset-razzle": "4.0.1-canary.1",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle-dev-utils": "4.0.1-canary.0",
+    "razzle-dev-utils": "4.0.1-canary.1",
     "webpack": "~4||~5",
     "html-webpack-plugin": "~4||~5",
     "webpack-dev-server": "^3.11.0"
