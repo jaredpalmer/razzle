@@ -100,8 +100,5 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
   ],
-  "version": "4.0.1-canary.0",
-  "dependencies": {
-    "html-webpack-plugin": "5.2.0"
-  }
+  "version": "4.0.1-canary.0"
 }
