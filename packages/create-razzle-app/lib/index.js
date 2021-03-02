@@ -59,6 +59,9 @@ module.exports = async function createRazzleApp(opts) {
 
   if (opts.example) {
     if (/^https:\/\/github/.test(opts.example)) {
+      if (opts.verbose) {
+        console.log(`Using github ${opts.example} example`)
+      }
       loadGitHubExample({
         projectName: projectName,
         example: opts.example,
@@ -67,6 +70,9 @@ module.exports = async function createRazzleApp(opts) {
           throw err;
         });
     } else if (/^git\+/.test(opts.example)) {
+      if (opts.verbose) {
+        console.log(`Using git ${opts.example} example`)
+      }
       loadGitExample({
         projectName: projectName,
         example: opts.example,
@@ -75,6 +81,9 @@ module.exports = async function createRazzleApp(opts) {
           throw err;
         });
     } else if (/^file:/.test(opts.example)) {
+      if (opts.verbose) {
+        console.log(`Using file ${opts.example} example`)
+      }
       const examplePath = opts.example.slice(5);
       copyDir({
         templatePath: examplePath,
@@ -87,14 +96,21 @@ module.exports = async function createRazzleApp(opts) {
     } else {
       getOfficialExamples(opts.verbose).then(officialExamples => {
         if (officialExamples.includes(opts.example)) {
+          if (opts.verbose) {
+            console.log(`Using official ${opts.example} example`)
+          }
           loadExample({
             projectName: projectName,
             example: opts.example,
+            verbose: opts.verbose,
           }).then(installWithMessageFactory(opts, true))
             .catch(function(err) {
               throw err;
             });
         } else {
+          if (opts.verbose) {
+            console.log(`Using npm ${opts.example} example`)
+          }
           loadNpmExample({
             projectName: projectName,
             example: opts.example,
@@ -106,6 +122,9 @@ module.exports = async function createRazzleApp(opts) {
       });
     }
   } else {
+    if (opts.verbose) {
+      console.log(`Using official default example`)
+    }
     const templatePath = path.resolve(__dirname, '../templates/default');
 
     copyDir({
