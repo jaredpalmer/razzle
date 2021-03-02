@@ -2,9 +2,8 @@
 
 module.exports = {
   options: {
-    verbose: true,
+    // verbose: true,
     enableSourceMaps: false
-    // enableTargetBabelrc: true
   },
   modifyWebpackConfig({
     env: {
