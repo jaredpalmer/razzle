@@ -24,17 +24,25 @@ const officialExamplesApiUrl = `https://api.github.com/repos/jaredpalmer/razzle/
   branch == 'master' ? '' : '?ref=' + branch
 }`;
 
-const getOfficialExamples = () => {
+const getOfficialExamples = (verbose) => {
   if (typeof process.env.CI === 'undefined') {
+    console.log(`Getting data from ${officialExamplesApiUrl}:`);
     return axios
       .get(officialExamplesApiUrl, { adapter: httpAdapter })
-      .then(({ data }) => data.filter(isFolder).map(prop('name')));
+      .then(({ data }) => {
+        const gotData = data.filter(isFolder).map(prop('name'))
+        if (verbose) {
+          console.log(`Got data from ${officialExamplesApiUrl}:`);
+          console.log(gotData);
+        }
+        return gotData;
+      });
   } else {
     return Promise.resolve(['basic']);
   }
 };
 
-module.exports = function createRazzleApp(opts) {
+module.exports = async function createRazzleApp(opts) {
   const projectName = opts.projectName;
 
   if (!projectName) {
@@ -77,7 +85,7 @@ module.exports = function createRazzleApp(opts) {
           throw err;
         });
     } else {
-      getOfficialExamples().then(officialExamples => {
+      getOfficialExamples(opts.verbose).then(officialExamples => {
         if (officialExamples.includes(opts.example)) {
           loadExample({
             projectName: projectName,
