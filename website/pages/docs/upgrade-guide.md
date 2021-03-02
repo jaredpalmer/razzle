@@ -6,10 +6,12 @@ Update/add razzle core dependencies
 
 ```bash
 yarn add --dev \
-  webpack-dev-server@3.11.0 \
-  mini-css-extract-plugin@0.9.0 \
-  postcss@8.2.4
+  razzle \
+  razzle-dev-utils \
+  babel-preset-razzle
 ```
+
+... and Razzle peerDependencies
 
 Update/add razzle peerdependencies
 
