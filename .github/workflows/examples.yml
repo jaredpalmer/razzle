@@ -4,12 +4,9 @@ name: Test examples on trigger
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'
+      npm_tag:
+        description: 'The npm tag for create razzle app'
+        default: 'development'
 
 jobs:
   build:
@@ -34,9 +31,10 @@ jobs:
     - name: Log date
       run: echo "${{ steps.date.outputs.date }}"
 
-    - run: actions/checkout@v2
+    - name: Checkout ref
+      uses: actions/checkout@v2
       with:
-      ref: ${{ github.event.workflow_dispatch.ref }}
+        ref: ${{ github.event.workflow_dispatch.ref }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       if: steps.last_run_status.outputs.last_run_status != 'success'
@@ -68,7 +66,8 @@ jobs:
 
     - name: Run tests
       id: test_run
-      run: yarn test:examples:simple --runInBand
+      run: yarn test:examples -t ${{ github.event.inputs.jest_filter }} --runInBand
       env:
-        CI: true
+        WEBPACK_DEPS: "${{ matrix.webpack }}"
+        NPM_TAG: "${{ github.event.inputs.npm_tag }}"
         WARNINGS_ERRORS_DISABLE: true
