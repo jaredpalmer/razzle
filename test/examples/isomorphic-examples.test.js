@@ -296,7 +296,7 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"],
-          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
+          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs, shell: true })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
@@ -316,7 +316,7 @@ Object.keys(examples).forEach((exampleType) => {
         it(`should start devserver and exit`, async function(done) {
 
           const subprocess = execa("yarn", ["start"],
-          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
+          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs, shell: true })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
