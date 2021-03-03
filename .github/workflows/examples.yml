@@ -70,5 +70,4 @@ jobs:
       env:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.workflow_dispatch.inputs.npm_tag }}"
-        CI: true
         WARNINGS_ERRORS_DISABLE: true
