@@ -36,7 +36,7 @@ jobs:
 
     - run: actions/checkout@v2
       with:
-      ref: ${{ github.event.workflow_dispatch.head.sha }}
+      ref: ${{ github.event.workflow_dispatch.ref }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       if: steps.last_run_status.outputs.last_run_status != 'success'
