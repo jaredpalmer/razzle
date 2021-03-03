@@ -196,7 +196,7 @@ Object.keys(examples).forEach((exampleType) => {
 
           razzleMeta = JSON.parse(await fs.readFile(
             path.join(rootDir, exampleinfo.path, 'package.json'))).razzle_meta||{};
-            
+
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
             craDir = path.join(directory, 'example');
@@ -269,8 +269,7 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should use specific webpack and html-webpack-plugin`, async function(done) {
           if (process.env.WEBPACK_DEPS && !razzleMeta.forceWebpack) {
-            const subprocess = execa("npx", [
-            "yarn",
+            const subprocess = execa("yarn", [
             "add",
             `${process.env.WEBPACK_DEPS}`,
             "--ignore-engines"

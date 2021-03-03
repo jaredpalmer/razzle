@@ -64,6 +64,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "razzle_meta": {
-    "yarnStartDelay": 5000
+    "yarnStartDelay": 5000,
+    "forceWebpack": true
   }
 }
