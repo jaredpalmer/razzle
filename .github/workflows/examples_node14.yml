@@ -1,4 +1,4 @@
-name: Test examples on trigger
+name: Test examples on trigger using node 14.x
 
 
 on:
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [10.x, 12.x, 13.x, 14.x]
+        node-version: [14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
         webpack: ["webpack@4.46.0 html-webpack-plugin@4.5.2" , "webpack@5.24.0 html-webpack-plugin@5.2.0"]
 

@@ -40,7 +40,7 @@ const testArtifactsDir = path.join(rootDir, 'test-artifacts');
 const silent = !process.env.NOISY_TESTS;
 const stdio = 'pipe';
 
-const useCra = process.env.USE_CREATE_RAZZLE_APP;
+const useCra = process.env.NPM_TAG !== 'development';
 
 const writeLogs = true;
 
@@ -195,6 +195,7 @@ Object.keys(examples).forEach((exampleType) => {
 
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
+            craDir = path.join(directory, 'example');
 
             if (!useCra) {
               copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
@@ -244,7 +245,7 @@ Object.keys(examples).forEach((exampleType) => {
 
           it(`should run create-razzle-app successfully`, async function(done) {
             const subprocess = execa("npx", [
-              "create-razzle-app",
+              `create-razzle-app@${process.env.NPM_TAG}`,
               "--verbose",
               `--example ${example}`,
               "example"
@@ -255,7 +256,9 @@ Object.keys(examples).forEach((exampleType) => {
               subprocess.all.pipe(write);
             }
 
-            subprocess.then(({exitCode})=>{
+            subprocess.then(async ({exitCode})=>{
+              razzleMeta = JSON.parse(await fs.readFile(
+                path.join(craDir, 'package.json'))).razzle_meta||{};
               assert.equal(exitCode, 0)
               done();
             })
@@ -270,7 +273,7 @@ Object.keys(examples).forEach((exampleType) => {
             "add",
             `${process.env.WEBPACK_DEPS}`,
             "--ignore-engines"
-            ], {stdio: stdio, cwd: tempDir, all: writeLogs });
+            ], {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs });
             if (writeLogs) {
               const write = rfs.createWriteStream(
                 path.join(testArtifactsDir, `${example}-add-deps.txt`));
@@ -288,7 +291,8 @@ Object.keys(examples).forEach((exampleType) => {
         }, 300000);
 
         it(`should build successfully`, async function(done) {
-          const subprocess = execa("yarn", ["build", "--noninteractive"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+          const subprocess = execa("yarn", ["build", "--noninteractive"],
+          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
@@ -307,7 +311,8 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should start devserver and exit`, async function(done) {
 
-          const subprocess = execa("yarn", ["start"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+          const subprocess = execa("yarn", ["start"],
+          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
