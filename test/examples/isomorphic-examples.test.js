@@ -296,13 +296,13 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"],
-          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
-
-          if (writeLogs) {
-            const write = rfs.createWriteStream(
-              path.join(testArtifactsDir, `${example}-yarn-build.txt`));
-            subprocess.all.pipe(write);
-          }
+          {stdio: 'inherit', cwd: useCra ? craDir : tempDir, all: writeLogs })
+          //
+          // if (writeLogs) {
+          //   const write = rfs.createWriteStream(
+          //     path.join(testArtifactsDir, `${example}-yarn-build.txt`));
+          //   subprocess.all.pipe(write);
+          // }
 
           subprocess.then(({exitCode})=>{
             assert.equal(exitCode, 0)
