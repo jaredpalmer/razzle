@@ -194,11 +194,12 @@ Object.keys(examples).forEach((exampleType) => {
 
         beforeAll(async function(done) {
 
+          razzleMeta = JSON.parse(await fs.readFile(
+            path.join(rootDir, exampleinfo.path, 'package.json'))).razzle_meta||{};
+            
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
             craDir = path.join(directory, 'example');
-            razzleMeta = JSON.parse(await fs.readFile(
-              path.join(rootDir, exampleinfo.path, 'package.json'))).razzle_meta||{};
 
             if (!useCra) {
               copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
