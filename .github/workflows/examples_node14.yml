@@ -7,6 +7,10 @@ on:
       npm_tag:
         description: 'The npm tag for create razzle app'
         default: 'development'
+      jest_filter:
+        description: 'The filter for jest tests'
+        default: 'simple'
+
 
 jobs:
   build:
@@ -66,7 +70,7 @@ jobs:
 
     - name: Run tests
       id: test_run
-      run: yarn test:examples:simple --runInBand
+      run: yarn test:examples:${{ github.event.workflow_dispatch.inputs.jest_filter }} --runInBand
       env:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.workflow_dispatch.inputs.npm_tag }}"
