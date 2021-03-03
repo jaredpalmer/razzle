@@ -70,9 +70,9 @@ jobs:
 
     - name: Run tests
       id: test_run
-      run: yarn test:examples:${{ github.event.workflow_dispatch.inputs.jest_filter }} --runInBand
+      run: yarn test:examples:${{ github.event.inputs.jest_filter }} --runInBand
       env:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
-        NPM_TAG: "${{ github.event.workflow_dispatch.inputs.npm_tag }}"
+        NPM_TAG: "${{ github.event.inputs.npm_tag }}"
         CI: true
         WARNINGS_ERRORS_DISABLE: true
