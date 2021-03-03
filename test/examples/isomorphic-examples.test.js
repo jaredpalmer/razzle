@@ -306,7 +306,7 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"],
-          {stdio: 'inherit', cwd: useCra ? craDir : tempDir, all: writeLogs })
+          {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
