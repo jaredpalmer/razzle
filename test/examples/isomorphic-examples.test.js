@@ -40,7 +40,7 @@ const testArtifactsDir = path.join(rootDir, 'test-artifacts');
 const silent = !process.env.NOISY_TESTS;
 const stdio = 'pipe';
 
-const useCra = !process.env.USE_CREATE_RAZZLE_APP;
+const useCra = process.env.USE_CREATE_RAZZLE_APP;
 
 const writeLogs = true;
 
@@ -262,6 +262,30 @@ Object.keys(examples).forEach((exampleType) => {
             await subprocess;
           }, 300000);
         }
+
+        it(`should use specific webpack and html-webpack-plugin`, async function(done) {
+          if (process.env.WEBPACK_DEPS && !razzleMeta.forceWebpack) {
+            const subprocess = execa("npx", [
+            "yarn",
+            "add",
+            `${process.env.WEBPACK_DEPS}`,
+            "--ignore-engines"
+            ], {stdio: stdio, cwd: tempDir, all: writeLogs });
+            if (writeLogs) {
+              const write = rfs.createWriteStream(
+                path.join(testArtifactsDir, `${example}-add-deps.txt`));
+              subprocess.all.pipe(write);
+            }
+
+            subprocess.then(({exitCode})=>{
+              assert.equal(exitCode, 0)
+              done();
+            })
+            await subprocess;
+          } else {
+            done();
+          }
+        }, 300000);
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"], {stdio: stdio, cwd: tempDir, all: writeLogs })

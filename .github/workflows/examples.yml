@@ -71,5 +71,6 @@ jobs:
       id: test_run
       run: yarn test:examples:simple --runInBand
       env:
+        WEBPACK_DEPS: "${{ matrix.webpack }}"
         CI: true
         WARNINGS_ERRORS_DISABLE: true
