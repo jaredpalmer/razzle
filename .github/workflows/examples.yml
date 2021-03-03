@@ -34,9 +34,10 @@ jobs:
     - name: Log date
       run: echo "${{ steps.date.outputs.date }}"
 
-    - run: actions/checkout@v2
+    - name: Checkout ref
+      uses: actions/checkout@v2
       with:
-      ref: ${{ github.event.workflow_dispatch.ref }}
+        ref: ${{ github.event.workflow_dispatch.ref }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       if: steps.last_run_status.outputs.last_run_status != 'success'
