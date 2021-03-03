@@ -189,6 +189,7 @@ Object.keys(examples).forEach((exampleType) => {
 
       describe(`tests for the ${example} example`, () => {
         let tempDir;
+        let craDir;
         let razzleMeta;
 
         beforeAll(async function(done) {
