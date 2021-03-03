@@ -1,0 +1,74 @@
+name: Test examples on trigger using node 14.x
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: 'The npm tag for create razzle app'
+        default: 'development'
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [14.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        webpack: ["webpack@4.46.0 html-webpack-plugin@4.5.2" , "webpack@5.24.0 html-webpack-plugin@5.2.0"]
+
+    name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }} with ${{ matrix.webpack }}
+
+    steps:
+
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+
+    - name: Log date
+      run: echo "${{ steps.date.outputs.date }}"
+
+    - name: Checkout ref
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.workflow_dispatch.ref }}
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install elm globally
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: yarn global add elm
+
+    - name: Restore lerna
+      id: cache
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install and bootstrap packages
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
+
+    - name: Install ${{ matrix.webpack }}
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn add -WD ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
+
+    - name: Run tests
+      id: test_run
+      run: yarn test:examples:simple --runInBand
+      env:
+        WEBPACK_DEPS: "${{ matrix.webpack }}"
+        NPM_TAG: "${{ github.event.workflow_dispatch.inputs.npm_tag }}"
+        CI: true
+        WARNINGS_ERRORS_DISABLE: true
