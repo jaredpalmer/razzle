@@ -197,6 +197,8 @@ Object.keys(examples).forEach((exampleType) => {
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
             craDir = path.join(directory, 'example');
+            razzleMeta = JSON.parse(await fs.readFile(
+              path.join(rootDir, exampleinfo.path, 'package.json'))).razzle_meta||{};
 
             if (!useCra) {
               copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
@@ -205,7 +207,6 @@ Object.keys(examples).forEach((exampleType) => {
                 } else {
                   // console.info('Copied ' + results.length + ' files');
                 }
-                razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
                 done();
               })
             } else {
@@ -258,8 +259,6 @@ Object.keys(examples).forEach((exampleType) => {
             }
 
             subprocess.then(async ({exitCode})=>{
-              razzleMeta = JSON.parse(await fs.readFile(
-                path.join(craDir, 'package.json'))).razzle_meta||{};
               assert.equal(exitCode, 0)
               done();
             })
