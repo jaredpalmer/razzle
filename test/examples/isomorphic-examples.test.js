@@ -267,6 +267,8 @@ Object.keys(examples).forEach((exampleType) => {
           }, 300000);
         }
 
+        jest.setTimeout(300000);
+
         it(`should use specific webpack and html-webpack-plugin`, async function(done) {
           if (process.env.WEBPACK_DEPS && !razzleMeta.forceWebpack) {
             const subprocess = execa("yarn", [
@@ -289,6 +291,8 @@ Object.keys(examples).forEach((exampleType) => {
             done();
           }
         }, 300000);
+
+        jest.setTimeout(300000);
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"],
