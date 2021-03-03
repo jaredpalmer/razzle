@@ -46,7 +46,7 @@
     "test": "yarn test:e2e",
     "test:packages": "lerna run test --stream --scope razzle-* --ignore razzle-examples-* -- --passWithNoTests --verbose --no-cache",
     "test:e2e": "jest --config ./test/jest.e2e.config.json --verbose --no-cache",
-    "test:examples": "jest --config ./test/jest.examples.config.js --verbose --no-cachec",
+    "test:examples": "jest --config ./test/jest.examples.config.js --verbose --no-cache",
     "test:examples:simple": "jest --config ./test/jest.examples.config.js --verbose --no-cache -t simple",
     "test:examples:complex": "cross-env COMPLEX=true jest --config ./test/jest.examples.config.js --verbose --no-cache -t complex",
     "clean": "lerna clean --yes",
