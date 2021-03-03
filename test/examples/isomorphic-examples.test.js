@@ -40,6 +40,8 @@ const testArtifactsDir = path.join(rootDir, 'test-artifacts');
 const silent = !process.env.NOISY_TESTS;
 const stdio = 'pipe';
 
+const useCra = !process.env.USE_CREATE_RAZZLE_APP;
+
 const writeLogs = true;
 
 let examples =
@@ -193,15 +195,20 @@ Object.keys(examples).forEach((exampleType) => {
 
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
-            copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
-              if (error) {
-                console.error('Copy failed: ' + error);
-              } else {
-                // console.info('Copied ' + results.length + ' files');
-              }
-              razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
+
+            if (!useCra) {
+              copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
+                if (error) {
+                  console.error('Copy failed: ' + error);
+                } else {
+                  // console.info('Copied ' + results.length + ' files');
+                }
+                razzleMeta = JSON.parse(await fs.readFile(path.join(tempDir, 'package.json'))).razzle_meta||{};
+                done();
+              })
+            } else {
               done();
-            })
+            }
           })
         });
 
@@ -214,21 +221,47 @@ Object.keys(examples).forEach((exampleType) => {
 
         jest.setTimeout(300000);
 
-        it(`should install packages`,  async function(done) {
-          const subprocess = execa("yarn", ["install"], {stdio: stdio, cwd: tempDir, all: writeLogs })
+        if (!useCra) {
+          it(`should install packages`,  async function(done) {
+            const subprocess = execa("yarn", [
+              "install",
+              "--ignore-engines"
+            ], {stdio: stdio, cwd: tempDir, all: writeLogs })
 
-          if (writeLogs) {
-            const write = rfs.createWriteStream(
-              path.join(testArtifactsDir, `${example}-yarn-install.txt`));
-            subprocess.all.pipe(write);
-          }
+            if (writeLogs) {
+              const write = rfs.createWriteStream(
+                path.join(testArtifactsDir, `${example}-yarn-install.txt`));
+              subprocess.all.pipe(write);
+            }
 
-          subprocess.then(({exitCode})=>{
-            assert.equal(exitCode, 0)
-            done();
-          })
-          await subprocess;
-        }, 300000);
+            subprocess.then(({exitCode})=>{
+              assert.equal(exitCode, 0)
+              done();
+            })
+            await subprocess;
+          }, 300000);
+        } else {
+
+          it(`should run create-razzle-app successfully`, async function(done) {
+            const subprocess = execa("npx", [
+              "create-razzle-app",
+              "--verbose",
+              `--example ${example}`,
+              "example"
+            ], {stdio: stdio, cwd: tempDir, all: writeLogs });
+            if (writeLogs) {
+              const write = rfs.createWriteStream(
+                path.join(testArtifactsDir, `${example}-create-razzle-app.txt`));
+              subprocess.all.pipe(write);
+            }
+
+            subprocess.then(({exitCode})=>{
+              assert.equal(exitCode, 0)
+              done();
+            })
+            await subprocess;
+          }, 300000);
+        }
 
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"], {stdio: stdio, cwd: tempDir, all: writeLogs })

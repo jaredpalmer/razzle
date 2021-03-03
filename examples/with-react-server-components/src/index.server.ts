@@ -1,11 +1,13 @@
 import express from 'express';
 import compress from 'compression';
 import { readFileSync } from 'fs';
-import { unlink, writeFile } from 'fs/promises';
+import fs from 'fs';
 import { pipeToNodeWritable } from 'react-server-dom-webpack/writer';
 import path from 'path';
 import React from 'react';
 import ReactApp from './App.server';
+
+const { unlink, writeFile } = fs.promises;
 
 const { db } = require('./db.server');
 
