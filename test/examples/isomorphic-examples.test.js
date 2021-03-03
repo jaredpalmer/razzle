@@ -225,8 +225,8 @@ Object.keys(examples).forEach((exampleType) => {
 
         jest.setTimeout(300000);
 
-        if (!useCra) {
-          it(`should install packages`,  async function(done) {
+        it(`should install packages`, async function(done) {
+          if (!useCra) {
             const subprocess = execa("yarn", [
               "install",
               "--ignore-engines"
@@ -243,14 +243,20 @@ Object.keys(examples).forEach((exampleType) => {
               done();
             })
             await subprocess;
-          }, 300000);
-        } else {
+          } else {
+            console.log("Skipped install packages");
+            done();
+          }
+        }, 300000);
 
-          it(`should run create-razzle-app successfully`, async function(done) {
+        it(`should run create-razzle-app successfully`, async function(done) {
+
+          if (useCra) {
             const subprocess = execa("npx", [
               `create-razzle-app@${process.env.NPM_TAG}`,
               "--verbose",
-              `--example ${example}`,
+              "--example",
+              example,
               "example"
             ], {stdio: stdio, cwd: tempDir, all: writeLogs });
             if (writeLogs) {
@@ -264,8 +270,11 @@ Object.keys(examples).forEach((exampleType) => {
               done();
             })
             await subprocess;
-          }, 300000);
-        }
+          } else {
+            console.log("Skipped run create-razzle-app successfully");
+            done();
+          }
+        }, 300000);
 
         jest.setTimeout(300000);
 
@@ -288,6 +297,7 @@ Object.keys(examples).forEach((exampleType) => {
             })
             await subprocess;
           } else {
+            console.log("Skipped use specific webpack and html-webpack-plugin");
             done();
           }
         }, 300000);
@@ -297,12 +307,12 @@ Object.keys(examples).forEach((exampleType) => {
         it(`should build successfully`, async function(done) {
           const subprocess = execa("yarn", ["build", "--noninteractive"],
           {stdio: 'inherit', cwd: useCra ? craDir : tempDir, all: writeLogs })
-          //
-          // if (writeLogs) {
-          //   const write = rfs.createWriteStream(
-          //     path.join(testArtifactsDir, `${example}-yarn-build.txt`));
-          //   subprocess.all.pipe(write);
-          // }
+
+          if (writeLogs) {
+            const write = rfs.createWriteStream(
+              path.join(testArtifactsDir, `${example}-yarn-build.txt`));
+            subprocess.all.pipe(write);
+          }
 
           subprocess.then(({exitCode})=>{
             assert.equal(exitCode, 0)
