@@ -1,4 +1,4 @@
-name: Node CI
+name: Test examples on trigger
 
 
 on:
@@ -10,7 +10,7 @@ on:
         default: 'warning'
       tags:
         description: 'Test scenario tags'
-        
+
 jobs:
   build:
 
