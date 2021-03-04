@@ -50,7 +50,6 @@ jobs:
 
     - name: Restore lerna
       id: cache
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/cache@v2
       with:
         path: |
@@ -76,7 +75,7 @@ jobs:
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v2
-      if: failure()
+      if: ${{ always() }}
       with:
         name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
         path: test-artifacts/
