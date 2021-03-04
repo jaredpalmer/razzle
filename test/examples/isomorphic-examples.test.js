@@ -53,8 +53,8 @@ const install_deps_args = package_manager === 'yarn' ?
 [ "install" ];
 
 const add_webpack_deps_args = package_manager === 'yarn' ?
-[ "add", `${process.env.WEBPACK_DEPS}`, "--ignore-engines" ] :
-[ "install", `${process.env.WEBPACK_DEPS}` ];
+[ "add", "--dev", `${process.env.WEBPACK_DEPS}`, "--ignore-engines" ] :
+[ "install", "--save-dev", `${process.env.WEBPACK_DEPS}` ];
 
 const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' ? '' : `@${process.env.NPM_TAG}`;
 
