@@ -34,6 +34,13 @@ jobs:
 
     - name: Log date
       run: echo "${{ steps.date.outputs.date }}"
+    - name: Log yarn version 
+      run: yarn --version
+
+    - name: Log npx version 
+      run: npx --version
+
+
 
     - name: Checkout ref
       uses: actions/checkout@v2
