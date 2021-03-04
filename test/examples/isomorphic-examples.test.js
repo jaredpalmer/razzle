@@ -52,9 +52,11 @@ const install_deps_args = package_manager === 'yarn' ?
 [ "install", "--ignore-engines" ] :
 [ "install" ];
 
+const webpack_deps = typeof process.env.WEBPACK_DEPS !== 'undefined' ? process.env.WEBPACK_DEPS.split(' ') : false;
+
 const add_webpack_deps_args = package_manager === 'yarn' ?
-[ "add", "--dev", `${process.env.WEBPACK_DEPS}`, "--ignore-engines" ] :
-[ "install", "--save-dev", `${process.env.WEBPACK_DEPS}` ];
+[ "add", "--dev" ].concat(webpack_deps).concat([ "--ignore-engines" ]) :
+[ "install", "--save-dev"].concat(webpack_deps);
 
 const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' ? '' : `@${process.env.NPM_TAG}`;
 
@@ -295,7 +297,8 @@ Object.keys(examples).forEach((exampleType) => {
         jest.setTimeout(300000);
 
         it(`should use specific webpack and html-webpack-plugin`, async function(done) {
-          if (process.env.WEBPACK_DEPS && !razzleMeta.forceWebpack) {
+          if (webpack_deps && !razzleMeta.forceWebpack) {
+            console.log(`Installing ${webpack_deps.join(' ')} using ${package_manager}`);
             const subprocess = execa(package_manager,
               add_webpack_deps_args
             , {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs });
