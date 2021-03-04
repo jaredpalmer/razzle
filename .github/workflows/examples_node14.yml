@@ -46,7 +46,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install elm globally
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn global add elm
 
     - name: Restore lerna
@@ -77,6 +76,7 @@ jobs:
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v2
+      if: failure()
       with:
         name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
         path: test-artifacts/
