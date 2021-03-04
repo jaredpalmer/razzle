@@ -3,7 +3,7 @@
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 function razzleFormatWebpackMessages(messages) {
-  return WEBPACK_VERSION === 5
+  return process.env.WEBPACK_VERSION === 5
     ? formatWebpackMessages(
         ['errors', 'warnings'].reduce(
           function(result, item) {

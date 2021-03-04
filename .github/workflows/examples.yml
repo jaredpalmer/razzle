@@ -1,5 +1,4 @@
-name: Test examples on trigger
-
+name: Test examples on trigger 
 
 on:
   workflow_dispatch:
@@ -7,6 +6,10 @@ on:
       npm_tag:
         description: 'The npm tag for create razzle app'
         default: 'development'
+      jest_filter:
+        description: 'The filter for jest tests'
+        default: 'simple'
+
 
 jobs:
   build:
@@ -37,18 +40,15 @@ jobs:
         ref: ${{ github.event.workflow_dispatch.ref }}
 
     - name: Use Node.js ${{ matrix.node-version }}
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install elm globally
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn global add elm
 
     - name: Restore lerna
       id: cache
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/cache@v2
       with:
         path: |
@@ -71,3 +71,10 @@ jobs:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.inputs.npm_tag }}"
         WARNINGS_ERRORS_DISABLE: true
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      with:
+        name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
+        path: test-artifacts/
