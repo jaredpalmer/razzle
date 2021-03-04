@@ -29,7 +29,7 @@ describe('create-razzle-app', () => {
   it('should create app from default template', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --no-install`
+      `${craPath} cra --verbose --no-install`
     );
     expect(directoryExists('cra/node_modules')).toBeFalsy();
 
@@ -46,7 +46,7 @@ describe('create-razzle-app', () => {
   // it('should create app from default template and install packages', () => {
   //   util.setupStage(stageName);
   //   const output = shell.exec(
-  //     `${craPath} cra`
+  //     `${craPath} cra`--verbose
   //   );
   //   expect(directoryExists('cra/node_modules')).toBeTruthy();
   //
@@ -63,7 +63,7 @@ describe('create-razzle-app', () => {
   it('should create app from official example', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=basic --no-install`
+      `${craPath} cra --verbose --example basic --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -76,7 +76,7 @@ describe('create-razzle-app', () => {
   it('should create app from npm example', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testPackage} --no-install`
+      `${craPath} cra --verbose --example ${testPackage} --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -89,7 +89,7 @@ describe('create-razzle-app', () => {
   it('should create app from npm example at tag', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testPackage}@latest --no-install`
+      `${craPath} cra --verbose --example ${testPackage}@latest --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -102,7 +102,7 @@ describe('create-razzle-app', () => {
   it('should create app from npm example in subdir', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testPackage}:subexample --no-install`
+      `${craPath} cra --verbose --example ${testPackage}:subexample --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -115,7 +115,7 @@ describe('create-razzle-app', () => {
   it('should create app from github example', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testRepo} --no-install`
+      `${craPath} cra --verbose --example ${testRepo} --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -128,7 +128,7 @@ describe('create-razzle-app', () => {
   it('should create app from github example at branch', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testRepo}@master --no-install`
+      `${craPath} cra --verbose --example ${testRepo}@master --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -141,7 +141,7 @@ describe('create-razzle-app', () => {
   it('should create app from github example in subdir', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=${testRepo}:subexample --no-install`
+      `${craPath} cra --verbose --example ${testRepo}:subexample --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -154,7 +154,7 @@ describe('create-razzle-app', () => {
   it('should create app from git example', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=git+${testRepo}.git --no-install`
+      `${craPath} cra --verbose --example git+${testRepo}.git --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -167,7 +167,7 @@ describe('create-razzle-app', () => {
   it('should create app from git example at branch', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=git+${testRepo}.git@master --no-install`
+      `${craPath} cra --verbose --example git+${testRepo}.git@master --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -180,7 +180,7 @@ describe('create-razzle-app', () => {
   it('should create app from git example in subdir', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=git+${testRepo}.git:subexample --no-install`
+      `${craPath} cra --verbose --example git+${testRepo}.git:subexample --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 
@@ -193,7 +193,7 @@ describe('create-razzle-app', () => {
   it('should create app from file example', () => {
     util.setupStage(stageName);
     const output = shell.exec(
-      `${craPath} cra --example=file:../examples/basic --no-install`
+      `${craPath} cra --verbose --example file:../examples/basic --no-install`
     );
     expect(fileExists('cra/package.json')).toBeTruthy();
 

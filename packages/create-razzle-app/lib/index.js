@@ -116,7 +116,7 @@ module.exports = async function createRazzleApp(opts) {
         })
         .then(installWithMessageFactory(opts, true))
         .catch(function(err) {
-          console.error(`Failed loading official ${opts.example} example`);
+          console.error(`Failed loading npm ${opts.example} example`);
           if (opts.verbose) {
             console.error(err);
           }
@@ -137,7 +137,7 @@ module.exports = async function createRazzleApp(opts) {
     })
     .then(installWithMessageFactory(opts))
     .catch(function(err) {
-      console.error(`Failed loading official ${opts.example} example`);
+      console.error(`Failed loading official default example`);
       if (opts.verbose) {
         console.error(err);
       }
@@ -152,7 +152,7 @@ function installWithMessageFactory(opts, isExample = false) {
 
   if (!opts.install) {
     return function() {
-      console.log(messages.start(projectName));
+      console.log(messages.start(projectName, opts));
     };
   }
 
