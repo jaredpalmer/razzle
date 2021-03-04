@@ -100,5 +100,5 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
   ],
-  "version": "4.0.1-canary.6"
+  "version": "4.0.1-canary.7"
 }

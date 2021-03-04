@@ -101,40 +101,40 @@ let argv = yargs
           }
         });
 
-        const examplesGlob = 'examples/*/';
-
-        const examples = await glob(examplesGlob);
-
-        const packageJsonGlobs = packageJsonData.workspaces.concat(
-          'examples/*'
-        );
-
-        const packageJsons = (
-          await Promise.all(
-            packageJsonGlobs.map(item => glob(item + '/package.json'))
-          )
-        )
-        .flat()
-        .concat(['lerna.json', 'package.json', 'packages/create-razzle-app/templates/default/package.json']);
-
-        const packageVersions = packageJsons
-        .map(item => {
-          try {
-            return JSON.parse(fs.readFileSync(item));
-          } catch {
-            console.log(`failed to parse json ${item}`);
-          }
-        })
-        .map(item => [
-          item.name || 'it-is-lerna',
-          item.version,
-          packageJsonData.version,
-        ]);
-
-        const packageNames = packageVersions.map(item => item[0]);
 
       }
 
+      const examplesGlob = 'examples/*/';
+
+      const examples = await glob(examplesGlob);
+
+      const packageJsonGlobs = packageJsonData.workspaces.concat(
+        'examples/*'
+      );
+
+      const packageJsons = (
+        await Promise.all(
+          packageJsonGlobs.map(item => glob(item + '/package.json'))
+        )
+      )
+      .flat()
+      .concat(['lerna.json', 'package.json', 'packages/create-razzle-app/templates/default/package.json']);
+
+      const packageVersions = packageJsons
+      .map(item => {
+        try {
+          return JSON.parse(fs.readFileSync(item));
+        } catch {
+          console.log(`failed to parse json ${item}`);
+        }
+      })
+      .map(item => [
+        item.name || 'it-is-lerna',
+        item.version,
+        packageJsonData.version,
+      ]);
+
+      const packageNames = packageVersions.map(item => item[0]);
       const commitCmd = `git commit -a -m "chore: bumped versions to ${packageJsonData.version}"`;
       const tagCmd = `git tag -am "v${packageJsonData.version}" v${packageJsonData.version}`;
       const tagRemoteCmd = `git push origin refs/tags/v${packageJsonData.version}`;
