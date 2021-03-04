@@ -20,6 +20,8 @@ program
   .option('-e, --example <example-path>', messages.exampleHelp())
   .allowUnknownOption()
   .option('--no-install', 'Dont install packages')
+  .option('--yarn', 'Force yarn package manager')
+  .option('--npm', 'Force npm package manager')
   .option('--verbose', 'Be verbose to debug')
   .on('--help', messages.help)
   .parse(process.argv);
@@ -30,5 +32,7 @@ createRazzleApp({
   projectName,
   example,
   install: program.install,
+  yarn: program.yarn,
+  npm: program.npm,
   verbose: program.verbose
 });

@@ -129,7 +129,7 @@ module.exports = async function createRazzleApp(opts) {
       console.log(`Using official default example`)
     }
     const templatePath = path.resolve(__dirname, '../templates/default');
-    
+
     copyDir({
       templatePath: templatePath,
       projectPath: projectPath,
@@ -158,6 +158,8 @@ function installWithMessageFactory(opts, isExample = false) {
 
   return function installWithMessage() {
     return install({
+      npm: opts.npm,
+      yarn: opts.yarn,
       projectName: projectName,
       projectPath: projectPath,
       packages: isExample
@@ -172,7 +174,7 @@ function installWithMessageFactory(opts, isExample = false) {
           ],
     })
       .then(function() {
-        console.log(messages.start(projectName));
+        console.log(messages.start(projectName, opts));
       })
       .catch(function(err) {
         throw err;

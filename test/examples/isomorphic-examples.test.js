@@ -42,6 +42,22 @@ const stdio = 'pipe';
 
 const useCra = process.env.NPM_TAG !== 'development';
 
+const use_package_manager = typeof process.env.PACKAGE_MANAGER === 'undefined' ? 'default' : process.env.PACKAGE_MANAGER;
+
+const package_manager = use_package_manager === 'default' ? 'yarn' : use_package_manager;
+
+const cra_package_manager = use_package_manager === 'default' ? false : use_package_manager;
+
+const install_deps_args = package_manager === 'yarn' ?
+[ "install", "--ignore-engines" ] :
+[ "install" ];
+
+const add_webpack_deps_args = package_manager === 'yarn' ?
+[ "add", `${process.env.WEBPACK_DEPS}`, "--ignore-engines" ] :
+[ "install", `${process.env.WEBPACK_DEPS}` ];
+
+const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' ? '' : `@${process.env.NPM_TAG}`;
+
 const writeLogs = true;
 
 let examples =
@@ -227,14 +243,13 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should install packages`, async function(done) {
           if (!useCra) {
-            const subprocess = execa("yarn", [
-              "install",
-              "--ignore-engines"
-            ], {stdio: stdio, cwd: tempDir, all: writeLogs })
+            const subprocess = execa(package_manager,
+              install_deps_args,
+              {stdio: stdio, cwd: tempDir, all: writeLogs })
 
             if (writeLogs) {
               const write = rfs.createWriteStream(
-                path.join(testArtifactsDir, `${example}-yarn-install.txt`));
+                path.join(testArtifactsDir, `${example}-${package_manager}-install.txt`));
               subprocess.all.pipe(write);
             }
 
@@ -253,12 +268,13 @@ Object.keys(examples).forEach((exampleType) => {
 
           if (useCra) {
             const subprocess = execa("npx", [
-              `create-razzle-app@${process.env.NPM_TAG}`,
+              `create-razzle-app${use_npm_tag}`,,
+              cra_package_manager && `--${cra_package_manager}`,
               "--verbose",
               "--example",
               example,
               "example"
-            ], {stdio: stdio, cwd: tempDir, all: writeLogs });
+            ].filter(x=>x), {stdio: stdio, cwd: tempDir, all: writeLogs });
             if (writeLogs) {
               const write = rfs.createWriteStream(
                 path.join(testArtifactsDir, `${example}-create-razzle-app.txt`));
@@ -280,11 +296,9 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should use specific webpack and html-webpack-plugin`, async function(done) {
           if (process.env.WEBPACK_DEPS && !razzleMeta.forceWebpack) {
-            const subprocess = execa("yarn", [
-            "add",
-            `${process.env.WEBPACK_DEPS}`,
-            "--ignore-engines"
-            ], {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs });
+            const subprocess = execa(package_manager,
+              add_webpack_deps_args
+            , {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs });
             if (writeLogs) {
               const write = rfs.createWriteStream(
                 path.join(testArtifactsDir, `${example}-add-deps.txt`));
@@ -305,12 +319,12 @@ Object.keys(examples).forEach((exampleType) => {
         jest.setTimeout(300000);
 
         it(`should build successfully`, async function(done) {
-          const subprocess = execa("yarn", ["build", "--noninteractive"],
+          const subprocess = execa(package_manager, ["build", "--noninteractive"],
           {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
-              path.join(testArtifactsDir, `${example}-yarn-build.txt`));
+              path.join(testArtifactsDir, `${example}-${package_manager}-build.txt`));
             subprocess.all.pipe(write);
           }
 
@@ -325,12 +339,12 @@ Object.keys(examples).forEach((exampleType) => {
 
         it(`should start devserver and exit`, async function(done) {
 
-          const subprocess = execa("yarn", ["start"],
+          const subprocess = execa(package_manager, ["start"],
           {stdio: stdio, cwd: useCra ? craDir : tempDir, all: writeLogs })
 
           if (writeLogs) {
             const write = rfs.createWriteStream(
-              path.join(testArtifactsDir, `${example}-yarn-start.txt`));
+              path.join(testArtifactsDir, `${example}-${package_manager}-start.txt`));
             subprocess.all.pipe(write);
           }
 
@@ -338,7 +352,7 @@ Object.keys(examples).forEach((exampleType) => {
           let timer;
 
           await new Promise(async (r) =>{
-            console.info(`yarn start for ${example} `);
+            console.info(`${package_manager} start for ${example} `);
             const waitForData = data => {
               if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
                 resolved = true;

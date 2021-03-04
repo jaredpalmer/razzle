@@ -71,8 +71,8 @@ Creating ${chalk.bold(chalk.green(projectName))}...
 `;
 };
 
-exports.start = function(projectName) {
-  const cmd = getInstallCmd();
+exports.start = function(projectName, opts) {
+  const cmd = getInstallCmd(opts);
 
   const commands = {
     install: cmd.cmd === 'npm' ? 'npm install' : 'yarn',

@@ -10,6 +10,10 @@ on:
       jest_filter:
         description: 'The filter for jest tests'
         default: 'simple'
+      package_manager:
+        description: 'The package manager to use, yarn default'
+        default: 'default'
+
 
 
 jobs:
@@ -71,6 +75,7 @@ jobs:
       env:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.inputs.npm_tag }}"
+        PACKAGE_MANAGER: "${{ github.event.inputs.package_manager }}"
         WARNINGS_ERRORS_DISABLE: true
 
     - name: Upload test artifacts

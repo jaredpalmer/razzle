@@ -16,8 +16,8 @@ module.exports = function install(opts) {
     process.exit(1);
   }
 
-  const installCmd = getInstallCmd();
-  const installArgs = getInstallArgs(installCmd, packages);
+  const installCmd = getInstallCmd(opts);
+  const installArgs = getInstallArgs(installCmd, packages, opts);
 
   console.log(messages.installing(packages));
   process.chdir(projectPath);
@@ -51,7 +51,7 @@ module.exports = function install(opts) {
   });
 };
 
-function getInstallArgs(cmd, packages) {
+function getInstallArgs(cmd, packages, opts) {
   if (cmd.cmd === 'npm') {
     const args = ['install', '--save', '--save-exact'];
     return args.concat(packages, ['--verbose']);
