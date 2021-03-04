@@ -34,13 +34,6 @@ jobs:
 
     - name: Log date
       run: echo "${{ steps.date.outputs.date }}"
-    - name: Log yarn version 
-      run: yarn --version
-
-    - name: Log npx version 
-      run: npx --version
-
-
 
     - name: Checkout ref
       uses: actions/checkout@v2
@@ -48,7 +41,6 @@ jobs:
         ref: ${{ github.event.workflow_dispatch.ref }}
 
     - name: Use Node.js ${{ matrix.node-version }}
-      if: steps.last_run_status.outputs.last_run_status != 'success'
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
@@ -82,3 +74,9 @@ jobs:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.inputs.npm_tag }}"
         WARNINGS_ERRORS_DISABLE: true
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}
+        path: test-artifacts/
