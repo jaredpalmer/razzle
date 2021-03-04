@@ -62,7 +62,7 @@ describe('razzle start', () => {
     it('should build and run in spa mode', () => {
       util.setupStageWithExample(stageName, 'basic-spa');
       let outputTest;
-      shell.exec(`${path.join('../node_modules/.bin/razzle')} build`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build --noninteractive`);
       const run = new Promise(resolve => {
         const child = shell.exec(
           `${path.join('../node_modules/.bin/serve')} -s ${path.join('build/public')}`,

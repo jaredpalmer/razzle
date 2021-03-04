@@ -143,7 +143,7 @@ describe('razzle start', () => {
     it('should build and run', () => {
       util.setupStageWithExample(stageName, 'basic');
       let outputTest;
-      shell.exec(`${path.join('../node_modules/.bin/razzle')} build`);
+      shell.exec(`${path.join('../node_modules/.bin/razzle')} build --noninteractive`);
       const run = new Promise(resolve => {
         const child = shell.exec(`node ${path.join('build/server.js')}`, () => {
           resolve(outputTest);

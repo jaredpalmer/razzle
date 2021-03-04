@@ -12,6 +12,7 @@ const loadGitHubExample = require('./utils/load-github-example');
 const loadGitExample = require('./utils/load-git-example');
 const loadNpmExample = require('./utils/load-npm-example');
 const messages = require('./messages');
+const officialExamples = require('./officialExamples');
 
 const isFolder = ({ type }) => type === 'dir';
 const prop = key => obj => obj[key];
@@ -20,27 +21,6 @@ const branch = 'canary'; // this line auto updates when yarn update-examples is 
 const razzlePkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
 const razzleDevUtilsPkg = `razzle-dev-utils${branch == 'master' ? '' : '@' + branch}`;
 
-const officialExamplesApiUrl = `https://api.github.com/repos/jaredpalmer/razzle/contents/examples${
-  branch == 'master' ? '' : '?ref=' + branch
-}`;
-
-const getOfficialExamples = (verbose) => {
-  if (typeof process.env.CI === 'undefined') {
-    console.log(`Getting data from ${officialExamplesApiUrl}:`);
-    return axios
-      .get(officialExamplesApiUrl, { adapter: httpAdapter })
-      .then(({ data }) => {
-        const gotData = data.filter(isFolder).map(prop('name'))
-        if (verbose) {
-          console.log(`Got data from ${officialExamplesApiUrl}:`);
-          console.log(gotData);
-        }
-        return gotData;
-      });
-  } else {
-    return Promise.resolve(['basic']);
-  }
-};
 
 module.exports = async function createRazzleApp(opts) {
   const projectName = opts.projectName;
@@ -65,10 +45,15 @@ module.exports = async function createRazzleApp(opts) {
       loadGitHubExample({
         projectName: projectName,
         example: opts.example,
-      }).then(installWithMessageFactory(opts, true))
-        .catch(function(err) {
-          throw err;
-        });
+      })
+      .then(installWithMessageFactory(opts, true))
+      .catch(function(err) {
+        console.error(`Failed loading github ${opts.example} example`);
+        if (opts.verbose) {
+          console.error(err);
+        }
+        process.exit(1)
+      });
     } else if (/^git\+/.test(opts.example)) {
       if (opts.verbose) {
         console.log(`Using git ${opts.example} example`)
@@ -76,10 +61,15 @@ module.exports = async function createRazzleApp(opts) {
       loadGitExample({
         projectName: projectName,
         example: opts.example,
-      }).then(installWithMessageFactory(opts, true))
-        .catch(function(err) {
-          throw err;
-        });
+      })
+      .then(installWithMessageFactory(opts, true))
+      .catch(function(err) {
+        console.error(`Failed loading git ${opts.example} example`);
+        if (opts.verbose) {
+          console.error(err);
+        }
+        process.exit(1)
+      });
     } else if (/^file:/.test(opts.example)) {
       if (opts.verbose) {
         console.log(`Using file ${opts.example} example`)
@@ -89,53 +79,70 @@ module.exports = async function createRazzleApp(opts) {
         templatePath: examplePath,
         projectPath: projectPath,
         projectName: projectName,
-      }).then(installWithMessageFactory(opts, true))
-        .catch(function(err) {
-          throw err;
-        });
-    } else {
-      getOfficialExamples(opts.verbose).then(officialExamples => {
-        if (officialExamples.includes(opts.example)) {
-          if (opts.verbose) {
-            console.log(`Using official ${opts.example} example`)
-          }
-          loadExample({
-            projectName: projectName,
-            example: opts.example,
-            verbose: opts.verbose,
-          }).then(installWithMessageFactory(opts, true))
-            .catch(function(err) {
-              throw err;
-            });
-        } else {
-          if (opts.verbose) {
-            console.log(`Using npm ${opts.example} example`)
-          }
-          loadNpmExample({
-            projectName: projectName,
-            example: opts.example,
-          }).then(installWithMessageFactory(opts, true))
-            .catch(function(err) {
-              throw err;
-            });
+      })
+      .then(installWithMessageFactory(opts, true))
+      .catch(function(err) {
+        console.error(`Failed loading file ${opts.example} example`);
+        if (opts.verbose) {
+          console.error(err);
         }
+        process.exit(1)
       });
+    } else {
+      if (officialExamples.includes(opts.example)) {
+        if (opts.verbose) {
+          console.log(`Using official ${opts.example} example`)
+        }
+        loadExample({
+          projectName: projectName,
+          example: opts.example,
+          verbose: opts.verbose,
+        })
+        .then(installWithMessageFactory(opts, true))
+        .catch(function(err) {
+          console.error(`Failed loading official ${opts.example} example`);
+          if (opts.verbose) {
+            console.error(err);
+          }
+          process.exit(1)
+        });
+      } else {
+        if (opts.verbose) {
+          console.log(`Using npm ${opts.example} example`)
+        }
+        loadNpmExample({
+          projectName: projectName,
+          example: opts.example,
+        })
+        .then(installWithMessageFactory(opts, true))
+        .catch(function(err) {
+          console.error(`Failed loading official ${opts.example} example`);
+          if (opts.verbose) {
+            console.error(err);
+          }
+          process.exit(1)
+        });
+      }
     }
   } else {
     if (opts.verbose) {
       console.log(`Using official default example`)
     }
     const templatePath = path.resolve(__dirname, '../templates/default');
-
+    
     copyDir({
       templatePath: templatePath,
       projectPath: projectPath,
       projectName: projectName,
     })
-      .then(installWithMessageFactory(opts))
-      .catch(function(err) {
-        throw err;
-      });
+    .then(installWithMessageFactory(opts))
+    .catch(function(err) {
+      console.error(`Failed loading official ${opts.example} example`);
+      if (opts.verbose) {
+        console.error(err);
+      }
+      process.exit(1)
+    });
   }
 };
 
