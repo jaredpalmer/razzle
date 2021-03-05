@@ -25,6 +25,8 @@ const rfs = require('fs');
 const execa = require('execa');
 const util = require('util');
 const glob = util.promisify(require('glob'));
+const isDocker = require('is-docker');
+
 
 const path = require("path");
 const copy = require('recursive-copy');
@@ -183,7 +185,21 @@ let browser;
 let page;
 
 beforeAll(async function(done) {
-  browser = await puppeteer.launch({ headless: process.env.HEADLESS !== "false"  });
+  if (isDocker()) {
+    const response = await axios.get(
+      "http://host.docker.internal:9222/json/version",
+      {
+        headers: { Host: "127.0.0.1:9222" }
+      }
+    );
+    const browserWSEndpoint = response.data.webSocketDebuggerUrl.replace(
+      /127.0.0.1/g,
+      "host.docker.internal"
+    );
+    browser = await puppeteer.connect({ browserWSEndpoint });
+  } else {
+    browser = await puppeteer.launch({ headless: process.env.HEADLESS !== "false"  });
+  }
   page = await browser.newPage();
   await fs.ensureDir(testArtifactsDir);
   // const res = await glob('examples/*')
