@@ -188,16 +188,10 @@ let page;
 beforeAll(async function(done) {
   if (isDocker()) {
     const response = await axios.get(
-      "http://host.docker.internal:9222/json/version",
-      {
-        headers: { Host: "127.0.0.1:9222" }
-      }
+      "http://localhost:9222/json/version"
     );
-    const browserWSEndpoint = response.data.webSocketDebuggerUrl.replace(
-      /127.0.0.1/g,
-      "host.docker.internal"
-    );
-    browser = await puppeteer.connect({ browserWSEndpoint });
+    const browserWSEndpoint = response.data.webSocketDebuggerUrl;
+    browser = await puppeteer.connect({ browserWSEndpoint  });
   } else {
     browser = await puppeteer.launch({ headless: process.env.HEADLESS !== "false"  });
   }
@@ -210,7 +204,9 @@ beforeAll(async function(done) {
 });
 
 afterAll(async function(done) {
-  await browser.close();
+  if (isDocker()) {
+    await browser.close();
+  }
   await new Promise((r) => setTimeout(r, 3000));
   done();
 });
