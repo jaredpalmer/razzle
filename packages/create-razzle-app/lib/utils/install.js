@@ -22,7 +22,7 @@ module.exports = function install(opts) {
   console.log(messages.installing(packages));
   process.chdir(projectPath);
 
-  const stdio = 'pipe';
+  const stdio = opts.verbose ? 'inherit' : 'pipe';
 
   return new Promise(function(resolve, reject) {
     const stopInstallSpinner = output.wait('Installing modules');
