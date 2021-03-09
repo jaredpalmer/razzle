@@ -27,6 +27,7 @@ const util = require('util');
 const glob = util.promisify(require('glob'));
 const axios = require('axios');
 const isDocker = require('is-docker');
+const razzleUtil = require('../fixtures/util');
 
 
 const path = require("path");
@@ -51,7 +52,7 @@ const package_manager = use_package_manager === 'default' ? 'yarn' : use_package
 
 const cra_package_manager = use_package_manager === 'default' ? false : use_package_manager;
 
-const install_deps_args = package_manager === 'yarn' ?
+const install_deps_args = ['yarn', 'yalc'].indexOf(package_manager) !== -1 ?
 [ "install", "--ignore-engines" ] :
 [ "install" ];
 
@@ -197,6 +198,10 @@ beforeAll(async function(done) {
   }
   page = await browser.newPage();
   await fs.ensureDir(testArtifactsDir);
+
+  if (package_manager === 'yalc') {
+    razzleUtil.yalcPublishAll();
+  }
   // const res = await glob('examples/*')
   // examples=res.map(ex=>({example: ex.split('/')[1], path: ex}))
   // console.log(examples)
@@ -239,6 +244,10 @@ Object.keys(examples).forEach((exampleType) => {
                 } else {
                   // console.info('Copied ' + results.length + ' files');
                 }
+                  if (package_manager === 'yalc') {
+                    const packages = razzleUtil.removeWorkspacePackages(tempDir);
+                    razzleUtil.yalcAddAll(packages);
+                  }
                 done();
               })
             } else {

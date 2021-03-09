@@ -33,18 +33,20 @@ const removeWorkspacePackages = (fromPath) => {
     const packageJsonData = JSON.parse(fs.readFileSync(packageJson));
 
     const newPackageJsonData = ["dependencies", "devDependencies"].reduce((acc, depType) => {
-      if (acc[depType]) {
-        acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+      if (acc.packageJsonData[depType]) {
+        acc.packageJsonData[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
           if (workspacePackages.includes(dep)) {
+            acc.removedPackages.push(dep);
             delete depsAcc[dep];
           }
           return depsAcc;
-        }, acc[depType]);
+        }, acc.packageJsonData[depType]);
       }
       return acc;
-    }, packageJsonData);
+    }, { packageJsonData: packageJsonData, removedPackages: []);
 
-    return fs.writeFileSync(packageJson, JSON.stringify(newPackageJsonData, null, '  '));
+    fs.writeFileSync(packageJson, JSON.stringify(newPackageJsonData.packageJsonData, null, '  '));
+    return newPackageJsonData.removedPackages;
   }
 };
 
@@ -98,8 +100,8 @@ const yalcPublishPushAll = () => {
   return getWorkspaceDirs().map(dir=>shell.exec(`yalc publish --push ${dir}`))
 };
 
-const yalcAddAll = () => {
-  return getWorkspacePackages().map(pkg=>shell.exec(`yalc add --no-pure ${pkg}`))
+const yalcAddAll = (packages) => {
+  return (packages ? packages : getWorkspacePackages()).map(pkg=>shell.exec(`yalc add --no-pure ${pkg}`))
 };
 
 const setupStageWithExample = (
