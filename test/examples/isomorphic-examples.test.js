@@ -48,7 +48,9 @@ const useCra = process.env.NPM_TAG !== 'development';
 
 const use_package_manager = typeof process.env.PACKAGE_MANAGER === 'undefined' ? 'default' : process.env.PACKAGE_MANAGER;
 
-const package_manager = use_package_manager === 'default' ? 'yarn' : use_package_manager;
+const useYalc = use_package_manager === 'yalc';
+
+const package_manager = use_package_manager === 'default' || useYalc ? 'yarn' : use_package_manager;
 
 const cra_package_manager = use_package_manager === 'default' ? false : use_package_manager;
 
@@ -199,7 +201,7 @@ beforeAll(async function(done) {
   page = await browser.newPage();
   await fs.ensureDir(testArtifactsDir);
 
-  if (package_manager === 'yalc') {
+  if (useYalc) {
     razzleUtil.yalcPublishAll();
   }
   // const res = await glob('examples/*')
@@ -209,7 +211,7 @@ beforeAll(async function(done) {
 });
 
 afterAll(async function(done) {
-  if (isDocker()) {
+  if (!isDocker()) {
     await browser.close();
   }
   await new Promise((r) => setTimeout(r, 3000));
@@ -236,6 +238,7 @@ Object.keys(examples).forEach((exampleType) => {
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
             craDir = path.join(directory, 'example');
+            console.error('Using tempdir: ' + tempDir);
 
             if (!useCra) {
               copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
@@ -244,9 +247,9 @@ Object.keys(examples).forEach((exampleType) => {
                 } else {
                   // console.info('Copied ' + results.length + ' files');
                 }
-                  if (package_manager === 'yalc') {
+                  if (useYalc) {
                     const packages = razzleUtil.removeWorkspacePackages(tempDir);
-                    razzleUtil.yalcAddAll(packages);
+                    razzleUtil.yalcAddAll(packages, tempDir);
                   }
                 done();
               })
@@ -376,30 +379,38 @@ Object.keys(examples).forEach((exampleType) => {
           let resolved = false;
           let timer;
 
-          await new Promise(async (r) =>{
-            console.info(`${package_manager} start for ${example} `);
-            const waitForData = data => {
-              if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
-                resolved = true;
-                subprocess.off('data', waitForData)
-                clearTimeout(timer);
-                r();
+          try {
+            await new Promise(async (resolve, reject) =>{
+              console.info(`${package_manager} start for ${example} `);
+              const waitForData = data => {
+                if (data.toString().includes('Server-side HMR Enabled!') || data.toString().includes('> SPA Started on port')) {
+                  resolved = true;
+                  subprocess.off('data', waitForData)
+                  clearTimeout(timer);
+                  resolve();
+                }
               }
-            }
-            timer = setTimeout(function() {
-              if (!resolved) {
-                subprocess.off('data', waitForData)
-                r();
-              }
-            }, 15000)
-            subprocess.stdout.on('data', waitForData);
-          })
+              timer = setTimeout(function() {
+                if (!resolved) {
+                  subprocess.off('data', waitForData)
+                  reject();
+                }
+              }, 15000)
+              subprocess.stdout.on('data', waitForData);
+            })
+          } catch {
+
+          }
           if (razzleMeta.yarnStartDelay) {
             await new Promise((r) => setTimeout(r, razzleMeta.yarnStartDelay));
           }
           if (resolved) {
-            await page.goto(`${razzleMeta.protocol||'http'}://localhost:${razzleMeta.port||'3000'}/`);
-            await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
+            try {
+              await page.goto(`${razzleMeta.protocol||'http'}://localhost:${razzleMeta.port||'3000'}/`);
+              await page.screenshot({ path: path.join(testArtifactsDir, `${example}.png`) });
+            } catch {
+
+            }
           }
 
           await new Promise((r) => setTimeout(r, 2000));
