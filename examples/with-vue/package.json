@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "vue": "^2.6.11",
-    "vue-server-renderer": "^2.6.11"
+    "vue": "^2.6.12",
+    "vue-server-renderer": "^2.6.12"
   },
   "devDependencies": {
     "babel-preset-razzle": "4.0.1-canary.10",
