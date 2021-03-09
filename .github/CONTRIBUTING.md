@@ -76,7 +76,7 @@ git checkout -b my-feature-branch canary
 # git checkout -b my-feature-branch master
 # git checkout -b my-feature-branch three
 
-sudo npm install add-dependencies -g
+sudo npm install add-dependencies yalc -g
 
 pwd
 # /home/oyvind/Documents/GitHub/razzle/
@@ -95,10 +95,10 @@ example="$(basename $PWD)"
 pushd ../..
 
 # if it is a example with webpack5 you need to do
-yarn add -W webpack@5.16.0
+yarn add -W webpack@5.24.0 html-webpack-plugin@5.2.0
 
 # switch back to webpack4 later to work with webpack4
-yarn add -W webpack@4.46.0
+yarn add -W webpack@4.46.0 html-webpack-plugin@4.5.2
 
 # then
 yarn bootstrap-examples $example
@@ -114,6 +114,16 @@ pushd ../..
 cd packages/razzle-start-server-webpack-plugin
 yarn build
 popd
+
+# to run example tests with unreleased razzle packages with specific webpack and specific tests
+
+WEBPACK_DEPS="webpack@5.24.0 html-webpack-plugin@5.2.0" PACKAGE_MANAGER="yalc" NPM_TAG="development" yarn test:examples --runInBand -t with-tailwindcss
+WEBPACK_DEPS="webpack@4.46.0 html-webpack-plugin@4.5.2" PACKAGE_MANAGER="yalc" NPM_TAG="development" yarn test:examples --runInBand -t with-tailwindcss
+
+# Commands being run during testing puts output and puppeteer screenshots in test-artifacts/
+# Trouble with puppeteer?
+
+sudo sysctl -w kernel.unprivileged_userns_clone=1
 ```
 
 ### Updating your fork
