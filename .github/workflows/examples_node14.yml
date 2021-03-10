@@ -11,8 +11,8 @@ on:
         description: 'The filter for jest tests'
         default: 'simple'
       package_manager:
-        description: 'The package manager to use, yarn default'
-        default: 'default'
+        description: 'The package manager to use, yalc with yarn default'
+        default: 'yalc'
 
 
 
