@@ -3,8 +3,9 @@
   "version": "4.0.1-canary.10",
   "license": "MIT",
   "scripts": {
-    "start": "razzle start",
-    "build": "razzle build",
+    "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start": "concurrently \"yarn start:tsc\" \"razzle start\"",
+    "build": "tsc -b && razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js --config ormconfig.json"
   },
@@ -23,6 +24,8 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.3",
     "@babel/cli": "^7.12.13",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.13",

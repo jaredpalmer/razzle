@@ -391,15 +391,12 @@ Object.keys(examples).forEach((exampleType) => {
                 }
               }
               timer = setTimeout(function() {
-                if (!resolved) {
-                  subprocess.off('data', waitForData)
-                  reject();
-                }
-              }, 15000)
+                subprocess.off('data', waitForData)
+                reject();
+              }, 30000)
               subprocess.stdout.on('data', waitForData);
             })
           } catch {
-
           }
           if (razzleMeta.yarnStartDelay) {
             await new Promise((r) => setTimeout(r, razzleMeta.yarnStartDelay));
