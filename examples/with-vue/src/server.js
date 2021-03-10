@@ -22,7 +22,7 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 export const renderApp = (req, res) => {
 
   const { app } = createVueApp();
-  const vueMarkup = await renderer.renderToString(app);
+  const vueMarkup = renderer.renderToString(app);
 
   const html =
     // prettier-ignore
@@ -53,3 +53,5 @@ server
     const { html } = renderApp(req, res);
     res.send(html);
   });
+
+export default server;
