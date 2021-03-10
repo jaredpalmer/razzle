@@ -247,10 +247,10 @@ Object.keys(examples).forEach((exampleType) => {
                 } else {
                   // console.info('Copied ' + results.length + ' files');
                 }
-                  if (useYalc) {
-                    const packages = razzleUtil.removeWorkspacePackages(tempDir);
-                    razzleUtil.yalcAddAll(packages, tempDir);
-                  }
+                if (useYalc) {
+                  const packages = razzleUtil.removeWorkspacePackages(tempDir);
+                  razzleUtil.yalcAddAll(packages, tempDir);
+                }
                 done();
               })
             } else {

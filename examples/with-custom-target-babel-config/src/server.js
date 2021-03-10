@@ -22,8 +22,11 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 };
 
 export const renderApp = (req, res) => {
-  const markup = renderToString(<App />);
-
+  const markup = renderToString(
+    <StaticRouter context={context} location={req.url}>
+      <App />
+    </StaticRouter>
+  );
   const html =
     // prettier-ignore
     `<!doctype html>

@@ -23,15 +23,15 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 
 export const renderApp = (req, res) => {
 
-    // register the app
-    AppRegistry.registerComponent('App', () => App);
+  // register the app
+  AppRegistry.registerComponent('App', () => App);
 
-    // prerender the app
-    const { element, getStyleElement } = AppRegistry.getApplication('App', {});
-    // first the element
-    const html = ReactDOMServer.renderToString(element);
-    // then the styles
-    const css = ReactDOMServer.renderToStaticMarkup(getStyleElement());
+  // prerender the app
+  const { element, getStyleElement } = AppRegistry.getApplication('App', {});
+  // first the element
+  const markup = ReactDOMServer.renderToString(element);
+  // then the styles
+  const css = ReactDOMServer.renderToStaticMarkup(getStyleElement());
 
   const html =
     // prettier-ignore

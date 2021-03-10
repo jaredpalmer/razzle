@@ -64,3 +64,5 @@ server
     const { html } = await renderApp(req, res);
     res.send(html);
   });
+
+  export default server;

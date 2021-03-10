@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="React with Server Components demo">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
-    <title>React Notes</title>
+    <link rel="icon" href="<%= process.env.PUBLIC_PATH %>favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <%= htmlWebpackPlugin.tags.headTags %>
+    <!--
+        Notice the use of <%= process.env.PUBLIC_PATH %> in the tags above.
+        It will be replaced with the URL of the `public` folder during the build.
+        Only files inside the `public` folder can be referenced from the HTML.
+        Unlike "/favicon.ico" or "favicon.ico", "<%= process.env.PUBLIC_PATH %>/favicon.ico" will
+        work correctly both with client-side routing and a non-root public URL.
+        Learn how to configure a non-root public URL by running `npm run build`.
+      -->
+    <title>React App</title>
   </head>
+
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script>
-      // In development, we restart the server on every edit.
-      // For the purposes of this demo, retry fetch automatically.
-      let nativeFetch = window.fetch;
-      window.fetch = async function fetchWithRetry(...args) {
-        for (let i = 0; i < 4; i++) {
-          try {
-            return await nativeFetch(...args);
-          } catch (e) {
-            if (args[1] && args[1].method !== 'GET') {
-              // Don't retry mutations to avoid confusion
-              throw e;
-            }
-            await new Promise(resolve => setTimeout(resolve, 500));
-          }
-        }
-        return nativeFetch(...args);
-      }
-    </script>
+    <!--
+        This HTML file is a template.
+        If you open it directly in the browser, you will see an empty page.
+        You can add webfonts, meta tags, or analytics to this file.
+        The build step will place the bundled scripts into the <body> tag.
+        To begin the development, run `npm start` or `yarn start`.
+        To create a production bundle, use `npm run build` or `yarn build`.
+      -->
+      <%= htmlWebpackPlugin.tags.bodyTags %>
   </body>
+
 </html>

@@ -43,14 +43,10 @@ export const renderApp = (req, res) => {
   return { html };
 };
 
-const server = express();
 
-server
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+export default polka()
+  .use(serve(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const { html } = renderApp(req, res);
     res.send(html);
   });
-
-export default server;

@@ -57,17 +57,6 @@ export const renderApp = (ctx) => {
 
 };
 
-const server = express();
-
-server
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get('/*', (req, res) => {
-    const { html } = renderApp(req, res);
-    res.send(html);
-  });
-
-export default server;
 // Initialize `koa-router` and setup a route listening on `GET /*`
 // Logic has been splitted into two chained middleware functions
 // @see https://github.com/alexmingoia/koa-router#multiple-middleware
