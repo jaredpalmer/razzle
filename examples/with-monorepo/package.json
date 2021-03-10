@@ -14,7 +14,7 @@
     "start:prod-2": "cross-env RAZZLE_APP_PATH=basic-2 NODE_ENV=production node basic-2/build/server.js",
     "start": "concurrently \"yarn start-1\" \"yarn start-2\"",
     "start:prod": "concurrently \"yarn start:prod-1\" \"yarn start:prod-2\"",
-    "build": "concurrently \"yarn build-1\" \"yarn build-2\""
+    "build": "concurrently \"yarn build-1 --noninteractive\" \"yarn build-2 --noninteractive\""
   },
   "workspaces": [
     "basic-1",

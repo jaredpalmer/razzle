@@ -61,7 +61,7 @@ const install_deps_args = ['yarn', 'yalc'].indexOf(package_manager) !== -1 ?
 const webpack_deps = typeof process.env.WEBPACK_DEPS !== 'undefined' ? process.env.WEBPACK_DEPS.split(' ') : false;
 
 const add_webpack_deps_args = package_manager === 'yarn' ?
-[ "add", "--dev" ].concat(webpack_deps).concat([ "--ignore-engines" ]) :
+[ "add", "--dev", "-W"].concat(webpack_deps).concat([ "--ignore-engines" ]) :
 [ "install", "--save-dev"].concat(webpack_deps);
 
 const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' ? '' : `@${process.env.NPM_TAG}`;
@@ -71,6 +71,7 @@ const writeLogs = true;
 let examples =
     { simple: [
       { example: 'basic', path: 'examples/basic' },
+      { example: 'basic-server', path: 'examples/basic-server' },
       { example: 'basic-spa', path: 'examples/basic-spa' },
       {
         example: 'with-custom-babel-config',

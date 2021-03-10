@@ -22,6 +22,9 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 };
 
 export const renderApp = (req, res) => {
+  
+  const context = {};
+
   const markup = renderToString(
     <StaticRouter context={context} location={req.url}>
       <App />

@@ -49,4 +49,4 @@ export default polka()
   .get('/*', (req, res) => {
     const { html } = renderApp(req, res);
     res.send(html);
-  });
+  }).handler;
