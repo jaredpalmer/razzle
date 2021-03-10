@@ -293,6 +293,7 @@ module.exports = (
             development: IS_DEV,
             shouldUseReactRefresh: shouldUseReactRefresh,
           },
+          ident: 'razzle-babel-loader'
         }
       ]
     };
@@ -501,27 +502,39 @@ module.exports = (
           webpackOptions.babelRule,
           {
             exclude: webpackOptions.fileLoaderExclude,
-            use: (info) => {
+            use: clientOnly || webpackOptions.enableHtmlWebpackPlugin ? (info) => {
               return info.compiler !== 'HtmlWebpackCompiler' ? [{
                 loader: require.resolve('file-loader'),
                 options: {
                   name: webpackOptions.fileLoaderOutputName,
                   emitFile: IS_WEB,
-                }
-              }]:[]},
+                },
+                ident: 'razzle-file-loader'
+              }]:[]} :
+              [{ // fix for vue-loader plugin
+                loader: require.resolve('file-loader'),
+                options: {
+                  name: webpackOptions.fileLoaderOutputName,
+                  emitFile: IS_WEB,
+                },
+                ident: 'razzle-file-loader'
+              }]
             },
           // "url" loader works like "file" loader except that it embeds assets
           // smaller than specified limit in bytes as data URLs to avoid requests.
           // A missing `test` is equivalent to a match.
           {
             test: webpackOptions.urlLoaderTest,
-            loader: require.resolve('url-loader'),
-            options: {
-              limit: 10000,
-              name: webpackOptions.urlLoaderOutputName,
-              emitFile: IS_WEB,
-            },
-          },
+            use: [{
+              loader: require.resolve('url-loader'),
+              options: {
+                limit: 10000,
+                name: webpackOptions.urlLoaderOutputName,
+                emitFile: IS_WEB,
+              },
+              ident: 'razzle-url-loader'
+            }
+          ]},
 
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -548,12 +561,19 @@ module.exports = (
                     localIdentName: '[name]__[local]___[hash:base64:5]'
                   },
                 },
+                ident: 'razzle-css-loader'
               },
             ]
             : IS_DEV
             ? [
               razzleOptions.staticCssInDev
-                ?  MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+                ?  {
+                  loader: MiniCssExtractPlugin.loader,
+                  ident: 'razzle-mini-css-extract-loader'
+                } : {
+                  loader: require.resolve('style-loader'),
+                  ident: 'razzle-style-loader'
+                },
               {
                 loader: require.resolve('css-loader'),
                 options: {
@@ -563,14 +583,18 @@ module.exports = (
                     localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
                 },
+                ident: 'razzle-css-loader'
               },
               {
                 loader: require.resolve('postcss-loader'),
                 options: postCssOptions,
+                ident: 'razzle-postcss-loader'
               },
             ]
-            : [
-              MiniCssExtractPlugin.loader,
+            : [{
+                loader: MiniCssExtractPlugin.loader,
+                ident: 'razzle-mini-css-extract-loader'
+              },
               {
                 loader: require.resolve('css-loader'),
                 options: {
@@ -581,10 +605,12 @@ module.exports = (
                     localIdentName: '[name]__[local]___[hash:base64:5]',
                   },
                 },
+                ident: 'razzle-css-loader'
               },
               {
                 loader: require.resolve('postcss-loader'),
                 options: postCssOptions,
+                ident: 'razzle-postcss-loader'
               },
             ],
           },

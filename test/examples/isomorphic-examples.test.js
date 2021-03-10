@@ -238,7 +238,7 @@ Object.keys(examples).forEach((exampleType) => {
           mkdtemp(mkdtempTpl, (err, directory) => {
             tempDir = directory;
             craDir = path.join(directory, 'example');
-            console.error('Using tempdir: ' + tempDir);
+            console.log('Using tempdir: ' + tempDir);
 
             if (!useCra) {
               copy(path.join(rootDir, exampleinfo.path), tempDir, { dot: true },async function(error, results) {
