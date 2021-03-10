@@ -49,6 +49,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Install yalc globally
+      run: npm install -g yalc
+
     - name: Install elm globally
       run: yarn global add elm
 
