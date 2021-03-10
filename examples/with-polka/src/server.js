@@ -48,5 +48,5 @@ export default polka()
   .use(serve(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const { html } = renderApp(req, res);
-    res.send(html);
+    res.end(html);
   }).handler;
