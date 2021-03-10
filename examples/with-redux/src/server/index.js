@@ -10,13 +10,25 @@ import serialize from 'serialize-javascript';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const server = express();
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  assets[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${asset}">`
+  ).join('') : '' : '';
+};
 
-server
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get('/*', (req, res) => {
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  assets[entrypoint].js.map(asset=>
+    `<script src="${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
+
+export const renderApp = (req, res) => {
+  return new Promise((resolve)=>{
+
     fetchCounter(apiResult => {
+
       // Read the counter from the request, if provided
       const params = qs.parse(req.query);
       const counter = parseInt(params.counter, 10) || apiResult || 0;
@@ -37,28 +49,39 @@ server
       // Grab the initial state from our Redux store
       const finalState = store.getState();
 
-      res.send(`<!doctype html>
+      const html =
+      // prettier-ignore
+      `<!doctype html>
     <html lang="">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet='utf-8' />
-        <title>Razzle Redux Example</title>
+        <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${assets.client.css
-          ? `<link rel="stylesheet" href="${assets.client.css}">`
-          : ''}
-          ${process.env.NODE_ENV === 'production'
-            ? `<script src="${assets.client.js}" defer></script>`
-            : `<script src="${assets.client.js}" defer crossorigin></script>`}
+        ${cssLinksFromAssets(assets, 'client')}
     </head>
     <body>
         <div id="root">${markup}</div>
         <script>
           window.__PRELOADED_STATE__ = ${serialize(finalState)}
         </script>
+        ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
-</html>`);
-    });
+  </html>`;
+
+    resolve({ html });
+    })
+  })
+};
+
+const server = express();
+
+server
+  .disable('x-powered-by')
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .get('/*', async (req, res) => {
+    const { html } = await renderApp(req, res);
+    res.send(html);
   });
 
 export default server;

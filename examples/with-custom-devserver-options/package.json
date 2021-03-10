@@ -3,8 +3,8 @@
   "version": "4.0.1-canary.10",
   "license": "MIT",
   "scripts": {
-    "start": "CLIENT_PUBLIC_PATH=http://localhost:3002/ razzle start",
-    "start:proxied": "CLIENT_PUBLIC_PATH=http://example.com:8080/ razzle start",
+    "start": "cross-env CLIENT_PUBLIC_PATH=http://localhost:3002/ razzle start",
+    "start:proxied": "cross-env CLIENT_PUBLIC_PATH=http://example.com:8080/ razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
@@ -15,6 +15,7 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "razzle": "4.0.1-canary.10",
     "razzle-dev-utils": "4.0.1-canary.10",
     "mini-css-extract-plugin": "^0.9.0",

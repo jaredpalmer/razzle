@@ -21,41 +21,37 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
   ).join('') : '' : '';
 };
 
+export const renderApp = (req, res) => {
+  const markup = renderToString(<App />);
+
+  const html =
+    // prettier-ignore
+    `<!doctype html>
+  <html lang="">
+  <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet='utf-8' />
+      <title>Welcome to Razzle</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${cssLinksFromAssets(assets, 'client')}
+  </head>
+  <body>
+      <div id="root">${markup}</div>
+      ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
+  </body>
+</html>`;
+
+  return { html };
+};
 
 const server = express();
+
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    const context = {};
-    const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    );
-
-    if (context.url) {
-      res.redirect(context.url);
-    } else {
-      res.status(200).send(
-        `<!doctype html>
-    <html lang="">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet='utf-8' />
-        <title>Welcome to Razzle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${cssLinksFromAssets(assets, 'client')}
-    </head>
-    <body>
-        <div id="root">${markup}</div>
-        ${process.env.NODE_ENV === 'production'
-          ? jsScriptTagsFromAssets(assets, 'client', ' defer')
-          : jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
-    </body>
-</html>`
-      );
-    }
+    const { html } = renderApp(req, res);
+    res.send(html);
   });
 
 export default server;

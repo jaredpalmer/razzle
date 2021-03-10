@@ -9,6 +9,65 @@ import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  assets[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${asset}">`
+  ).join('') : '' : '';
+};
+
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  assets[entrypoint].js.map(asset=>
+    `<script src="${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
+
+export const renderApp = (ctx) => {
+
+  const context = {};
+  const markup = renderToString(
+    <StaticRouter context={context} location={ctx.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  if (context.url) {
+    return { redirect: context.url };
+  } else {
+    const html =
+    // prettier-ignore
+    `<!doctype html>
+  <html lang="">
+  <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet='utf-8' />
+      <title>Welcome to Razzle</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${cssLinksFromAssets(assets, 'client')}
+  </head>
+  <body>
+      <div id="root">${markup}</div>
+      ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
+  </body>
+</html>`;
+
+    return { html };
+  }
+
+};
+
+const server = express();
+
+server
+  .disable('x-powered-by')
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .get('/*', (req, res) => {
+    const { html } = renderApp(req, res);
+    res.send(html);
+  });
+
+export default server;
 // Initialize `koa-router` and setup a route listening on `GET /*`
 // Logic has been splitted into two chained middleware functions
 // @see https://github.com/alexmingoia/koa-router#multiple-middleware
@@ -16,40 +75,13 @@ const router = new Router();
 router.get(
   '/*',
   (ctx, next) => {
-    const context = {};
-    const markup = renderToString(
-      <StaticRouter context={context} location={ctx.url}>
-        <App />
-      </StaticRouter>
-    );
-    ctx.state.markup = markup;
-    return context.url ? ctx.redirect(context.url) : next();
+    const { html = '', redirect = false } = renderApp(ctx);
+    ctx.state.markup = html;
+    return redirect ? ctx.redirect(redirect) : next();
   },
   ctx => {
     ctx.status = 200;
-    ctx.body = `
-    <!doctype html>
-      <html lang="">
-      <head>
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta charset="utf-8" />
-          <title>Welcome to Razzle + Koa</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          ${
-            assets.client.css
-              ? `<link rel="stylesheet" href="${assets.client.css}">`
-              : ''
-          }
-          ${  
-            process.env.NODE_ENV === 'production'
-              ? `<script src="${assets.client.js}" defer></script>`
-              : `<script src="${assets.client.js}" defer crossorigin></script>`
-          }
-      </head>
-      <body>
-          <div id="root">${ctx.state.markup}</div>
-      </body>
-    </html>`;
+    ctx.body = ctx.state.markup;
   }
 );
 

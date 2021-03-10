@@ -12,40 +12,49 @@ const syncLoadAssets = () => {
 };
 syncLoadAssets();
 
-const server = express()
-  .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
-  .get('/*', (req: express.Request, res: express.Response) => {
-    const context = {};
-    const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
-    );
-    res.send(
+export const renderApp = (req: express.Request, res: express.Response) => {
+  const context = {};
+
+  const markup = renderToString(
+    <StaticRouter context={context} location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  if (context.url) {
+    return { redirect: context.url };
+  } else {
+    const html =
+      // prettier-ignore
       `<!doctype html>
     <html lang="">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet='utf-8' />
-        <title>Razzle TypeScript</title>
+        <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${
-          assets.client.css
-            ? `<link rel="stylesheet" href="${assets.client.css}">`
-            : ''
-        }
-          ${
-            process.env.NODE_ENV === 'production'
-              ? `<script src="${assets.client.js}" defer></script>`
-              : `<script src="${assets.client.js}" defer crossorigin></script>`
-          }
+        ${cssLinksFromAssets(assets, 'client')}
     </head>
     <body>
         <div id="root">${markup}</div>
+        ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
-</html>`
-    );
+  </html>`;
+
+    return { html };
+  }
+};
+
+const server = express()
+  .disable('x-powered-by')
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
+  .get('/*', (req: express.Request, res: express.Response) => {
+    const { html = '', redirect = false } = renderApp(req, res);
+    if (redirect) {
+      res.redirect(redirect);
+    } else {
+      res.send(html);
+    }
   });
 
 export default server;

@@ -5,49 +5,51 @@ import { renderToString } from "react-dom/server";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
-const scripts = Object.keys(assets)
-  .map((key) => {
-    const script = assets[key].js;
+const cssLinksFromAssets = (assets, entrypoint) => {
+  return assets[entrypoint] ? assets[entrypoint].css ?
+  assets[entrypoint].css.map(asset=>
+    `<link rel="stylesheet" href="${asset}">`
+  ).join('') : '' : '';
+};
 
-    if (typeof script === 'undefined' || script === null) {
-      return null;
-    }
+const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
+  return assets[entrypoint] ? assets[entrypoint].js ?
+  assets[entrypoint].js.map(asset=>
+    `<script src="${asset}"${extra}></script>`
+  ).join('') : '' : '';
+};
 
-    if (Array.isArray(script)) {
-      return script
-        .map((item) => {
-          return `<script src="${item}"></script>`;
-        })
-        .join('');
-    }
+export const renderApp = (req, res) => {
+  const markup = renderToString(<App />);
 
-    return `<script src="${script}"></script>`;
-  })
-  .filter((a) => typeof a !== 'undefined' || a !== null);
+  const html =
+    // prettier-ignore
+    `<!doctype html>
+  <html lang="">
+  <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charSet='utf-8' />
+      <title>Welcome to Razzle</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      ${cssLinksFromAssets(assets, 'client')}
+  </head>
+  <body>
+      <div id="root">${markup}</div>
+      ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
+  </body>
+</html>`;
 
+  return { html };
+};
 
 const server = express();
 
 server
-  .disable("x-powered-by")
+  .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get("/*", (req, res) => {
-    const markup = renderToString(<App />);
-    res.send(
-      `<!doctype html>
-    <html lang="">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet='utf-8' />
-        <title>Welcome to Razzle</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${scripts.join('\n')}
-      </head>
-    <body>
-        <div id="root">${markup}</div>
-    </body>
-</html>`
-    );
+  .get('/*', (req, res) => {
+    const { html } = renderApp(req, res);
+    res.send(html);
   });
 
 export default server;

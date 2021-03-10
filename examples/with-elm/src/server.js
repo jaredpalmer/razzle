@@ -45,7 +45,7 @@ export const renderApp = (req, res) => {
 
       resolve({ html, status: 200 });
     }).catch((error) => {
-      resolve({ html: `<h1>An error ocurred on server, please try later, or contact support</h1>`, status: 200 });
+      resolve({ html: `<h1>An error ocurred on server, please try later, or contact support</h1>`, status: 500 });
     });
   })
 };
