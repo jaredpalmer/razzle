@@ -56,7 +56,7 @@ function getInstallArgs(cmd, packages, opts) {
     const args = ['install', '--save', '--save-exact'];
     return args.concat(packages, ['--verbose']);
   } else if (cmd.cmd === 'yarn') {
-    const args = ['add'];
+    const args = ['add', '-W'];
     return args.concat(packages,
       parseInt(cmd.version[0]) !== 2 ? ['--ignore-engines'] : []);
   }
