@@ -224,6 +224,8 @@ Object.keys(examples).forEach((exampleType) => {
 
   describe(`tests for ${exampleType} isomorphic examples`, () => {
 
+    console.log(`Testing ${exampleType} examples:\n${examples[exampleType].map(e=>e.example).join("\n")}`);
+
     examples[exampleType].forEach(exampleinfo => {
       const example=exampleinfo.example;
 
