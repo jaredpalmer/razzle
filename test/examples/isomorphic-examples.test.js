@@ -17,7 +17,7 @@
 
 const puppeteer = require('puppeteer');
 const terminate = require('terminate');
-
+const semver = require('semver');
 const assert = require('assert');
 const os = require('os');
 const fs = require('fs-extra');
@@ -135,7 +135,7 @@ let examples =
         path: 'examples/with-react-native-web'
       },
       { example: 'with-react-router', path: 'examples/with-react-router' },
-      {
+      !semver.satisfies(process.version, '~10||~13') && {
         example: 'with-react-server-components',
         path: 'examples/with-react-server-components'
       },
@@ -151,7 +151,8 @@ let examples =
         path: 'examples/with-styled-components'
       },
       { example: 'with-svelte', path: 'examples/with-svelte' },
-      { example: 'with-tailwindcss', path: 'examples/with-tailwindcss' },
+      !semver.satisfies(process.version, '~10') && {
+        example: 'with-tailwindcss', path: 'examples/with-tailwindcss' },
       { example: 'with-typescript', path: 'examples/with-typescript' },
       {
         example: 'with-typescript-plugin',
@@ -167,7 +168,7 @@ let examples =
         example: 'with-webpack-public-path',
         path: 'examples/with-webpack-public-path'
       }
-    ], complex: [
+    ].filter(x=>x), complex: [
     { example: 'with-monorepo', path: 'examples/with-monorepo' }, // test timing ssues
     {
       example: 'with-module-federation', // test timing ssues
