@@ -10,11 +10,17 @@ const fs = require('fs-extra');
 
 const silent = true;
 
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
+
 const getWorkspaceDirs = (absolute = false) => {
   const rootJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json')));
-  const workspaceDirs = rootJson.workspaces.map(item =>
+  const workspaceDirs = flatten(rootJson.workspaces.map(item =>
     glob.sync(item, {cwd: rootDir, absolute: absolute})
-  ).flat();
+  ));
   return workspaceDirs;
 };
 
