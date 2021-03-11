@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-css",
-  "version": "4.0.1-canary.10",
+  "version": "4.0.1-canary.11",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",

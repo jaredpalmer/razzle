@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-eslint",
-  "version": "4.0.1-canary.10",
+  "version": "4.0.1-canary.11",
   "main": "index.js",
   "repository": {
     "type": "git",
