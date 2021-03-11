@@ -160,6 +160,7 @@ function installWithMessageFactory(opts, isExample = false) {
     return install({
       npm: opts.npm,
       yarn: opts.yarn,
+      verbose: opts.verbose,
       projectName: projectName,
       projectPath: projectPath,
       packages: isExample
