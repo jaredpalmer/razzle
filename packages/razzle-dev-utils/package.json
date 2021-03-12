@@ -30,7 +30,7 @@
     "filesize": "^6.1.0",
     "gzip-size": "^6.0.0",
     "jest-message-util": "26.3.0",
-    "react-dev-utils": "10.2.1",
+    "react-dev-utils": "11.0.4",
     "react-error-overlay": "^6.0.7",
     "recursive-readdir": "^2.2.2",
     "resolve": "1.17.0",
