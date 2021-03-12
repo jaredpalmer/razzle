@@ -295,6 +295,8 @@ Object.keys(examples).forEach((exampleType) => {
           }
         }, 300000);
 
+        jest.setTimeout(300000);
+
         it(`should run create-razzle-app successfully`, async function(done) {
 
           if (useCra) {
