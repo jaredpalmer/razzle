@@ -107,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@v2
       if: ${{ always() && steps.last_run_status.outputs.last_run_status != 'success' }}
       with:
-        name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.event.inputs.npm_tag }}-${{ github.event.inputs.jest_filter }}
+        name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.event.inputs.npm_tag }}-${{ github.event.inputs.jest_filter }}-${{ github.event.inputs.package_manager }}
         path: test-artifacts/
 
     - name: Save run status
