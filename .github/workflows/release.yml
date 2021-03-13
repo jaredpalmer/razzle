@@ -11,15 +11,19 @@ jobs:
     name: Build, test, Publish
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+          always-auth: 'true'
       - run: yarn install --frozen-lockfile
         env:
           CI: true
-      - name: Potentially save npm token
+      - name: Read npm token from env
         run: |
-          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc) || echo "Did not write npm token"
+          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}) || echo "Did not write npm token"
+          cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
+          cat ~/.npmrc
       - name: Potentially publish canary to npm
         run: |
           if \
