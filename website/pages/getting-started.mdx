@@ -103,7 +103,7 @@ yarn add --dev webpack@4.46.0 html-webpack-plugin@4.5.2
 
 Also if there are issues, try adding specific package versions to resolutions in `package.json`.
 
-## Common problems
+## Common issues
 
 If you have issues with css this might be related to postcss being resolved wrong.
 
@@ -113,6 +113,42 @@ To fix this add:
 {
   "postcss": "8.2.4"
 }
+```
+
+If you get a error like this:
+
+```
+node_modules/react-images-upload/index.css:1
+.fileUploader {
+^
+
+SyntaxError: Unexpected token '.'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+```
+
+It means node tries to use `index.css` as a node module.
+
+To fix this make sure the module with the css is not externalized.
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  modifyWebpackOptions({
+    options: {
+      webpackOptions, // the modified options that was used to configure webpack/ webpack loaders and plugins
+    }
+  }) {
+
+      // If you use experimental.newExternals
+      webpackOptions.notNodeExternalResMatch = (request, context) => {
+         return /react-images-upload/.test(request)
+      };
+
+    return webpackOptions;
+  },
+};
 ```
 
 To resolutions in your package.json. For npm see [here](https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
