@@ -30,7 +30,7 @@ jobs:
             ls ~/.npmrc >/dev/null 2>&1 && \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            yarn run lerna publish from-git --npm-tag canary --yes
+            yarn run lerna publish from-git --no-verify-access --npm-tag canary --yes
           else
             echo "Did not publish canary"
           fi
@@ -42,7 +42,7 @@ jobs:
             ls ~/.npmrc >/dev/null 2>&1 && \
             [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
-            yarn run lerna publish from-git --yes
+            yarn run lerna publish from-git --no-verify-access --yes
           else
             echo "Did not publish"
           fi
