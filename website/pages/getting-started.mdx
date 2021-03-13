@@ -142,7 +142,6 @@ module.exports = {
     }
   }) {
 
-      // If you use experimental.newExternals
       webpackOptions.notNodeExternalResMatch = (request, context) => {
          return /react-images-upload/.test(request)
       };
