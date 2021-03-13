@@ -63,6 +63,47 @@ If your application is running, and you need to manually restart your server, yo
   alt="Razzle Hot Restart"
 />
 
+## Common issues
+
+If you get a error like this:
+
+```
+node_modules/react-images-upload/index.css:1
+.fileUploader {
+^
+
+SyntaxError: Unexpected token '.'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+```
+
+It means node tries to use `index.css` as a node module.
+
+To fix this make sure the module with the css is not externalized.
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  modifyWebpackOptions({
+    options: {
+      webpackOptions, // the modified options that was used to configure webpack/ webpack loaders and plugins
+    }
+  }) {
+
+      webpackOptions.notNodeExternalPatterns = [/react-images-upload/];
+
+      // If you use experimental.newExternals
+      webpackOptions.notNodeExternalResMatch = (request, context) => {
+         return /react-images-upload/.test(request)
+      };
+
+    return webpackOptions;
+  },
+};
+```
+
+
 ## Debugging with Inspector
 
 - `npm start -- --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
