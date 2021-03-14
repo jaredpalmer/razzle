@@ -37,7 +37,7 @@ function updatePackageJson(example, packageJson, branch) {
   fs.pathExists(packageJson).then(exists => {
     if (exists) {
       fs.readFile(packageJson).then(content => {
-        const tag = branch === 'canary' ? `canary` : 'latest';
+        const tag = branch !== 'master'  ? branch : 'latest';
         const contentString = content.toString();
         const updated = contentString.replace(/("razzle(-dev-utils)?": ")([^\/]*?)(")/g, '$1' + tag + '$4');
         return fs.writeFile(packageJson, updated);
@@ -106,7 +106,7 @@ execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout
     const updated = content.toString().replace(/https:\/\/razzle.*?(\.org|\.app)\//g, docSite);
     return fs.writeFile(readmePath, updated);
   })
-  const npxCmd = 'npx create-razzle-app' + ( branch == 'canary' ? '@' + branch : '');
+  const npxCmd = 'npx create-razzle-app' + ( branch !== 'master' ? '@' + branch : '');
   const startedPath = path.join(rootDir, 'website/pages/getting-started.mdx');
   fs.readFile(startedPath).then(content => {
     const updated = content.toString().replace(/npx create-razzle-app@?[^\s]*/g, npxCmd);

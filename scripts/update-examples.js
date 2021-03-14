@@ -23,9 +23,9 @@ function matchesEndInstall(line) {
 function updateInstallSection(example, readme, branch) {
   fs.readFile(readme).then(content => {
     let update = '';
-    if (['master', 'canary'].includes(branch)) {
-      const tag = branch === 'canary' ? `@canary` : '';
-      const info = branch === 'canary' ? '\nThis is the canary release documentation for this example\n\n' : '';
+    if (['master', 'canary', 'three'].includes(branch)) {
+      const tag = branch !== 'master' ? `@${branch}` : '';
+      const info = branch !== 'master' ? `\nThis is the ${branch} release documentation for this example\n\n` : '';
       update = `${info}Create and start the example:\n\n`;
       update += `\`\`\`bash\nnpx create-razzle-app${tag} --example ${example} ${example}\n\n`;
       update += `cd ${example}\nyarn start\n\`\`\`\n`;
@@ -49,9 +49,9 @@ function updatePackageJson(example, packageJson, branch) {
   fs.pathExists(packageJson).then(exists => {
     if (exists) {
       fs.readFile(packageJson).then(content => {
-        const tag = branch === 'canary' ? `canary` : 'latest';
+        const tag = branch !== 'master' ? branch : 'latest';
         const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-plugin-\w*)?": ")(canary|latest)(")/g, '$1' + tag + '$4');
+        const updated = contentString.replace(/("razzle(-plugin-\w*)?": ")(three|canary|latest)(")/g, '$1' + tag + '$4');
         return fs.writeFile(packageJson, updated);
       })
     }
