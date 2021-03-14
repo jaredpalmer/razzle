@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "razzle": "latest",
+    "razzle": "three",
     "razzle-heroku": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "css-loader": "3.5.3",
-    "razzle-dev-utils": "latest",
+    "razzle-dev-utils": "three",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",

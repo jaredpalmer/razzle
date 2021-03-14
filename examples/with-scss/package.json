@@ -14,7 +14,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "latest",
-    "razzle-plugin-scss": "latest"
+    "razzle": "three",
+    "razzle-plugin-scss": "three"
   }
 }

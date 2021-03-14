@@ -18,8 +18,8 @@
   "devDependencies": {
     "connect-history-api-fallback": "^1.6.0",
     "eslint-plugin-vue": "^6.2.2",
-    "razzle": "latest",
-    "razzle-plugin-vue": "latest",
+    "razzle": "three",
+    "razzle-plugin-vue": "three",
     "vue-template-compiler": "^2.6.11"
   }
 }

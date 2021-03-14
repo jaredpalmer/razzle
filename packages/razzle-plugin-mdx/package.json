@@ -12,9 +12,9 @@
   "dependencies": {
     "@mdx-js/loader": "^0.15.0-0",
     "@mdx-js/mdx": "^0.15.0-0",
-    "razzle-dev-utils": "latest"
+    "razzle-dev-utils": "three"
   },
   "devDependencies": {
-    "razzle": "latest"
+    "razzle": "three"
   }
 }

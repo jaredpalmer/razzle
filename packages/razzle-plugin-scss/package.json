@@ -15,13 +15,13 @@
     "node-sass-chokidar": "1.5.0",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-scss": "^1.0.5",
-    "razzle-dev-utils": "latest",
+    "razzle-dev-utils": "three",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "8.0.2"
   },
   "devDependencies": {
     "jest": "^23.1.0",
-    "razzle": "latest"
+    "razzle": "three"
   },
   "peerDependencies": {
     "mini-css-extract-plugin": "^0.9.0"

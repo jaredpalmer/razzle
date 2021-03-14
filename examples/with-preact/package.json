@@ -15,6 +15,6 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.9.4",
-    "razzle": "latest"
+    "razzle": "three"
   }
 }

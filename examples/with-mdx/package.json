@@ -14,7 +14,7 @@
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
-    "razzle": "latest",
-    "razzle-plugin-mdx": "latest"
+    "razzle": "three",
+    "razzle-plugin-mdx": "three"
   }
 }

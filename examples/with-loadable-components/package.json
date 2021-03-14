@@ -19,6 +19,6 @@
   "devDependencies": {
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "razzle": "latest"
+    "razzle": "three"
   }
 }
