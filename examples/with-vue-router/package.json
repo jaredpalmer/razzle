@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-vue-router",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -18,8 +18,8 @@
   "devDependencies": {
     "connect-history-api-fallback": "^1.6.0",
     "eslint-plugin-vue": "^6.2.2",
-    "razzle": "3.4.4",
-    "razzle-plugin-vue": "3.4.4",
+    "razzle": "3.4.5",
+    "razzle-plugin-vue": "3.4.5",
     "vue-template-compiler": "^2.6.11"
   }
 }

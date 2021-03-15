@@ -1,6 +1,6 @@
 {
   "name": "my-razzle-app",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,6 +14,6 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "3.4.4"
+    "razzle": "3.4.5"
   }
 }

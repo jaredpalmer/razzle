@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-babel-config",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-do-expressions": "^7.8.3",
-    "razzle": "3.4.4"
+    "razzle": "3.4.5"
   }
 }

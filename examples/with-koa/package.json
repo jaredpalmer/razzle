@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-koa",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -18,6 +18,6 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "3.4.4"
+    "razzle": "3.4.5"
   }
 }
