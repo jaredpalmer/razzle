@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-less",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,7 +14,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "razzle": "3.4.3",
-    "razzle-plugin-less": "3.4.3"
+    "razzle": "3.4.4",
+    "razzle-plugin-less": "3.4.4"
   }
 }

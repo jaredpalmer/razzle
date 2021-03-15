@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-loadable-components",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -19,6 +19,6 @@
   "devDependencies": {
     "@loadable/babel-plugin": "^5.12.0",
     "@loadable/webpack-plugin": "^5.12.0",
-    "razzle": "3.4.3"
+    "razzle": "3.4.4"
   }
 }

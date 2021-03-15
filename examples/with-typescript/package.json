@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "license": "MIT",
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
@@ -26,7 +26,7 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
-    "razzle": "3.4.3",
+    "razzle": "3.4.4",
     "typescript": "^3.8.3"
   }
 }
