@@ -3,13 +3,10 @@
 ## How to use
 
 <!-- START install generated instructions please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->
-This is the canary release documentation for this example
-
-Create and start the example:
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->Create and start the example:
 
 ```bash
-npx create-razzle-app@canary --example basic-spa basic-spa
+npx create-razzle-app --example basic-spa basic-spa
 
 cd basic-spa
 yarn start

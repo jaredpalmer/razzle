@@ -17,7 +17,7 @@ const officialExamples = require('./officialExamples');
 const isFolder = ({ type }) => type === 'dir';
 const prop = key => obj => obj[key];
 
-const branch = 'canary'; // this line auto updates when yarn update-examples is run
+const branch = 'master'; // this line auto updates when yarn update-examples is run
 const razzlePkg = `razzle${branch == 'master' ? '' : '@' + branch}`;
 const razzleDevUtilsPkg = `razzle-dev-utils${branch == 'master' ? '' : '@' + branch}`;
 
