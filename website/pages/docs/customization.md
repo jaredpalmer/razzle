@@ -12,7 +12,7 @@ module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
     debug: {}, // debug flags
-    buildType: 'iso', // or 'spa' and 'serverless'
+    buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless' 
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
