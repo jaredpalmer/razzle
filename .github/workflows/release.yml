@@ -40,7 +40,7 @@ jobs:
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null || :) =~ three ]]; \
+            [[ $(git branch --all --contains HEAD | head -1 2> /dev/null || :) =~ three ]]; \
           then
             yarn run lerna publish from-git --no-verify-access --npm-tag three --yes
           else
