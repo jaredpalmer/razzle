@@ -26,12 +26,21 @@ module.exports = {
 
     config.module.rules.push({
       test: /\.vue$/,
-      loader: require.resolve('vue-loader'),
+        use: [{
+        loader: require.resolve('vue-loader'),
+        ident: 'razzle-vue-loader'
+      }]
     });
 
     config.module.rules.unshift({
       test: /\.css$/,
-      use: [require.resolve('vue-style-loader'), require.resolve('css-loader')],
+      use: [{
+          loader: require.resolve('vue-style-loader'),
+          ident: 'razzle-vue-style-loader'
+        }, {
+          loader: require.resolve('css-loader'),
+          ident: 'razzle-css-loader'
+      }] // https://github.com/vuejs/vue-loader
     });
 
     config.plugins.push(new VueLoaderPlugin());

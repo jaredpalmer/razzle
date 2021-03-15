@@ -1,0 +1,97 @@
+name: Test examples on trigger
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [8.x, 10.x, 12.x, 13.x, 14.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        webpack: ["webpack@4.46.0 html-webpack-plugin@4.5.2" , "webpack@5.24.0 html-webpack-plugin@5.2.0"]
+
+    name: Test on node ${{ matrix.node-version }} and ${{ matrix.os }} with ${{ matrix.webpack }}
+
+    steps:
+
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+
+    - name: Log date
+      run: echo "${{ steps.date.outputs.date }}"
+
+    - name: Set default run status
+      run: echo "::set-output name=last_run_status::default" > last_run_status
+
+    - name: Restore last run status
+      id: last_run
+      uses: actions/cache@v2
+      with:
+        path: |
+          last_run_status
+        key: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ steps.date.outputs.date }}
+        restore-keys: |
+          ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
+    - name: Set last run status
+      id: last_run_status
+      run: cat last_run_status
+
+    - name: Log last run status
+      run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
+
+    - uses: actions/checkout@v1
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install elm globally
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: yarn global add elm
+
+    - name: Restore lerna
+      id: cache
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install and bootstrap packages
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
+      run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
+
+    - name: Install ${{ matrix.webpack }}
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
+      run: yarn add -WD ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
+
+    - name: Run tests
+      id: test_run
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: yarn test --runInBand --coverage
+      env:
+        CI: true
+        WARNINGS_ERRORS_DISABLE: true
+
+    - name: Save run status
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status

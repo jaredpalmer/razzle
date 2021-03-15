@@ -5,7 +5,6 @@
 **The following environment variables are embedded during the build time.**
 
 - `process.env.RAZZLE_PUBLIC_DIR`: Absolute path to the public directory in the server's filesystem.
-- `process.env.RAZZLE_CHUNKS_MANIFEST`: Path to a file containing compiled chunk outputs
 - `process.env.RAZZLE_ASSETS_MANIFEST`: Path to a file containing compiled asset outputs
 - `process.env.REACT_BUNDLE_PATH`: Relative path to where React will be bundled during development. Unless you are modifying the output path of your webpack config, you can safely ignore this. This path is used by `react-error-overlay` and webpack to power up the fancy runtime error iframe. For example, if you are using common chunks and an extra entry to create a vendor bundle with stuff like react, react-dom, react-router, etc. called `vendor.js`, and you've changed webpack's output to `[name].js` in development, you'd want to set this environment variable to `/static/js/vendor.js`. If you do not make this change, nothing bad will happen, you will simply not get the cool error overlay when there are runtime errors. You'll just see them in the console. Note: This does not impact production bundling.
 - `process.env.VERBOSE`: default is false, setting this to true will not clear the console when you make edits in development (useful for debugging).
@@ -69,10 +68,10 @@ server
         <meta charSet='utf-8' />
         <title>Welcome to Razzle</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)} 
+        ${chunks.client.css.map(path => `<link rel="stylesheet" href="${path}">`)}
     </head>
     <body>
-        <div id="root">${markup}</div> 
+        <div id="root">${markup}</div>
         <script>window.env = ${serialize(runtimeConfig)};</script>
         ${chunks.client.js.map(path => `<script src="${path}" defer crossorigin></script>`)}        
     </body>

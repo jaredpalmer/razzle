@@ -6,10 +6,16 @@
   "name": "razzle-reason",
   "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
   "refmt": 3,
+  "package-specs": ["commonjs", "es6"],
   "reason": {
-    "react-jsx": 2
+    "react-jsx": 3
   },
-  "bs-dependencies": ["reason-react"],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-fetch",
+    "@glennsl/bs-json",
+    "bs-webapi"
+  ],
   "sources": [
     {
       "dir": "src",

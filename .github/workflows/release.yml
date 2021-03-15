@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     name: Build, test, Publish
     steps:
       - uses: actions/checkout@v1
@@ -24,10 +24,20 @@ jobs:
           ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}) || echo "Did not write npm token"
           cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
           cat ~/.npmrc
+      - name: Potentially publish alpha to npm
+        run: |
+          if \
+            [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
+          then
+            yarn run lerna publish from-git --no-verify-access --npm-tag alpha --yes
+          else
+            echo "Did not publish alpha"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Potentially publish canary to npm
         run: |
           if \
-            ls ~/.npmrc >/dev/null 2>&1 && \
             [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
             yarn run lerna publish from-git --no-verify-access --npm-tag canary --yes
@@ -36,15 +46,14 @@ jobs:
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Potentially publish three to npm
+      - name: Potentially publish stable to npm
         run: |
           if \
-            ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null || :) =~ three ]]; \
+            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-alpha ]]; \
           then
-            yarn run lerna publish from-git --no-verify-access --npm-tag three --yes
+            yarn run lerna publish from-git --no-verify-access --yes
           else
-            echo "Did not publish three"
+            echo "Did not publish"
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

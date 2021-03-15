@@ -4,7 +4,6 @@ const fs = require('fs');
 const chalk = require('chalk');
 const jest = require('jest');
 
-const jestMajorVersion = parseInt(jest.default.getVersion().split('.')[0]);
 // first search for setupTests.ts file
 // if .ts file not exists then looks for setupTests.js
 function getSetupTestsFilePath(paths) {
@@ -33,43 +32,37 @@ module.exports = (
 
     // TODO: I don't know if it's safe or not to just use / as path separator
     // in Jest configs. We need help from somebody with Windows to determine this.
-    let config = Object.assign(
-      {
-        collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
-        testMatch: [
-          '<rootDir>/src/**/*(*.)@(spec|test).(ts|js)?(x)',
-          '<rootDir>/src/**/__tests__/**/*(*.)@(spec|test).(ts|js)?(x)',
-          '<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)',
-        ],
-        testEnvironment: 'node',
-        testURL: 'http://localhost',
-        transform: {
-          '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': resolve(
-            'config/jest/babelTransform.js'
-          ),
-          '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-          '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': resolve(
-            'config/jest/fileTransform.js'
-          ),
-        },
-        transformIgnorePatterns: [
-          '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
-          '^.+\\.module\\.(css|sass|scss)$',
-        ],
-        moduleDirectories: ['node_modules'],
-        moduleNameMapper: {
-          '^react-native$': 'react-native-web',
-        },
-        moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+    let config =
+    {
+      collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
+      testMatch: [
+        '<rootDir>/src/**/*(*.)@(spec|test).(ts|js)?(x)',
+        '<rootDir>/src/**/__tests__/**/*(*.)@(spec|test).(ts|js)?(x)',
+        '<rootDir>/tests/**/*(*.)@(spec|test).(ts|js)?(x)',
+      ],
+      testEnvironment: 'node',
+      testURL: 'http://localhost',
+      transform: {
+        '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': resolve(
+          'config/jest/babelTransform.js'
+        ),
+        '^.+\\.css$': resolve('config/jest/cssTransform.js'),
+        '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': resolve(
+          'config/jest/fileTransform.js'
+        ),
       },
-      jestMajorVersion >= 24
-        ? {
-            setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : [],
-          }
-        : {
-            setupTestFrameworkScriptFile: setupTestsFile,
-          }
-    );
+      transformIgnorePatterns: [
+        '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+        '^.+\\.module\\.(css|sass|scss)$',
+      ],
+      moduleDirectories: ['node_modules'],
+      moduleNameMapper: {
+        '^react-native$': 'react-native-web',
+      },
+      moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+      setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : []
+    }
+
     if (rootDir) {
       config.rootDir = rootDir;
     }
@@ -95,11 +88,8 @@ module.exports = (
       'transformIgnorePatterns',
       'reporters',
       'watchPlugins',
-    ].concat(
-      jestMajorVersion >= 24
-        ? ['setupFilesAfterEnv']
-        : ['setupTestFrameworkScriptFile']
-    );
+      'setupFilesAfterEnv'
+    ];
     if (overrides) {
       supportedKeys.forEach(key => {
         if (overrides.hasOwnProperty(key)) {

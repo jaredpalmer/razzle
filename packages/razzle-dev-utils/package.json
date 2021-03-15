@@ -1,13 +1,18 @@
 {
   "name": "razzle-dev-utils",
-  "version": "3.4.2",
+  "version": "4.0.1-canary.15",
   "description": "Utilities and helpers for Razzle",
   "author": "Jared Palmer <jared@palmer.net>",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-dev-utils"
+  },
   "license": "MIT",
   "files": [
     "logger.js",
     "printErrors.js",
+    "printWarnings.js",
     "FriendlyErrorsPlugin.js",
     "FileSizeReporter.js",
     "webpackHotDevClient.js",
@@ -15,17 +20,25 @@
     "makeLoaderFinder.js",
     "WebpackConfigHelpers.js",
     "prettyNodeErrors.js",
-    "resolveRequest.js"
+    "resolveRequest.js",
+    "webpackMajor.js",
+    "formatWebpackMessages.js"
   ],
   "dependencies": {
     "@babel/code-frame": "^7.8.3",
-    "chalk": "3.0.0",
-    "jest-message-util": "^24.9.0",
-    "react-dev-utils": "10.2.0",
+    "chalk": "^4.1.0",
+    "filesize": "^6.1.0",
+    "gzip-size": "^6.0.0",
+    "jest-message-util": "26.3.0",
+    "react-dev-utils": "11.0.4",
     "react-error-overlay": "^6.0.7",
+    "recursive-readdir": "^2.2.2",
     "resolve": "1.17.0",
     "sockjs-client": "~1.4.0",
-    "strip-ansi": "6.0.0",
-    "webpack-dev-server": "~3.10.3"
+    "strip-ansi": "6.0.0"
+  },
+  "peerDependencies": {
+    "webpack": "~4||~5",
+    "webpack-dev-server": "^3.11.0"
   }
 }

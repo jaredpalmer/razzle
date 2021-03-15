@@ -1,6 +1,6 @@
 'use strict';
 // Package is not installed in order to simulate bad config
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+const BundleAnalyzerPlugin = require('somethingnothere')
   .BundleAnalyzerPlugin;
 
 module.exports = {

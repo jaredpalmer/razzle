@@ -10,6 +10,10 @@ on:
       jest_filter:
         description: 'The filter for jest tests'
         default: 'simple'
+      package_manager:
+        description: 'The package manager to use, yalc with yarn default'
+        default: 'yalc'
+
 
 
 jobs:
@@ -35,6 +39,23 @@ jobs:
     - name: Log date
       run: echo "${{ steps.date.outputs.date }}"
 
+    - name: Set default run status
+      run: echo "::set-output name=last_run_status::default" > last_run_status
+
+    - name: Restore last run status
+      id: last_run
+      uses: actions/cache@v2
+      with:
+        path: |
+          last_run_status
+        key: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ steps.date.outputs.date }}
+        restore-keys: |
+          ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-
+
+    - name: Set last run status
+      id: last_run_status
+      run: cat last_run_status
+
     - name: Checkout ref
       uses: actions/checkout@v2
       with:
@@ -46,13 +67,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Install yalc globally
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: npm install -g yalc
+
     - name: Install elm globally
       if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn global add elm
 
     - name: Restore lerna
-      id: cache
       if: steps.last_run_status.outputs.last_run_status != 'success'
+      id: cache
       uses: actions/cache@v2
       with:
         path: |
@@ -61,17 +86,30 @@ jobs:
         key: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install and bootstrap packages
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
 
     - name: Install ${{ matrix.webpack }}
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' && steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn add -WD ${{ matrix.webpack }} --ignore-engines --network-timeout 1000000
 
     - name: Run tests
       id: test_run
+      if: steps.last_run_status.outputs.last_run_status != 'success'
       run: yarn test:examples -t ${{ github.event.inputs.jest_filter }} --runInBand
       env:
         WEBPACK_DEPS: "${{ matrix.webpack }}"
         NPM_TAG: "${{ github.event.inputs.npm_tag }}"
+        PACKAGE_MANAGER: "${{ github.event.inputs.package_manager }}"
         WARNINGS_ERRORS_DISABLE: true
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v2
+      if: ${{ always() && steps.last_run_status.outputs.last_run_status != 'success' }}
+      with:
+        name: ${{ matrix.os }}-${{ matrix.node-version }}-${{ matrix.webpack }}-${{ github.event.inputs.npm_tag }}-${{ github.event.inputs.jest_filter }}-${{ github.event.inputs.package_manager }}
+        path: test-artifacts/
+
+    - name: Save run status
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status

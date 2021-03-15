@@ -47,7 +47,7 @@ Razzle not only works with React, but also Reason, Elm, Vue, Angular, Svelte, an
 
 #### render()
 
-Behind the scenes razzle calls a `render` function that exposed from `static_export` module and saves a html string that you pass to `res.json()` into a html file. or `req` object there is only one property that is needed `url` which contains the url that we are going to render and save it's result to the html file.
+Behind the scenes razzle calls a `render` function that is exposed from `static_export` module and saves a html string that you pass to `res.json()` into a html file. or `req` object there is only one property that is needed `url` which contains the url that we are going to render and save it's result to the html file.
 The html file destination is relative to the `req.url`, for example if the url is `/product/A` html is going to get saved at `/build/product/A/index.html`.
 
 You should call `renderToString()` (or what ever your framework gives you to do SSR) in this function and then pass the result to `res.json()`
@@ -110,7 +110,7 @@ Static export comes with typescript support out of the box, in order to use type
 // razzle.config.js
 
 module.exports = {
-  experimental: {
+  options: {
     staticExport: {
       parallel: 5, // how many pages to render at a time
       routesExport: 'routes',

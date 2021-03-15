@@ -1,29 +1,32 @@
 {
   "name": "razzle-plugin-scss",
-  "version": "3.4.2",
+  "version": "4.0.1-canary.15",
   "description": "Use SCSS/SASS with Razzle",
   "main": "index.js",
-  "repository": "git@github.com:jaredpalmer/razzle.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-scss"
+  },
   "author": "Ray Andrew <raydreww@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest"
   },
   "dependencies": {
-    "autoprefixer": "^8.6.2",
-    "css-loader": "3.5.3",
-    "node-sass-chokidar": "1.5.0",
-    "postcss-flexbugs-fixes": "^3.3.1",
-    "postcss-scss": "^1.0.5",
-    "razzle-dev-utils": "latest",
-    "resolve-url-loader": "^2.3.0",
-    "sass-loader": "8.0.2"
-  },
-  "devDependencies": {
-    "jest": "^23.1.0",
-    "razzle": "latest"
+    "autoprefixer": "10.2.3",
+    "css-loader": "5.0.0",
+    "deepmerge": "4.2.2",
+    "postcss-load-config": "3.0.0",
+    "postcss-loader": "4.2.0",
+    "postcss-scss": "3.0.4",
+    "resolve-url-loader": "3.1.2",
+    "sass": "^1.29.0",
+    "sass-loader": "10.0.3"
   },
   "peerDependencies": {
-    "mini-css-extract-plugin": "^0.9.0"
+    "mini-css-extract-plugin": "^0.9.0",
+    "razzle": "4.0.1-canary.15",
+    "razzle-dev-utils": "4.0.1-canary.15"
   }
 }

@@ -1,5 +1,7 @@
 'use strict';
 
+const ESLintPlugin = require('eslint-webpack-plugin');
+
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
@@ -7,33 +9,20 @@ module.exports = {
     const config = opts.webpackConfig;
 
     const mainEslintOptions = {
+      extensions: ['js','mjs','jsx','ts','tsx'],
       baseConfig: {
         extends: [require.resolve('eslint-config-react-app')],
-        // This setting can be removed once this commit is released:
-        // https://github.com/facebook/create-react-app/commit/005ee5b9525d476d2eb2dfb5b8afcd15b65dd5d2
-        settings: {
-          react: {
-            version: 'detect',
-          },
-        },
       },
       formatter: eslintFormatter,
       eslintPath: require.resolve('eslint'),
       ignore: false,
-      useEslintrc: true,
+      useEslintrc: true
     };
 
-    config.module.rules = [
-      {
-        test: /\.(js|jsx|mjs)$/,
-        enforce: 'pre',
-        loader: require.resolve('eslint-loader'),
-        options: mainEslintOptions,
-        exclude: /node_modules/,
-      },
-      ...config.module.rules,
+    config.plugins = [
+      new ESLintPlugin(mainEslintOptions),
+      ...config.plugins,
     ];
-
     return config;
   },
 };

@@ -10,10 +10,27 @@ We show the default options here:
 //./razzle.config.js
 module.exports = {
   options: {
+    verbose: false, // set to true to get more info/error output
+    debug: {}, // debug flags
+    buildType: 'iso', // or 'spa' and 'serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
+    staticCssInDev: false, // static css in development build (incompatible with css hot reloading)
     browserslist: undefined, // or what your apps package.json says
+    enableSourceMaps: true,
+    enableReactRefresh: false,
+    enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
+    enableBabelCache: true,
+    forceRuntimeEnvVars: [], // force env vars to be read from env e.g. ['HOST', 'PORT']
+    staticExport: {
+      parallel: 5, // how many pages to render at a time
+      routesExport: 'routes',
+      renderExport: 'render',
+      scriptInline: false,
+      windowRoutesVariable: 'RAZZLE_STATIC_ROUTES',
+      windowRoutesDataVariable: 'RAZZLE_STATIC_DATA_ROUTES'
+    },
   },
 };
 ```
@@ -44,6 +61,7 @@ module.exports = {
   plugins: ['xxxx'],
 };
 ```
+
 
 ### Writing Plugins
 
@@ -196,29 +214,80 @@ module.exports = {
 };
 ```
 
+### Using scoped packages
+
+Razzle supports plugins using scoped packages.
+
+Name your plugin `@scope-name/razzle-plugin-<name>`
+
+And reference it in your `razzle.config.js` as follows
+
+```
+//./razzle.config.js
+module.exports = {
+  plugins: ['@scope-name/name'],
+};
+```
+
+Note that `razzle-plugin-` is omitted
+
 ## Customizing Babel Config
 
-Razzle comes with most of ES6 stuff you need. However, if you want to add your own babel transformations, just add a `.babelrc` file to the root of your project.
+Razzle includes the `razzle/babel` preset to your app, it includes everything needed to compile React applications and server-side code. But if you want to extend the default Babel configs, it's also possible.
 
-```js
+To start, you only need to define a `.babelrc` file at the top of your app, if such file is found, we're going to consider it the _source of truth_, therefore it needs to define what Razzle needs as well, which is the `razzle/babel` preset.
+
+Here's an example `.babelrc` file:
+
+```json
 {
-  "presets": [
-    "razzle/babel", // NEEDED
-    "stage-0"
-   ],
-   "plugins": [
-     // additional plugins
-   ]
+  "presets": ["razzle/babel"],
+  "plugins": []
 }
 ```
 
-A word of advice: the `.babelrc` file will replace the internal razzle babelrc template. You must include at the very minimum the default razzle/babel preset.
+You can [take a look at this file](https://github.com/jaredpalmer/razzle/blob/finch/packages/babel-preset-razzle/index.js) to learn about the presets included by `razzle/babel`.
+
+To add presets/plugins **without configuring them**, you can do it this way:
+
+```json
+{
+  "presets": ["razzle/babel"],
+  "plugins": ["@babel/plugin-proposal-do-expressions"]
+}
+```
+
+To add presets/plugins **with custom configuration**, do it on the `razzle/babel` preset like so:
+
+```json
+{
+  "presets": [
+    [
+      "razzle/babel",
+      {
+        "preset-env": {},
+        "transform-runtime": {},
+        "class-properties": {}
+      }
+    ]
+  ],
+  "plugins": []
+}
+```
+
+To learn more about the available options for each config, visit their documentation site.
+
+> Razzle uses the **current** Node.js version for server-side compilations.
+
+> The `modules` option on `"preset-env"` should be kept to `false`, otherwise webpack code splitting is turned off.
 
 ## Extending Webpack
 
 You can also extend the underlying webpack config. Create a file called `razzle.config.js` in your project's root.
 
 All the hook functions supported in plugins is also supported here. We show only one function here for brevity.
+
+In Razzle 3.3 `modify` was deprecated. In Razzle 4.0 it was replaced with `modifyWebpackConfig`.
 
 ```js
 // razzle.config.js
@@ -257,7 +326,7 @@ module.exports = {
 };
 ```
 
-A word of advice: `razzle.config.js` is an escape hatch. However, since it's just JavaScript, you can and should publish your `modify` function to npm to make it reusable across your projects. For example, imagine you added some custom webpack loaders and published it as a package to npm as `my-razzle-modifictions`. You could then write your `razzle.config.js` like so:
+A word of advice: `razzle.config.js` is an escape hatch. However, since it's just JavaScript, you can and should publish your `modify*` functions to npm to make it reusable across your projects. For example, imagine you added some custom webpack loaders and published it as a package to npm as `my-razzle-modifications`. You could then write your `razzle.config.js` like so:
 
 ```js
 // razzle.config.js
@@ -266,7 +335,7 @@ const modifications = require('my-razzle-modifictions');
 module.exports = modifications;
 ```
 
-Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 300 lines of code, and 4 scripts (`build`, `start`, `test`, and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
+Last but not least, if you find yourself needing a more customized setup, Razzle is _very_ forkable. There is one webpack configuration factory that is 1000 lines of code, and 5 scripts (`build`, `start`, `test`, `export` and `init`). The paths setup is shamelessly taken from [create-react-app](https://github.com/facebookincubator/create-react-app), and the rest of the code related to logging.
 
 #### New in razzle 3.2
 
@@ -367,6 +436,32 @@ To make the Jest test runner work with absolute imports, you'll need to add a `j
 ```
 
 Now that you've configured your project to support absolute imports, if you want to import a module located at src/components/Button.js, you can import the module like so:
+
 ```js
 import Button from 'components/Button';
 ```
+
+## Aliased Paths/ Modules
+
+You can configure your application to support importing modules using aliased paths. This can be done by configuring a jsconfig.json or tsconfig.json file in the root of your project. If you're using TypeScript in your project, you will already have a tsconfig.json file.
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@extra/*": ["../extra/*"]
+    }
+  }
+}
+```
+
+Now that you've configured your project to support aliased imports, if you want to import a module located at extra/components/Button.js, you can import the module like so:
+
+```js
+import Button from '@extra/components/Button';
+```
+
+## Experimental
+
+Razzle has support for some experimental features. Coming soon.

@@ -11,7 +11,7 @@ Hi there! Thanks for your interest in Razzle. This guide will help you get start
     - [Commands](#commands)
     - [Updating your fork](#updating-your-fork)
   - [Adding examples](#adding-examples)
-    - [Use `examples/basic` as template](#use-examplesbasic-as-template)
+    - [Use `examples/basic` as template](#use-examples-basic-as-template)
     - [Naming examples](#naming-examples)
     - [How to get your example merged](#how-to-get-your-example-merged)
     - [Guidelines](#guidelines)
@@ -40,21 +40,91 @@ machine and make a new branch for your feature/bug/patch etc. It's a good idea t
 git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
 cd razzle
 git checkout -B <my-branch>
-yarn
+NODE_ENV=development yarn install ---ignore-engines
+# optionally install add-dependencies
+sudo npm install add-dependencies -g
 ```
 
-This will install all `node_modules` in all the packages and all the examples and symlink
+This will install all `node_modules` in all the packages and symlink
 inter-dependencies. Thus when you make local changes in any of the packages you can try them
-immediately in all the examples.
+immediately in all the examples. `add-dependencies` can be used to just add packages to `package.json`.
 
 ### Commands
 
-- `yarn run clean`: Clean up all `node_modules` and remove all symlinks from packages and examples.
-- `yarn run bootstrap`: Run `yarn` on all examples and packages. Automatically symlinks inter-dependent modules.
-- `yarn run test`: Runs all tests
-- `yarn run test:packages`: Runs tests for packages
-- `yarn run test:e2e`: Runs end-to-end tests
-- `yarn run build-docs`: Builds docs/ updates doc TOC
+- `yarn clean`: Clean up all `node_modules` and remove all symlinks from packages and examples.
+- `yarn test --runInBand`: Runs all tests
+- `yarn test:packages`: Runs tests for packages
+- `yarn test:e2e`: Runs end-to-end tests
+- `yarn build-docs`: Builds docs/ updates doc TOC
+- `yarn publish-all-canary`: Does a `razzle@canary` release.
+- `yarn publish-all-stable`: Does a a stable release(uses the npm version released of the packages)
+- `yarn new-example`: Creates a new example from another example. `yarn new-example basic new-example`.
+- `yarn bootstrap-examples`: Run `yarn` with specific examples as workspaces. Automatically symlinks inter-dependent modules. Run `yarn restrap` in the example to reinstall.
+- `yarn test:examples:simple`: Runs tests for all simple examples (uses the npm version released of the packages)
+- `yarn test:examples:complex`: Runs tests for all complex examples (uses the npm version released of the packages)
+- `yarn test:examples`: Runs tests for all examples (uses the npm version released of the packages)
+
+### Workflow for working on razzle core with examples
+
+```bash
+
+git clone https://github.com/<YOUR_GITHUB_USERNAME>/razzle.git
+cd razzle
+git checkout -b my-feature-branch canary
+
+# or
+# git checkout -b my-feature-branch master
+# git checkout -b my-feature-branch three
+
+sudo npm install add-dependencies yalc -g
+
+pwd
+# /home/oyvind/Documents/GitHub/razzle/
+
+NODE_ENV=development yarn install ---ignore-engines
+
+# to make sure tests pass
+yarn test --runInBand
+
+# to add a new example
+yarn new-example existingexample with-somefeature
+
+# to work on a example
+cd examples/basic
+example="$(basename $PWD)"
+pushd ../..
+
+# if it is a example with webpack5 you need to do
+yarn add -W webpack@5.24.0 html-webpack-plugin@5.2.0
+
+# switch back to webpack4 later to work with webpack4
+yarn add -W webpack@4.46.0 html-webpack-plugin@4.5.2
+
+# then
+yarn bootstrap-examples $example
+popd
+yarn build
+
+# if you want to add dependencies to the example
+add-dependencies somedependency
+yarn restrap
+
+# if you make changes to startserver plugin
+pushd ../..
+cd packages/razzle-start-server-webpack-plugin
+yarn build
+popd
+
+# to run example tests with unreleased razzle packages with specific webpack and specific tests
+
+WEBPACK_DEPS="webpack@5.24.0 html-webpack-plugin@5.2.0" PACKAGE_MANAGER="yalc" NPM_TAG="development" yarn test:examples --runInBand -t with-tailwindcss
+WEBPACK_DEPS="webpack@4.46.0 html-webpack-plugin@4.5.2" PACKAGE_MANAGER="yalc" NPM_TAG="development" yarn test:examples --runInBand -t with-tailwindcss
+
+# Commands being run during testing puts output and puppeteer screenshots in test-artifacts/
+# Trouble with puppeteer?
+
+sudo sysctl -w kernel.unprivileged_userns_clone=1
+```
 
 ### Updating your fork
 
@@ -67,8 +137,8 @@ git pull origin master
 
 ## Adding examples
 
-### Use `examples/basic` as template
-If you'd like to add an example, I suggest you duplicate the `examples/basic` folder and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap`. This will make sure that your new example is using your local version of all the `packages`.
+### Use examples/basic as template
+If you'd like to add an example, I suggest you duplicate the `examples/basic` folder `yarn new-example basic your-example`and use that as kind of base template. Before you start adding stuff, go ahead and change the name of the package in the your new example's `package.json`. Then go back to the project root and run `yarn bootstrap-examples your-example`. This will make sure that your new example is using your local version of all the `packages`.
 
 ### Naming examples
 

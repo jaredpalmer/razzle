@@ -10,6 +10,10 @@ const loadPlugins = require('./loadPlugins');
 
 module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
   return new Promise(async resolve => {
+    console.info("If you have issues with css make sure postcss resolves to v8.2.4.");
+    console.info("See: https://razzlejs.org/getting-started#common-problems\n");
+    console.warn("CssMinimizerPlugin currently uses clean-css,\nwe will switch to cssnano once it supports postcss v8.2.4.\n");
+
     let razzle = razzleConfig || {};
     let packageJson = packageJsonIn || {};
     let paths = Object.assign({}, defaultPaths);
@@ -32,6 +36,8 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
         process.exit(1);
       }
     }
+
+    setupEnvironment(paths);
 
     let razzleOptions = merge(defaultRazzleOptions, razzle.options || {});
 
@@ -90,8 +96,6 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
         paths,
       });
     }
-
-    setupEnvironment(paths);
 
     resolve({
       razzle,

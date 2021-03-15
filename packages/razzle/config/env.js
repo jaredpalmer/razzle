@@ -37,7 +37,7 @@ function setupEnvironment(paths) {
 // injected into the application via DefinePlugin in Webpack configuration.
 const RAZZLE = /^RAZZLE_/i;
 
-function getClientEnvironment(target, options, paths) {
+function getClientEnvironment(target, is_dev, options, paths) {
   const raw = Object.keys(process.env)
     .filter(key => RAZZLE.test(key))
     .reduce(
@@ -53,7 +53,6 @@ function getClientEnvironment(target, options, paths) {
         VERBOSE: !!process.env.VERBOSE,
         HOST: process.env.HOST || options.host || 'localhost',
         RAZZLE_ASSETS_MANIFEST: paths.appAssetsManifest,
-        RAZZLE_CHUNKS_MANIFEST: paths.appChunksManifest,
         BUILD_TARGET: target === 'web' ? 'client' : 'server',
         // only for production builds. Useful if you need to serve from a CDN
         PUBLIC_PATH: process.env.PUBLIC_PATH || '/',
@@ -63,19 +62,22 @@ function getClientEnvironment(target, options, paths) {
         // The public dir changes between dev and prod, so we use an environment
         // variable available to users.
         RAZZLE_PUBLIC_DIR:
-          process.env.NODE_ENV === 'production'
-            ? paths.appBuildPublic
+          process.env.NODE_ENV !== 'development'
+            ? path.relative(paths.appPath, paths.appBuildPublic)
             : paths.appPublic,
         // Whether or not react-refresh is enabled.
         // react-refresh is not 100% stable at this time,
         // which is why it's disabled by default.
         // It is defined here so it is available in the webpackHotDevClient.
         FAST_REFRESH: options.shouldUseReactRefresh,
+        WEBPACK_VERSION: options.webpackObject.version ? parseInt(options.webpackObject.version[0]) : 3
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = Object.keys(raw).reduce((env, key) => {
-    env[`process.env.${key}`] = JSON.stringify(raw[key]);
+    if (!options.forceRuntimeEnvVars.includes(key) || is_dev) {
+      env[`process.env.${key}`] = JSON.stringify(raw[key]);
+    }
     return env;
   }, {});
 

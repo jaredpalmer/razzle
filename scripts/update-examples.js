@@ -1,36 +1,49 @@
 'use strict';
 
 const execa = require('execa');
+const util = require('util');
+const glob = util.promisify(require('glob'));
 const updateSection = require('update-section');
 const fs = require('fs-extra');
 const path = require('path');
 
 const rootDir = process.cwd();
 
-var startInstall = '<!-- START install generated instructions please keep comment here to allow auto update -->\n' +
-            '<!-- DON\'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->'
-  , endInstall   = '<!-- END install generated instructions please keep comment here to allow auto update -->'
-
+var startInstall =
+    '<!-- START install generated instructions please keep comment here to allow auto update -->\n' +
+    "<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN yarn update-examples TO UPDATE -->",
+  endInstall =
+    '<!-- END install generated instructions please keep comment here to allow auto update -->';
 
 function matchesStartInstall(line) {
   return /<!-- START install /.test(line);
 }
 
 function matchesEndInstall(line) {
-  return (/<!-- END install /).test(line);
+  return /<!-- END install /.test(line);
 }
 
-function updateInstallSection(example, readme, branch) {
+function updateInstallSection(
+  example,
+  readme,
+  branch,
+  releaseBranches,
+  preReleaseBranches
+) {
   fs.readFile(readme).then(content => {
     let update = '';
-    if (['master', 'canary', 'three'].includes(branch)) {
-      const tag = branch !== 'master' ? `@${branch}` : '';
-      const info = branch !== 'master' ? `\nThis is the ${branch} release documentation for this example\n\n` : '';
+    if (releaseBranches.includes(branch)) {
+      const preReleaseBranch = preReleaseBranches.includes(branch);
+      const tag = preReleaseBranch ? `@${branch}` : '';
+      const info = preReleaseBranch
+        ? `\nThis is the ${branch} release documentation for this example\n\n`
+        : '';
       update = `${info}Create and start the example:\n\n`;
       update += `\`\`\`bash\nnpx create-razzle-app${tag} --example ${example} ${example}\n\n`;
       update += `cd ${example}\nyarn start\n\`\`\`\n`;
     } else {
-      update = '\nThis is the development documentation for this example\n\nClone the `razzle` repository:\n\n';
+      update =
+        '\nThis is the development documentation for this example\n\nClone the `razzle` repository:\n\n';
       update += `\`\`\`bash\ngit clone https://github.com/jaredpalmer/razzle.git\n\n`;
       update += `cd razzle\nyarn install --frozen-lockfile --ignore-engines --network-timeout 30000\n\`\`\`\n\n`;
       update += `Create and start the example:\n\n`;
@@ -39,47 +52,143 @@ function updateInstallSection(example, readme, branch) {
     }
     const contentString = content.toString();
     if (matchesStartInstall(contentString)) {
-      const updated = updateSection(contentString, startInstall+update+endInstall, matchesStartInstall, matchesEndInstall);
+      const updated = updateSection(
+        contentString,
+        startInstall + update + endInstall,
+        matchesStartInstall,
+        matchesEndInstall
+      );
       return fs.writeFile(readme, updated);
     }
-  })
+  });
 }
 
-function updatePackageJson(example, packageJson, branch) {
-  fs.pathExists(packageJson).then(exists => {
+function updatePackageJson(
+  example,
+  packageJson,
+  branch,
+  dependencyVersions,
+) {
+  fs.pathExists(packageJson).then(async exists => {
     if (exists) {
-      fs.readFile(packageJson).then(content => {
-        const tag = branch !== 'master' ? branch : 'latest';
-        const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-plugin-\w*)?": ")(three|canary|latest)(")/g, '$1' + tag + '$4');
-        return fs.writeFile(packageJson, updated);
-      })
+      const packageJsonData = JSON.parse(await fs.readFile(packageJson));
+      const newPackageJsonData = ['dependencies', 'devDependencies'].reduce(
+        (acc, depType) => {
+          if (acc[depType]) {
+            acc[depType] = Object.keys(acc[depType]).reduce((depsAcc, dep) => {
+              if (dependencyVersions[dep]) {
+                depsAcc[dep] = dependencyVersions[dep];
+              }
+
+              return depsAcc;
+            }, acc[depType]);
+          }
+          return acc;
+        },
+        packageJsonData
+      );
+
+
+      return fs.writeFile(
+        packageJson,
+        JSON.stringify(newPackageJsonData, null, '  ') + "\n"
+      );
     }
-  })
+  });
 }
 
-execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
-  const branch = stdout.split('\n')[0];
-  fs.readdir(path.join(rootDir, 'examples'), {withFileTypes: true}).then(items => {
-    return items
-      .filter(item => item.isDirectory())
-      .map(item => {
-        updateInstallSection(
-          item.name, path.join(rootDir, 'examples', item.name, 'README.md'), branch);
-        updatePackageJson(
-          item.name, path.join(rootDir, 'examples', item.name, 'package.json'), branch);
-      })
-  })
+execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { shell: true }).then(
+  async ({ stdout }) => {
+    const branch = stdout.split('\n')[0];
+    const lernaJson = JSON.parse(
+      await fs.readFile(path.join(rootDir, 'lerna.json'))
+    );
 
-  const loadExamplePath = 'packages/create-razzle-app/lib/utils/load-example.js';
-  fs.readFile(loadExamplePath).then(content => {
-    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
-    return fs.writeFile(loadExamplePath, updated);
-  })
+    const exampleDependencyVersions = JSON.parse(
+      await fs.readFile(
+        path.join(rootDir, 'scripts', 'exampleDependencyVersions.json')
+      )
+    );
 
-  const  installExamplePath = 'packages/create-razzle-app/lib/index.js';
-  fs.readFile(installExamplePath).then(content => {
-    const updated = content.toString().replace(/(?=const branch.*?yarn update-examples)(.*?)'.*?'/, '$1\'' + branch + '\'');
-    return fs.writeFile(installExamplePath, updated);
-  })
-});
+    const packageJsons = (
+      await Promise.all(
+        lernaJson.packages.map(item => glob(item + '/package.json'))
+      )
+    ).flat();
+
+    const packageVersions = Object.fromEntries(
+      (
+        await Promise.all(
+          packageJsons.map(async item => JSON.parse(await fs.readFile(item)))
+        )
+      ).map(item => [item.name, item.version])
+    );
+
+    const dependencyVersions = {
+      ...exampleDependencyVersions,
+      ...packageVersions,
+    };
+
+    const releaseBranches = lernaJson.command.publish.allowBranch;
+    const preReleaseBranches = releaseBranches.filter(b => b !== 'master');
+
+    fs.readdir(path.join(rootDir, 'examples'), { withFileTypes: true }).then(
+      items => {
+        return items
+          .filter(item => item.isDirectory())
+          .map(item => {
+            updateInstallSection(
+              item.name,
+              path.join(rootDir, 'examples', item.name, 'README.md'),
+              branch,
+              releaseBranches,
+              preReleaseBranches
+            );
+            updatePackageJson(
+              item.name,
+              path.join(rootDir, 'examples', item.name, 'package.json'),
+              branch,
+              dependencyVersions
+            );
+          });
+      }
+    );
+
+    updatePackageJson(
+      'default',
+      path.join(
+        rootDir,
+        'packages',
+        'create-razzle-app',
+        'templates',
+        'default',
+        'package.json'
+      ),
+      branch,
+      dependencyVersions
+    );
+
+    const loadExamplePath =
+      'packages/create-razzle-app/lib/utils/load-example.js';
+    fs.readFile(loadExamplePath).then(content => {
+      const updated = content
+        .toString()
+        .replace(
+          /(?=const branch.*?yarn update-examples)(.*?)'.*?'/,
+          "$1'" + branch + "'"
+        );
+      return fs.writeFile(loadExamplePath, updated);
+    });
+
+    const installExamplePath = 'packages/create-razzle-app/lib/index.js';
+    fs.readFile(installExamplePath).then(content => {
+      const updated = content
+        .toString()
+        .replace(
+          /(?=const branch.*?yarn update-examples)(.*?)'.*?'/,
+          "$1'" + branch + "'"
+        );
+      return fs.writeFile(installExamplePath, updated);
+    });
+  }
+);

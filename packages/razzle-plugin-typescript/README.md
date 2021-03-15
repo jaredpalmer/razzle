@@ -40,10 +40,9 @@ module.exports = {
           experimentalWatchApi: true,
         },
         forkTsChecker: {
-          tsconfig: './tsconfig.json',
-          tslint: './tslint.json',
-          watch: './src',
-          typeCheck: true,
+          eslint: {
+            files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+          }
         },
       },
     },
@@ -61,6 +60,6 @@ Set `useBabel` to `true` if you want to keep using `babel` for _JS_/_TS_ interop
 
 Use this to override [`ts-loader`](https://github.com/TypeStrong/ts-loader) options. Check all the options here: [ts-loader options](https://github.com/TypeStrong/ts-loader#loader-options).
 
-**forkTsChecker: _TSCheckerOptions_** (defaults: { tsconfig: './tsconfig.json', tslint: './tslint.json', watch: './src', typeCheck: true })
+**forkTsChecker: _TSCheckerOptions_** (defaults: { async: 'compiler.options.mode === 'development'', typescript: true, eslint: undefined, issue: {}, formatter: 'codeframe', logger: { infrastructure: 'silent', issues: 'console', devServer: true } })
 
 Use this to override [`fork-ts-checker-webpack-plugin`](https://github.com/Realytics/fork-ts-checker-webpack-plugin) options. Check all the options here: [fork-ts-checker-webpack-plugin options](https://github.com/Realytics/fork-ts-checker-webpack-plugin#options).

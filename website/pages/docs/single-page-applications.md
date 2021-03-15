@@ -1,8 +1,8 @@
-# Single Page Applications
+# [Single Page Applications](https://github.com/jaredpalmer/razzle/blob/master/examples/basic-spa/)
 
-In addition to universal/isomorphic applications, Razzle can build single page (or client-only) applications. To do this, remove `index.js` and `server.js` from the src folder, and create a `index.html` file inside the public folder with the following template:
+In addition to universal/isomorphic applications, Razzle can build single page (or client-only) applications. To do this, remove `index.js` and `server.js` from the src folder, and create an `index.html` file inside the public folder with the following template:
 
-```html
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,18 +35,16 @@ In addition to universal/isomorphic applications, Razzle can build single page (
 </html>
 ```
 
-Finally, pass `--type=spa` to your `package.json`'s scripts like so:
+Finally, pass `buildType` to your `razzle.config.js` options like so:
 
-```diff
-"scripts": {
--  "start": "razzle start",
-+  "start": "razzle start --type=spa",
--  "build": "razzle build",
-+  "build": "razzle build --type=spa",
-  "test": "razzle test --env=jsdom",
--  "start:prod": "NODE_ENV=production node build/server.js"
-+  "start:prod": "serve -s build/public"
-}
+```js
+'use strict';
+
+module.exports = {
+  options: {
+    buildType: 'spa',
+  }
+};
 ```
 
 This effectively turns Razzle into [create-react-app](https://create-react-app.dev).

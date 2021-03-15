@@ -1,0 +1,24 @@
+{
+  "name": "razzle-plugin-graphql",
+  "version": "4.0.1-canary.15",
+  "description": "Use .graphql and .gql files with Razzle",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-graphql"
+  },
+  "author": "Mikael Pettersson <me@evanion.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "graphql-tag": "^2.11.0"
+  },
+  "peerDependencies": {
+    "graphql": "^15.5.0",
+    "razzle": "4.0.1-canary.15",
+    "razzle-dev-utils": "4.0.1-canary.15"
+  }
+}

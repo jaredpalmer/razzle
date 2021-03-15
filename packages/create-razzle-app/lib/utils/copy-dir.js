@@ -5,18 +5,20 @@ const Promise = require('promise');
 const messages = require('../messages');
 const output = require('./output');
 const fs = require('fs-extra');
+const copy = require('recursive-copy');
 
 module.exports = function copyDir(opts) {
   const templatePath = opts.templatePath;
   const projectPath = opts.projectPath;
   const projectName = opts.projectName;
 
+
   console.log(messages.copying(projectName));
 
   return new Promise(function(resolve, reject) {
     const stopCopySpinner = output.wait('Copying files');
 
-    fs.copy(templatePath, projectPath)
+    copy(templatePath, projectPath, { dot: true })
       .then(function() {
         return fs
           .pathExists(path.resolve(projectPath, './gitignore'))

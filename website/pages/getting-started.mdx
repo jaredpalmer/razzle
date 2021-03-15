@@ -5,7 +5,7 @@ import Link from 'next/link';
 ## Quick Start
 
 ```sh
-npx create-razzle-app my-app
+npx create-razzle-app@canary my-app
 cd my-app
 npm start
 ```
@@ -19,6 +19,10 @@ Then open http://localhost:3000/ to see your app. Your console should look like 
 />
 
 **That's it**. You don't need to worry about setting up multiple webpack configs or other build tools. Just start editing `src/App.js` and go!
+
+## Razzle has many examples, we might have one that fits your needs
+
+See: [The examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
 
 ## Commands
 
@@ -37,6 +41,12 @@ Builds the app for production to the build folder.
 
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
+
+By default this uses NODE_ENV=production and asks if you want to run it.
+
+If you nont want the confirmation add --noninteractive to your build command.
+
+If you want to use a different env file e.g. .env.something-staging file you can add --node-env=something-staging
 
 ### npm run start:prod
 
@@ -63,7 +73,48 @@ If your application is running, and you need to manually restart your server, yo
   alt="Razzle Hot Restart"
 />
 
+## Dependencies
+
+To make sure Razzle is installed properly make sure Razzle devDependencies are installed, run:
+
+```bash
+yarn add --dev \
+  razzle \
+  razzle-dev-utils \
+  babel-preset-razzle
+```
+
+... and Razzle peerDependencies are installed, run:
+
+```bash
+yarn add --dev \
+  webpack-dev-server@3.11.0 \
+  mini-css-extract-plugin@0.9.0 \
+  postcss@8.2.4
+```
+
+Choose your webpack version
+
+```bash
+yarn add --dev webpack@5.24.0 html-webpack-plugin@5.2.0
+# or
+yarn add --dev webpack@4.46.0 html-webpack-plugin@4.5.2
+```
+
+Also if there are issues, try adding specific package versions to resolutions in `package.json`.
+
 ## Common issues
+
+If you have issues with css this might be related to postcss being resolved wrong.
+
+To fix this add:
+
+```json
+{
+  "postcss": "8.2.4"
+}
+```
+To resolutions in your package.json. For npm see [here](https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
 
 If you get a error like this:
 
@@ -91,9 +142,6 @@ module.exports = {
     }
   }) {
 
-      webpackOptions.notNodeExternalPatterns = [/react-images-upload/];
-
-      // If you use experimental.newExternals
       webpackOptions.notNodeExternalResMatch = (request, context) => {
          return /react-images-upload/.test(request)
       };
@@ -103,9 +151,14 @@ module.exports = {
 };
 ```
 
+To resolutions in your package.json. For npm see [here](https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
 
 ## Debugging with Inspector
 
-- `npm start -- --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+- `npm start -- --inspect=[host:port]` or `yarn start --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-- `npm start -- --inspect-brk=[host:port]` This is the same as `--inspect`, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+- `npm start -- --inspect-brk=[host:port]` or `yarn start --inspect-brk=[host:port]` This is the same as `--inspect`, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+
+- `npm test -- --inspect=[host:port]` or `yarn test --inspect=[host:port]` This will start the tests server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-tested/).
+
+- `npm test -- --inspect-brk=[host:port]` or `yarn test --inspect-brk=[host:port]` This is the same as `--inspect`, but will also break before user code starts. (to give a debugger time to attach before early code runs) For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).

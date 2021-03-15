@@ -14,9 +14,12 @@ const Promise = require('promise');
 module.exports = function loadExample(opts) {
   const projectName = opts.projectName;
   const example = opts.example;
-  const branch = 'master'; // this line auto updates when yarn update-examples is run
+  const branch = 'canary'; // this line auto updates when yarn update-examples is run
   const url = 'https://codeload.github.com/jaredpalmer/razzle/tar.gz/' + branch;
 
+  if (opts.verbose) {
+    console.log(`Downloading razzle from ${url}`)
+  }
   const id = new UUID(4).format();
   const directory = path.join(os.tmpdir(), id);
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
@@ -51,9 +54,6 @@ module.exports = function loadExample(opts) {
         projectPath: projectPath,
         projectName: projectName,
       });
-    })
-    .then(function() {
-      return fs.remove(directory);
     })
     .catch(function(err) {
       throw err;

@@ -12,6 +12,12 @@ function loadPlugin(plugin, paths) {
     return [plugin, {}];
   }
 
+  // Support for not released plugins without options
+  // Use plugin.object if you need options
+  if (typeof plugin === 'object' && !plugin.name && !plugin.object) {
+    return [plugin, {}];
+  }
+
   if (typeof plugin.func === 'function') {
     // Used for writing plugin tests
     return [plugin.func, plugin.options];
@@ -22,14 +28,37 @@ function loadPlugin(plugin, paths) {
     return [plugin.object, plugin.options];
   }
 
-  const completePluginName = `razzle-plugin-${plugin.name}`;
+  const isScopedPlugin = plugin.name.startsWith('@') && plugin.name.includes('/');
+  let scope;
+  let scopedPluginName;
+  if (isScopedPlugin) {
+    const pluginNameParts = plugin.name.split("/");
+    scope = pluginNameParts[0];
+    scopedPluginName = pluginNameParts[1]
+  }
+
+  const completePluginNames = [
+    isScopedPlugin && `${scope}/razzle-plugin-${scopedPluginName}`,
+    isScopedPlugin && plugin.name,
+    `razzle-plugin-${plugin.name}`,
+    `${plugin.name}/razzle-plugin`,
+  ].filter(Boolean);
 
   // Try to find the plugin in node_modules
-  const razzlePlugin = require(resolve.sync(completePluginName, {
-    basedir: paths.appDir,
-  }));
+  let razzlePlugin = null;
+  for (const completePluginName of completePluginNames) {
+    try {
+      razzlePlugin = require(completePluginName);
+    // eslint-disable-next-line no-empty
+    } catch (error) {}
+    
+    if (razzlePlugin) {
+      break;
+    }
+  }
   if (!razzlePlugin) {
-    throw new Error(`Unable to find '${completePluginName}`);
+    const last = completePluginNames.pop();
+    throw new Error(`Unable to find '${completePluginNames.join("', '")}' or ${last}'`);
   }
 
   return [razzlePlugin, plugin.options];

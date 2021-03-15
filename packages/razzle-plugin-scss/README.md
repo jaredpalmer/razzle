@@ -56,7 +56,7 @@ Array such as postcss.plugins **WILL NOT BE EXTENDED OR CONCATED**, it will over
 
 ---
 
-### postcss: _object_
+### postcss
 
 default
 
@@ -87,7 +87,7 @@ See [postcss loader options](https://github.com/postcss/postcss-loader#options) 
 
 ---
 
-### sass: _object_
+### sass
 
 default
 
@@ -111,7 +111,7 @@ See [node-sass options](https://github.com/sass/node-sass#options) to override c
 
 ---
 
-### sassModules: _object_
+### sassModules
 
 default
 
@@ -137,7 +137,7 @@ See [node-sass options](https://github.com/sass/node-sass#options) to override c
 
 ---
 
-### css: _object_
+### css
 
 default
 
@@ -164,7 +164,7 @@ See [css loader options](https://github.com/webpack-contrib/css-loader#options) 
 
 ---
 
-#### style: _object_
+#### style
 
 default
 
@@ -177,7 +177,7 @@ Style loader only used in `development` environment.
 
 See [style loader options](https://github.com/webpack-contrib/style-loader#options) to override configs.
 
-#### resolveUrl: _object_
+#### resolveUrl
 
 default
 

@@ -1,8 +1,8 @@
 'use strict';
 
 const autoprefixer = require('autoprefixer');
+const merge = require('deepmerge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const PostCssFlexBugFixes = require('postcss-flexbugs-fixes');
 const paths = require('razzle/config/paths');
 const postcssLoadConfig = require('postcss-load-config');
 
@@ -19,6 +19,7 @@ module.exports = {
     const isServer = opts.env.target !== 'web';
     const constantEnv = opts.env.dev ? 'dev' : 'prod';
 
+    const razzleOptions = opts.options.razzleOptions;
     const config = Object.assign({}, opts.webpackConfig);
 
     const defaultOptions = {
@@ -28,12 +29,11 @@ module.exports = {
           ident: 'postcss',
         },
         prod: {
-          sourceMap: false,
+          sourceMap: razzleOptions.enableSourceMaps,
           ident: 'postcss',
         },
         plugins: [
-          PostCssFlexBugFixes,
-          autoprefixer({
+          [autoprefixer, {
             overrideBrowserslist: opts.options.razzleOptions.browserslist || [
               '>1%',
               'last 4 versions',
@@ -41,20 +41,23 @@ module.exports = {
               'not ie < 9',
             ],
             flexbox: 'no-2009',
-          }),
+          }],
         ],
       },
       less: {
         dev: {
           sourceMap: true,
-          includePaths: [paths.appNodeModules],
+          lessOptions: {
+            includePaths: [paths.appNodeModules],
+          },
         },
         prod: {
           // XXX Source maps are required for the resolve-url-loader to properly
           // function. Disable them in later stages if you do not want source maps.
           sourceMap: true,
-          sourceMapContents: false,
-          includePaths: [paths.appNodeModules],
+          lessOptions: {
+            includePaths: [paths.appNodeModules],
+          },
         },
       },
       css: {
@@ -67,7 +70,7 @@ module.exports = {
           },
         },
         prod: {
-          sourceMap: false,
+          sourceMap: razzleOptions.enableSourceMaps,
           importLoaders: 1,
           modules: {
             auto: true,
@@ -107,9 +110,9 @@ module.exports = {
       loader: require.resolve('postcss-loader'),
       options: hasPostCssConfig()
         ? undefined
-        : Object.assign({}, options.postcss[constantEnv], {
-            plugins: () => options.postcss.plugins,
-          }),
+        : { postcssOptions: Object.assign({}, options.postcss[constantEnv], {
+            plugins: options.postcss.plugins,
+          })},
     };
 
     const lessLoader = {
@@ -125,8 +128,10 @@ module.exports = {
           ? [
               {
                 loader: require.resolve('css-loader'),
-                options: Object.assign({}, options.css[constantEnv], {
-                  onlyLocals: true,
+                options: merge(options.css[constantEnv], {
+                  modules: {
+                    exportOnlyLocals: true,
+                  }
                 }),
               },
               resolveUrlLoader,

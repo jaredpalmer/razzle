@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-babel-config",
-  "version": "1.0.0",
+  "version": "4.0.1-canary.15",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,13 +10,20 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-router-dom": "^5.1.2",
     "serialize-javascript": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-do-expressions": "^7.8.3",
-    "razzle": "latest"
+    "babel-preset-razzle": "4.0.1-canary.15",
+    "mini-css-extract-plugin": "^0.9.0",
+    "html-webpack-plugin": "^4.5.2",
+    "razzle": "4.0.1-canary.15",
+    "razzle-dev-utils": "4.0.1-canary.15",
+    "webpack": "^4.44.1",
+    "webpack-dev-server": "^3.11.2"
   }
 }

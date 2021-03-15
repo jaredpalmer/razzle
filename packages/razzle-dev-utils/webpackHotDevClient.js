@@ -14,7 +14,7 @@ var stripAnsi = require('strip-ansi');
 var url = require('url');
 var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
-var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 var socketUrl = createSocketUrl();

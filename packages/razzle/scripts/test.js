@@ -26,7 +26,7 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 const jest = require('jest');
-const argv = process.argv.slice(2);
+let argv = process.argv.slice(2);
 
 // Watch unless on CI, in coverage mode, or user has specified --watchAll
 if (
@@ -34,7 +34,11 @@ if (
   argv.indexOf('--coverage') < 0 &&
   argv.indexOf('--watchAll') < 0
 ) {
-  argv.push('--watch');
+  if (!argv.includes('--no-watch')) {
+    argv.push('--watch');
+  } else {
+    argv=argv.filter(x=>x!=='--no-watch')
+  }
 }
 
 const webpack = require('webpack');

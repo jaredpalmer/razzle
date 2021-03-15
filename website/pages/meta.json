@@ -1,7 +1,9 @@
 {
   "index": "Introduction",
   "getting-started": "Getting Started",
-  "docs": "Documentation",
+  "docs": { "title": "Documentation", "open": true },
+  "deployment-options": "Deployment Options",
+  "plugins": "Razzle plugins",
   "change-log": "Change Log",
-  "about": "About"
+  "contributing": "Contributing"
 }

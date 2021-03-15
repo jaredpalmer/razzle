@@ -6,19 +6,25 @@ Universal JavaScript applications are tough to setup. Either you buy into a fram
 
 ## Getting Started
 
-Visit <a aria-label="razzle getting started" href="https://razzlejs.org/getting-started">https://razzlejs.org/getting-started</a> to get started with Razzle.
+Visit <a aria-label="razzle getting started" href="https://razzle-git-canary.jared.vercel.app/getting-started">https://razzle-git-canary.jared.vercel.app/getting-started</a> to get started with Razzle.
+
+## Examples
+
+Razzle has many examples, we might have one that fits your needs
+
+See: [The examples](https://github.com/jaredpalmer/razzle/tree/master/examples)
 
 ## Documentation
 
-Visit <a aria-label="razzle docs" href="https://razzlejs.org/">https://razzlejs.org/</a> to view the documentation.
-
-## Contributing
-
-Please see our [CONTRIBUTING.md](/.github/CONTRIBUTING.md).
+Visit <a aria-label="razzle docs" href="https://razzle-git-canary.jared.vercel.app/">https://razzle-git-canary.jared.vercel.app/</a> to view the documentation.
 
 ## Getting help
 
 If you get stuck, check out Razzle's [GitHub Discussions](https://github.com/jaredpalmer/razzle/discussions). In addition, #razzle-afterjs on the [Formium Community Discord Server](https://discord.gg/pJSg287) is a great way to get help quickly too.
+
+## Contributing
+
+Please see our [CONTRIBUTING.md](/.github/CONTRIBUTING.md).
 
 ## Inspiration
 
@@ -55,6 +61,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 - **Lucas Terra** - [@lucasterra](https://www.linkedin.com/in/lucasterra7/)
   - **Contributions:** code, example, plugin
 - **Ray Andrew** - [@rayandrews](https://www.linkedin.com/in/ray-andrew/)
+  - **Contributions:** code, example, plugin
+- **Heithem Moumni** - [@heithemmoumni](https://www.linkedin.com/in/heithemmoumni/)
   - **Contributions:** code, example, plugin
 <!-- END contributors generated instructions please keep comment here to allow auto update -->
 

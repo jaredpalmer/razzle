@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-react-native-web",
-  "version": "1.0.0",
+  "version": "4.0.1-canary.15",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -10,13 +10,20 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-native-web": "^0.12.2"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-native-web": "0.15.0"
   },
   "devDependencies": {
-    "babel-plugin-react-native-web": "^0.12.2",
+    "babel-plugin-react-native-web": "0.15.0",
+    "babel-preset-razzle": "4.0.1-canary.15",
     "extract-text-webpack-plugin": "^3.0.2",
-    "razzle": "latest"
+    "mini-css-extract-plugin": "^0.9.0",
+    "razzle": "4.0.1-canary.15",
+    "razzle-dev-utils": "4.0.1-canary.15",
+    "react-native": "^0.63.4",
+    "html-webpack-plugin": "^4.5.2",
+    "webpack": "^4.44.1",
+    "webpack-dev-server": "^3.11.2"
   }
 }
