@@ -64,7 +64,7 @@ const add_webpack_deps_args = package_manager === 'yarn' ?
 [ "add", "--dev", "-W"].concat(webpack_deps).concat([ "--ignore-engines" ]) :
 [ "install", "--save-dev"].concat(webpack_deps);
 
-const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' ? '' : `@${process.env.NPM_TAG}`;
+const use_npm_tag = typeof process.env.NPM_TAG === 'undefined' || process.env.NPM_TAG === 'latest' ? '' : `@${process.env.NPM_TAG}`;
 
 const writeLogs = true;
 
