@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-react-loadable",
-  "version": "1.0.0",
+  "version": "3.4.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,6 +16,6 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "razzle": "three"
+    "razzle": "3.4.2"
   }
 }

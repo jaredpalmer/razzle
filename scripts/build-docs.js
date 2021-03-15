@@ -33,18 +33,6 @@ function matchesEndContributors(line) {
 }
 
 
-function updatePackageJson(example, packageJson, branch) {
-  fs.pathExists(packageJson).then(exists => {
-    if (exists) {
-      fs.readFile(packageJson).then(content => {
-        const tag = branch !== 'master'  ? branch : 'latest';
-        const contentString = content.toString();
-        const updated = contentString.replace(/("razzle(-dev-utils)?": ")([^\/]*?)(")/g, '$1' + tag + '$4');
-        return fs.writeFile(packageJson, updated);
-      })
-    }
-  })
-}
 const tocDocs = [
   path.join(rootDir, '.github', 'CODE_OF_CONDUCT.md'),
   path.join(rootDir, '.github', 'CONTRIBUTING.md'),
@@ -91,14 +79,6 @@ for (let contributorsDoc of contributorsDocs) {
 
 execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {shell: true}).then(({stdout}) => {
   const branch = stdout.split('\n')[0];
-  fs.readdir(path.join(rootDir, 'packages'), {withFileTypes: true}).then(items => {
-    return items
-      .filter(item => item.isDirectory())
-      .map(item => {
-        updatePackageJson(
-          item.name, path.join(rootDir, 'packages', item.name, 'package.json'), branch);
-      })
-  })
 
   const docSite = branch == 'master' ? 'https://razzlejs.org/' : 'https://razzle-git-' + branch + '.jared.vercel.app/';
   const readmePath = path.join(rootDir, 'packages', 'razzle', 'README.md');

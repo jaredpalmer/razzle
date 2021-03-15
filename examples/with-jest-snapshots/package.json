@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jest",
-  "version": "1.0.0",
+  "version": "3.4.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,7 +15,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "three",
+    "razzle": "3.4.2",
     "react-test-renderer": "^16.13.1"
   }
 }

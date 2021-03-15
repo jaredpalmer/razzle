@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-devserver-options",
-  "version": "1.0.0",
+  "version": "3.4.2",
   "license": "MIT",
   "scripts": {
     "start": "razzle start --verbose",
@@ -14,6 +14,6 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "three"
+    "razzle": "3.4.2"
   }
 }
