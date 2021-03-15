@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-mdx",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
@@ -14,7 +14,7 @@
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
-    "razzle": "3.4.2",
-    "razzle-plugin-mdx": "3.4.2"
+    "razzle": "3.4.3",
+    "razzle-plugin-mdx": "3.4.3"
   }
 }

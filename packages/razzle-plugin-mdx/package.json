@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-mdx",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "Use mdx with Razzle",
   "main": "index.js",
   "repository": "git@github.com:jaredpalmer/razzle.git",
@@ -12,9 +12,9 @@
   "dependencies": {
     "@mdx-js/loader": "^0.15.0-0",
     "@mdx-js/mdx": "^0.15.0-0",
-    "razzle-dev-utils": "3.4.2"
+    "razzle-dev-utils": "3.4.3"
   },
   "devDependencies": {
-    "razzle": "3.4.2"
+    "razzle": "3.4.3"
   }
 }

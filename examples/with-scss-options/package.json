@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-scss-options",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -14,7 +14,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "razzle": "3.4.2",
-    "razzle-plugin-scss": "3.4.2"
+    "razzle": "3.4.3",
+    "razzle-plugin-scss": "3.4.3"
   }
 }

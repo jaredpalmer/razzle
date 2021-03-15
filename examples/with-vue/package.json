@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-vue",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "eslint-plugin-vue": "^6.2.2",
-    "razzle": "3.4.2",
-    "razzle-plugin-vue": "3.4.2"
+    "razzle": "3.4.3",
+    "razzle-plugin-vue": "3.4.3"
   }
 }

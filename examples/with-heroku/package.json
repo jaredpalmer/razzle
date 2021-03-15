@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-heroku",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "razzle": "3.4.2",
+    "razzle": "3.4.3",
     "razzle-heroku": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
