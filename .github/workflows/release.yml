@@ -40,7 +40,7 @@ jobs:
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ $(git branch --all --contains HEAD | head -1 2> /dev/null || :) =~ three ]]; \
+            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
           then
             yarn run lerna publish from-git --no-verify-access --npm-tag three --yes
           else
