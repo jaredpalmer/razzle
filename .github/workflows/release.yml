@@ -40,23 +40,11 @@ jobs:
         run: |
           if \
             ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ $(git describe --exact-match 2> /dev/null || :) =~ -three ]]; \
+            [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null || :) =~ three ]]; \
           then
             yarn run lerna publish from-git --no-verify-access --npm-tag three --yes
           else
             echo "Did not publish three"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Potentially publish stable to npm
-        run: |
-          if \
-            ls ~/.npmrc >/dev/null 2>&1 && \
-            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-three ]]; \
-          then
-            yarn run lerna publish from-git --no-verify-access --yes
-          else
-            echo "Did not publish"
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
