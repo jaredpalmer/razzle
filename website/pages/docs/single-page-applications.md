@@ -10,6 +10,7 @@ In addition to universal/isomorphic applications, Razzle can build single page (
   <link rel="icon" href="<%= process.env.PUBLIC_PATH %>favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="theme-color" content="#000000" />
+  <%= htmlWebpackPlugin.tags.headTags %>
   <!--
       Notice the use of <%= process.env.PUBLIC_PATH %> in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -31,6 +32,7 @@ In addition to universal/isomorphic applications, Razzle can build single page (
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <%= htmlWebpackPlugin.tags.bodyTags %>
 </body>
 </html>
 ```
