@@ -4,7 +4,7 @@ This package contains a plugin for using TypeScript with Razzle
 
 Razzle now has support for typescript using babel. Unless you specifically need this plugin we recommend using the builtin support
 
-Use [with-typescript example](https://github.com/jaredpalmer/razzle/tree/next/examples/with-typescript) instead.
+Use [with-typescript example](https://github.com/jaredpalmer/razzle/tree/master/examples/with-typescript) instead.
 
 ## Usage in Razzle Projects
 
@@ -22,7 +22,7 @@ module.exports = {
 };
 ```
 
-See full configuration in the [typescript example project](https://github.com/jaredpalmer/razzle/tree/master/examples/with-typescript).
+See full configuration in the [typescript example project](https://github.com/jaredpalmer/razzle/tree/master/examples/with-typescript-plugin).
 
 ### With custom options:
 
