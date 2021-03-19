@@ -15,10 +15,16 @@ const setPorts = require('razzle-dev-utils/setPorts');
 const chalk = require('chalk');
 const terminate = require('terminate');
 
+let verbose = false;
+
 process.once('SIGINT', () => {
-  console.error(chalk.bgRedBright(' SIGINT '), chalk.redBright('exiting...'));
+  if (verbose) {
+    console.error(chalk.bgRedBright(' SIGINT '), chalk.redBright('exiting...'));
+  }
   terminate(process.pid, 'SIGINT', { timeout: 1000 }, () => {
-    console.error(chalk.bgGreen(' Goodbye '));
+    if (verbose) {
+      console.error(chalk.bgGreen(' Goodbye '));
+    }
     terminate(process.pid);
   });
 });
@@ -37,7 +43,7 @@ function main() {
     loadRazzleConfig(webpack)
       .then(
         async ({ razzle, razzleOptions, webpackObject, plugins, paths }) => {
-          const verbose = razzleOptions.verbose;
+          verbose = razzleOptions.verbose;
           if (!verbose) {
             process.removeAllListeners('warning');
           }
