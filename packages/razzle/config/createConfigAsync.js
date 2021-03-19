@@ -1022,7 +1022,7 @@ module.exports = (
     }
     if (razzleOptions.debug.config) {
       console.log(`Printing webpack config for ${target} target`);
-      console.log(util.inspect(webpackConfig, {depth: null}));
+      console.log(util.inspect(config, {depth: null}));
     }
     resolve(config);
   });
