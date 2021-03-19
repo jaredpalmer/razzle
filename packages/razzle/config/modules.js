@@ -69,10 +69,17 @@ function getAdditionalIncludes(additionalAliases) {
 
 function getModules(paths) {
   // Check if TypeScript is setup
-  const hasTsConfig = fs.existsSync(paths.appTsConfig);
-  const hasJsConfig = fs.existsSync(paths.appJsConfig);
+  const tsConfigPath = process.env.NODE_ENV === 'development' ?
+    fs.existsSync(paths.appTsConfig) && paths.appTsConfig :
+    fs.existsSync(paths.appTsConfigBuild) && paths.appTsConfigBuild ||
+    fs.existsSync(paths.appTsConfig) && paths.appTsConfig;
 
-  if (hasTsConfig && hasJsConfig) {
+  const jsConfigPath = process.env.NODE_ENV === 'development' ?
+    fs.existsSync(paths.appJsConfig) && paths.appJsConfig :
+    fs.existsSync(paths.appJsConfigBuild) && paths.appJsConfigBuild ||
+    fs.existsSync(paths.appJsConfig) && paths.appJsConfig;
+
+  if (tsConfigPath && jsConfigPath) {
     throw new Error(
       'You have both a tsconfig.json and a jsconfig.json. If you are using TypeScript please remove your jsconfig.json file.'
     );
@@ -83,15 +90,15 @@ function getModules(paths) {
   // If there's a tsconfig.json we assume it's a
   // TypeScript project and set up the config
   // based on tsconfig.json
-  if (hasTsConfig) {
+  if (tsConfigPath) {
     const ts = require(resolve.sync('typescript', {
       basedir: paths.appNodeModules,
     }));
-    config = ts.readConfigFile(paths.appTsConfig, ts.sys.readFile).config;
+    config = ts.readConfigFile(tsConfigPath, ts.sys.readFile).config;
     // Otherwise we'll check if there is jsconfig.json
     // for non TS projects.
-  } else if (hasJsConfig) {
-    config = require(paths.appJsConfig);
+  } else if (jsConfigPath) {
+    config = require(jsConfigPath);
   }
 
   config = config || {};

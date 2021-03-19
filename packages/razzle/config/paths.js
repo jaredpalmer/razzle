@@ -77,4 +77,6 @@ module.exports = {
   servedPath: getServedPath(resolveApp('package.json')),
   appJsConfig: resolveApp('jsconfig.json'),
   appTsConfig: resolveApp('tsconfig.json'),
+  appJsConfigBuild: resolveApp('jsconfig.build.json'),
+  appTsConfigBuild: resolveApp('tsconfig.build.json'),
 };
