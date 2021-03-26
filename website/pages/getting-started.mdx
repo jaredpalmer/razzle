@@ -151,6 +151,21 @@ module.exports = {
 };
 ```
 
+Devserver not starting and no errors show up
+
+Make razzle more verbose:
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  options: {
+    verbose: true
+  }
+};
+```
+
 ## Debugging with Inspector
 
 - `npm start -- --inspect=[host:port]` or `yarn start --inspect=[host:port]` This will start the node server and enable the inspector agent. The `=[host:port]` is optional and defaults to `=127.0.0.1:9229`. For more information, see [this](https://nodejs.org/en/docs/guides/debugging-getting-started/).
