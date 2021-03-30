@@ -166,6 +166,8 @@ module.exports = (
 
     webpackOptions.definePluginOptions = dotenv.stringified;
 
+    webpackOptions.appAssetsManifestPath = paths.appAssetsManifest;
+
     if (IS_NODE) {
 
       webpackOptions.jsOutputFilename = `[name].js`;
@@ -735,7 +737,7 @@ module.exports = (
         // Output all files in a manifest file called assets-manifest.json
         // in the build directory.
         new ManifestPlugin({
-          fileName: path.join(paths.appBuild, 'assets.json'),
+          fileName: webpackOptions.appAssetsManifestPath,
           writeToFileEmit: true,
           generate: (seed, files) => {
             const entrypoints = new Set();
