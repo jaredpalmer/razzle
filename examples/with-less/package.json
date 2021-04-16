@@ -27,7 +27,6 @@
     "style-loader": "^2.0.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "postcss": "^8.2.4",
     "webpack-dev-server": "^3.11.2"
   }
 }
