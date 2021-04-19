@@ -102,8 +102,8 @@ module.exports = (
     const shouldUseReactRefresh =
       IS_WEB && IS_DEV && razzleOptions.enableReactRefresh ? true : false;
 
-    const shouldUseWebpackbar =
-      !razzleOptions.disableWebpackbar || razzleOptions.disableWebpackbar !== target;
+    const shouldDisableWebpackbar =
+      razzleOptions.disableWebpackbar === true || razzleOptions.disableWebpackbar === target;
 
     let webpackOptions = {};
 
@@ -984,7 +984,7 @@ module.exports = (
       }
     }
 
-    if (IS_DEV && shouldUseWebpackbar) {
+    if (IS_DEV && !shouldDisableWebpackbar) {
       config.plugins = [
         ...config.plugins,
         new WebpackBar({
