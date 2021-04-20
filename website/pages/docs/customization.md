@@ -23,6 +23,7 @@ module.exports = {
     enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
     enableBabelCache: true,
     forceRuntimeEnvVars: [], // force env vars to be read from env e.g. ['HOST', 'PORT']
+    disableWebpackbar: false, // can be true to disable all environments or target to disable specific environment such as "node" or "web"
     staticExport: {
       parallel: 5, // how many pages to render at a time
       routesExport: 'routes',
