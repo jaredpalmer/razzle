@@ -12,7 +12,7 @@ module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
     debug: {}, // debug flags
-    buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless' 
+    buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
@@ -405,6 +405,34 @@ Next, place one of the following lines at the very top of `src/client.js:`
 ```javascript
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
+```
+
+## Transpilation of external modules
+
+If you need to transpile external modules with arrow functions etc.
+
+Make sure the modules are added to the babelRule.
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  modifyWebpackOptions({
+    env: {
+      target, // the target 'node' or 'web'
+      dev, // is this a development build? true or false
+    }
+    options: {
+      webpackOptions, // the default options that will be used to configure webpack/ webpack loaders and plugins
+    }
+  }) {
+    if (target === 'web') {
+      webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([/themodule/,/anothermodule/])
+    }
+    return webpackOptions;
+  }
+};
 ```
 
 ## Absolute Imports
