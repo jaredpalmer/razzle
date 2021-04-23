@@ -428,7 +428,10 @@ module.exports = {
     }
   }) {
     if (target === 'web') {
-      webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([/themodule/,/anothermodule/])
+      webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
+        /themodule/,
+        /anothermodule/
+      ])
     }
     return webpackOptions;
   }
