@@ -15,6 +15,9 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "^3.0.0"
+    "razzle": "4.04",
+    "html-webpack-plugin": "$4.5.2",
+    "razzle-dev-utils": "4.0.4",
+    "babel-preset-razzle": "4.0.4"
   }
 }

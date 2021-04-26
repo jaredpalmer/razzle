@@ -10,6 +10,12 @@ cd with-navigation-digitalocean
 
 Install it and run:
 
+`Note:` If you cloned the whole razzle repository, cd into this example:
+
+```bash
+cd examples/with-navigation-digitalocean
+```
+
 ```bash
 yarn install
 yarn start
