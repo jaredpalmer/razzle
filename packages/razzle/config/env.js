@@ -15,9 +15,9 @@ function setupEnvironment(paths) {
   var dotenvFiles = [
     `${paths.dotenv}.${NODE_ENV}.local`,
     `${paths.dotenv}.${NODE_ENV}`,
-    `${paths.dotenv}.local`,
+    NODE_ENV !== 'test' && `${paths.dotenv}.local`,
     paths.dotenv,
-  ];
+  ].filter(Boolean);
   // Load environment variables from .env* files. Suppress warnings using silent
   // if this file is missing. dotenv will never modify any environment variables
   // that have already been set. Variable expansion is supported in .env files.
