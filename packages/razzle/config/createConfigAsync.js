@@ -940,24 +940,6 @@ module.exports = (
               minimizerOptions: {
                 sourceMap: razzleOptions.enableSourceMaps
               },
-              minify: async (data, inputMap, minimizerOptions) => {
-                // eslint-disable-next-line global-require
-                const CleanCSS = require('clean-css');
-
-                const [[filename, input]] = Object.entries(data);
-                const minifiedCss = await new CleanCSS({ sourceMap: minimizerOptions.sourceMap }).minify({
-                  [filename]: {
-                    styles: input,
-                    sourceMap: inputMap,
-                  },
-                });
-
-                return {
-                  css: minifiedCss.styles,
-                  map: minifiedCss.sourceMap ? minifiedCss.sourceMap.toJSON() : '',
-                  warnings: minifiedCss.warnings,
-                };
-              },
             })
           ],
         }
