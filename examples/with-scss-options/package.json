@@ -9,7 +9,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "resolutions": {
-    "postcss": "8.2.4"
+    "postcss": "8.2.13"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -24,7 +24,7 @@
     "razzle-dev-utils": "4.0.4",
     "razzle-plugin-scss": "4.0.4",
     "webpack": "^4.44.1",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.13",
     "webpack-dev-server": "^3.11.2"
   }
 }

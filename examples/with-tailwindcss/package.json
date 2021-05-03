@@ -9,7 +9,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "resolutions": {
-    "postcss": "8.2.4"
+    "postcss": "8.2.13"
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -24,7 +24,7 @@
     "webpack": "^4.44.1",
     "babel-preset-razzle": "4.0.4",
     "webpack-dev-server": "^3.11.2",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.13",
     "autoprefixer": "^10.2.3",
     "tailwindcss": "^2.0.2"
   }

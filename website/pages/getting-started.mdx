@@ -115,9 +115,10 @@ To fix this add:
 
 ```json
 {
-  "postcss": "8.2.4"
+  "postcss": "8.2.13"
 }
 ```
+
 To resolutions in your package.json. For npm see [here](https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
 
 If you get an error like this:
@@ -143,12 +144,11 @@ module.exports = {
   modifyWebpackOptions({
     options: {
       webpackOptions, // the modified options that was used to configure webpack/ webpack loaders and plugins
-    }
+    },
   }) {
-
-      webpackOptions.notNodeExternalResMatch = (request, context) => {
-         return /react-images-upload/.test(request)
-      };
+    webpackOptions.notNodeExternalResMatch = (request, context) => {
+      return /react-images-upload/.test(request);
+    };
 
     return webpackOptions;
   },
@@ -165,8 +165,8 @@ Make razzle more verbose:
 
 module.exports = {
   options: {
-    verbose: true
-  }
+    verbose: true,
+  },
 };
 ```
 
