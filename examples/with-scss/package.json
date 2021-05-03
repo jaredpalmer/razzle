@@ -8,9 +8,6 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
-  "resolutions": {
-    "postcss": "8.2.13"
-  },
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.1",
