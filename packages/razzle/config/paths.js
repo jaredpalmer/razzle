@@ -31,7 +31,7 @@ const getPublicUrl = appPackageJson => {
   
   if (fs.existsSync(appPackageJson)) {
     try {
-      packageJson = require(appPackageJson)
+      const packageJson = require(appPackageJson)
       return packageJson.homepage;
     } catch (e) {
       clearConsole();
