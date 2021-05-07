@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const fs = require('fs');
 const shell = require('shelljs');
 const util = require('../fixtures/util');
 const kill = require('../utils/psKill');
@@ -163,6 +164,36 @@ describe('razzle start', () => {
         });
       });
       return run.then(test => expect(test).toBeTruthy());
+    });
+
+    it('should exit with an error code and display the error when the custom config throws an error', () => {
+      const stagePath = util.setupStageWithExample(stageName, 'basic');
+      fs.writeFileSync(
+        path.join(stagePath, 'razzle.config.js'),
+        `
+        module.exports = {
+          modifyWebpackConfig() {
+            throw new Error("Oops");
+          }
+        }
+      `
+      );
+
+      return new Promise((resolve, reject) => {
+        shell.exec(
+          `node ${path.join(
+            '../node_modules/razzle/bin/razzle.js'
+          )} start --verbose`,
+          { timeout: 5000 },
+          (returnCode, stdout) => {
+            if (returnCode === 1 && stdout.includes('Error: Oops')) {
+              resolve();
+            } else {
+              reject('Unexpected successful return code.');
+            }
+          }
+        );
+      });
     });
 
     afterEach(() => {
