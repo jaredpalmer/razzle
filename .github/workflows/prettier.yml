@@ -1,0 +1,23 @@
+name: Prettier
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+
+      - name: Install and bootstrap packages
+        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 1000000
+
+      - name: Run prettier
+        run: yarn check-format

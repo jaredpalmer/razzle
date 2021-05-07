@@ -53,6 +53,7 @@
     "test:examples:complex": "cross-env COMPLEX=true jest --config ./test/jest.examples.config.js --verbose --no-cache -t complex",
     "clean": "lerna clean --yes",
     "format": "prettier --write 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
+    "check-format": "prettier --list-different 'packages/*/*.+(js|jsx|json|yml|yaml|css|less|scss|ts|tsx|md|mdx)' 'packages/*/!(node_modules)/**/*.js'",
     "publish-all": "node ./scripts/publish-all.js",
     "publish-all-stable": "yarn publish-all -c -t --push && release && node ./scripts/release-notes.js",
     "publish-all-canary": "yarn publish-all -p canary -c -t --push && release --pre",
