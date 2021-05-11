@@ -411,7 +411,7 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 
 If you need to transpile external modules with arrow functions etc.
 
-Make sure the modules are added to the babelRule.
+Make sure the modules are not externalized and are added to the babelRule include.
 
 ```js
 // razzle.config.js
@@ -427,12 +427,13 @@ module.exports = {
       webpackOptions, // the default options that will be used to configure webpack/ webpack loaders and plugins
     }
   }) {
-    if (target === 'web') {
-      webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
-        /themodule/,
-        /anothermodule/
-      ])
-    }
+    webpackOptions.notNodeExternalResMatch = (request, context) => {
+       return /themodule|anothermodule/.test(request)
+    };
+    webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
+      /themodule/,
+      /anothermodule/
+    ]);
     return webpackOptions;
   }
 };
