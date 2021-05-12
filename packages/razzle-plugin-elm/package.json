@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "5.0.0"
+    "elm-webpack-loader": "^5.0.0"
   },
   "peerDependencies": {
     "elm": "^0.19.1-5",

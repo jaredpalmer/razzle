@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "css-loader": "5.0.0",
+    "css-loader": "^5.0.0",
     "vue": "^2.6.12",
     "vue-loader": "^15.9.6",
     "vue-style-loader": "^4.1.3",
