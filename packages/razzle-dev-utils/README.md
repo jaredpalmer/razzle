@@ -24,7 +24,7 @@ There is no single entry point. You can only import individual top-level modules
 - `logger.warn(text: string, data: object): void`: Log a warning with message and data to console
 - `logger.error(text: string, err: object): void`: Log a message and an error to console
 
-#### `new FriendlyErrorrWebpackPlugin({ verbose: boolean, onSuccessMessage: string, target: 'web' | 'server' })`
+#### `new FriendlyErrorsWebpackPlugin({ verbose: boolean, onSuccessMessage: string, target: 'web' | 'server' })`
 
 This will pretty print webpack errors to your console. It is mean to be used with Razzle's double webpack setup, where you have two webpack instances running in parallel. Otherwise the output looks almost identical to `create-react-app's` as it uses the same error formatter under the hood.
 
