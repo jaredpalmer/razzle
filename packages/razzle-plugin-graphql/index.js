@@ -12,7 +12,7 @@ module.exports = {
       const graphqlLoader = {
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
-        use: ['graphql-tag/loader']
+        use: [require.resolve('graphql-tag/loader')]
       };
 
       config.module.rules = [
