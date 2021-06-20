@@ -11,7 +11,11 @@ We show the default options here:
 module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
-    debug: {}, // debug flags
+    debug: { // debug flags
+      options: false, // print webpackOptions that will be used in webpack config
+      config: false, // print webpack config
+      nodeExternals: false // print node externals debug info 
+    },
     buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
