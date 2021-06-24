@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "graphql": "^15.5.0",
-    "razzle": "4.0.4",
-    "razzle-dev-utils": "4.0.4"
+    "razzle": "4.0.5",
+    "razzle-dev-utils": "4.0.5"
   }
 }
