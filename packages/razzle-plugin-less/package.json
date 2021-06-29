@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-less",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -13,22 +13,22 @@
     "test": "jest"
   },
   "dependencies": {
-    "autoprefixer": "10.2.3",
-    "css-loader": "5.0.0",
-    "deepmerge": "4.2.2",
-    "less-loader": "7.0.2",
-    "node-less-chokidar": "0.4.1",
-    "postcss-less": "4.0.0",
-    "postcss-load-config": "3.0.0",
-    "postcss-loader": "4.2.0",
-    "resolve-url-loader": "3.1.2"
+    "autoprefixer": "^10.2.3",
+    "css-loader": "^5.0.0",
+    "deepmerge": "^4.2.2",
+    "less-loader": "^7.0.2",
+    "node-less-chokidar": "^0.4.1",
+    "postcss-less": "^4.0.0",
+    "postcss-load-config": "^3.0.0",
+    "postcss-loader": "^4.2.0",
+    "resolve-url-loader": "^3.1.2"
   },
   "peerDependencies": {
     "less": "^4.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "postcss": "^8.2.4",
-    "razzle": "4.0.3",
-    "razzle-dev-utils": "4.0.3",
+    "razzle": "4.0.5",
+    "razzle-dev-utils": "4.0.5",
     "style-loader": "^2.0.0",
     "webpack": "~4||~5"
   }

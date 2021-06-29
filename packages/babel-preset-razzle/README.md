@@ -4,7 +4,7 @@ This package includes the [Babel](https://babeljs.io) preset used by [Razzle](ht
 
 ## Usage in Razzle Projects
 
-The easiest way to use this configuration is with Razzle, which includes it by default. **You don’t need to install it separately in Razzle projects.**
+The easiest way to use this configuration is with Razzle, which includes it by default.
 
 ## Usage Outside of Razzle
 

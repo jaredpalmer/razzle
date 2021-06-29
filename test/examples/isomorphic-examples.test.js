@@ -170,6 +170,7 @@ let examples =
       }
     ].filter(x=>x), complex: [
     { example: 'with-monorepo', path: 'examples/with-monorepo' }, // test timing ssues
+    { example: 'with-monorepo-without-workspaces', path: 'examples/with-monorepo-without-workspaces' }, // test timing ssues
     {
       example: 'with-module-federation', // test timing ssues
       path: 'examples/with-module-federation'

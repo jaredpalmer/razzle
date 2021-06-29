@@ -62,7 +62,7 @@ export const renderApp = (ctx) => {
 // @see https://github.com/alexmingoia/koa-router#multiple-middleware
 const router = new Router();
 router.get(
-  '/*',
+  '(.*)',
   (ctx, next) => {
     const { html = '', redirect = false } = renderApp(ctx);
     ctx.state.markup = html;

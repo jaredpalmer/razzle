@@ -3,6 +3,8 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
+const clearConsole = require('react-dev-utils/clearConsole');
+const logger = require('razzle-dev-utils/logger');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -22,8 +24,24 @@ function ensureSlash(path, needsSlash) {
   }
 }
 
-const getPublicUrl = appPackageJson =>
-  envPublicUrl || require(appPackageJson).homepage;
+const getPublicUrl = appPackageJson => {
+  if (envPublicUrl) {
+    return envPublicUrl;
+  }
+  
+  if (fs.existsSync(appPackageJson)) {
+    try {
+      const packageJson = require(appPackageJson)
+      return packageJson.homepage;
+    } catch (e) {
+      clearConsole();
+      logger.error('Invalid package.json.', e);
+      process.exit(1);
+    }
+  }
+
+  return undefined;
+};
 
 function getServedPath(appPackageJson) {
   const publicUrl = getPublicUrl(appPackageJson);

@@ -11,8 +11,12 @@ We show the default options here:
 module.exports = {
   options: {
     verbose: false, // set to true to get more info/error output
-    debug: {}, // debug flags
-    buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless' 
+    debug: { // debug flags
+      options: false, // print webpackOptions that will be used in webpack config
+      config: false, // print webpack config
+      nodeExternals: false // print node externals debug info 
+    },
+    buildType: 'iso', // or 'spa', 'serveronly', 'iso-serverless' and 'serveronly-serverless'
     cssPrefix: 'static/css',
     jsPrefix: 'static/js',
     mediaPrefix: 'static/media',
@@ -23,6 +27,7 @@ module.exports = {
     enableTargetBabelrc: false, // enable to use .babelrc.node and .babelrc.web
     enableBabelCache: true,
     forceRuntimeEnvVars: [], // force env vars to be read from env e.g. ['HOST', 'PORT']
+    disableWebpackbar: false, // can be true to disable all environments or target to disable specific environment such as "node" or "web"
     staticExport: {
       parallel: 5, // how many pages to render at a time
       routesExport: 'routes',
@@ -404,6 +409,38 @@ Next, place one of the following lines at the very top of `src/client.js:`
 ```javascript
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
+```
+
+## Transpilation of external modules
+
+If you need to transpile external modules with arrow functions etc.
+
+Make sure the modules are not externalized and are added to the babelRule include.
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  modifyWebpackOptions({
+    env: {
+      target, // the target 'node' or 'web'
+      dev, // is this a development build? true or false
+    }
+    options: {
+      webpackOptions, // the default options that will be used to configure webpack/ webpack loaders and plugins
+    }
+  }) {
+    webpackOptions.notNodeExternalResMatch = (request, context) => {
+       return /themodule|anothermodule/.test(request)
+    };
+    webpackOptions.babelRule.include = webpackOptions.babelRule.include.concat([
+      /themodule/,
+      /anothermodule/
+    ]);
+    return webpackOptions;
+  }
+};
 ```
 
 ## Absolute Imports

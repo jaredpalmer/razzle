@@ -14,7 +14,7 @@ const getClientEnv = require('./env').getClientEnv;
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const WebpackBar = require('webpackbar');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin').WebpackManifestPlugin;
 const CopyPlugin = require('copy-webpack-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const modules = require('./modules');
@@ -102,6 +102,9 @@ module.exports = (
     const shouldUseReactRefresh =
       IS_WEB && IS_DEV && razzleOptions.enableReactRefresh ? true : false;
 
+    const shouldDisableWebpackbar =
+      razzleOptions.disableWebpackbar === true || razzleOptions.disableWebpackbar === target;
+
     let webpackOptions = {};
 
     const hasPublicDir = fs.existsSync(paths.appPublic);
@@ -165,6 +168,8 @@ module.exports = (
     webpackOptions.jsTest = [/\.js(\.map)?$/];
 
     webpackOptions.definePluginOptions = dotenv.stringified;
+
+    webpackOptions.appAssetsManifestPath = paths.appAssetsManifest;
 
     if (IS_NODE) {
 
@@ -735,7 +740,7 @@ module.exports = (
         // Output all files in a manifest file called assets-manifest.json
         // in the build directory.
         new ManifestPlugin({
-          fileName: path.join(paths.appBuild, 'assets.json'),
+          fileName: webpackOptions.appAssetsManifestPath,
           writeToFileEmit: true,
           generate: (seed, files) => {
             const entrypoints = new Set();
@@ -979,7 +984,7 @@ module.exports = (
       }
     }
 
-    if (IS_DEV) {
+    if (IS_DEV && !shouldDisableWebpackbar) {
       config.plugins = [
         ...config.plugins,
         new WebpackBar({

@@ -60,6 +60,8 @@ module.exports = {
 };
 ```
 
+Update the [template](https://razzlejs.org/docs/single-page-applications)
+
 ## Plugins
 
 Plugins are now multiple functions as opposed to one before.

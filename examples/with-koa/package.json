@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-koa",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -9,21 +9,21 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "koa": "^2.11.0",
-    "koa-helmet": "^5.2.0",
-    "koa-router": "^8.0.8",
+    "koa": "^2.13.1",
+    "koa-helmet": "^6.1.0",
+    "koa-router": "^10.0.0",
     "koa-static": "^5.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.1.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "razzle": "4.0.3",
-    "razzle-dev-utils": "4.0.3",
+    "razzle": "4.0.5",
+    "razzle-dev-utils": "4.0.5",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.0.3",
+    "babel-preset-razzle": "4.0.5",
     "webpack-dev-server": "^3.11.2"
   }
 }

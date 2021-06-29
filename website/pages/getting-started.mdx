@@ -10,6 +10,10 @@ cd my-app
 npm start
 ```
 
+> If you've previously installed `create-razzle-app` globally via `npm install -g create-razzle-app`, we recommend you uninstall the package using `npm uninstall -g create-razzle-app` or `yarn global remove create-razzle-app` to ensure that `npx` always uses the latest version.
+
+_([npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) comes with npm 5.2+ and higher, see [instructions for older npm versions](https://gist.github.com/gaearon/4064d3c23a77c74a3614c498a8bb1c5f))_
+
 Then open http://localhost:3000/ to see your app. Your console should look like this:
 
 <img
@@ -44,7 +48,7 @@ Your app is ready to be deployed!
 
 By default this uses NODE_ENV=production and asks if you want to run it.
 
-If you nont want the confirmation add --noninteractive to your build command.
+If you don't want the confirmation add --noninteractive to your build command.
 
 If you want to use a different env file e.g. .env.something-staging file you can add --node-env=something-staging
 
@@ -116,7 +120,7 @@ To fix this add:
 ```
 To resolutions in your package.json. For npm see [here](https://stackoverflow.com/questions/52416312/npm-equivalent-of-yarn-resolutions).
 
-If you get a error like this:
+If you get an error like this:
 
 ```
 node_modules/react-images-upload/index.css:1
@@ -148,6 +152,21 @@ module.exports = {
 
     return webpackOptions;
   },
+};
+```
+
+Dev server not starting and no errors show up
+
+Make razzle more verbose:
+
+```js
+// razzle.config.js
+'use strict';
+
+module.exports = {
+  options: {
+    verbose: true
+  }
 };
 ```
 

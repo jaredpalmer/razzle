@@ -3,6 +3,8 @@
 const fs = require('fs');
 const chalk = require('chalk');
 const jest = require('jest');
+const clearConsole = require('react-dev-utils/clearConsole');
+const logger = require('razzle-dev-utils/logger');
 
 // first search for setupTests.ts file
 // if .ts file not exists then looks for setupTests.js
@@ -66,7 +68,18 @@ module.exports = (
     if (rootDir) {
       config.rootDir = rootDir;
     }
-    const overrides = Object.assign({}, require(paths.appPackageJson).jest);
+
+    let overrides = {};
+    if (fs.existsSync(paths.appPackageJson)) {
+      try {
+        overrides = Object.assign({}, require(paths.appPackageJson).jest);
+      } catch (e) {
+        clearConsole();
+        logger.error('Invalid package.json.', e);
+        process.exit(1);
+      }
+    }
+
     const supportedKeys = [
       'collectCoverageFrom',
       'coverageReporters',

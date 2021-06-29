@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-elm",
-  "version": "4.0.3",
+  "version": "4.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
@@ -10,10 +10,10 @@
   "license": "MIT",
   "dependencies": {
     "elm-hot-loader": "^0.5.4",
-    "elm-webpack-loader": "5.0.0"
+    "elm-webpack-loader": "^5.0.0"
   },
   "peerDependencies": {
     "elm": "^0.19.1-5",
-    "razzle-dev-utils": "4.0.3"
+    "razzle-dev-utils": "4.0.5"
   }
 }

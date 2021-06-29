@@ -94,40 +94,19 @@ default
 ```js
 {
   dev: {
-    sourceMap: true,
-    includePaths: [paths.appNodeModules],
+    sassOptions: {
+      sourceMap: true,
+      includePaths: [paths.appNodeModules],
+    },
   },
   prod: {
-    sourceMap: false,
-    includePaths: [paths.appNodeModules],
+    sassOptions: {
+      sourceMap: true,
+      sourceMapContents: false,
+      includePaths: [paths.appNodeModules],
+    },
   },
-}
-```
-
-Set `dev` to add config to postcss in `development`.
-Set `prod` to add config to postcss in `production`.
-
-See [node-sass options](https://github.com/sass/node-sass#options) to override configs.
-
----
-
-### sassModules
-
-default
-
-```js
-{
-  dev: {
-    sourceMap: true,
-    includePaths: [paths.appNodeModules],
-    modules: true
-  },
-  prod: {
-    sourceMap: false,
-    includePaths: [paths.appNodeModules],
-    modules: true
-  },
-}
+},
 ```
 
 Set `dev` to add config to postcss in `development`.
@@ -146,15 +125,20 @@ default
   dev: {
     sourceMap: true,
     importLoaders: 1,
-    modules: false,
+    modules: {
+      auto: true,
+      localIdentName: '[name]__[local]___[hash:base64:5]',
+    },
   },
   prod: {
-    sourceMap: false,
+    sourceMap: razzleOptions.enableSourceMaps,
     importLoaders: 1,
-    modules: false,
-    minimize: true,
+    modules: {
+      auto: true,
+      localIdentName: '[name]__[local]___[hash:base64:5]',
+    },
   },
-}
+},
 ```
 
 Set `dev` to add config to postcss in `development`.
