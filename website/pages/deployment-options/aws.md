@@ -6,6 +6,7 @@ Add razzle config.
 ```js
 // razzle.config.js
 'use strict';
+const path = require('path');
 
 module.exports = {
   options: {
