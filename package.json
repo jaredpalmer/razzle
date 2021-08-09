@@ -102,5 +102,5 @@
     "packages/razzle-dev-utils",
     "packages/razzle-plugin-*"
   ],
-  "version": "4.0.5"
+  "version": "4.0.6"
 }
