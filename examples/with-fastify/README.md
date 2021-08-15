@@ -1,4 +1,4 @@
-# Razzle TypeScript Example
+# Razzle Fastify Example
 
 ## How to use
 
