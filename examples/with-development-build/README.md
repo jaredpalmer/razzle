@@ -21,6 +21,6 @@ yarn start
 This is a basic, bare-bones example of how to use razzle to produce a development build. It satisfies the entry points
 `src/index.js` for the server and and `src/client.js` for the browser.
 
-The only differences between this example and the `basic` example is that the `razzle build` command is replaced with `razzle build --node-env=development` and that tere is a new `start:dev` command for running the development build.
+The only differences between this example and the `basic` example are that the `razzle build` command is replaced with `razzle build --node-env=development` and that there is a new `start:dev` command for running the development build.
 
-You can use this command separately in a new command inside the `scripts` section of the project's `package.json` file, if you find it useful.
+You can use this command separately in a new script inside the `scripts` section of the project's `package.json` file, if you find it useful.
