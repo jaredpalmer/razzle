@@ -208,6 +208,28 @@ describe('razzle build', () => {
     expect(output.code).toBe(1);
   });
 
+
+  it('should compile with development build', () => {
+    const stagePath = util.setupStageWithExample(stageName, 'with-development-build');
+    const output = shell.exec('yarn build --noninteractive');
+    // Create asset manifest
+    expect(fileExists('build/assets.json')).toBeTruthy();
+
+    const assets = JSON.parse(fs.readFileSync(path.join(stagePath, 'build/assets.json')));
+    const js = fs.readFileSync(path.join(stagePath, 'build', 'public', assets.client.js[0]));
+
+    expect(output.code).toBe(0);
+  });
+
+  it('should exit with an error code when the custom config is invalid', () => {
+    util.setupStageWithFixture(stageName, 'build-with-custom-config-invalid');
+    const output = shell.exec('yarn build', {
+      silent: true,
+    });
+
+    expect(output.code).toBe(1);
+  });
+
   afterEach(() => {
     util.teardownStage(stageName);
   });
