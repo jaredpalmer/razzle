@@ -672,6 +672,9 @@ module.exports = (
         server: [paths.appServerIndexJs],
       };
 
+      // make sure the key exists  
+      config.optimization = {};
+
       if (IS_PROD) {
         // Prevent creating multiple chunks for the server
         // in dev mode emitting one huge server file on every save is very slow
@@ -930,7 +933,7 @@ module.exports = (
             ]
           }),
         ].filter(x => x);
-        
+
         // make sure the key exists  
         config.optimization = {};
 
