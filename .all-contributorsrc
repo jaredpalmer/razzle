@@ -129,6 +129,16 @@
         "example",
         "plugin"
       ]
+    },
+    {
+      "login": "silviubogan",
+      "name": "Silviu Bogan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/198924?v=4",
+      "profile": "https://silviubogan.ro/",
+      "contributions": [
+        "code",
+        "example"
+      ]
     }
   ],
   "repoType": "github",
