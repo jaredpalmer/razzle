@@ -6,11 +6,11 @@ const mri = require('mri');
 const argv = process.argv.slice(2);
 const cliArgs = mri(argv);
 
-const nodeEnv = cliArgs['node-env']||'production';
-const mode = cliArgs['--watch'] ? 'watch' : 'run';
+const nodeEnv = cliArgs['node-env'] || 'production';
+const mode = cliArgs['watch'] ? 'watch' : 'run';
 
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.NODE_ENV = /production|staging$/.test(nodeEnv) ? nodeEnv : 'production';
+process.env.NODE_ENV = /production|staging|development$/.test(nodeEnv) ? nodeEnv : 'production';
 
 const webpack = require('webpack');
 const fs = require('fs-extra');
@@ -122,7 +122,7 @@ loadRazzleConfig(webpack).then(
                         console.log(
                           chalk.yellow(
                             '\nTreating warnings as errors because process.env.CI = true.\n' +
-                              'Most CI servers set it automatically.\n'
+                            'Most CI servers set it automatically.\n'
                           )
                         );
                         return reject(clientMessages.warnings);
@@ -159,13 +159,13 @@ loadRazzleConfig(webpack).then(
                         );
                         console.log(
                           '\nSearch for the ' +
-                            chalk.underline(chalk.yellow('keywords')) +
-                            ' to learn more about each warning.'
+                          chalk.underline(chalk.yellow('keywords')) +
+                          ' to learn more about each warning.'
                         );
                         console.log(
                           'To ignore, add ' +
-                            chalk.cyan('// eslint-disable-next-line') +
-                            ' to the line before.\n'
+                          chalk.cyan('// eslint-disable-next-line') +
+                          ' to the line before.\n'
                         );
                       } else {
                         console.log(
@@ -239,7 +239,7 @@ loadRazzleConfig(webpack).then(
                         console.log(
                           chalk.yellow(
                             '\nTreating warnings as errors because process.env.CI = true.\n' +
-                              'Most CI servers set it automatically.\n'
+                            'Most CI servers set it automatically.\n'
                           )
                         );
                         return reject(serverMessages.warnings);
@@ -265,13 +265,13 @@ loadRazzleConfig(webpack).then(
                       );
                       console.log(
                         '\nSearch for the ' +
-                          chalk.underline(chalk.yellow('keywords')) +
-                          ' to learn more about each warning.'
+                        chalk.underline(chalk.yellow('keywords')) +
+                        ' to learn more about each warning.'
                       );
                       console.log(
                         'To ignore, add ' +
-                          chalk.cyan('// eslint-disable-next-line') +
-                          ' to the line before.\n'
+                        chalk.cyan('// eslint-disable-next-line') +
+                        ' to the line before.\n'
                       );
                     } else {
                       console.log(
