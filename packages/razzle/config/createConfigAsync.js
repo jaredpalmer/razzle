@@ -78,6 +78,7 @@ module.exports = (
     const IS_SERVERLESS = /serverless/.test(razzleOptions.buildType);
     const IS_PROD = env === 'prod';
     const IS_DEV = env === 'dev';
+    const IS_DEV_ENV = process.env.NODE_ENV === 'development';
 
     // Contains various versions of the Webpack SplitChunksPlugin used in different build types
     const splitChunksConfigs = {
@@ -465,13 +466,13 @@ module.exports = (
     // This is our base webpack config.
     let config = {
       // Set webpack mode:
-      mode: IS_DEV ? 'development' : 'production',
+      mode: IS_DEV || IS_DEV_ENV ? 'development' : 'production',
       // Set webpack context to the current apps directory
       context: paths.appPath,
       // Specify target (either 'node' or 'web')
       target: target,
       // Controversially, decide on sourcemaps.
-      devtool: IS_DEV ? 'cheap-module-source-map' : razzleOptions.enableSourceMaps ? 'source-map' : false,
+      devtool: IS_DEV || IS_DEV_ENV ? 'cheap-module-source-map' : razzleOptions.enableSourceMaps ? 'source-map' : false,
       // We need to tell webpack how to resolve both Razzle's node_modules and
       // the users', so we use resolve and resolveLoader.
       resolve: {
@@ -674,17 +675,18 @@ module.exports = (
       if (IS_PROD) {
         // Prevent creating multiple chunks for the server
         // in dev mode emitting one huge server file on every save is very slow
-
-        config.plugins.push(
-          new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1,
-          })
-        );
-        config.optimization = {
-          minimize: true,
-          minimizer: [
-            new TerserPlugin(webpackOptions.terserPluginOptions)
-          ],
+        if (!IS_DEV_ENV) {
+          config.plugins.push(
+            new webpack.optimize.LimitChunkCountPlugin({
+              maxChunks: 1,
+            })
+          );
+          config.optimization = {
+            minimize: true,
+            minimizer: [
+              new TerserPlugin(webpackOptions.terserPluginOptions)
+            ],
+          }
         }
         if (webpackMajor === 5) {
           config.optimization.emitOnErrors = razzleOptions.emitOnErrors;
@@ -913,8 +915,8 @@ module.exports = (
           // Define production environment vars
           new webpack.DefinePlugin(webpackOptions.definePluginOptions),
           miniCssExtractPlugin,
-          webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
-          new webpack.optimize.AggressiveMergingPlugin(),
+          IS_DEV_ENV || webpackMajor === 5 ? null : new webpack.HashedModuleIdsPlugin(),
+          IS_DEV_ENV ? null : new webpack.optimize.AggressiveMergingPlugin(),
           hasPublicDir && new CopyPlugin({
             patterns: [
               {
@@ -929,37 +931,39 @@ module.exports = (
           }),
         ].filter(x => x);
 
-        config.optimization = {
-          splitChunks: webpackOptions.splitChunksConfig,
-          moduleIds: webpackMajor === 5 ? 'deterministic' : 'hashed',
-          minimize: true,
-          minimizer: [
-            new TerserPlugin(webpackOptions.terserPluginOptions),
-            new CssMinimizerPlugin({
-              sourceMap: razzleOptions.enableSourceMaps,
-              minimizerOptions: {
-                sourceMap: razzleOptions.enableSourceMaps
-              },
-              minify: async (data, inputMap, minimizerOptions) => {
-                // eslint-disable-next-line global-require
-                const CleanCSS = require('clean-css');
+        if (!IS_DEV_ENV) {
+          config.optimization = {
+            splitChunks: webpackOptions.splitChunksConfig,
+            moduleIds: webpackMajor === 5 ? 'deterministic' : 'hashed',
+            minimize: true,
+            minimizer: [
+              new TerserPlugin(webpackOptions.terserPluginOptions),
+              new CssMinimizerPlugin({
+                sourceMap: razzleOptions.enableSourceMaps,
+                minimizerOptions: {
+                  sourceMap: razzleOptions.enableSourceMaps
+                },
+                minify: async (data, inputMap, minimizerOptions) => {
+                  // eslint-disable-next-line global-require
+                  const CleanCSS = require('clean-css');
 
-                const [[filename, input]] = Object.entries(data);
-                const minifiedCss = await new CleanCSS({ sourceMap: minimizerOptions.sourceMap }).minify({
-                  [filename]: {
-                    styles: input,
-                    sourceMap: inputMap,
-                  },
-                });
+                  const [[filename, input]] = Object.entries(data);
+                  const minifiedCss = await new CleanCSS({ sourceMap: minimizerOptions.sourceMap }).minify({
+                    [filename]: {
+                      styles: input,
+                      sourceMap: inputMap,
+                    },
+                  });
 
-                return {
-                  css: minifiedCss.styles,
-                  map: minifiedCss.sourceMap ? minifiedCss.sourceMap.toJSON() : '',
-                  warnings: minifiedCss.warnings,
-                };
-              },
-            })
-          ],
+                  return {
+                    css: minifiedCss.styles,
+                    map: minifiedCss.sourceMap ? minifiedCss.sourceMap.toJSON() : '',
+                    warnings: minifiedCss.warnings,
+                  };
+                },
+              })
+            ],
+          }
         }
         if (webpackMajor === 5) {
           config.optimization.emitOnErrors = razzleOptions.emitOnErrors;
