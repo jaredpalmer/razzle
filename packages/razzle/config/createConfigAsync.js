@@ -930,6 +930,9 @@ module.exports = (
             ]
           }),
         ].filter(x => x);
+        
+        // make sure the key exists  
+        config.optimization = {};
 
         if (!IS_DEV_ENV) {
           config.optimization = {
