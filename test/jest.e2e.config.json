@@ -1,7 +1,0 @@
-{
-  "roots": ["<rootDir>/e2e"],
-  "collectCoverageFrom": ["**/*.js"],
-  "testMatch": [
-      "<rootDir>/e2e/**/*(*.)@(spec|test).(ts|js)?(x)"
-  ]
-}

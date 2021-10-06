@@ -1,8 +1,0 @@
-{
-  "presets": [
-    "razzle/babel"
-  ],
-  "plugins": [
-    "@babel/plugin-proposal-do-expressions"
-  ]
-}

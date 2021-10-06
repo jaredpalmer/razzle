@@ -1,4 +1,0 @@
-{
-  "presets": ["razzle/babel"],
-  "plugins": ["@loadable/babel-plugin"]
-}

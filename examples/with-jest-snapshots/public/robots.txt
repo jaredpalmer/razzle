@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /api/
-Disallow: /publicapi/
-Disallow: /query/

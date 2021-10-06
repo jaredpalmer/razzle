@@ -1,1 +1,0 @@
-../../../packages/razzle-plugin-php/README.md

@@ -1,1 +1,0 @@
-../../../packages/razzle-plugin-typescript/README.md

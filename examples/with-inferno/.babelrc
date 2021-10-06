@@ -1,8 +1,0 @@
-{
-  "presets": [
-    "razzle/babel"
-  ],
-  "plugins": [
-    "inferno"
-  ]
-}
