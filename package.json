@@ -1,0 +1,61 @@
+{
+  "name": "razzle",
+  "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredpalmer/razzle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "scripts": {
+    "prepublish": "pnpm build",
+    "verify": "lerna run verify --stream",
+    "prettier": "lerna run prettier",
+    "build": "lerna run build",
+    "test": "NODE_ENV=development lerna run test --stream"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pnpm prettier",
+      "pre-push": "pnpm verify"
+    }
+  },
+  "private": true,
+  "version": "5.0-alpha.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.7",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.10.3",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "esbuild": "^0.13.4",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier-standard": "^4.0.1",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-flowtype": "^6.1.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "husky": "^7.0.2",
+    "jest": "^27.2.4",
+    "lerna": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.4.1",
+    "prettier-config-standard": "^4.0.0",
+    "ts-jest": "^27.0.5",
+    "tsconfig-paths-jest": "^0.0.1",
+    "typescript": "^4.4.3"
+  }
+}
