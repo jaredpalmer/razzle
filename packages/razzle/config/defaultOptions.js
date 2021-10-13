@@ -10,6 +10,7 @@ module.exports = {
   enableReactRefresh: false,
   enableTargetBabelrc: false,
   enableBabelCache: true,
+  enableDevServerV4: false,
   forceRuntimeEnvVars: [],
   mediaPrefix: 'static/media',
   staticCssInDev: false,

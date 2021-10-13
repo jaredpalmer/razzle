@@ -672,7 +672,7 @@ module.exports = (
         server: [paths.appServerIndexJs],
       };
 
-      // make sure the key exists  
+      // make sure the key exists
       config.optimization = {};
 
       if (IS_PROD) {
@@ -834,33 +834,68 @@ module.exports = (
           };
         }
 
+        let devServer;
+        if (razzleOptions.enableDevServerV4) {
+          // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
+          devServer = {
+            allowedHosts: 'all',
+            client: {
+              logging: 'none', // Enable gzip compression of generated files.
+              overlay: false,
+            },
+            compress: true, // watchContentBase: true,
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            historyApiFallback: {
+              // Paths with dots should still use the history fallback.
+              // See https://github.com/facebookincubator/create-react-app/issues/387.
+              disableDotRule: true,
+            },
+            host: dotenv.raw.HOST,
+            devMiddleware: {
+              publicPath: clientPublicPath,
+            },
+            hot: true,
+            port: devServerPort,
+            static: {
+              // Reportedly, this avoids CPU overload on some systems.
+              // https://github.com/facebookincubator/create-react-app/issues/293
+              watch: { ignored: /node_modules/ },
+            },
+            onBeforeSetupMiddleware(server) {
+              // This lets us open files from the runtime error overlay.
+              server.app.use(errorOverlayMiddleware());
+            },
+          };
+        } else {
+          devServer = {
+            disableHostCheck: true,
+            clientLogLevel: 'none', // Enable gzip compression of generated files.
+            compress: true, // watchContentBase: true,
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            historyApiFallback: {
+              // Paths with dots should still use the history fallback.
+              // See https://github.com/facebookincubator/create-react-app/issues/387.
+              disableDotRule: true,
+            },
+            host: dotenv.raw.HOST,
+            publicPath: clientPublicPath,
+            hot: true,
+            noInfo: true,
+            overlay: false,
+            port: devServerPort,
+            quiet: true, // By default files from `contentBase` will not trigger a page reload.
+            // Reportedly, this avoids CPU overload on some systems.
+            // https://github.com/facebookincubator/create-react-app/issues/293
+            watchOptions: { ignored: /node_modules/ },
+            before(app) {
+              // This lets us open files from the runtime error overlay.
+              app.use(errorOverlayMiddleware());
+            },
+          };
+        }
         // Configure webpack-dev-server to serve our client-side bundle from
         // http://${dotenv.raw.HOST}:3001
-        config.devServer = {
-          disableHostCheck: true,
-          clientLogLevel: 'none', // Enable gzip compression of generated files.
-          compress: true, // watchContentBase: true,
-          headers: { 'Access-Control-Allow-Origin': '*' },
-          historyApiFallback: {
-            // Paths with dots should still use the history fallback.
-            // See https://github.com/facebookincubator/create-react-app/issues/387.
-            disableDotRule: true,
-          },
-          host: dotenv.raw.HOST,
-          publicPath: clientPublicPath,
-          hot: true,
-          noInfo: true,
-          overlay: false,
-          port: devServerPort,
-          quiet: true, // By default files from `contentBase` will not trigger a page reload.
-          // Reportedly, this avoids CPU overload on some systems.
-          // https://github.com/facebookincubator/create-react-app/issues/293
-          watchOptions: { ignored: /node_modules/ },
-          before(app) {
-            // This lets us open files from the runtime error overlay.
-            app.use(errorOverlayMiddleware());
-          },
-        };
+        config.devServer = devServer;
 
         // Add client-only development plugins
         config.plugins = [
@@ -934,7 +969,7 @@ module.exports = (
           }),
         ].filter(x => x);
 
-        // make sure the key exists  
+        // make sure the key exists
         config.optimization = {};
 
         if (!IS_DEV_ENV) {
@@ -980,8 +1015,16 @@ module.exports = (
 
       if (clientOnly) {
         if (IS_DEV) {
-          config.devServer.contentBase = paths.appPublic;
-          config.devServer.watchContentBase = true;
+          if (razzleOptions.enableDevServerV4) {
+            // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
+            config.devServer.static.directory = paths.appPublic;
+            if (!config.devServer.static.watch) {
+              config.devServer.static.watch = true;
+            }
+          } else {
+            config.devServer.contentBase = paths.appPublic;
+            config.devServer.watchContentBase = true;
+          }
         }
       }
 
