@@ -834,8 +834,14 @@ module.exports = (
           };
         }
 
+
         let devServer;
-        if (razzleOptions.enableDevServerV4) {
+        // Fetch the package details from the `webpack-dev-server`
+        const devserverPkg = require('webpack-dev-server/package.json');
+        // Parse the first character from the `x.y.z` version notation (i.e. major version)
+        const devServerMajorVersion = parseInt(devserverPkg.version[0]);
+        // If the major version is > 3, then use the newer configuration notation
+        if (devServerMajorVersion > 3) {
           // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
           devServer = {
             allowedHosts: 'all',
@@ -1015,7 +1021,7 @@ module.exports = (
 
       if (clientOnly) {
         if (IS_DEV) {
-          if (razzleOptions.enableDevServerV4) {
+          if (devServerMajorVersion > 3) {
             // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
             config.devServer.static.directory = paths.appPublic;
             if (!config.devServer.static.watch) {

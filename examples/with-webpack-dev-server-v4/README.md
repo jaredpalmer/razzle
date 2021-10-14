@@ -16,6 +16,5 @@ yarn start
 
 ## Idea behind the example
 This is an example of how to use razzle with the `webpack-dev-server` version 4.
-It provides a custom `razzle.config.js` with the `enableDevServerV4` option set to true.
-It also updates the `webpack-dev-server` in `package.json` to the current latest version 4.
-If this gets reset back to the default version 3, then `yarn start` will cause `webpack-dev-server` to fail due to the incompatible configuration. 
+It updates the `webpack-dev-server` in `package.json` to the current latest version 4.
+It provides a custom `razzle.config.js` that throws if the `webpack-dev-server` < version 4 to ensure the example setup is correct.
