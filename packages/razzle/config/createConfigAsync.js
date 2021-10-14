@@ -24,6 +24,7 @@ const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('./paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const webpackMajor = require('razzle-dev-utils/webpackMajor');
+const devserverPkg = require('webpack-dev-server/package.json');
 
 const hasPostCssConfigTest = () => {
   try {
@@ -834,33 +835,36 @@ module.exports = (
           };
         }
 
-        let devServer;
-        // Fetch the package details from the `webpack-dev-server`
-        const devserverPkg = require('webpack-dev-server/package.json');
+        // Configure webpack-dev-server to serve our client-side bundle from
+        // http://${dotenv.raw.HOST}:3001
+        //
+        // First assign the dev server props that are common to v3 and v4
+        config.devServer = {
+          compress: true, // watchContentBase: true,
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          historyApiFallback: {
+            // Paths with dots should still use the history fallback.
+            // See https://github.com/facebookincubator/create-react-app/issues/387.
+            disableDotRule: true,
+          },
+          host: dotenv.raw.HOST,
+          hot: true,
+          port: devServerPort,
+        };
         // Parse the first character from the `x.y.z` version notation (i.e. major version)
         const devServerMajorVersion = parseInt(devserverPkg.version[0]);
         // If the major version is > 3, then use the newer configuration notation
         if (devServerMajorVersion > 3) {
           // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
-          devServer = {
+          config.devServer = Object.assign(config.devServer, {
             allowedHosts: 'all',
             client: {
               logging: 'none', // Enable gzip compression of generated files.
               overlay: false,
             },
-            compress: true, // watchContentBase: true,
-            headers: { 'Access-Control-Allow-Origin': '*' },
-            historyApiFallback: {
-              // Paths with dots should still use the history fallback.
-              // See https://github.com/facebookincubator/create-react-app/issues/387.
-              disableDotRule: true,
-            },
-            host: dotenv.raw.HOST,
             devMiddleware: {
               publicPath: clientPublicPath,
             },
-            hot: true,
-            port: devServerPort,
             static: {
               // Reportedly, this avoids CPU overload on some systems.
               // https://github.com/facebookincubator/create-react-app/issues/293
@@ -870,24 +874,14 @@ module.exports = (
               // This lets us open files from the runtime error overlay.
               server.app.use(errorOverlayMiddleware());
             },
-          };
+          });
         } else {
-          devServer = {
+          config.devServer = Object.assign(config.devServer, {
             disableHostCheck: true,
             clientLogLevel: 'none', // Enable gzip compression of generated files.
-            compress: true, // watchContentBase: true,
-            headers: { 'Access-Control-Allow-Origin': '*' },
-            historyApiFallback: {
-              // Paths with dots should still use the history fallback.
-              // See https://github.com/facebookincubator/create-react-app/issues/387.
-              disableDotRule: true,
-            },
-            host: dotenv.raw.HOST,
             publicPath: clientPublicPath,
-            hot: true,
             noInfo: true,
             overlay: false,
-            port: devServerPort,
             quiet: true, // By default files from `contentBase` will not trigger a page reload.
             // Reportedly, this avoids CPU overload on some systems.
             // https://github.com/facebookincubator/create-react-app/issues/293
@@ -896,11 +890,8 @@ module.exports = (
               // This lets us open files from the runtime error overlay.
               app.use(errorOverlayMiddleware());
             },
-          };
+          });
         }
-        // Configure webpack-dev-server to serve our client-side bundle from
-        // http://${dotenv.raw.HOST}:3001
-        config.devServer = devServer;
 
         // Add client-only development plugins
         config.plugins = [
