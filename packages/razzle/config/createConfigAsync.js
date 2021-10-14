@@ -834,7 +834,6 @@ module.exports = (
           };
         }
 
-
         let devServer;
         // Fetch the package details from the `webpack-dev-server`
         const devserverPkg = require('webpack-dev-server/package.json');
