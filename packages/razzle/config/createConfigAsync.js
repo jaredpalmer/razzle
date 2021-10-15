@@ -26,6 +26,9 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const webpackMajor = require('razzle-dev-utils/webpackMajor');
 const devserverPkg = require('webpack-dev-server/package.json');
 
+// Parse the first character from the `x.y.z` version notation (i.e. major version)
+const devServerMajorVersion = parseInt(devserverPkg.version[0]);
+
 const hasPostCssConfigTest = () => {
   try {
     return !!postcssLoadConfig.sync();
@@ -851,8 +854,6 @@ module.exports = (
           hot: true,
           port: devServerPort,
         };
-        // Parse the first character from the `x.y.z` version notation (i.e. major version)
-        const devServerMajorVersion = parseInt(devserverPkg.version[0]);
         // If the major version is > 3, then use the newer configuration notation
         if (devServerMajorVersion > 3) {
           // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
