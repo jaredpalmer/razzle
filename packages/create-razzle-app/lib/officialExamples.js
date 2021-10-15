@@ -52,5 +52,6 @@ module.exports = [
   "with-vendor-bundle",
   "with-vue-router",
   "with-vue",
+  "with-webpack-dev-server-v4",
   "with-webpack-public-path"
 ];

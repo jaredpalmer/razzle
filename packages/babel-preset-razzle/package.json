@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-razzle",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Babel presets for Razzle",
   "main": "index.js",
   "author": "jaredpalmer",
