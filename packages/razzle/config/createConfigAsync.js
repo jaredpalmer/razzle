@@ -24,6 +24,10 @@ const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('./paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const webpackMajor = require('razzle-dev-utils/webpackMajor');
+const devserverPkg = require('webpack-dev-server/package.json');
+
+// Parse the first character from the `x.y.z` version notation (i.e. major version)
+const devServerMajorVersion = parseInt(devserverPkg.version[0]);
 
 const hasPostCssConfigTest = () => {
   try {
@@ -672,7 +676,7 @@ module.exports = (
         server: [paths.appServerIndexJs],
       };
 
-      // make sure the key exists  
+      // make sure the key exists
       config.optimization = {};
 
       if (IS_PROD) {
@@ -836,9 +840,9 @@ module.exports = (
 
         // Configure webpack-dev-server to serve our client-side bundle from
         // http://${dotenv.raw.HOST}:3001
+        //
+        // First assign the dev server props that are common to v3 and v4
         config.devServer = {
-          disableHostCheck: true,
-          clientLogLevel: 'none', // Enable gzip compression of generated files.
           compress: true, // watchContentBase: true,
           headers: { 'Access-Control-Allow-Origin': '*' },
           historyApiFallback: {
@@ -847,20 +851,48 @@ module.exports = (
             disableDotRule: true,
           },
           host: dotenv.raw.HOST,
-          publicPath: clientPublicPath,
           hot: true,
-          noInfo: true,
-          overlay: false,
           port: devServerPort,
-          quiet: true, // By default files from `contentBase` will not trigger a page reload.
-          // Reportedly, this avoids CPU overload on some systems.
-          // https://github.com/facebookincubator/create-react-app/issues/293
-          watchOptions: { ignored: /node_modules/ },
-          before(app) {
-            // This lets us open files from the runtime error overlay.
-            app.use(errorOverlayMiddleware());
-          },
         };
+        // If the major version is > 3, then use the newer configuration notation
+        if (devServerMajorVersion > 3) {
+          // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
+          config.devServer = Object.assign(config.devServer, {
+            allowedHosts: 'all',
+            client: {
+              logging: 'none', // Enable gzip compression of generated files.
+              overlay: false,
+            },
+            devMiddleware: {
+              publicPath: clientPublicPath,
+            },
+            static: {
+              // Reportedly, this avoids CPU overload on some systems.
+              // https://github.com/facebookincubator/create-react-app/issues/293
+              watch: { ignored: /node_modules/ },
+            },
+            onBeforeSetupMiddleware(server) {
+              // This lets us open files from the runtime error overlay.
+              server.app.use(errorOverlayMiddleware());
+            },
+          });
+        } else {
+          config.devServer = Object.assign(config.devServer, {
+            disableHostCheck: true,
+            clientLogLevel: 'none', // Enable gzip compression of generated files.
+            publicPath: clientPublicPath,
+            noInfo: true,
+            overlay: false,
+            quiet: true, // By default files from `contentBase` will not trigger a page reload.
+            // Reportedly, this avoids CPU overload on some systems.
+            // https://github.com/facebookincubator/create-react-app/issues/293
+            watchOptions: { ignored: /node_modules/ },
+            before(app) {
+              // This lets us open files from the runtime error overlay.
+              app.use(errorOverlayMiddleware());
+            },
+          });
+        }
 
         // Add client-only development plugins
         config.plugins = [
@@ -934,7 +966,7 @@ module.exports = (
           }),
         ].filter(x => x);
 
-        // make sure the key exists  
+        // make sure the key exists
         config.optimization = {};
 
         if (!IS_DEV_ENV) {
@@ -980,8 +1012,16 @@ module.exports = (
 
       if (clientOnly) {
         if (IS_DEV) {
-          config.devServer.contentBase = paths.appPublic;
-          config.devServer.watchContentBase = true;
+          if (devServerMajorVersion > 3) {
+            // See https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md for how this was migrated
+            config.devServer.static.directory = paths.appPublic;
+            if (!config.devServer.static.watch) {
+              config.devServer.static.watch = true;
+            }
+          } else {
+            config.devServer.contentBase = paths.appPublic;
+            config.devServer.watchContentBase = true;
+          }
         }
       }
 
