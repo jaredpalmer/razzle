@@ -12,7 +12,14 @@
 var SockJS = require('sockjs-client');
 var stripAnsi = require('strip-ansi');
 var url = require('url');
-var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
+
+// If the major version is > 3, then use the new module path
+if (process.env.DEV_SERVER_VERSION > 3) {
+  var createSocketUrl = require('webpack-dev-server/client/utils/createSocketURL');
+} else {
+  var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
+}
+
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
 var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
