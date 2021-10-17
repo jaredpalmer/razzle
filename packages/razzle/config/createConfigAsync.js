@@ -121,7 +121,7 @@ module.exports = (
 
     const dotenv = getClientEnv(
       target, IS_DEV,
-      { clearConsole, host, port, shouldUseReactRefresh, forceRuntimeEnvVars: razzleOptions.forceRuntimeEnvVars, webpackObject, devServerMajorVersion },
+      { clearConsole, host, port, shouldUseReactRefresh, forceRuntimeEnvVars: razzleOptions.forceRuntimeEnvVars, webpackObject },
       paths
     );
 
