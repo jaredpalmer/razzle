@@ -173,7 +173,7 @@ function main() {
               // This will actually run on a different port than the users app.
               clientDevServer = new devServer(
                 clientCompiler,
-                Object.assign(clientConfig.devServer, { verbose: verbose, port }),
+                Object.assign(clientConfig.devServer, { verbose, port }),
               );
               if (devServerMajorVersion > 3) {
                 // listen was deprecated in v4 and causes issues when use, switch to its replacement
