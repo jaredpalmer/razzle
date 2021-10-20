@@ -14,6 +14,7 @@ const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 const chalk = require('chalk');
 const terminate = require('terminate');
+const devServerMajorVersion = require('razzle-dev-utils/devServerMajor');
 
 let verbose = false;
 
@@ -172,20 +173,30 @@ function main() {
               // This will actually run on a different port than the users app.
               clientDevServer = new devServer(
                 clientCompiler,
-                Object.assign(clientConfig.devServer, { verbose: verbose })
+                Object.assign(clientConfig.devServer, { verbose: verbose, port }),
               );
-              // Start Webpack-dev-server
-              clientDevServer.listen(port, err => {
-                if (err) {
-                  logger.error(err);
-                }
-              });
+              if (devServerMajorVersion > 3) {
+                // listen was deprecated in v4 and causes issues when use, switch to its replacement
+                clientDevServer.start();
+              } else {
+                // Start Webpack-dev-server with the explicit host and port
+                clientDevServer.listen(port, err => {
+                  if (err) {
+                    logger.error(err);
+                  }
+                });
+              }
             }
 
             ['SIGINT', 'SIGTERM'].forEach(sig => {
               process.on(sig, () => {
                 if (clientDevServer) {
-                  clientDevServer.close();
+                  if (devServerMajorVersion > 3) {
+                    // close was deprecated in v4, switch to its replacement
+                    clientDevServer.stop();
+                  } else {
+                    clientDevServer.close();
+                  }
                 }
                 if (watching) {
                   watching.close();

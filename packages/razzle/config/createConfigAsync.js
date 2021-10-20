@@ -24,10 +24,7 @@ const logger = require('razzle-dev-utils/logger');
 const razzlePaths = require('./paths');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 const webpackMajor = require('razzle-dev-utils/webpackMajor');
-const devserverPkg = require('webpack-dev-server/package.json');
-
-// Parse the first character from the `x.y.z` version notation (i.e. major version)
-const devServerMajorVersion = parseInt(devserverPkg.version[0]);
+const devServerMajorVersion = require('razzle-dev-utils/devServerMajor');
 
 const hasPostCssConfigTest = () => {
   try {
@@ -850,6 +847,7 @@ module.exports = (
             // See https://github.com/facebookincubator/create-react-app/issues/387.
             disableDotRule: true,
           },
+          hot: true,
           host: dotenv.raw.HOST,
           port: devServerPort,
         };
@@ -880,7 +878,6 @@ module.exports = (
             disableHostCheck: true,
             clientLogLevel: 'none', // Enable gzip compression of generated files.
             publicPath: clientPublicPath,
-            hot: true,
             noInfo: true,
             overlay: false,
             quiet: true, // By default files from `contentBase` will not trigger a page reload.
@@ -897,10 +894,12 @@ module.exports = (
         // Add client-only development plugins
         config.plugins = [
           ...config.plugins,
-          new webpack.HotModuleReplacementPlugin({
-            // set this true will break HtmlWebpackPlugin
-            multiStep: !clientOnly,
-          }),
+          devServerMajorVersion > 3
+            ? null // avoid warning since, webpack v4 automatically adds the HRM plugin when `hot` is true
+            : new webpack.HotModuleReplacementPlugin({
+                // set this true will break HtmlWebpackPlugin
+                multiStep: !clientOnly,
+              }),
           shouldUseReactRefresh
             ? new ReactRefreshWebpackPlugin({
                 overlay: {
