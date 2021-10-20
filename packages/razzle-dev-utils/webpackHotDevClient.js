@@ -17,9 +17,6 @@ var devServerMajorVersion = require('./devServerMajor');
 var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
-var socketUrl = createSocketUrl();
-var parsedSocketUrl = url.parse(socketUrl);
-
 var createSocketUrl;
 if (devServerMajorVersion > 3) {
   // The path changed with v4
@@ -27,6 +24,9 @@ if (devServerMajorVersion > 3) {
 } else {
   createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
 }
+
+var socketUrl = createSocketUrl();
+var parsedSocketUrl = url.parse(socketUrl);
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
