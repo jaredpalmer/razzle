@@ -851,7 +851,6 @@ module.exports = (
             disableDotRule: true,
           },
           host: dotenv.raw.HOST,
-          hot: true,
           port: devServerPort,
         };
         // If the major version is > 3, then use the newer configuration notation
@@ -881,6 +880,7 @@ module.exports = (
             disableHostCheck: true,
             clientLogLevel: 'none', // Enable gzip compression of generated files.
             publicPath: clientPublicPath,
+            hot: true,
             noInfo: true,
             overlay: false,
             quiet: true, // By default files from `contentBase` will not trigger a page reload.
@@ -928,7 +928,7 @@ module.exports = (
         config.externals = clientExternals;
 
         // Specify the client output directory and paths. Notice that we have
-        // changed the publiPath to just '/' from http://localhost:3001. This is because
+        // changed the publicPath to just '/' from http://localhost:3001. This is because
         // we will only be using one port in production.
         config.output = {
           path: paths.appBuildPublic,
