@@ -179,7 +179,7 @@ function main() {
                 // listen was deprecated in v4 and causes issues when used, switch to its replacement
                 clientDevServer.start();
               } else {
-                // Start Webpack-dev-server with the explicit host and port
+                // Start Webpack-dev-server
                 clientDevServer.listen(port, err => {
                   if (err) {
                     logger.error(err);
