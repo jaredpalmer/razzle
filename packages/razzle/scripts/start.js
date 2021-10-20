@@ -176,7 +176,7 @@ function main() {
                 Object.assign(clientConfig.devServer, { verbose, port }),
               );
               if (devServerMajorVersion > 3) {
-                // listen was deprecated in v4 and causes issues when use, switch to its replacement
+                // listen was deprecated in v4 and causes issues when used, switch to its replacement
                 clientDevServer.start();
               } else {
                 // Start Webpack-dev-server with the explicit host and port
