@@ -27,7 +27,6 @@ if (devServerMajorVersion > 3) {
 } else {
   createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
 }
-console.error('hotDevClient', { devServerMajorVersion });
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
   // Keep this sync with errorOverlayMiddleware.js
