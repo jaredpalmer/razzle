@@ -895,7 +895,7 @@ module.exports = (
         config.plugins = [
           ...config.plugins,
           devServerMajorVersion > 3
-            ? null // avoid warning since, webpack v4 automatically adds the HRM plugin when `hot` is true
+            ? null // avoid warning since v4 automatically adds the HRM plugin when `hot` is true
             : new webpack.HotModuleReplacementPlugin({
                 // set this true will break HtmlWebpackPlugin
                 multiStep: !clientOnly,
