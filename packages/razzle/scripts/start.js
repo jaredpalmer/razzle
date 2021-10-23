@@ -168,6 +168,13 @@ function main() {
               );
             }
 
+            // Provide a reusable logger function
+            const errorLogger = (err) => {
+              if (err) {
+                logger.error(err);
+              }
+            };
+
             if (!serverOnly) {
               // Create a new instance of Webpack-dev-server for our client assets.
               // This will actually run on a different port than the users app.
@@ -177,14 +184,10 @@ function main() {
               );
               if (devServerMajorVersion > 3) {
                 // listen was deprecated in v4 and causes issues when used, switch to its replacement
-                clientDevServer.start();
+                clientDevServer.startCallback(errorLogger);
               } else {
                 // Start Webpack-dev-server
-                clientDevServer.listen(port, err => {
-                  if (err) {
-                    logger.error(err);
-                  }
-                });
+                clientDevServer.listen(port, errorLogger);
               }
             }
 
@@ -193,9 +196,9 @@ function main() {
                 if (clientDevServer) {
                   if (devServerMajorVersion > 3) {
                     // close was deprecated in v4, switch to its replacement
-                    clientDevServer.stop();
+                    clientDevServer.stopCallback(errorLogger);
                   } else {
-                    clientDevServer.close();
+                    clientDevServer.close(errorLogger);
                   }
                 }
                 if (watching) {
