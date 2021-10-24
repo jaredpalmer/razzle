@@ -14,6 +14,7 @@ const logger = require('razzle-dev-utils/logger');
 const setPorts = require('razzle-dev-utils/setPorts');
 const chalk = require('chalk');
 const terminate = require('terminate');
+const devServerMajorVersion = require('razzle-dev-utils/devServerMajor');
 
 let verbose = false;
 
@@ -167,25 +168,38 @@ function main() {
               );
             }
 
+            // Provide a reusable logger function
+            const errorLogger = (err) => {
+              if (err) {
+                logger.error(err);
+              }
+            };
+
             if (!serverOnly) {
               // Create a new instance of Webpack-dev-server for our client assets.
               // This will actually run on a different port than the users app.
               clientDevServer = new devServer(
                 clientCompiler,
-                Object.assign(clientConfig.devServer, { verbose: verbose })
+                Object.assign(clientConfig.devServer, { verbose, port }),
               );
-              // Start Webpack-dev-server
-              clientDevServer.listen(port, err => {
-                if (err) {
-                  logger.error(err);
-                }
-              });
+              if (devServerMajorVersion > 3) {
+                // listen was deprecated in v4 and causes issues when used, switch to its replacement
+                clientDevServer.startCallback(errorLogger);
+              } else {
+                // Start Webpack-dev-server
+                clientDevServer.listen(port, errorLogger);
+              }
             }
 
             ['SIGINT', 'SIGTERM'].forEach(sig => {
               process.on(sig, () => {
                 if (clientDevServer) {
-                  clientDevServer.close();
+                  if (devServerMajorVersion > 3) {
+                    // close was deprecated in v4, switch to its replacement
+                    clientDevServer.stopCallback(errorLogger);
+                  } else {
+                    clientDevServer.close(errorLogger);
+                  }
                 }
                 if (watching) {
                   watching.close();

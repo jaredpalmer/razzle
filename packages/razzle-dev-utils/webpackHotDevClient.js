@@ -12,10 +12,18 @@
 var SockJS = require('sockjs-client');
 var stripAnsi = require('strip-ansi');
 var url = require('url');
-var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
+var devServerMajorVersion = require('./devServerMajor');
 var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
+
+var createSocketUrl;
+if (devServerMajorVersion > 3) {
+  // The path changed with v4
+  createSocketUrl = require('webpack-dev-server/client/utils/createSocketURL');
+} else {
+  createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
+}
 
 var socketUrl = createSocketUrl();
 var parsedSocketUrl = url.parse(socketUrl);
