@@ -22,7 +22,8 @@
     "prettyNodeErrors.js",
     "resolveRequest.js",
     "webpackMajor.js",
-    "formatWebpackMessages.js"
+    "formatWebpackMessages.js",
+    "devServerMajor.js"
   ],
   "dependencies": {
     "@babel/code-frame": "^7.8.3",
