@@ -1,0 +1,28 @@
+{
+  "name": "razzle-plugin-markdown",
+  "version": "0.0.1",
+  "description": "Use markdown with Razzle",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-markdown"
+  },
+  "author": "David Uebelacker <david@uebelacker.ch>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "html-loader": "^1.3.1",
+    "markdown-loader": "^6.0.0"
+  },
+  "peerDependencies": {
+    "razzle": "4.2.3",
+    "razzle-dev-utils": "4.2.3"
+  },
+  "devDependencies": {
+    "razzle": "^4.2.4",
+    "razzle-dev-utils": "^4.2.4"
+  }
+}

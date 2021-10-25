@@ -2,6 +2,7 @@
   "razzle-plugin-bundle-analyzer": "razzle-plugin-bundle-analyzer",
   "razzle-plugin-graphql": "razzle-plugin-graphql",
   "razzle-plugin-less": "razzle-plugin-less",
+  "razzle-plugin-markdown": "razzle-plugin-markdown",
   "razzle-plugin-mdx": "razzle-plugin-mdx",
   "razzle-plugin-php": "razzle-plugin-php",
   "razzle-plugin-scss": "razzle-plugin-scss",

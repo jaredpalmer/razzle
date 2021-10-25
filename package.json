@@ -100,7 +100,8 @@
     "packages/babel-preset-razzle",
     "packages/create-razzle-app",
     "packages/razzle-dev-utils",
-    "packages/razzle-plugin-*"
+    "packages/razzle-plugin-*",
+    "examples/with-markdown"
   ],
   "version": "4.2.3"
 }
