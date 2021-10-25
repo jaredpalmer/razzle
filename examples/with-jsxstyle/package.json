@@ -2,6 +2,11 @@
   "name": "razzle-examples-with-jsxstyle",
   "version": "4.2.2",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-jsxstyle"
+  },
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",

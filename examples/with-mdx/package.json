@@ -1,6 +1,11 @@
 {
   "name": "razzle-examples-with-mdx",
   "version": "4.2.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-mdx"
+  },
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
