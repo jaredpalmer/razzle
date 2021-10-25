@@ -17,15 +17,18 @@ var devServerMajorVersion = require('./devServerMajor');
 var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
-var createSocketUrl;
+var socketUrl;
 if (devServerMajorVersion > 3) {
-  // The path changed with v4
-  createSocketUrl = require('webpack-dev-server/client/utils/createSocketURL');
+  // The single API changed to 2 APIs in v4, first you parse the URL, then you create the socket URL from the parsed data
+  // These APIs are accessible from the `default` context
+  var parseURL = require('webpack-dev-server/client/utils/parseURL').default
+  var createSocketUrl = require('webpack-dev-server/client/utils/createSocketURL').default;
+  socketUrl = createSocketUrl(parseURL());
 } else {
   createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
+  socketUrl = createSocketUrl();
 }
 
-var socketUrl = createSocketUrl();
 var parsedSocketUrl = url.parse(socketUrl);
 
 ErrorOverlay.setEditorHandler(function editorHandler(errorLocation) {
@@ -69,8 +72,14 @@ if (module.hot && typeof module.hot.dispose === 'function') {
   });
 }
 
-// Connect to WebpackDevServer via a socket.
-var connection = new SockJS(socketUrl);
+var connection;
+if (devServerMajorVersion > 3) {
+  // For v4, the socket URL is in the form (i.e. ws://xxxx/ws) that requires using the native WebSockets API
+  connection = new WebSocket(socketUrl);
+} else {
+  // Connect to WebpackDevServer via a socket.
+  connection = new SockJS(socketUrl);
+}
 
 // Unlike WebpackDevServer client, we won't try to reconnect
 // to avoid spamming the console. Disconnect usually happens
