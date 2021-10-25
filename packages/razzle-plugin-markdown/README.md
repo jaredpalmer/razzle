@@ -18,11 +18,17 @@ module.exports = {
 };
 ```
 
-Files with an ending in the name .md will load as markdown
+Files with .md extension will be loaded as markdown and transpiled to html markup.
 
 example:
 
 ```jsx
-import myfile from './myfile.md';
+import content from './myfile.md';
+
+
+const Example = () => (
+  <div dangerouslySetInnerHTML={{ __html: content }}/>
+);
+
 ```
 
