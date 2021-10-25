@@ -40,7 +40,6 @@ exports.folderNotEmpty = function(projectName) {
 Uh oh! Looks like the directory ${chalk.red(projectName)} is not empty. Please use an empty directory or a directory name that doesn't currently exist to create a new one.`;
 };
 
-
 exports.installing = function(packages) {
   const pkgText = packages
     .map(function(pkg) {
