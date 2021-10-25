@@ -35,12 +35,11 @@ Run ${chalk.cyan(`${program.name} --help`)} to see all options.
 `;
 };
 
-exports.alreadyExists = function(projectName) {
+exports.folderNotEmpty = function(projectName) {
   return `
-Uh oh! Looks like there's already a directory called ${chalk.red(
-    projectName
-  )}. Please try a different name or delete that folder.`;
+Uh oh! Looks like the directory ${chalk.red(projectName)} is not empty. Please use an empty directory or a directory name that doesn't currently exist to create a new one.`;
 };
+
 
 exports.installing = function(packages) {
   const pkgText = packages

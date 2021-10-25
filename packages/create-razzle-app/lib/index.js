@@ -31,8 +31,20 @@ module.exports = async function createRazzleApp(opts) {
   }
 
   if (fs.existsSync(projectName)) {
-    console.log(messages.alreadyExists(projectName));
-    process.exit(1);
+    const dir =  fs.opendirSync(projectName)
+    const firstFile = dir.readSync(); const secondFile = dir.readSync()
+    dir.close()
+    if ( ! ( // require the folder to be empty or have only a .git folder
+      firstFile === null 
+      || ( 
+        firstFile.name === '.git'
+        && fs.lstatSync(projectName+'/'+firstFile.name).isDirectory() 
+        && secondFile === null
+      ) 
+    ) ) {
+      console.log(messages.folderNotEmpty(projectName));
+      process.exit(1);
+    }
   }
 
   const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
