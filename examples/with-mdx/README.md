@@ -13,5 +13,8 @@ yarn start
 ```
 <!-- END install generated instructions please keep comment here to allow auto update -->
 
+## Idea behind the example
+
+This is a basic, bare-bones example of how to use razzle. It satisfies the entry points and uses the mdxjs to load markdown files as react components.
 
 [See documentation](https://mdxjs.com/getting-started/razzle)

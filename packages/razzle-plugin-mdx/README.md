@@ -24,6 +24,16 @@ module.exports = {
 };
 ```
 
+Files with .md extension will be loaded as markdown and transpiled to html markup.
+
+example:
+
+```jsx
+import Document from './Document.md';
+
+const Example = () => (<Document />);
+```
+
 ### With custom options:
 
 ```js
