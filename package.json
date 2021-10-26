@@ -9,7 +9,6 @@
     "url": "https://github.com/jaredpalmer/razzle/issues"
   },
   "scripts": {
-    "prepublish": "pnpm build",
     "verify": "lerna run verify --stream",
     "prettier": "lerna run prettier",
     "build": "lerna run build",
