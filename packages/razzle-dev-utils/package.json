@@ -16,6 +16,7 @@
     "FriendlyErrorsPlugin.js",
     "FileSizeReporter.js",
     "webpackHotDevClient.js",
+    "webpackHotDevClientV4.js",
     "setPorts.js",
     "makeLoaderFinder.js",
     "WebpackConfigHelpers.js",
