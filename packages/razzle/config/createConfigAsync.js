@@ -36,9 +36,12 @@ const hasPostCssConfigTest = () => {
 
 const hasPostCssConfig = hasPostCssConfigTest();
 
-const webpackDevClientEntry = require.resolve(
-  'razzle-dev-utils/webpackHotDevClient'
-);
+let webpackDevClientEntry;
+if (devServerMajorVersion > 3) {
+  webpackDevClientEntry = require.resolve('razzle-dev-utils/webpackHotDevClientV4');
+} else {
+  webpackDevClientEntry = require.resolve('razzle-dev-utils/webpackHotDevClient');
+}
 
 const isModuleCSS = module => {
   return (

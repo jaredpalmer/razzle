@@ -9,12 +9,11 @@
 // that looks similar to our console output. The error overlay is inspired by:
 // https://github.com/glenjamin/webpack-hot-middleware
 
-// HACK ALERT: Most of this file is identical to the webpackHotDevClientV4.js file with the exception of the code blocks
+// HACK ALERT: Most of this file is identical to the webpackHotDevClient.js file with the exception of the code blocks
 // denoted with //--- START Unique code --- and //--- END Unique code
 // This was done to avoid getting a warning about the `createSocketURL` vs `createSocketUrl` file names
 // You must keep the code in these two files in sync
 
-var SockJS = require('sockjs-client');
 var stripAnsi = require('strip-ansi');
 var url = require('url');
 var launchEditorEndpoint = require('react-dev-utils/launchEditorEndpoint');
@@ -22,10 +21,13 @@ var formatWebpackMessages = require('./formatWebpackMessages');
 var ErrorOverlay = require('react-error-overlay');
 
 //--- START Unique code ---
-// This code is unique to webpack-dev-server v3
-var createSocketUrl = require('webpack-dev-server/client/utils/createSocketUrl');
-var socketUrl = createSocketUrl();
-//--- END Unique code ---
+// This code is unique to webpack-dev-server v4
+// The single API changed to 2 APIs in v4, first you parse the URL, then you create the socket URL from the parsed data
+// These APIs are accessible from the `default` context
+var parseURL = require('webpack-dev-server/client/utils/parseURL').default
+var createSocketUrl = require('webpack-dev-server/client/utils/createSocketURL').default;
+var socketUrl = createSocketUrl(parseURL());
+//--- START Unique code ---
 
 var parsedSocketUrl = url.parse(socketUrl);
 
@@ -71,8 +73,8 @@ if (module.hot && typeof module.hot.dispose === 'function') {
 }
 
 //--- START Unique code ---
-// This code is unique to webpack-dev-server v3
-var connection = new SockJS(socketUrl);
+// This code is unique to webpack-dev-server v4
+var connection = new WebSocket(socketUrl);
 //--- END Unique code ---
 
 // Unlike WebpackDevServer client, we won't try to reconnect
