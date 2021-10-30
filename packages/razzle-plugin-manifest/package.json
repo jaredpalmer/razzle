@@ -1,0 +1,19 @@
+{
+  "name": "razzle-plugin-manifest",
+  "version": "4.2.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-manifest"
+  },
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Nima Arefi",
+    "email": "arefinima@gmail.com"
+  },
+  "peerDependencies": {
+    "razzle": "4.2.5",
+    "razzle-dev-utils": "4.2.5"
+  }
+}
