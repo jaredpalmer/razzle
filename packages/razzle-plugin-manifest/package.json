@@ -15,5 +15,8 @@
   "peerDependencies": {
     "razzle": "4.2.5",
     "razzle-dev-utils": "4.2.5"
+  },
+  "dependencies": {
+    "webpack-manifest-plugin": "^4.0.2"
   }
 }
