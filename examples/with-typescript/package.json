@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "license": "MIT",
   "scripts": {
     "start:tsc": "tsc -b -w --preserveWatchOutput",
@@ -29,10 +29,10 @@
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.4",
     "@types/webpack-env": "^1.15.2",
-    "babel-preset-razzle": "4.2.5",
+    "babel-preset-razzle": "4.2.6",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.2.5",
-    "razzle-dev-utils": "4.2.5",
+    "razzle": "4.2.6",
+    "razzle-dev-utils": "4.2.6",
     "typescript": "^4.0.3",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",

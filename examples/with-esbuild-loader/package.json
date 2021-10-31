@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-typescript",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -36,9 +36,9 @@
     "html-webpack-plugin": "^4.5.2",
     "mini-css-extract-plugin": "^0.9.0",
     "prettier": "^2.2.1",
-    "razzle": "4.2.5",
-    "razzle-dev-utils": "4.2.5",
-    "razzle-plugin-typescript": "4.2.5",
+    "razzle": "4.2.6",
+    "razzle-dev-utils": "4.2.6",
+    "razzle-plugin-typescript": "4.2.6",
     "ts-jest": "^26.5.0",
     "typescript": "^4.1.3",
     "webpack": "^4.44.1",
