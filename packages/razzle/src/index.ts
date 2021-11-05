@@ -1,29 +1,40 @@
 import { Argv } from "yargs";
 
-export type RazzleOptions {
+export type RazzleOptions = {
     verbose?: boolean,
     debug?: boolean
 }
 
-export type RazzleContext = {
-    paths: [string: string]
-}
-
-export type BaseRazzleConfigAtleastOne =
+export type RazzleConfigAtleastOne =
   'modifyRazzleContext' |
   'addCommands' |
   'options';
 
-export type BaseRazzleConfig<
+export type RazzlePaths =
+    'dotenv' |
+    'appPath' |
+    'appNodeModules' |
+    'appPackageJson' |
+    'appRazzleConfig' |
+    'nodePaths' |
+    'ownPath' |
+    'ownNodeModules';
+
+export interface RazzleContext<U = RazzlePaths> {
+    paths: Map<U, string>
+}
+
+export interface BaseRazzleConfig<
  U extends BaseRazzleConfig<U, T>,
- T extends RazzleContext = RazzleContext> = {
+ T extends RazzleContext = RazzleContext> {
     options?: RazzleOptions,
     modifyRazzleContext?: (
         razzleConfig: U,
         razzleContext: T) => Promise<T> | T,
-    addCommands?: (
+    addCommands?: [string: (
         razzleConfig: U,
         razzleContext: T) => Argv
+    ]
 }
 
 export type RazzleConfig<RazzleConfig> = {
