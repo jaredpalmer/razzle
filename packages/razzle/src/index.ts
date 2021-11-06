@@ -25,18 +25,33 @@ export interface RazzleContext<U = RazzlePaths> {
 }
 
 export interface BaseRazzleConfig<
- U extends BaseRazzleConfig<U, T>,
- T extends RazzleContext = RazzleContext> {
+ T extends BaseRazzleConfig<T, U>,
+ U extends RazzleContext = RazzleContext> {
     options?: RazzleOptions,
     modifyRazzleContext?: (
-        razzleConfig: U,
-        razzleContext: T) => Promise<T> | T,
-    addCommands?: [string: (
-        razzleConfig: U,
-        razzleContext: T) => Argv
-    ]
+        razzleConfig: T,
+        razzleContext: U) => Promise<U> | U,
+    addCommands?: Map<string, (
+        argv: Argv,
+        razzleConfig: T,
+        razzleContext: U) => Argv
+    >
 }
 
-export type RazzleConfig<RazzleConfig> = {
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>> 
+    & {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys]
+    
+export type RazzleConfigAlias = BaseRazzleConfig<RazzleConfigAlias>;
 
+export type RazzleConfig = RequireAtLeastOne<RazzleConfigAlias>;
+
+const tryit = <RazzleConfig>{
+    addCommands: {
+        'build': (argv, razzleConfig, razzleContext) => {
+            return argv;
+        }
+    }
 }
