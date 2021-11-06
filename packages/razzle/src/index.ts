@@ -21,7 +21,7 @@ export type RazzlePaths =
     'ownNodeModules';
 
 export interface RazzleContext<U = RazzlePaths> {
-    paths: Map<U, string>
+    paths: Record<string, string>
 }
 
 export interface BaseRazzleConfig<
@@ -31,7 +31,7 @@ export interface BaseRazzleConfig<
     modifyRazzleContext?: (
         razzleConfig: T,
         razzleContext: U) => Promise<U> | U,
-    addCommands?: Map<string, (
+    addCommands?: Record<string, (
         argv: Argv,
         razzleConfig: T,
         razzleContext: U) => Argv
@@ -48,7 +48,7 @@ export type RazzleConfigAlias = BaseRazzleConfig<RazzleConfigAlias>;
 
 export type RazzleConfig = RequireAtLeastOne<RazzleConfigAlias>;
 
-const tryit = <RazzleConfig>{
+const tryit: RazzleConfig = {
     addCommands: {
         'build': (argv, razzleConfig, razzleContext) => {
             return argv;
