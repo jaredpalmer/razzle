@@ -8,6 +8,11 @@
     "build": "razzle build",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-koa"
+  },
   "dependencies": {
     "koa": "^2.13.1",
     "koa-helmet": "^6.1.0",

@@ -8,6 +8,11 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-material-ui"
+  },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
     "express": "^4.17.1",

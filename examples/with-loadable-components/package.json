@@ -9,6 +9,11 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-loadable-components"
+  },
   "dependencies": {
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.0",
