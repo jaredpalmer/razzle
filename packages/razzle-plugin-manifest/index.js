@@ -76,9 +76,7 @@ module.exports = {
 
     webpackConfig.plugins.push(
       new webpackObject.DefinePlugin({
-        'process.env': {
-          RAZZLE_CHUNKS_MANIFEST: JSON.stringify(pluginOptions.fileName),
-        },
+        'process.env.RAZZLE_CHUNKS_MANIFEST': JSON.stringify(pluginOptions.fileName),
       })
     );
 
