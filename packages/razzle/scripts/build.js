@@ -186,7 +186,7 @@ loadRazzleConfig(webpack).then(
                     err => {
                       printErrors(
                         `Failed to compile client ${buildName} build.`,
-                        [err],
+                        Array.isArray(err) ? err : [err],
                         verbose
                       );
                       rejectBuild(buildName, 'web');
@@ -285,7 +285,7 @@ loadRazzleConfig(webpack).then(
                   err => {
                     printErrors(
                       `Failed to compile server ${buildName} build.`,
-                      [err],
+                      Array.isArray(err) ? err : [err],
                       verbose
                     );
                     rejectBuild(buildName, 'node');
