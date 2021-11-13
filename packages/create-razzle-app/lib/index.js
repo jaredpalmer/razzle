@@ -30,12 +30,12 @@ module.exports = async function createRazzleApp(opts) {
     process.exit(1);
   }
 
-  if (fs.existsSync(projectName)) {
-    console.log(messages.alreadyExists(projectName));
+  const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
+  
+  if ( fs.existsSync(projectName) && ! isSafeToCreateProjectIn(projectPath, projectName)) {
+    console.log(messages.folderNotEmpty(projectName));
     process.exit(1);
   }
-
-  const projectPath = (opts.projectPath = process.cwd() + '/' + projectName);
 
   if (opts.example) {
     if (/^https:\/\/github/.test(opts.example)) {
@@ -145,6 +145,75 @@ module.exports = async function createRazzleApp(opts) {
     });
   }
 };
+
+function isSafeToCreateProjectIn(projectPath, projectName) {
+  // we allow this files
+  const validFiles = [
+    '.DS_Store',
+    '.git',
+    '.gitattributes',
+    '.gitignore',
+    '.gitlab-ci.yml',
+    '.hg',
+    '.hgcheck',
+    '.hgignore',
+    '.idea',
+    '.npmignore',
+    '.travis.yml',
+    'docs',
+    'LICENSE',
+    'README.md',
+    'mkdocs.yml',
+    'Thumbs.db',
+  ];
+  // error log files that may exist from a previous install
+  // we will remove these
+  const errorLogFilePatterns = [
+    'npm-debug.log',
+    'yarn-error.log',
+    'yarn-debug.log',
+  ];
+  // helper function to identify whether a file is an error log file
+  const isErrorLog = file => {
+    return errorLogFilePatterns.some(pattern => file.startsWith(pattern));
+  };
+
+  // find conflicting files
+  const conflicts = fs
+    .readdirSync(projectPath)
+    .filter(file => !validFiles.includes(file))
+    // IntelliJ IDEA creates module files before CRA is launched
+    .filter(file => !/\.iml$/.test(file))
+    // Don't treat log files from previous installation as conflicts
+    .filter(file => !isErrorLog(file));
+
+  if (conflicts.length > 0) {
+    console.log(messages.folderNotEmpty(projectName));
+    for (const file of conflicts) {
+      try {
+        const stats = fs.lstatSync(path.join(projectPath, file));
+        if (stats.isDirectory()) {
+          console.log(messages.conflictingDirectory(file));
+        } else {
+          console.log(messages.conflictingFile(file));
+        }
+      } catch (e) {
+        console.log(messages.conflictingFileError(file));
+      }
+    }
+    console.log(messages.folderNotEmptySuggestions());
+
+    return false;
+  }
+
+  // Remove any log files from a previous installation.
+  fs.readdirSync(projectPath).forEach(file => {
+    if (isErrorLog(file)) {
+      fs.removeSync(path.join(projectPath, file));
+    }
+  });
+  return true;
+}
 
 function installWithMessageFactory(opts, isExample = false) {
   const projectName = opts.projectName;

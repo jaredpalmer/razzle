@@ -35,11 +35,22 @@ Run ${chalk.cyan(`${program.name} --help`)} to see all options.
 `;
 };
 
-exports.alreadyExists = function(projectName) {
+exports.folderNotEmpty = function(projectName) {
   return `
-Uh oh! Looks like there's already a directory called ${chalk.red(
-    projectName
-  )}. Please try a different name or delete that folder.`;
+Uh oh! Looks like the directory ${chalk.red(projectName)} is not empty. These files could conflict:`;
+};
+exports.conflictingDirectory = function(file) {
+    return `  ${chalk.blue('(dir) ' + file)}`;
+};
+exports.conflictingFile = function(file) {
+    return `  ${file}`;
+};
+exports.conflictingFileError = function(file) {
+    return `  ${file}`;
+};
+exports.folderNotEmptySuggestions = function() {
+    return `
+Please remove these files, use an empty directory, or use a directory name that doesn't already exist to create a new one.`;
 };
 
 exports.installing = function(packages) {
