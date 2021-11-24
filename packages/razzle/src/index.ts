@@ -34,7 +34,7 @@ export interface BaseRazzleConfig<
     string,
     {
       parser: (argv: Argv, razzleConfig: T, razzleContext: U) => Argv;
-      handler: (argv: Argv, razzleConfig: T, razzleContext: U) => void;
+      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
     }
   >;
 }
@@ -49,7 +49,7 @@ export interface BaseRazzlePlugin<
     string,
     {
       parser: (argv: Argv, razzleConfig: T, razzleContext: U) => Argv;
-      handler: (argv: Argv, razzleConfig: T, razzleContext: U) => void;
+      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
     }
   >;
 }
@@ -72,7 +72,9 @@ const tryit: RazzleConfig = {
       parser: (argv, razzleConfig, razzleContext) => {
         return argv;
       },
-      handler: (argv, razzleConfig, razzleContext) => {},
+      handler: (razzleConfig, razzleContext) => {
+        return (argv) => {};
+      },
     },
   },
 };
