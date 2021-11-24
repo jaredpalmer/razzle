@@ -8,7 +8,7 @@
         "url": "https://github.com:jaredpalmer/razzle.git",
         "directory": "packages/razzle"
     },
-    "version": "5.0-alpha.0",
+    "version": "5.0.0-alpha.0",
     "bin": {
         "razzle": "./bin/razzle.js"
     },

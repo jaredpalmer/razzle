@@ -8,7 +8,7 @@
         "url": "https://github.com:jaredpalmer/razzle.git",
         "directory": "packages/razzle-plugin-webpack5-media"
     },
-    "version": "5.0-alpha.0",
+    "version": "5.0.0-alpha.0",
     "scripts": {
         "prettier": "prettier --check src/",
         "prettier:fix": "prettier --write src/",
