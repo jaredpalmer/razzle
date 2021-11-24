@@ -21,7 +21,7 @@ export type RazzlePaths =
   | "ownNodeModules";
 
 export interface RazzleContext<U = RazzlePaths> {
-  paths: Record<string, string>;
+  paths: Record<keyof U, string>;
 }
 
 export interface BaseRazzleConfig<
