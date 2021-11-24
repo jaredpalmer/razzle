@@ -33,23 +33,26 @@ export interface BaseRazzleConfig<
   addCommands?: Record<
     string,
     {
-      parser: (argv: Argv, razzleConfig: T, razzleContext: U) => Argv;
+      parser: (argv: Argv, razzleConfig: T, razzleContext: U, handler: (argv: Argv) => void) => Argv;
       handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
     }
   >;
 }
 
+export interface BaseRazzlePluginOptions {}
+
 export interface BaseRazzlePlugin<
-  T extends BaseRazzlePlugin<T, U>,
-  U extends RazzleContext = RazzleContext
+  T extends BaseRazzleConfig<T, U>,
+  U extends RazzleContext = RazzleContext,
+  Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
 > {
-  options?: RazzleOptions;
-  modifyRazzleContext?: (razzleConfig: T, razzleContext: U) => Promise<U> | U;
+  options?: Q;
+  modifyRazzleContext?: (pluginOptions: Q, razzleConfig: T, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
     {
-      parser: (argv: Argv, razzleConfig: T, razzleContext: U) => Argv;
-      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
+      parser: (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U, handler: (argv: Argv) => void) => Argv;
+      handler: (pluginOptions: Q, razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
     }
   >;
 }
@@ -64,15 +67,32 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
 
 export type RazzleConfigAlias = BaseRazzleConfig<RazzleConfigAlias>;
 
+export type RazzlePluginAlias = BaseRazzlePlugin<RazzleConfigAlias>;
+
+export type RazzlePlugin = RequireAtLeastOne<RazzlePluginAlias>;
+
 export type RazzleConfig = RequireAtLeastOne<RazzleConfigAlias>;
 
 const tryit: RazzleConfig = {
   addCommands: {
     build: {
-      parser: (argv, razzleConfig, razzleContext) => {
+      parser: (argv, razzleConfig, razzleContext, handler) => {
         return argv;
       },
       handler: (razzleConfig, razzleContext) => {
+        return (argv) => {};
+      },
+    },
+  },
+};
+
+const tryit2: RazzlePlugin = {
+  addCommands: {
+    build: {
+      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+        return argv;
+      },
+      handler: (pluginOptions, razzleConfig, razzleContext) => {
         return (argv) => {};
       },
     },
