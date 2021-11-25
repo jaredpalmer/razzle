@@ -1,0 +1,7 @@
+lockfileVersion: 5.3
+
+specifiers:
+  razzle: link:../../packages/razzle
+
+dependencies:
+  razzle: link:../../packages/razzle

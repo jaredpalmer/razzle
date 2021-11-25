@@ -1,0 +1,25 @@
+{
+  "name": "basic-webpack5",
+  "version": "5.0.0-alpha.0",
+  "description": "basic webpack5 example",
+  "main": "index.js",
+  "scripts": {
+    "test": "razzle jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredpalmer/razzle.git"
+  },
+  "keywords": [
+    "razzle"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "dependencies": {
+    "razzle": "^4.2.7"
+  }
+}
