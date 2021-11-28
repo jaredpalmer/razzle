@@ -67,7 +67,7 @@ const nodePaths = (process.env.NODE_PATH || '')
   .join(path.delimiter);
 
 
-  export default <Record<RazzlePaths, string>> {
+  export default <RazzlePaths> {
     dotenv: resolveApp('.env'),
     appPath: resolveApp('.'),
     appNodeModules: resolveApp('node_modules'),

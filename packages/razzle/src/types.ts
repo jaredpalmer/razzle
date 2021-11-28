@@ -10,7 +10,7 @@ export type RazzleConfigAtleastOne =
   | "addCommands"
   | "options";
 
-export type RazzlePaths =
+export type RazzlePathNames =
   | "dotenv"
   | "appPath"
   | "appNodeModules"
@@ -20,15 +20,20 @@ export type RazzlePaths =
   | "ownPath"
   | "ownNodeModules";
 
+export type RazzlePaths = Record<RazzlePathNames, string>;
+
 export interface RazzleContext<U = RazzlePaths> {
-  paths: Record<keyof U, string>;
+  paths: RazzlePaths;
 }
 
+export type RazzleConfig = BaseRazzleConfig<RazzleConfig>;
+
 export interface BaseRazzleConfig<
-  T extends BaseRazzleConfig<T, U>,
+  T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
   U extends RazzleContext = RazzleContext
 > {
   options?: RazzleOptions;
+  plugins?: Array<string|{name: string, options: BaseRazzlePluginOptions}|{plugin: BaseRazzlePlugin<T>, options: BaseRazzlePluginOptions}>;
   modifyRazzleContext?: (razzleConfig: T, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
@@ -44,10 +49,13 @@ export interface BaseRazzleConfig<
   >;
 }
 
+
+export type RazzlePlugin = BaseRazzlePlugin<RazzleConfig>;
+
 export interface BaseRazzlePluginOptions {}
 
 export interface BaseRazzlePlugin<
-  T extends BaseRazzleConfig<T, U>,
+  T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
   U extends RazzleContext = RazzleContext,
   Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
 > {
@@ -76,23 +84,53 @@ export interface BaseRazzlePlugin<
   >;
 }
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
-  T,
-  Exclude<keyof T, Keys>
-> &
-  {
-    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
-  }[Keys];
+interface BaseCustomRazzleConfig {
+  try?: string
+}
 
-export type RazzleConfigAlias = BaseRazzleConfig<RazzleConfigAlias>;
 
-export type RazzlePluginAlias = BaseRazzlePlugin<RazzleConfigAlias>;
+interface CustomRazzleConfig extends BaseCustomRazzleConfig, BaseRazzleConfig {
+}
 
-export type RazzlePlugin = RequireAtLeastOne<RazzlePluginAlias>;
 
-export type RazzleConfig = RequireAtLeastOne<RazzleConfigAlias>;
+interface CustomRazzlePlugin extends BaseRazzlePlugin<CustomRazzleConfig> {
+  try?: string
+}
 
-const tryit: RazzleConfig = {
+
+const tryit3: CustomRazzlePlugin = {
+  addCommands: {
+    build: {
+      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+        return argv;
+      },
+      handler: (pluginOptions, razzleConfig, razzleContext) => {
+        return (argv) => {};
+      },
+    },
+  },
+};
+
+const plugin = (options: BaseRazzlePluginOptions): {plugin: CustomRazzlePlugin, options: BaseRazzlePluginOptions} => {
+  return {plugin: tryit3, options:{}}
+}
+
+const tryit2: RazzlePlugin = {
+  addCommands: {
+    build: {
+      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+        return argv;
+      },
+      handler: (pluginOptions, razzleConfig, razzleContext) => {
+        return (argv) => {};
+      },
+    },
+  },
+};
+
+
+const tryit1: RazzleConfig = {
+  plugins: [{plugin: tryit2, options: {}}],
   addCommands: {
     build: {
       parser: (argv, razzleConfig, razzleContext, handler) => {
@@ -105,13 +143,15 @@ const tryit: RazzleConfig = {
   },
 };
 
-const tryit2: RazzlePlugin = {
+
+const tryit: RazzleConfig = {
+  plugins: [{plugin: tryit2, options: {}}, plugin({})],
   addCommands: {
     build: {
-      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+      parser: (argv, razzleConfig, razzleContext, handler) => {
         return argv;
       },
-      handler: (pluginOptions, razzleConfig, razzleContext) => {
+      handler: (razzleConfig, razzleContext) => {
         return (argv) => {};
       },
     },
