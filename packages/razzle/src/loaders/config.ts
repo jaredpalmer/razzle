@@ -8,7 +8,7 @@ import loadPlugins from "./plugins";
 export default (
   razzleConfigIn?: RazzleConfig | undefined,
   packageJsonIn?: unknown | undefined
-): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext }> =>
+): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext, razzleOptions: RazzleOptions }> =>
   new Promise(async (resolve) => {
     let razzleConfig: RazzleConfig = razzleConfigIn || {};
     let packageJson = packageJsonIn || {};
@@ -67,5 +67,6 @@ export default (
     resolve({
       razzleConfig,
       razzleContext,
+      razzleOptions
     });
   });
