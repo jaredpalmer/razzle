@@ -24,13 +24,16 @@ export type RazzlePaths = Record<RazzlePathNames, string>;
 
 export interface RazzleContext<U = RazzlePaths> {
   paths: RazzlePaths;
+  razzleOptions: RazzleOptions;
+  pluginsOptions: Record<string, unknown>;
 }
 
 export type RazzleConfig = BaseRazzleConfig<RazzleConfig>;
 
 export interface BaseRazzleConfig<
   T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U extends RazzleContext = RazzleContext
+  U extends RazzleContext = RazzleContext,
+  Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
 > {
   options?: RazzleOptions;
   plugins?: Array<
@@ -38,7 +41,7 @@ export interface BaseRazzleConfig<
     | { name: string; options: BaseRazzlePluginOptions }
     | { plugin: BaseRazzlePlugin<T>; options: BaseRazzlePluginOptions }
   >;
-  modifyRazzleContext?: (razzleOptions: RazzleOptions, razzleContext: U) => Promise<U> | U;
+  modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
     {
@@ -62,35 +65,27 @@ export interface BaseRazzlePlugin<
   U extends RazzleContext = RazzleContext,
   Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
 > {
+  name: string;
   options?: Q;
-  modifyRazzleContext?: (
-    pluginOptions: Q,
-    razzleOptions: RazzleOptions,
-    razzleContext: U
-  ) => Promise<U> | U;
+  modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
     {
       parser: (
         argv: Argv,
-        pluginOptions: Q,
         razzleConfig: T,
         razzleContext: U,
         handler: (argv: Argv) => void
       ) => Argv;
-      handler: (
-        pluginOptions: Q,
-        razzleConfig: T,
-        razzleContext: U
-      ) => (argv: Argv) => void;
+      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
     }
   >;
 }
+/* 
 
 interface BaseCustomRazzleConfig {
   try?: string;
 }
-
 interface CustomRazzleConfig extends BaseCustomRazzleConfig, BaseRazzleConfig {}
 
 interface CustomRazzlePlugin extends BaseRazzlePlugin<CustomRazzleConfig> {
@@ -98,12 +93,13 @@ interface CustomRazzlePlugin extends BaseRazzlePlugin<CustomRazzleConfig> {
 }
 
 const tryit3: CustomRazzlePlugin = {
+  name: "custom",
   addCommands: {
     build: {
-      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+      parser: (argv, razzleConfig, razzleContext, handler) => {
         return argv;
       },
-      handler: (pluginOptions, razzleConfig, razzleContext) => {
+      handler: (razzleConfig, razzleContext) => {
         return (argv) => {};
       },
     },
@@ -117,12 +113,13 @@ const plugin = (
 };
 
 const tryit2: RazzlePlugin = {
+  name: "try",
   addCommands: {
     build: {
-      parser: (argv, pluginOptions, razzleConfig, razzleContext, handler) => {
+      parser: (argv, razzleConfig, razzleContext, handler) => {
         return argv;
       },
-      handler: (pluginOptions, razzleConfig, razzleContext) => {
+      handler: (razzleConfig, razzleContext) => {
         return (argv) => {};
       },
     },
@@ -156,3 +153,4 @@ const tryit: RazzleConfig = {
     },
   },
 };
+ */

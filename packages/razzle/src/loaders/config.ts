@@ -1,14 +1,22 @@
-import { BaseRazzlePlugin, BaseRazzlePluginOptions, RazzleConfig, RazzleContext, RazzleOptions, RazzlePlugin } from "../types";
-import fs from "fs-extra";
-import logger from "../logger";
-import defaultPaths from "../paths";
-import setupEnvironment from "../env";
-import loadPlugins from "./plugins";
+import fs from "fs";
+import setupEnvironment from "../env.js";
+import logger from "../logger.js";
+import defaultPaths from "../paths.js";
+import {
+  BaseRazzlePlugin,
+  BaseRazzlePluginOptions,
+  RazzleConfig,
+  RazzleContext,
+  RazzleOptions,
+  RazzlePlugin,
+} from "../types.js";
+
+import loadPlugins from "./plugins.js";
 
 export default (
   razzleConfigIn?: RazzleConfig | undefined,
   packageJsonIn?: unknown | undefined
-): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext, razzleOptions: RazzleOptions }> =>
+): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext }> =>
   new Promise(async (resolve) => {
     let razzleConfig: RazzleConfig = razzleConfigIn || {};
     let packageJson = packageJsonIn || {};
@@ -41,32 +49,29 @@ export default (
 
     let razzleContext: RazzleContext = <RazzleContext>{ paths: defaultPaths };
 
-    const plugins: Array<{ plugin: BaseRazzlePlugin; options: BaseRazzlePluginOptions }> =
-    await loadPlugins(razzleConfig.plugins);
+    razzleContext.razzleOptions = razzleOptions;
 
-    for (const {plugin, options: pluginOptions} of plugins) {
-      // Check if plugin.modifyPaths is a function.
-      // If it is, call it on the paths we created.
+    const plugins: Array<{
+      plugin: BaseRazzlePlugin;
+      options: BaseRazzlePluginOptions;
+    }> = await loadPlugins(razzleConfig.plugins);
+
+    for (const { plugin, options: pluginOptions } of plugins) {
+      // Check if plugin.modifyRazzleContext is a function.
+      // If it is, call it on the context we created.
+      razzleContext.pluginsOptions[plugin.name] = pluginOptions;
       if (plugin.modifyRazzleContext) {
-        razzleContext = await plugin.modifyRazzleContext(
-          pluginOptions,
-          razzleOptions,
-          razzleContext
-        );
+        razzleContext = await plugin.modifyRazzleContext(razzleContext);
       }
     }
     if (razzleConfig.modifyRazzleContext) {
       // Check if razzle.modifyPaths is a function.
       // If it is, call it on the paths we created.
-      razzleContext = await razzleConfig.modifyRazzleContext(
-        razzleOptions,
-        razzleContext
-      );
+      razzleContext = await razzleConfig.modifyRazzleContext(razzleContext);
     }
 
     resolve({
       razzleConfig,
       razzleContext,
-      razzleOptions
     });
   });

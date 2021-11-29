@@ -1,11 +1,12 @@
+import resolve from "resolve";
+
 import {
   BaseRazzlePlugin,
   BaseRazzlePluginOptions,
   RazzleConfig,
   RazzleContext,
   RazzleOptions,
-} from "../types";
-import resolve from "resolve";
+} from "../types.js";
 
 type PluginWithOptions = {
   plugin: BaseRazzlePlugin;
@@ -13,12 +14,12 @@ type PluginWithOptions = {
 };
 type PluginNameWithOptions = {
   name: string;
-  options?: BaseRazzlePluginOptions;
+  options: BaseRazzlePluginOptions;
 };
 type PluginName = string;
 
 export async function loadPlugin(
-  plugin: PluginName | PluginNameWithOptions | PluginWithOptions | undefined
+  plugin: PluginName | PluginNameWithOptions | PluginWithOptions
 ) {
   if (typeof plugin === "string") {
     // Apply the plugin with default options if passing only a string
@@ -76,15 +77,19 @@ export async function loadPlugin(
 }
 
 export default async function (
-  plugins: Array<
-    | string
-    | { plugin: BaseRazzlePlugin; options: BaseRazzlePluginOptions }
-    | { name: string; options: BaseRazzlePluginOptions }
-  >
-  | undefined
+  plugins:
+    | Array<
+        | string
+        | { plugin: BaseRazzlePlugin; options: BaseRazzlePluginOptions }
+        | { name: string; options: BaseRazzlePluginOptions }
+      >
+    | undefined
 ) {
   return (
-    plugins &&
-    (await Promise.all(plugins.map(async (plugin) => await loadPlugin(plugin)))) || []
+    (plugins &&
+      (await Promise.all(
+        plugins.map(async (plugin) => await loadPlugin(plugin))
+      ))) ||
+    []
   );
 }

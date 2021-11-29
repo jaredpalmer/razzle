@@ -1,7 +1,6 @@
-import fs from "fs-extra";
-
-import expand from "dotenv-expand";
 import dotenv from "dotenv";
+import expand from "dotenv-expand";
+import fs from "fs-extra";
 
 export default function ({ dotenv: dotenvBase }: { dotenv: string }): void {
   const NODE_ENV = process.env.NODE_ENV;

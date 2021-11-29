@@ -4,8 +4,10 @@
   "description": "basic webpack5 example",
   "main": "index.js",
   "scripts": {
-    "test": "razzle jest"
+    "test": "razzle jest",
+    "razzle": "NODE_ENV=development razzle"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jaredpalmer/razzle.git"

@@ -12,6 +12,13 @@
     "bin": {
         "razzle": "./bin/razzle.js"
     },
+    "main": "lib/index.js",
+    "exports": {
+      ".": "./lib/index.js",
+      "./package.json": "./package.json"
+    },
+    "types": "types/index.d.ts",
+    "type": "module",
     "scripts": {
         "prettier": "prettier --check src/",
         "prettier:fix": "prettier --write src/",
@@ -19,7 +26,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --platform=node --target=node14 --format=esm  --main-fields=module,main",
         "postbuild": "tsc --build"
     },
     "keywords": [

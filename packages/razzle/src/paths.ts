@@ -1,8 +1,13 @@
-import logger from "./logger";
-import { RazzlePaths } from "./types";
-
-import path from "path";
 import fs from "fs";
+import path from "path";
+import url from "url";
+
+import logger from "./logger.js";
+import { RazzlePaths } from "./types.js";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // import clearConsole from 'react-dev-utils/clearConsole';
 // import logger from 'razzle-dev-utils/logger';
 
@@ -48,7 +53,7 @@ const getPublicUrl = (appPackageJson: string): string | undefined => {
 function getServedPath(appPackageJson: string) {
   const publicUrl = getPublicUrl(appPackageJson);
   const servedUrl =
-    envPublicUrl || (publicUrl ? new URL(publicUrl).pathname : "/");
+    envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname || "": "/");
   return ensureSlash(servedUrl, true);
 }
 
