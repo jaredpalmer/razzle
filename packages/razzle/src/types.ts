@@ -33,8 +33,12 @@ export interface BaseRazzleConfig<
   U extends RazzleContext = RazzleContext
 > {
   options?: RazzleOptions;
-  plugins?: Array<string|{name: string, options: BaseRazzlePluginOptions}|{plugin: BaseRazzlePlugin<T>, options: BaseRazzlePluginOptions}>;
-  modifyRazzleContext?: (razzleConfig: T, razzleContext: U) => Promise<U> | U;
+  plugins?: Array<
+    | string
+    | { name: string; options: BaseRazzlePluginOptions }
+    | { plugin: BaseRazzlePlugin<T>; options: BaseRazzlePluginOptions }
+  >;
+  modifyRazzleContext?: (razzleOptions: RazzleOptions, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
     {
@@ -49,7 +53,6 @@ export interface BaseRazzleConfig<
   >;
 }
 
-
 export type RazzlePlugin = BaseRazzlePlugin<RazzleConfig>;
 
 export interface BaseRazzlePluginOptions {}
@@ -62,7 +65,7 @@ export interface BaseRazzlePlugin<
   options?: Q;
   modifyRazzleContext?: (
     pluginOptions: Q,
-    razzleConfig: T,
+    razzleOptions: RazzleOptions,
     razzleContext: U
   ) => Promise<U> | U;
   addCommands?: Record<
@@ -85,18 +88,14 @@ export interface BaseRazzlePlugin<
 }
 
 interface BaseCustomRazzleConfig {
-  try?: string
+  try?: string;
 }
 
-
-interface CustomRazzleConfig extends BaseCustomRazzleConfig, BaseRazzleConfig {
-}
-
+interface CustomRazzleConfig extends BaseCustomRazzleConfig, BaseRazzleConfig {}
 
 interface CustomRazzlePlugin extends BaseRazzlePlugin<CustomRazzleConfig> {
-  try?: string
+  try?: string;
 }
-
 
 const tryit3: CustomRazzlePlugin = {
   addCommands: {
@@ -111,9 +110,11 @@ const tryit3: CustomRazzlePlugin = {
   },
 };
 
-const plugin = (options: BaseRazzlePluginOptions): {plugin: CustomRazzlePlugin, options: BaseRazzlePluginOptions} => {
-  return {plugin: tryit3, options:{}}
-}
+const plugin = (
+  options: BaseRazzlePluginOptions
+): { plugin: CustomRazzlePlugin; options: BaseRazzlePluginOptions } => {
+  return { plugin: tryit3, options: {} };
+};
 
 const tryit2: RazzlePlugin = {
   addCommands: {
@@ -128,9 +129,8 @@ const tryit2: RazzlePlugin = {
   },
 };
 
-
 const tryit1: RazzleConfig = {
-  plugins: [{plugin: tryit2, options: {}}],
+  plugins: [{ plugin: tryit2, options: {} }],
   addCommands: {
     build: {
       parser: (argv, razzleConfig, razzleContext, handler) => {
@@ -143,9 +143,8 @@ const tryit1: RazzleConfig = {
   },
 };
 
-
 const tryit: RazzleConfig = {
-  plugins: [{plugin: tryit2, options: {}}, plugin({})],
+  plugins: [{ plugin: tryit2, options: {} }, plugin({})],
   addCommands: {
     build: {
       parser: (argv, razzleConfig, razzleContext, handler) => {
