@@ -1,8 +1,10 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-      "outDir": "./lib"
+      "outDir": "./lib",
+      "composite": true // the composite flag
     },
-    "include": ["./src"]
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["lib/*"],
   }
   

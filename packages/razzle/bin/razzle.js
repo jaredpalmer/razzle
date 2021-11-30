@@ -1,3 +1,3 @@
 import { cli } from '../lib/index.js';
 
-cli();
+await cli();

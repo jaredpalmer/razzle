@@ -1,8 +1,12 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-      "outDir": "./dist", // Your outDir
+      "outDir": "./lib", // Your outDir
     },
-    "include": ["./src"]
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["lib/*"],
+    "references": [
+      { "path": "../razzle/tsconfig.json" }
+    ]
   }
   

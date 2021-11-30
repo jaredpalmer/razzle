@@ -6,12 +6,16 @@
     "repository": {
         "type": "git",
         "url": "https://github.com:jaredpalmer/razzle.git",
-        "directory": "packages/razzle-plugin-webpack5"
+        "directory": "packages/razzle"
     },
     "version": "5.0.0-alpha.0",
-    "bin": {
-        "razzle": "./bin/razzle.js"
+    "main": "lib/index.js",
+    "exports": {
+        ".": "./lib/index.js",
+        "./package.json": "./package.json"
     },
+    "types": "types/index.d.ts",
+    "type": "module",
     "scripts": {
         "prettier": "prettier --check src/",
         "prettier:fix": "prettier --write src/",
@@ -19,7 +23,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --platform=node --target=node14 --format=esm  --main-fields=module,main",
         "postbuild": "tsc --build"
     },
     "keywords": [
@@ -33,5 +37,8 @@
         "ssr",
         "universal",
         "webpack"
-    ]
+    ],
+    "dependencies": {
+        "webpack": "^5.64.4"
+    }
 }

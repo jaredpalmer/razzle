@@ -1,4 +1,5 @@
 import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
 import loadPlugins from "./loaders/plugins.js";
@@ -45,7 +46,8 @@ export async function cli() {
     }
   }
 
-  let argv = yargs(process.argv.slice(2))
+  let argv = yargs(hideBin(process.argv)).scriptName('razzle')
+
   for (const command in parsers) {
     argv = parsers[command](
       argv,
@@ -54,5 +56,5 @@ export async function cli() {
       handlers[command](razzleConfig, razzleContext)
     );
   }
-  argv.argv;
+  argv.parse();
 }

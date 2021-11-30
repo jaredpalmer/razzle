@@ -32,8 +32,7 @@ export type RazzleConfig = BaseRazzleConfig<RazzleConfig>;
 
 export interface BaseRazzleConfig<
   T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U extends RazzleContext = RazzleContext,
-  Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
+  U = RazzleContext
 > {
   options?: RazzleOptions;
   plugins?: Array<
@@ -62,7 +61,7 @@ export interface BaseRazzlePluginOptions {}
 
 export interface BaseRazzlePlugin<
   T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U extends RazzleContext = RazzleContext,
+  U = RazzleContext,
   Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
 > {
   name: string;

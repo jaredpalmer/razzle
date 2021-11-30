@@ -18,7 +18,5 @@
       "forceConsistentCasingInFileNames": true,
       "isolatedModules": true
     },
-    "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
-    "references": [
-    ]
+    "exclude": ["node_modules", "**/*/lib", "**/*/dist"]
   }
