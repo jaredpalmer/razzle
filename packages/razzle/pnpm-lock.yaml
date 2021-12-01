@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@types/fs-extra': ^9.0.13
+  '@types/yargs': ^17.0.7
   chalk: ^4.1.2
   dotenv: ^10.0.0
   dotenv-expand: ^5.1.0
@@ -10,6 +11,7 @@ specifiers:
   yargs: ^17.2.1
 
 dependencies:
+  '@types/yargs': 17.0.7
   chalk: 4.1.2
   dotenv: 10.0.0
   dotenv-expand: 5.1.0
@@ -31,6 +33,16 @@ packages:
   /@types/node/16.11.10:
     resolution: {integrity: sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==}
     dev: true
+
+  /@types/yargs-parser/20.2.1:
+    resolution: {integrity: sha512-7tFImggNeNBVMsn0vLrpn1H1uPrUBdnARPTpZoitY37ZrdJREzf7I16tMrlK3hen349gr1NYh8CmZQa7CTG6Aw==}
+    dev: false
+
+  /@types/yargs/17.0.7:
+    resolution: {integrity: sha512-OvLKmpKdea1aWtqHv9bxVVcMoT6syAeK+198dfETIFkAevYRGwqh4H+KFxfjUETZuUuE5sQCAFwdOdoHUdo8eg==}
+    dependencies:
+      '@types/yargs-parser': 20.2.1
+    dev: false
 
   /ansi-regex/5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}

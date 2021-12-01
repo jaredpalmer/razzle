@@ -1,4 +1,4 @@
-import { Argv } from "yargs";
+import { Argv, Arguments } from "yargs";
 
 export type RazzleOptions = {
   verbose?: boolean;
@@ -48,9 +48,9 @@ export interface BaseRazzleConfig<
         argv: Argv,
         razzleConfig: T,
         razzleContext: U,
-        handler: (argv: Argv) => void
+        handler: (argv: Arguments) => void
       ) => Argv;
-      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
+      handler: (razzleConfig: T, razzleContext: U) => (argv: Arguments) => void;
     }
   >;
 }
@@ -74,9 +74,9 @@ export interface BaseRazzlePlugin<
         argv: Argv,
         razzleConfig: T,
         razzleContext: U,
-        handler: (argv: Argv) => void
+        handler: (argv: Arguments) => void
       ) => Argv;
-      handler: (razzleConfig: T, razzleContext: U) => (argv: Argv) => void;
+      handler: (razzleConfig: T, razzleContext: U) => (argv: Arguments) => void;
     }
   >;
 }

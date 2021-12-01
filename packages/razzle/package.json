@@ -14,8 +14,8 @@
     },
     "main": "lib/index.js",
     "exports": {
-      ".": "./lib/index.js",
-      "./package.json": "./package.json"
+        ".": "./lib/index.js",
+        "./package.json": "./package.json"
     },
     "types": "types/index.d.ts",
     "type": "module",
@@ -42,6 +42,7 @@
         "webpack"
     ],
     "dependencies": {
+        "@types/yargs": "^17.0.7",
         "chalk": "^4.1.2",
         "dotenv": "^10.0.0",
         "dotenv-expand": "^5.1.0",
