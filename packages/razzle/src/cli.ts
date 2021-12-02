@@ -12,7 +12,7 @@ export async function cli() {
   const plugins: Array<{
     plugin: BaseRazzlePlugin;
     options: BaseRazzlePluginOptions;
-  }> = await loadPlugins(razzleConfig.plugins);
+  }> = await loadPlugins(razzleContext.paths.ownNodeModules, razzleConfig.plugins);
 
   const parsers = {};
   for (const { plugin } of plugins) {

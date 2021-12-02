@@ -16,7 +16,10 @@
       "lib": ["esnext"],
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "isolatedModules": true
+      "isolatedModules": true,
+      "paths": {
+        "razzle/*": ["./packages/razzle/src/*"]
+      }
     },
     "exclude": ["node_modules", "**/*/lib", "**/*/dist"]
   }

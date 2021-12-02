@@ -39,6 +39,7 @@
         "webpack"
     ],
     "dependencies": {
-        "webpack": "^5.64.4"
+        "webpack": "^5.64.4",
+        "razzle": "^4.2.7"
     }
 }

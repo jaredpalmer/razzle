@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
   "dependencies": {
-    "razzle": "^4.2.7"
+    "razzle": "^4.2.7",
+    "razzle-plugin-webpack5": "^4.2.7"
   }
 }

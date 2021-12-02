@@ -1,4 +1,5 @@
-import resolve from "resolve";
+import path from "path";
+import buildResolver from "esm-resolve";
 
 import {
   BaseRazzlePlugin,
@@ -18,12 +19,19 @@ type PluginNameWithOptions = {
 };
 type PluginName = string;
 
+type PluginFunction =
+  | ((options: BaseRazzlePluginOptions) => PluginWithOptions)
+  | null;
+
 export async function loadPlugin(
+  configPath: string,
   plugin: PluginName | PluginNameWithOptions | PluginWithOptions
 ) {
+  const r = buildResolver(configPath);
+
   if (typeof plugin === "string") {
     // Apply the plugin with default options if passing only a string
-    return await loadPlugin({ name: plugin, options: {} });
+    return await loadPlugin(configPath, { name: plugin, options: {} });
   }
 
   // Support for not released plugins without options
@@ -52,31 +60,33 @@ export async function loadPlugin(
     isScopedPlugin && (<PluginNameWithOptions>plugin).name,
     `razzle-plugin-${(<PluginNameWithOptions>plugin).name}`,
     `${(<PluginNameWithOptions>plugin).name}/razzle-plugin`,
-  ].filter(Boolean);
+  ].filter((name) => name);
 
   // Try to find the plugin in node_modules
-  let razzlePlugin: BaseRazzlePlugin | null = null;
+  let razzlePlugin: PluginFunction = null;
+  let tried: Array<string> = [];
   for (const completePluginName of <Array<string>>completePluginNames) {
     try {
-      razzlePlugin = await import(completePluginName);
+      const tryPath = path.resolve(<string>r(completePluginName));
+      tried.push(tryPath);
+      razzlePlugin = (await import(tryPath)).default;
       // eslint-disable-next-line no-empty
     } catch (error) {}
-
-    if (razzlePlugin) {
-      break;
-    }
   }
   if (!razzlePlugin) {
     const last = completePluginNames.pop();
+    const lastTried = tried.pop();
     throw new Error(
-      `Unable to find '${completePluginNames.join("', '")}' or ${last}'`
+      `Unable to find '${completePluginNames.join("', '")}' or ${last}'
+      Tried:  ${tried.join("',\n '")}\n or ${lastTried}'`
     );
   }
 
-  return <PluginWithOptions>{ plugin: razzlePlugin, options: plugin.options };
+  return <PluginWithOptions>razzlePlugin(plugin.options);
 }
 
 export default async function (
+  configPath: string,
   plugins:
     | Array<
         | string
@@ -88,7 +98,7 @@ export default async function (
   return (
     (plugins &&
       (await Promise.all(
-        plugins.map(async (plugin) => await loadPlugin(plugin))
+        plugins.map(async (plugin) => await loadPlugin(configPath, plugin))
       ))) ||
     []
   );

@@ -2,6 +2,8 @@ lockfileVersion: 5.3
 
 specifiers:
   razzle: link:../../packages/razzle
+  razzle-plugin-webpack5: link:../../packages/razzle-plugin-webpack5
 
 dependencies:
   razzle: link:../../packages/razzle
+  razzle-plugin-webpack5: link:../../packages/razzle-plugin-webpack5

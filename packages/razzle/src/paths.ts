@@ -78,6 +78,7 @@ const nodePaths = (process.env.NODE_PATH || "")
 export default <RazzlePaths>{
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
+  appRazzleConfig: resolveApp("razzle.config"),
   appNodeModules: resolveApp("node_modules"),
   appPackageJson: resolveApp("package.json"),
   nodePaths: nodePaths,

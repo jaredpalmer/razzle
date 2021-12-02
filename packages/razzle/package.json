@@ -46,6 +46,8 @@
         "chalk": "^4.1.2",
         "dotenv": "^10.0.0",
         "dotenv-expand": "^5.1.0",
+        "enhanced-resolve": "^5.8.3",
+        "esm-resolve": "^1.0.5",
         "fs-extra": "^10.0.0",
         "resolve": "^1.20.0",
         "yargs": "^17.2.1"

@@ -1,9 +1,9 @@
-import { arch } from "os";
-import { argv } from "process";
+import { Configuration } from "webpack";
+import loadPlugins from "razzle/loaders/plugins.js";
+
 import {
-  BaseWebpack5RazzlePlugin,
+  Webpack5Options,
   Webpack5PluginOptions,
-  Webpack5RazzleContext,
   Webpack5RazzlePlugin,
 } from "./types";
 
@@ -25,8 +25,48 @@ const Plugin: Webpack5RazzlePlugin = {
         );
       },
       handler: (razzleConfig, razzleContext) => {
-        return (argv) => {
-          console.log("start"+ argv.u);
+        return async (argv) => {
+          let devBuild = "default";
+          let webBuilds = ["default"];
+          let nodeBuilds = ["default"];
+          let webOnly =
+            webBuilds.some((build) => build == devBuild) &&
+            !nodeBuilds.some((build) => build == devBuild);
+          let nodeOnly =
+            !webBuilds.some((build) => build == devBuild) &&
+            nodeBuilds.some((build) => build == devBuild);
+          let webpackConfigs: Array<Configuration> = [];
+
+          //  let devserverConfig:
+
+          const plugins: Array<{
+            plugin: Webpack5RazzlePlugin;
+            options: Webpack5PluginOptions;
+          }> = await loadPlugins(
+            razzleContext.paths.ownNodeModules,
+            razzleConfig.plugins
+          );
+
+          if (!nodeOnly) {
+            let webpackConfig: Configuration = { name: `web-${devBuild}` };
+            let webpackOptions: Webpack5Options = {isWeb: true, isNode: false, isServerless: false};
+            // run plugin/config hooks
+            webpackConfigs.push(webpackConfig);
+          }
+          if (!webOnly) {
+            let webpackConfig: Configuration = { name: `node-${devBuild}` };
+            let webpackOptions: Webpack5Options = {isWeb: false, isNode: true, isServerless: false};
+            // run plugin/config hooks
+            if (!nodeOnly) {
+              webpackConfig.dependencies = [`web-${devBuild}`];
+            }
+            webpackConfigs.push(webpackConfig);
+          }
+          if (!nodeOnly) {
+            // start devserver
+          } else {
+            // start watching
+          }
         };
       },
     },
