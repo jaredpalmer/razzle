@@ -67,10 +67,12 @@ export async function loadPlugin(
   let razzlePlugin: PluginFunction = null;
   const tried: Array<string> = [];
   for (const completePluginName of <Array<string>>completePluginNames) {
+    try {
       const tryPath = path.resolve(<string>r(completePluginName));
       tried.push(tryPath);
       razzlePlugin = (await import(tryPath)).default;
       // eslint-disable-next-line no-empty
+    } catch (error) {}
   }
   if (!razzlePlugin) {
     const last = completePluginNames.pop();

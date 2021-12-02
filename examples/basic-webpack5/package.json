@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/jaredpalmer/razzle#readme",
   "dependencies": {
-    "razzle": "workspace:5.0.0-alpha.0",
-    "razzle-plugin-webpack": "workspace:5.0.0-alpha.0"
+    "razzle": "5.0.0-alpha.0",
+    "razzle-plugin-webpack5": "5.0.0-alpha.0"
   }
 
 }

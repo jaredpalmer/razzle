@@ -13,6 +13,11 @@
         "razzle": "./bin/razzle.js"
     },
     "main": "lib/index.js",
+    "exports": {
+        ".": "./lib/index.js",
+        "./loaders/plugins": "./lib/loaders/plugins.js",
+        "./package.json": "./package.json"
+    },
     "types": "types/index.d.ts",
     "type": "module",
     "scripts": {
