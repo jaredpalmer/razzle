@@ -4890,7 +4890,7 @@ packages:
     resolution: {integrity: sha512-DUxuQaKoqfNne8iikd14SAkh5uw4+8vNifp6gmA73yYNS6ywLIWSLD/n/mBzHQRpW3J7rbATEakmiA8JvkTyZw==}
     engines: {node: '>=6.11.5', yarn: '>=1.0.0'}
     dependencies:
-      '@babel/code-frame': 7.16.0
+      '@babel/code-frame': 7.10.4
       chalk: 2.4.2
       micromatch: 3.1.10
       minimatch: 3.0.4
