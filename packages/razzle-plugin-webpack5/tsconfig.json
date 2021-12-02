@@ -2,13 +2,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "./lib", // Your outDir,
-    "composite": true // the composite flag
+    "outDir": "./lib", // Your outDir
   },
-  "references": [{ "path": "../razzle/"}],
+  "references": [{"path": "../razzle/"}],
   "include": [
     "**/*.ts",
-    "**/*.tsx"
   ],
   "exclude": [
     "lib/*"

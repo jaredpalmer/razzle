@@ -1,5 +1,833 @@
 {
   "0 debug pnpm:scope": {
-    "selected": 1
+    "selected": 8,
+    "total": 8,
+    "workspacePrefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha"
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle",
+      "homepage": "https://github.com/jaredpalmer/razzle#readme",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jaredpalmer/razzle.git"
+      },
+      "bugs": {
+        "url": "https://github.com/jaredpalmer/razzle/issues"
+      },
+      "scripts": {
+        "verify": "lerna run verify --stream",
+        "prettier": "lerna run prettier",
+        "build": "lerna run build",
+        "test": "NODE_ENV=development lerna run test --stream"
+      },
+      "husky": {
+        "hooks": {
+          "pre-commit": "pnpm prettier",
+          "pre-push": "pnpm verify"
+        }
+      },
+      "private": true,
+      "version": "5.0.0-alpha.0",
+      "workspaces": [
+        "packages/*"
+      ],
+      "devDependencies": {
+        "@babel/eslint-parser": "^7.15.7",
+        "@types/jest": "^27.0.2",
+        "@types/node": "^16.10.3",
+        "@typescript-eslint/eslint-plugin": "^4.33.0",
+        "@typescript-eslint/parser": "^4.33.0",
+        "esbuild": "^0.13.4",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-config-prettier-standard": "^4.0.1",
+        "eslint-config-react-app": "^6.0.0",
+        "eslint-config-standard": "^16.0.3",
+        "eslint-plugin-flowtype": "^6.1.0",
+        "eslint-plugin-import": "^2.24.2",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-promise": "^5.1.0",
+        "eslint-plugin-react": "^7.26.1",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "eslint-plugin-simple-import-sort": "^7.0.0",
+        "eslint-plugin-standard": "^5.0.0",
+        "husky": "^7.0.2",
+        "jest": "^27.2.4",
+        "lerna": "^4.0.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.4.1",
+        "prettier-config-standard": "^4.0.0",
+        "ts-jest": "^27.0.5",
+        "tsconfig-paths-jest": "^0.0.1",
+        "typescript": "^4.4.3"
+      }
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha"
+  },
+  "2 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle"
+      },
+      "version": "5.0.0-alpha.0",
+      "bin": {
+        "razzle": "./bin/razzle.js"
+      },
+      "main": "lib/index.js",
+      "types": "types/index.d.ts",
+      "type": "module",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "tsc",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ],
+      "dependencies": {
+        "@types/yargs": "^17.0.7",
+        "chalk": "^4.1.2",
+        "dotenv": "^10.0.0",
+        "dotenv-expand": "^5.1.0",
+        "enhanced-resolve": "^5.8.3",
+        "esm-resolve": "^1.0.5",
+        "fs-extra": "^10.0.0",
+        "resolve": "^1.20.0",
+        "yargs": "^17.2.1"
+      },
+      "devDependencies": {
+        "@types/fs-extra": "^9.0.13"
+      }
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle"
+  },
+  "3 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle-plugin-jest",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle-plugin-jest"
+      },
+      "version": "5.0.0-alpha.0",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ]
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle-plugin-jest"
+  },
+  "4 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle-plugin-webpack5-babel",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle-plugin-webpack5-babel"
+      },
+      "version": "5.0.0-alpha.0",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ]
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle-plugin-webpack5-babel"
+  },
+  "5 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle-plugin-webpack5-media",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle-plugin-webpack5-media"
+      },
+      "version": "5.0.0-alpha.0",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ]
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle-plugin-webpack5-media"
+  },
+  "6 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle-plugin-webpack5-typescript",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle-plugin-webpack5-typescript"
+      },
+      "version": "5.0.0-alpha.0",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --bundle --platform=node --outfile=lib/index.js",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ]
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle-plugin-webpack5-typescript"
+  },
+  "7 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "basic-webpack5",
+      "version": "5.0.0-alpha.0",
+      "description": "basic webpack5 example",
+      "main": "index.js",
+      "scripts": {
+        "test": "razzle jest",
+        "razzle": "NODE_ENV=development razzle"
+      },
+      "type": "module",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jaredpalmer/razzle.git"
+      },
+      "keywords": [
+        "razzle"
+      ],
+      "author": "",
+      "license": "MIT",
+      "bugs": {
+        "url": "https://github.com/jaredpalmer/razzle/issues"
+      },
+      "homepage": "https://github.com/jaredpalmer/razzle#readme",
+      "dependencies": {
+        "razzle": "workspace:5.0.0-alpha.0",
+        "razzle-plugin-webpack": "workspace:5.0.0-alpha.0"
+      }
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/examples/basic-webpack5"
+  },
+  "8 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "razzle-plugin-webpack5",
+      "description": "Create server-rendered universal JavaScript applications with no configuration",
+      "license": "MIT",
+      "author": "Jared Palmer <jared@palmer.net>",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle"
+      },
+      "version": "5.0.0-alpha.0",
+      "main": "lib/index.js",
+      "exports": {
+        ".": "./lib/index.js",
+        "./package.json": "./package.json"
+      },
+      "types": "types/index.d.ts",
+      "type": "module",
+      "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "tsc",
+        "postbuild": "tsc --build"
+      },
+      "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+      ],
+      "dependencies": {
+        "webpack": "^5.64.4",
+        "razzle": "5.0.0-alpha.0"
+      }
+    },
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/packages/razzle-plugin-webpack5"
+  },
+  "9 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/home/oyvind/.pnpm-store/v3",
+    "virtualStoreDir": "/home/oyvind/Dokumenter/GitHub/razzle-alpha/node_modules/.pnpm"
+  },
+  "10 debug pnpm:stage": {
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "stage": "resolution_started"
+  },
+  "11 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@babel/eslint-parser/7.16.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@babel/eslint-parser",
+      "rawSpec": "^7.15.7"
+    }
+  },
+  "12 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@babel/eslint-parser/7.16.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "13 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-prettier-standard/4.0.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-prettier-standard",
+      "rawSpec": "^4.0.1"
+    }
+  },
+  "14 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier-standard/4.0.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "15 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@babel/eslint-parser/7.16.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "16 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier-standard/4.0.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "17 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-prettier",
+      "rawSpec": "^8.3.0"
+    }
+  },
+  "18 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "19 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.3.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "20 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-standard/16.0.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-standard",
+      "rawSpec": "^16.0.3"
+    }
+  },
+  "21 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-standard/16.0.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "22 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-standard/16.0.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "23 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-simple-import-sort/7.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-simple-import-sort",
+      "rawSpec": "^7.0.0"
+    }
+  },
+  "24 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-simple-import-sort/7.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "25 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-jsx-a11y/6.5.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-jsx-a11y",
+      "rawSpec": "^6.4.1"
+    }
+  },
+  "26 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-jsx-a11y/6.5.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "27 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-simple-import-sort/7.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "28 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-jsx-a11y/6.5.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "29 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-import/2.25.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-import",
+      "rawSpec": "^2.24.2"
+    }
+  },
+  "30 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-import/2.25.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "31 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-import/2.25.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "32 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-standard/5.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-standard",
+      "rawSpec": "^5.0.0"
+    }
+  },
+  "33 debug pnpm:deprecation": {
+    "deprecated": "standard 16.0.0 and eslint-config-standard 16.0.0 no longer require the eslint-plugin-standard package. You can remove it from your dependencies with 'npm rm eslint-plugin-standard'. More info here: https://github.com/standard/standard/issues/1316",
+    "depth": 0,
+    "pkgId": "registry.npmjs.org/eslint-plugin-standard/5.0.0",
+    "pkgName": "eslint-plugin-standard",
+    "pkgVersion": "5.0.0",
+    "prefix": "/home/oyvind/Dokumenter/GitHub/razzle-alpha"
+  },
+  "34 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-standard/5.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "35 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-standard/5.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "36 debug pnpm:update-check": {
+    "currentVersion": "6.16.1",
+    "latestVersion": "6.23.5"
+  },
+  "37 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/esbuild/0.13.15",
+    "wanted": {
+      "dependentId": ".",
+      "name": "esbuild",
+      "rawSpec": "^0.13.4"
+    }
+  },
+  "38 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/esbuild/0.13.15",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "39 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/esbuild/0.13.15",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "40 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-prettier/4.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-prettier",
+      "rawSpec": "^4.0.0"
+    }
+  },
+  "41 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-prettier/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "42 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-prettier/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "43 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/jest/27.0.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@types/jest",
+      "rawSpec": "^27.0.2"
+    }
+  },
+  "44 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/jest/27.0.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "45 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/jest/27.0.3",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "46 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/npm-run-all/4.1.5",
+    "wanted": {
+      "dependentId": ".",
+      "name": "npm-run-all",
+      "rawSpec": "^4.1.5"
+    }
+  },
+  "47 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/npm-run-all/4.1.5",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "48 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/npm-run-all/4.1.5",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "49 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-node/11.1.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-node",
+      "rawSpec": "^11.1.0"
+    }
+  },
+  "50 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-node/11.1.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "51 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-node/11.1.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "52 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier-config-standard/4.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier-config-standard",
+      "rawSpec": "^4.0.0"
+    }
+  },
+  "53 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-config-standard/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "54 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-config-standard/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "55 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-react-app/6.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-react-app",
+      "rawSpec": "^6.0.0"
+    }
+  },
+  "56 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-react-app/6.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "57 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-react-app/6.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "58 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-react/7.27.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-react",
+      "rawSpec": "^7.26.1"
+    }
+  },
+  "59 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-react/7.27.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "60 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/husky/7.0.4",
+    "wanted": {
+      "dependentId": ".",
+      "name": "husky",
+      "rawSpec": "^7.0.2"
+    }
+  },
+  "61 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/husky/7.0.4",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "62 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-react/7.27.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "63 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/husky/7.0.4",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "64 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/tsconfig-paths-jest/0.0.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "tsconfig-paths-jest",
+      "rawSpec": "^0.0.1"
+    }
+  },
+  "65 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tsconfig-paths-jest/0.0.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "66 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tsconfig-paths-jest/0.0.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "67 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint/7.32.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint",
+      "rawSpec": "^7.32.0"
+    }
+  },
+  "68 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.32.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "69 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/lerna/4.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "lerna",
+      "rawSpec": "^4.0.0"
+    }
+  },
+  "70 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/lerna/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "71 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.32.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "72 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/lerna/4.0.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "73 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/ts-jest/27.0.7",
+    "wanted": {
+      "dependentId": ".",
+      "name": "ts-jest",
+      "rawSpec": "^27.0.5"
+    }
+  },
+  "74 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/ts-jest/27.0.7",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "75 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/ts-jest/27.0.7",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "76 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier/2.5.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier",
+      "rawSpec": "^2.4.1"
+    }
+  },
+  "77 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.5.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "78 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.5.0",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "79 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/yargs/17.0.7",
+    "wanted": {
+      "dependentId": "packages/razzle",
+      "name": "@types/yargs",
+      "rawSpec": "^17.0.7"
+    }
+  },
+  "80 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/yargs/17.0.7",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "81 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/yargs/17.0.7",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "found_in_store"
+  },
+  "82 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-flowtype/6.1.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-flowtype",
+      "rawSpec": "^6.1.0"
+    }
+  },
+  "83 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-flowtype/6.1.1",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "84 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/fs-extra/9.0.13",
+    "wanted": {
+      "dependentId": "packages/razzle",
+      "name": "@types/fs-extra",
+      "rawSpec": "^9.0.13"
+    }
+  },
+  "85 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/fs-extra/9.0.13",
+    "requester": "/home/oyvind/Dokumenter/GitHub/razzle-alpha",
+    "status": "resolved"
+  },
+  "86 debug pnpm:_dependency_resolved": {
+    "resolution": "link:../../packages/razzle",
+    "wanted": {
+      "dependentId": "examples/basic-webpack5",
+      "name": "razzle",
+      "rawSpec": "workspace:5.0.0-alpha.0"
+    }
+  },
+  "87 error pnpm": {
+    "code": "ERR_PNPM_NO_MATCHING_VERSION_INSIDE_WORKSPACE",
+    "pkgsStack": [],
+    "err": {
+      "name": "pnpm",
+      "message": "In examples/basic-webpack5: No matching version found for razzle-plugin-webpack@5.0.0-alpha.0 inside the workspace",
+      "code": "ERR_PNPM_NO_MATCHING_VERSION_INSIDE_WORKSPACE",
+      "stack": "pnpm: In examples/basic-webpack5: No matching version found for razzle-plugin-webpack@5.0.0-alpha.0 inside the workspace\n    at tryResolveFromWorkspace (/snapshot/dist/pnpm.cjs)\n    at resolveNpm (/snapshot/dist/pnpm.cjs)\n    at Object.resolve (/snapshot/dist/pnpm.cjs)\n    at /snapshot/dist/pnpm.cjs\n    at run (/snapshot/dist/pnpm.cjs)\n    at PQueue._tryToStartAnother (/snapshot/dist/pnpm.cjs)\n    at PQueue._next (/snapshot/dist/pnpm.cjs)\n    at run (/snapshot/dist/pnpm.cjs)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)"
+    }
   }
 }

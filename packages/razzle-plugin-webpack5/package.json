@@ -23,7 +23,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "esbuild src/index.ts --define:process.env.NODE_ENV=\\\"production\\\" --platform=node --target=node14 --format=esm  --main-fields=module,main",
+        "build": "tsc",
         "postbuild": "tsc --build"
     },
     "keywords": [
@@ -40,11 +40,6 @@
     ],
     "dependencies": {
         "webpack": "^5.64.4",
-        "razzle": "^4.2.7"
-    },
-    "dependenciesMeta": {
-      "razzle": {
-        "injected": true
-      }
+        "razzle": "5.0.0-alpha.0"
     }
 }

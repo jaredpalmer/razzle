@@ -1,5 +1,5 @@
 import { Configuration } from "webpack";
-import loadPlugins from "razzle/loaders/plugins.js";
+import  loadPlugins from "razzle/loaders/plugins";
 
 import {
   Webpack5Options,

@@ -5,7 +5,7 @@ import {
   BaseRazzlePluginOptions,
   RazzleContext,
   RazzlePaths,
-} from "../../razzle/src/types";
+} from "razzle/types";
 
 export interface BaseWebpack5RazzleConfig<T, U, Q> {
   modifyWebpackOptions?: (
