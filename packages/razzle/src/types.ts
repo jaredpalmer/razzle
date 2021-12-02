@@ -1,4 +1,4 @@
-import { Argv, Arguments } from "yargs";
+import { Arguments, Argv } from "yargs";
 
 export type RazzleOptions = {
   verbose?: boolean;

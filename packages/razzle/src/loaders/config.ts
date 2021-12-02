@@ -1,4 +1,5 @@
 import fs from "fs";
+
 import setupEnvironment from "../env.js";
 import logger from "../logger.js";
 import defaultPaths from "../paths.js";
@@ -21,9 +22,10 @@ export default (
     let razzleConfig: RazzleConfig = razzleConfigIn || {};
     let packageJson = packageJsonIn || {};
     // Check for razzle.config.js file
-    if (fs.existsSync(defaultPaths.appRazzleConfig+'.js')) {
+    if (fs.existsSync(defaultPaths.appRazzleConfig + ".js")) {
       try {
-        razzleConfig = (await import(defaultPaths.appRazzleConfig+'.js')).default;
+        razzleConfig = (await import(defaultPaths.appRazzleConfig + ".js"))
+          .default;
       } catch (e) {
         logger.error("Invalid razzle.config.js file.", e);
 
@@ -48,12 +50,19 @@ export default (
       razzleConfig.options || {}
     );
 
-    let razzleContext: RazzleContext = { paths: defaultPaths, razzleOptions: razzleOptions, pluginsOptions: {} };
+    let razzleContext: RazzleContext = {
+      paths: defaultPaths,
+      razzleOptions: razzleOptions,
+      pluginsOptions: {},
+    };
 
     const plugins: Array<{
       plugin: BaseRazzlePlugin;
       options: BaseRazzlePluginOptions;
-    }> = await loadPlugins(razzleContext.paths.ownNodeModules, razzleConfig.plugins);
+    }> = await loadPlugins(
+      razzleContext.paths.ownNodeModules,
+      razzleConfig.plugins
+    );
 
     for (const { plugin, options: pluginOptions } of plugins) {
       // Check if plugin.modifyRazzleContext is a function.

@@ -12,7 +12,10 @@ export async function cli() {
   const plugins: Array<{
     plugin: BaseRazzlePlugin;
     options: BaseRazzlePluginOptions;
-  }> = await loadPlugins(razzleContext.paths.ownNodeModules, razzleConfig.plugins);
+  }> = await loadPlugins(
+    razzleContext.paths.ownNodeModules,
+    razzleConfig.plugins
+  );
 
   const parsers = {};
   for (const { plugin } of plugins) {
@@ -46,7 +49,7 @@ export async function cli() {
     }
   }
 
-  let argv = yargs(hideBin(process.argv)).scriptName('razzle')
+  let argv = yargs(hideBin(process.argv)).scriptName("razzle");
 
   for (const command in parsers) {
     argv = parsers[command](

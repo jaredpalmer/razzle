@@ -1,4 +1,5 @@
 import path from "path";
+
 import buildResolver from "esm-resolve";
 
 import {
@@ -64,7 +65,7 @@ export async function loadPlugin(
 
   // Try to find the plugin in node_modules
   let razzlePlugin: PluginFunction = null;
-  let tried: Array<string> = [];
+  const tried: Array<string> = [];
   for (const completePluginName of <Array<string>>completePluginNames) {
     try {
       const tryPath = path.resolve(<string>r(completePluginName));
