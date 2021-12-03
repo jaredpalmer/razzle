@@ -1,6 +1,6 @@
 import App from './App';
 import React from 'react';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 
