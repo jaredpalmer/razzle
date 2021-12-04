@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "razzle-examples-with-monorepo-without-workspaces",
-  "version": "4.2.7",
+  "version": "4.2.8",
   "license": "MIT",
   "scripts": {
     "start-1": "cross-env RAZZLE_APP_PATH=basic-1 razzle start",
@@ -19,12 +19,12 @@
   "devDependencies": {
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
-    "razzle": "4.2.7",
-    "razzle-dev-utils": "4.2.7",
+    "razzle": "4.2.8",
+    "razzle-dev-utils": "4.2.8",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.2.7",
+    "babel-preset-razzle": "4.2.8",
     "webpack-dev-server": "^3.11.2",
     "express": "^4.17.1",
     "react": "^17.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-tailwindcss",
-  "version": "4.2.7",
+  "version": "4.2.8",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,12 +17,12 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "razzle": "4.2.7",
-    "razzle-dev-utils": "4.2.7",
+    "razzle": "4.2.8",
+    "razzle-dev-utils": "4.2.8",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.2.7",
+    "babel-preset-razzle": "4.2.8",
     "webpack-dev-server": "^3.11.2",
     "postcss": "^8.2.4",
     "autoprefixer": "^10.2.3",
