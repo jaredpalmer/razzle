@@ -1,14 +1,16 @@
-import { Configuration } from "webpack";
-import loadPlugins from "razzle/loaders/plugins";
 
 import {
   Webpack5PluginOptions,
-  Webpack5RazzlePlugin,
+  Webpack5RazzlePlugin
 } from "./types";
+import defaultOptions from "./defaultOptions.js";
+import createConfig from "./createConfig.js";
+
 import path from "path";
 
 const Plugin: Webpack5RazzlePlugin = {
   name: "webpack5",
+  defaultOptions: defaultOptions,
   modifyRazzleContext: (pluginOptions, razzleContext) => {
     const {
       paths: { appPath },
@@ -41,7 +43,14 @@ const Plugin: Webpack5RazzlePlugin = {
             describe: "the URL to open",
           });
         },
-        async (argv) => {}
+        async (argv) => {
+         const configs = await createConfig(pluginOptions, razzleConfig, razzleContext);
+         if (configs.devServerConfiguration) {
+           // start devserver
+         } else {
+           // start watching
+         }
+        }
       );
     },
     build: (argv, pluginOptions, razzleConfig, razzleContext) => {

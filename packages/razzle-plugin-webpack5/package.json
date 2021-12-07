@@ -39,7 +39,11 @@
         "webpack"
     ],
     "dependencies": {
+        "razzle": "5.0.0-alpha.0",
         "webpack": "^5.64.4",
-        "razzle": "5.0.0-alpha.0"
+        "webpack-dev-server": "^4.6.0"
+    },
+    "devDependencies": {
+        "@types/webpack-dev-server": "^4.5.0"
     }
 }

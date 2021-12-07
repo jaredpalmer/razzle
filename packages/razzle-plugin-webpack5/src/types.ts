@@ -1,4 +1,5 @@
 import { Configuration } from "webpack";
+import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import {
   RazzleConfigInt,
   RazzleContextInt,
@@ -18,6 +19,11 @@ export interface Webpack5RazzleConfigInt<T, U, Q> {
     webpackOptions: Q,
     webpackConfig: Configuration
   ) => Promise<Configuration> | Configuration;
+  modifyDevserverConfig?: (
+    razzleConfig: T,
+    razzleContext: U,
+    devServerConfig: DevServerConfiguration
+  ) => Promise<DevServerConfiguration> | DevServerConfiguration;
 }
 
 export interface Webpack5RazzlePluginInt<S, T, U, Q>
@@ -35,6 +41,12 @@ export interface Webpack5RazzlePluginInt<S, T, U, Q>
     webpackOptions: Q,
     webpackConfig: Configuration
   ) => Promise<Configuration> | Configuration;
+  modifyDevserverConfig?: (
+    pluginOptions: S,
+    razzleConfig: T,
+    razzleContext: U,
+    devServerConfig: DevServerConfiguration
+  ) => Promise<DevServerConfiguration> | DevServerConfiguration;
 }
 
 export interface Webpack5RazzleContextInt<U extends string>
@@ -72,13 +84,13 @@ export type Webpack5DefinePluginDefines = "process.env.NODE_ENV";
 export type Webpack5Options = Webpack5OptionsInt<Webpack5DefinePluginDefines>;
 
 export type Webpack5RazzleConfig = RazzleConfigInt<
-  Webpack5RazzleConfig,
+  Webpack5ChildConfig,
   Webpack5RazzleContext
 >;
 
 export type Webpack5RazzlePlugin = RazzlePluginInt<
   Webpack5PluginOptions,
-  Webpack5RazzleConfig,
+  Webpack5ChildConfig,
   Webpack5RazzleContext
 >;
 
