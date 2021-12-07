@@ -72,6 +72,8 @@ export interface Webpack5PluginOptions {
 export type Webpack5RazzlePathNames =
   | RazzlePathNames
   | "srcPath"
+  | "appBuild"
+  | "appBuildPublic"
   | "appServerIndex"
   | "appServerPath"
   | "appClientPath";

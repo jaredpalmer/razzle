@@ -14,10 +14,13 @@ const Plugin: Webpack5RazzlePlugin = {
       paths: { appPath },
     } = razzleContext;
     const srcPath = path.join(appPath, "src");
+    const appBuild = path.join(appPath, "build");
 
     razzleContext.paths = {
       ...razzleContext.paths,
       srcPath: srcPath,
+      appBuild: appBuild,
+      appBuildPublic: path.join(appBuild, "public"),
       appServerIndex: path.join(srcPath, "index"),
       appServerPath: path.join(srcPath, "server"),
       appClientPath: path.join(srcPath, "client"),
