@@ -41,7 +41,7 @@ export type RazzlePlugin = RazzlePluginInt<Record<string, unknown>, RazzleConfig
 
 export interface RazzlePluginInt<Q, T, U> {
   name: string;
-  defaultOptions?: Q,
+  defaultOptions?: Q;
   modifyRazzleContext?: (pluginOptions: Q, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,

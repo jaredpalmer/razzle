@@ -1,8 +1,6 @@
-
-import {
-  Webpack5PluginOptions,
-  Webpack5RazzlePlugin
-} from "./types";
+import Webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
+import { Webpack5PluginOptions, Webpack5RazzlePlugin } from "./types";
 import defaultOptions from "./defaultOptions.js";
 import createConfig from "./createConfig.js";
 
@@ -28,7 +26,7 @@ const Plugin: Webpack5RazzlePlugin = {
     razzleContext = {
       ...razzleContext,
       webBuilds: pluginOptions.webBuilds,
-      nodeBuilds: pluginOptions.nodeBuilds
+      nodeBuilds: pluginOptions.nodeBuilds,
     };
     return razzleContext;
   },
@@ -44,12 +42,41 @@ const Plugin: Webpack5RazzlePlugin = {
           });
         },
         async (argv) => {
-         const configs = await createConfig(pluginOptions, razzleConfig, razzleContext);
-         if (configs.devServerConfiguration) {
-           // start devserver
-         } else {
-           // start watching
-         }
+          const configs = await createConfig(
+            pluginOptions,
+            razzleConfig,
+            razzleContext,
+            true
+          );
+          const compiler = Webpack(
+            configs.configurations.map((config) => config[0])
+          );
+          if (configs.devServerConfiguration) {
+            const server = new WebpackDevServer(
+              configs.devServerConfiguration,
+              compiler
+            );
+
+            const runServer = async () => {
+              console.log("Starting server...");
+              await server.start();
+            };
+
+            runServer();
+          } else {
+            compiler.watch(
+              {
+                // Example [watchOptions](/configuration/watch/#watchoptions)
+                aggregateTimeout: 300,
+                poll: undefined,
+              },
+              (err, stats) => {
+                // [Stats Object](#stats-object)
+                // Print watch/build result here...
+                console.log(stats);
+              }
+            );
+          }
         }
       );
     },
@@ -63,5 +90,8 @@ export default function (options: Webpack5PluginOptions): {
   plugin: Webpack5RazzlePlugin;
   options: Webpack5PluginOptions;
 } {
-  return { plugin: Plugin, options: options };
+  return {
+    plugin: Plugin,
+    options: { ...(Plugin.defaultOptions || {}), ...options },
+  };
 }

@@ -1,3 +1,4 @@
+import path from "path";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
@@ -23,13 +24,14 @@ export default async (
   let nodeBuilds = razzleContext.nodeBuilds;
   let allBuilds = new Set(
     [...webBuilds, ...nodeBuilds].filter(
-      (build) => !isDevServer || build == devBuild
+      (build) => isDevServer && build !== devBuild
     )
   );
+  console.log(Array.from(allBuilds));
   let shouldUseDevserver = isDevServer;
   let webpackConfigs: Array<[Configuration, Webpack5Options]> = [];
 
-  for (const buildName in allBuilds) {
+  for (const buildName in Array.from(allBuilds)) {
     let webOnly =
       webBuilds.some((build) => build == buildName) &&
       !nodeBuilds.some((build) => build == buildName);
@@ -40,7 +42,25 @@ export default async (
     shouldUseDevserver = shouldUseDevserver && !nodeOnly;
 
     if (!nodeOnly) {
-      let webpackConfig: Configuration = { name: `web-${buildName}` };
+      let webpackConfig: Configuration = {
+        name: `web-${buildName}`,
+        // Path to your entry point. From this file Webpack will begin its work
+        entry: razzleContext.paths.appClientPath,
+
+        // Path and filename of your result bundle.
+        // Webpack will bundle all JavaScript into this file
+        output: {
+          path: path.resolve(razzleContext.paths.appPath, "build"),
+          publicPath: "",
+          filename: "client.js",
+        },
+
+        // Default mode for Webpack is production.
+        // Depending on mode Webpack will apply different things
+        // on the final bundle. For now, we don't need production's JavaScript
+        // minifying and other things, so let's set mode to development
+        mode: "development",
+      };
       let webpackOptions: Partial<Webpack5Options> = {
         isWeb: true,
         isNode: false,
@@ -77,7 +97,25 @@ export default async (
       webpackConfigs.push([webpackConfig, <Webpack5Options>webpackOptions]);
     }
     if (!webOnly) {
-      let webpackConfig: Configuration = { name: `node-${buildName}` };
+      let webpackConfig: Configuration = {
+        name: `node-${buildName}`,
+        // Path to your entry point. From this file Webpack will begin its work
+        entry: razzleContext.paths.appServerPath,
+
+        // Path and filename of your result bundle.
+        // Webpack will bundle all JavaScript into this file
+        output: {
+          path: path.resolve(razzleContext.paths.appPath, "build"),
+          publicPath: "",
+          filename: "server.js",
+        },
+
+        // Default mode for Webpack is production.
+        // Depending on mode Webpack will apply different things
+        // on the final bundle. For now, we don't need production's JavaScript
+        // minifying and other things, so let's set mode to development
+        mode: "development",
+      };
 
       let webpackOptions: Partial<Webpack5Options> = {
         isWeb: true,
@@ -112,14 +150,23 @@ export default async (
         );
       }
       if (!nodeOnly) {
-        webpackConfig.dependencies = [`web-${devBuild}`];
+        webpackConfig.dependencies = [`web-${buildName}`];
       }
 
       webpackConfigs.push([webpackConfig, <Webpack5Options>webpackOptions]);
     }
   }
   if (shouldUseDevserver) {
-    let devServerConfiguration: DevServerConfiguration = {};
+    let devServerConfiguration: DevServerConfiguration = {
+      static: {
+        directory: path.join(razzleContext.paths.appPath, "public"),
+      },
+      compress: true,
+      client: {
+        logging: "info",
+      },
+      port: 9000,
+    };
 
     // run plugin/config hooks
     for (const {
