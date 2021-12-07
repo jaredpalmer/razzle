@@ -2,8 +2,6 @@ import { Configuration } from "webpack";
 import loadPlugins from "razzle/loaders/plugins";
 
 import {
-  AnonyomusWebpack5RazzlePlugin,
-  Webpack5Options,
   Webpack5PluginOptions,
   Webpack5RazzlePlugin,
 } from "./types";

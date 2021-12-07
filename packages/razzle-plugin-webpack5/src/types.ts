@@ -1,15 +1,10 @@
 import { Configuration } from "webpack";
 import {
-  BaseRazzleConfig,
-  BaseRazzlePlugin,
   RazzleConfigInt,
-  RazzleContext,
   RazzleContextInt,
   RazzlePathNames,
-  RazzlePaths,
   RazzlePluginInt,
 } from "razzle/types";
-import { type } from "os";
 
 export interface Webpack5RazzleConfigInt<T, U, Q> {
   modifyWebpackOptions?: (
