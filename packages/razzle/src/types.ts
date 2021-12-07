@@ -1,14 +1,9 @@
-import { Arguments, Argv } from "yargs";
+import { Argv } from "yargs";
 
 export type RazzleOptions = {
   verbose?: boolean;
   debug?: boolean;
 };
-
-export type RazzleConfigAtleastOne =
-  | "modifyRazzleContext"
-  | "addCommands"
-  | "options";
 
 export type RazzlePathNames =
   | "dotenv"
@@ -20,49 +15,31 @@ export type RazzlePathNames =
   | "ownPath"
   | "ownNodeModules";
 
-export type RazzlePaths<T extends string = RazzlePathNames> = Record<T, string>;
+export type RazzlePaths<T extends string = string> = Record<T, string>;
 
-export interface RazzleContext<U = RazzlePaths> {
-  paths: U;
+export interface RazzleContextInt<U extends string> {
+  paths: RazzlePaths<U>;
   razzleOptions: RazzleOptions;
   plugins: Array<PluginWithOptions>;
 }
 
-export type RazzleConfig = BaseRazzleConfig<RazzleConfig>;
+export type RazzleContext<T extends string = string> = RazzleContextInt<T>;
 
-export interface BaseRazzleConfig<
-  T = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U = RazzleContext
-> {
+export type RazzleConfig = RazzleConfigInt<RazzleConfig, RazzleContext<RazzlePathNames>>;
+
+export interface RazzleConfigInt<T, U extends RazzleContext> {
   options?: RazzleOptions;
   plugins: Array<PluginUnion>;
   modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
-    {
-      parser: (
-        argv: Argv,
-        razzleConfig: T,
-        razzleContext: U,
-        handler: (argv: Arguments) => void
-      ) => Argv;
-      handler: (razzleConfig: T, razzleContext: U) => (argv: Arguments) => void;
-    }
+    (argv: Argv, razzleConfig: T, razzleContext: U) => Argv
   >;
 }
 
-export interface BaseRazzlePluginOptions {}
+export type RazzlePlugin = RazzlePluginInt<Record<string, string>, RazzleConfig, RazzleContext<RazzlePathNames>>;
 
-export type RazzlePlugin = BaseRazzlePlugin<
-  BaseRazzlePluginOptions,
-  RazzleConfig
->;
-
-export interface BaseRazzlePlugin<
-  Q,
-  T = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U = RazzleContext
-> {
+export interface RazzlePluginInt<Q, T, U> {
   name: string;
   modifyRazzleContext?: (pluginOptions: Q, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
@@ -70,6 +47,7 @@ export interface BaseRazzlePlugin<
     (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U) => Argv
   >;
 }
+
 export type PluginWithOptions = {
   plugin: unknown;
   options: Record<string, unknown>;

@@ -1,9 +1,14 @@
-import yargs from "yargs";
+import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
 import loadPlugins from "./loaders/plugins.js";
-import { BaseRazzlePlugin, BaseRazzlePluginOptions, PluginWithOptions } from "./types";
+import {
+  RazzlePlugin,
+  RazzleConfig,
+  RazzleContext,
+  PluginWithOptions,
+} from "./types";
 
 export async function cli(): Promise<void>;
 export async function cli() {
@@ -14,47 +19,62 @@ export async function cli() {
     razzleConfig.plugins
   );
 
-  const parsers = {};
-  for (const { plugin } of plugins) {
-    // Check if plugin.modifyPaths is a function.
-    // If it is, call it on the paths we created.
-    if (plugin.addCommands) {
-      for (const command in plugin.addCommands) {
-        parsers[command] = plugin.addCommands[command].parser;
-      }
-    }
-  }
-  if (razzleConfig.addCommands) {
-    for (const command in razzleConfig.addCommands) {
-      parsers[command] = razzleConfig.addCommands[command].parser;
-    }
-  }
+  type PluginParser = (
+    argv: Argv,
+    pluginOptions: Record<string, unknown>,
+    razzleConfig: RazzleConfig,
+    razzleContext: RazzleContext
+  ) => Argv;
+  type ConfigParser = (
+    argv: Argv,
+    razzleConfig: RazzleConfig,
+    razzleContext: RazzleContext
+  ) => Argv;
 
-  const handlers = {};
-  for (const { plugin } of plugins) {
-    // Check if plugin.modifyPaths is a function.
-    // If it is, call it on the paths we created.
-    if (plugin.addCommands) {
-      for (const command in plugin.addCommands) {
-        handlers[command] = plugin.addCommands[command].handler;
+  const parsers: Record<
+    string,
+    {
+      options?: Record<string, unknown>;
+      parser: PluginParser | ConfigParser;
+    }
+  > = {};
+  for (const { plugin, options: chilPluginOptios } of plugins) {
+    // Check if plugin.addCommands is a object.
+    // If it is, add all keys as a function to parsers.
+    if ((<RazzlePlugin>plugin).addCommands) {
+      for (const command in (<RazzlePlugin>plugin).addCommands) {
+        parsers[command] = {
+          options: chilPluginOptios,
+          parser: (<Required<RazzlePlugin>>plugin).addCommands[command],
+        };
       }
     }
   }
   if (razzleConfig.addCommands) {
     for (const command in razzleConfig.addCommands) {
-      handlers[command] = razzleConfig.addCommands[command].handler;
+      parsers[command] = {
+        parser: razzleConfig.addCommands[command],
+      };
     }
   }
 
   let argv = yargs(hideBin(process.argv)).scriptName("razzle");
 
   for (const command in parsers) {
-    argv = parsers[command](
-      argv,
-      razzleConfig,
-      razzleContext,
-      handlers[command](razzleConfig, razzleContext)
-    );
+    if (parsers[command].options) {
+      argv = (<PluginParser>parsers[command].parser)(
+        argv,
+        <Record<string, unknown>>parsers[command].options,
+        razzleConfig,
+        razzleContext
+      );
+    } else {
+      argv = (<ConfigParser>parsers[command].parser)(
+        argv,
+        razzleConfig,
+        razzleContext
+      );
+    }
   }
   argv.parse();
 }
