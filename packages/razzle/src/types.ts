@@ -37,7 +37,7 @@ export interface RazzleConfigInt<T, U extends RazzleContext> {
   >;
 }
 
-export type RazzlePlugin = RazzlePluginInt<Record<string, string>, RazzleConfig, RazzleContext<RazzlePathNames>>;
+export type RazzlePlugin = RazzlePluginInt<Record<string, unknown>, RazzleConfig, RazzleContext<RazzlePathNames>>;
 
 export interface RazzlePluginInt<Q, T, U> {
   name: string;
