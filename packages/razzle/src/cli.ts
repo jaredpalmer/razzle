@@ -3,16 +3,13 @@ import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
 import loadPlugins from "./loaders/plugins.js";
-import { BaseRazzlePlugin, BaseRazzlePluginOptions } from "./types";
+import { BaseRazzlePlugin, BaseRazzlePluginOptions, PluginWithOptions } from "./types";
 
 export async function cli(): Promise<void>;
 export async function cli() {
   const { razzleConfig, razzleContext } = await loadConfig();
 
-  const plugins: Array<{
-    plugin: BaseRazzlePlugin;
-    options: BaseRazzlePluginOptions;
-  }> = await loadPlugins(
+  const plugins: Array<PluginWithOptions> = await loadPlugins(
     razzleContext.paths.ownNodeModules,
     razzleConfig.plugins
   );

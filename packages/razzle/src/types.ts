@@ -20,26 +20,22 @@ export type RazzlePathNames =
   | "ownPath"
   | "ownNodeModules";
 
-export type RazzlePaths = Record<RazzlePathNames, string>;
+export type RazzlePaths<T extends string = RazzlePathNames> = Record<T, string>;
 
 export interface RazzleContext<U = RazzlePaths> {
-  paths: RazzlePaths;
+  paths: U;
   razzleOptions: RazzleOptions;
-  pluginsOptions: Record<string, unknown>;
+  plugins: Array<PluginWithOptions>;
 }
 
 export type RazzleConfig = BaseRazzleConfig<RazzleConfig>;
 
 export interface BaseRazzleConfig<
-  T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
+  T = BaseRazzleConfig<RazzleConfig, RazzleContext>,
   U = RazzleContext
 > {
   options?: RazzleOptions;
-  plugins?: Array<
-    | string
-    | { name: string; options: BaseRazzlePluginOptions }
-    | { plugin: BaseRazzlePlugin<T>; options: BaseRazzlePluginOptions }
-  >;
+  plugins: Array<PluginUnion>;
   modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
@@ -54,102 +50,41 @@ export interface BaseRazzleConfig<
     }
   >;
 }
-
-export type RazzlePlugin = BaseRazzlePlugin<RazzleConfig>;
 
 export interface BaseRazzlePluginOptions {}
 
+export type RazzlePlugin = BaseRazzlePlugin<
+  BaseRazzlePluginOptions,
+  RazzleConfig
+>;
+
 export interface BaseRazzlePlugin<
-  T extends BaseRazzleConfig = BaseRazzleConfig<RazzleConfig, RazzleContext>,
-  U = RazzleContext,
-  Q extends BaseRazzlePluginOptions = BaseRazzlePluginOptions
+  Q,
+  T = BaseRazzleConfig<RazzleConfig, RazzleContext>,
+  U = RazzleContext
 > {
   name: string;
-  options?: Q;
-  modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
+  modifyRazzleContext?: (pluginOptions: Q, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
-    {
-      parser: (
-        argv: Argv,
-        razzleConfig: T,
-        razzleContext: U,
-        handler: (argv: Arguments) => void
-      ) => Argv;
-      handler: (razzleConfig: T, razzleContext: U) => (argv: Arguments) => void;
-    }
+    (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U) => Argv
   >;
 }
-/* 
-
-interface BaseCustomRazzleConfig {
-  try?: string;
-}
-interface CustomRazzleConfig extends BaseCustomRazzleConfig, BaseRazzleConfig {}
-
-interface CustomRazzlePlugin extends BaseRazzlePlugin<CustomRazzleConfig> {
-  try?: string;
-}
-
-const tryit3: CustomRazzlePlugin = {
-  name: "custom",
-  addCommands: {
-    build: {
-      parser: (argv, razzleConfig, razzleContext, handler) => {
-        return argv;
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return (argv) => {};
-      },
-    },
-  },
+export type PluginWithOptions = {
+  plugin: unknown;
+  options: Record<string, unknown>;
 };
-
-const plugin = (
-  options: BaseRazzlePluginOptions
-): { plugin: CustomRazzlePlugin; options: BaseRazzlePluginOptions } => {
-  return { plugin: tryit3, options: {} };
+export type PluginNameWithOptions = {
+  name: string;
+  options: Record<string, unknown>;
 };
+export type PluginName = string;
 
-const tryit2: RazzlePlugin = {
-  name: "try",
-  addCommands: {
-    build: {
-      parser: (argv, razzleConfig, razzleContext, handler) => {
-        return argv;
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return (argv) => {};
-      },
-    },
-  },
-};
+export type PluginFunction =
+  | ((options: Record<string, unknown>) => PluginWithOptions)
+  | null;
 
-const tryit1: RazzleConfig = {
-  plugins: [{ plugin: tryit2, options: {} }],
-  addCommands: {
-    build: {
-      parser: (argv, razzleConfig, razzleContext, handler) => {
-        return argv;
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return (argv) => {};
-      },
-    },
-  },
-};
-
-const tryit: RazzleConfig = {
-  plugins: [{ plugin: tryit2, options: {} }, plugin({})],
-  addCommands: {
-    build: {
-      parser: (argv, razzleConfig, razzleContext, handler) => {
-        return argv;
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return (argv) => {};
-      },
-    },
-  },
-};
- */
+export type PluginUnion =
+  | PluginName
+  | PluginWithOptions
+  | PluginNameWithOptions;

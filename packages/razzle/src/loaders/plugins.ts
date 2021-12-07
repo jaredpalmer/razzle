@@ -1,33 +1,17 @@
 import path from "path";
 
 import buildResolver from "esm-resolve";
-
 import {
-  BaseRazzlePlugin,
-  BaseRazzlePluginOptions,
-  RazzleConfig,
-  RazzleContext,
-  RazzleOptions,
-} from "../types.js";
-
-type PluginWithOptions = {
-  plugin: BaseRazzlePlugin;
-  options: BaseRazzlePluginOptions;
-};
-type PluginNameWithOptions = {
-  name: string;
-  options: BaseRazzlePluginOptions;
-};
-type PluginName = string;
-
-type PluginFunction =
-  | ((options: BaseRazzlePluginOptions) => PluginWithOptions)
-  | null;
+  PluginFunction,
+  PluginNameWithOptions,
+  PluginUnion,
+  PluginWithOptions,
+} from "razzle/types";
 
 export async function loadPlugin(
   configPath: string,
-  plugin: PluginName | PluginNameWithOptions | PluginWithOptions
-) {
+  plugin: PluginUnion
+): Promise<PluginWithOptions> {
   const r = buildResolver(configPath);
 
   if (typeof plugin === "string") {
@@ -46,12 +30,14 @@ export async function loadPlugin(
   }
 
   const isScopedPlugin =
-    (<PluginNameWithOptions>plugin).name.startsWith("@") &&
-    (<PluginNameWithOptions>plugin).name.includes("/");
+    (<PluginNameWithOptions>(<unknown>plugin)).name.startsWith("@") &&
+    (<PluginNameWithOptions>(<unknown>plugin)).name.includes("/");
   let scope;
   let scopedPluginName;
   if (isScopedPlugin) {
-    const pluginNameParts = (<PluginNameWithOptions>plugin).name.split("/");
+    const pluginNameParts = (<PluginNameWithOptions>(
+      (<unknown>plugin)
+    )).name.split("/");
     scope = pluginNameParts[0];
     scopedPluginName = pluginNameParts[1];
   }
@@ -86,16 +72,10 @@ export async function loadPlugin(
   return <PluginWithOptions>razzlePlugin(plugin.options);
 }
 
-export default async function (
+export default async (
   configPath: string,
-  plugins:
-    | Array<
-        | string
-        | { plugin: BaseRazzlePlugin; options: BaseRazzlePluginOptions }
-        | { name: string; options: BaseRazzlePluginOptions }
-      >
-    | undefined
-) {
+  plugins: Array<PluginUnion>
+): Promise<Array<PluginWithOptions>> => {
   return (
     (plugins &&
       (await Promise.all(
@@ -103,4 +83,4 @@ export default async function (
       ))) ||
     []
   );
-}
+};

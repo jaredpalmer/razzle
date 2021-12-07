@@ -2,12 +2,16 @@ import { Configuration } from "webpack";
 import {
   BaseRazzleConfig,
   BaseRazzlePlugin,
-  BaseRazzlePluginOptions,
+  RazzleConfigInt,
   RazzleContext,
+  RazzleContextInt,
+  RazzlePathNames,
   RazzlePaths,
+  RazzlePluginInt,
 } from "razzle/types";
+import { type } from "os";
 
-export interface BaseWebpack5RazzleConfig<T, U, Q> {
+export interface Webpack5RazzleConfigInt<T, U, Q> {
   modifyWebpackOptions?: (
     razzleConfig: T,
     razzleContext: U,
@@ -21,13 +25,16 @@ export interface BaseWebpack5RazzleConfig<T, U, Q> {
   ) => Promise<Configuration> | Configuration;
 }
 
-export interface BaseWebpack5RazzlePlugin<T, U, Q> {
+export interface Webpack5RazzlePluginInt<S, T, U, Q>
+  extends RazzlePluginInt<S, T, U> {
   modifyWebpackOptions?: (
+    pluginOptions: S,
     razzleConfig: T,
     razzleContext: U,
     webpackOptions: Q
   ) => Promise<Q> | Q;
   modifyWebpackConfig?: (
+    pluginOptions: S,
     razzleConfig: T,
     razzleContext: U,
     webpackOptions: Q,
@@ -35,41 +42,60 @@ export interface BaseWebpack5RazzlePlugin<T, U, Q> {
   ) => Promise<Configuration> | Configuration;
 }
 
-export interface Webpack5Options {
+export interface Webpack5RazzleContextInt<U extends string>
+  extends RazzleContextInt<U> {
+  devBuild: string;
+  webBuilds: Array<string>;
+  nodeBuilds: Array<string>;
+}
+
+export interface Webpack5OptionsInt<T extends string> {
   readonly isWeb: boolean;
   readonly isNode: boolean;
-  readonly isServerless: boolean;
+  buildName: string;
+  definePluginOptions: Record<T, string>;
 }
 
-export type Webpack5RazzlePaths = "some" | "paths";
+export interface Webpack5PluginOptions {
+  devBuild: string;
+  webBuilds: Array<string>;
+  nodeBuilds: Array<string>;
+}
 
-export interface Webpack5RazzleContext
-  extends RazzleContext<RazzlePaths | Webpack5RazzlePaths> {}
+export type Webpack5RazzlePathNames =
+  | RazzlePathNames
+  | "srcPath"
+  | "appServerIndex"
+  | "appServerPath"
+  | "appClientPath";
 
-export interface Webpack5PluginOptions {}
+export type Webpack5RazzleContext =
+  Webpack5RazzleContextInt<Webpack5RazzlePathNames>;
 
-export type Webpack5RazzleConfigAlias = Webpack5RazzleConfig<Webpack5RazzleConfigAlias>;
+export type Webpack5DefinePluginDefines = "process.env.NODE_ENV";
 
-export interface Webpack5RazzleConfig<T> extends BaseRazzleConfig<T, Webpack5RazzleContext> {}
+export type Webpack5Options = Webpack5OptionsInt<Webpack5DefinePluginDefines>;
 
-export interface Webpack5RazzlePlugin extends BaseRazzlePlugin<Webpack5RazzleConfigAlias, Webpack5RazzleContext> {}
+export type Webpack5RazzleConfig = RazzleConfigInt<
+  Webpack5RazzleConfig,
+  Webpack5RazzleContext
+>;
 
-/*
-export type MyWebpack5RazzleConfigAlias =
-  MyWebpack5RazzleConfig<MyWebpack5RazzleConfig>;
+export type Webpack5RazzlePlugin = RazzlePluginInt<
+  Webpack5PluginOptions,
+  Webpack5RazzleConfig,
+  Webpack5RazzleContext
+>;
 
-export interface MyWebpack5RazzleConfig<
-  T = Webpack5RazzleConfigAlias,
-  Q = Webpack5Options,
-  U = Webpack5RazzleContext
-> extends BaseRazzleConfig<T, U>,
-    BaseWebpack5RazzleConfig<T, U, Q> {}
+export type Webpack5ChildConfig = Webpack5RazzleConfigInt<
+  Webpack5ChildConfig,
+  Webpack5RazzleContext,
+  Webpack5Options
+>;
 
-export interface MyWebpack5RazzlePlugin<
-  Q = Webpack5RazzleConfigAlias,
-  U = Webpack5Options,
-  T = Webpack5RazzleContext,
-  W = Webpack5PluginOptions
-> extends BaseRazzlePlugin<Q, T, W>,
-    BaseWebpack5RazzlePlugin<Q, T, U> {}
-*/
+export type Webpack5ChildPlugin = Webpack5RazzlePluginInt<
+  Record<string, unknown>,
+  Webpack5ChildConfig,
+  Webpack5RazzleContext,
+  Webpack5Options
+>;

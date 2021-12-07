@@ -1,82 +1,53 @@
 import { Configuration } from "webpack";
-import  loadPlugins from "razzle/loaders/plugins";
+import loadPlugins from "razzle/loaders/plugins";
 
 import {
+  AnonyomusWebpack5RazzlePlugin,
   Webpack5Options,
   Webpack5PluginOptions,
   Webpack5RazzlePlugin,
 } from "./types";
+import path from "path";
 
 const Plugin: Webpack5RazzlePlugin = {
   name: "webpack5",
+  modifyRazzleContext: (pluginOptions, razzleContext) => {
+    const {
+      paths: { appPath },
+    } = razzleContext;
+    const srcPath = path.join(appPath, "src");
+
+    razzleContext.paths = {
+      ...razzleContext.paths,
+      srcPath: srcPath,
+      appServerIndex: path.join(srcPath, "index"),
+      appServerPath: path.join(srcPath, "server"),
+      appClientPath: path.join(srcPath, "client"),
+    };
+
+    razzleContext = {
+      ...razzleContext,
+      webBuilds: pluginOptions.webBuilds,
+      nodeBuilds: pluginOptions.nodeBuilds
+    };
+    return razzleContext;
+  },
   addCommands: {
-    start: {
-      parser: (argv, razzleConfig, razzleContext, handler) => {
-        return argv.command(
-          "start",
-          "start the webpack devserver",
-          function (yargs) {
-            return yargs.option("u", {
-              alias: "url",
-              describe: "the URL to open",
-            });
-          },
-          handler
-        );
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return async (argv) => {
-          let devBuild = "default";
-          let webBuilds = ["default"];
-          let nodeBuilds = ["default"];
-          let webOnly =
-            webBuilds.some((build) => build == devBuild) &&
-            !nodeBuilds.some((build) => build == devBuild);
-          let nodeOnly =
-            !webBuilds.some((build) => build == devBuild) &&
-            nodeBuilds.some((build) => build == devBuild);
-          let webpackConfigs: Array<Configuration> = [];
-
-          //  let devserverConfig:
-
-          const plugins: Array<{
-            plugin: Webpack5RazzlePlugin;
-            options: Webpack5PluginOptions;
-          }> = await loadPlugins(
-            razzleContext.paths.ownNodeModules,
-            razzleConfig.plugins
-          );
-
-          if (!nodeOnly) {
-            let webpackConfig: Configuration = { name: `web-${devBuild}` };
-            let webpackOptions: Webpack5Options = {isWeb: true, isNode: false, isServerless: false};
-            // run plugin/config hooks
-            webpackConfigs.push(webpackConfig);
-          }
-          if (!webOnly) {
-            let webpackConfig: Configuration = { name: `node-${devBuild}` };
-            let webpackOptions: Webpack5Options = {isWeb: false, isNode: true, isServerless: false};
-            // run plugin/config hooks
-            if (!nodeOnly) {
-              webpackConfig.dependencies = [`web-${devBuild}`];
-            }
-            webpackConfigs.push(webpackConfig);
-          }
-          if (!nodeOnly) {
-            // start devserver
-          } else {
-            // start watching
-          }
-        };
-      },
+    start: (argv, pluginOptions, razzleConfig, razzleContext) => {
+      return argv.command(
+        "start",
+        "start the webpack devserver",
+        function (yargs) {
+          return yargs.option("u", {
+            alias: "url",
+            describe: "the URL to open",
+          });
+        },
+        async (argv) => {}
+      );
     },
-    build: {
-      parser: (argv, razzleConfig, razzleContext) => {
-        return argv;
-      },
-      handler: (razzleConfig, razzleContext) => {
-        return (argv) => {};
-      },
+    build: (argv, pluginOptions, razzleConfig, razzleContext) => {
+      return argv;
     },
   },
 };

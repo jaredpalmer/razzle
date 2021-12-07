@@ -1,16 +1,11 @@
 import fs from "fs";
 
+import { RazzlePlugin } from "razzle/index.js";
+
 import setupEnvironment from "../env.js";
 import logger from "../logger.js";
 import defaultPaths from "../paths.js";
-import {
-  BaseRazzlePlugin,
-  BaseRazzlePluginOptions,
-  RazzleConfig,
-  RazzleContext,
-  RazzleOptions,
-  RazzlePlugin,
-} from "../types.js";
+import { RazzleConfig, RazzleContext, RazzleOptions } from "../types.js";
 
 import loadPlugins from "./plugins.js";
 
@@ -19,7 +14,7 @@ export default (
   packageJsonIn?: unknown | undefined
 ): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext }> =>
   new Promise(async (resolve) => {
-    let razzleConfig: RazzleConfig = razzleConfigIn || {};
+    let razzleConfig: RazzleConfig = razzleConfigIn || { plugins: [] };
     let packageJson = packageJsonIn || {};
     // Check for razzle.config.js file
     if (fs.existsSync(defaultPaths.appRazzleConfig + ".js")) {
@@ -53,23 +48,19 @@ export default (
     let razzleContext: RazzleContext = {
       paths: defaultPaths,
       razzleOptions: razzleOptions,
-      pluginsOptions: {},
+      plugins: await loadPlugins(
+        defaultPaths.ownNodeModules,
+        razzleConfig.plugins
+      ),
     };
 
-    const plugins: Array<{
-      plugin: BaseRazzlePlugin;
-      options: BaseRazzlePluginOptions;
-    }> = await loadPlugins(
-      razzleContext.paths.ownNodeModules,
-      razzleConfig.plugins
-    );
-
-    for (const { plugin, options: pluginOptions } of plugins) {
+    for (const { plugin, options: pluginOptions } of razzleContext.plugins) {
       // Check if plugin.modifyRazzleContext is a function.
       // If it is, call it on the context we created.
-      razzleContext.pluginsOptions[plugin.name] = pluginOptions;
-      if (plugin.modifyRazzleContext) {
-        razzleContext = await plugin.modifyRazzleContext(razzleContext);
+      if ((<RazzlePlugin>plugin).modifyRazzleContext) {
+        razzleContext = await (<Required<RazzlePlugin>>(
+          plugin
+        )).modifyRazzleContext(pluginOptions, razzleContext);
       }
     }
     if (razzleConfig.modifyRazzleContext) {
