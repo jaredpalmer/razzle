@@ -142,8 +142,8 @@ export default async (
     }
     if (!webOnly) {
       let webpackOptions: Webpack5Options = {
-        isWeb: true,
-        isNode: false,
+        isWeb: false,
+        isNode: true,
         isDevEnv: true,
         isDev: true,
         isProd: false,
