@@ -37,7 +37,7 @@ export type Webpack5ExternalsConfig = Webpack5RazzleConfigInt<
   Webpack5ExternalsOptions
 >;
 
-export type Webpack5ExternalsPlugin = Webpack5RazzlePluginInt<
+export type Webpack5ExternalsRazzlePlugin = Webpack5RazzlePluginInt<
   Webpack5ExternalsPluginOptions,
   Webpack5ExternalsConfig,
   Webpack5ExternalsRazzleContext,
