@@ -2,28 +2,23 @@ import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
-import {
-  RazzlePlugin,
-  RazzleConfig,
-  RazzleContext
-} from "./types";
+import { RazzlePlugin, RazzleConfig, RazzleContext } from "./types";
 
 export async function cli(): Promise<void>;
 export async function cli() {
   const { razzleConfig, razzleContext } = await loadConfig();
-
 
   type PluginParser = (
     argv: Argv,
     pluginOptions: Record<string, unknown>,
     razzleConfig: RazzleConfig,
     razzleContext: RazzleContext
-  ) => Argv;
+  ) => void;
   type ConfigParser = (
     argv: Argv,
     razzleConfig: RazzleConfig,
     razzleContext: RazzleContext
-  ) => Argv;
+  ) => void;
 
   const parsers: Record<
     string,
@@ -52,18 +47,29 @@ export async function cli() {
     }
   }
 
-  let argv = yargs(hideBin(process.argv)).scriptName("razzle");
+  let argv = yargs(hideBin(process.argv))
+    .scriptName("razzle")
+    .option("d", {
+      type: "boolean",
+      alias: "debug",
+      describe: "enable debug option",
+    })
+    .option("v", {
+      type: "boolean",
+      alias: "verbose",
+      describe: "enable debug option",
+    })
 
   for (const command in parsers) {
     if (parsers[command].options) {
-      argv = (<PluginParser>parsers[command].parser)(
+      (<PluginParser>parsers[command].parser)(
         argv,
         <Record<string, unknown>>parsers[command].options,
         razzleConfig,
         razzleContext
       );
     } else {
-      argv = (<ConfigParser>parsers[command].parser)(
+      (<ConfigParser>parsers[command].parser)(
         argv,
         razzleConfig,
         razzleContext

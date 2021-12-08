@@ -3,7 +3,7 @@ import {
   Webpack5ExternalsRazzlePlugin,
 } from "./types";
 import defaultOptions from "./defaultOptions.js";
-
+import { resolveExternal } from "./utils.js";
 import path from "path";
 
 export * from "./types.js";
@@ -18,6 +18,11 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
     webpackOptions,
     webpackConfig
   ) => {
+
+    if(webpackOptions.isNode) {
+
+    const looseEsmExternals = pluginOptions?.esmExternals === 'loose'
+
     async function handleExternals(
       context: string,
       request: string,
@@ -45,15 +50,13 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
       // Absolute requires (require('/foo')) are extremely uncommon, but
       // also have no need for customization as they're already resolved.
       if (!isLocal) {
-        if (/^(?:next$|react(?:$|\/))/.test(request)) {
+/*         if (/^(?:next$|react(?:$|\/))/.test(request)) {
           return `commonjs ${request}`;
         }
-
-        const notExternalModules =
-          /^(?:private-next-pages\/|next\/(?:dist\/pages\/|(?:app|document|link|image|constants|dynamic)$)|string-hash$)/;
-        if (notExternalModules.test(request)) {
+ */
+ /*        if (pluginOptions.notExternalsCallback && pluginOptions.notExternalsCallback(context, request)) {
           return;
-        }
+        } */
       }
 
       // When in esm externals mode, and using import, we resolve with
@@ -64,7 +67,7 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
         // Makes sure dist/shared and dist/server are not bundled
         // we need to process shared `router/router` and `dynamic`,
         // so that the DefinePlugin can inject process.env values
-        const isNextExternal =
+       /*  const isNextExternal =
           /next[/\\]dist[/\\](shared|server)[/\\](?!lib[/\\](router[/\\]router|dynamic))/.test(
             localRes
           );
@@ -84,16 +87,16 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
               .replace(/\\/g, "/")
           );
           return `commonjs ${externalRequest}`;
-        } else {
+        } else { */
           // We don't want to retry local requests
           // with other preferEsm options
           return;
-        }
+        // }
       };
 
       const resolveResult = await resolveExternal(
-        dir,
-        config.experimental.esmExternals,
+        razzleContext.paths.appPath,
+        pluginOptions.esmExternals,
         context,
         request,
         isEsmRequested,
@@ -121,21 +124,21 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
       }
 
       const externalType = isEsm ? "module" : "commonjs";
-
+/* 
       if (
         res.match(/next[/\\]dist[/\\]shared[/\\](?!lib[/\\]router[/\\]router)/)
       ) {
         return `${externalType} ${request}`;
       }
-
+ */
       // Default pages have to be transpiled
       if (
-        res.match(/[/\\]next[/\\]dist[/\\]/) ||
+        // res.match(/[/\\]next[/\\]dist[/\\]/) ||
         // This is the @babel/plugin-transform-runtime "helpers: true" option
         res.match(/node_modules[/\\]@babel[/\\]runtime[/\\]/)
       ) {
         return;
-      }
+      }/* 
 
       // Webpack itself has to be compiled because it doesn't always use module relative paths
       if (
@@ -144,7 +147,7 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
       ) {
         return;
       }
-
+ */
       // Anything else that is standard JavaScript within `node_modules`
       // can be externalized.
       if (/node_modules[/\\].*\.[mc]?js$/.test(res)) {
@@ -153,6 +156,74 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
 
       // Default behavior: bundle the code!
     }
+    webpackConfig.externals = 
+/*     targetWeb
+    ? // make sure importing "next" is handled gracefully for client
+      // bundles in case a user imported types and it wasn't removed
+      // TODO: should we warn/error for this instead?
+      [
+        'next',
+        ...(webServerRuntime
+          ? [{ etag: '{}', chalk: '{}', 'react-dom': '{}' }]
+          : []),
+      ]
+    : !isServerless
+    ? */
+     [
+        ({
+          context,
+          request,
+          dependencyType,
+          getResolve,
+        }: {
+          context?: string,
+          request?: string,
+          dependencyType?: string,
+          getResolve?: (
+            options: any
+          ) => (
+            resolveContext: string,
+            resolveRequest: string,
+            callback: (
+              err?: Error,
+              result?: string,
+              resolveData?: { descriptionFileData?: { type?: any } }
+            ) => void
+          ) => void
+        }) =>{
+          
+          console.log(request)
+
+          return handleExternals(<string>context, <string>request, <string>dependencyType, (options) => {
+            const resolveFunction = getResolve && getResolve(options)
+            return (resolveContext: string, requestToResolve: string) =>
+              new Promise((resolve, reject) => {
+                resolveFunction && resolveFunction(
+                  resolveContext,
+                  requestToResolve,
+                  (err, result, resolveData) => {
+                    if (err) return reject(err)
+                    if (!result) return resolve([null, false])
+                    const isEsm = /\.js$/i.test(result)
+                      ? resolveData?.descriptionFileData?.type === 'module'
+                      : /\.mjs$/i.test(result)
+                    resolve([result, isEsm])
+                  }
+                )
+              })
+          })},
+      ]
+    /* : [
+        // When the 'serverless' target is used all node_modules will be compiled into the output bundles
+        // So that the 'serverless' bundles have 0 runtime dependencies
+        'next/dist/compiled/@ampproject/toolbox-optimizer', // except this one
+
+        // Mark this as external if not enabled so it doesn't cause a
+        // webpack error from being missing
+        ...(config.experimental.optimizeCss ? [] : ['critters']),
+      ] ,*/
+    
+  }
     return webpackConfig;
   },
 };

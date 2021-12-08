@@ -1,16 +1,16 @@
 import path from "path";
+
+import buildResolver from "esm-resolve";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
 import {
-  Webpack5RazzleContext,
-  Webpack5PluginOptions,
-  Webpack5Options,
-  Webpack5ChildPlugin,
   Webpack5ChildConfig,
+  Webpack5ChildPlugin,
+  Webpack5Options,
+  Webpack5PluginOptions,
+  Webpack5RazzleContext,
 } from "./types";
-
-import buildResolver from "esm-resolve";
 
 function resolveRequest(req, issuer) {
   const basedir =
@@ -29,29 +29,66 @@ export default async (
   configurations: Array<[Configuration, Webpack5Options]>;
   devServerConfiguration?: DevServerConfiguration;
 }> => {
-  let devBuild = razzleContext.devBuild;
-  let webBuilds = razzleContext.webBuilds;
-  let nodeBuilds = razzleContext.nodeBuilds;
-  let allBuilds = new Set(
+  const devBuild = razzleContext.devBuild;
+  const webBuilds = razzleContext.webBuilds;
+  const nodeBuilds = razzleContext.nodeBuilds;
+  const allBuilds = new Set(
     [...webBuilds, ...nodeBuilds].filter(
       (build) => isDevServer && build !== devBuild
     )
   );
   console.log(Array.from(allBuilds));
   let shouldUseDevserver = isDevServer;
-  let webpackConfigs: Array<[Configuration, Webpack5Options]> = [];
+  const webpackConfigs: Array<[Configuration, Webpack5Options]> = [];
 
   for (const buildName in Array.from(allBuilds)) {
-    let webOnly =
-      webBuilds.some((build) => build == buildName) &&
-      !nodeBuilds.some((build) => build == buildName);
-    let nodeOnly =
-      !webBuilds.some((build) => build == buildName) &&
-      nodeBuilds.some((build) => build == buildName);
+    const webOnly =
+      webBuilds.some((build) => build === buildName) &&
+      !nodeBuilds.some((build) => build === buildName);
+    const nodeOnly =
+      !webBuilds.some((build) => build === buildName) &&
+      nodeBuilds.some((build) => build === buildName);
 
     shouldUseDevserver = shouldUseDevserver && !nodeOnly;
 
     if (!nodeOnly) {
+      let webpackOptions: Webpack5Options = {
+        isWeb: true,
+        isNode: false,
+        isDevEnv: true,
+        isDev: true,
+        isProd: false,
+        buildName: buildName,
+        definePluginOptions: { "process.env.NODE_ENV": "development" },
+      };
+      // run plugin/config hooks
+      for (const {
+        plugin,
+        options: childPluginOptions,
+      } of razzleContext.plugins) {
+        // Check if plugin.modifyWebpackOptions is a function.
+        // If it is, call it on the options we created.
+        if ((<Webpack5ChildPlugin>plugin).modifyWebpackOptions) {
+          webpackOptions = await (<Required<Webpack5ChildPlugin>>(
+            plugin
+          )).modifyWebpackOptions(
+            childPluginOptions,
+            razzleConfig,
+            razzleContext,
+            webpackOptions
+          );
+        }
+      }
+      if (razzleConfig.modifyWebpackOptions) {
+        // Check if razzle.modifyWebpackOptions is a function.
+        // If it is, call it on the options we created.
+        webpackOptions = await razzleConfig.modifyWebpackOptions(
+          razzleConfig,
+          razzleContext,
+          webpackOptions
+        );
+      }
+
       let webpackConfig: Configuration = {
         name: `web-${buildName}`,
         target: "web",
@@ -72,10 +109,46 @@ export default async (
         // minifying and other things, so let's set mode to development
         mode: "development",
       };
-      let webpackOptions: Partial<Webpack5Options> = {
+      // run plugin/config hooks
+      for (const {
+        plugin,
+        options: childPluginOptions,
+      } of razzleContext.plugins) {
+        // Check if plugin.modifyWebpackConfig is a function.
+        // If it is, call it on the config we created.
+        if ((<Webpack5ChildPlugin>plugin).modifyWebpackConfig) {
+          webpackConfig = await (<Required<Webpack5ChildPlugin>>(
+            plugin
+          )).modifyWebpackConfig(
+            childPluginOptions,
+            razzleConfig,
+            razzleContext,
+            webpackOptions,
+            webpackConfig
+          );
+        }
+      }
+      if (razzleConfig.modifyWebpackConfig) {
+        // Check if razzleConfig.modifyWebpackConfig is a function.
+        // If it is, call it on the config we created.
+        webpackConfig = await razzleConfig.modifyWebpackConfig(
+          razzleConfig,
+          razzleContext,
+          webpackOptions,
+          webpackConfig
+        );
+      }
+      webpackConfigs.push([webpackConfig, <Webpack5Options>webpackOptions]);
+    }
+    if (!webOnly) {
+      let webpackOptions: Webpack5Options = {
         isWeb: true,
         isNode: false,
+        isDevEnv: true,
+        isDev: true,
+        isProd: false,
         buildName: buildName,
+        definePluginOptions: { "process.env.NODE_ENV": "development" },
       };
       // run plugin/config hooks
       for (const {
@@ -83,7 +156,7 @@ export default async (
         options: childPluginOptions,
       } of razzleContext.plugins) {
         // Check if plugin.modifyWebpackOptions is a function.
-        // If it is, call it on the context we created.
+        // If it is, call it on the options we created.
         if ((<Webpack5ChildPlugin>plugin).modifyWebpackOptions) {
           webpackOptions = await (<Required<Webpack5ChildPlugin>>(
             plugin
@@ -91,23 +164,20 @@ export default async (
             childPluginOptions,
             razzleConfig,
             razzleContext,
-            <Webpack5Options>webpackOptions
+            webpackOptions
           );
         }
       }
       if (razzleConfig.modifyWebpackOptions) {
-        // Check if razzle.modifyPaths is a function.
-        // If it is, call it on the paths we created.
+        // Check if razzle.modifyWebpackOptions is a function.
+        // If it is, call it on the options we created.
         webpackOptions = await razzleConfig.modifyWebpackOptions(
           razzleConfig,
           razzleContext,
-          <Webpack5Options>webpackOptions
+          webpackOptions
         );
       }
 
-      webpackConfigs.push([webpackConfig, <Webpack5Options>webpackOptions]);
-    }
-    if (!webOnly) {
       let webpackConfig: Configuration = {
         name: `node-${buildName}`,
         target: "node",
@@ -129,43 +199,40 @@ export default async (
         mode: "development",
       };
 
-      let webpackOptions: Partial<Webpack5Options> = {
-        isWeb: true,
-        isNode: false,
-        buildName: buildName,
-      };
       // run plugin/config hooks
       for (const {
         plugin,
         options: childPluginOptions,
       } of razzleContext.plugins) {
-        // Check if plugin.modifyWebpackOptions is a function.
-        // If it is, call it on the context we created.
-        if ((<Webpack5ChildPlugin>plugin).modifyWebpackOptions) {
-          webpackOptions = await (<Required<Webpack5ChildPlugin>>(
+        // Check if plugin.modifyWebpackConfig is a function.
+        // If it is, call it on the config we created.
+        if ((<Webpack5ChildPlugin>plugin).modifyWebpackConfig) {
+          webpackConfig = await (<Required<Webpack5ChildPlugin>>(
             plugin
-          )).modifyWebpackOptions(
+          )).modifyWebpackConfig(
             childPluginOptions,
             razzleConfig,
             razzleContext,
-            <Webpack5Options>webpackOptions
+            webpackOptions,
+            webpackConfig
           );
         }
       }
-      if (razzleConfig.modifyWebpackOptions) {
-        // Check if razzle.modifyPaths is a function.
-        // If it is, call it on the paths we created.
-        webpackOptions = await razzleConfig.modifyWebpackOptions(
+      if (razzleConfig.modifyWebpackConfig) {
+        // Check if razzleConfig.modifyWebpackConfig is a function.
+        // If it is, call it on the config we created.
+        webpackConfig = await razzleConfig.modifyWebpackConfig(
           razzleConfig,
           razzleContext,
-          <Webpack5Options>webpackOptions
+          webpackOptions,
+          webpackConfig
         );
       }
       if (!nodeOnly) {
         webpackConfig.dependencies = [`web-${buildName}`];
       }
 
-      webpackConfigs.push([webpackConfig, <Webpack5Options>webpackOptions]);
+      webpackConfigs.push([webpackConfig, webpackOptions]);
     }
   }
   if (shouldUseDevserver) {

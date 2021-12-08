@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "razzle": "5.0.0-alpha.0",
     "razzle-plugin-webpack5": "5.0.0-alpha.0",
+    "razzle-plugin-webpack5-externals": "5.0.0-alpha.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }

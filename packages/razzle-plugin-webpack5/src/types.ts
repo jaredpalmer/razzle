@@ -1,11 +1,11 @@
-import { Configuration } from "webpack";
-import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import {
   RazzleConfigInt,
   RazzleContextInt,
   RazzlePathNames,
   RazzlePluginInt,
 } from "razzle/types";
+import { Configuration } from "webpack";
+import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
 export interface Webpack5RazzleConfigInt<T, U, Q> {
   modifyWebpackOptions?: (
@@ -59,6 +59,10 @@ export interface Webpack5RazzleContextInt<U extends string>
 export interface Webpack5OptionsInt<T extends string> {
   readonly isWeb: boolean;
   readonly isNode: boolean;
+  readonly isDevEnv: boolean;
+  readonly isDev: boolean;
+  readonly isProd: boolean;
+
   buildName: string;
   definePluginOptions: Record<T, string>;
 }

@@ -1,10 +1,11 @@
+import path from "path";
+
 import Webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-import { Webpack5PluginOptions, Webpack5RazzlePlugin } from "./types";
-import defaultOptions from "./defaultOptions.js";
-import createConfig from "./createConfig.js";
 
-import path from "path";
+import createConfig from "./createConfig.js";
+import defaultOptions from "./defaultOptions.js";
+import { Webpack5PluginOptions, Webpack5RazzlePlugin } from "./types";
 
 export * from "./types.js";
 
@@ -37,7 +38,7 @@ const Plugin: Webpack5RazzlePlugin = {
   },
   addCommands: {
     start: (argv, pluginOptions, razzleConfig, razzleContext) => {
-      return argv.command(
+      argv.command(
         "start",
         "start the webpack devserver",
         function (yargs) {
@@ -85,9 +86,7 @@ const Plugin: Webpack5RazzlePlugin = {
         }
       );
     },
-    build: (argv, pluginOptions, razzleConfig, razzleContext) => {
-      return argv;
-    },
+    build: (argv, pluginOptions, razzleConfig, razzleContext) => {},
   },
 };
 

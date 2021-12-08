@@ -1,5 +1,5 @@
 {
-    "name": "razzle-plugin-webpack5",
+    "name": "razzle-plugin-webpack5-externals",
     "description": "Create server-rendered universal JavaScript applications with no configuration",
     "license": "MIT",
     "author": "Jared Palmer <jared@palmer.net>",

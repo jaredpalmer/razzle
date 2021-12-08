@@ -14,7 +14,8 @@ export interface Webpack5ExternalsOptionsInt<T extends string>
   extends Webpack5OptionsInt<T> {}
 
 export interface Webpack5ExternalsPluginOptions {
-  useEsm: boolean;
+  esmExternals: boolean | "loose";
+  notExternalsCallback?: (request: string, context: string) => boolean;
 }
 
 export type Webpack5ExternalsRazzlePathNames =

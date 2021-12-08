@@ -58,7 +58,9 @@ export async function loadPlugin(
       tried.push(tryPath);
       razzlePlugin = (await import(tryPath)).default;
       // eslint-disable-next-line no-empty
-    } catch (error) {}
+    } catch (error) {
+       console.log(error);
+    }
   }
   if (!razzlePlugin) {
     const last = completePluginNames.pop();

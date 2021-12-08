@@ -33,7 +33,7 @@ export interface RazzleConfigInt<T, U extends RazzleContext> {
   modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
-    (argv: Argv, razzleConfig: T, razzleContext: U) => Argv
+    (argv: Argv, razzleConfig: T, razzleContext: U) => void
   >;
 }
 
@@ -45,7 +45,7 @@ export interface RazzlePluginInt<Q, T, U> {
   modifyRazzleContext?: (pluginOptions: Q, razzleContext: U) => Promise<U> | U;
   addCommands?: Record<
     string,
-    (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U) => Argv
+    (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U) => void
   >;
 }
 
