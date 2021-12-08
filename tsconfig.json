@@ -18,7 +18,8 @@
       "forceConsistentCasingInFileNames": true,
       "isolatedModules": true,
       "paths": {
-        "razzle/*": ["./packages/razzle/src/*"]
+        "razzle/*": ["./packages/razzle/src/*"],
+        "razzle-plugin-webpack5/*": ["./packages/razzle-plugin-webpack5/src/*"]
       }
     },
     "exclude": ["node_modules", "**/*/lib", "**/*/dist"]

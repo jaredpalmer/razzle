@@ -18,7 +18,7 @@
         "./loaders/plugins": "./lib/loaders/plugins.js",
         "./package.json": "./package.json"
     },
-    "types": "types/index.d.ts",
+    "types": "lib/index.d.ts",
     "type": "module",
     "scripts": {
         "prettier": "prettier --check src/",

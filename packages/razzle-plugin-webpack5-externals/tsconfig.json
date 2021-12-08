@@ -5,7 +5,14 @@
     "outDir": "./lib", // Your outDir
     "composite": true
   },
-  "references": [{"path": "../razzle/"}],
+  "references": [
+    {
+      "path": "../razzle/"
+    },
+    {
+      "path": "../razzle-plugin-webpack5/"
+    }
+  ],
   "include": [
     "**/*.ts",
   ],

@@ -6,6 +6,8 @@ import createConfig from "./createConfig.js";
 
 import path from "path";
 
+export * from "./types.js";
+
 const Plugin: Webpack5RazzlePlugin = {
   name: "webpack5",
   defaultOptions: defaultOptions,
