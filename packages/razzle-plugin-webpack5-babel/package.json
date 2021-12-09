@@ -1,0 +1,53 @@
+{
+    "name": "rrazzle-plugin-webpack5-babel",
+    "description": "Create server-rendered universal JavaScript applications with no configuration",
+    "license": "MIT",
+    "author": "Jared Palmer <jared@palmer.net>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com:jaredpalmer/razzle.git",
+        "directory": "packages/razzle"
+    },
+    "version": "5.0.0-alpha.0",
+    "main": "lib/index.js",
+    "exports": {
+        ".": "./lib/index.js",
+        "./package.json": "./package.json"
+    },
+    "types": "lib/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "prettier": "prettier --check src/",
+        "prettier:fix": "prettier --write src/",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "yarn lint --fix",
+        "verify": "run-p prettier lint",
+        "verify:fix": "yarn prettier:fix && yarn lint:fix",
+        "build": "tsc",
+        "postbuild": "tsc --build"
+    },
+    "keywords": [
+        "inferno",
+        "isomorphic",
+        "preact",
+        "razzle",
+        "react",
+        "reason",
+        "reasonml",
+        "ssr",
+        "universal",
+        "webpack"
+    ],
+    "dependencies": {
+        "@babel/core": "^7.16.0",
+        "@babel/preset-env": "^7.16.4",
+        "babel-loader": "^8.2.3",
+        "esm-resolve": "^1.0.5",
+        "razzle": "5.0.0-alpha.0",
+        "webpack": "^5.64.4",
+        "webpack-dev-server": "^4.6.0"
+    },
+    "devDependencies": {
+        "@types/webpack-dev-server": "^4.5.0"
+    }
+}

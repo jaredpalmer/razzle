@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "./lib", // Your outDir
+    "composite": true
+  },
+  "references": [
+    {
+      "path": "../razzle/"
+    },
+    {
+      "path": "../razzle-plugin-webpack5/"
+    }
+  ],
+  "include": [
+    "**/*.ts",
+  ],
+  "exclude": [
+    "lib/*"
+  ]
+}

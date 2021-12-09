@@ -18,6 +18,7 @@
       "forceConsistentCasingInFileNames": true,
       "isolatedModules": true,
       "paths": {
+        "@babel/core/*": ["./node_modules/@babel/core/src/*"],
         "razzle/*": ["./packages/razzle/src/*"],
         "razzle-plugin-webpack5/*": ["./packages/razzle-plugin-webpack5/src/*"]
       }
