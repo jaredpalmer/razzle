@@ -12,6 +12,7 @@
     "main": "lib/index.js",
     "exports": {
         ".": "./lib/index.js",
+        "./babel": "./lib/babel/preset.js",
         "./package.json": "./package.json"
     },
     "types": "lib/index.d.ts",
@@ -57,10 +58,6 @@
         "chalk": "^4.1.2",
         "esm-resolve": "^1.0.5",
         "razzle": "5.0.0-alpha.0",
-        "webpack": "^5.64.4",
-        "webpack-dev-server": "^4.6.0"
-    },
-    "devDependencies": {
-        "@types/webpack-dev-server": "^4.5.0"
+        "webpack": "^5.64.4"
     }
 }

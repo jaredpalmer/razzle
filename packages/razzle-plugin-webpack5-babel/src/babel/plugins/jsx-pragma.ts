@@ -3,6 +3,8 @@ import {
   PluginObj,
   types as BabelTypes,
 } from '@babel/core'
+
+// @ts-ignore - the exported types are incorrect here
 import jsx from '@babel/plugin-syntax-jsx'
 
 export default function ({

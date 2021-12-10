@@ -41,10 +41,6 @@
     "dependencies": {
         "esm-resolve": "^1.0.5",
         "razzle": "5.0.0-alpha.0",
-        "webpack": "^5.64.4",
-        "webpack-dev-server": "^4.6.0"
-    },
-    "devDependencies": {
-        "@types/webpack-dev-server": "^4.5.0"
+        "webpack": "^5.64.4"
     }
 }

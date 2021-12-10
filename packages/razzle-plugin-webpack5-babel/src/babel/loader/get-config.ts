@@ -127,7 +127,7 @@ function getPlugins(
 }
 
 const isJsonFile = /\.(json|babelrc)$/
-const isJsFile = /\.js$/
+const isJsFile = /\.[c|m]js$/
 
 /**
  * While this function does block execution while reading from disk, it
@@ -142,9 +142,9 @@ async function getCustomBabelConfig(configFilePath: string) {
   } else if (isJsFile.exec(configFilePath)) {
     return await import(configFilePath)
   }
-  throw new Error(
+/*   throw new Error(
     'The Next.js Babel loader does not support .mjs or .cjs config files.'
-  )
+  ) */
 }
 
 /**
