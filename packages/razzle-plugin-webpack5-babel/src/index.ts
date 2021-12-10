@@ -1,6 +1,6 @@
 import {
-  Webpack5ExternalsPluginOptions,
-  Webpack5ExternalsRazzlePlugin,
+  Webpack5BabelPluginOptions,
+  Webpack5BabelRazzlePlugin,
 } from "./types";
 import defaultOptions from "./defaultOptions.js";
 import { resolveExternal } from "./utils.js";
@@ -8,8 +8,8 @@ import path from "path";
 
 export * from "./types.js";
 
-const Plugin: Webpack5ExternalsRazzlePlugin = {
-  name: "webpack5-externals",
+const Plugin: Webpack5BabelRazzlePlugin = {
+  name: "webpack5-babel",
   defaultOptions: defaultOptions,
   modifyWebpackConfig: (
     pluginOptions,
@@ -228,9 +228,9 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
   },
 };
 
-export default function (options: Webpack5ExternalsPluginOptions): {
-  plugin: Webpack5ExternalsRazzlePlugin;
-  options: Webpack5ExternalsPluginOptions;
+export default function (options: Webpack5BabelPluginOptions): {
+  plugin: Webpack5BabelRazzlePlugin;
+  options: Webpack5BabelPluginOptions;
 } {
   return {
     plugin: Plugin,

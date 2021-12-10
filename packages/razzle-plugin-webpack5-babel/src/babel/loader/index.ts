@@ -1,56 +1,41 @@
-import { Span } from '../../../trace'
-import transform from './transform'
-import { NextJsLoaderContext } from './types'
+import  transform  from "./transform.js";
 
-async function nextBabelLoader(
-  this: NextJsLoaderContext,
-  parentTrace: Span,
-  inputSource: string,
-  inputSourceMap: object | null | undefined
+import { RazzleWebpack5LoaderContext, Source, SourceMap } from "./types";
+
+const razzleBabelLoader = async function (
+  this: RazzleWebpack5LoaderContext,
+  inputSource: Source,
+  inputSourceMap: SourceMap
+): Promise<[Source, SourceMap]>{
+  const filename = this.resourcePath;
+  const target = this.target;
+  const loaderOptions = this.getOptions();
+
+  const result = await transform.call(
+    this,
+    inputSource,
+    inputSourceMap,
+    loaderOptions,
+    filename,
+    target,
+  )
+  const { code: transformedSource, map: outputSourceMap } = result || { code: '', map: '' };
+
+  return [ transformedSource, outputSourceMap || inputSourceMap ];
+} 
+
+export default function razzleBabelLoaderOuter(
+  this: RazzleWebpack5LoaderContext,
+  inputSource: Source,
+  inputSourceMap: SourceMap
 ) {
-  const filename = this.resourcePath
-  const target = this.target
-  const loaderOptions = parentTrace
-    .traceChild('get-options')
-    // @ts-ignore TODO: remove ignore once webpack 5 types are used
-    .traceFn(() => this.getOptions())
+  const callback = this.async();
 
-  const loaderSpanInner = parentTrace.traceChild('next-babel-turbo-transform')
-  const { code: transformedSource, map: outputSourceMap } =
-    loaderSpanInner.traceFn(() =>
-      transform.call(
-        this,
-        inputSource,
-        inputSourceMap,
-        loaderOptions,
-        filename,
-        target,
-        loaderSpanInner
-      )
-    )
-
-  return [transformedSource, outputSourceMap]
+  razzleBabelLoader.call(this, inputSource, inputSourceMap).then(
+    ([transformedSource, outputSourceMap]) =>
+      callback?.(null, transformedSource, outputSourceMap || inputSourceMap),
+    (err) => {
+      callback?.(err);
+    }
+  );
 }
-
-const nextBabelLoaderOuter = function nextBabelLoaderOuter(
-  this: NextJsLoaderContext,
-  inputSource: string,
-  inputSourceMap: object | null | undefined
-) {
-  const callback = this.async()
-
-  const loaderSpan = this.currentTraceSpan.traceChild('next-babel-turbo-loader')
-  loaderSpan
-    .traceAsyncFn(() =>
-      nextBabelLoader.call(this, loaderSpan, inputSource, inputSourceMap)
-    )
-    .then(
-      ([transformedSource, outputSourceMap]) =>
-        callback?.(null, transformedSource, outputSourceMap || inputSourceMap),
-      (err) => {
-        callback?.(err)
-      }
-    )
-}
-
-export default nextBabelLoaderOuter

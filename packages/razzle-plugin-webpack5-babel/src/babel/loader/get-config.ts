@@ -1,16 +1,10 @@
 import { readFileSync } from 'fs'
-import JSON5 from 'next/dist/compiled/json5'
+import JSON5 from 'json5'
 
-import { createConfigItem, loadOptions } from 'next/dist/compiled/babel/core'
-import loadConfig from 'next/dist/compiled/babel/core-lib-config'
+import { createConfigItem, loadOptions, loadPartialConfig as loadConfig} from '@babel/core'
 
-import { NextBabelLoaderOptions, NextJsLoaderContext } from './types'
-import { consumeIterator } from './util'
-import * as Log from '../../output/log'
-
-const nextDistPath =
-  /(next[\\/]dist[\\/]shared[\\/]lib)|(next[\\/]dist[\\/]client)|(next[\\/]dist[\\/]pages)/
-
+import { RazzleWebpack5LoaderContext, RazzleWebpack5Options, Source, SourceMap } from './types'
+import { consumeIterator } from './util.js'
 /**
  * The properties defined here are the conditions with which subsets of inputs
  * can be identified that are able to share a common Babel config.  For example,
@@ -32,28 +26,22 @@ const nextDistPath =
  */
 interface CharacteristicsGermaneToCaching {
   isServer: boolean
-  isPageFile: boolean
-  isNextDist: boolean
   hasModuleExports: boolean
   fileExt: string
 }
 
 const fileExtensionRegex = /\.([a-z]+)$/
 function getCacheCharacteristics(
-  loaderOptions: NextBabelLoaderOptions,
-  source: string,
+  loaderOptions: RazzleWebpack5Options,
+  source: Source,
   filename: string
 ): CharacteristicsGermaneToCaching {
-  const { isServer, pagesDir } = loaderOptions
-  const isPageFile = filename.startsWith(pagesDir)
-  const isNextDist = nextDistPath.test(filename)
-  const hasModuleExports = source.indexOf('module.exports') !== -1
+  const { isServer } = loaderOptions
+  const hasModuleExports = source?.indexOf('module.exports') !== -1
   const fileExt = fileExtensionRegex.exec(filename)?.[1] || 'unknown'
 
   return {
     isServer,
-    isPageFile,
-    isNextDist,
     hasModuleExports,
     fileExt,
   }
@@ -64,10 +52,10 @@ function getCacheCharacteristics(
  * source file characteristics.
  */
 function getPlugins(
-  loaderOptions: NextBabelLoaderOptions,
+  loaderOptions: RazzleWebpack5Options,
   cacheCharacteristics: CharacteristicsGermaneToCaching
 ) {
-  const { isServer, isPageFile, isNextDist, hasModuleExports } =
+  const { isServer, hasModuleExports } =
     cacheCharacteristics
 
   const { hasReactRefresh, development } = loaderOptions
@@ -75,19 +63,19 @@ function getPlugins(
   const applyCommonJsItem = hasModuleExports
     ? createConfigItem(require('../plugins/commonjs'), { type: 'plugin' })
     : null
-  const reactRefreshItem = hasReactRefresh
+/*   const reactRefreshItem = hasReactRefresh
     ? createConfigItem(
         [require('react-refresh/babel'), { skipEnvCheck: true }],
         { type: 'plugin' }
       )
-    : null
+    : null */
   const noAnonymousDefaultExportItem =
     hasReactRefresh && !isServer
       ? createConfigItem(
           [require('../plugins/no-anonymous-default-export'), {}],
           { type: 'plugin' }
         )
-      : null
+      : null/* 
   const pageConfigItem =
     !isServer && isPageFile
       ? createConfigItem([require('../plugins/next-page-config')], {
@@ -100,7 +88,7 @@ function getPlugins(
           [require('../plugins/next-page-disallow-re-export-all-exports')],
           { type: 'plugin' }
         )
-      : null
+      : null */
   const transformDefineItem = createConfigItem(
     [
       require.resolve('next/dist/compiled/babel/plugin-transform-define'),
@@ -109,32 +97,32 @@ function getPlugins(
         'typeof window': isServer ? 'undefined' : 'object',
         'process.browser': isServer ? false : true,
       },
-      'next-js-transform-define-instance',
+      'razzle-js-transform-define-instance',
     ],
     { type: 'plugin' }
   )
-  const nextSsgItem =
+/*   const nextSsgItem =
     !isServer && isPageFile
       ? createConfigItem([require.resolve('../plugins/next-ssg-transform')], {
           type: 'plugin',
         })
-      : null
-  const commonJsItem = isNextDist
+      : null */
+/*   const commonJsItem = isNextDist
     ? createConfigItem(
         require('next/dist/compiled/babel/plugin-transform-modules-commonjs'),
         { type: 'plugin' }
       )
-    : null
+    : null */
 
   return [
     noAnonymousDefaultExportItem,
-    reactRefreshItem,
-    pageConfigItem,
-    disallowExportAllItem,
+    //reactRefreshItem,
+    //pageConfigItem,
+    //disallowExportAllItem,
     applyCommonJsItem,
     transformDefineItem,
-    nextSsgItem,
-    commonJsItem,
+    //nextSsgItem,
+    //commonJsItem,
   ].filter(Boolean)
 }
 
@@ -147,12 +135,12 @@ const isJsFile = /\.js$/
  * generating a fresh config, and only a small handful of configs should
  * be generated during compilation.
  */
-function getCustomBabelConfig(configFilePath: string) {
+async function getCustomBabelConfig(configFilePath: string) {
   if (isJsonFile.exec(configFilePath)) {
     const babelConfigRaw = readFileSync(configFilePath, 'utf8')
     return JSON5.parse(babelConfigRaw)
   } else if (isJsFile.exec(configFilePath)) {
-    return require(configFilePath)
+    return await import(configFilePath)
   }
   throw new Error(
     'The Next.js Babel loader does not support .mjs or .cjs config files.'
@@ -163,19 +151,19 @@ function getCustomBabelConfig(configFilePath: string) {
  * Generate a new, flat Babel config, ready to be handed to Babel-traverse.
  * This config should have no unresolved overrides, presets, etc.
  */
-function getFreshConfig(
-  this: NextJsLoaderContext,
+async function getFreshConfig(
+  this: RazzleWebpack5LoaderContext,
   cacheCharacteristics: CharacteristicsGermaneToCaching,
-  loaderOptions: NextBabelLoaderOptions,
-  target: string,
+  loaderOptions: RazzleWebpack5Options,
+  target:  string | [string, string],
   filename: string,
-  inputSourceMap?: object | null
+  inputSourceMap?: SourceMap
 ) {
-  let { isServer, pagesDir, development, hasJsxRuntime, configFile } =
+  let { isServer, development, hasJsxRuntime, configFile } =
     loaderOptions
 
   let customConfig: any = configFile
-    ? getCustomBabelConfig(configFile)
+    ? await getCustomBabelConfig(configFile)
     : undefined
 
   let options = {
@@ -224,7 +212,7 @@ function getFreshConfig(
     overrides: loaderOptions.overrides,
 
     caller: {
-      name: 'next-babel-turbo-loader',
+      name: 'razzle-babel-loader',
       supportsStaticESM: true,
       supportsDynamicImport: true,
 
@@ -238,7 +226,6 @@ function getFreshConfig(
       supportsTopLevelAwait: true,
 
       isServer,
-      pagesDir,
       isDev: development,
       hasJsxRuntime,
 
@@ -262,8 +249,8 @@ function getFreshConfig(
     },
   })
 
-  const loadedOptions = loadOptions(options)
-  const config = consumeIterator(loadConfig(loadedOptions))
+  const loadedOptions = loadOptions(options)|| undefined
+  const config = loadConfig(loadedOptions)
 
   return config
 }
@@ -274,15 +261,13 @@ function getFreshConfig(
  * file attributes and Next.js compiler states: `CharacteristicsGermaneToCaching`.
  */
 function getCacheKey(cacheCharacteristics: CharacteristicsGermaneToCaching) {
-  const { isServer, isPageFile, isNextDist, hasModuleExports, fileExt } =
+  const { isServer, hasModuleExports, fileExt } =
     cacheCharacteristics
 
   const flags =
     0 |
     (isServer ? 0b0001 : 0) |
-    (isPageFile ? 0b0010 : 0) |
-    (isNextDist ? 0b0100 : 0) |
-    (hasModuleExports ? 0b1000 : 0)
+    (hasModuleExports ? 0b0010 : 0)
 
   return fileExt + flags
 }
@@ -291,8 +276,8 @@ type BabelConfig = any
 const configCache: Map<any, BabelConfig> = new Map()
 const configFiles: Set<string> = new Set()
 
-export default function getConfig(
-  this: NextJsLoaderContext,
+export default async function getConfig(
+  this: RazzleWebpack5LoaderContext,
   {
     source,
     target,
@@ -300,13 +285,13 @@ export default function getConfig(
     filename,
     inputSourceMap,
   }: {
-    source: string
-    loaderOptions: NextBabelLoaderOptions
-    target: string
+    source: Source
+    loaderOptions: RazzleWebpack5Options
+    target: string | [string, string]
     filename: string
-    inputSourceMap?: object | null
+    inputSourceMap?: SourceMap
   }
-): BabelConfig {
+): Promise<BabelConfig> {
   const cacheCharacteristics = getCacheCharacteristics(
     loaderOptions,
     source,
@@ -336,12 +321,12 @@ export default function getConfig(
 
   if (loaderOptions.configFile && !configFiles.has(loaderOptions.configFile)) {
     configFiles.add(loaderOptions.configFile)
-    Log.info(
+/*     Log.info(
       `Using external babel configuration from ${loaderOptions.configFile}`
-    )
+    ) */
   }
 
-  const freshConfig = getFreshConfig.call(
+  const freshConfig = await getFreshConfig.call(
     this,
     cacheCharacteristics,
     loaderOptions,

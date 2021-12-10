@@ -12,7 +12,12 @@ export interface RazzleWebpack5Options {
   cwd: string;
 }
 
-export interface RazzleWebpack5LoaderContext
-  extends webpack.LoaderContext<RazzleWebpack5Options> {
+export interface RazzleWebpack5LoaderDefinitionFunction
+  extends webpack.LoaderDefinitionFunction<RazzleWebpack5Options, {
   target: string | [string, string];
-}
+}>{}
+
+export type RazzleWebpack5LoaderContext = ThisParameterType<RazzleWebpack5LoaderDefinitionFunction>
+
+export type SourceMap = Parameters<RazzleWebpack5LoaderContext['callback']>[2]
+export type Source = Parameters<RazzleWebpack5LoaderContext['callback']>[1]

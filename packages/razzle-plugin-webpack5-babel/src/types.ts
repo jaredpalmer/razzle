@@ -7,40 +7,38 @@ import {
   Webpack5DefinePluginDefines,
 } from "razzle-plugin-webpack5/types";
 
-export interface Webpack5ExternalsRazzleContextInt<T extends string>
+export interface Webpack5BabelRazzleContextInt<T extends string>
   extends Webpack5RazzleContextInt<T> {}
 
-export interface Webpack5ExternalsOptionsInt<T extends string>
+export interface Webpack5BabelOptionsInt<T extends string>
   extends Webpack5OptionsInt<T> {}
 
-export interface Webpack5ExternalsPluginOptions {
-  esmExternals: boolean | "loose";
-  notExternalsCallback?: (request: string, context: string) => boolean;
+export interface Webpack5BabelPluginOptions {
 }
 
-export type Webpack5ExternalsRazzlePathNames =
+export type Webpack5BabelRazzlePathNames =
   | Webpack5RazzlePathNames
   | "externals";
 
-export type Webpack5ExternalsRazzleContext =
-  Webpack5ExternalsRazzleContextInt<Webpack5ExternalsRazzlePathNames>;
+export type Webpack5BabelRazzleContext =
+  Webpack5BabelRazzleContextInt<Webpack5BabelRazzlePathNames>;
 
-export type Webpack5ExternalsDefinePluginDefines =
+export type Webpack5BabelDefinePluginDefines =
   | Webpack5DefinePluginDefines
   | "process.env.something";
 
-export type Webpack5ExternalsOptions =
-  Webpack5ExternalsOptionsInt<Webpack5ExternalsDefinePluginDefines>;
+export type Webpack5BabelOptions =
+  Webpack5BabelOptionsInt<Webpack5BabelDefinePluginDefines>;
 
-export type Webpack5ExternalsConfig = Webpack5RazzleConfigInt<
-  Webpack5ExternalsConfig,
-  Webpack5ExternalsRazzleContext,
-  Webpack5ExternalsOptions
+export type Webpack5BabelConfig = Webpack5RazzleConfigInt<
+  Webpack5BabelConfig,
+  Webpack5BabelRazzleContext,
+  Webpack5BabelOptions
 >;
 
-export type Webpack5ExternalsRazzlePlugin = Webpack5RazzlePluginInt<
-  Webpack5ExternalsPluginOptions,
-  Webpack5ExternalsConfig,
-  Webpack5ExternalsRazzleContext,
-  Webpack5ExternalsOptions
+export type Webpack5BabelRazzlePlugin = Webpack5RazzlePluginInt<
+  Webpack5BabelPluginOptions,
+  Webpack5BabelConfig,
+  Webpack5BabelRazzleContext,
+  Webpack5BabelOptions
 >;

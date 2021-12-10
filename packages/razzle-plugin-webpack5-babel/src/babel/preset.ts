@@ -1,47 +1,27 @@
-import { PluginItem } from 'next/dist/compiled/babel/core'
+import presetEnv from '@babel/preset-env'
+import presetReact from '@babel/preset-react'
+import presetTypescript from '@babel/preset-typescript'
+import jsxPragma from './plugins/jsx-pragma.js'
+import optimizeHookDestructuring from './plugins/optimize-hook-destructuring.js'
+import pluginSyntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
+import pluginProposalClassProperties from '@babel/plugin-proposal-class-properties'
+import pluginProposalObjectRestSpread from '@babel/plugin-proposal-object-rest-spread'
+import pluginTransformRuntime from '@babel/plugin-transform-runtime'
+import pluginTransformReactRemovePropTypes from 'babel-plugin-transform-react-remove-prop-types'
+import pluginSyntaxBigint from '@babel/plugin-syntax-bigint'
+import pluginProposalNumericSeparator from '@babel/plugin-proposal-numeric-separator'
+import pluginProposalExportNamespaceFrom from '@babel/plugin-proposal-export-namespace-from'
+import { PluginItem } from '@babel/core'
 import { dirname } from 'path'
 
 const isLoadIntentTest = process.env.NODE_ENV === 'test'
 const isLoadIntentDevelopment = process.env.NODE_ENV === 'development'
 
-type StyledJsxPlugin = [string, any] | string
-type StyledJsxBabelOptions =
-  | {
-      plugins?: StyledJsxPlugin[]
-      'babel-test'?: boolean
-    }
-  | undefined
-
-// Resolve styled-jsx plugins
-function styledJsxOptions(options: StyledJsxBabelOptions) {
-  if (!options) {
-    return {}
-  }
-
-  if (!Array.isArray(options.plugins)) {
-    return options
-  }
-
-  options.plugins = options.plugins.map(
-    (plugin: StyledJsxPlugin): StyledJsxPlugin => {
-      if (Array.isArray(plugin)) {
-        const [name, pluginOptions] = plugin
-        return [require.resolve(name), pluginOptions]
-      }
-
-      return require.resolve(plugin)
-    }
-  )
-
-  return options
-}
-
-type NextBabelPresetOptions = {
+type RazzleBabelPresetOptions = {
   'preset-env'?: any
   'preset-react'?: any
   'class-properties'?: any
   'transform-runtime'?: any
-  'styled-jsx'?: StyledJsxBabelOptions
   'preset-typescript'?: any
 }
 
@@ -52,14 +32,13 @@ type BabelPreset = {
   overrides?: Array<{ test: RegExp } & Omit<BabelPreset, 'overrides'>>
 }
 
-// Taken from https://github.com/babel/babel/commit/d60c5e1736543a6eac4b549553e107a9ba967051#diff-b4beead8ad9195361b4537601cc22532R158
 function supportsStaticESM(caller: any): boolean {
   return !!caller?.supportsStaticESM
 }
 
 export default (
   api: any,
-  options: NextBabelPresetOptions = {}
+  options: RazzleBabelPresetOptions = {}
 ): BabelPreset => {
   const supportsESM = api.caller(supportsStaticESM)
   const isServer = api.caller((caller: any) => !!caller && caller.isServer)
@@ -73,14 +52,14 @@ export default (
     isCallerDevelopment === true ||
     (isCallerDevelopment == null && isLoadIntentDevelopment)
 
-  // Default to production mode if not `test` nor `development`:
+  // Default to production mode if not 'test' nor 'development':
   const isProduction = !(isTest || isDevelopment)
 
   const isBabelLoader = api.caller(
     (caller: any) =>
       !!caller &&
       (caller.name === 'babel-loader' ||
-        caller.name === 'next-babel-turbo-loader')
+        caller.name === 'razzle-babel-loader')
   )
 
   const useJsxRuntime =
@@ -89,8 +68,8 @@ export default (
       options['preset-react']?.runtime !== 'classic')
 
   const presetEnvConfig = {
-    // In the test environment `modules` is often needed to be set to true, babel figures that out by itself using the `'auto'` option
-    // In production/development this option is set to `false` so that webpack can handle import/export with tree-shaking
+    // In the test environment 'modules' is often needed to be set to true, babel figures that out by itself using the ''auto'' option
+    // In production/development this option is set to 'false' so that webpack can handle import/export with tree-shaking
     modules: 'auto',
     exclude: ['transform-typeof-symbol'],
     include: [
@@ -121,9 +100,9 @@ export default (
   return {
     sourceType: 'unambiguous',
     presets: [
-      [require('next/dist/compiled/babel/preset-env'), presetEnvConfig],
+      [presetEnv, presetEnvConfig],
       [
-        require('next/dist/compiled/babel/preset-react'),
+        presetReact,
         {
           // This adds @babel/plugin-transform-react-jsx-source and
           // @babel/plugin-transform-react-jsx-self automatically in development
@@ -133,13 +112,13 @@ export default (
         },
       ],
       [
-        require('next/dist/compiled/babel/preset-typescript'),
+        presetTypescript,
         { allowNamespaces: true, ...options['preset-typescript'] },
       ],
     ],
     plugins: [
       !useJsxRuntime && [
-        require('./plugins/jsx-pragma'),
+        jsxPragma,
         {
           // This produces the following injected import for modules containing JSX:
           //   import React from 'react';
@@ -151,26 +130,25 @@ export default (
         },
       ],
       [
-        require('./plugins/optimize-hook-destructuring'),
+        optimizeHookDestructuring,
         {
           // only optimize hook functions imported from React/Preact
           lib: true,
         },
       ],
-      require('next/dist/compiled/babel/plugin-syntax-dynamic-import'),
-      require('./plugins/react-loadable-plugin'),
+      pluginSyntaxDynamicImport,
       [
-        require('next/dist/compiled/babel/plugin-proposal-class-properties'),
+        pluginProposalClassProperties,
         options['class-properties'] || {},
       ],
       [
-        require('next/dist/compiled/babel/plugin-proposal-object-rest-spread'),
+        pluginProposalObjectRestSpread,
         {
           useBuiltIns: true,
         },
       ],
       !isServer && [
-        require('next/dist/compiled/babel/plugin-transform-runtime'),
+        pluginTransformRuntime,
         {
           corejs: false,
           helpers: true,
@@ -182,24 +160,17 @@ export default (
           ...options['transform-runtime'],
         },
       ],
-      [
-        isTest && options['styled-jsx'] && options['styled-jsx']['babel-test']
-          ? require('styled-jsx/babel-test')
-          : require('styled-jsx/babel'),
-        styledJsxOptions(options['styled-jsx']),
-      ],
-      require('./plugins/amp-attributes'),
       isProduction && [
-        require('next/dist/compiled/babel/plugin-transform-react-remove-prop-types'),
+        pluginTransformReactRemovePropTypes,
         {
           removeImport: true,
         },
       ],
-      isServer && require('next/dist/compiled/babel/plugin-syntax-bigint'),
+      isServer && pluginSyntaxBigint,
       // Always compile numeric separator because the resulting number is
       // smaller.
-      require('next/dist/compiled/babel/plugin-proposal-numeric-separator'),
-      require('next/dist/compiled/babel/plugin-proposal-export-namespace-from'),
+      pluginProposalNumericSeparator,
+      pluginProposalExportNamespaceFrom,
     ].filter(Boolean),
   }
 }

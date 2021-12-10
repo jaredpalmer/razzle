@@ -11,12 +11,12 @@ import PluginPass from '@babel/core/lib/transformation/plugin-pass'
 
 import getConfig from './get-config.js'
 import { consumeIterator } from './util.js'
-import { RazzleJsLoaderContext } from './types'
+import { RazzleWebpack5LoaderContext, Source, SourceMap } from './types'
 
 function getTraversalParams(file: any, pluginPairs: any[]) {
-  const passPairs = []
-  const passes = []
-  const visitors = []
+  const passPairs: Array<[any, any]> = []
+  const passes: Array<any> = []
+  const visitors: Array<any> = []
 
   for (const plugin of pluginPairs.concat(loadBlockHoistPlugin())) {
     const pass = new PluginPass(file, plugin.key, plugin.options)
@@ -44,10 +44,11 @@ function invokePluginPost(file: any, passPairs: any[]) {
   }
 }
 
-function transformAstPass(file: any, pluginPairs: any[], parentSpan: Span) {
+function transformAstPass(file: any, pluginPairs: any[]) {
   const { passPairs, passes, visitors } = getTraversalParams(file, pluginPairs)
 
   invokePluginPre(file, passPairs)
+
   const visitor = traverse.visitors.merge(
     visitors,
     passes,
@@ -55,51 +56,40 @@ function transformAstPass(file: any, pluginPairs: any[], parentSpan: Span) {
     file.opts.wrapPluginVisitorMethod
   )
 
-  parentSpan
-    .traceChild('babel-turbo-traverse')
-    .traceFn(() => traverse(file.ast, visitor, file.scope))
+  traverse(file.ast, visitor, file.scope)
 
   invokePluginPost(file, passPairs)
 }
 
-function transformAst(file: any, babelConfig: any, parentSpan: Span) {
+function transformAst(file: any, babelConfig: any) {
   for (const pluginPairs of babelConfig.passes) {
-    transformAstPass(file, pluginPairs, parentSpan)
+    transformAstPass(file, pluginPairs)
   }
 }
 
-export default function transform(
-  this: NextJsLoaderContext,
-  source: string,
-  inputSourceMap: object | null | undefined,
+export default async function transform(
+  this: RazzleWebpack5LoaderContext,
+  source: Source,
+  inputSourceMap: SourceMap,
   loaderOptions: any,
   filename: string,
-  target: string,
-  parentSpan: Span
-) {
-  const getConfigSpan = parentSpan.traceChild('babel-turbo-get-config')
-  const babelConfig = getConfig.call(this, {
+  target: string | [string, string]
+  ) {
+  const babelConfig = await getConfig.call(this, {
     source,
     loaderOptions,
     inputSourceMap,
     target,
     filename,
   })
-  getConfigSpan.stop()
 
-  const normalizeSpan = parentSpan.traceChild('babel-turbo-normalize-file')
   const file = consumeIterator(
     normalizeFile(babelConfig.passes, normalizeOpts(babelConfig), source)
   )
-  normalizeSpan.stop()
 
-  const transformSpan = parentSpan.traceChild('babel-turbo-transform')
-  transformAst(file, babelConfig, transformSpan)
-  transformSpan.stop()
+  transformAst(file, babelConfig)
 
-  const generateSpan = parentSpan.traceChild('babel-turbo-generate')
   const { code, map } = generate(file.ast, file.opts.generatorOpts, file.code)
-  generateSpan.stop()
 
   return { code, map }
 }

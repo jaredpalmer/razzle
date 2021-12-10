@@ -2,8 +2,8 @@ import {
   NodePath,
   PluginObj,
   types as BabelTypes,
-} from 'next/dist/compiled/babel/core'
-import jsx from 'next/dist/compiled/babel/plugin-syntax-jsx'
+} from '@babel/core'
+import jsx from '@babel/plugin-syntax-jsx'
 
 export default function ({
   types: t,
