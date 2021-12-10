@@ -1,10 +1,10 @@
 import {
-  Webpack5RazzleConfigInt,
-  Webpack5RazzlePluginInt,
-  Webpack5RazzleContextInt,
-  Webpack5OptionsInt,
-  Webpack5RazzlePathNames,
   Webpack5DefinePluginDefines,
+  Webpack5OptionsInt,
+  Webpack5RazzleConfigInt,
+  Webpack5RazzleContextInt,
+  Webpack5RazzlePathNames,
+  Webpack5RazzlePluginInt,
 } from "razzle-plugin-webpack5/types";
 
 export interface Webpack5BabelRazzleContextInt<T extends string>
@@ -13,8 +13,7 @@ export interface Webpack5BabelRazzleContextInt<T extends string>
 export interface Webpack5BabelOptionsInt<T extends string>
   extends Webpack5OptionsInt<T> {}
 
-export interface Webpack5BabelPluginOptions {
-}
+export interface Webpack5BabelPluginOptions {}
 
 export type Webpack5BabelRazzlePathNames =
   | Webpack5RazzlePathNames

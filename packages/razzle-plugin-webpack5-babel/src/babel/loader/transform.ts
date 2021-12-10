@@ -2,36 +2,36 @@
  * Partially adapted from @babel/core (MIT license).
  */
 
-import traverse from '@babel/traverse'
-import generate from '@babel/generator'
-import normalizeFile from '@babel/core/lib/transformation/normalize-file'
-import normalizeOpts from '@babel/core/lib/transformation/normalize-opts'
-import loadBlockHoistPlugin from '@babel/core/lib/transformation/block-hoist-plugin'
-import PluginPass from '@babel/core/lib/transformation/plugin-pass'
+import loadBlockHoistPlugin from "@babel/core/lib/transformation/block-hoist-plugin";
+import normalizeFile from "@babel/core/lib/transformation/normalize-file";
+import normalizeOpts from "@babel/core/lib/transformation/normalize-opts";
+import PluginPass from "@babel/core/lib/transformation/plugin-pass";
+import generate from "@babel/generator";
+import traverse from "@babel/traverse";
 
-import getConfig from './get-config.js'
-import { consumeIterator } from './util.js'
-import { RazzleWebpack5LoaderContext, Source, SourceMap } from './types'
+import getConfig from "./get-config.js";
+import { RazzleWebpack5LoaderContext, Source, SourceMap } from "./types";
+import { consumeIterator } from "./util.js";
 
 function getTraversalParams(file: any, pluginPairs: any[]) {
-  const passPairs: Array<[any, any]> = []
-  const passes: Array<any> = []
-  const visitors: Array<any> = []
+  const passPairs: Array<[any, any]> = [];
+  const passes: Array<any> = [];
+  const visitors: Array<any> = [];
 
   for (const plugin of pluginPairs.concat(loadBlockHoistPlugin())) {
-    const pass = new PluginPass(file, plugin.key, plugin.options)
-    passPairs.push([plugin, pass])
-    passes.push(pass)
-    visitors.push(plugin.visitor)
+    const pass = new PluginPass(file, plugin.key, plugin.options);
+    passPairs.push([plugin, pass]);
+    passes.push(pass);
+    visitors.push(plugin.visitor);
   }
 
-  return { passPairs, passes, visitors }
+  return { passPairs, passes, visitors };
 }
 
 function invokePluginPre(file: any, passPairs: any[]) {
   for (const [{ pre }, pass] of passPairs) {
     if (pre) {
-      pre.call(pass, file)
+      pre.call(pass, file);
     }
   }
 }
@@ -39,31 +39,31 @@ function invokePluginPre(file: any, passPairs: any[]) {
 function invokePluginPost(file: any, passPairs: any[]) {
   for (const [{ post }, pass] of passPairs) {
     if (post) {
-      post.call(pass, file)
+      post.call(pass, file);
     }
   }
 }
 
 function transformAstPass(file: any, pluginPairs: any[]) {
-  const { passPairs, passes, visitors } = getTraversalParams(file, pluginPairs)
+  const { passPairs, passes, visitors } = getTraversalParams(file, pluginPairs);
 
-  invokePluginPre(file, passPairs)
+  invokePluginPre(file, passPairs);
 
   const visitor = traverse.visitors.merge(
     visitors,
     passes,
     // @ts-ignore - the exported types are incorrect here
     file.opts.wrapPluginVisitorMethod
-  )
+  );
 
-  traverse(file.ast, visitor, file.scope)
+  traverse(file.ast, visitor, file.scope);
 
-  invokePluginPost(file, passPairs)
+  invokePluginPost(file, passPairs);
 }
 
 function transformAst(file: any, babelConfig: any) {
   for (const pluginPairs of babelConfig.passes) {
-    transformAstPass(file, pluginPairs)
+    transformAstPass(file, pluginPairs);
   }
 }
 
@@ -74,22 +74,22 @@ export default async function transform(
   loaderOptions: any,
   filename: string,
   target: string | [string, string]
-  ) {
+) {
   const babelConfig = await getConfig.call(this, {
     source,
     loaderOptions,
     inputSourceMap,
     target,
     filename,
-  })
+  });
 
   const file = consumeIterator(
     normalizeFile(babelConfig.passes, normalizeOpts(babelConfig), source)
-  )
+  );
 
-  transformAst(file, babelConfig)
+  transformAst(file, babelConfig);
 
-  const { code, map } = generate(file.ast, file.opts.generatorOpts, file.code)
+  const { code, map } = generate(file.ast, file.opts.generatorOpts, file.code);
 
-  return { code, map }
+  return { code, map };
 }

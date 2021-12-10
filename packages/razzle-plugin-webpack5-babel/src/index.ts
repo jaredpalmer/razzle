@@ -1,10 +1,8 @@
-import {
-  Webpack5BabelPluginOptions,
-  Webpack5BabelRazzlePlugin,
-} from "./types";
-import defaultOptions from "./defaultOptions.js";
-import { resolveExternal } from "./utils.js";
 import path from "path";
+
+import defaultOptions from "./defaultOptions.js";
+import { Webpack5BabelPluginOptions, Webpack5BabelRazzlePlugin } from "./types";
+import { resolveExternal } from "./utils.js";
 
 export * from "./types.js";
 
@@ -18,8 +16,7 @@ const Plugin: Webpack5BabelRazzlePlugin = {
     webpackOptions,
     webpackConfig
   ) => {
-
-  //  if(webpackOptions.isNode) {
+    //  if(webpackOptions.isNode) {
 
     return webpackConfig;
   },

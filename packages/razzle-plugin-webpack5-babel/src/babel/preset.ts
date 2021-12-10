@@ -1,83 +1,85 @@
-import presetEnv from '@babel/preset-env'
-import presetReact from '@babel/preset-react'
-import presetTypescript from '@babel/preset-typescript'
-import jsxPragma from './plugins/jsx-pragma.js'
-import optimizeHookDestructuring from './plugins/optimize-hook-destructuring.js'
-import pluginSyntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
-import pluginProposalClassProperties from '@babel/plugin-proposal-class-properties'
-import pluginProposalObjectRestSpread from '@babel/plugin-proposal-object-rest-spread'
-import pluginTransformRuntime from '@babel/plugin-transform-runtime'
-import pluginTransformReactRemovePropTypes from 'babel-plugin-transform-react-remove-prop-types'
-import pluginSyntaxBigint from '@babel/plugin-syntax-bigint'
-import pluginProposalNumericSeparator from '@babel/plugin-proposal-numeric-separator'
-import pluginProposalExportNamespaceFrom from '@babel/plugin-proposal-export-namespace-from'
-import { PluginItem } from '@babel/core'
-import { dirname } from 'path'
+import { dirname } from "path";
 
-const isLoadIntentTest = process.env.NODE_ENV === 'test'
-const isLoadIntentDevelopment = process.env.NODE_ENV === 'development'
+import pluginTransformReactRemovePropTypes from "babel-plugin-transform-react-remove-prop-types";
+
+import { PluginItem } from "@babel/core";
+import pluginProposalClassProperties from "@babel/plugin-proposal-class-properties";
+import pluginProposalExportNamespaceFrom from "@babel/plugin-proposal-export-namespace-from";
+import pluginProposalNumericSeparator from "@babel/plugin-proposal-numeric-separator";
+import pluginProposalObjectRestSpread from "@babel/plugin-proposal-object-rest-spread";
+import pluginSyntaxBigint from "@babel/plugin-syntax-bigint";
+import pluginSyntaxDynamicImport from "@babel/plugin-syntax-dynamic-import";
+import pluginTransformRuntime from "@babel/plugin-transform-runtime";
+import presetEnv from "@babel/preset-env";
+import presetReact from "@babel/preset-react";
+import presetTypescript from "@babel/preset-typescript";
+
+import jsxPragma from "./plugins/jsx-pragma.js";
+import optimizeHookDestructuring from "./plugins/optimize-hook-destructuring.js";
+
+const isLoadIntentTest = process.env.NODE_ENV === "test";
+const isLoadIntentDevelopment = process.env.NODE_ENV === "development";
 
 type RazzleBabelPresetOptions = {
-  'preset-env'?: any
-  'preset-react'?: any
-  'class-properties'?: any
-  'transform-runtime'?: any
-  'preset-typescript'?: any
-}
+  "preset-env"?: any;
+  "preset-react"?: any;
+  "class-properties"?: any;
+  "transform-runtime"?: any;
+  "preset-typescript"?: any;
+};
 
 type BabelPreset = {
-  presets?: PluginItem[] | null
-  plugins?: PluginItem[] | null
-  sourceType?: 'script' | 'module' | 'unambiguous'
-  overrides?: Array<{ test: RegExp } & Omit<BabelPreset, 'overrides'>>
-}
+  presets?: PluginItem[] | null;
+  plugins?: PluginItem[] | null;
+  sourceType?: "script" | "module" | "unambiguous";
+  overrides?: Array<{ test: RegExp } & Omit<BabelPreset, "overrides">>;
+};
 
 function supportsStaticESM(caller: any): boolean {
-  return !!caller?.supportsStaticESM
+  return !!caller?.supportsStaticESM;
 }
 
 export default (
   api: any,
   options: RazzleBabelPresetOptions = {}
 ): BabelPreset => {
-  const supportsESM = api.caller(supportsStaticESM)
-  const isServer = api.caller((caller: any) => !!caller && caller.isServer)
-  const isCallerDevelopment = api.caller((caller: any) => caller?.isDev)
+  const supportsESM = api.caller(supportsStaticESM);
+  const isServer = api.caller((caller: any) => !!caller && caller.isServer);
+  const isCallerDevelopment = api.caller((caller: any) => caller?.isDev);
 
   // Look at external intent if used without a caller (e.g. via Jest):
-  const isTest = isCallerDevelopment == null && isLoadIntentTest
+  const isTest = isCallerDevelopment == null && isLoadIntentTest;
 
   // Look at external intent if used without a caller (e.g. Storybook):
   const isDevelopment =
     isCallerDevelopment === true ||
-    (isCallerDevelopment == null && isLoadIntentDevelopment)
+    (isCallerDevelopment == null && isLoadIntentDevelopment);
 
   // Default to production mode if not 'test' nor 'development':
-  const isProduction = !(isTest || isDevelopment)
+  const isProduction = !(isTest || isDevelopment);
 
   const isBabelLoader = api.caller(
     (caller: any) =>
       !!caller &&
-      (caller.name === 'babel-loader' ||
-        caller.name === 'razzle-babel-loader')
-  )
+      (caller.name === "babel-loader" || caller.name === "razzle-babel-loader")
+  );
 
   const useJsxRuntime =
-    options['preset-react']?.runtime === 'automatic' ||
+    options["preset-react"]?.runtime === "automatic" ||
     (Boolean(api.caller((caller: any) => !!caller && caller.hasJsxRuntime)) &&
-      options['preset-react']?.runtime !== 'classic')
+      options["preset-react"]?.runtime !== "classic");
 
   const presetEnvConfig = {
     // In the test environment 'modules' is often needed to be set to true, babel figures that out by itself using the ''auto'' option
     // In production/development this option is set to 'false' so that webpack can handle import/export with tree-shaking
-    modules: 'auto',
-    exclude: ['transform-typeof-symbol'],
+    modules: "auto",
+    exclude: ["transform-typeof-symbol"],
     include: [
-      '@babel/plugin-proposal-optional-chaining',
-      '@babel/plugin-proposal-nullish-coalescing-operator',
+      "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-proposal-nullish-coalescing-operator",
     ],
-    ...options['preset-env'],
-  }
+    ...options["preset-env"],
+  };
 
   // When transpiling for the server or tests, target the current Node version
   // if not explicitly specified:
@@ -85,8 +87,8 @@ export default (
     (isServer || isTest) &&
     (!presetEnvConfig.targets ||
       !(
-        typeof presetEnvConfig.targets === 'object' &&
-        'node' in presetEnvConfig.targets
+        typeof presetEnvConfig.targets === "object" &&
+        "node" in presetEnvConfig.targets
       ))
   ) {
     presetEnvConfig.targets = {
@@ -94,11 +96,11 @@ export default (
       // built and deployed on the same version of Node.
       // This is the same as using "current" but explicit
       node: process.versions.node,
-    }
+    };
   }
 
   return {
-    sourceType: 'unambiguous',
+    sourceType: "unambiguous",
     presets: [
       [presetEnv, presetEnvConfig],
       [
@@ -107,13 +109,13 @@ export default (
           // This adds @babel/plugin-transform-react-jsx-source and
           // @babel/plugin-transform-react-jsx-self automatically in development
           development: isDevelopment || isTest,
-          ...(useJsxRuntime ? { runtime: 'automatic' } : { pragma: '__jsx' }),
-          ...options['preset-react'],
+          ...(useJsxRuntime ? { runtime: "automatic" } : { pragma: "__jsx" }),
+          ...options["preset-react"],
         },
       ],
       [
         presetTypescript,
-        { allowNamespaces: true, ...options['preset-typescript'] },
+        { allowNamespaces: true, ...options["preset-typescript"] },
       ],
     ],
     plugins: [
@@ -123,10 +125,10 @@ export default (
           // This produces the following injected import for modules containing JSX:
           //   import React from 'react';
           //   var __jsx = React.createElement;
-          module: 'react',
-          importAs: 'React',
-          pragma: '__jsx',
-          property: 'createElement',
+          module: "react",
+          importAs: "React",
+          pragma: "__jsx",
+          property: "createElement",
         },
       ],
       [
@@ -137,10 +139,7 @@ export default (
         },
       ],
       pluginSyntaxDynamicImport,
-      [
-        pluginProposalClassProperties,
-        options['class-properties'] || {},
-      ],
+      [pluginProposalClassProperties, options["class-properties"] || {}],
       [
         pluginProposalObjectRestSpread,
         {
@@ -153,11 +152,11 @@ export default (
           corejs: false,
           helpers: true,
           regenerator: true,
-          useESModules: supportsESM && presetEnvConfig.modules !== 'commonjs',
+          useESModules: supportsESM && presetEnvConfig.modules !== "commonjs",
           absoluteRuntime: isBabelLoader
-            ? dirname(require.resolve('@babel/runtime/package.json'))
+            ? dirname(require.resolve("@babel/runtime/package.json"))
             : undefined,
-          ...options['transform-runtime'],
+          ...options["transform-runtime"],
         },
       ],
       isProduction && [
@@ -172,5 +171,5 @@ export default (
       pluginProposalNumericSeparator,
       pluginProposalExportNamespaceFrom,
     ].filter(Boolean),
-  }
-}
+  };
+};
