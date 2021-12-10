@@ -1,4 +1,4 @@
 
 export default {
-    plugins: ['webpack5', 'webpack5-externals']
+    plugins: ['webpack5', 'webpack5-externals', 'webpack5-babel']
 }

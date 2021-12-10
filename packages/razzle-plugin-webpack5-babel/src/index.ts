@@ -2,7 +2,6 @@ import path from "path";
 
 import defaultOptions from "./defaultOptions.js";
 import { Webpack5BabelPluginOptions, Webpack5BabelRazzlePlugin } from "./types";
-import babelLoader from './babel/loader/index.js'
 export * from "./types.js";
 
 const Plugin: Webpack5BabelRazzlePlugin = {
@@ -15,16 +14,28 @@ const Plugin: Webpack5BabelRazzlePlugin = {
     webpackOptions,
     webpackConfig
   ) => {
-
-      webpackConfig?.module?.rules?.push(...[{
-        test: /\.js$/i,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-          }
-        }
-      }]);
+    webpackConfig?.module?.rules?.push(
+      ...[
+        {
+          test: /\.js$/i,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "razzle-plugin-webpack5-babel/loader",
+              options: {
+                isServer: webpackOptions.isNode,
+                cwd: razzleContext.paths.appPath,
+                cache: true,
+                babelPresetPlugins: [],
+                hasModern: false, // !!config.experimental.modern,
+                development: webpackOptions.isDev,
+                hasReactRefresh: false,
+              },
+            },
+          ],
+        },
+      ]
+    );
     return webpackConfig;
   },
 };

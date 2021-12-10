@@ -1,64 +1,65 @@
 {
-    "name": "razzle-plugin-webpack5-babel",
-    "description": "Create server-rendered universal JavaScript applications with no configuration",
-    "license": "MIT",
-    "author": "Jared Palmer <jared@palmer.net>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com:jaredpalmer/razzle.git",
-        "directory": "packages/razzle"
-    },
-    "version": "5.0.0-alpha.0",
-    "main": "lib/index.js",
-    "exports": {
-        ".": "./lib/index.js",
-        "./babel": "./lib/babel/preset.js",
-        "./package.json": "./package.json"
-    },
-    "types": "lib/index.d.ts",
-    "type": "module",
-    "scripts": {
-        "prettier": "prettier --check src/",
-        "prettier:fix": "prettier --write src/",
-        "lint": "eslint . --ext .ts,.tsx",
-        "lint:fix": "yarn lint --fix",
-        "verify": "run-p prettier lint",
-        "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc",
-        "postbuild": "tsc --build"
-    },
-    "keywords": [
-        "inferno",
-        "isomorphic",
-        "preact",
-        "razzle",
-        "react",
-        "reason",
-        "reasonml",
-        "ssr",
-        "universal",
-        "webpack"
-    ],
-    "dependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/plugin-proposal-class-properties": "^7.16.0",
-        "@babel/plugin-proposal-export-namespace-from": "^7.16.0",
-        "@babel/plugin-proposal-numeric-separator": "^7.16.0",
-        "@babel/plugin-proposal-object-rest-spread": "^7.16.0",
-        "@babel/plugin-syntax-bigint": "^7.8.3",
-        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-        "@babel/plugin-syntax-jsx": "^7.16.0",
-        "@babel/plugin-transform-modules-commonjs": "^7.16.0",
-        "@babel/plugin-transform-runtime": "^7.16.4",
-        "@babel/preset-env": "^7.16.4",
-        "@babel/preset-react": "^7.16.0",
-        "@babel/preset-typescript": "^7.16.0",
-        "babel-loader": "^8.2.3",
-        "babel-plugin-transform-define": "^2.0.1",
-        "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-        "chalk": "^4.1.2",
-        "esm-resolve": "^1.0.5",
-        "razzle": "5.0.0-alpha.0",
-        "webpack": "^5.64.4"
-    }
+  "name": "razzle-plugin-webpack5-babel",
+  "description": "Create server-rendered universal JavaScript applications with no configuration",
+  "license": "MIT",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle"
+  },
+  "version": "5.0.0-alpha.0",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./babel": "./lib/babel/preset.js",
+    "./loader": "./lib/babel/loader/index.js",
+    "./package.json": "./package.json"
+  },
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "yarn lint --fix",
+    "verify": "run-p prettier lint",
+    "verify:fix": "yarn prettier:fix && yarn lint:fix",
+    "build": "tsc",
+    "postbuild": "tsc --build"
+  },
+  "keywords": [
+    "inferno",
+    "isomorphic",
+    "preact",
+    "razzle",
+    "react",
+    "reason",
+    "reasonml",
+    "ssr",
+    "universal",
+    "webpack"
+  ],
+  "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.16.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.16.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.16.0",
+    "@babel/plugin-syntax-bigint": "^7.8.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-syntax-jsx": "^7.16.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-define": "^2.0.1",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "chalk": "^4.1.2",
+    "esm-resolve": "^1.0.5",
+    "razzle": "5.0.0-alpha.0",
+    "webpack": "^5.64.4"
+  }
 }

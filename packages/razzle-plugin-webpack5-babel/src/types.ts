@@ -15,16 +15,12 @@ export interface Webpack5BabelOptionsInt<T extends string>
 
 export interface Webpack5BabelPluginOptions {}
 
-export type Webpack5BabelRazzlePathNames =
-  | Webpack5RazzlePathNames
-  | "externals";
+export type Webpack5BabelRazzlePathNames = Webpack5RazzlePathNames;
 
 export type Webpack5BabelRazzleContext =
   Webpack5BabelRazzleContextInt<Webpack5BabelRazzlePathNames>;
 
-export type Webpack5BabelDefinePluginDefines =
-  | Webpack5DefinePluginDefines
-  | "process.env.something";
+export type Webpack5BabelDefinePluginDefines = Webpack5DefinePluginDefines;
 
 export type Webpack5BabelOptions =
   Webpack5BabelOptionsInt<Webpack5BabelDefinePluginDefines>;
