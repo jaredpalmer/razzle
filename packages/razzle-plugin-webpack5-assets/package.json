@@ -23,7 +23,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc",
+        "build": "tsc --build",
         "postbuild": "tsc --build"
     },
     "keywords": [
@@ -42,7 +42,8 @@
         "esm-resolve": "^1.0.5",
         "razzle": "5.0.0-alpha.0",
         "webpack": "^5.64.4",
-        "webpack-dev-server": "^4.6.0"
+        "webpack-dev-server": "^4.6.0",
+        "razzle-plugin-webpack5": "5.0.0-alpha.0"
     },
     "devDependencies": {
         "@types/webpack-dev-server": "^4.5.0"

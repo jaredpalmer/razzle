@@ -6,7 +6,7 @@ import {
   PluginNameWithOptions,
   PluginUnion,
   PluginWithOptions,
-} from "razzle/types";
+} from "../types";
 
 export async function loadPlugin(
   configPath: string,
@@ -59,7 +59,7 @@ export async function loadPlugin(
       razzlePlugin = (await import(tryPath)).default;
       // eslint-disable-next-line no-empty
     } catch (error) {
-       console.log(error);
+     //  console.log(error);
     }
   }
   if (!razzlePlugin) {

@@ -1,6 +1,6 @@
 
 export default {
-    plugins: ['webpack5', 'webpack5-externals', 'webpack5-babel'],
+    plugins: [{ name: 'webpack5', options: { outputEsm: true } }, 'webpack5-externals'],
     modifyWebpackConfig: (
         razzleConfig,
         razzleContext,

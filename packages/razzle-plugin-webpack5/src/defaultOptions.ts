@@ -4,4 +4,5 @@ export default <Webpack5PluginOptions>{
   devBuild: "default",
   webBuilds: ["default"],
   nodeBuilds: ["default"],
+  outputEsm: false,
 };

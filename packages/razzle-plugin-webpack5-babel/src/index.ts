@@ -2,7 +2,6 @@ import path from "path";
 
 import defaultOptions from "./defaultOptions.js";
 import { Webpack5BabelPluginOptions, Webpack5BabelRazzlePlugin } from "./types";
-export * from "./types.js";
 
 const Plugin: Webpack5BabelRazzlePlugin = {
   name: "webpack5-babel",

@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=require("express")();e.get("/",((e,s)=>{s.send("hello")})),e.listen(80)})();

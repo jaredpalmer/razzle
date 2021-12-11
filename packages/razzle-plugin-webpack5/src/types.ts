@@ -3,7 +3,7 @@ import {
   RazzleContextInt,
   RazzlePathNames,
   RazzlePluginInt,
-} from "razzle/types";
+} from "razzle";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
@@ -62,7 +62,7 @@ export interface Webpack5OptionsInt<T extends string> {
   readonly isDevEnv: boolean;
   readonly isDev: boolean;
   readonly isProd: boolean;
-
+  outputEsm: boolean;
   buildName: string;
   definePluginOptions: Record<T, string>;
 }
@@ -71,6 +71,7 @@ export interface Webpack5PluginOptions {
   devBuild: string;
   webBuilds: Array<string>;
   nodeBuilds: Array<string>;
+  outputEsm: boolean | { node: boolean; web: boolean };
 }
 
 export type Webpack5RazzlePathNames =

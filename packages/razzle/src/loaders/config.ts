@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { RazzlePlugin } from "razzle/index.js";
+import { RazzlePlugin } from "../types";
 
 import setupEnvironment from "../env.js";
 import logger from "../logger.js";

@@ -23,8 +23,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc",
-        "postbuild": "tsc --build"
+        "build": "tsc --build"
     },
     "keywords": [
         "inferno",

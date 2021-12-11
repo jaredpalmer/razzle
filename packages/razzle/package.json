@@ -15,7 +15,6 @@
     "main": "lib/index.js",
     "exports": {
         ".": "./lib/index.js",
-        "./loaders/plugins": "./lib/loaders/plugins.js",
         "./package.json": "./package.json"
     },
     "types": "lib/index.d.ts",
@@ -27,8 +26,7 @@
         "lint:fix": "yarn lint --fix",
         "verify": "run-p prettier lint",
         "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc",
-        "postbuild": "tsc --build"
+        "build": "tsc --build"
     },
     "keywords": [
         "inferno",

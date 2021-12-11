@@ -3,7 +3,6 @@ import {
   Webpack5AssetsRazzlePlugin,
 } from "./types";
 import defaultOptions from "./defaultOptions.js";
-import { resolveExternal } from "./utils.js";
 import path from "path";
 
 export * from "./types.js";

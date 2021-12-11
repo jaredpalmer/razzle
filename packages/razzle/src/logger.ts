@@ -83,18 +83,18 @@ const info = (text: string) => {
 
 // Verbose output
 // takes optional data
-const debug = (text: string, data: unknown) => {
+const debug = (text: string, data?: unknown) => {
   write("debug", text, data);
 };
 
 // Warn output
-const warn = (text: string, data: unknown) => {
+const warn = (text: string, data?: unknown) => {
   write("warn", text, data);
 };
 
 // Error output
 // takes an optional error
-const error = (text: string, err: unknown) => {
+const error = (text: string, err?: unknown) => {
   write("error", text, err);
 };
 

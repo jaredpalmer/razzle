@@ -84,7 +84,7 @@ export default function NoAnonymousDefaultExport({
             break;
           }
           default: {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            // @typescript-eslint/no-unused-vars
             const _: never = def;
           }
         }

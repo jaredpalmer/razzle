@@ -5,7 +5,7 @@ import {
   Webpack5OptionsInt,
   Webpack5RazzlePathNames,
   Webpack5DefinePluginDefines,
-} from "razzle-plugin-webpack5/types";
+} from "razzle-plugin-webpack5";
 
 export interface Webpack5ExternalsRazzleContextInt<T extends string>
   extends Webpack5RazzleContextInt<T> {}

@@ -3,6 +3,7 @@ import path from "path";
 import buildResolver from "esm-resolve";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
+import { logger } from "razzle";
 
 import {
   Webpack5ChildConfig,
@@ -24,7 +25,9 @@ export default async (
   pluginOptions: Webpack5PluginOptions,
   razzleConfig: Webpack5ChildConfig,
   razzleContext: Webpack5RazzleContext,
-  isDevServer: boolean = false
+  isDevServer: boolean = false,
+  isDevEnv: boolean = false,
+  isDev: boolean = false
 ): Promise<{
   configurations: Array<[Configuration, Webpack5Options]>;
   devServerConfiguration?: DevServerConfiguration;
@@ -34,14 +37,13 @@ export default async (
   const nodeBuilds = razzleContext.nodeBuilds;
   const allBuilds = new Set(
     [...webBuilds, ...nodeBuilds].filter(
-      (build) => isDevServer && build !== devBuild
+      (build) => !isDevServer || build !== devBuild
     )
   );
-  console.log(Array.from(allBuilds));
   let shouldUseDevserver = isDevServer;
   const webpackConfigs: Array<[Configuration, Webpack5Options]> = [];
 
-  for (const buildName in Array.from(allBuilds)) {
+  for (const buildName of [...allBuilds]) {
     const webOnly =
       webBuilds.some((build) => build === buildName) &&
       !nodeBuilds.some((build) => build === buildName);
@@ -55,9 +57,13 @@ export default async (
       let webpackOptions: Webpack5Options = {
         isWeb: true,
         isNode: false,
-        isDevEnv: true,
-        isDev: true,
-        isProd: false,
+        isDevEnv: isDevEnv,
+        isDev: isDev,
+        isProd: !isDev,
+        outputEsm:
+          typeof pluginOptions.outputEsm == "boolean"
+            ? pluginOptions.outputEsm
+            : pluginOptions.outputEsm.web,
         buildName: buildName,
         definePluginOptions: { "process.env.NODE_ENV": "development" },
       };
@@ -91,7 +97,7 @@ export default async (
 
       let webpackConfig: Configuration = {
         name: `web-${buildName}`,
-        target: "web",
+        target: webpackOptions.outputEsm ? ["web", "es2015"] : "web",
         // Path to your entry point. From this file Webpack will begin its work
         entry: razzleContext.paths.appClientPath,
 
@@ -101,13 +107,21 @@ export default async (
           path: razzleContext.paths.appBuildPublic,
           publicPath: "",
           filename: "client.js",
+          module: webpackOptions.outputEsm,
+          chunkFormat: webpackOptions.outputEsm ? "module" : "commonjs",
+          environment: {
+            module: webpackOptions.outputEsm,
+            dynamicImport: webpackOptions.outputEsm,
+          }, 
         },
-
+        
+        experiments: {
+          outputModule: webpackOptions.outputEsm,
+        },
         // Default mode for Webpack is production.
         // Depending on mode Webpack will apply different things
-        // on the final bundle. For now, we don't need production's JavaScript
-        // minifying and other things, so let's set mode to development
-        mode: "development",
+        // on the final bundle.
+        mode: isDevEnv ? "development" : "production",
       };
       // run plugin/config hooks
       for (const {
@@ -144,12 +158,19 @@ export default async (
       let webpackOptions: Webpack5Options = {
         isWeb: false,
         isNode: true,
-        isDevEnv: true,
-        isDev: true,
-        isProd: false,
+        isDevEnv: isDevEnv,
+        isDev: isDev,
+        isProd: !isDev,
+        outputEsm:
+          typeof pluginOptions.outputEsm == "boolean"
+            ? pluginOptions.outputEsm
+            : pluginOptions.outputEsm.node,
         buildName: buildName,
         definePluginOptions: { "process.env.NODE_ENV": "development" },
       };
+      if (webpackOptions.outputEsm) {
+        logger.warn(`ESM is partially supported in node with webpack. Outputting .cjs with requires for node-${buildName}`)
+      }
       // run plugin/config hooks
       for (const {
         plugin,
@@ -181,6 +202,7 @@ export default async (
       let webpackConfig: Configuration = {
         name: `node-${buildName}`,
         target: "node",
+        // target: webpackOptions.outputEsm ? "es2020" : "node",
         // Path to your entry point. From this file Webpack will begin its work
         entry: razzleContext.paths.appServerPath,
 
@@ -189,14 +211,25 @@ export default async (
         output: {
           path: razzleContext.paths.appBuild,
           publicPath: "",
-          filename: "server.js",
+          filename: `server.cjs`,
+          /*
+          filename: `server.${webpackOptions.outputEsm ? "" : "c"}js`, 
+          */
+          module: webpackOptions.outputEsm,
+          chunkFormat: webpackOptions.outputEsm ? "module" : "commonjs",
+          environment: {
+            module: webpackOptions.outputEsm,
+            // dynamicImport: webpackOptions.outputEsm,
+          },
         },
-
+         
+        experiments: {
+          outputModule: webpackOptions.outputEsm,
+        },
         // Default mode for Webpack is production.
         // Depending on mode Webpack will apply different things
-        // on the final bundle. For now, we don't need production's JavaScript
-        // minifying and other things, so let's set mode to development
-        mode: "development",
+        // on the final bundle.
+        mode: isDevEnv ? "development" : "production",
       };
 
       // run plugin/config hooks

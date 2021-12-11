@@ -2,7 +2,7 @@ import path from "path";
 
 import Webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-
+import { logger } from "razzle";
 import createConfig from "./createConfig.js";
 import defaultOptions from "./defaultOptions.js";
 import { Webpack5PluginOptions, Webpack5RazzlePlugin } from "./types";
@@ -48,15 +48,26 @@ const Plugin: Webpack5RazzlePlugin = {
           });
         },
         async (argv) => {
+          if (typeof process.env["NODE_ENV"] === "undefined") {
+            process.env["NODE_ENV"] = "development";
+          } else if (process.env["NODE_ENV"] === "production") {
+            logger.warn(
+              "Cannot run devserver with NODE_ENV production, setting to development"
+            );
+            process.env["NODE_ENV"] = "development";
+          }
           const configs = await createConfig(
             pluginOptions,
             razzleConfig,
             razzleContext,
+            true,
+            true,
             true
           );
           const compiler = Webpack(
             configs.configurations.map((config) => config[0])
           );
+
           if (configs.devServerConfiguration) {
             const server = new WebpackDevServer(
               configs.devServerConfiguration,
@@ -86,7 +97,45 @@ const Plugin: Webpack5RazzlePlugin = {
         }
       );
     },
-    build: (argv, pluginOptions, razzleConfig, razzleContext) => {},
+
+    build: (argv, pluginOptions, razzleConfig, razzleContext) => {
+      argv.command(
+        "build",
+        "build using webpack",
+        function (yargs) {
+          return yargs.option("u", {
+            alias: "url",
+            describe: "the URL to open",
+          });
+        },
+        async (argv) => {
+          if (typeof process.env["NODE_ENV"] === "undefined") {
+            process.env["NODE_ENV"] = "production";
+          } else if (process.env["NODE_ENV"] === "development") {
+            logger.warn(
+              "Running build with NODE_ENV=development, set NODE_ENV=production"
+            );
+          }
+          console.log(process.env["NODE_ENV"]);
+          const configs = await createConfig(
+            pluginOptions,
+            razzleConfig,
+            razzleContext,
+            false,
+            process.env["NODE_ENV"] === "development",
+            false
+          );
+          const compiler = Webpack(
+            configs.configurations.map((config) => config[0])
+          );
+          compiler.run((err, stats) => {
+            // [Stats Object](#stats-object)
+            // Print watch/build result here...
+            console.log(stats);
+          });
+        }
+      );
+    },
   },
 };
 

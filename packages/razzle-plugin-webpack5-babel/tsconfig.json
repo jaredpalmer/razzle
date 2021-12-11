@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "./lib", // Your outDir
-    "composite": true
+    "outDir": "./lib"
   },
   "references": [
     {
