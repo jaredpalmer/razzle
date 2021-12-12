@@ -1,12 +1,11 @@
 import path from "path";
 
-import defaultOptions from "./defaultOptions.js";
-import { Webpack5BabelPluginOptions, Webpack5BabelRazzlePlugin } from "./types";
+import { PluginOptions, BabelPlugin } from "./types";
 
-const Plugin: Webpack5BabelRazzlePlugin = {
+const Plugin: BabelPlugin = {
   name: "webpack5-babel",
-  defaultOptions: defaultOptions,
-  modifyWebpackConfig: (
+  defaultOptions: {},
+  modifyConfig: (
     pluginOptions,
     razzleConfig,
     razzleContext,
@@ -17,7 +16,7 @@ const Plugin: Webpack5BabelRazzlePlugin = {
       ...[
         {
           test: /\.js$/i,
-          exclude: /node_modules/,
+          include: [razzleContext.paths.appSrc], //.concat(additionalIncludes)
           use: [
             {
               loader: "razzle-plugin-webpack5-babel/loader",
@@ -39,9 +38,9 @@ const Plugin: Webpack5BabelRazzlePlugin = {
   },
 };
 
-export default function (options: Webpack5BabelPluginOptions): {
-  plugin: Webpack5BabelRazzlePlugin;
-  options: Webpack5BabelPluginOptions;
+export default function (options: PluginOptions): {
+  plugin: BabelPlugin,
+  options: PluginOptions
 } {
   return {
     plugin: Plugin,

@@ -2,7 +2,7 @@ import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
-import { RazzlePlugin, RazzleConfig, RazzleContext } from "./types";
+import { Plugin, Config, Context } from "./types";
 
 export async function cli(): Promise<void>;
 export async function cli() {
@@ -11,13 +11,13 @@ export async function cli() {
   type PluginParser = (
     argv: Argv,
     pluginOptions: Record<string, unknown>,
-    razzleConfig: RazzleConfig,
-    razzleContext: RazzleContext
+    razzleConfig: Config,
+    razzleContext: Context
   ) => void;
   type ConfigParser = (
     argv: Argv,
-    razzleConfig: RazzleConfig,
-    razzleContext: RazzleContext
+    razzleConfig: Config,
+    razzleContext: Context
   ) => void;
 
   const parsers: Record<
@@ -30,11 +30,11 @@ export async function cli() {
   for (const { plugin, options: chilPluginOptios } of razzleContext.plugins) {
     // Check if plugin.addCommands is a object.
     // If it is, add all keys as a function to parsers.
-    if ((<RazzlePlugin>plugin).addCommands) {
-      for (const command in (<RazzlePlugin>plugin).addCommands) {
+    if ((<Plugin>plugin).addCommands) {
+      for (const command in (<Plugin>plugin).addCommands) {
         parsers[command] = {
           options: chilPluginOptios,
-          parser: (<Required<RazzlePlugin>>plugin).addCommands[command],
+          parser: (<Required<Plugin>>plugin).addCommands[command],
         };
       }
     }

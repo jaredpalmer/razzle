@@ -1,49 +1,47 @@
 import type {RuleSetRule} from "webpack";
 
 import {
-  Webpack5RazzleConfigInt,
-  Webpack5RazzlePluginInt,
-  Webpack5RazzleContextInt,
-  Webpack5OptionsInt,
-  Webpack5RazzlePathNames,
-  Webpack5DefinePluginDefines,
-} from "razzle-plugin-webpack5/types";
+  ConfigInt as WP5ConfigInt,
+  PluginInt as WP5PluginInt,
+  ContextInt as WP5ContextInt,
+  OptionsInt as WP5OptionsInt,
+  PathNames as WP5PathNames,
+  DefinePluginDefines as WP5DefinePluginDefines,
+} from "razzle-plugin-webpack5";
 
-export interface Webpack5AssetsRazzleContextInt<T extends string>
-  extends Webpack5RazzleContextInt<T> {}
+export interface AssetsContextInt<Pths extends string>
+  extends WP5ContextInt<Pths> {}
 
-export interface Webpack5AssetsOptionsInt<T extends string>
-  extends Webpack5OptionsInt<T> {}
+export interface AssetsOptionsInt<Defs extends string>
+  extends WP5OptionsInt<Defs> {}
 
-export interface Webpack5AssetsPluginOptions {
+export interface PluginOptions {
   assetResourceExclude: Exclude<RuleSetRule['exclude'], undefined>
   assetAutoTest: Exclude<RuleSetRule['test'], undefined>
   assetAutoSize: number
 }
 
-export type Webpack5AssetsRazzlePathNames =
-  | Webpack5RazzlePathNames
+export type PathNames =
+  | WP5PathNames
   | "staticPath";
 
-export type Webpack5AssetsRazzleContext =
-  Webpack5AssetsRazzleContextInt<Webpack5AssetsRazzlePathNames>;
+export type AssetsContext =
+  AssetsContextInt<PathNames>;
 
-export type Webpack5AssetsDefinePluginDefines =
-  | Webpack5DefinePluginDefines
-  | "process.env.something";
+export type AssetsDefinePluginDefines =
+  | WP5DefinePluginDefines;
 
-export type Webpack5AssetsOptions =
-  Webpack5AssetsOptionsInt<Webpack5AssetsDefinePluginDefines>;
+export type AssetsOptions =
+  AssetsOptionsInt<AssetsDefinePluginDefines>;
 
-export type Webpack5AssetsConfig = Webpack5RazzleConfigInt<
-  Webpack5AssetsConfig,
-  Webpack5AssetsRazzleContext,
-  Webpack5AssetsOptions
+export type AssetsConfig = WP5ConfigInt<
+  AssetsContext,
+  AssetsOptions
 >;
 
-export type Webpack5AssetsRazzlePlugin = Webpack5RazzlePluginInt<
-  Webpack5AssetsPluginOptions,
-  Webpack5AssetsConfig,
-  Webpack5AssetsRazzleContext,
-  Webpack5AssetsOptions
+export type AssetsPlugin = WP5PluginInt<
+  PluginOptions,
+  AssetsConfig,
+  AssetsContext,
+  AssetsOptions
 >;

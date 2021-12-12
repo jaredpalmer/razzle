@@ -4,29 +4,33 @@ import Webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import { logger } from "razzle";
 import createConfig from "./createConfig.js";
-import defaultOptions from "./defaultOptions.js";
-import { Webpack5PluginOptions, Webpack5RazzlePlugin } from "./types";
+import { PluginOptions, WP5Plugin } from "./types";
 
 export * from "./types.js";
 
-const Plugin: Webpack5RazzlePlugin = {
+const Plugin: WP5Plugin = {
   name: "webpack5",
-  defaultOptions: defaultOptions,
-  modifyRazzleContext: (pluginOptions, razzleContext) => {
+  defaultOptions: {
+    devBuild: "default",
+    webBuilds: ["default"],
+    nodeBuilds: ["default"],
+    outputEsm: false,
+  },
+  modifyContext: (pluginOptions, razzleContext) => {
     const {
       paths: { appPath },
     } = razzleContext;
-    const srcPath = path.join(appPath, "src");
+    const appSrc = path.join(appPath, "src");
     const appBuild = path.join(appPath, "build");
 
     razzleContext.paths = {
       ...razzleContext.paths,
-      srcPath: srcPath,
+      appSrc: appSrc,
       appBuild: appBuild,
       appBuildPublic: path.join(appBuild, "public"),
-      appServerIndex: path.join(srcPath, "index"),
-      appServerPath: path.join(srcPath, "server"),
-      appClientPath: path.join(srcPath, "client"),
+      appServerIndex: path.join(appSrc, "index"),
+      appServerPath: path.join(appSrc, "server"),
+      appClientPath: path.join(appSrc, "client"),
     };
 
     razzleContext = {
@@ -139,9 +143,9 @@ const Plugin: Webpack5RazzlePlugin = {
   },
 };
 
-export default function (options: Webpack5PluginOptions): {
-  plugin: Webpack5RazzlePlugin;
-  options: Webpack5PluginOptions;
+export default function (options: PluginOptions): {
+  plugin: WP5Plugin;
+  options: PluginOptions;
 } {
   return {
     plugin: Plugin,

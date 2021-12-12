@@ -1,5 +1,6 @@
 import transform from "./transform.js";
 import { RazzleWebpack5LoaderContext, Source, SourceMap } from "./types";
+import { inspect } from 'util';
 
 const razzleBabelLoader = async function (
   this: RazzleWebpack5LoaderContext,
@@ -10,6 +11,7 @@ const razzleBabelLoader = async function (
   const target = this.target;
   const loaderOptions = this.getOptions();
 
+        console.log(inspect(loaderOptions, false, 5, true));
   const result = await transform.call(
     this,
     inputSource,

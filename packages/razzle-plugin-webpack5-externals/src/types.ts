@@ -1,46 +1,45 @@
+
 import {
-  Webpack5RazzleConfigInt,
-  Webpack5RazzlePluginInt,
-  Webpack5RazzleContextInt,
-  Webpack5OptionsInt,
-  Webpack5RazzlePathNames,
-  Webpack5DefinePluginDefines,
+  ConfigInt as WP5ConfigInt,
+  PluginInt as WP5PluginInt,
+  ContextInt as WP5ContextInt,
+  OptionsInt as WP5OptionsInt,
+  PathNames as WP5PathNames,
+  DefinePluginDefines as WP5DefinePluginDefines,
 } from "razzle-plugin-webpack5";
 
-export interface Webpack5ExternalsRazzleContextInt<T extends string>
-  extends Webpack5RazzleContextInt<T> {}
+export interface ExternalsContextInt<Pths extends string>
+  extends WP5ContextInt<Pths> {}
 
-export interface Webpack5ExternalsOptionsInt<T extends string>
-  extends Webpack5OptionsInt<T> {}
+export interface ExternalsOptionsInt<Defs extends string>
+  extends WP5OptionsInt<Defs> {}
 
-export interface Webpack5ExternalsPluginOptions {
+export interface PluginOptions {
   esmExternals: boolean | "loose";
   notExternalsCallback?: (request: string, context: string) => boolean;
 }
 
-export type Webpack5ExternalsRazzlePathNames =
-  | Webpack5RazzlePathNames
-  | "externals";
+export type PathNames =
+  | WP5PathNames;
 
-export type Webpack5ExternalsRazzleContext =
-  Webpack5ExternalsRazzleContextInt<Webpack5ExternalsRazzlePathNames>;
+export type ExternalsContext =
+  ExternalsContextInt<PathNames>;
 
-export type Webpack5ExternalsDefinePluginDefines =
-  | Webpack5DefinePluginDefines
-  | "process.env.something";
+export type ExternalsDefinePluginDefines =
+  | WP5DefinePluginDefines;
 
-export type Webpack5ExternalsOptions =
-  Webpack5ExternalsOptionsInt<Webpack5ExternalsDefinePluginDefines>;
+export type ExternalsOptions =
+  ExternalsOptionsInt<ExternalsDefinePluginDefines>;
 
-export type Webpack5ExternalsConfig = Webpack5RazzleConfigInt<
-  Webpack5ExternalsConfig,
-  Webpack5ExternalsRazzleContext,
-  Webpack5ExternalsOptions
+export type ExternalsConfig = WP5ConfigInt<
+  ExternalsContext,
+  ExternalsOptions
 >;
 
-export type Webpack5ExternalsRazzlePlugin = Webpack5RazzlePluginInt<
-  Webpack5ExternalsPluginOptions,
-  Webpack5ExternalsConfig,
-  Webpack5ExternalsRazzleContext,
-  Webpack5ExternalsOptions
+export type ExternalsPlugin = WP5PluginInt<
+  PluginOptions,
+  ExternalsConfig,
+  ExternalsContext,
+  ExternalsOptions
 >;
+

@@ -1,62 +1,62 @@
 import {
-  RazzleConfigInt,
-  RazzleContextInt,
-  RazzlePathNames,
-  RazzlePluginInt,
+  ConfigInt as RazzleConfigInt,
+  ContextInt as RazzleContextInt,
+  PathNames as RazzlePathNames,
+  PluginInt as RazzlePluginInt,
 } from "razzle";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
-export interface Webpack5RazzleConfigInt<T, U, Q> {
-  modifyWebpackOptions?: (
-    razzleConfig: T,
-    razzleContext: U,
-    webpackOptions: Q
-  ) => Promise<Q> | Q;
-  modifyWebpackConfig?: (
-    razzleConfig: T,
-    razzleContext: U,
-    webpackOptions: Q,
+export interface ConfigInt<Ctx, WP5Opts> extends RazzleConfigInt<Ctx> {
+  modifyOptions?: (
+    razzleConfig: this,
+    razzleContext: Ctx,
+    webpackOptions: WP5Opts
+  ) => Promise<WP5Opts> | WP5Opts;
+  modifyConfig?: (
+    razzleConfig: this,
+    razzleContext: Ctx,
+    webpackOptions: WP5Opts,
     webpackConfig: Configuration
   ) => Promise<Configuration> | Configuration;
   modifyDevserverConfig?: (
-    razzleConfig: T,
-    razzleContext: U,
+    razzleConfig: this,
+    razzleContext: Ctx,
     devServerConfig: DevServerConfiguration
   ) => Promise<DevServerConfiguration> | DevServerConfiguration;
 }
 
-export interface Webpack5RazzlePluginInt<S, T, U, Q>
-  extends RazzlePluginInt<S, T, U> {
-  modifyWebpackOptions?: (
-    pluginOptions: S,
-    razzleConfig: T,
-    razzleContext: U,
-    webpackOptions: Q
-  ) => Promise<Q> | Q;
-  modifyWebpackConfig?: (
-    pluginOptions: S,
-    razzleConfig: T,
-    razzleContext: U,
-    webpackOptions: Q,
+export interface PluginInt<Opts, Conf, Ctx, WP5Opts>
+  extends RazzlePluginInt<Opts, Conf, Ctx> {
+  modifyOptions?: (
+    pluginOptions: Opts,
+    razzleConfig: Conf,
+    razzleContext: Ctx,
+    webpackOptions: WP5Opts
+  ) => Promise<WP5Opts> | WP5Opts;
+  modifyConfig?: (
+    pluginOptions: Opts,
+    razzleConfig: Conf,
+    razzleContext: Ctx,
+    webpackOptions: WP5Opts,
     webpackConfig: Configuration
   ) => Promise<Configuration> | Configuration;
   modifyDevserverConfig?: (
-    pluginOptions: S,
-    razzleConfig: T,
-    razzleContext: U,
+    pluginOptions: Opts,
+    razzleConfig: Conf,
+    razzleContext: Ctx,
     devServerConfig: DevServerConfiguration
   ) => Promise<DevServerConfiguration> | DevServerConfiguration;
 }
 
-export interface Webpack5RazzleContextInt<U extends string>
-  extends RazzleContextInt<U> {
+export interface ContextInt<Pths extends string>
+  extends RazzleContextInt<Pths> {
   devBuild: string;
   webBuilds: Array<string>;
   nodeBuilds: Array<string>;
 }
 
-export interface Webpack5OptionsInt<T extends string> {
+export interface OptionsInt<T extends string> {
   readonly isWeb: boolean;
   readonly isNode: boolean;
   readonly isDevEnv: boolean;
@@ -67,49 +67,38 @@ export interface Webpack5OptionsInt<T extends string> {
   definePluginOptions: Record<T, string>;
 }
 
-export interface Webpack5PluginOptions {
+export interface PluginOptions {
   devBuild: string;
   webBuilds: Array<string>;
   nodeBuilds: Array<string>;
   outputEsm: boolean | { node: boolean; web: boolean };
 }
 
-export type Webpack5RazzlePathNames =
-  | RazzlePathNames
-  | "srcPath"
+export type PathNames =
+  | RazzlePathNames 
+  | "appSrc"
   | "appBuild"
   | "appBuildPublic"
   | "appServerIndex"
   | "appServerPath"
   | "appClientPath";
 
-export type Webpack5RazzleContext =
-  Webpack5RazzleContextInt<Webpack5RazzlePathNames>;
+export type Context = ContextInt<PathNames>;
 
-export type Webpack5DefinePluginDefines = "process.env.NODE_ENV";
+export type DefinePluginDefines = "process.env.NODE_ENV";
 
-export type Webpack5Options = Webpack5OptionsInt<Webpack5DefinePluginDefines>;
+export type WP5Options = OptionsInt<DefinePluginDefines>;
 
-export type Webpack5RazzleConfig = RazzleConfigInt<
-  Webpack5ChildConfig,
-  Webpack5RazzleContext
->;
+export type Config = RazzleConfigInt<Context>;
 
-export type Webpack5RazzlePlugin = RazzlePluginInt<
-  Webpack5PluginOptions,
-  Webpack5ChildConfig,
-  Webpack5RazzleContext
->;
+export type WP5Plugin = RazzlePluginInt<PluginOptions, WP5ChildConfig, Context>;
 
-export type Webpack5ChildConfig = Webpack5RazzleConfigInt<
-  Webpack5ChildConfig,
-  Webpack5RazzleContext,
-  Webpack5Options
->;
+/* basic types for hooks to adhere to */
+export type WP5ChildConfig = ConfigInt<Context, WP5Options>;
 
-export type Webpack5ChildPlugin = Webpack5RazzlePluginInt<
+export type WP5ChildPlugin = PluginInt<
   Record<string, unknown>,
-  Webpack5ChildConfig,
-  Webpack5RazzleContext,
-  Webpack5Options
+  WP5ChildConfig,
+  Context,
+  WP5Options
 >;

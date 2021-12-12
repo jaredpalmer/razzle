@@ -1,25 +1,24 @@
 import fs from "fs";
 
-import { RazzlePlugin } from "../types";
 
 import setupEnvironment from "../env.js";
 import logger from "../logger.js";
 import defaultPaths from "../paths.js";
-import { RazzleConfig, RazzleContext, RazzleOptions } from "../types.js";
+import { Plugin, Config, Context, Options } from "../types.js";
 
 import loadPlugins from "./plugins.js";
 
 export default (
-  razzleConfigIn?: RazzleConfig | undefined,
+  razzleConfigIn?: Config | undefined,
   packageJsonIn?: unknown | undefined
-): Promise<{ razzleConfig: RazzleConfig; razzleContext: RazzleContext }> =>
+): Promise<{ razzleConfig: Config; razzleContext: Context }> =>
   new Promise(async (resolve) => {
-    let razzleConfig: RazzleConfig = razzleConfigIn || { plugins: [] };
+    let razzleConfig: Config = razzleConfigIn || { plugins: [] };
     let packageJson = packageJsonIn || {};
     // Check for razzle.config.js file
-    if (fs.existsSync(defaultPaths.appRazzleConfig + ".js")) {
+    if (fs.existsSync(defaultPaths.appConfig + ".js")) {
       try {
-        razzleConfig = (await import(defaultPaths.appRazzleConfig + ".js"))
+        razzleConfig = (await import(defaultPaths.appConfig + ".js"))
           .default;
       } catch (e) {
         logger.error("Invalid razzle.config.js file.", e);
@@ -40,12 +39,12 @@ export default (
 
     setupEnvironment(defaultPaths);
 
-    const razzleOptions: RazzleOptions = Object.assign(
-      <RazzleOptions>{ verbose: false, debug: false },
+    const razzleOptions: Options = Object.assign(
+      <Options>{ verbose: false, debug: false },
       razzleConfig.options || {}
     );
 
-    let razzleContext: RazzleContext = {
+    let razzleContext: Context = {
       paths: defaultPaths,
       razzleOptions: razzleOptions,
       plugins: await loadPlugins(
@@ -55,18 +54,18 @@ export default (
     };
 
     for (const { plugin, options: pluginOptions } of razzleContext.plugins) {
-      // Check if plugin.modifyRazzleContext is a function.
+      // Check if plugin.modifyContext is a function.
       // If it is, call it on the context we created.
-      if ((<RazzlePlugin>plugin).modifyRazzleContext) {
-        razzleContext = await (<Required<RazzlePlugin>>(
+      if ((<Plugin>plugin).modifyContext) {
+        razzleContext = await (<Required<Plugin>>(
           plugin
-        )).modifyRazzleContext(pluginOptions, razzleContext);
+        )).modifyContext(pluginOptions, razzleContext);
       }
     }
-    if (razzleConfig.modifyRazzleContext) {
-      // Check if razzle.modifyPaths is a function.
+    if (razzleConfig.modifyContext) {
+      // Check if razzle.modifyContext is a function.
       // If it is, call it on the paths we created.
-      razzleContext = await razzleConfig.modifyRazzleContext(razzleContext);
+      razzleContext = await razzleConfig.modifyContext(razzleContext);
     }
 
     resolve({

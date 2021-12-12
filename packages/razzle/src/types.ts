@@ -1,56 +1,56 @@
 import { Argv } from "yargs";
 
-export type RazzleOptions = {
+export type Options = {
   verbose?: boolean;
   debug?: boolean;
 };
 
-export type RazzlePathNames =
+export type PathNames =
   | "dotenv"
   | "appPath"
   | "appNodeModules"
   | "appPackageJson"
-  | "appRazzleConfig"
+  | "appConfig"
   | "nodePaths"
   | "ownPath"
   | "ownNodeModules";
 
-export type RazzlePaths<T extends string = string> = Record<T, string>;
+export type Paths<T extends string = string> = Record<T, string>;
 
-export interface RazzleContextInt<U extends string> {
-  paths: RazzlePaths<U>;
-  razzleOptions: RazzleOptions;
+export interface ContextInt<Pths extends string> {
+  paths: Paths<Pths>;
+  razzleOptions: Options;
   plugins: Array<PluginWithOptions>;
 }
 
-export type RazzleContext<T extends string = string> = RazzleContextInt<T>;
+export type Context = ContextInt<PathNames>;
 
-export type RazzleConfig = RazzleConfigInt<RazzleConfig, RazzleContext<RazzlePathNames>>;
+export type Config = ConfigInt<Context>;
 
-export interface RazzleConfigInt<T, U extends RazzleContext> {
-  options?: RazzleOptions;
+export interface ConfigInt<Ctx> {
+  options?: Options;
   plugins: Array<PluginUnion>;
-  modifyRazzleContext?: (razzleContext: U) => Promise<U> | U;
+  modifyContext?: (razzleContext: Ctx) => Promise<Ctx> | Ctx;
   addCommands?: Record<
     string,
-    (argv: Argv, razzleConfig: T, razzleContext: U) => void
+    (argv: Argv, razzleConfig: this, razzleContext: Ctx) => void
   >;
 }
 
-export type RazzlePlugin = RazzlePluginInt<Record<string, unknown>, RazzleConfig, RazzleContext<RazzlePathNames>>;
+export type Plugin = PluginInt<Record<string, unknown>, Config, Context>;
 
-export interface RazzlePluginInt<Q, T, U> {
+export interface PluginInt<Opt, Conf, Ctx> {
   name: string;
-  defaultOptions?: Q;
-  modifyRazzleContext?: (pluginOptions: Q, razzleContext: U) => Promise<U> | U;
+  defaultOptions?: Opt;
+  modifyContext?: (pluginOptions: Opt, razzleContext: Ctx) => Promise<Ctx> | Ctx;
   addCommands?: Record<
     string,
-    (argv: Argv, pluginOptions: Q, razzleConfig: T, razzleContext: U) => void
+    (argv: Argv, pluginOptions: Opt, razzleConfig: Conf, razzleContext: Ctx) => void
   >;
 }
 
 export type PluginWithOptions = {
-  plugin: unknown;
+  plugin: Plugin;
   options: Record<string, unknown>;
 };
 export type PluginNameWithOptions = {

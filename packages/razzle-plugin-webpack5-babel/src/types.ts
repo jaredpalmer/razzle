@@ -1,39 +1,43 @@
+
 import {
-  Webpack5DefinePluginDefines,
-  Webpack5OptionsInt,
-  Webpack5RazzleConfigInt,
-  Webpack5RazzleContextInt,
-  Webpack5RazzlePathNames,
-  Webpack5RazzlePluginInt,
+  ConfigInt as WP5ConfigInt,
+  PluginInt as WP5PluginInt,
+  ContextInt as WP5ContextInt,
+  OptionsInt as WP5OptionsInt,
+  PathNames as WP5PathNames,
+  DefinePluginDefines as WP5DefinePluginDefines,
 } from "razzle-plugin-webpack5";
 
-export interface Webpack5BabelRazzleContextInt<T extends string>
-  extends Webpack5RazzleContextInt<T> {}
+export interface BabelContextInt<Pths extends string>
+  extends WP5ContextInt<Pths> {}
 
-export interface Webpack5BabelOptionsInt<T extends string>
-  extends Webpack5OptionsInt<T> {}
+export interface BabelOptionsInt<Defs extends string>
+  extends WP5OptionsInt<Defs> {}
 
-export interface Webpack5BabelPluginOptions {}
+export interface PluginOptions {
+}
 
-export type Webpack5BabelRazzlePathNames = Webpack5RazzlePathNames;
+export type PathNames =
+  | WP5PathNames;
 
-export type Webpack5BabelRazzleContext =
-  Webpack5BabelRazzleContextInt<Webpack5BabelRazzlePathNames>;
+export type BabelContext =
+  BabelContextInt<PathNames>;
 
-export type Webpack5BabelDefinePluginDefines = Webpack5DefinePluginDefines;
+export type BabelDefinePluginDefines =
+  | WP5DefinePluginDefines;
 
-export type Webpack5BabelOptions =
-  Webpack5BabelOptionsInt<Webpack5BabelDefinePluginDefines>;
+export type BabelOptions =
+  BabelOptionsInt<BabelDefinePluginDefines>;
 
-export type Webpack5BabelConfig = Webpack5RazzleConfigInt<
-  Webpack5BabelConfig,
-  Webpack5BabelRazzleContext,
-  Webpack5BabelOptions
+export type BabelConfig = WP5ConfigInt<
+  BabelContext,
+  BabelOptions
 >;
 
-export type Webpack5BabelRazzlePlugin = Webpack5RazzlePluginInt<
-  Webpack5BabelPluginOptions,
-  Webpack5BabelConfig,
-  Webpack5BabelRazzleContext,
-  Webpack5BabelOptions
+export type BabelPlugin = WP5PluginInt<
+  PluginOptions,
+  BabelConfig,
+  BabelContext,
+  BabelOptions
 >;
+

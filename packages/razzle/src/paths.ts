@@ -3,7 +3,7 @@ import path from "path";
 import url from "url";
 
 import logger from "./logger.js";
-import { RazzlePathNames, RazzlePaths } from "./types.js";
+import { PathNames, Paths } from "./types.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -75,13 +75,15 @@ const nodePaths = (process.env.NODE_PATH || "")
   .map((folder) => path.resolve(appDirectory, folder))
   .join(path.delimiter);
 
-export default <RazzlePaths<RazzlePathNames>>{
+const defaultPaths: Paths<PathNames> = {
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
-  appRazzleConfig: resolveApp("razzle.config"),
+  appConfig: resolveApp("razzle.config"),
   appNodeModules: resolveApp("node_modules"),
   appPackageJson: resolveApp("package.json"),
   nodePaths: nodePaths,
   ownPath: resolveOwn("."),
   ownNodeModules: resolveOwn("node_modules"),
 };
+
+export default defaultPaths;

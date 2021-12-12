@@ -1,16 +1,31 @@
 import {
-  Webpack5AssetsPluginOptions,
-  Webpack5AssetsRazzlePlugin,
+  PluginOptions,
+  AssetsPlugin,
 } from "./types";
-import defaultOptions from "./defaultOptions.js";
-import path from "path";
 
 export * from "./types.js";
 
-const Plugin: Webpack5AssetsRazzlePlugin = {
+const Plugin: AssetsPlugin = {
   name: "webpack5-externals",
-  defaultOptions: defaultOptions,
-  modifyWebpackConfig: (
+  defaultOptions: {
+    assetResourceExclude: [
+      /\.html$/,
+      /\.(js|jsx|mjs)$/,
+      /\.(ts|tsx)$/,
+      /\.(vue)$/,
+      /\.(less)$/,
+      /\.(re)$/,
+      /\.(s?css|sass)$/,
+      /\.json$/,
+      /\.bmp$/,
+      /\.gif$/,
+      /\.jpe?g$/,
+      /\.png$/,
+    ],
+    assetAutoTest: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+    assetAutoSize: 1024 * 4,
+  },
+  modifyConfig: (
     pluginOptions,
     razzleConfig,
     razzleContext,
@@ -18,27 +33,32 @@ const Plugin: Webpack5AssetsRazzlePlugin = {
     webpackConfig
   ) => {
     if (webpackOptions.isNode) {
-        webpackConfig?.module?.rules?.push(...[{
-          test: /\.png$/i,
-          type: "asset/resource",
-          generator: {
-            emit: webpackOptions.isWeb
+      webpackConfig?.module?.rules?.push(
+        ...[
+          {
+            test: /\.png$/i,
+            type: "asset/resource",
+            generator: {
+              emit: webpackOptions.isWeb,
+            },
           },
-        },{
-          test: /\.png$/i,
-          type: "asset",
-          generator: {
-            emit: webpackOptions.isWeb
+          {
+            test: /\.png$/i,
+            type: "asset",
+            generator: {
+              emit: webpackOptions.isWeb,
+            },
           },
-        }]);
+        ]
+      );
     }
     return webpackConfig;
   },
 };
 
-export default function (options: Webpack5AssetsPluginOptions): {
-  plugin: Webpack5AssetsRazzlePlugin;
-  options: Webpack5AssetsPluginOptions;
+export default function (options: PluginOptions): {
+  plugin: AssetsPlugin;
+  options: PluginOptions;
 } {
   return {
     plugin: Plugin,

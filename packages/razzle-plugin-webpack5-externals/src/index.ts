@@ -1,17 +1,18 @@
 import {
-  Webpack5ExternalsPluginOptions,
-  Webpack5ExternalsRazzlePlugin,
+  ExternalsPlugin,
+  PluginOptions,
 } from "./types";
-import defaultOptions from "./defaultOptions.js";
 import { resolveExternal } from "./utils.js";
 import path from "path";
 
 export * from "./types.js";
 
-const Plugin: Webpack5ExternalsRazzlePlugin = {
+const Plugin: ExternalsPlugin = {
   name: "webpack5-externals",
-  defaultOptions: defaultOptions,
-  modifyWebpackConfig: (
+  defaultOptions: {
+    esmExternals: false,
+  },
+  modifyConfig: (
     pluginOptions,
     razzleConfig,
     razzleContext,
@@ -228,9 +229,9 @@ const Plugin: Webpack5ExternalsRazzlePlugin = {
   },
 };
 
-export default function (options: Webpack5ExternalsPluginOptions): {
-  plugin: Webpack5ExternalsRazzlePlugin;
-  options: Webpack5ExternalsPluginOptions;
+export default function (options: PluginOptions): {
+  plugin: ExternalsPlugin;
+  options: PluginOptions;
 } {
   return {
     plugin: Plugin,

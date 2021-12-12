@@ -1,3 +1,4 @@
+import { inspect } from 'util';
 
 export default {
     plugins: ['webpack5', 'webpack5-externals', 'webpack5-babel'],
@@ -7,7 +8,7 @@ export default {
         webpackOptions,
         webpackConfig
     ) => {
-        console.log(webpackConfig);
+        console.log(inspect(webpackConfig, false, 5, true));
         return webpackConfig
 
     }

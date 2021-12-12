@@ -12,7 +12,7 @@ export async function loadPlugin(
   configPath: string,
   plugin: PluginUnion
 ): Promise<PluginWithOptions> {
-  const r = buildResolver(configPath);
+  const resolve = buildResolver(configPath);
 
   if (typeof plugin === "string") {
     // Apply the plugin with default options if passing only a string
@@ -53,21 +53,24 @@ export async function loadPlugin(
   let razzlePlugin: PluginFunction = null;
   const tried: Array<string> = [];
   for (const completePluginName of <Array<string>>completePluginNames) {
-    try {
-      const tryPath = path.resolve(<string>r(completePluginName));
-      tried.push(tryPath);
-      razzlePlugin = (await import(tryPath)).default;
-      // eslint-disable-next-line no-empty
-    } catch (error) {
-     //  console.log(error);
+    const resolved = resolve(completePluginName);
+    if (resolved) {
+      try {
+        const tryPath = path.resolve(resolved);
+        tried.push(tryPath);
+        razzlePlugin = (await import(tryPath)).default;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
+
   if (!razzlePlugin) {
     const last = completePluginNames.pop();
     const lastTried = tried.pop();
     throw new Error(
       `Unable to find '${completePluginNames.join("', '")}' or ${last}'
-      Tried:  ${tried.join("',\n '")}\n or ${lastTried}'`
+      Tried: ${tried.join("',\n '")}\n or ${lastTried}'`
     );
   }
 
