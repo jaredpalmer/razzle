@@ -8,10 +8,10 @@ import {
   DefinePluginDefines as WP5DefinePluginDefines,
 } from "razzle-plugin-webpack5";
 
-export interface BabelContextInt<Pths extends string>
+export interface ContextInt<Pths extends string>
   extends WP5ContextInt<Pths> {}
 
-export interface BabelOptionsInt<Defs extends string>
+export interface OptionsInt<Defs extends string>
   extends WP5OptionsInt<Defs> {}
 
 export interface PluginOptions {
@@ -20,24 +20,24 @@ export interface PluginOptions {
 export type PathNames =
   | WP5PathNames;
 
-export type BabelContext =
-  BabelContextInt<PathNames>;
+export type Context =
+  ContextInt<PathNames>;
 
-export type BabelDefinePluginDefines =
+export type DefinePluginDefines =
   | WP5DefinePluginDefines;
 
-export type BabelOptions =
-  BabelOptionsInt<BabelDefinePluginDefines>;
+export type Options =
+  OptionsInt<DefinePluginDefines>;
 
-export type BabelConfig = WP5ConfigInt<
-  BabelContext,
-  BabelOptions
+export type Config = WP5ConfigInt<
+  Context,
+  Options
 >;
 
-export type BabelPlugin = WP5PluginInt<
+export type Plugin = WP5PluginInt<
   PluginOptions,
-  BabelConfig,
-  BabelContext,
-  BabelOptions
+  Config,
+  Context,
+  Options
 >;
 

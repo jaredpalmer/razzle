@@ -87,18 +87,18 @@ export type Context = ContextInt<PathNames>;
 
 export type DefinePluginDefines = "process.env.NODE_ENV";
 
-export type WP5Options = OptionsInt<DefinePluginDefines>;
-
 export type Config = RazzleConfigInt<Context>;
 
-export type WP5Plugin = RazzlePluginInt<PluginOptions, WP5ChildConfig, Context>;
+export type Plugin = RazzlePluginInt<PluginOptions, ChildConfig, Context>;
+
+export type Options = OptionsInt<DefinePluginDefines>;
 
 /* basic types for hooks to adhere to */
-export type WP5ChildConfig = ConfigInt<Context, WP5Options>;
+export type ChildConfig = ConfigInt<Context, Options>;
 
-export type WP5ChildPlugin = PluginInt<
+export type ChildPlugin = PluginInt<
   Record<string, unknown>,
-  WP5ChildConfig,
+  ChildConfig,
   Context,
-  WP5Options
+  Options
 >;

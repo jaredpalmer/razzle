@@ -1,8 +1,8 @@
 import path from "path";
 
-import { PluginOptions, BabelPlugin } from "./types";
+import { PluginOptions, Plugin } from "./types";
 
-const Plugin: BabelPlugin = {
+const Plugin: Plugin = {
   name: "webpack5-babel",
   defaultOptions: {},
   modifyConfig: (
@@ -39,7 +39,7 @@ const Plugin: BabelPlugin = {
 };
 
 export default function (options: PluginOptions): {
-  plugin: BabelPlugin,
+  plugin: Plugin,
   options: PluginOptions
 } {
   return {

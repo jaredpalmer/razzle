@@ -4,11 +4,11 @@ import Webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import { logger } from "razzle";
 import createConfig from "./createConfig.js";
-import { PluginOptions, WP5Plugin } from "./types";
+import { PluginOptions, Plugin } from "./types";
 
 export * from "./types.js";
 
-const Plugin: WP5Plugin = {
+const Plugin: Plugin = {
   name: "webpack5",
   defaultOptions: {
     devBuild: "default",
@@ -144,7 +144,7 @@ const Plugin: WP5Plugin = {
 };
 
 export default function (options: PluginOptions): {
-  plugin: WP5Plugin;
+  plugin: Plugin;
   options: PluginOptions;
 } {
   return {

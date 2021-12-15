@@ -6,30 +6,31 @@ import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import { logger } from "razzle";
 
 import {
-  WP5ChildConfig,
-  WP5ChildPlugin,
-  WP5Options,
+  ChildConfig,
+  ChildPlugin,
+  Options,
   PluginOptions,
   Context,
 } from "./types";
 
-function resolveRequest(req, issuer) {
+function resolveRequest(req: string, issuer: string) {
   const basedir =
     issuer.endsWith(path.posix.sep) || issuer.endsWith(path.win32.sep)
       ? issuer
       : path.dirname(issuer);
-  const r = buildResolver(basedir);
-  return r(req);
+  const resolve = buildResolver(basedir);
+  return resolve(req);
 }
+
 export default async (
   pluginOptions: PluginOptions,
-  razzleConfig: WP5ChildConfig,
+  razzleConfig: ChildConfig,
   razzleContext: Context,
   isDevServer: boolean = false,
   isDevEnv: boolean = false,
   isDev: boolean = false
 ): Promise<{
-  configurations: Array<[Configuration, WP5Options]>;
+  configurations: Array<[Configuration, Options]>;
   devServerConfiguration?: DevServerConfiguration;
 }> => {
   const devBuild = razzleContext.devBuild;
@@ -41,7 +42,7 @@ export default async (
     )
   );
   let shouldUseDevserver = isDevServer;
-  const webpackConfigs: Array<[Configuration, WP5Options]> = [];
+  const webpackConfigs: Array<[Configuration, Options]> = [];
 
   for (const buildName of [...allBuilds]) {
     const webOnly =
@@ -54,7 +55,7 @@ export default async (
     shouldUseDevserver = shouldUseDevserver && !nodeOnly;
 
     if (!nodeOnly) {
-      let webpackOptions: WP5Options = {
+      let webpackOptions: Options = {
         isWeb: true,
         isNode: false,
         isDevEnv: isDevEnv,
@@ -74,8 +75,8 @@ export default async (
       } of razzleContext.plugins) {
         // Check if plugin.modifyWebpackOptions is a function.
         // If it is, call it on the options we created.
-        if ((<WP5ChildPlugin>plugin).modifyOptions) {
-          webpackOptions = await (<Required<WP5ChildPlugin>><unknown>(
+        if ((<ChildPlugin>plugin).modifyOptions) {
+          webpackOptions = await (<Required<ChildPlugin>><unknown>(
             plugin
           )).modifyOptions(
             childPluginOptions,
@@ -133,8 +134,8 @@ export default async (
       } of razzleContext.plugins) {
         // Check if plugin.modifyWebpackConfig is a function.
         // If it is, call it on the config we created.
-        if ((<WP5ChildPlugin>plugin).modifyConfig) {
-          webpackConfig = await (<Required<WP5ChildPlugin>><unknown>(
+        if ((<ChildPlugin>plugin).modifyConfig) {
+          webpackConfig = await (<Required<ChildPlugin>><unknown>(
             plugin
           )).modifyConfig(
             childPluginOptions,
@@ -155,10 +156,10 @@ export default async (
           webpackConfig
         );
       }
-      webpackConfigs.push([webpackConfig, <WP5Options>webpackOptions]);
+      webpackConfigs.push([webpackConfig, <Options>webpackOptions]);
     }
     if (!webOnly) {
-      let webpackOptions: WP5Options = {
+      let webpackOptions: Options = {
         isWeb: false,
         isNode: true,
         isDevEnv: isDevEnv,
@@ -181,8 +182,8 @@ export default async (
       } of razzleContext.plugins) {
         // Check if plugin.modifyWebpackOptions is a function.
         // If it is, call it on the options we created.
-        if ((<WP5ChildPlugin>plugin).modifyOptions) {
-          webpackOptions = await (<Required<WP5ChildPlugin>><unknown>(
+        if ((<ChildPlugin>plugin).modifyOptions) {
+          webpackOptions = await (<Required<ChildPlugin>><unknown>(
             plugin
           )).modifyOptions(
             childPluginOptions,
@@ -245,8 +246,8 @@ export default async (
       } of razzleContext.plugins) {
         // Check if plugin.modifyWebpackConfig is a function.
         // If it is, call it on the config we created.
-        if ((<WP5ChildPlugin>plugin).modifyConfig) {
-          webpackConfig = await (<Required<WP5ChildPlugin>><unknown>(
+        if ((<ChildPlugin>plugin).modifyConfig) {
+          webpackConfig = await (<Required<ChildPlugin>><unknown>(
             plugin
           )).modifyConfig(
             childPluginOptions,
@@ -293,8 +294,8 @@ export default async (
     } of razzleContext.plugins) {
       // Check if plugin.modifyWebpackOptions is a function.
       // If it is, call it on the context we created.
-      if ((<WP5ChildPlugin>plugin).modifyDevserverConfig) {
-        devServerConfiguration = await (<Required<WP5ChildPlugin>><unknown>(
+      if ((<ChildPlugin>plugin).modifyDevserverConfig) {
+        devServerConfiguration = await (<Required<ChildPlugin>><unknown>(
           plugin
         )).modifyDevserverConfig(
           childPluginOptions,

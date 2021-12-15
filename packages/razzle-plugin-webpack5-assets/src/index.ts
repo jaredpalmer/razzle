@@ -1,12 +1,12 @@
 import {
   PluginOptions,
-  AssetsPlugin,
+  Plugin,
 } from "./types";
 
 export * from "./types.js";
 
-const Plugin: AssetsPlugin = {
-  name: "webpack5-externals",
+const Plugin: Plugin = {
+  name: "webpack5-assets",
   defaultOptions: {
     assetResourceExclude: [
       /\.html$/,
@@ -32,7 +32,7 @@ const Plugin: AssetsPlugin = {
     webpackOptions,
     webpackConfig
   ) => {
-    if (webpackOptions.isNode) {
+    if (webpackOptions.isWeb) {
       webpackConfig?.module?.rules?.push(
         ...[
           {
@@ -57,7 +57,7 @@ const Plugin: AssetsPlugin = {
 };
 
 export default function (options: PluginOptions): {
-  plugin: AssetsPlugin;
+  plugin: Plugin;
   options: PluginOptions;
 } {
   return {

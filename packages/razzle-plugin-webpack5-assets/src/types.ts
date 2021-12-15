@@ -9,10 +9,10 @@ import {
   DefinePluginDefines as WP5DefinePluginDefines,
 } from "razzle-plugin-webpack5";
 
-export interface AssetsContextInt<Pths extends string>
+export interface ContextInt<Pths extends string>
   extends WP5ContextInt<Pths> {}
 
-export interface AssetsOptionsInt<Defs extends string>
+export interface OptionsInt<Defs extends string>
   extends WP5OptionsInt<Defs> {}
 
 export interface PluginOptions {
@@ -25,23 +25,23 @@ export type PathNames =
   | WP5PathNames
   | "staticPath";
 
-export type AssetsContext =
-  AssetsContextInt<PathNames>;
+export type Context =
+  ContextInt<PathNames>;
 
-export type AssetsDefinePluginDefines =
+export type DefinePluginDefines =
   | WP5DefinePluginDefines;
 
-export type AssetsOptions =
-  AssetsOptionsInt<AssetsDefinePluginDefines>;
+export type Options =
+  OptionsInt<DefinePluginDefines>;
 
-export type AssetsConfig = WP5ConfigInt<
-  AssetsContext,
-  AssetsOptions
+export type Config = WP5ConfigInt<
+  Context,
+  Options
 >;
 
-export type AssetsPlugin = WP5PluginInt<
+export type Plugin = WP5PluginInt<
   PluginOptions,
-  AssetsConfig,
-  AssetsContext,
-  AssetsOptions
+  Config,
+  Context,
+  Options
 >;

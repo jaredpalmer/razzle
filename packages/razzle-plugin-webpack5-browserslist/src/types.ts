@@ -1,20 +1,19 @@
 import {
   ConfigInt as WP5ConfigInt,
+  PluginInt as WP5PluginInt,
   ContextInt as WP5ContextInt,
-  DefinePluginDefines as WP5DefinePluginDefines,
   OptionsInt as WP5OptionsInt,
   PathNames as WP5PathNames,
-  PluginInt as WP5PluginInt,
+  DefinePluginDefines as WP5DefinePluginDefines,
 } from "razzle-plugin-webpack5";
 
-export interface ContextInt<Pths extends string> extends WP5ContextInt<Pths> {}
+export interface ContextInt<Pths extends string> extends WP5ContextInt<Pths> {
+  browserslistEnvs: Array<string>;
+}
 
 export interface OptionsInt<Defs extends string> extends WP5OptionsInt<Defs> {}
 
-export interface PluginOptions {
-  esmExternals: boolean | "loose";
-  notCallback?: (request: string, context: string) => boolean;
-}
+export interface PluginOptions {}
 
 export type PathNames = WP5PathNames;
 

@@ -47,17 +47,19 @@ export async function loadPlugin(
     isScopedPlugin && (<PluginNameWithOptions>plugin).name,
     `razzle-plugin-${(<PluginNameWithOptions>plugin).name}`,
     `${(<PluginNameWithOptions>plugin).name}/razzle-plugin`,
-  ].filter((name) => name);
-
+  ].filter(Boolean);
+  
   // Try to find the plugin in node_modules
   let razzlePlugin: PluginFunction = null;
   const tried: Array<string> = [];
+  console.log(completePluginNames);
   for (const completePluginName of <Array<string>>completePluginNames) {
     const resolved = resolve(completePluginName);
+    console.log(resolved);
     if (resolved) {
+      const tryPath = path.resolve(resolved);
+      tried.push(tryPath)
       try {
-        const tryPath = path.resolve(resolved);
-        tried.push(tryPath);
         razzlePlugin = (await import(tryPath)).default;
       } catch (error) {
         console.log(error);
@@ -69,8 +71,8 @@ export async function loadPlugin(
     const last = completePluginNames.pop();
     const lastTried = tried.pop();
     throw new Error(
-      `Unable to find '${completePluginNames.join("', '")}' or ${last}'
-      Tried: ${tried.join("',\n '")}\n or ${lastTried}'`
+      `Unable to find '${completePluginNames.join("', '")}' or ${last}'` +
+      tried.length && `Tried: ${tried.join("',\n '")}\n or ${lastTried}'`
     );
   }
 
