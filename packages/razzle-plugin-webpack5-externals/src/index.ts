@@ -5,7 +5,7 @@ import { resolveExternal } from "./utils.js";
 
 export * from "./types.js";
 
-const Plugin: Plugin = {
+const plugin: Plugin = {
   name: "webpack5-externals",
   defaultOptions: {
     esmExternals: false,
@@ -235,7 +235,7 @@ export default function (options: PluginOptions): {
   options: PluginOptions;
 } {
   return {
-    plugin: Plugin,
-    options: { ...(Plugin.defaultOptions || {}), ...options },
+    plugin: plugin,
+    options: { ...(plugin.defaultOptions || {}), ...options },
   };
 }

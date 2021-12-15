@@ -2,7 +2,7 @@ import path from "path";
 
 import { PluginOptions, Plugin } from "./types";
 
-const Plugin: Plugin = {
+const plugin: Plugin = {
   name: "webpack5-babel",
   defaultOptions: {},
   modifyConfig: (
@@ -43,7 +43,7 @@ export default function (options: PluginOptions): {
   options: PluginOptions
 } {
   return {
-    plugin: Plugin,
-    options: { ...(Plugin.defaultOptions || {}), ...options },
+    plugin: plugin,
+    options: { ...(plugin.defaultOptions || {}), ...options },
   };
 }

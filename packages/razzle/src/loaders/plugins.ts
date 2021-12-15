@@ -55,9 +55,9 @@ export async function loadPlugin(
   console.log(completePluginNames);
   for (const completePluginName of <Array<string>>completePluginNames) {
     const resolved = resolve(completePluginName);
-    console.log(resolved);
     if (resolved) {
-      const tryPath = path.resolve(resolved);
+      const tryPath = path.resolve(resolved);    console.log(tryPath);
+
       tried.push(tryPath)
       try {
         razzlePlugin = (await import(tryPath)).default;

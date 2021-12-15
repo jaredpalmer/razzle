@@ -3,7 +3,7 @@ import path from "path";
 import { PluginOptions, Plugin } from "./types";
 import browserslist from "browserslist";
 
-const Plugin: Plugin = {
+const plugin: Plugin = {
   name: "webpack5-browserslist",
   defaultOptions: {},
   modifyContext: (
@@ -37,7 +37,7 @@ export default function (options: PluginOptions): {
   options: PluginOptions
 } {
   return {
-    plugin: Plugin,
-    options: { ...(Plugin.defaultOptions || {}), ...options },
+    plugin: plugin,
+    options: { ...(plugin.defaultOptions || {}), ...options },
   };
 }

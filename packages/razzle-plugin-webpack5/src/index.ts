@@ -8,7 +8,7 @@ import { PluginOptions, Plugin } from "./types";
 
 export * from "./types.js";
 
-const Plugin: Plugin = {
+const plugin: Plugin = {
   name: "webpack5",
   defaultOptions: {
     devBuild: "default",
@@ -148,7 +148,7 @@ export default function (options: PluginOptions): {
   options: PluginOptions;
 } {
   return {
-    plugin: Plugin,
-    options: { ...(Plugin.defaultOptions || {}), ...options },
+    plugin: plugin,
+    options: { ...(plugin.defaultOptions || {}), ...options },
   };
 }
