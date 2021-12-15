@@ -6,5 +6,5 @@ packages/*/dist
 .idea
 packages/*/coverage
 .vscode/
-.tsbuildinfo
+*.tsbuildinfo
 pnpm-debug.log
