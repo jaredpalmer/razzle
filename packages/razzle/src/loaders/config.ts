@@ -1,12 +1,15 @@
 import fs from "fs";
+import { type } from "os";
 
 
 import setupEnvironment from "../env.js";
 import logger from "../logger.js";
 import defaultPaths from "../paths.js";
-import { Plugin, Config, Context, Options } from "../types.js";
+import { Plugin, Config, Options } from "../types.js";
 
 import loadPlugins from "./plugins.js";
+
+type Context = Parameters<Required<Plugin>['modifyContext']>[1]
 
 export default (
   razzleConfigIn?: Config | undefined,

@@ -9,10 +9,9 @@
     "url": "https://github.com/jaredpalmer/razzle/issues"
   },
   "scripts": {
-    "verify": "lerna run verify --stream",
-    "prettier": "lerna run prettier",
-    "build": "lerna run build",
-    "test": "NODE_ENV=development lerna run test --stream"
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint"
   },
   "husky": {
     "hooks": {
@@ -22,9 +21,6 @@
   },
   "private": true,
   "version": "5.0.0-alpha.0",
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.7",
     "@types/jest": "^27.0.2",
@@ -57,5 +53,33 @@
     "tsconfig-paths-jest": "^0.0.1",
     "turbo": "^1.0.13",
     "typescript": "^4.4.3"
+  },
+  "turbo": {
+    "pipeline": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "lib/**"
+        ]
+      },
+      "test": {
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "deploy": {
+        "dependsOn": [
+          "build",
+          "test",
+          "lint"
+        ]
+      },
+      "lint": {},
+      "dev": {
+        "cache": false
+      }
+    }
   }
 }

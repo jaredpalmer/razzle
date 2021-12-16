@@ -1,35 +1,26 @@
+import { types as Razzle } from "razzle";
 import { types as WP5 } from "razzle-plugin-webpack5";
-
-export interface ContextInt<Pths extends string>
-  extends WP5.ContextInt<Pths> {}
-
-export interface OptionsInt<Defs extends string>
-  extends WP5.OptionsInt<Defs> {}
 
 export interface PluginOptions {
 }
 
-export type PathNames =
-  | WP5.PathNames;
+export type Paths = {}
 
-export type Context =
-  ContextInt<PathNames>;
+export type Context = {}
 
-export type DefinePluginDefines =
-  | WP5.DefinePluginDefines;
+export type Options = {}
 
-export type Options =
-  OptionsInt<DefinePluginDefines>;
+export type DefinePluginDefines = {}
 
 export type Config = WP5.ConfigInt<
-  Context,
-  Options
+  Context & WP5.Context & Razzle.Context & Razzle.PathsContext<Paths & WP5.Paths & Razzle.Paths>,
+  Options & WP5.Options & WP5.DefineOptions<DefinePluginDefines & WP5.DefinePluginDefines>
 >;
 
 export type Plugin = WP5.PluginInt<
   PluginOptions,
   Config,
-  Context,
-  Options
+  Context & WP5.Context & Razzle.Context & Razzle.PathsContext<Paths & WP5.Paths & Razzle.Paths>,
+  Options & WP5.Options & WP5.DefineOptions<DefinePluginDefines & WP5.DefinePluginDefines>
 >;
 

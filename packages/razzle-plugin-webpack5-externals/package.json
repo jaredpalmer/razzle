@@ -37,10 +37,14 @@
         "universal",
         "webpack"
     ],
-    "dependencies": {
-        "esm-resolve": "^1.0.5",
-        "razzle": "5.0.0-alpha.0",
-        "razzle-plugin-webpack5": "5.0.0-alpha.0",
-        "webpack": "^5.64.4"
+    "devDependencies": {
+      "razzle": "workspace:*",
+      "razzle-plugin-webpack5": "workspace:*",
+      "webpack": "^5.64.4"
+    },
+    "peerDependencies": {
+      "razzle": "^5.0.0-alpha.0",
+      "razzle-plugin-webpack5": "^5.0.0-alpha.0",
+      "webpack": "^5.64.4"
     }
 }

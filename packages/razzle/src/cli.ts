@@ -2,7 +2,9 @@ import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 
 import loadConfig from "./loaders/config.js";
-import { Plugin, Config, Context } from "./types";
+import { Plugin, Config } from "./types";
+
+type Context = Parameters<Required<Plugin>['modifyContext']>[1]
 
 export async function cli(): Promise<void>;
 export async function cli() {

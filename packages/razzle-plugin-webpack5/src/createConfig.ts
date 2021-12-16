@@ -8,10 +8,9 @@ import logger from "razzle/logger";
 import {
   ChildConfig,
   ChildPlugin,
-  Options,
-  PluginOptions,
-  Context,
+  PluginOptions
 } from "./types";
+import { type } from "os";
 
 function resolveRequest(req: string, issuer: string) {
   const basedir =
@@ -21,6 +20,9 @@ function resolveRequest(req: string, issuer: string) {
   const resolve = buildResolver(basedir);
   return resolve(req);
 }
+
+type Context = Parameters<Required<ChildPlugin>['modifyContext']>[1]
+type Options = Parameters<Required<ChildPlugin>['modifyOptions']>[3]
 
 export default async (
   pluginOptions: PluginOptions,

@@ -38,9 +38,16 @@
     "webpack"
   ],
   "dependencies": {
-    "browserslist": "^4.19.1",
-    "razzle": "5.0.0-alpha.0",
-    "razzle-plugin-webpack5": "5.0.0-alpha.0",
+    "browserslist": "^4.19.1"
+  },
+  "devDependencies": {
+    "razzle": "workspace:*",
+    "razzle-plugin-webpack5": "workspace:*",
+    "webpack": "^5.64.4"
+  },
+  "peerDependencies": {
+    "razzle": "^5.0.0-alpha.0",
+    "razzle-plugin-webpack5": "^5.0.0-alpha.0",
     "webpack": "^5.64.4"
   }
 }

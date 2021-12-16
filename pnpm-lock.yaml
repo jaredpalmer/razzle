@@ -33,6 +33,7 @@ importers:
       prettier-config-standard: ^4.0.0
       ts-jest: ^27.0.5
       tsconfig-paths-jest: ^0.0.1
+      turbo: ^1.0.13
       typescript: ^4.4.3
     devDependencies:
       '@babel/eslint-parser': 7.16.3_eslint@7.32.0
@@ -64,6 +65,7 @@ importers:
       prettier-config-standard: 4.0.0
       ts-jest: 27.0.7_d967a5c71b36617f9eaef12c091f7695
       tsconfig-paths-jest: 0.0.1
+      turbo: 1.0.13
       typescript: 4.5.2
 
   examples/basic-webpack5:
@@ -148,20 +150,13 @@ importers:
 
   packages/razzle-plugin-webpack5-assets:
     specifiers:
-      '@types/webpack-dev-server': ^4.5.0
-      esm-resolve: ^1.0.5
-      razzle: 5.0.0-alpha.0
-      razzle-plugin-webpack5: 5.0.0-alpha.0
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
-      webpack-dev-server: ^4.6.0
-    dependencies:
-      esm-resolve: 1.0.5
+    devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
       webpack: 5.64.4_esbuild@0.13.15
-      webpack-dev-server: 4.6.0_webpack@5.64.4
-    devDependencies:
-      '@types/webpack-dev-server': 4.5.0_esbuild@0.13.15
 
   packages/razzle-plugin-webpack5-babel:
     specifiers:
@@ -183,8 +178,8 @@ importers:
       babel-plugin-transform-react-remove-prop-types: ^0.4.24
       chalk: ^4.1.2
       esm-resolve: ^1.0.5
-      razzle: 5.0.0-alpha.0
-      razzle-plugin-webpack5: 5.0.0-alpha.0
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
     dependencies:
       '@babel/core': 7.16.0
@@ -205,6 +200,7 @@ importers:
       babel-plugin-transform-react-remove-prop-types: 0.4.24
       chalk: 4.1.2
       esm-resolve: 1.0.5
+    devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
       webpack: 5.64.4_esbuild@0.13.15
@@ -221,14 +217,22 @@ importers:
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
       webpack: 5.64.4_esbuild@0.13.15
 
+  packages/razzle-plugin-webpack5-css:
+    specifiers:
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
+      webpack: ^5.64.4
+    devDependencies:
+      razzle: link:../razzle
+      razzle-plugin-webpack5: link:../razzle-plugin-webpack5
+      webpack: 5.64.4_esbuild@0.13.15
+
   packages/razzle-plugin-webpack5-externals:
     specifiers:
-      esm-resolve: ^1.0.5
-      razzle: 5.0.0-alpha.0
-      razzle-plugin-webpack5: 5.0.0-alpha.0
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
-    dependencies:
-      esm-resolve: 1.0.5
+    devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
       webpack: 5.64.4_esbuild@0.13.15
@@ -9352,6 +9356,12 @@ packages:
     resolution: {integrity: sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=}
     dependencies:
       safe-buffer: 5.2.1
+    dev: true
+
+  /turbo/1.0.13:
+    resolution: {integrity: sha512-fG+sdzt9HIZsL8HlpLQzP5WsBu1vliHe6cVgMG4zFZcmCG526RzVbXPyyVHadwcqKqmYjWqFw8mZiUUwNQXjlg==}
+    hasBin: true
+    requiresBuild: true
     dev: true
 
   /tweetnacl/0.14.5:

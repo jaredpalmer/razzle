@@ -5,27 +5,27 @@ export type Options = {
   debug?: boolean;
 };
 
-export type PathNames =
-  | "dotenv"
-  | "appPath"
-  | "appNodeModules"
-  | "appPackageJson"
-  | "appConfig"
-  | "nodePaths"
-  | "ownPath"
-  | "ownNodeModules";
+export type Paths = {
+  dotenv: string;
+  appPath: string;
+  appNodeModules: string;
+  appPackageJson: string;
+  appConfig: string;
+  nodePaths: string;
+  ownPath: string;
+  ownNodeModules: string;
+};
 
-export type Paths<T extends string = string> = Record<T, string>;
-
-export interface ContextInt<Pths extends string> {
-  paths: Paths<Pths>;
+export type Context = {
   razzleOptions: Options;
   plugins: Array<PluginWithOptions>;
-}
+};
 
-export type Context = ContextInt<PathNames>;
+export type PathsContext<Pths> = {
+  paths: Pths;
+};
 
-export type Config = ConfigInt<Context>;
+export type Config = ConfigInt<Context & PathsContext<Paths>>;
 
 export interface ConfigInt<Ctx> {
   options?: Options;
@@ -37,15 +37,23 @@ export interface ConfigInt<Ctx> {
   >;
 }
 
-export type Plugin = PluginInt<Record<string, unknown>, Config, Context>;
+export type Plugin = PluginInt<Record<string, unknown>, Config, Context & PathsContext<Paths>>;
 
 export interface PluginInt<Opt, Conf, Ctx> {
   name: string;
   defaultOptions?: Opt;
-  modifyContext?: (pluginOptions: Opt, razzleContext: Ctx) => Promise<Ctx> | Ctx;
+  modifyContext?: (
+    pluginOptions: Opt,
+    razzleContext: Ctx
+  ) => Promise<Ctx> | Ctx;
   addCommands?: Record<
     string,
-    (argv: Argv, pluginOptions: Opt, razzleConfig: Conf, razzleContext: Ctx) => void
+    (
+      argv: Argv,
+      pluginOptions: Opt,
+      razzleConfig: Conf,
+      razzleContext: Ctx
+    ) => void
   >;
 }
 

@@ -1,50 +1,50 @@
 {
-    "name": "razzle-plugin-webpack5-assets",
-    "description": "Create server-rendered universal JavaScript applications with no configuration",
-    "license": "MIT",
-    "author": "Jared Palmer <jared@palmer.net>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com:jaredpalmer/razzle.git",
-        "directory": "packages/razzle"
-    },
-    "version": "5.0.0-alpha.0",
-    "main": "lib/index.js",
-    "exports": {
-        ".": "./lib/index.js",
-        "./package.json": "./package.json"
-    },
-    "types": "lib/index.d.ts",
-    "type": "module",
-    "scripts": {
-        "prettier": "prettier --check src/",
-        "prettier:fix": "prettier --write src/",
-        "lint": "eslint . --ext .ts,.tsx",
-        "lint:fix": "yarn lint --fix",
-        "verify": "run-p prettier lint",
-        "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc --build"
-    },
-    "keywords": [
-        "inferno",
-        "isomorphic",
-        "preact",
-        "razzle",
-        "react",
-        "reason",
-        "reasonml",
-        "ssr",
-        "universal",
-        "webpack"
-    ],
-    "dependencies": {
-        "esm-resolve": "^1.0.5",
-        "razzle": "5.0.0-alpha.0",
-        "webpack": "^5.64.4",
-        "webpack-dev-server": "^4.6.0",
-        "razzle-plugin-webpack5": "5.0.0-alpha.0"
-    },
-    "devDependencies": {
-        "@types/webpack-dev-server": "^4.5.0"
-    }
+  "name": "razzle-plugin-webpack5-assets",
+  "description": "Create server-rendered universal JavaScript applications with no configuration",
+  "license": "MIT",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle"
+  },
+  "version": "5.0.0-alpha.0",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "yarn lint --fix",
+    "verify": "run-p prettier lint",
+    "verify:fix": "yarn prettier:fix && yarn lint:fix",
+    "build": "tsc --build"
+  },
+  "keywords": [
+    "inferno",
+    "isomorphic",
+    "preact",
+    "razzle",
+    "react",
+    "reason",
+    "reasonml",
+    "ssr",
+    "universal",
+    "webpack"
+  ],
+  "devDependencies": {
+    "razzle": "workspace:*",
+    "razzle-plugin-webpack5": "workspace:*",
+    "webpack": "^5.64.4"
+  },
+  "peerDependencies": {
+    "razzle": "^5.0.0-alpha.0",
+    "razzle-plugin-webpack5": "^5.0.0-alpha.0",
+    "webpack": "^5.64.4"
+  }
 }

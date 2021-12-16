@@ -1,5 +1,5 @@
 {
-  "name": "basic-webpack5",
+  "name": "basic-webpack5-esm",
   "version": "5.0.0-alpha.0",
   "description": "basic webpack5 example",
   "scripts": {

@@ -51,7 +51,7 @@ export type Context = {
   nodeBuilds: Array<string>;
 };
 
-export interface OptionsInt<Defs> {
+export type Options = {
   readonly isWeb: boolean;
   readonly isNode: boolean;
   readonly isDevEnv: boolean;
@@ -59,6 +59,9 @@ export interface OptionsInt<Defs> {
   readonly isProd: boolean;
   outputEsm: boolean;
   buildName: string;
+}
+
+export interface DefineOptions<Defs> {
   definePluginOptions: Defs;
 }
 
@@ -92,17 +95,15 @@ export type Plugin = Razzle.PluginInt<
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
 >;
 
-export type Options = OptionsInt<DefinePluginDefines>;
-
 /* basic types for hooks to adhere to */
 export type ChildConfig = ConfigInt<
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
-  Options
+  Options & DefineOptions<DefinePluginDefines>
 >;
 
 export type ChildPlugin = PluginInt<
   Record<string, unknown>,
   ChildConfig,
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
-  Options
+  Options & DefineOptions<DefinePluginDefines>
 >;
