@@ -1,6 +1,7 @@
-import path from "path";
-
 import { PluginOptions, Plugin } from "./types";
+
+import type * as types from "./types";
+export { types }
 
 const plugin: Plugin = {
   name: "webpack5-babel",

@@ -9,6 +9,7 @@
       "module": "esnext",
       "jsx": "preserve",
       "strict": true,
+      "importsNotUsedAsValues": "remove",
       "moduleResolution": "node",
       "resolveJsonModule": false,
       "allowSyntheticDefaultImports": true,

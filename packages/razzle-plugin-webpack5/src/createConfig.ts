@@ -3,7 +3,7 @@ import path from "path";
 import buildResolver from "esm-resolve";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
-import { logger } from "razzle";
+import logger from "razzle/logger";
 
 import {
   ChildConfig,

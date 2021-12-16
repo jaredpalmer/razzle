@@ -1,13 +1,9 @@
-import {
-  ConfigInt as RazzleConfigInt,
-  ContextInt as RazzleContextInt,
-  PathNames as RazzlePathNames,
-  PluginInt as RazzlePluginInt,
-} from "razzle";
+import { type } from "os";
+import { types as Razzle } from "razzle";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
-export interface ConfigInt<Ctx, WP5Opts> extends RazzleConfigInt<Ctx> {
+export interface ConfigInt<Ctx, WP5Opts> extends Razzle.ConfigInt<Ctx> {
   modifyOptions?: (
     razzleConfig: this,
     razzleContext: Ctx,
@@ -27,7 +23,7 @@ export interface ConfigInt<Ctx, WP5Opts> extends RazzleConfigInt<Ctx> {
 }
 
 export interface PluginInt<Opts, Conf, Ctx, WP5Opts>
-  extends RazzlePluginInt<Opts, Conf, Ctx> {
+  extends Razzle.PluginInt<Opts, Conf, Ctx> {
   modifyOptions?: (
     pluginOptions: Opts,
     razzleConfig: Conf,
@@ -49,14 +45,13 @@ export interface PluginInt<Opts, Conf, Ctx, WP5Opts>
   ) => Promise<DevServerConfiguration> | DevServerConfiguration;
 }
 
-export interface ContextInt<Pths extends string>
-  extends RazzleContextInt<Pths> {
+export type Context = {
   devBuild: string;
   webBuilds: Array<string>;
   nodeBuilds: Array<string>;
-}
+};
 
-export interface OptionsInt<T extends string> {
+export interface OptionsInt<Defs> {
   readonly isWeb: boolean;
   readonly isNode: boolean;
   readonly isDevEnv: boolean;
@@ -64,7 +59,7 @@ export interface OptionsInt<T extends string> {
   readonly isProd: boolean;
   outputEsm: boolean;
   buildName: string;
-  definePluginOptions: Record<T, string>;
+  definePluginOptions: Defs;
 }
 
 export interface PluginOptions {
@@ -74,31 +69,40 @@ export interface PluginOptions {
   outputEsm: boolean | { node: boolean; web: boolean };
 }
 
-export type PathNames =
-  | RazzlePathNames 
-  | "appSrc"
-  | "appBuild"
-  | "appBuildPublic"
-  | "appServerIndex"
-  | "appServerPath"
-  | "appClientPath";
+export type Paths = {
+  appSrc: string;
+  appBuild: string;
+  appBuildPublic: string;
+  appServerIndex: string;
+  appServerPath: string;
+  appClientPath: string;
+};
 
-export type Context = ContextInt<PathNames>;
+export type DefinePluginDefines = {
+  "process.env.NODE_ENV": string;
+};
 
-export type DefinePluginDefines = "process.env.NODE_ENV";
+export type Config = Razzle.ConfigInt<
+  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
+>;
 
-export type Config = RazzleConfigInt<Context>;
-
-export type Plugin = RazzlePluginInt<PluginOptions, ChildConfig, Context>;
+export type Plugin = Razzle.PluginInt<
+  PluginOptions,
+  ChildConfig,
+  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
+>;
 
 export type Options = OptionsInt<DefinePluginDefines>;
 
 /* basic types for hooks to adhere to */
-export type ChildConfig = ConfigInt<Context, Options>;
+export type ChildConfig = ConfigInt<
+  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
+  Options
+>;
 
 export type ChildPlugin = PluginInt<
   Record<string, unknown>,
   ChildConfig,
-  Context,
+  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
   Options
 >;

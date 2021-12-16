@@ -2,11 +2,12 @@ import path from "path";
 
 import Webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
-import { logger } from "razzle";
+import logger from "razzle/logger";
 import createConfig from "./createConfig.js";
 import { PluginOptions, Plugin } from "./types";
 
-export * from "./types.js";
+import type * as types from "./types";
+export { types }
 
 const plugin: Plugin = {
   name: "webpack5",

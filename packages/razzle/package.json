@@ -1,57 +1,65 @@
 {
-    "name": "razzle",
-    "description": "Create server-rendered universal JavaScript applications with no configuration",
-    "license": "MIT",
-    "author": "Jared Palmer <jared@palmer.net>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com:jaredpalmer/razzle.git",
-        "directory": "packages/razzle"
-    },
-    "version": "5.0.0-alpha.0",
-    "bin": {
-        "razzle": "./bin/razzle.js"
-    },
-    "main": "lib/index.js",
-    "exports": {
-        ".": "./lib/index.js",
-        "./package.json": "./package.json"
-    },
-    "types": "lib/index.d.ts",
-    "type": "module",
-    "scripts": {
-        "prettier": "prettier --check src/",
-        "prettier:fix": "prettier --write src/",
-        "lint": "eslint . --ext .ts,.tsx",
-        "lint:fix": "yarn lint --fix",
-        "verify": "run-p prettier lint",
-        "verify:fix": "yarn prettier:fix && yarn lint:fix",
-        "build": "tsc --build"
-    },
-    "keywords": [
-        "inferno",
-        "isomorphic",
-        "preact",
-        "razzle",
-        "react",
-        "reason",
-        "reasonml",
-        "ssr",
-        "universal",
-        "webpack"
-    ],
-    "dependencies": {
-        "@types/yargs": "^17.0.7",
-        "chalk": "^4.1.2",
-        "dotenv": "^10.0.0",
-        "dotenv-expand": "^5.1.0",
-        "enhanced-resolve": "^5.8.3",
-        "esm-resolve": "^1.0.5",
-        "fs-extra": "^10.0.0",
-        "resolve": "^1.20.0",
-        "yargs": "^17.2.1"
-    },
-    "devDependencies": {
-        "@types/fs-extra": "^9.0.13"
+  "name": "razzle",
+  "description": "Create server-rendered universal JavaScript applications with no configuration",
+  "license": "MIT",
+  "author": "Jared Palmer <jared@palmer.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle"
+  },
+  "version": "5.0.0-alpha.0",
+  "bin": {
+    "razzle": "./bin/razzle.js"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./logger": "./lib/logger.js",
+    "./package.json": "./package.json"
+  },
+  "types": "./lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "logger": [
+        "lib/logger.d.ts"
+      ]
     }
+  },
+  "type": "module",
+  "scripts": {
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "yarn lint --fix",
+    "verify": "run-p prettier lint",
+    "verify:fix": "yarn prettier:fix && yarn lint:fix",
+    "build": "tsc --build"
+  },
+  "keywords": [
+    "inferno",
+    "isomorphic",
+    "preact",
+    "razzle",
+    "react",
+    "reason",
+    "reasonml",
+    "ssr",
+    "universal",
+    "webpack"
+  ],
+  "dependencies": {
+    "@types/yargs": "^17.0.7",
+    "chalk": "^4.1.2",
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "enhanced-resolve": "^5.8.3",
+    "esm-resolve": "^1.0.5",
+    "fs-extra": "^10.0.0",
+    "resolve": "^1.20.0",
+    "yargs": "^17.2.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13"
+  }
 }

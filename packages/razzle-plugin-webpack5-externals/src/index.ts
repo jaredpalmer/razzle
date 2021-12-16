@@ -3,7 +3,8 @@ import path from "path";
 import { Plugin, PluginOptions } from "./types";
 import { resolveExternal } from "./utils.js";
 
-export * from "./types.js";
+import type * as types from "./types";
+export { types }
 
 const plugin: Plugin = {
   name: "webpack5-externals",

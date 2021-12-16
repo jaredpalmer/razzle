@@ -8,9 +8,12 @@ export default {
         webpackOptions,
         webpackConfig
     ) => {
-        console.log(inspect(razzleContext, false, 5, true));
-        console.log(inspect(webpackOptions, false, 5, true));
-        console.log(inspect(webpackConfig, false, 5, true));
+
+        if (process.env.LOGCONF) {
+            console.log(inspect(razzleContext, false, 5, true));
+            console.log(inspect(webpackOptions, false, 5, true));
+            console.log(inspect(webpackConfig, false, 5, true));
+        }
         return webpackConfig
 
     }

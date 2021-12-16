@@ -3,6 +3,9 @@ import path from "path";
 import { PluginOptions, Plugin } from "./types";
 import browserslist from "browserslist";
 
+import type * as types from "./types";
+export { types }
+
 const plugin: Plugin = {
   name: "webpack5-browserslist",
   defaultOptions: {},
