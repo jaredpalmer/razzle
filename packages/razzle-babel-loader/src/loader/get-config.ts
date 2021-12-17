@@ -5,10 +5,9 @@ import JSON5 from "json5";
 
 import {
   createConfigItem,
-  loadOptions,
-  loadPartialConfig as loadConfig,
+  loadOptions
 } from "@babel/core";
-
+import loadConfig from "@babel/core/lib/config";
 import commonJsPlugin from "../plugins/commonjs.js";
 import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export.js";
 
@@ -174,7 +173,7 @@ async function getFreshConfig(
   const customConfig: any = configFile
     ? await getCustomBabelConfig(configFile)
     : undefined;
-
+  
   const options = {
     babelrc: false,
     cloneInputAst: false,
@@ -257,9 +256,10 @@ async function getFreshConfig(
       this.emitWarning(reason);
     },
   });
-
+  
   const loadedOptions = loadOptions(options) || undefined;
-  const config = loadConfig(loadedOptions);
+
+  const config = consumeIterator(loadConfig(loadedOptions))
 
   return config;
 }
@@ -309,6 +309,7 @@ export default async function getConfig(
   }
 
   const cacheKey = getCacheKey(cacheCharacteristics);
+  
   if (configCache.has(cacheKey)) {
     const cachedConfig = configCache.get(cacheKey);
 

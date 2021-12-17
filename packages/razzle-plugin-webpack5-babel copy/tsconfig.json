@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../razzle-babel-loader/src",
+    "outDir": "../razzle-babel-loader/lib",
+    "target": "es5",
+    "module": "commonjs",
+  },
+  "references": [
+    {
+      "path": "../razzle/"
+    },
+    {
+      "path": "../razzle-plugin-webpack5/"
+    }
+  ],
+  "include": [
+    "../razzle-babel-loader/**/*.ts",
+  ],
+  "exclude": [
+    "../razzle-babel-loader/lib/*"
+  ]
+}

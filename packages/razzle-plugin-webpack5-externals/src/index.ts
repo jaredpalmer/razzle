@@ -188,7 +188,7 @@ const plugin: Plugin = {
               ) => void
             ) => void;
           }) => {
-            console.log(request);
+//            console.log(request);
 
             return handleExternals(
               <string>context,

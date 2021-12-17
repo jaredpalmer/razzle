@@ -74,7 +74,8 @@ export default async function transform(
   loaderOptions: any,
   filename: string,
   target: string | [string, string]
-) {
+) {  
+
   const babelConfig = await getConfig.call(this, {
     source,
     loaderOptions,
@@ -82,7 +83,7 @@ export default async function transform(
     target,
     filename,
   });
-
+  
   const file = consumeIterator(
     normalizeFile(babelConfig.passes, normalizeOpts(babelConfig), source)
   );

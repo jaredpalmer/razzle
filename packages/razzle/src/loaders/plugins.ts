@@ -52,11 +52,12 @@ export async function loadPlugin(
   // Try to find the plugin in node_modules
   let razzlePlugin: PluginFunction = null;
   const tried: Array<string> = [];
-  console.log(completePluginNames);
+  //  console.log(completePluginNames);
   for (const completePluginName of <Array<string>>completePluginNames) {
     const resolved = resolve(completePluginName);
     if (resolved) {
-      const tryPath = path.resolve(resolved);    console.log(tryPath);
+      const tryPath = path.resolve(resolved);
+      // console.log(tryPath);
 
       tried.push(tryPath)
       try {

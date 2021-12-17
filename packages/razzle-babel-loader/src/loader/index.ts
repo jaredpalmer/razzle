@@ -1,6 +1,6 @@
 import transform from "./transform.js";
 import { RazzleWebpack5LoaderContext, Source, SourceMap } from "./types";
-import { inspect } from 'util';
+import { inspect } from "util";
 
 const razzleBabelLoader = async function (
   this: RazzleWebpack5LoaderContext,
@@ -11,7 +11,7 @@ const razzleBabelLoader = async function (
   const target = this.target;
   const loaderOptions = this.getOptions();
 
-        console.log(inspect(loaderOptions, false, 5, true));
+//  console.log(inspect(loaderOptions, false, 5, true));
   const result = await transform.call(
     this,
     inputSource,
@@ -19,7 +19,7 @@ const razzleBabelLoader = async function (
     loaderOptions,
     filename,
     target
-  );
+  ); 
   const { code: transformedSource, map: outputSourceMap } = result || {
     code: "",
     map: "",
@@ -33,13 +33,16 @@ export default function razzleBabelLoaderOuter(
   inputSource: Source,
   inputSourceMap: SourceMap
 ) {
-  console.log("hrm");
-console.log(inputSource);
+ // console.log(this.target);
+  //console.log(inputSource);
 
   const callback = this.async();
   razzleBabelLoader.call(this, inputSource, inputSourceMap).then(
-    ([transformedSource, outputSourceMap]) =>
-      callback?.(null, transformedSource, outputSourceMap || inputSourceMap),
+    ([transformedSource, outputSourceMap]) => {
+    //  console.log(transformedSource);
+
+      callback?.(null, transformedSource, outputSourceMap || inputSourceMap);
+    },
     (err) => {
       callback?.(err);
     }

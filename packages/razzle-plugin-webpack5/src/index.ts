@@ -122,7 +122,7 @@ const plugin: Plugin = {
               "Running build with NODE_ENV=development, set NODE_ENV=production"
             );
           }
-          console.log(process.env["NODE_ENV"]);
+//          console.log(process.env["NODE_ENV"]);
           const configs = await createConfig(
             pluginOptions,
             razzleConfig,
