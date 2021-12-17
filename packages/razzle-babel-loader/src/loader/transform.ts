@@ -2,10 +2,10 @@
  * Partially adapted from @babel/core (MIT license).
  */
 
-import loadBlockHoistPlugin from "@babel/core/lib/transformation/block-hoist-plugin";
-import normalizeFile from "@babel/core/lib/transformation/normalize-file";
-import normalizeOpts from "@babel/core/lib/transformation/normalize-opts";
-import PluginPass from "@babel/core/lib/transformation/plugin-pass";
+import loadBlockHoistPlugin from "@babel/core/lib/transformation/block-hoist-plugin.js";
+import normalizeFile from "@babel/core/lib/transformation/normalize-file.js";
+import normalizeOpts from "@babel/core/lib/transformation/normalize-opts.js";
+import PluginPass from "@babel/core/lib/transformation/plugin-pass.js";
 import generate from "@babel/generator";
 import traverse from "@babel/traverse";
 

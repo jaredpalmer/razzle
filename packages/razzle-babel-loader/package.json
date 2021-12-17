@@ -1,5 +1,5 @@
 {
-  "name": "razzle-plugin-webpack5-babel",
+  "name": "razzle-babel-loader",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
@@ -11,12 +11,11 @@
   "version": "5.0.0-alpha.0",
   "main": "lib/index.js",
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./lib/loader/index.js",
+    "./preset": "./lib/preset.js",
     "./package.json": "./package.json"
   },
-  
   "types": "lib/index.d.ts",
-  "type": "module",
   "scripts": {
     "prettier": "prettier --check src/",
     "prettier:fix": "prettier --write src/",
@@ -39,20 +38,36 @@
     "webpack"
   ],
   "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/generator": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.16.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.16.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.16.0",
+    "@babel/plugin-syntax-bigint": "^7.8.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-syntax-jsx": "^7.16.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
+    "@babel/traverse": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-transform-define": "^2.0.1",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "chalk": "^4.1.2",
     "esm-resolve": "^1.0.5",
-    "razzle-babel-loader": "5.0.0-alpha.0"
+    "json5": "^2.2.0"
   },
   "devDependencies": {
     "razzle": "workspace:*",
     "razzle-plugin-webpack5": "workspace:*",
-    "razzle-babel-loader": "workspace:*",
     "webpack": "^5.64.4"
   },
   "peerDependencies": {
     "razzle": "^5.0.0-alpha.0",
     "razzle-plugin-webpack5": "^5.0.0-alpha.0",
-    "razzle-babel-loader": "^5.0.0-alpha.0",
     "webpack": "^5.64.4"
   }
 }

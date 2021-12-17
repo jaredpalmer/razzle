@@ -1,3 +1,4 @@
+import { inspect } from "util";
 import path from "path";
 
 import Webpack from "webpack";
@@ -7,7 +8,7 @@ import createConfig from "./createConfig.js";
 import { PluginOptions, Plugin } from "./types";
 
 import type * as types from "./types";
-export { types }
+export { types };
 
 const plugin: Plugin = {
   name: "webpack5",
@@ -136,7 +137,9 @@ const plugin: Plugin = {
           compiler.run((err, stats) => {
             // [Stats Object](#stats-object)
             // Print watch/build result here...
-            console.log(stats);
+            if (stats) {
+             // console.log(inspect(stats.toJson("verbose"), false, 6, true));
+            }
           });
         }
       );

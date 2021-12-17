@@ -33,8 +33,10 @@ export default function razzleBabelLoaderOuter(
   inputSource: Source,
   inputSourceMap: SourceMap
 ) {
-  const callback = this.async();
+  console.log("hrm");
+console.log(inputSource);
 
+  const callback = this.async();
   razzleBabelLoader.call(this, inputSource, inputSourceMap).then(
     ([transformedSource, outputSourceMap]) =>
       callback?.(null, transformedSource, outputSourceMap || inputSourceMap),

@@ -20,7 +20,7 @@ const plugin: Plugin = {
           include: [razzleContext.paths.appSrc], //.concat(additionalIncludes)
           use: [
             {
-              loader: "razzle-plugin-webpack5-babel/loader",
+              loader: "razzle-babel-loader",
               options: {
                 isServer: webpackOptions.isNode,
                 cwd: razzleContext.paths.appPath,

@@ -10,7 +10,7 @@ import {
 } from "@babel/core";
 
 import commonJsPlugin from "../plugins/commonjs.js";
-import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export";
+import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export.js";
 
 import {
   RazzleWebpack5LoaderContext,
@@ -215,7 +215,7 @@ async function getFreshConfig(
       }
 
       // If no custom config is provided the default is to use next/babel
-      return ["razzle-plugin-webpack5-babel/babel"];
+      return ["razzle-babel-loader/preset"];
     })(),
 
     overrides: loaderOptions.overrides,

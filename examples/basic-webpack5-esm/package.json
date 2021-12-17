@@ -4,7 +4,7 @@
   "description": "basic webpack5 example",
   "scripts": {
     "test": "razzle jest",
-    "build": "NODE_ENV=production razzle build",
+    "build:prod": "NODE_ENV=production razzle build",
     "build:dev": "NODE_ENV=development razzle",
     "dev": "NODE_ENV=development razzle start",
     "start": "node build/server.cjs"

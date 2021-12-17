@@ -72,6 +72,7 @@ importers:
     specifiers:
       express: ^4.17.1
       razzle: 5.0.0-alpha.0
+      razzle-babel-loader: ^5.0.0-alpha.0
       razzle-plugin-webpack5: 5.0.0-alpha.0
       razzle-plugin-webpack5-assets: 5.0.0-alpha.0
       razzle-plugin-webpack5-babel: 5.0.0-alpha.0
@@ -81,6 +82,7 @@ importers:
     dependencies:
       express: 4.17.1
       razzle: link:../../packages/razzle
+      razzle-babel-loader: link:../../packages/razzle-babel-loader
       razzle-plugin-webpack5: link:../../packages/razzle-plugin-webpack5
       razzle-plugin-webpack5-assets: link:../../packages/razzle-plugin-webpack5-assets
       razzle-plugin-webpack5-babel: link:../../packages/razzle-plugin-webpack5-babel
@@ -133,6 +135,59 @@ importers:
     devDependencies:
       '@types/fs-extra': 9.0.13
 
+  packages/razzle-babel-loader:
+    specifiers:
+      '@babel/core': ^7.16.0
+      '@babel/generator': ^7.16.0
+      '@babel/plugin-proposal-class-properties': ^7.16.0
+      '@babel/plugin-proposal-export-namespace-from': ^7.16.0
+      '@babel/plugin-proposal-numeric-separator': ^7.16.0
+      '@babel/plugin-proposal-object-rest-spread': ^7.16.0
+      '@babel/plugin-syntax-bigint': ^7.8.3
+      '@babel/plugin-syntax-dynamic-import': ^7.8.3
+      '@babel/plugin-syntax-jsx': ^7.16.0
+      '@babel/plugin-transform-modules-commonjs': ^7.16.0
+      '@babel/plugin-transform-runtime': ^7.16.4
+      '@babel/preset-env': ^7.16.4
+      '@babel/preset-react': ^7.16.0
+      '@babel/preset-typescript': ^7.16.0
+      '@babel/traverse': ^7.16.0
+      babel-loader: ^8.2.3
+      babel-plugin-transform-define: ^2.0.1
+      babel-plugin-transform-react-remove-prop-types: ^0.4.24
+      chalk: ^4.1.2
+      esm-resolve: ^1.0.5
+      json5: ^2.2.0
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
+      webpack: ^5.64.4
+    dependencies:
+      '@babel/core': 7.16.0
+      '@babel/generator': 7.16.5
+      '@babel/plugin-proposal-class-properties': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-proposal-export-namespace-from': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-proposal-numeric-separator': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-proposal-object-rest-spread': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-syntax-bigint': 7.8.3_@babel+core@7.16.0
+      '@babel/plugin-syntax-dynamic-import': 7.8.3_@babel+core@7.16.0
+      '@babel/plugin-syntax-jsx': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-transform-modules-commonjs': 7.16.5_@babel+core@7.16.0
+      '@babel/plugin-transform-runtime': 7.16.5_@babel+core@7.16.0
+      '@babel/preset-env': 7.16.5_@babel+core@7.16.0
+      '@babel/preset-react': 7.16.5_@babel+core@7.16.0
+      '@babel/preset-typescript': 7.16.5_@babel+core@7.16.0
+      '@babel/traverse': 7.16.5
+      babel-loader: 8.2.3_d888b76bb52891dbb46d1b9f7384ff34
+      babel-plugin-transform-define: 2.0.1
+      babel-plugin-transform-react-remove-prop-types: 0.4.24
+      chalk: 4.1.2
+      esm-resolve: 1.0.5
+      json5: 2.2.0
+    devDependencies:
+      razzle: link:../razzle
+      razzle-plugin-webpack5: link:../razzle-plugin-webpack5
+      webpack: 5.64.4_esbuild@0.13.15
+
   packages/razzle-plugin-webpack5:
     specifiers:
       '@types/webpack-dev-server': ^4.5.0
@@ -160,46 +215,16 @@ importers:
 
   packages/razzle-plugin-webpack5-babel:
     specifiers:
-      '@babel/core': ^7.16.0
-      '@babel/plugin-proposal-class-properties': ^7.16.0
-      '@babel/plugin-proposal-export-namespace-from': ^7.16.0
-      '@babel/plugin-proposal-numeric-separator': ^7.16.0
-      '@babel/plugin-proposal-object-rest-spread': ^7.16.0
-      '@babel/plugin-syntax-bigint': ^7.8.3
-      '@babel/plugin-syntax-dynamic-import': ^7.8.3
-      '@babel/plugin-syntax-jsx': ^7.16.0
-      '@babel/plugin-transform-modules-commonjs': ^7.16.0
-      '@babel/plugin-transform-runtime': ^7.16.4
-      '@babel/preset-env': ^7.16.4
-      '@babel/preset-react': ^7.16.0
-      '@babel/preset-typescript': ^7.16.0
-      babel-loader: ^8.2.3
-      babel-plugin-transform-define: ^2.0.1
-      babel-plugin-transform-react-remove-prop-types: ^0.4.24
       chalk: ^4.1.2
       esm-resolve: ^1.0.5
       razzle: workspace:*
+      razzle-babel-loader: 5.0.0-alpha.0
       razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
     dependencies:
-      '@babel/core': 7.16.0
-      '@babel/plugin-proposal-class-properties': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-proposal-export-namespace-from': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-proposal-numeric-separator': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-proposal-object-rest-spread': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-syntax-bigint': 7.8.3_@babel+core@7.16.0
-      '@babel/plugin-syntax-dynamic-import': 7.8.3_@babel+core@7.16.0
-      '@babel/plugin-syntax-jsx': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-transform-modules-commonjs': 7.16.5_@babel+core@7.16.0
-      '@babel/plugin-transform-runtime': 7.16.5_@babel+core@7.16.0
-      '@babel/preset-env': 7.16.5_@babel+core@7.16.0
-      '@babel/preset-react': 7.16.5_@babel+core@7.16.0
-      '@babel/preset-typescript': 7.16.5_@babel+core@7.16.0
-      babel-loader: 8.2.3_d888b76bb52891dbb46d1b9f7384ff34
-      babel-plugin-transform-define: 2.0.1
-      babel-plugin-transform-react-remove-prop-types: 0.4.24
       chalk: 4.1.2
       esm-resolve: 1.0.5
+      razzle-babel-loader: link:../razzle-babel-loader
     devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
@@ -208,11 +233,12 @@ importers:
   packages/razzle-plugin-webpack5-browserslist:
     specifiers:
       browserslist: ^4.19.1
-      razzle: 5.0.0-alpha.0
-      razzle-plugin-webpack5: 5.0.0-alpha.0
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
     dependencies:
       browserslist: 4.19.1
+    devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5
       webpack: 5.64.4_esbuild@0.13.15
@@ -260,13 +286,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.16.0
-      '@babel/generator': 7.16.0
+      '@babel/generator': 7.16.5
       '@babel/helper-compilation-targets': 7.16.3_@babel+core@7.16.0
       '@babel/helper-module-transforms': 7.16.5
       '@babel/helpers': 7.16.3
-      '@babel/parser': 7.16.4
+      '@babel/parser': 7.16.6
       '@babel/template': 7.16.0
-      '@babel/traverse': 7.16.3
+      '@babel/traverse': 7.16.5
       '@babel/types': 7.16.0
       convert-source-map: 1.8.0
       debug: 4.3.3
@@ -297,6 +323,7 @@ packages:
       '@babel/types': 7.16.0
       jsesc: 2.5.2
       source-map: 0.5.7
+    dev: true
 
   /@babel/generator/7.16.5:
     resolution: {integrity: sha512-kIvCdjZqcdKqoDbVVdt5R99icaRtrtYhYK/xux5qiWCBmfdvEYMFZ68QCrpE5cbFM1JsuArUNs1ZkuKtTtUcZA==}
@@ -455,7 +482,6 @@ packages:
   /@babel/helper-plugin-utils/7.16.5:
     resolution: {integrity: sha512-59KHWHXxVA9K4HNF4sbHCf+eJeFe0Te/ZFGqBT4OjXhrwvA04sGfaEGsVTdsjoszq0YTP49RC9UKe5g8uN2RwQ==}
     engines: {node: '>=6.9.0'}
-    dev: false
 
   /@babel/helper-remap-async-to-generator/7.16.5:
     resolution: {integrity: sha512-X+aAJldyxrOmN9v3FKp+Hu1NO69VWgYgDGq6YDykwRPzxs5f2N+X988CBXS7EQahDU+Vpet5QYMqLk+nsp+Qxw==}
@@ -525,7 +551,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.16.0
-      '@babel/traverse': 7.16.3
+      '@babel/traverse': 7.16.5
       '@babel/types': 7.16.0
     transitivePeerDependencies:
       - supports-color
@@ -542,6 +568,7 @@ packages:
     resolution: {integrity: sha512-6V0qdPUaiVHH3RtZeLIsc+6pDhbYzHR8ogA8w+f+Wc77DuXto19g2QUwveINoS34Uw+W8/hQDGJCx+i4n7xcng==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dev: true
 
   /@babel/parser/7.16.6:
     resolution: {integrity: sha512-Gr86ujcNuPDnNOY8mi383Hvi8IYrJVJYuf3XcuBM/Dgd+bINn/7tHqsj+tKkoreMbmGsFLsltI/JJd8fOFWGDQ==}
@@ -767,7 +794,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.0
-      '@babel/helper-plugin-utils': 7.14.5
+      '@babel/helper-plugin-utils': 7.16.5
 
   /@babel/plugin-syntax-class-properties/7.12.13_@babel+core@7.16.0:
     resolution: {integrity: sha512-fm4idjKla0YahUNgFNLCB0qySdsoPiZP3iQE3rky0mBUtMZ23yDJ9SJdg6dXTSDnulOVqiF3Hgr9nbXvXTQZYA==}
@@ -793,7 +820,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.16.0
-      '@babel/helper-plugin-utils': 7.14.5
+      '@babel/helper-plugin-utils': 7.16.5
     dev: false
 
   /@babel/plugin-syntax-export-namespace-from/7.8.3_@babel+core@7.16.0:
@@ -1489,7 +1516,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.16.0
-      '@babel/parser': 7.16.4
+      '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
 
   /@babel/traverse/7.16.3:
@@ -1507,6 +1534,7 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@babel/traverse/7.16.5:
     resolution: {integrity: sha512-FOCODAzqUMROikDYLYxl4nmwiLlu85rNqBML/A5hKRVXG2LV8d0iMqgPzdYTcIpjZEBB7D6UDU9vxRZiriASdQ==}

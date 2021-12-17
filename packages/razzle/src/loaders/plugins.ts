@@ -60,7 +60,8 @@ export async function loadPlugin(
 
       tried.push(tryPath)
       try {
-        razzlePlugin = (await import(tryPath)).default;
+        const razzlePluginImport = (await import(tryPath));
+        razzlePlugin = razzlePluginImport.default;
       } catch (error) {
         console.log(error);
       }
