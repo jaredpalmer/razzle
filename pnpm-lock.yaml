@@ -70,6 +70,7 @@ importers:
 
   examples/basic-webpack5:
     specifiers:
+      '@babel/runtime': ^7.16.5
       express: ^4.17.1
       razzle: 5.0.0-alpha.0
       razzle-babel-loader: ^5.0.0-alpha.0
@@ -89,11 +90,15 @@ importers:
       razzle-plugin-webpack5-externals: link:../../packages/razzle-plugin-webpack5-externals
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@babel/runtime': 7.16.5
 
   examples/basic-webpack5-esm:
     specifiers:
+      '@babel/runtime': ^7.16.5
       express: ^4.17.1
       razzle: 5.0.0-alpha.0
+      razzle-babel-loader: ^5.0.0-alpha.0
       razzle-plugin-webpack5: 5.0.0-alpha.0
       razzle-plugin-webpack5-assets: 5.0.0-alpha.0
       razzle-plugin-webpack5-babel: 5.0.0-alpha.0
@@ -103,12 +108,15 @@ importers:
     dependencies:
       express: 4.17.1
       razzle: link:../../packages/razzle
+      razzle-babel-loader: link:../../packages/razzle-babel-loader
       razzle-plugin-webpack5: link:../../packages/razzle-plugin-webpack5
       razzle-plugin-webpack5-assets: link:../../packages/razzle-plugin-webpack5-assets
       razzle-plugin-webpack5-babel: link:../../packages/razzle-plugin-webpack5-babel
       razzle-plugin-webpack5-externals: link:../../packages/razzle-plugin-webpack5-externals
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    devDependencies:
+      '@babel/runtime': 7.16.5
 
   packages/razzle:
     specifiers:
@@ -1510,6 +1518,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
+
+  /@babel/runtime/7.16.5:
+    resolution: {integrity: sha512-TXWihFIS3Pyv5hzR7j6ihmeLkZfrXGxAr5UfSl8CHf+6q/wpiYDkUau0czckpYG8QmnCIuPpdLtuA9VmuGGyMA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: true
 
   /@babel/template/7.16.0:
     resolution: {integrity: sha512-MnZdpFD/ZdYhXwiunMqqgyZyucaYsbL0IrjoGjaVhGilz+x8YB++kRfygSOIj1yOtWKPlx7NBp+9I1RQSgsd5A==}
