@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-scss",
-  "version": "4.2.12",
+  "version": "4.2.13",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -17,12 +17,12 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "babel-preset-razzle": "4.2.12",
+    "babel-preset-razzle": "4.2.13",
     "html-webpack-plugin": "^4.5.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.2.12",
-    "razzle-dev-utils": "4.2.12",
-    "razzle-plugin-scss": "4.2.12",
+    "razzle": "4.2.13",
+    "razzle-dev-utils": "4.2.13",
+    "razzle-plugin-scss": "4.2.13",
     "webpack": "^4.44.1",
     "postcss": "^8.2.4",
     "webpack-dev-server": "^3.11.2"

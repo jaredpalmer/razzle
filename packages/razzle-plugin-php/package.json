@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-php",
-  "version": "4.2.12",
+  "version": "4.2.13",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "babel-preset-php": "^1.2.0"
   },
   "peerDependencies": {
-    "razzle": "4.2.12",
-    "razzle-dev-utils": "4.2.12"
+    "razzle": "4.2.13",
+    "razzle-dev-utils": "4.2.13"
   }
 }

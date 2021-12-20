@@ -1,7 +1,7 @@
 module.exports = [
   "basic-server",
-  "basic-spa",
   "basic-serverless",
+  "basic-spa",
   "basic",
   "with-afterjs",
   "with-custom-babel-config",

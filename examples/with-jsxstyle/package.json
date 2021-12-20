@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-jsxstyle",
-  "version": "4.2.12",
+  "version": "4.2.13",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,12 +16,12 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "razzle": "4.2.12",
-    "razzle-dev-utils": "4.2.12",
+    "razzle": "4.2.13",
+    "razzle-dev-utils": "4.2.13",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.2.12",
+    "babel-preset-razzle": "4.2.13",
     "webpack-dev-server": "^3.11.2"
   }
 }
