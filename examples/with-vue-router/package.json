@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-vue-router",
-  "version": "4.2.10",
+  "version": "4.2.11",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -16,14 +16,14 @@
     "vue-server-renderer": "^2.6.11"
   },
   "devDependencies": {
-    "babel-preset-razzle": "4.2.10",
+    "babel-preset-razzle": "4.2.11",
     "connect-history-api-fallback": "^1.6.0",
     "eslint": "^7.18.0",
     "eslint-plugin-vue": "^6.2.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.2.10",
-    "razzle-dev-utils": "4.2.10",
-    "razzle-plugin-vue": "4.2.10",
+    "razzle": "4.2.11",
+    "razzle-dev-utils": "4.2.11",
+    "razzle-plugin-vue": "4.2.11",
     "vue-template-compiler": "^2.6.11",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
