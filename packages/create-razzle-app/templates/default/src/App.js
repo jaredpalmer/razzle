@@ -5,7 +5,7 @@ import './App.css';
 
 const App = () => (
   <Switch>
-    <Route path="/" element={<Home/>} />
+    <Route exact={true} path="/" component={Home} />
   </Switch>
 );
 
