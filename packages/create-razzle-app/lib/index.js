@@ -135,7 +135,7 @@ module.exports = async function createRazzleApp(opts) {
       projectPath: projectPath,
       projectName: projectName,
     })
-    .then(installWithMessageFactory(opts))
+    .then(installWithMessageFactory(opts, true))
     .catch(function(err) {
       console.error(`Failed loading official default example`);
       if (opts.verbose) {
