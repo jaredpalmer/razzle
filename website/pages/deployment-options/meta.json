@@ -2,5 +2,6 @@
   "aws": "AWS",
   "azure": "Azure",
   "plesk": "Plesk",
-  "vercel": "Vercel"
+  "vercel": "Vercel",
+  "layer0": "Layer0"
 }
