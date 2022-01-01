@@ -28,7 +28,6 @@ const plugin: Plugin = {
   },
   modifyConfig: (
     pluginOptions,
-    razzleConfig,
     razzleContext,
     webpackOptions,
     webpackConfig

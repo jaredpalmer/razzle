@@ -14,7 +14,7 @@ type Context = Parameters<Required<Plugin>['modifyContext']>[1]
 export default (
   razzleConfigIn?: Config | undefined,
   packageJsonIn?: unknown | undefined
-): Promise<{ razzleConfig: Config; razzleContext: Context }> =>
+): Promise<{ razzleContext: Context }> =>
   new Promise(async (resolve) => {
     let razzleConfig: Config = razzleConfigIn || { plugins: [] };
     let packageJson = packageJsonIn || {};
@@ -65,14 +65,8 @@ export default (
         )).modifyContext(pluginOptions, razzleContext);
       }
     }
-    if (razzleConfig.modifyContext) {
-      // Check if razzle.modifyContext is a function.
-      // If it is, call it on the paths we created.
-      razzleContext = await razzleConfig.modifyContext(razzleContext);
-    }
 
     resolve({
-      razzleConfig,
-      razzleContext,
+      razzleContext
     });
   });

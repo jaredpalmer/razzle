@@ -6,7 +6,6 @@ import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import logger from "razzle/logger";
 
 import {
-  ChildConfig,
   ChildPlugin,
   PluginOptions
 } from "./types";
@@ -22,11 +21,10 @@ function resolveRequest(req: string, issuer: string) {
 }
 
 type Context = Parameters<Required<ChildPlugin>['modifyContext']>[1]
-type Options = Parameters<Required<ChildPlugin>['modifyOptions']>[3]
+type Options = Parameters<Required<ChildPlugin>['modifyOptions']>[2]
 
 export default async (
   pluginOptions: PluginOptions,
-  razzleConfig: ChildConfig,
   razzleContext: Context,
   isDevServer: boolean = false,
   isDevEnv: boolean = false,
@@ -82,20 +80,10 @@ export default async (
             plugin
           )).modifyOptions(
             childPluginOptions,
-            razzleConfig,
             razzleContext,
             webpackOptions
           );
         }
-      }
-      if (razzleConfig.modifyOptions) {
-        // Check if razzle.modifyWebpackOptions is a function.
-        // If it is, call it on the options we created.
-        webpackOptions = await razzleConfig.modifyOptions(
-          razzleConfig,
-          razzleContext,
-          webpackOptions
-        );
       }
 
       let webpackConfig: Configuration = {
@@ -141,22 +129,11 @@ export default async (
             plugin
           )).modifyConfig(
             childPluginOptions,
-            razzleConfig,
             razzleContext,
             webpackOptions,
             webpackConfig
           );
         }
-      }
-      if (razzleConfig.modifyConfig) {
-        // Check if razzleConfig.modifyWebpackConfig is a function.
-        // If it is, call it on the config we created.
-        webpackConfig = await razzleConfig.modifyConfig(
-          razzleConfig,
-          razzleContext,
-          webpackOptions,
-          webpackConfig
-        );
       }
       webpackConfigs.push([webpackConfig, <Options>webpackOptions]);
     }
@@ -189,22 +166,11 @@ export default async (
             plugin
           )).modifyOptions(
             childPluginOptions,
-            razzleConfig,
             razzleContext,
             webpackOptions
           );
         }
       }
-      if (razzleConfig.modifyOptions) {
-        // Check if razzle.modifyWebpackOptions is a function.
-        // If it is, call it on the options we created.
-        webpackOptions = await razzleConfig.modifyOptions(
-          razzleConfig,
-          razzleContext,
-          webpackOptions
-        );
-      }
-
       let webpackConfig: Configuration = {
         name: `node-${buildName}`,
         target: "node",
@@ -253,22 +219,11 @@ export default async (
             plugin
           )).modifyConfig(
             childPluginOptions,
-            razzleConfig,
             razzleContext,
             webpackOptions,
             webpackConfig
           );
         }
-      }
-      if (razzleConfig.modifyConfig) {
-        // Check if razzleConfig.modifyWebpackConfig is a function.
-        // If it is, call it on the config we created.
-        webpackConfig = await razzleConfig.modifyConfig(
-          razzleConfig,
-          razzleContext,
-          webpackOptions,
-          webpackConfig
-        );
       }
       if (!nodeOnly) {
         webpackConfig.dependencies = [`web-${buildName}`];
@@ -301,20 +256,10 @@ export default async (
           plugin
         )).modifyDevserverConfig(
           childPluginOptions,
-          razzleConfig,
           razzleContext,
           devServerConfiguration
         );
       }
-    }
-    if (razzleConfig.modifyDevserverConfig) {
-      // Check if razzle.modifyPaths is a function.
-      // If it is, call it on the paths we created.
-      devServerConfiguration = await razzleConfig.modifyDevserverConfig(
-        razzleConfig,
-        razzleContext,
-        devServerConfiguration
-      );
     }
     return {
       configurations: webpackConfigs,

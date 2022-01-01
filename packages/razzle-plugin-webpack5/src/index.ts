@@ -43,7 +43,7 @@ const plugin: Plugin = {
     return razzleContext;
   },
   addCommands: {
-    start: (argv, pluginOptions, razzleConfig, razzleContext) => {
+    start: (argv, pluginOptions, razzleContext) => {
       argv.command(
         "start",
         "start the webpack devserver",
@@ -64,7 +64,6 @@ const plugin: Plugin = {
           }
           const configs = await createConfig(
             pluginOptions,
-            razzleConfig,
             razzleContext,
             true,
             true,
@@ -104,7 +103,7 @@ const plugin: Plugin = {
       );
     },
 
-    build: (argv, pluginOptions, razzleConfig, razzleContext) => {
+    build: (argv, pluginOptions, razzleContext) => {
       argv.command(
         "build",
         "build using webpack",
@@ -125,7 +124,6 @@ const plugin: Plugin = {
 //          console.log(process.env["NODE_ENV"]);
           const configs = await createConfig(
             pluginOptions,
-            razzleConfig,
             razzleContext,
             false,
             process.env["NODE_ENV"] === "development",

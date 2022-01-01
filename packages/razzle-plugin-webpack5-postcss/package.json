@@ -1,5 +1,5 @@
 {
-  "name": "razzle-plugin-webpack5-babel",
+  "name": "razzle-plugin-webpack5-postcss",
   "description": "Create server-rendered universal JavaScript applications with no configuration",
   "license": "MIT",
   "author": "Jared Palmer <jared@palmer.net>",
@@ -14,7 +14,6 @@
     ".": "./lib/index.js",
     "./package.json": "./package.json"
   },
-  
   "types": "lib/index.d.ts",
   "type": "module",
   "scripts": {
@@ -38,23 +37,14 @@
     "universal",
     "webpack"
   ],
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "esm-resolve": "^1.0.5",
-    "razzle-babel-loader": "5.0.0-alpha.0"
-  },
   "devDependencies": {
     "razzle": "workspace:*",
     "razzle-plugin-webpack5": "workspace:*",
-    "razzle-plugin-webpack5-browserslist": "workspace:*",
-    "razzle-babel-loader": "workspace:*",
     "webpack": "^5.64.4"
   },
   "peerDependencies": {
     "razzle": "^5.0.0-alpha.0",
     "razzle-plugin-webpack5": "^5.0.0-alpha.0",
-    "razzle-plugin-webpack5-browserslist": "^5.0.0-alpha.0",
-    "razzle-babel-loader": "^5.0.0-alpha.0",
     "webpack": "^5.64.4"
   }
 }

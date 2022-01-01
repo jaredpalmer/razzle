@@ -8,17 +8,15 @@ type Context = Parameters<Required<Plugin>['modifyContext']>[1]
 
 export async function cli(): Promise<void>;
 export async function cli() {
-  const { razzleConfig, razzleContext } = await loadConfig();
+  const { razzleContext } = await loadConfig();
 
   type PluginParser = (
     argv: Argv,
     pluginOptions: Record<string, unknown>,
-    razzleConfig: Config,
     razzleContext: Context
   ) => void;
   type ConfigParser = (
     argv: Argv,
-    razzleConfig: Config,
     razzleContext: Context
   ) => void;
 
@@ -41,13 +39,6 @@ export async function cli() {
       }
     }
   }
-  if (razzleConfig.addCommands) {
-    for (const command in razzleConfig.addCommands) {
-      parsers[command] = {
-        parser: razzleConfig.addCommands[command],
-      };
-    }
-  }
 
   let argv = yargs(hideBin(process.argv))
     .scriptName("razzle")
@@ -67,13 +58,11 @@ export async function cli() {
       (<PluginParser>parsers[command].parser)(
         argv,
         <Record<string, unknown>>parsers[command].options,
-        razzleConfig,
         razzleContext
       );
     } else {
       (<ConfigParser>parsers[command].parser)(
         argv,
-        razzleConfig,
         razzleContext
       );
     }

@@ -4,7 +4,7 @@ import type * as types from "./types";
 export { types }
 
 const plugin: Plugin = {
-  name: "webpack5-css",
+  name: "webpack5-postcss",
   defaultOptions: {},
   modifyConfig: (
     pluginOptions,

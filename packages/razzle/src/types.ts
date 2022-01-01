@@ -25,21 +25,14 @@ export type PathsContext<Pths> = {
   paths: Pths;
 };
 
-export type Config = ConfigInt<Context & PathsContext<Paths>>;
-
-export interface ConfigInt<Ctx> {
+export type Config = {
   options?: Options;
   plugins: Array<PluginUnion>;
-  modifyContext?: (razzleContext: Ctx) => Promise<Ctx> | Ctx;
-  addCommands?: Record<
-    string,
-    (argv: Argv, razzleConfig: this, razzleContext: Ctx) => void
-  >;
 }
 
-export type Plugin = PluginInt<Record<string, unknown>, Config, Context & PathsContext<Paths>>;
+export type Plugin = PluginInt<Record<string, unknown>, Context & PathsContext<Paths>>;
 
-export interface PluginInt<Opt, Conf, Ctx> {
+export interface PluginInt<Opt,Ctx> {
   name: string;
   defaultOptions?: Opt;
   modifyContext?: (
@@ -51,7 +44,6 @@ export interface PluginInt<Opt, Conf, Ctx> {
     (
       argv: Argv,
       pluginOptions: Opt,
-      razzleConfig: Conf,
       razzleContext: Ctx
     ) => void
   >;

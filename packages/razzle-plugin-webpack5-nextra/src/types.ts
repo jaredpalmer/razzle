@@ -7,15 +7,9 @@ export type Options = {};
 
 export type Context = {};
 
-export type PluginOptions = {
-  assetResourceExclude: Exclude<RuleSetRule["exclude"], undefined>;
-  assetAutoTest: Exclude<RuleSetRule["test"], undefined>;
-  assetAutoSize: number;
-}
+export type PluginOptions = {}
 
-export type Paths = {
-  staticPath: string;
-};
+export type Paths = {};
 
 export type DefinePluginDefines = {};
 

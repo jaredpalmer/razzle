@@ -3,43 +3,21 @@ import { types as Razzle } from "razzle";
 import { Configuration } from "webpack";
 import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
-export interface ConfigInt<Ctx, WP5Opts> extends Razzle.ConfigInt<Ctx> {
-  modifyOptions?: (
-    razzleConfig: this,
-    razzleContext: Ctx,
-    webpackOptions: WP5Opts
-  ) => Promise<WP5Opts> | WP5Opts;
-  modifyConfig?: (
-    razzleConfig: this,
-    razzleContext: Ctx,
-    webpackOptions: WP5Opts,
-    webpackConfig: Configuration
-  ) => Promise<Configuration> | Configuration;
-  modifyDevserverConfig?: (
-    razzleConfig: this,
-    razzleContext: Ctx,
-    devServerConfig: DevServerConfiguration
-  ) => Promise<DevServerConfiguration> | DevServerConfiguration;
-}
-
-export interface PluginInt<Opts, Conf, Ctx, WP5Opts>
-  extends Razzle.PluginInt<Opts, Conf, Ctx> {
+export interface PluginInt<Opts, Ctx, WP5Opts>
+  extends Razzle.PluginInt<Opts, Ctx> {
   modifyOptions?: (
     pluginOptions: Opts,
-    razzleConfig: Conf,
     razzleContext: Ctx,
     webpackOptions: WP5Opts
   ) => Promise<WP5Opts> | WP5Opts;
   modifyConfig?: (
     pluginOptions: Opts,
-    razzleConfig: Conf,
     razzleContext: Ctx,
     webpackOptions: WP5Opts,
     webpackConfig: Configuration
   ) => Promise<Configuration> | Configuration;
   modifyDevserverConfig?: (
     pluginOptions: Opts,
-    razzleConfig: Conf,
     razzleContext: Ctx,
     devServerConfig: DevServerConfiguration
   ) => Promise<DevServerConfiguration> | DevServerConfiguration;
@@ -85,25 +63,14 @@ export type DefinePluginDefines = {
   "process.env.NODE_ENV": string;
 };
 
-export type Config = Razzle.ConfigInt<
-  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
->;
-
 export type Plugin = Razzle.PluginInt<
   PluginOptions,
-  ChildConfig,
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
 >;
 
-/* basic types for hooks to adhere to */
-export type ChildConfig = ConfigInt<
-  Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
-  Options & DefineOptions<DefinePluginDefines>
->;
 
 export type ChildPlugin = PluginInt<
   Record<string, unknown>,
-  ChildConfig,
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>,
   Options & DefineOptions<DefinePluginDefines>
 >;

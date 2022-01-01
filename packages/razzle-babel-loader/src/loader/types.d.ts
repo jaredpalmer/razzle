@@ -1,6 +1,6 @@
 import type * as webpack from "webpack";
 
-export interface RazzleWebpack5Options {
+export interface RazzleWebpack5LoaderOptions {
   hasJsxRuntime: boolean;
   hasReactRefresh: boolean;
   isServer: boolean;
@@ -14,7 +14,7 @@ export interface RazzleWebpack5Options {
 
 export interface RazzleWebpack5LoaderDefinitionFunction
   extends webpack.LoaderDefinitionFunction<
-    RazzleWebpack5Options,
+    RazzleWebpack5LoaderOptions,
     {
       target: string | [string, string];
     }

@@ -13,7 +13,7 @@ import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export.js"
 
 import {
   RazzleWebpack5LoaderContext,
-  RazzleWebpack5Options,
+  RazzleWebpack5LoaderOptions,
   Source,
   SourceMap,
 } from "./types";
@@ -45,7 +45,7 @@ interface CharacteristicsGermaneToCaching {
 
 const fileExtensionRegex = /\.([a-z]+)$/;
 function getCacheCharacteristics(
-  loaderOptions: RazzleWebpack5Options,
+  loaderOptions: RazzleWebpack5LoaderOptions,
   source: Source,
   filename: string
 ): CharacteristicsGermaneToCaching {
@@ -65,7 +65,7 @@ function getCacheCharacteristics(
  * source file characteristics.
  */
 function getPlugins(
-  loaderOptions: RazzleWebpack5Options,
+  loaderOptions: RazzleWebpack5LoaderOptions,
   cacheCharacteristics: CharacteristicsGermaneToCaching
 ) {
   const { isServer, hasModuleExports } = cacheCharacteristics;
@@ -163,7 +163,7 @@ async function getCustomBabelConfig(configFilePath: string) {
 async function getFreshConfig(
   this: RazzleWebpack5LoaderContext,
   cacheCharacteristics: CharacteristicsGermaneToCaching,
-  loaderOptions: RazzleWebpack5Options,
+  loaderOptions: RazzleWebpack5LoaderOptions,
   target: string | [string, string],
   filename: string,
   inputSourceMap?: SourceMap
@@ -291,7 +291,7 @@ export default async function getConfig(
     inputSourceMap,
   }: {
     source: Source;
-    loaderOptions: RazzleWebpack5Options;
+    loaderOptions: RazzleWebpack5LoaderOptions;
     target: string | [string, string];
     filename: string;
     inputSourceMap?: SourceMap;

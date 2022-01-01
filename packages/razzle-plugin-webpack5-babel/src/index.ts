@@ -8,7 +8,6 @@ const plugin: Plugin = {
   defaultOptions: {},
   modifyConfig: (
     pluginOptions,
-    razzleConfig,
     razzleContext,
     webpackOptions,
     webpackConfig
