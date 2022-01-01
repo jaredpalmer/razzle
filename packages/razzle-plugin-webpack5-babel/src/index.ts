@@ -21,6 +21,7 @@ const plugin: Plugin = {
             {
               loader: "razzle-babel-loader",
               options: {
+                razzleBuildName: webpackOptions.buildName,
                 isServer: webpackOptions.isNode,
                 cwd: razzleContext.paths.appPath,
                 cache: true,

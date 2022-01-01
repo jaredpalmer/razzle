@@ -38,6 +38,7 @@ import { consumeIterator } from "./util.js";
  * transformations.
  */
 interface CharacteristicsGermaneToCaching {
+  razzleBuildName: string;
   isServer: boolean;
   hasModuleExports: boolean;
   fileExt: string;
@@ -49,11 +50,12 @@ function getCacheCharacteristics(
   source: Source,
   filename: string
 ): CharacteristicsGermaneToCaching {
-  const { isServer } = loaderOptions;
+  const { isServer, razzleBuildName = 'default' } = loaderOptions;
   const hasModuleExports = source?.indexOf("module.exports") !== -1;
   const fileExt = fileExtensionRegex.exec(filename)?.[1] || "unknown";
 
   return {
+    razzleBuildName,
     isServer,
     hasModuleExports,
     fileExt,
@@ -270,11 +272,11 @@ async function getFreshConfig(
  * file attributes and Next.js compiler states: `CharacteristicsGermaneToCaching`.
  */
 function getCacheKey(cacheCharacteristics: CharacteristicsGermaneToCaching) {
-  const { isServer, hasModuleExports, fileExt } = cacheCharacteristics;
+  const { isServer, hasModuleExports, fileExt, razzleBuildName } = cacheCharacteristics;
 
   const flags = 0 | (isServer ? 0b0001 : 0) | (hasModuleExports ? 0b0010 : 0);
 
-  return fileExt + flags;
+  return razzleBuildName + '_' + fileExt + flags;
 }
 
 type BabelConfig = any;

@@ -39,6 +39,7 @@ function supportsStaticESM(caller: any): boolean {
   return !!caller?.supportsStaticESM;
 }
 
+
 export default (
   api: any,
   options: RazzleBabelPresetOptions = {}
