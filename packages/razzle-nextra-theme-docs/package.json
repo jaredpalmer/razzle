@@ -49,6 +49,8 @@
     "next-themes": "^0.0.8",
     "parse-git-url": "^1.0.1",
     "prism-react-renderer": "^1.1.1",
+    "react-helmet-async": "^1.2.2",
+    "react-router-dom": "^6.2.1",
     "title": "^3.4.2"
   },
   "peerDependencies": {

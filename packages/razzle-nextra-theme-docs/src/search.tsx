@@ -1,8 +1,7 @@
 import React, { useMemo, useCallback, useRef, useState, useEffect } from 'react'
 import matchSorter from 'match-sorter'
 import cn from 'classnames'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { Link, useNavigate } from 'react-router-dom'
 import type { MouseEventHandler } from 'react'
 import type { Item as NormalItem } from './utils/normalize-pages'
 interface ItemProps {
@@ -16,7 +15,7 @@ interface ItemProps {
 const Item = ({ title, active, href, onMouseOver, search }: ItemProps) => {
   const highlight = title.toLowerCase().indexOf(search.toLowerCase())
   return (
-    <Link href={href}>
+    <Link to={href}>
       <a className="block no-underline" onMouseOver={onMouseOver}>
         <li className={cn('p-2', { active })}>
           {title.substring(0, highlight)}
@@ -38,7 +37,7 @@ interface SearchProps {
 }
 
 const Search = ({ directories = [] }: SearchProps) => {
-  const router = useRouter()
+  const router = useNavigate()
   const [show, setShow] = useState(false)
   const [search, setSearch] = useState('')
   const [active, setActive] = useState(0)
@@ -78,7 +77,7 @@ const Search = ({ directories = [] }: SearchProps) => {
       }
 
       if (key === 'Enter' && results && results[active]) {
-        router.push(results[active].route)
+        router(results[active].route)
       }
     },
     [active, results, router]

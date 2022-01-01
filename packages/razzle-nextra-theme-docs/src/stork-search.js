@@ -6,9 +6,8 @@ import React, {
   useEffect,
   Fragment
 } from 'react'
-import Router, { useRouter } from 'next/router'
 import cn from 'classnames'
-import Link from 'next/link'
+import { Router, Link, useParams } from 'react-router-dom'
 import GraphemeSplitter from 'grapheme-splitter'
 
 const splitter = new GraphemeSplitter()
@@ -61,7 +60,7 @@ const Item = ({ title, active, href, onMouseOver, excerpt }) => {
 const stork = {}
 
 export default function Search() {
-  const router = useRouter()
+  const router = useParams()
   const [show, setShow] = useState(false)
   const [search, setSearch] = useState('')
   const [active, setActive] = useState(0)

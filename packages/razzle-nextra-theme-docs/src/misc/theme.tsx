@@ -1,6 +1,6 @@
 import { MDXProvider } from '@mdx-js/react'
 import Slugger from 'github-slugger'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import type { Language, PrismTheme } from 'prism-react-renderer'
@@ -251,7 +251,7 @@ const A = ({
     )
   }
   return props.href ? (
-    <Link href={props.href}>
+    <Link to={props.href}>
       <a {...props}>{children}</a>
     </Link>
   ) : (

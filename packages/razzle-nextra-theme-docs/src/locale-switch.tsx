@@ -1,6 +1,5 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { Link, useParams } from 'react-router-dom'
 import cn from 'classnames'
 
 import useMounted from './utils/use-mounted'
@@ -11,7 +10,7 @@ interface LocaleSwitchProps {
   isRTL?: boolean | null
 }
 export default function LocaleSwitch({ options, isRTL }: LocaleSwitchProps) {
-  const { locale, asPath } = useRouter()
+  const { locale, asPath } = useParams()
   const mounted = useMounted()
 
   return (
@@ -47,7 +46,7 @@ export default function LocaleSwitch({ options, isRTL }: LocaleSwitchProps) {
           {Array.isArray(options) &&
             options.map(l => (
               <li key={l.locale}>
-                <Link href={asPath} locale={l.locale}>
+                <Link to={asPath} locale={l.locale}>
                   <a
                     className={cn(
                       'block no-underline text-current py-2 px-4 hover:bg-gray-200 dark:hover:bg-gray-800 whitespace-nowrap',

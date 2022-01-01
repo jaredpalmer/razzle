@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'react-router-dom'
+
 import 'focus-visible'
 import { SkipNavContent } from '@reach/skip-nav'
 import { ThemeProvider } from 'next-themes'
@@ -20,7 +21,7 @@ import { Heading, PageMapItem, PageOpt } from 'nextra'
 import { DocsThemeConfig } from './types'
 
 function useDirectoryInfo(pageMap: PageMapItem[]) {
-  const { locale, defaultLocale, asPath } = useRouter()
+  const { locale, defaultLocale, asPath } = useParams()
 
   return useMemo(() => {
     const fsPath = getFSRoute(asPath, locale).split('#')[0]
@@ -79,7 +80,7 @@ const Layout = ({
   titleText,
   headings
 }: LayoutProps) => {
-  const { route, locale } = useRouter()
+  const { route, locale } = useParams()
   const config = useConfig()
 
   const {

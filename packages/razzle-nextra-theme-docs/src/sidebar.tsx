@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import cn from 'classnames'
 import Slugger from 'github-slugger'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { Link, useParams } from 'react-router-dom'
 import { useActiveAnchor } from './misc/active-anchor'
 import { getFSRoute } from './utils/get-fs-route'
 import useMenuContext from './utils/menu-context'
@@ -21,7 +20,7 @@ interface FolderProps {
 }
 
 function Folder({ item, anchors }: FolderProps) {
-  const { asPath, locale } = useRouter()
+  const { asPath, locale } = useParams()
   const routeOriginal = getFSRoute(asPath, locale)
   const route = routeOriginal.split('#')[0]
   const active = route === item.route + '/' || route + '/' === item.route + '/'
@@ -68,7 +67,7 @@ interface FileProps {
 }
 function File({ item, anchors }: FileProps) {
   const { setMenu } = useMenuContext()
-  const { asPath, locale } = useRouter()
+  const { asPath, locale } = useParams()
   const route = getFSRoute(asPath, locale)
   const active = route === item.route + '/' || route + '/' === item.route + '/'
   const slugger = new Slugger()
@@ -90,7 +89,7 @@ function File({ item, anchors }: FileProps) {
       })
       return (
         <li className={active ? 'active' : ''}>
-          <Link href={item.route}>
+          <Link to={item.route}>
             <a>{title}</a>
           </Link>
           <ul>
@@ -122,7 +121,7 @@ function File({ item, anchors }: FileProps) {
 
   return (
     <li className={active ? 'active' : ''}>
-      <Link href={item.route}>
+      <Link to={item.route}>
         <a onClick={() => setMenu(false)}>{title}</a>
       </Link>
     </li>

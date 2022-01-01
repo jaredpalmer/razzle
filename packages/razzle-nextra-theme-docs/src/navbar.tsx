@@ -1,7 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Link, useParams } from 'react-router-dom'
 
 import renderComponent from './utils/render-component'
 import { getFSRoute } from './utils/get-fs-route'
@@ -24,14 +23,14 @@ interface NavBarProps {
 
 export default function Navbar({ isRTL, flatDirectories, flatPageDirectories }: NavBarProps) {
   const config = useConfig()
-  const { locale, asPath } = useRouter()
+  const { locale, asPath } = useParams()
   const activeRoute = getFSRoute(asPath, locale).split('#')[0]
   const { menu, setMenu } = useMenuContext()
 
   return (
     <nav className="flex items-center bg-white z-20 fixed top-0 left-0 right-0 h-16 border-b border-gray-200 px-6 dark:bg-dark dark:border-gray-900 bg-opacity-[.97] dark:bg-opacity-100">
       <div className="w-full flex items-center mr-2">
-        <Link href="/">
+        <Link to="/">
           <a className="no-underline text-current inline-flex items-center hover:opacity-75">
             {renderComponent(config.logo, { locale })}
           </a>
@@ -50,7 +49,7 @@ export default function Navbar({ isRTL, flatDirectories, flatPageDirectories }: 
             }
 
             return (
-              <Link href={href} key={page.route}>
+              <Link to={href} key={page.route}>
                 <a
                   className={cn(
                     'no-underline whitespace-nowrap mr-4 hidden md:inline-block',

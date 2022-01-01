@@ -1,7 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Link, useParams } from 'react-router-dom'
 import parseGitUrl from 'parse-git-url'
 
 import ArrowRight from './icons/arrow-right'
@@ -17,7 +16,7 @@ interface LinkProps {
 
 const NextLink = ({ route, title, isRTL }: LinkProps) => {
   return (
-    <Link href={route}>
+    <Link to={route}>
       <a
         className={cn(
           'text-lg font-medium p-4 -m-4 no-underline text-gray-600 hover:text-blue-600 flex items-center',
@@ -39,7 +38,7 @@ const NextLink = ({ route, title, isRTL }: LinkProps) => {
 
 const PrevLink = ({ route, title, isRTL }: LinkProps) => {
   return (
-    <Link href={route}>
+    <Link to={route}>
       <a
         className={cn(
           'text-lg font-medium p-4 -m-4 no-underline text-gray-600 hover:text-blue-600 flex items-center',
@@ -87,7 +86,7 @@ const EditPageLink = ({
   filepath: string
 }) => {
   const url = createEditUrl(repository, filepath)
-  const { locale } = useRouter()
+  const { locale } = useParams()
   return (
     <a className="text-sm" href={url} target="_blank" rel="noreferrer">
       {text
@@ -132,7 +131,7 @@ const Footer: React.FC<{ filepathWithName: string }> = ({
   filepathWithName,
   children
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useParams()
   const config = useConfig()
 
   return (
