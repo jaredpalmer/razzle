@@ -1,19 +1,23 @@
 import { inspect } from 'util';
 
-export default {
-    plugins: [{ name: 'webpack5', options: { outputEsm: true } }, 'webpack5-externals', 'webpack5-assets', 'webpack5-babel'],
+const localPlugin = {
+    defaultOptions: {},
     modifyConfig: (
-        razzleConfig,
+        pluginOptions,
         razzleContext,
         webpackOptions,
         webpackConfig
     ) => {
-        if (process.env.LOGCONF) {
+
+        if (true) {
             console.log(inspect(razzleContext, false, 5, true));
             console.log(inspect(webpackOptions, false, 5, true));
-            console.log(inspect(webpackConfig, false, 5, true));
+            console.log(inspect(webpackConfig, false, 6, true));
         }
         return webpackConfig
 
     }
+}
+export default {
+    plugins: [{ name: 'webpack5', options: { outputEsm: true } }, 'webpack5-externals', 'webpack5-assets', 'webpack5-babel', localPlugin]
 }
