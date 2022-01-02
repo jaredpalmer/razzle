@@ -6,6 +6,27 @@ export { types }
 const plugin: Plugin = {
   name: "webpack5-babel",
   defaultOptions: {},
+  modifyOptions: (
+    pluginOptions,
+    razzleContext,
+    webpackOptions
+  ) => {
+    webpackOptions.babelLoader = 
+    {
+      loader: "razzle-babel-loader",
+      options: {
+        razzleBuildName: webpackOptions.buildName,
+        isServer: webpackOptions.isNode,
+        cwd: razzleContext.paths.appPath,
+        cache: true,
+        babelPresetPlugins: [],
+        hasModern: false, // !!config.experimental.modern,
+        development: webpackOptions.isDev,
+        hasReactRefresh: false
+      },
+    };
+    return webpackOptions;
+  },
   modifyConfig: (
     pluginOptions,
     razzleContext,
@@ -18,19 +39,7 @@ const plugin: Plugin = {
           test: /\.js$/i,
           include: [razzleContext.paths.appSrc], //.concat(additionalIncludes)
           use: [
-            {
-              loader: "razzle-babel-loader",
-              options: {
-                razzleBuildName: webpackOptions.buildName,
-                isServer: webpackOptions.isNode,
-                cwd: razzleContext.paths.appPath,
-                cache: true,
-                babelPresetPlugins: [],
-                hasModern: false, // !!config.experimental.modern,
-                development: webpackOptions.isDev,
-                hasReactRefresh: false,
-              },
-            },
+            webpackOptions.babelLoader
           ],
         },
       ]

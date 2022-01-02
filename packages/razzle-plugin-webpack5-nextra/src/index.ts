@@ -2,7 +2,7 @@ import {
   PluginOptions,
   Plugin,
 } from "./types";
-
+import withNextra from 'nextra'
 import type * as types from "./types";
 export { types }
 
@@ -14,6 +14,7 @@ const plugin: Plugin = {
     razzleContext,
     webpackOptions
   ) => {
+    
     return webpackOptions;
   },
   modifyConfig: (
