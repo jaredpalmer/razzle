@@ -39,10 +39,6 @@ export type Options = {
   buildName: string;
 }
 
-export interface DefineOptions<Defs> {
-  definePluginOptions: Defs;
-}
-
 export interface PluginOptions {
   devBuild: string;
   webBuilds: Array<string>;
@@ -63,11 +59,15 @@ export type DefinePluginDefines = {
   "process.env.NODE_ENV": string;
 };
 
+
+export interface DefineOptions<Defs> {
+  definePluginOptions: Defs;
+}
+
 export type Plugin = Razzle.PluginInt<
   PluginOptions,
   Context & Razzle.Context & Razzle.PathsContext<Paths & Razzle.Paths>
 >;
-
 
 export type ChildPlugin = PluginInt<
   Record<string, unknown>,

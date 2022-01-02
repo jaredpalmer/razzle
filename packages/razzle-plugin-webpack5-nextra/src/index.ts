@@ -42,7 +42,8 @@ const plugin: Plugin = {
     }
     return webpackConfig;
   },
-};
+}; 
+  
 
 export default function (options: PluginOptions): {
   plugin: Plugin;
