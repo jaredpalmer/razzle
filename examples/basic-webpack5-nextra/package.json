@@ -31,7 +31,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.16.5",
     "razzle": "workspace:*",
-    "razzle-babel-loader": "^workspace:*",
+    "razzle-babel-loader": "workspace:*",
     "razzle-plugin-webpack5": "workspace:*",
     "razzle-plugin-webpack5-assets": "workspace:*",
     "razzle-plugin-webpack5-babel": "workspace:*",

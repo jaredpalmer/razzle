@@ -1,7 +1,7 @@
 import type { RuleSetRule } from "webpack";
 import { types as Razzle } from "razzle";
 import { types as WP5 } from "razzle-plugin-webpack5";
-import { type } from "os";
+import { types as BABEL } from "razzle-plugin-webpack5-babel";
 
 export type Options = {};
 
@@ -18,6 +18,6 @@ export type Plugin = WP5.PluginInt<
   PluginOptions,
   Context & WP5.Context & Razzle.Context,
   Options &
-    WP5.Options &
+    WP5.Options & BABEL.Options &
     WP5.DefineOptions<DefinePluginDefines & WP5.DefinePluginDefines>
 >;
