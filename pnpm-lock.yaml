@@ -366,6 +366,16 @@ importers:
       razzle-plugin-webpack5-babel: link:../razzle-plugin-webpack5-babel
       webpack: 5.64.4_esbuild@0.13.15
 
+  packages/razzle-plugin-webpack5-pages:
+    specifiers:
+      razzle: workspace:*
+      razzle-plugin-webpack5: workspace:*
+      webpack: ^5.64.4
+    devDependencies:
+      razzle: link:../razzle
+      razzle-plugin-webpack5: link:../razzle-plugin-webpack5
+      webpack: 5.64.4_esbuild@0.13.15
+
   packages/razzle-plugin-webpack5-postcss:
     specifiers:
       razzle: workspace:*

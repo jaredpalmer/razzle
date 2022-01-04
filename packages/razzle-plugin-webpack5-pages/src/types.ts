@@ -1,16 +1,13 @@
-import type { RuleSetRule } from "webpack";
 import { types as Razzle } from "razzle";
 import { types as WP5 } from "razzle-plugin-webpack5";
-import { type } from "os";
 
 export type Options = {};
 
-export type Context = {};
+export type Context = {
+  pages: [string]
+};
 
 export type PluginOptions = {
-  assetResourceExclude: Exclude<RuleSetRule["exclude"], undefined>;
-  assetAutoTest: Exclude<RuleSetRule["test"], undefined>;
-  assetAutoSize: number;
 }
 
 export type Paths = {
