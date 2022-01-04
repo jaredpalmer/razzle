@@ -1,4 +1,4 @@
-import { recursiveReadDir } from './recursive-readdir'
+import { recursiveReadDir } from './recursive-readdir.js'
 
 export function collectPages(
     directory: string,

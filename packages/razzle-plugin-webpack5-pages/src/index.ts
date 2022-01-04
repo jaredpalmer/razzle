@@ -3,19 +3,23 @@ import {
   Plugin,
 } from "./types";
 
-import { collectPages } from "./utils";
+import { collectPages } from "./utils.js";
 
 import type * as types from "./types";
-export { types }
+import { inspect } from 'util';
+import path from "path";
 
 const plugin: Plugin = {
   name: "webpack5-pages",
   defaultOptions: {
   },
-  modifyContext: (
+  modifyContext: async (
     pluginOptions,
     razzleContext
   ) => {
+    razzleContext.pages = await collectPages(path.join(razzleContext.paths.appPath, 'pages'), ['md', 'mdx'])
+    console.log(inspect(razzleContext, false, 5, true));
+
     return razzleContext;
   },
   modifyConfig: (

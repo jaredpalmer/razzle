@@ -4,7 +4,7 @@ import { types as WP5 } from "razzle-plugin-webpack5";
 export type Options = {};
 
 export type Context = {
-  pages: [string]
+  pages: string[]
 };
 
 export type PluginOptions = {

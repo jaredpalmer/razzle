@@ -130,6 +130,7 @@ importers:
       razzle-plugin-webpack5-babel: workspace:*
       razzle-plugin-webpack5-externals: workspace:*
       razzle-plugin-webpack5-nextra: workspace:*
+      razzle-plugin-webpack5-pages: workspace:*
       react: ^17.0.2
       react-dom: ^17.0.2
     dependencies:
@@ -146,6 +147,7 @@ importers:
       razzle-plugin-webpack5-babel: link:../../packages/razzle-plugin-webpack5-babel
       razzle-plugin-webpack5-externals: link:../../packages/razzle-plugin-webpack5-externals
       razzle-plugin-webpack5-nextra: link:../../packages/razzle-plugin-webpack5-nextra
+      razzle-plugin-webpack5-pages: link:../../packages/razzle-plugin-webpack5-pages
 
   packages/razzle:
     specifiers:

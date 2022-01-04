@@ -37,6 +37,7 @@
     "razzle-plugin-webpack5-babel": "workspace:*",
     "razzle-plugin-webpack5-externals": "workspace:*",
     "razzle-plugin-webpack5-nextra": "workspace:*",
+    "razzle-plugin-webpack5-pages": "workspace:*",
     "razzle-nextra-theme-docs": "workspace:*"
   }
 }
