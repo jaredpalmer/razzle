@@ -1,0 +1,19 @@
+{
+  "name": "razzle-plugin-devcert",
+  "license": "MIT",
+  "version": "4.2.13",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:jaredpalmer/razzle.git",
+    "directory": "packages/razzle-plugin-devcert"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "devcert": "^1.2.0"
+  },
+  "peerDependencies": {
+    "razzle": "4.2.13",
+    "razzle-dev-utils": "4.2.13",
+    "webpack": "~4||~5"
+  }
+}
