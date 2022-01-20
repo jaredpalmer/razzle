@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-basic-serverless",
-  "version": "4.2.13",
+  "version": "4.2.14",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -15,11 +15,11 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "babel-preset-razzle": "4.2.13",
+    "babel-preset-razzle": "4.2.14",
     "html-webpack-plugin": "^4.5.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.2.13",
-    "razzle-dev-utils": "4.2.13",
+    "razzle": "4.2.14",
+    "razzle-dev-utils": "4.2.14",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   }

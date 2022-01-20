@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-loadable-components",
-  "version": "4.2.13",
+  "version": "4.2.14",
   "license": "MIT",
   "scripts": {
     "start": "razzle start",
@@ -20,10 +20,10 @@
     "@babel/core": "^7.12.10",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.0",
-    "babel-preset-razzle": "4.2.13",
+    "babel-preset-razzle": "4.2.14",
     "mini-css-extract-plugin": "^0.9.0",
-    "razzle": "4.2.13",
-    "razzle-dev-utils": "4.2.13",
+    "razzle": "4.2.14",
+    "razzle-dev-utils": "4.2.14",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"

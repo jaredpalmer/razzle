@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-custom-devserver-options",
-  "version": "4.2.13",
+  "version": "4.2.14",
   "license": "MIT",
   "scripts": {
     "start": "cross-env CLIENT_PUBLIC_PATH=http://localhost:3002/ razzle start",
@@ -16,12 +16,12 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "razzle": "4.2.13",
-    "razzle-dev-utils": "4.2.13",
+    "razzle": "4.2.14",
+    "razzle-dev-utils": "4.2.14",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.2.13",
+    "babel-preset-razzle": "4.2.14",
     "webpack-dev-server": "^3.11.2"
   }
 }
