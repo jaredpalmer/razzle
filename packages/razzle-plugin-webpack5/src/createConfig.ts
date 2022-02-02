@@ -38,7 +38,7 @@ export default async (
     ? [devMatrixName]
     : Object.keys(razzleContext.buildMatrix);
     
-  for (const matrixName in matrixNames) {
+  for (const matrixName of matrixNames) {
     const buildConfig = razzleContext.buildMatrix[matrixName];
     const allTargets = buildConfig.targets;
 

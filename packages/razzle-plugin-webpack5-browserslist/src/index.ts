@@ -10,12 +10,12 @@ const plugin: Plugin = {
   name: "webpack5-browserslist",
   defaultOptions: {},
   modifyContext: (pluginOptions, razzleContext) => {
-    
+
     let foundEnvs: Array<string> = [];
 
     const matrixNames = Object.keys(razzleContext.buildMatrix);
 
-    for (const matrixName in matrixNames) {
+    for (const matrixName of matrixNames) {
       const buildConfig = razzleContext.buildMatrix[matrixName];
       const allTargets = buildConfig.targets;
 
