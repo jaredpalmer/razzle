@@ -4,40 +4,39 @@ import { PluginOptions, Plugin } from "./types";
 import browserslist from "browserslist";
 
 import type * as types from "./types";
-export { types }
+export { types };
 
 const plugin: Plugin = {
   name: "webpack5-browserslist",
   defaultOptions: {},
-  modifyContext: (
-    pluginOptions,
-    razzleContext
-  ) => {
-    let foundEnvs: Array<string> = []
-    for (const build of razzleContext.webBuilds) {
-      try {
-        browserslist(null, {env: `web-${build}`, throwOnMissing: true})
-        foundEnvs.push(`web-${build}`)
-      } catch (error) {
-        
+  modifyContext: (pluginOptions, razzleContext) => {
+    
+    let foundEnvs: Array<string> = [];
+
+    const matrixNames = Object.keys(razzleContext.buildMatrix);
+
+    for (const matrixName in matrixNames) {
+      const buildConfig = razzleContext.buildMatrix[matrixName];
+      const allTargets = buildConfig.targets;
+
+      for (const buildTarget of allTargets) {
+        try {
+          browserslist(null, {
+            env: `${matrixName}-${buildTarget}`,
+            throwOnMissing: true,
+          });
+          foundEnvs.push(`${matrixName}-${buildTarget}`);
+        } catch (error) {}
       }
     }
-    for (const build of razzleContext.nodeBuilds) {
-      try {
-        browserslist(null, {env: `node-${build}`, throwOnMissing: true})
-        foundEnvs.push(`node-${build}`)
-      } catch (error) {
-        
-      }
-    }
-    razzleContext.browserslistEnvs = foundEnvs
+    razzleContext.browserslistEnvs = foundEnvs;
     return razzleContext;
   },
 };
 
 export default function (options: PluginOptions): {
-  plugin: Plugin,
-  options: PluginOptions
+  plugin: Plugin;
+  options: PluginOptions;
 } {
   return {
     plugin: plugin,
