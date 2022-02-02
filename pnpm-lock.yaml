@@ -370,9 +370,12 @@ importers:
 
   packages/razzle-plugin-webpack5-pages:
     specifiers:
+      chalk: ^4.1.2
       razzle: workspace:*
       razzle-plugin-webpack5: workspace:*
       webpack: ^5.64.4
+    dependencies:
+      chalk: 4.1.2
     devDependencies:
       razzle: link:../razzle
       razzle-plugin-webpack5: link:../razzle-plugin-webpack5

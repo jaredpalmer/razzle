@@ -13,9 +13,13 @@ export { types };
 const plugin: Plugin = {
   name: "webpack5",
   defaultOptions: {
-    devBuild: "default",
-    webBuilds: ["default"],
-    nodeBuilds: ["default"],
+    devMatrixName: "default",
+    buildMatrix: {
+      default: {
+        targets: ["client", "serverWeb"],
+        depends: { "serverWeb": "client" }
+      },
+    },
     outputEsm: false,
   },
   modifyContext: (pluginOptions, razzleContext) => {
@@ -37,8 +41,8 @@ const plugin: Plugin = {
 
     razzleContext = {
       ...razzleContext,
-      webBuilds: pluginOptions.webBuilds,
-      nodeBuilds: pluginOptions.nodeBuilds,
+      buildMatrix: pluginOptions.buildMatrix,
+      devMatrixName: pluginOptions.devMatrixName,
     };
     return razzleContext;
   },
@@ -121,7 +125,7 @@ const plugin: Plugin = {
               "Running build with NODE_ENV=development, set NODE_ENV=production"
             );
           }
-//          console.log(process.env["NODE_ENV"]);
+          //          console.log(process.env["NODE_ENV"]);
           const configs = await createConfig(
             pluginOptions,
             razzleContext,
@@ -136,7 +140,7 @@ const plugin: Plugin = {
             // [Stats Object](#stats-object)
             // Print watch/build result here...
             if (stats) {
-             // console.log(inspect(stats.toJson("verbose"), false, 6, true));
+              // console.log(inspect(stats.toJson("verbose"), false, 6, true));
             }
           });
         }

@@ -46,5 +46,8 @@
     "razzle": "^5.0.0-alpha.0",
     "razzle-plugin-webpack5": "^5.0.0-alpha.0",
     "webpack": "^5.64.4"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
   }
 }

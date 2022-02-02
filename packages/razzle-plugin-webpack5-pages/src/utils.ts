@@ -1,12 +1,360 @@
-import { recursiveReadDir } from './recursive-readdir.js'
+import { recursiveReadDir } from "./recursive-readdir.js";
+import { join } from "path";
+import logger from "razzle/logger";
+import chalk from "chalk";
+
+import type { default as webpack5 } from 'webpack'
+
+const warn = logger.warn;
+
+const PAGES_DIR_ALIAS = "razzlePages";
 
 export function collectPages(
-    directory: string,
-    pageExtensions: string[]
-  ): Promise<string[]> {
-    return recursiveReadDir(
-      directory,
-      new RegExp(`\\.(?:${pageExtensions.join('|')})$`)
+  directory: string,
+  pageExtensions: string[]
+): Promise<string[]> {
+  return recursiveReadDir(
+    directory,
+    new RegExp(`\\.(?:${pageExtensions.join("|")})$`)
+  );
+}
+
+export type PagesMapping = {
+  [page: string]: string;
+};
+
+export function createPagesMapping(
+  pagePaths: string[],
+  extensions: string[],
+  {
+    isDev,
+    hasServerComponents,
+    hasConcurrentFeatures,
+  }: {
+    isDev: boolean;
+    hasServerComponents: boolean;
+    hasConcurrentFeatures: boolean;
+  }
+): PagesMapping {
+  const previousPages: PagesMapping = {};
+
+  // Do not process .d.ts files inside the `pages` folder
+  pagePaths = extensions.includes("ts")
+    ? pagePaths.filter((pagePath) => !pagePath.endsWith(".d.ts"))
+    : pagePaths;
+
+  const pages: PagesMapping = pagePaths.reduce(
+    (result: PagesMapping, pagePath): PagesMapping => {
+      let page = pagePath.replace(
+        new RegExp(`\\.+(${extensions.join("|")})$`),
+        ""
+      );
+      if (hasServerComponents && /\.client$/.test(page)) {
+        // Assume that if there's a Client Component, that there is
+        // a matching Server Component that will map to the page.
+        return result;
+      }
+
+      page = page.replace(/\\/g, "/").replace(/\/index$/, "");
+
+      const pageKey = page === "" ? "/" : page;
+
+      if (pageKey in result) {
+        warn(
+          `Duplicate page detected. ${chalk.cyan(
+            join("pages", previousPages[pageKey])
+          )} and ${chalk.cyan(
+            join("pages", pagePath)
+          )} both resolve to ${chalk.cyan(pageKey)}.`
+        );
+      } else {
+        previousPages[pageKey] = pagePath;
+      }
+      result[pageKey] = join(PAGES_DIR_ALIAS, pagePath).replace(/\\/g, "/");
+      return result;
+    },
+    {}
+  );
+
+  // we alias these in development and allow webpack to
+  // allow falling back to the correct source file so
+  // that HMR can work properly when a file is added/removed
+  /*
+    const documentPage = `_document${hasConcurrentFeatures ? '-web' : ''}`
+    if (isDev) {
+      pages['/_app'] = `${PAGES_DIR_ALIAS}/_app`
+      pages['/_error'] = `${PAGES_DIR_ALIAS}/_error`
+      pages['/_document'] = `${PAGES_DIR_ALIAS}/_document`
+    } else {
+      pages['/_app'] = pages['/_app'] || 'next/dist/pages/_app'
+      pages['/_error'] = pages['/_error'] || 'next/dist/pages/_error'
+      pages['/_document'] =
+        pages['/_document'] || `next/dist/pages/${documentPage}`
+    }*/
+  return pages;
+}
+const RESERVED_PAGE = /^\/(_app|_error|_document|api(\/|$))/
+
+export function isReservedPage(page: string) {
+  return RESERVED_PAGE.test(page);
+}
+
+export function isCustomErrorPage(page: string) {
+  return page === "/404" || page === "/500";
+}
+
+export function isTargetLikeServerless(target: string) {
+  const isServerless = target === "serverless";
+  const isServerlessTrace = target === "experimental-serverless-trace";
+  return isServerless || isServerlessTrace;
+}
+
+export function getRawPageExtensions(pageExtensions: string[]): string[] {
+  return pageExtensions.filter(
+    (ext) => !ext.startsWith("client.") && !ext.startsWith("server.")
+  );
+}
+
+export function isFlightPage(
+  nextConfig: any, // NextConfigComplete,
+  pagePath: string
+): boolean {
+  if (
+    !(
+      nextConfig.experimental.serverComponents &&
+      nextConfig.experimental.concurrentFeatures
     )
+  )
+    return false;
+
+  const rawPageExtensions = getRawPageExtensions(
+    nextConfig.pageExtensions || []
+  );
+  const isRscPage = rawPageExtensions.some((ext) => {
+    return new RegExp(`\\.server\\.${ext}$`).test(pagePath);
+  });
+  return isRscPage;
+}
+
+
+type Entrypoints = {
+    client: webpack5.EntryObject
+    server: webpack5.EntryObject
+    serverWeb: webpack5.EntryObject
   }
   
+  export function createEntrypoints(
+    pages: PagesMapping,
+    target: 'server' | 'serverless' | 'experimental-serverless-trace',
+    buildId: string,
+    previewMode: any,//__ApiPreviewProps,
+    config: any, // NextConfigComplete,
+    loadedEnvFiles: any,// LoadedEnvFiles
+  ): Entrypoints {
+    const client: webpack5.EntryObject = {}
+    const server: webpack5.EntryObject = {}
+    const serverWeb: webpack5.EntryObject = {}
+  
+    const hasRuntimeConfig =
+      Object.keys(config.publicRuntimeConfig).length > 0 ||
+      Object.keys(config.serverRuntimeConfig).length > 0
+  
+    const defaultServerlessOptions = {
+      absoluteAppPath: pages['/_app'],
+      absoluteDocumentPath: pages['/_document'],
+      absoluteErrorPath: pages['/_error'],
+      absolute404Path: pages['/404'] || '',
+      distDir: DOT_NEXT_ALIAS,
+      buildId,
+      assetPrefix: config.assetPrefix,
+      generateEtags: config.generateEtags ? 'true' : '',
+      poweredByHeader: config.poweredByHeader ? 'true' : '',
+      canonicalBase: config.amp.canonicalBase || '',
+      basePath: config.basePath,
+      runtimeConfig: hasRuntimeConfig
+        ? JSON.stringify({
+            publicRuntimeConfig: config.publicRuntimeConfig,
+            serverRuntimeConfig: config.serverRuntimeConfig,
+          })
+        : '',
+      previewProps: JSON.stringify(previewMode),
+      // base64 encode to make sure contents don't break webpack URL loading
+      loadedEnvFiles: Buffer.from(JSON.stringify(loadedEnvFiles)).toString(
+        'base64'
+      ),
+      i18n: config.i18n ? JSON.stringify(config.i18n) : '',
+    }
+  
+    Object.keys(pages).forEach((page) => {
+      const absolutePagePath = pages[page]
+      const bundleFile = normalizePagePath(page)
+      const isApiRoute = false//page.match(API_ROUTE)
+  
+      const clientBundlePath = posix.join('pages', bundleFile)
+      const serverBundlePath = posix.join('pages', bundleFile)
+  
+      const isLikeServerless = isTargetLikeServerless(target)
+      const isReserved = isReservedPage(page)
+      const isCustomError = isCustomErrorPage(page)
+      const isFlight = isFlightPage(config, absolutePagePath)
+  
+      const webServerRuntime = !!config.experimental.concurrentFeatures
+  
+      if (page.match(MIDDLEWARE_ROUTE)) {
+        const loaderOpts: MiddlewareLoaderOptions = {
+          absolutePagePath: pages[page],
+          page,
+        }
+  
+        client[clientBundlePath] = `next-middleware-loader?${stringify(
+          loaderOpts
+        )}!`
+        return
+      }
+  
+      if (webServerRuntime && !isReserved && !isCustomError && !isApiRoute) {
+        //ssrEntries.set(clientBundlePath, { requireFlightManifest: isFlight })
+        serverWeb[serverBundlePath] = finalizeEntrypoint({
+          name: '[name].js',
+          value: `next-middleware-ssr-loader?${stringify({
+            page,
+            absolute500Path: pages['/500'] || '',
+            absolutePagePath,
+            isServerComponent: isFlight,
+            ...defaultServerlessOptions,
+          } as any)}!`,
+          isServer: false,
+          isServerWeb: true,
+        })
+      }
+  
+      if (isApiRoute && isLikeServerless) {
+        const serverlessLoaderOptions: ServerlessLoaderQuery = {
+          page,
+          absolutePagePath,
+          ...defaultServerlessOptions,
+        }
+        server[serverBundlePath] = `next-serverless-loader?${stringify(
+          serverlessLoaderOptions
+        )}!`
+      } else if (isApiRoute || target === 'server') {
+        if (!webServerRuntime || isReserved || isCustomError) {
+          server[serverBundlePath] = [absolutePagePath]
+        }
+      } else if (
+        isLikeServerless &&
+        page !== '/_app' &&
+        page !== '/_document' &&
+        !webServerRuntime
+      ) {
+        const serverlessLoaderOptions: ServerlessLoaderQuery = {
+          page,
+          absolutePagePath,
+          ...defaultServerlessOptions,
+        }
+        server[serverBundlePath] = `next-serverless-loader?${stringify(
+          serverlessLoaderOptions
+        )}!`
+      }
+  
+      if (page === '/_document') {
+        return
+      }
+  
+      if (!isApiRoute) {
+        const pageLoaderOpts: ClientPagesLoaderOptions = {
+          page,
+          absolutePagePath,
+        }
+        const pageLoader = `next-client-pages-loader?${stringify(
+          pageLoaderOpts
+        )}!`
+  
+        // Make sure next/router is a dependency of _app or else chunk splitting
+        // might cause the router to not be able to load causing hydration
+        // to fail
+  
+        client[clientBundlePath] =
+          page === '/_app'
+            ? [pageLoader, require.resolve('../client/router')]
+            : pageLoader
+      }
+    })
+  
+    return {
+      client,
+      server,
+      serverWeb,
+    }
+  }
+  
+  export function finalizeEntrypoint({
+    name,
+    value,
+    isServer,
+    isMiddleware,
+    isServerWeb,
+  }: {
+    isServer: boolean
+    name: string
+    value: ObjectValue<webpack5.EntryObject>
+    isMiddleware?: boolean
+    isServerWeb?: boolean
+  }): ObjectValue<webpack5.EntryObject> {
+    const entry =
+      typeof value !== 'object' || Array.isArray(value)
+        ? { import: value }
+        : value
+  
+    if (isServer) {
+      const isApi = name.startsWith('pages/api/')
+      return {
+        publicPath: isApi ? '' : undefined,
+        runtime: isApi ? 'webpack-api-runtime' : 'webpack-runtime',
+        layer: isApi ? 'api' : undefined,
+        ...entry,
+      }
+    }
+  
+    if (isServerWeb) {
+      const ssrMiddlewareEntry = {
+        library: {
+          name: ['_ENTRIES', `middleware_[name]`],
+          type: 'assign',
+        },
+        runtime: MIDDLEWARE_SSR_RUNTIME_WEBPACK,
+        asyncChunks: false,
+        ...entry,
+      }
+      return ssrMiddlewareEntry
+    }
+    if (isMiddleware) {
+      const middlewareEntry = {
+        filename: 'server/[name].js',
+        layer: 'middleware',
+        library: {
+          name: ['_ENTRIES', `middleware_[name]`],
+          type: 'assign',
+        },
+        ...entry,
+      }
+      return middlewareEntry
+    }
+  
+    if (
+      name !== 'polyfills' &&
+      name !== 'main' &&
+      name !== 'amp' &&
+      name !== 'react-refresh'
+    ) {
+      return {
+        dependOn:
+          name.startsWith('pages/') && name !== 'pages/_app'
+            ? 'pages/_app'
+            : 'main',
+        ...entry,
+      }
+    }
+  
+    return entry
+  }

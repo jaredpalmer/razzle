@@ -24,26 +24,34 @@ export interface PluginInt<Opts, Ctx, WP5Opts>
 }
 
 export type Context = {
-  devBuild: string;
-  webBuilds: Array<string>;
-  nodeBuilds: Array<string>;
+  devMatrixName: string;
+  buildMatrix: Record<string, BuildConfig>;
 };
 
 export type Options = {
-  readonly isWeb: boolean;
-  readonly isNode: boolean;
-  readonly isDevEnv: boolean;
-  readonly isDev: boolean;
-  readonly isProd: boolean;
+  matrixName: string,
+  buildTargets: Array<string>,
+  buildTarget: string,
+  buildOptions?: BuildOptions,
+  buildName: string,
+  isDevEnv: boolean;
+  isDev: boolean;
+  isProd: boolean;
   outputEsm: boolean;
-  buildName: string;
+}
+
+export type BuildOptions = Record<string, unknown>;
+
+export type BuildConfig = {
+  targets: Array<string>,
+  depends?: Record<string, Array<string> | string>,
+  buildOptions?: BuildOptions
 }
 
 export interface PluginOptions {
-  devBuild: string;
-  webBuilds: Array<string>;
-  nodeBuilds: Array<string>;
-  outputEsm: boolean | { node: boolean; web: boolean };
+  devMatrixName: string;
+  buildMatrix: Record<string, BuildConfig>;
+  outputEsm: boolean | { server: boolean; client: boolean };
 }
 
 export type Paths = {
