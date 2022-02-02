@@ -62,6 +62,8 @@ export default async (
         isDevEnv: isDevEnv,
         isDev: isDev,
         isProd: !isDev,
+        isClient: !isServer,
+        isServer: isServer,
         outputEsm:
           typeof pluginOptions.outputEsm == "boolean"
             ? pluginOptions.outputEsm

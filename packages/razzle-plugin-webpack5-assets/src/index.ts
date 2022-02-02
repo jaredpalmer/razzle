@@ -1,10 +1,7 @@
-import {
-  PluginOptions,
-  Plugin,
-} from "./types";
+import { PluginOptions, Plugin } from "./types";
 
 import type * as types from "./types";
-export { types }
+export { types };
 
 const plugin: Plugin = {
   name: "webpack5-assets",
@@ -32,26 +29,24 @@ const plugin: Plugin = {
     webpackOptions,
     webpackConfig
   ) => {
-    if (webpackOptions.isWeb) {
-      webpackConfig?.module?.rules?.push(
-        ...[
-          {
-            test: /\.png$/i,
-            type: "asset/resource",
-            generator: {
-              emit: webpackOptions.isWeb,
-            },
+    webpackConfig?.module?.rules?.push(
+      ...[
+        {
+          test: /\.png$/i,
+          type: "asset/resource",
+          generator: {
+            emit: webpackOptions.isClient,
           },
-          {
-            test: /\.png$/i,
-            type: "asset",
-            generator: {
-              emit: webpackOptions.isWeb,
-            },
+        },
+        {
+          test: /\.png$/i,
+          type: "asset",
+          generator: {
+            emit: webpackOptions.isClient,
           },
-        ]
-      );
-    }
+        },
+      ]
+    );
     return webpackConfig;
   },
 };

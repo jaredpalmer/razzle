@@ -17,7 +17,7 @@ const plugin: Plugin = {
     webpackOptions,
     webpackConfig
   ) => {
-    if (webpackOptions.isNode) {
+    if (webpackOptions.isServer) {
       const looseEsmExternals = pluginOptions?.esmExternals === "loose";
 
       async function handleExternals(

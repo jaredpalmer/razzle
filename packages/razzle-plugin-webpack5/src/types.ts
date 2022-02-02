@@ -37,6 +37,8 @@ export type Options = {
   isDevEnv: boolean;
   isDev: boolean;
   isProd: boolean;
+  isClient: boolean,
+  isServer: boolean,
   outputEsm: boolean;
 }
 
