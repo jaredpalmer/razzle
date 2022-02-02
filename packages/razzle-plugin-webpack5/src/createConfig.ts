@@ -36,7 +36,7 @@ export default async (
 
   const matrixNames = isDevEnv
     ? [devMatrixName]
-    : Object.getOwnPropertyNames(razzleContext.buildMatrix);
+    : Object.keys(razzleContext.buildMatrix);
     
   for (const matrixName in matrixNames) {
     const buildConfig = razzleContext.buildMatrix[matrixName];
