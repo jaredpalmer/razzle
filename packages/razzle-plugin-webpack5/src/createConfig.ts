@@ -37,7 +37,7 @@ export default async (
   const matrixNames = isDevEnv
     ? [devMatrixName]
     : Object.keys(razzleContext.buildMatrix);
-    
+
   for (const matrixName of matrixNames) {
     const buildConfig = razzleContext.buildMatrix[matrixName];
     const allTargets = buildConfig.targets;
@@ -88,10 +88,10 @@ export default async (
 
       let webpackConfig: Configuration = {
         name: webpackOptions.buildName,
-        target: webpackOptions.outputEsm
-          ? isServer
-            ? "node"
-            : ["web", "es2015"]
+        target: isServer
+          ? "node"
+          : webpackOptions.outputEsm
+          ? ["web", "es2015"]
           : "web",
         // Path to your entry point. From this file Webpack will begin its work
         entry: isServer
@@ -127,6 +127,20 @@ export default async (
           rules: [],
         },
       };
+
+      if (buildConfig.depends) {
+        console.log(buildConfig.depends);
+        console.log(buildConfig.depends[buildTarget]);
+        if (buildConfig.depends[buildTarget]) {
+          const depends = (<Array<string>>[
+            typeof buildConfig.depends[buildTarget] === "string"
+              ? [buildConfig.depends[buildTarget]]
+              : buildConfig.depends[buildTarget],
+          ]).map((dep) => (/-/.test(dep) ? dep : `${matrixName}-${dep}`));
+          console.log(depends);
+          webpackConfig.dependencies = depends;
+        }
+      }
       // run plugin/config hooks
       for (const {
         plugin,
@@ -143,18 +157,6 @@ export default async (
             webpackOptions,
             webpackConfig
           );
-        }
-      }
-      if (buildConfig.depends) {
-        if (buildConfig.depends[buildTarget]) {
-          const depends = (<Array<string>>[
-            typeof buildConfig.depends[buildTarget] === "string"
-              ? [buildConfig.depends[buildTarget]]
-              : buildConfig.depends[buildTarget],
-          ]).map((dep) =>
-            /-/.test(dep) ? dep : `${devMatrixName}-${buildTarget}`
-          );
-          webpackConfig.dependencies = depends;
         }
       }
       webpackConfigs.push([webpackConfig, <Options>webpackOptions]);
