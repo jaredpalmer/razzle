@@ -451,7 +451,7 @@ module.exports = (
 
       // Anything else that is standard JavaScript within `node_modules`
       // can be externalized.
-      if (res.match(/node_modules[/\\].*\.js$/)) {
+      if (res.match(/node_modules[/\\].*\.c?js$/)) {
         if (debugNodeExternals) {
           console.log(`Externalizing ${request} (node_modules)`);
         }
