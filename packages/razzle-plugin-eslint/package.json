@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-eslint",
-  "version": "4.2.14",
+  "version": "4.2.15",
   "main": "index.js",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "razzle-examples-with-mdx",
-  "version": "4.2.14",
+  "version": "4.2.15",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
@@ -14,13 +14,13 @@
     "remark-emoji": "^2.1.0"
   },
   "devDependencies": {
-    "razzle": "4.2.14",
-    "razzle-dev-utils": "4.2.14",
-    "razzle-plugin-mdx": "4.2.14",
+    "razzle": "4.2.15",
+    "razzle-dev-utils": "4.2.15",
+    "razzle-plugin-mdx": "4.2.15",
     "mini-css-extract-plugin": "^0.9.0",
     "html-webpack-plugin": "^4.5.2",
     "webpack": "^4.44.1",
-    "babel-preset-razzle": "4.2.14",
+    "babel-preset-razzle": "4.2.15",
     "webpack-dev-server": "^3.11.2"
   }
 }
