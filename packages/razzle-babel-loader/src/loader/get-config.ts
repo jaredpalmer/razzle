@@ -3,8 +3,8 @@ import { readFileSync, existsSync } from "fs";
 
 import PluginTransformDefine from "babel-plugin-transform-define";
 import JSON5 from "json5";
-
-import { createConfigItem, loadOptions, loadPartialConfig } from "@babel/core";
+// @ts-ignore
+import { createConfigItem, loadOptionsAsync, loadPartialConfig } from "@babel/core";
 import loadConfig from "@babel/core/lib/config";
 import { findConfigUpwards, ROOT_CONFIG_FILENAMES } from "@babel/core/lib/config/files/configuration";
 import commonJsPlugin from "../plugins/commonjs.js";
@@ -182,7 +182,7 @@ async function getFreshConfig(
 
   console.log(configfile)
   const options = {
-    babelrc: configfile,
+    babelrc: true,
     cloneInputAst: false,
     filename,
     inputSourceMap: inputSourceMap || undefined,
@@ -245,16 +245,15 @@ async function getFreshConfig(
     },
   });
 
-  console.log("babel");
 
-  const loadedOptions = loadOptions(options) || undefined;
-  if (loadedOptions) {
-    (<{ babelrc: boolean }>loadedOptions).babelrc = true;
-  }
-  //console.log(loadedOptions);
+  console.log("babel");
+  //  console.log(options);
+
+  const loadedOptions = await loadOptionsAsync(options) || undefined;
+  //  console.log(loadedOptions);
   const partialConfig = loadPartialConfig(loadedOptions);
 
-  const config = consumeIterator(loadConfig(partialConfig));
+  const config = consumeIterator(loadConfig(partialConfig?.options));
 
   return config;
 }
