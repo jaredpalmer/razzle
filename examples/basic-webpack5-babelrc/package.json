@@ -1,0 +1,40 @@
+{
+  "name": "basic-webpack5-babelrc",
+  "version": "5.0.0-alpha.0",
+  "description": "basic webpack5 example with babelrc",
+  "scripts": {
+    "test": "razzle jest",
+    "build:prod": "NODE_ENV=production razzle build",
+    "build:dev": "NODE_ENV=development razzle build",
+    "dev": "NODE_ENV=development razzle start",
+    "start": "node build/server.cjs"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaredpalmer/razzle.git"
+  },
+  "keywords": [
+    "razzle"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaredpalmer/razzle/issues"
+  },
+  "homepage": "https://github.com/jaredpalmer/razzle#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.16.5",
+    "razzle": "workspace:*",
+    "razzle-babel-loader": "workspace:*",
+    "razzle-plugin-webpack5": "workspace:*",
+    "razzle-plugin-webpack5-assets": "workspace:*",
+    "razzle-plugin-webpack5-babel": "workspace:*",
+    "razzle-plugin-webpack5-externals": "workspace:*"
+  }
+}

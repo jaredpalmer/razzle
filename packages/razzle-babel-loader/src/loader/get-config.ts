@@ -1,13 +1,12 @@
-import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { readFileSync, existsSync } from "fs";
 
 import PluginTransformDefine from "babel-plugin-transform-define";
 import JSON5 from "json5";
 
-import {
-  createConfigItem,
-  loadOptions
-} from "@babel/core";
+import { createConfigItem, loadOptions, loadPartialConfig } from "@babel/core";
 import loadConfig from "@babel/core/lib/config";
+import { findConfigUpwards, ROOT_CONFIG_FILENAMES } from "@babel/core/lib/config/files/configuration";
 import commonJsPlugin from "../plugins/commonjs.js";
 import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export.js";
 
@@ -50,7 +49,7 @@ function getCacheCharacteristics(
   source: Source,
   filename: string
 ): CharacteristicsGermaneToCaching {
-  const { isServer, razzleBuildName = 'default' } = loaderOptions;
+  const { isServer, razzleBuildName = "default" } = loaderOptions;
   const hasModuleExports = source?.indexOf("module.exports") !== -1;
   const fileExt = fileExtensionRegex.exec(filename)?.[1] || "unknown";
 
@@ -171,13 +170,19 @@ async function getFreshConfig(
   inputSourceMap?: SourceMap
 ) {
   const { isServer, development, hasJsxRuntime, configFile } = loaderOptions;
+  console.log(dirname(filename))
+  console.log(findConfigUpwards(dirname(filename)))
+  let configfile: boolean | string = false;
+  let lookDir = findConfigUpwards(dirname(filename));
+  for (const filename of ROOT_CONFIG_FILENAMES) {
+    if (existsSync(join(lookDir, filename))) {
+      configfile = join(lookDir, filename);
+    }
+  }
 
-  const customConfig: any = configFile
-    ? await getCustomBabelConfig(configFile)
-    : undefined;
-  
+  console.log(configfile)
   const options = {
-    babelrc: false,
+    babelrc: configfile,
     cloneInputAst: false,
     filename,
     inputSourceMap: inputSourceMap || undefined,
@@ -194,28 +199,9 @@ async function getFreshConfig(
     // modules.
     sourceFileName: filename,
 
-    plugins: [
-      ...getPlugins(loaderOptions, cacheCharacteristics),
-      ...(customConfig?.plugins || []),
-    ],
-
-    // target can be provided in babelrc
-    target: isServer ? undefined : customConfig?.target,
-    // env can be provided in babelrc
-    env: customConfig?.env,
+    plugins: [...getPlugins(loaderOptions, cacheCharacteristics)],
 
     presets: (() => {
-      // If presets is defined the user will have next/babel in their babelrc
-      if (customConfig?.presets) {
-        return customConfig.presets;
-      }
-
-      // If presets is not defined the user will likely have "env" in their babelrc
-      if (customConfig) {
-        return undefined;
-      }
-
-      // If no custom config is provided the default is to use next/babel
       return ["razzle-babel-loader/preset"];
     })(),
 
@@ -258,10 +244,17 @@ async function getFreshConfig(
       this.emitWarning(reason);
     },
   });
-  
-  const loadedOptions = loadOptions(options) || undefined;
 
-  const config = consumeIterator(loadConfig(loadedOptions))
+  console.log("babel");
+
+  const loadedOptions = loadOptions(options) || undefined;
+  if (loadedOptions) {
+    (<{ babelrc: boolean }>loadedOptions).babelrc = true;
+  }
+  //console.log(loadedOptions);
+  const partialConfig = loadPartialConfig(loadedOptions);
+
+  const config = consumeIterator(loadConfig(partialConfig));
 
   return config;
 }
@@ -272,11 +265,12 @@ async function getFreshConfig(
  * file attributes and Next.js compiler states: `CharacteristicsGermaneToCaching`.
  */
 function getCacheKey(cacheCharacteristics: CharacteristicsGermaneToCaching) {
-  const { isServer, hasModuleExports, fileExt, razzleBuildName } = cacheCharacteristics;
+  const { isServer, hasModuleExports, fileExt, razzleBuildName } =
+    cacheCharacteristics;
 
   const flags = 0 | (isServer ? 0b0001 : 0) | (hasModuleExports ? 0b0010 : 0);
 
-  return razzleBuildName + '_' + fileExt + flags;
+  return razzleBuildName + "_" + fileExt + flags;
 }
 
 type BabelConfig = any;
@@ -311,7 +305,7 @@ export default async function getConfig(
   }
 
   const cacheKey = getCacheKey(cacheCharacteristics);
-  
+
   if (configCache.has(cacheKey)) {
     const cachedConfig = configCache.get(cacheKey);
 
