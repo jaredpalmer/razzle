@@ -1,12 +1,8 @@
-import { dirname, join } from "path";
-import { readFileSync, existsSync } from "fs";
 
 import PluginTransformDefine from "babel-plugin-transform-define";
-import JSON5 from "json5";
 // @ts-ignore
 import { createConfigItem, loadOptionsAsync, loadPartialConfig } from "@babel/core";
 import loadConfig from "@babel/core/lib/config";
-import { findConfigUpwards, ROOT_CONFIG_FILENAMES } from "@babel/core/lib/config/files/configuration";
 import commonJsPlugin from "../plugins/commonjs.js";
 import noAnonymousDefaultExport from "../plugins/no-anonymous-default-export.js";
 
@@ -139,23 +135,6 @@ function getPlugins(
 const isJsonFile = /\.(json|babelrc)$/;
 const isJsFile = /\.[c|m]js$/;
 
-/**
- * While this function does block execution while reading from disk, it
- * should not introduce any issues.  The function is only invoked when
- * generating a fresh config, and only a small handful of configs should
- * be generated during compilation.
- */
-async function getCustomBabelConfig(configFilePath: string) {
-  if (isJsonFile.exec(configFilePath)) {
-    const babelConfigRaw = readFileSync(configFilePath, "utf8");
-    return JSON5.parse(babelConfigRaw);
-  } else if (isJsFile.exec(configFilePath)) {
-    return await import(configFilePath);
-  }
-  /*   throw new Error(
-    'The Next.js Babel loader does not support .mjs or .cjs config files.'
-  ) */
-}
 
 /**
  * Generate a new, flat Babel config, ready to be handed to Babel-traverse.
@@ -170,17 +149,7 @@ async function getFreshConfig(
   inputSourceMap?: SourceMap
 ) {
   const { isServer, development, hasJsxRuntime, configFile } = loaderOptions;
-  console.log(dirname(filename))
-  console.log(findConfigUpwards(dirname(filename)))
-  let configfile: boolean | string = false;
-  let lookDir = findConfigUpwards(dirname(filename));
-  for (const filename of ROOT_CONFIG_FILENAMES) {
-    if (existsSync(join(lookDir, filename))) {
-      configfile = join(lookDir, filename);
-    }
-  }
 
-  console.log(configfile)
   const options = {
     babelrc: true,
     cloneInputAst: false,
