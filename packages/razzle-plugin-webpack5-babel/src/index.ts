@@ -1,28 +1,26 @@
 import { PluginOptions, Plugin } from "./types";
 
 import type * as types from "./types";
-export { types }
+export { types };
 
 const plugin: Plugin = {
   name: "webpack5-babel",
   defaultOptions: {},
-  modifyOptions: (
-    pluginOptions,
-    razzleContext,
-    webpackOptions
-  ) => {
-    webpackOptions.babelLoader = 
-    {
+  modifyOptions: (pluginOptions, razzleContext, webpackOptions) => {
+    webpackOptions.babelLoader = {
       loader: "razzle-babel-loader",
       options: {
         razzleBuildName: webpackOptions.buildName,
         isServer: webpackOptions.isServer,
         cwd: razzleContext.paths.appPath,
+        browserslistEnv:
+          razzleContext.browserslistEnvs[webpackOptions.buildName] &&
+          webpackOptions.buildName,
         cache: true,
         babelPresetPlugins: [],
         hasModern: false, // !!config.experimental.modern,
         development: webpackOptions.isDev,
-        hasReactRefresh: false
+        hasReactRefresh: false,
       },
     };
     return webpackOptions;
@@ -38,9 +36,7 @@ const plugin: Plugin = {
         {
           test: /\.js$/i,
           include: [razzleContext.paths.appSrc], //.concat(additionalIncludes)
-          use: [
-            webpackOptions.babelLoader
-          ],
+          use: [webpackOptions.babelLoader],
         },
       ]
     );
@@ -49,8 +45,8 @@ const plugin: Plugin = {
 };
 
 export default function (options: PluginOptions): {
-  plugin: Plugin,
-  options: PluginOptions
+  plugin: Plugin;
+  options: PluginOptions;
 } {
   return {
     plugin: plugin,

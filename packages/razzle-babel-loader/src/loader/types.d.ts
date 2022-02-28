@@ -2,6 +2,7 @@ import type * as webpack from "webpack";
 
 export interface RazzleWebpack5LoaderOptions {
   razzleBuildName?: string;
+  browserslistEnv?: string;
   hasJsxRuntime: boolean;
   hasReactRefresh: boolean;
   isServer: boolean;

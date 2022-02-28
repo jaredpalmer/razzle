@@ -153,6 +153,7 @@ async function getFreshConfig(
   const options = {
     babelrc: true,
     cloneInputAst: false,
+    browserslistEnv: loaderOptions.browserslistEnv,
     filename,
     inputSourceMap: inputSourceMap || undefined,
 
@@ -177,7 +178,8 @@ async function getFreshConfig(
     overrides: loaderOptions.overrides,
 
     caller: {
-      name: "razzle-babel-loader",
+      name: "babel-loader",
+      
       supportsStaticESM: true,
       supportsDynamicImport: true,
 
@@ -193,6 +195,9 @@ async function getFreshConfig(
       isServer,
       isDev: development,
       hasJsxRuntime,
+      hasModuleExports: cacheCharacteristics.hasModuleExports,
+      razzleBuildName: cacheCharacteristics.razzleBuildName,
+      fileExt: cacheCharacteristics.fileExt,
 
       ...loaderOptions.caller,
     },
@@ -201,6 +206,11 @@ async function getFreshConfig(
   // Babel does strict checks on the config so undefined is not allowed
   if (typeof options.target === "undefined") {
     delete options.target;
+  }
+
+  // Babel does strict checks on the config so undefined is not allowed
+  if (typeof options.browserslistEnv === "undefined") {
+    delete options.browserslistEnv;
   }
 
   Object.defineProperty(options.caller, "onWarning", {
@@ -215,7 +225,7 @@ async function getFreshConfig(
   });
 
 
-  console.log("babel");
+  console.log(cacheCharacteristics);
   //  console.log(options);
 
   const loadedOptions = await loadOptionsAsync(options) || undefined;
@@ -230,7 +240,7 @@ async function getFreshConfig(
 /**
  * Each key returned here corresponds with a Babel config that can be shared.
  * The conditions of permissible sharing between files is dependent on specific
- * file attributes and Next.js compiler states: `CharacteristicsGermaneToCaching`.
+ * file attributes and Razzle compiler states: `CharacteristicsGermaneToCaching`.
  */
 function getCacheKey(cacheCharacteristics: CharacteristicsGermaneToCaching) {
   const { isServer, hasModuleExports, fileExt, razzleBuildName } =
