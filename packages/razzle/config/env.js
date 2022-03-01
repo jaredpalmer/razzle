@@ -51,7 +51,7 @@ function getClientEnvironment(target, is_dev, options, paths) {
         NODE_ENV: process.env.NODE_ENV || 'development',
         PORT: process.env.PORT || options.port || 3000,
         VERBOSE: !!process.env.VERBOSE,
-        HOST: process.env.HOST || options.host || '0.0.0.0',
+        HOST: process.env.HOST || options.host || 'localhost',
         RAZZLE_ASSETS_MANIFEST: paths.appAssetsManifest,
         BUILD_TARGET: target === 'web' ? 'client' : 'server',
         // only for production builds. Useful if you need to serve from a CDN
