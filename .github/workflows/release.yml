@@ -1,59 +1,30 @@
-name: Release on tag
+name: Release
 
 on:
   push:
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches:
+      - master
 
 jobs:
-  build:
-    runs-on: ubuntu-18.04
-    name: Build, test, Publish
+  release:
+    name: Release
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v2
         with:
-          node-version: 12
-          registry-url: 'https://registry.npmjs.org'
-          always-auth: 'true'
-      - run: yarn install --frozen-lockfile
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Setup Node.js 12.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
         env:
-          CI: true
-      - name: Read npm token from env
-        run: |
-          ([[ ! -z ${{ secrets.NPM_TOKEN }} ]] && npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}) || echo "Did not write npm token"
-          cp $NPM_CONFIG_USERCONFIG  ~/.npmrc
-          cat ~/.npmrc
-      - name: Potentially publish alpha to npm
-        run: |
-          if \
-            [[ $(git describe --exact-match 2> /dev/null || :) =~ -alpha ]]; \
-          then
-            yarn run lerna publish from-git --no-verify-access --npm-tag alpha --yes
-          else
-            echo "Did not publish alpha"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Potentially publish canary to npm
-        run: |
-          if \
-            [[ $(git describe --exact-match 2> /dev/null || :) =~ -canary ]]; \
-          then
-            yarn run lerna publish from-git --no-verify-access --npm-tag canary --yes
-          else
-            echo "Did not publish canary"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Potentially publish stable to npm
-        run: |
-          if \
-            [[ ! $(git describe --exact-match 2> /dev/null || :) =~ -canary|-alpha ]]; \
-          then
-            yarn run lerna publish from-git --no-verify-access --yes
-          else
-            echo "Did not publish"
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
