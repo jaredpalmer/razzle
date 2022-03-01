@@ -21,8 +21,18 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Install Dependencies
-        run: pnpm --frozen-lockfile
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          run_install: |
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - name: Create Release Pull Request or Publish
         uses: changesets/action@master
