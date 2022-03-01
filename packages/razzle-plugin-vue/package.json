@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-vue",
   "license": "MIT",
-  "version": "4.2.15",
+  "version": "4.2.16",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
@@ -16,8 +16,8 @@
     "vue-template-compiler": "^2.6.12"
   },
   "peerDependencies": {
-    "razzle": "4.2.15",
-    "razzle-dev-utils": "4.2.15",
+    "razzle": "4.2.16",
+    "razzle-dev-utils": "4.2.16",
     "webpack": "~4||~5"
   }
 }

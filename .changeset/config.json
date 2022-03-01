@@ -1,0 +1,10 @@
+{
+    "commit": false,
+    "updateInternalDependencies": "minor",
+    "linked": [],
+    "fixed": [["babel-preset-razzle","create-razzle-app","razzle", "razzle-*"]],
+    "access": "public",
+    "baseBranch": "master",
+    "ignore": [],
+    "changelog": ["@changesets/changelog-github", { "repo": "jaredpalmer/razzle" }]
+  }
