@@ -6,6 +6,5 @@
     "access": "public",
     "baseBranch": "master",
     "ignore": [],
-    
-  "changelog": "@changesets/cli/changelog"
+    "changelog": ["@changesets/changelog-github", { "repo": "jaredpalmer/razzle" }]
   }
