@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-preact",
-  "version": "4.2.15",
+  "version": "4.2.16",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",

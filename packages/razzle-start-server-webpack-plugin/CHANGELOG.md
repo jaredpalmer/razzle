@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.2.16
+
+### Patch Changes
+
+- dc4c7870: add changesets
+
 All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
