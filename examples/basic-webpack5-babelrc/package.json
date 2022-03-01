@@ -1,5 +1,6 @@
 {
-  "name": "basic-webpack5-babelrc",
+  "private": true,
+  "name": "basic-webpack5-babelrc-example",
   "version": "5.0.0-alpha.0",
   "description": "basic webpack5 example with babelrc",
   "scripts": {

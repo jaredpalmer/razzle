@@ -1,5 +1,6 @@
 {
-  "name": "basic-webpack5",
+  "private": true,
+  "name": "basic-webpack5-example",
   "version": "5.0.0-alpha.0",
   "description": "basic webpack5 example",
   "scripts": {

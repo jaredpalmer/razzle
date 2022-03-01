@@ -5,6 +5,6 @@
     "fixed": [["razzle", "razzle-*"]],
     "access": "public",
     "baseBranch": "master",
-    "ignore": ["razzle-plugin-webpack5-pages","razzle-plugin-webpack5-nextra"],
+    "ignore": [ "basic-webpack5-nextra-example", "razzle-plugin-webpack5-pages","razzle-plugin-webpack5-nextra"],
     "changelog": ["@changesets/changelog-github", { "repo": "jaredpalmer/razzle" }]
   }
