@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/webpack-dev-server": "^4.5.0",
-    "razzle": "workspace:*"
+    "razzle": "5.0.0-alpha.0"
   },
   "peerDependencies": {
     "razzle": "^5.0.0-alpha.0"

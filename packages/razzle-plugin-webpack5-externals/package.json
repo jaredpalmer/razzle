@@ -38,8 +38,8 @@
         "webpack"
     ],
     "devDependencies": {
-      "razzle": "workspace:*",
-      "razzle-plugin-webpack5": "workspace:*",
+      "razzle": "5.0.0-alpha.0",
+      "razzle-plugin-webpack5": "5.0.0-alpha.0",
       "webpack": "^5.64.4"
     },
     "peerDependencies": {

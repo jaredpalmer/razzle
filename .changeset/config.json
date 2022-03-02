@@ -1,10 +1,20 @@
 {
-    "commit": false,
-    "updateInternalDependencies": "minor",
-    "linked": [],
-    "fixed": [["razzle", "razzle-*"]],
-    "access": "public",
-    "baseBranch": "alpha",
-    "ignore": [ "basic-webpack5-nextra-example", "razzle-plugin-webpack5-pages","razzle-plugin-webpack5-nextra"],
-    "changelog": ["@changesets/changelog-github", { "repo": "jaredpalmer/razzle" }]
-  }
+  "commit": false,
+  "updateInternalDependencies": "minor",
+  "linked": [],
+  "fixed": [["razzle", "razzle-*"]],
+  "access": "public",
+  "baseBranch": "alpha",
+  "ignore": [
+    "basic-webpack5-example",
+    "basic-webpack5-babelrc-example",
+    "basic-webpack5-esm-example",
+    "basic-webpack5-nextra-example",
+    "razzle-plugin-webpack5-pages",
+    "razzle-plugin-webpack5-nextra"
+  ],
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "jaredpalmer/razzle" }
+  ]
+}

@@ -2,13 +2,9 @@
   "mode": "pre",
   "tag": "alpha",
   "initialVersions": {
-    "basic-webpack5-example": "5.0.0-alpha.0",
-    "basic-webpack5-babelrc-example": "5.0.0-alpha.0",
-    "basic-webpack5-esm-example": "5.0.0-alpha.0",
-    "basic-webpack5-nextra-example": "5.0.0-alpha.0",
     "razzle": "5.0.0-alpha.0",
     "razzle-babel-loader": "5.0.0-alpha.0",
-    "razzle-nextra-theme-docs": "2.0.0-beta.5",
+    "razzle-nextra-theme-docs": "5.0.0-alpha.0",
     "razzle-plugin-webpack5": "5.0.0-alpha.0",
     "razzle-plugin-webpack5-assets": "5.0.0-alpha.0",
     "razzle-plugin-webpack5-babel": "5.0.0-alpha.0",
@@ -16,7 +12,6 @@
     "razzle-plugin-webpack5-css": "5.0.0-alpha.0",
     "razzle-plugin-webpack5-externals": "5.0.0-alpha.0",
     "razzle-plugin-webpack5-nextra": "5.0.0-alpha.0",
-    "razzle-plugin-webpack5-pages": "5.0.0-alpha.0",
     "razzle-plugin-webpack5-postcss": "5.0.0-alpha.0"
   },
   "changesets": []
