@@ -85,5 +85,6 @@
   },
   "dependencies": {
     "@types/babel__core": "^7.1.18"
-  }
+  },
+  "workspaces":["packages/*", "examples/*"]
 }
