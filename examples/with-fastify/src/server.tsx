@@ -18,7 +18,7 @@ const jsScriptTagsFromAssets = (assets: Record<string, any>, entryPoint: string,
   (assets && assets[entryPoint]?.js.map((asset: string) => `<script src="${asset}"${extra}></script>`).join("")) || "";
 
 const app = fastify()
-  .register(fastifyStatic, { root: process.env.RAZZLE_PUBLIC_DIR!, prefix: "/public" })
+  .register(fastifyStatic, { root: __dirname, prefix: "/public" })
   .get("/*", async (req, res) => {
     const context: { url?: string } = {};
     const markup = renderToString(
