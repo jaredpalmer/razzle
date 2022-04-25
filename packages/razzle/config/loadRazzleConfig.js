@@ -8,10 +8,11 @@ const defaultRazzleOptions = require('./defaultOptions');
 const setupEnvironment = require('./env').setupEnvironment;
 const loadPlugins = require('./loadPlugins');
 
-const getTypeModule = appPackageJson => {
+const getModuleFormat = appPackageJson => {
   if (fs.existsSync(appPackageJson)) {
     try {
       const packageJson = require(appPackageJson);
+      // See https://nodejs.org/api/packages.html#type for more info on "type"
       return packageJson.type || "commonjs";
     } catch (e) {
       clearConsole();
@@ -31,7 +32,7 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
     // Check for razzle.config.js file
     if (fs.existsSync(paths.appRazzleConfig)) {
       try {
-        if (getTypeModule(paths.appPackageJson) === 'module') {
+        if (getModuleFormat(paths.appPackageJson) === 'module') {
           razzle = await import(paths.appRazzleConfig);
         }
         else {
