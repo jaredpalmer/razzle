@@ -8,16 +8,35 @@ const defaultRazzleOptions = require('./defaultOptions');
 const setupEnvironment = require('./env').setupEnvironment;
 const loadPlugins = require('./loadPlugins');
 
+const getTypeModule = appPackageJson => {
+  if (fs.existsSync(appPackageJson)) {
+    try {
+      const packageJson = require(appPackageJson);
+      return packageJson.type || "commonjs";
+    } catch (e) {
+      clearConsole();
+      logger.error('Invalid package.json.', e);
+      process.exit(1);
+    }
+  }
+
+  return "commonjs";
+};
+
 module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
   return new Promise(async resolve => {
-
     let razzle = razzleConfig || {};
     let packageJson = packageJsonIn || {};
     let paths = Object.assign({}, defaultPaths);
     // Check for razzle.config.js file
     if (fs.existsSync(paths.appRazzleConfig)) {
       try {
-        razzle = require(paths.appRazzleConfig);
+        if (getTypeModule(paths.appPackageJson) === 'module') {
+          razzle = await import(paths.appRazzleConfig);
+        }
+        else {
+          razzle = require(paths.appRazzleConfig);
+        }
       } catch (e) {
         clearConsole();
         logger.error('Invalid razzle.config.js file.', e);
