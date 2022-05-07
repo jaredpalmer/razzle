@@ -426,7 +426,7 @@ module.exports = {
     env: {
       target, // the target 'node' or 'web'
       dev, // is this a development build? true or false
-    }
+    },
     options: {
       webpackOptions, // the default options that will be used to configure webpack/ webpack loaders and plugins
     }
