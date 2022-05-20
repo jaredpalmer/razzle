@@ -1,7 +1,7 @@
 {
   "name": "razzle-plugin-svelte",
   "license": "MIT",
-  "version": "4.2.16",
+  "version": "4.2.17",
   "repository": {
     "type": "git",
     "url": "https://github.com:jaredpalmer/razzle.git",
@@ -18,7 +18,7 @@
     "svelte-preprocess": "^4.0.10"
   },
   "peerDependencies": {
-    "razzle": "4.2.16",
-    "razzle-dev-utils": "4.2.16"
+    "razzle": "4.2.17",
+    "razzle-dev-utils": "4.2.17"
   }
 }

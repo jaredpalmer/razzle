@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-typescript",
-  "version": "4.2.16",
+  "version": "4.2.17",
   "description": "Use TypeScript with Razzle",
   "main": "index.js",
   "repository": {
@@ -19,8 +19,8 @@
     "typescript": ">=4.0.3"
   },
   "peerDependencies": {
-    "razzle": "4.2.16",
-    "razzle-dev-utils": "4.2.16",
+    "razzle": "4.2.17",
+    "razzle-dev-utils": "4.2.17",
     "webpack": "~4||~5"
   }
 }
