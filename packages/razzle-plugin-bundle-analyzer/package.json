@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-bundle-analyzer",
-  "version": "4.2.16",
+  "version": "4.2.17",
   "description": "Use webpack bundle analyzer with Razzle",
   "main": "index.js",
   "repository": {
@@ -17,6 +17,6 @@
     "webpack-bundle-analyzer": "^3.9.0"
   },
   "peerDependencies": {
-    "razzle": "4.2.16"
+    "razzle": "4.2.17"
   }
 }
