@@ -1,8 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const chalk = require('chalk');
-const jest = require('jest');
 const clearConsole = require('react-dev-utils/clearConsole');
 const logger = require('razzle-dev-utils/logger');
 
