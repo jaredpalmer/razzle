@@ -962,6 +962,7 @@ module.exports = (
                 context: paths.appPath,
                 globOptions: {
                   ignore: [paths.appPublic.replace(/\\/g, '/') + "/index.html"],
+                  dot: true,
                 }
               },
             ]
