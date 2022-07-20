@@ -9,11 +9,11 @@ Create this vercel.json in the root directory of your project:
     "builds": [
         {
             "src": "build/public/**",
-            "use": "@now/static"
+            "use": "@vercel/static"
         },
         {
             "src": "build/server.js",
-            "use": "@now/node-server"
+            "use": "@vercel/node"
         }
     ],
     "routes": [
