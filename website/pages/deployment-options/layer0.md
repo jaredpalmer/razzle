@@ -1,13 +1,19 @@
-# Deploy Razzle on Layer0
+# Deploy Razzle on Edgio
   
-- Install Layer0 CLI by the following command:
+- Install Edgio CLI by the following command:
+
 ```bash
 npm i -g @layer0/cli
 ```
 
-- Initialize the Razzle project with Layer0 by the following command:
+- Initialize the Razzle project with Edgio:
+
 ```bash
 0 init
 ```
 
-- Run `layer0 deploy` to get deploying right away.
+- Run following to deploying right away:
+
+```bash
+0 deploy
+```
