@@ -14,8 +14,8 @@ yarn start
 <!-- END install generated instructions please keep comment here to allow auto update -->
 
 ## Idea behind the example
-This is an of how to use Razzle with [TypeScript](https://github.com/Microsoft/TypeScript).
+This is an example of how to use [Razzle](https://razzlejs.org/) with [TypeScript](https://github.com/Microsoft/TypeScript).
 
-Basic razzle will uses Babel to transform TypeScript to plain JavaScript ( with babel-loader ), and uses TypeScript for type-checking.
+Basic Razzle uses [Babel](https://babeljs.io/) to transform TypeScript to plain JavaScript ( with [babel-loader](https://www.npmjs.com/package/babel-loader) ), and uses TypeScript for type-checking.
 
-Razzle knows how to resolve `.ts` and `.tsx` files out of the box.
+Razzle knows how to resolve `.ts` and `.tsx` files out-of-box.
