@@ -8,20 +8,9 @@ const defaultRazzleOptions = require('./defaultOptions');
 const setupEnvironment = require('./env').setupEnvironment;
 const loadPlugins = require('./loadPlugins');
 
-const getModuleFormat = appPackageJson => {
-  if (fs.existsSync(appPackageJson)) {
-    try {
-      const packageJson = require(appPackageJson);
-      // See https://nodejs.org/api/packages.html#type for more info on "type"
-      return packageJson.type || "commonjs";
-    } catch (e) {
-      clearConsole();
-      logger.error('Invalid package.json.', e);
-      process.exit(1);
-    }
-  }
-
-  return "commonjs";
+const getModuleFormat = packageJson => {
+  // See https://nodejs.org/api/packages.html#type for more info on "type"
+  return packageJson.type || "commonjs";
 };
 
 module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
@@ -29,10 +18,21 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
     let razzle = razzleConfig || {};
     let packageJson = packageJsonIn || {};
     let paths = Object.assign({}, defaultPaths);
+
+    if (fs.existsSync(paths.appPackageJson)) {
+      try {
+        packageJson = require(paths.appPackageJson);
+      } catch (e) {
+        clearConsole();
+        logger.error('Invalid package.json.', e);
+        process.exit(1);
+      }
+    }
+
     // Check for razzle.config.js file
     if (fs.existsSync(paths.appRazzleConfig)) {
       try {
-        if (getModuleFormat(paths.appPackageJson) === 'module') {
+        if (getModuleFormat(packageJson) === 'module') {
           razzle = await import(paths.appRazzleConfig);
         }
         else {
@@ -41,15 +41,6 @@ module.exports = (webpackObject, razzleConfig, packageJsonIn) => {
       } catch (e) {
         clearConsole();
         logger.error('Invalid razzle.config.js file.', e);
-        process.exit(1);
-      }
-    }
-    if (fs.existsSync(paths.appPackageJson)) {
-      try {
-        packageJson = require(paths.appPackageJson);
-      } catch (e) {
-        clearConsole();
-        logger.error('Invalid package.json.', e);
         process.exit(1);
       }
     }
