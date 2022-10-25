@@ -9,6 +9,11 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "set NODE_ENV=production&&node build/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-elm"
+  },
   "dependencies": {
     "elm-static-html-lib": "^0.1.0",
     "express": "^4.17.1"

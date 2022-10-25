@@ -9,6 +9,11 @@
     "predeploy": "npm run build",
     "deploy": "firebase deploy"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-firebase-functions"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "firebase-admin": "^8.11.0",

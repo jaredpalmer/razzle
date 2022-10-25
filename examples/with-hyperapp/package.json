@@ -8,6 +8,11 @@
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredpalmer/razzle.git",
+    "directory": "examples/with-hyperapp"
+  },
   "dependencies": {
     "@hyperapp/render": "^2.1.0",
     "express": "^4.17.1",
