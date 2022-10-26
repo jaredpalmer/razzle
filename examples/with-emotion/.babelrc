@@ -1,0 +1,11 @@
+{
+  "presets": ["razzle/babel"],
+  "env": {
+    "production": {
+      "plugins": ["@emotion"]
+    },
+    "development": {
+      "plugins": [["@emotion", { "sourceMap": true }]]
+    }
+  }
+}
