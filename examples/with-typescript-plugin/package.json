@@ -43,6 +43,10 @@
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2"
   },
+  "resolutions": {
+    "@types/react": "<18.0.0",
+    "@types/react-dom": "<18.0.0"
+  },
   "jest": {
     "transform": {
       "\\.(ts|tsx)$": "ts-jest",
