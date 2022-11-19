@@ -1,19 +1,19 @@
 # Deploy Razzle on Edgio
   
-- Install Edgio CLI by the following command:
+1. Install Edgio CLI by the following command:
 
 ```bash
-npm i -g @layer0/cli
+npm i -g @edgio/cli
 ```
 
-- Initialize the Razzle project with Edgio:
+2. Initialize the Razzle project with Edgio:
 
 ```bash
-0 init
+edgio init
 ```
 
-- Run following to deploying right away:
+3. Run following to deploying right away:
 
 ```bash
-0 deploy
+edgio deploy
 ```
