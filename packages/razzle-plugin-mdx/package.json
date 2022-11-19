@@ -1,6 +1,6 @@
 {
   "name": "razzle-plugin-mdx",
-  "version": "4.2.17",
+  "version": "4.2.18",
   "description": "Use mdx with Razzle",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,7 @@
     "@mdx-js/mdx": "^1.6.18"
   },
   "peerDependencies": {
-    "razzle": "4.2.17",
-    "razzle-dev-utils": "4.2.17"
+    "razzle": "4.2.18",
+    "razzle-dev-utils": "4.2.18"
   }
 }

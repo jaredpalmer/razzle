@@ -1,5 +1,15 @@
 # razzle-plugin-typescript
 
+## 4.2.18
+
+### Patch Changes
+
+- [`fa491cd8`](https://github.com/jaredpalmer/razzle/commit/fa491cd849c1d1a63953bc91812b1d0889597c0c) Thanks [@fivethreeo](https://github.com/fivethreeo)! - add support for type:module razzle.config.js
+
+- Updated dependencies [[`fa491cd8`](https://github.com/jaredpalmer/razzle/commit/fa491cd849c1d1a63953bc91812b1d0889597c0c)]:
+  - razzle@4.2.18
+  - razzle-dev-utils@4.2.18
+
 ## 4.2.17
 
 ### Patch Changes
