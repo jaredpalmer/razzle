@@ -108,16 +108,15 @@ loadRazzleConfig(webpack).then(
                       if (err) {
                         return reject(err);
                       }
-                      const clientMessages = clientStats.toJson({}, true);
-                      if (clientMessages.errors.length) {
-                        return reject(clientMessages.errors);
+                      if (clientStats.hasErrors()) {
+                        return reject(clientStats.toJson('errors-only').errors);
                       }
                       if (
                         !process.env.WARNINGS_ERRORS_DISABLE &&
                         process.env.CI &&
                         (typeof process.env.CI !== 'string' ||
                           process.env.CI.toLowerCase() !== 'false') &&
-                        clientMessages.warnings.length
+                        clientStats.hasWarnings()
                       ) {
                         console.log(
                           chalk.yellow(
@@ -125,13 +124,15 @@ loadRazzleConfig(webpack).then(
                             'Most CI servers set it automatically.\n'
                           )
                         );
-                        return reject(clientMessages.warnings);
+                        return reject(clientStats.toJson('errors-warnings').warnings);
                       }
 
                       return resolve({
                         stats: clientStats,
                         previousFileSizes,
-                        warnings: clientMessages.warnings,
+                        warnings: clientStats.hasWarnings()
+                          ? clientStats.toJson('errors-warnings').warnings
+                          : [],
                       });
                     }, (err) => {
                       return reject(err);
@@ -225,16 +226,15 @@ loadRazzleConfig(webpack).then(
                       if (err) {
                         return reject(err);
                       }
-                      const serverMessages = serverStats.toJson({}, true);
-                      if (serverMessages.errors.length) {
-                        return reject(serverMessages.errors);
+                      if (serverStats.hasErrors()) {
+                        return reject(serverStats.toJson('errors-only').errors);
                       }
                       if (
                         !process.env.WARNINGS_ERRORS_DISABLE &&
                         process.env.CI &&
                         (typeof process.env.CI !== 'string' ||
                           process.env.CI.toLowerCase() !== 'false') &&
-                        serverMessages.warnings.length
+                        serverStats.hasWarnings()
                       ) {
                         console.log(
                           chalk.yellow(
@@ -242,12 +242,14 @@ loadRazzleConfig(webpack).then(
                             'Most CI servers set it automatically.\n'
                           )
                         );
-                        return reject(serverMessages.warnings);
+                        return reject(serverStats.toJson('errors-warnings').warnings);
                       }
 
                       return resolve({
                         stats: serverStats,
-                        warnings: serverMessages.warnings,
+                        warnings: serverStats.hasWarnings()
+                          ? serverStats.toJson('errors-warnings').warnings
+                          : [],
                       });
                     }, (err) => {
                       return reject(err);

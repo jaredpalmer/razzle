@@ -21,7 +21,7 @@ class WebpackErrorsPlugin {
 
   apply(compiler) {
     compiler.plugin('done', stats => {
-      const rawMessages = stats.toJson({}, true);
+      const rawMessages = stats.toJson('errors-warnings');
       const messages = formatWebpackMessages(rawMessages);
       WEBPACK_COMPILING = false;
       if (!messages.errors.length && !messages.warnings.length) {
