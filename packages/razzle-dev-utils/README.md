@@ -1,6 +1,6 @@
 # razzle-dev-utils
 
-This package includes some utilties used by [Razzle](https://github/com/palmerhq/razzle)
+This package includes some utilties used by [Razzle](https://github.com/palmerhq/razzle)
 
 ## Usage in Razzle Projects
 
